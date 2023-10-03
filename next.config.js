@@ -38,6 +38,9 @@ const securityHeaders = [
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const redirects = require("./redirects");
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const rewrites = require("./rewrites");
+
 /** @type {import('next').NextConfig} */
 const moduleExports = {
   async headers() {
@@ -53,16 +56,7 @@ const moduleExports = {
     return redirects();
   },
   async rewrites() {
-    return [
-      {
-        source: "/thirdweb.eth",
-        destination: "/deployer.thirdweb.eth",
-      },
-      {
-        source: "/thirdweb.eth/:path*",
-        destination: "/deployer.thirdweb.eth/:path*",
-      },
-    ];
+    return rewrites();
   },
   images: {
     dangerouslyAllowSVG: true,
