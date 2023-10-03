@@ -1,3 +1,4 @@
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   DashboardThirdwebProvider,
   DashboardThirdwebProviderProps,
@@ -10,11 +11,7 @@ import {
   PersistQueryClientProvider,
   Persister,
 } from "@tanstack/react-query-persist-client";
-import {
-  ConnectWallet,
-  shouldNeverPersistQuery,
-  useAddress,
-} from "@thirdweb-dev/react";
+import { shouldNeverPersistQuery, useAddress } from "@thirdweb-dev/react";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
@@ -133,6 +130,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
                       <PosthogIdentifier />
                       <SignInModal />
                       <ConfigModal />
+
                       <OnboardingModal />
 
                       <AppShell {...props} />
@@ -167,7 +165,7 @@ const SanctionedAddressesChecker: ComponentWithChildren = ({ children }) => {
       >
         <Flex gap={4} direction="column" align="center">
           <Heading as="p">Address is blocked</Heading>
-          <ConnectWallet auth={{ loginOptional: true }} />
+          <CustomConnectWallet auth={{ loginOptional: true }} />
         </Flex>
       </SimpleGrid>
     );

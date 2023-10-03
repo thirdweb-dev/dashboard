@@ -2,7 +2,7 @@ import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { apiKeys, accountKeys, authorizedWallets } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useUser } from "@thirdweb-dev/react";
+import { useAddress } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
 export type AuthorizedWallet = {
@@ -27,6 +27,9 @@ export type Account = {
   currentBillingPeriodStartsAt: string;
   currentBillingPeriodEndsAt: string;
   onboardedAt?: string;
+  emailConfirmedAt?: string;
+  unconfirmedEmail?: string;
+  onboardSkipped?: boolean;
   notificationPreferences?: {
     billing: "email" | "none";
     updates: "email" | "none";
@@ -37,11 +40,16 @@ export interface UpdateAccountInput {
   name?: string;
   email?: string;
   subscribeToUpdates?: boolean;
+  onboardSkipped?: boolean;
 }
 
 export interface UpdateAccountNotificationsInput {
   billing: "email" | "none";
   updates: "email" | "none";
+}
+
+export interface ConfirmEmailInput {
+  confirmationToken: string;
 }
 
 export type ApiKeyService = {
@@ -132,10 +140,10 @@ export interface UsageBillableByService {
 }
 
 export function useAccount() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
 
   return useQuery(
-    accountKeys.me(user?.address as string),
+    accountKeys.me(walletAddress as string),
     async () => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/me`, {
         method: "GET",
@@ -147,20 +155,20 @@ export function useAccount() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data as Account;
     },
-    { enabled: !!user?.address },
+    { enabled: !!walletAddress },
   );
 }
 
 export function useAccountUsage() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
 
   return useQuery(
-    accountKeys.usage(user?.address as string),
+    accountKeys.usage(walletAddress as string),
     async () => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/usage`, {
         method: "GET",
@@ -172,22 +180,22 @@ export function useAccountUsage() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data as UsageBillableByService;
     },
-    { enabled: !!user?.address },
+    { enabled: !!walletAddress },
   );
 }
 
 export function useUpdateAccount() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (input: UpdateAccountInput) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account`, {
         method: "PUT",
@@ -200,7 +208,7 @@ export function useUpdateAccount() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -208,7 +216,7 @@ export function useUpdateAccount() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          accountKeys.me(user?.address as string),
+          accountKeys.me(walletAddress as string),
         );
       },
     },
@@ -216,12 +224,12 @@ export function useUpdateAccount() {
 }
 
 export function useUpdateNotifications() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (input: UpdateAccountNotificationsInput) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/notifications`, {
         method: "PUT",
@@ -234,7 +242,7 @@ export function useUpdateNotifications() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -242,33 +250,56 @@ export function useUpdateNotifications() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          accountKeys.me(user?.address as string),
+          accountKeys.me(walletAddress as string),
         );
       },
     },
   );
 }
 
-export function useCreateAccountPlan() {
-  const { user } = useUser();
+export function useCreateBillingSession() {
+  const walletAddress = useAddress();
+
+  return useMutationWithInvalidate(async () => {
+    invariant(walletAddress, "walletAddress is required");
+
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/billingSession`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.message);
+    }
+
+    return json.data;
+  });
+}
+
+export function useConfirmEmail() {
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async () => {
-      invariant(user, "No user is logged in");
+    async (input: ConfirmEmailInput) => {
+      invariant(walletAddress, "walletAddress is required");
 
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/plan`, {
-        method: "POST",
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/confirmEmail`, {
+        method: "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(input),
       });
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -276,7 +307,43 @@ export function useCreateAccountPlan() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          accountKeys.me(user?.address as string),
+          accountKeys.me(walletAddress as string),
+        );
+      },
+    },
+  );
+}
+
+export function useCreatePaymentMethod() {
+  const walletAddress = useAddress();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (paymentMethodId: string) => {
+      invariant(walletAddress, "walletAddress is required");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/paymentMethod`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          paymentMethodId,
+        }),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          accountKeys.me(walletAddress as string),
         );
       },
     },
@@ -284,10 +351,10 @@ export function useCreateAccountPlan() {
 }
 
 export function useApiKeys() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
 
   return useQuery(
-    apiKeys.keys(user?.address as string),
+    apiKeys.keys(walletAddress as string),
     async () => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys`, {
         method: "GET",
@@ -299,22 +366,22 @@ export function useApiKeys() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data as ApiKey[];
     },
-    { enabled: !!user?.address },
+    { enabled: !!walletAddress },
   );
 }
 
 export function useCreateApiKey() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutation(
     async (input: CreateKeyInput) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys`, {
         method: "POST",
@@ -327,7 +394,7 @@ export function useCreateApiKey() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data as ApiKey;
@@ -335,7 +402,7 @@ export function useCreateApiKey() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          apiKeys.keys(user?.address as string),
+          apiKeys.keys(walletAddress as string),
         );
       },
     },
@@ -343,12 +410,12 @@ export function useCreateApiKey() {
 }
 
 export function useUpdateApiKey() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (input: UpdateKeyInput) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${input.id}`, {
         method: "PUT",
@@ -361,7 +428,7 @@ export function useUpdateApiKey() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -369,7 +436,7 @@ export function useUpdateApiKey() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          apiKeys.keys(user?.address as string),
+          apiKeys.keys(walletAddress as string),
         );
       },
     },
@@ -377,12 +444,12 @@ export function useUpdateApiKey() {
 }
 
 export function useRevokeApiKey() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (id: string) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/revoke`, {
         method: "POST",
@@ -395,7 +462,7 @@ export function useRevokeApiKey() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -403,7 +470,7 @@ export function useRevokeApiKey() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          apiKeys.keys(user?.address as string),
+          apiKeys.keys(walletAddress as string),
         );
       },
     },
@@ -411,12 +478,12 @@ export function useRevokeApiKey() {
 }
 
 export function useGenerateApiKey() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (id: string) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/generate`, {
         method: "PUT",
@@ -429,7 +496,7 @@ export function useGenerateApiKey() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -437,56 +504,19 @@ export function useGenerateApiKey() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          apiKeys.keys(user?.address as string),
+          apiKeys.keys(walletAddress as string),
         );
       },
     },
   );
 }
 
-export async function fetchApiKeyAvailability(name: string) {
-  const res = await fetch(
-    `${THIRDWEB_API_HOST}/v1/keys/availability?name=${name}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  const json = await res.json();
-
-  if (json.error) {
-    throw new Error(json.error?.message || json.error);
-  }
-
-  return !!json.data.available;
-}
-
-export async function fetchAuthToken() {
-  const res = await fetch(`${THIRDWEB_API_HOST}/v1/auth/token`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const json = await res.json();
-
-  if (json.error) {
-    throw new Error(json.error?.message || json.error);
-  }
-
-  return json.data.jwt;
-}
-
 export function useAuthorizeWalletWithAccount() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
 
   return useMutationWithInvalidate(
     async (variables: { token: string; deviceName?: string }) => {
-      invariant(user, "No user is logged in");
+      invariant(walletAddress, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/jwt/authorize-wallet`, {
         method: "POST",
@@ -502,7 +532,7 @@ export function useAuthorizeWalletWithAccount() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -511,13 +541,14 @@ export function useAuthorizeWalletWithAccount() {
 }
 
 export function useRevokeAuthorizedWallet() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (variables: { authorizedWalletId: string }) => {
+      invariant(walletAddress, "walletAddress is required");
+
       const { authorizedWalletId } = variables;
-      invariant(user, "No user is logged in");
 
       const res = await fetch(
         `${THIRDWEB_API_HOST}/v1/authorized-wallets/${authorizedWalletId}/revoke`,
@@ -533,7 +564,7 @@ export function useRevokeAuthorizedWallet() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data;
@@ -541,7 +572,7 @@ export function useRevokeAuthorizedWallet() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          authorizedWallets.authorizedWallets(user?.address as string),
+          authorizedWallets.authorizedWallets(walletAddress as string),
         );
       },
     },
@@ -549,10 +580,10 @@ export function useRevokeAuthorizedWallet() {
 }
 
 export function useAuthorizedWallets() {
-  const { user } = useUser();
+  const walletAddress = useAddress();
 
   return useQuery(
-    authorizedWallets.authorizedWallets(user?.address as string),
+    authorizedWallets.authorizedWallets(walletAddress as string),
     async () => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/authorized-wallets`, {
         method: "GET",
@@ -564,11 +595,88 @@ export function useAuthorizedWallets() {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.error?.message || json.error);
+        throw new Error(json.message);
       }
 
       return json.data as AuthorizedWallet[];
     },
-    { enabled: !!user?.address, cacheTime: 0 },
+    { enabled: !!walletAddress, cacheTime: 0 },
   );
+}
+
+export async function fetchAuthToken() {
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/auth/token`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const json = await res.json();
+
+  if (json.error) {
+    throw new Error(json.message);
+  }
+
+  return json.data.jwt;
+}
+
+/**
+ * @deprecated
+ */
+export function useCreateAccountPlan() {
+  const walletAddress = useAddress();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async () => {
+      invariant(walletAddress, "walletAddress is required");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/plan`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          accountKeys.me(walletAddress as string),
+        );
+      },
+    },
+  );
+}
+
+/**
+ * @deprecated
+ */
+export async function fetchApiKeyAvailability(name: string) {
+  const res = await fetch(
+    `${THIRDWEB_API_HOST}/v1/keys/availability?name=${name}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const json = await res.json();
+
+  if (json.error) {
+    throw new Error(json.message);
+  }
+
+  return !!json.data.available;
 }

@@ -2,7 +2,13 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type WalletsSidebarProps = {
-  activePage: "connect" | "wallet-sdk" | "smart-wallet" | "embedded" | "local";
+  activePage:
+    | "connect"
+    | "wallet-sdk"
+    | "smart-wallet"
+    | "embedded"
+    | "local"
+    | "auth";
 };
 
 const links: Route[] = [
@@ -18,7 +24,7 @@ const links: Route[] = [
   },
   {
     path: "/dashboard/wallets/embedded",
-    title: "Embedded Wallet",
+    title: "Embedded Wallets",
     name: "embedded",
   },
   {
@@ -30,6 +36,11 @@ const links: Route[] = [
     path: "/dashboard/wallets/wallet-sdk",
     title: "Wallet SDK",
     name: "wallet-sdk",
+  },
+  {
+    path: "/dashboard/wallets/auth",
+    title: "Auth",
+    name: "auth",
   },
 ];
 

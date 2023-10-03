@@ -1,4 +1,4 @@
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   ButtonGroup,
   Container,
@@ -30,6 +30,7 @@ export interface AppShellProps {
   ecosystem?: "evm" | "solana" | "either";
   noSEOOverride?: boolean;
   hasSidebar?: boolean;
+  noOverflowX?: boolean;
 }
 
 export const AppShell: ComponentWithChildren<AppShellProps> = ({
@@ -37,6 +38,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
   layout,
   ecosystem,
   hasSidebar,
+  noOverflowX,
 }) => {
   return (
     <Grid
@@ -67,7 +69,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         as="main"
         colSpan={{ base: 2, md: 1 }}
         rowSpan={1}
-        overflowX="auto"
+        overflowX={noOverflowX ? undefined : "auto"}
       >
         <Container maxW="container.page">
           <BillingAlert />
@@ -189,7 +191,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
 
           <ColorModeToggle />
 
-          <ConnectWallet
+          <CustomConnectWallet
             ml={{ base: 0, md: 2 }}
             colorScheme="blue"
             ecosystem={ecosystem}

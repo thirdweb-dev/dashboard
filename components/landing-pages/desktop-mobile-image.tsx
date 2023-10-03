@@ -1,17 +1,27 @@
 import { LandingDesktopMobileImageProps } from "./types";
-import { useBreakpointValue } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 
 export const LandingDesktopMobileImage: React.FC<
   LandingDesktopMobileImageProps
-> = ({ image, mobileImage }) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const imageToShow = isMobile && mobileImage ? mobileImage : image;
-
-  if (!imageToShow) {
-    return null;
-  }
-
-  return <ChakraNextImage src={imageToShow} alt="" />;
+> = ({ image, mobileImage, ...props }) => {
+  return (
+    <>
+      {mobileImage && (
+        <ChakraNextImage
+          {...props}
+          display={{ base: "block", md: "none" }}
+          src={mobileImage}
+          alt=""
+        />
+      )}
+      {image && (
+        <ChakraNextImage
+          {...props}
+          src={image}
+          alt=""
+          display={{ base: mobileImage ? "none" : "block", md: "block" }}
+        />
+      )}
+    </>
+  );
 };
