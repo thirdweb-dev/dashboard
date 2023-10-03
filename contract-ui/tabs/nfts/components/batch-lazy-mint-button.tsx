@@ -125,7 +125,6 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
           nextTokenIdToMint={BigNumber.from(
             nextTokenIdToMint.data || 0,
           ).toNumber()}
-          ecosystem="evm"
           isRevealable={isRevealable}
         >
           {mintBatchMutation.isLoading ? (
