@@ -1,4 +1,4 @@
-import { smartWallet } from "@thirdweb-dev/react";
+import { WalletConfig, safeWallet, smartWallet } from "@thirdweb-dev/react";
 import { useState } from "react";
 import { walletInfoRecord, WalletId } from "./walletInfoRecord";
 
@@ -18,25 +18,35 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const enabledWallets = Object.entries(walletSelection)
     .filter((x) => x[1])
     .map((x) => x[0] as WalletId);
+  const supportedWallets: WalletConfig<any>[] = enabledWallets.map(
+    (walletId) => {
+      // set recommended
+      walletInfoRecord[walletId].component.recommended =
+        walletSelection[walletId] === "recommended";
 
-  const supportedWallets = enabledWallets.map((walletId) => {
-    // set recommended
-    walletInfoRecord[walletId].component.recommended =
-      walletSelection[walletId] === "recommended";
+      // wrap with smart wallet
+      const walletConfig = walletInfoRecord[walletId].component;
 
-    // wrap with smart wallet
-    const walletConfig = walletInfoRecord[walletId].component;
+      return smartWalletOptions.enabled
+        ? smartWallet(walletConfig, {
+            factoryAddress: smartWalletOptions.factoryAddress,
+            gasless: smartWalletOptions.gasless,
+            bundlerUrl: "https://mumbai.bundler-staging.thirdweb.com",
+            // eslint-disable-next-line inclusive-language/use-inclusive-words
+            paymasterUrl: "https://mumbai.bundler-staging.thirdweb.com",
+          })
+        : walletConfig;
+    },
+  );
 
-    return smartWalletOptions.enabled
-      ? smartWallet(walletConfig, {
-          factoryAddress: smartWalletOptions.factoryAddress,
-          gasless: smartWalletOptions.gasless,
-          bundlerUrl: "https://mumbai.bundler-staging.thirdweb.com",
-          // eslint-disable-next-line inclusive-language/use-inclusive-words
-          paymasterUrl: "https://mumbai.bundler-staging.thirdweb.com",
-        })
-      : walletConfig;
-  });
+  if (walletSelection["Safe"]) {
+    const safeId = walletInfoRecord["Safe"].component.id;
+    const safeWalletIndex = supportedWallets.findIndex((w) => w.id === safeId);
+
+    supportedWallets[safeWalletIndex] = safeWallet({
+      personalWallets: supportedWallets.filter((w) => w.id !== safeId),
+    });
+  }
 
   return {
     walletSelection,

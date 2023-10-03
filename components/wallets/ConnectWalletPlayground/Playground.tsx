@@ -81,7 +81,7 @@ export const ConnectWalletPlayground: React.FC<{
   const { colorMode, toggleColorMode } = useColorMode();
   const selectedTheme = colorMode === "light" ? "light" : "dark";
   const [authEnabled, setAuthEnabled] = useState(false);
-  const [switchToActiveChain, setSwitchToActiveChain] = useState(true);
+  const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [code, setCode] = useState("");
 
   const { colorOverrides, themeObj, setColorOverrides } =
