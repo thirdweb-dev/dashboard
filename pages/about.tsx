@@ -35,7 +35,7 @@ const employees = [
   },
   {
     name: "Carmen Li",
-    twitter: "someorsalt"
+    twitter: "someorsalt",
   },
   {
     name: "Catty Berragan",
@@ -78,7 +78,7 @@ const employees = [
   },
   {
     name: "Isaac Dubuque",
-    twitter: "isaac_dubuque"
+    twitter: "isaac_dubuque",
   },
   {
     name: "Jake Loo",
