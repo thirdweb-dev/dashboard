@@ -2,6 +2,7 @@ import { Box, Center, Container, Flex, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
@@ -259,7 +260,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         <LandingGuidesShowcase
           title="Get started with thirdweb Connect"
           category={TRACKING_CATEGORY}
-          description="See our quick-start guides to add powerful login experiences into your web3 app.
+          description="See our quick-start guides to add powerful login experiences into your web3 app."
           solution="Connect"
           guides={GUIDES}
         />
