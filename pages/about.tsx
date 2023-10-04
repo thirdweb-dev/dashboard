@@ -35,6 +35,7 @@ const employees = [
   },
   {
     name: "Carmen Li",
+    twitter: "someorsalt"
   },
   {
     name: "Catty Berragan",
