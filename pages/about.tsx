@@ -78,6 +78,7 @@ const employees = [
   },
   {
     name: "Isaac Dubuque",
+    twitter: "isaac_dubuque"
   },
   {
     name: "Jake Loo",
