@@ -21,8 +21,6 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({
   const chain = chainId ? configuredChainsRecord[chainId] : undefined;
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  console.log(signer.permissions.expirationDate, signer.permissions.startDate);
-
   return (
     <Card position="relative" p={8}>
       <Flex direction="column" gap={8}>
