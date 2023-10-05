@@ -305,7 +305,7 @@ export function useConfirmEmail() {
         throw new Error(json.message);
       }
 
-      // Add account with validated email to the Paper database as a seller.
+      // Add account with validated email to the Paper database as a seller
       const url = `${THIRDWEB_EWS_API_HOST}/api/auth/sign-in`;
       const paperRes = await fetch(url, {
         method: "POST",
