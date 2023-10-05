@@ -12,7 +12,7 @@
     "fix": "next lint --fix",
     "format": "prettier --write .",
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
-    "postinstall": "bun run gen:theme-typings && ./sentry-postinstall.sh",
+    "postinstall": "bun run gen:theme-typings",
     "find:unused": "next-unused",
     "postbuild": "next-sitemap",
     "build:analyze": "ANALYZE=true bun run build"
@@ -47,7 +47,6 @@
     "@thirdweb-dev/service-utils": "^0.4.5",
     "@vercel/og": "^0.5.4",
     "airtable": "^0.11.6",
-    "avsc": "^5.7.7",
     "bn.js": "^5.2.1",
     "browserslist-useragent": "^4.0.0",
     "chakra-react-select": "^4.7.0",
