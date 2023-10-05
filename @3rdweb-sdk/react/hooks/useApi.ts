@@ -1,9 +1,12 @@
-import { THIRDWEB_API_HOST } from "../../../constants/urls";
-import { apiKeys, accountKeys, authorizedWallets } from "../cache-keys";
-import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
+import {
+  THIRDWEB_API_HOST,
+  THIRDWEB_EWS_API_HOST,
+} from "../../../constants/urls";
+import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
+import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 
 export type AuthorizedWallet = {
   id: string;
@@ -300,6 +303,18 @@ export function useConfirmEmail() {
 
       if (json.error) {
         throw new Error(json.message);
+      }
+
+      const url = `${THIRDWEB_EWS_API_HOST}/api/auth/sign-in`;
+      const paperRes = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(input),
+      });
+      const paperJson = await paperRes.json();
+
+      if (paperJson.error) {
+        throw new Error(paperJson.data.error);
       }
 
       return json.data;
