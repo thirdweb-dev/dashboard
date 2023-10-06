@@ -305,18 +305,14 @@ export function useConfirmEmail() {
         throw new Error(json.message);
       }
 
-      // Add account with validated email to the Paper database as a seller
+      // Add account with validated email to the Paper database as a seller.
+      // Do nothing with the result.
       const url = `${THIRDWEB_EWS_API_HOST}/api/auth/sign-in`;
-      const paperRes = await fetch(url, {
+      await fetch(url, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify({}),
       });
-      const paperJson = await paperRes.json();
-
-      if (paperJson.error) {
-        throw new Error(paperJson.data.error);
-      }
 
       return json.data;
     },
