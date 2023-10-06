@@ -310,7 +310,7 @@ export function useConfirmEmail() {
       const paperRes = await fetch(url, {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify(input),
+        body: JSON.stringify({}),
       });
       const paperJson = await paperRes.json();
 
