@@ -120,6 +120,8 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({
       <ConnectWallet
         auth={auth}
         theme={colorMode}
+        termsOfServiceUrl="/tos"
+        privacyPolicyUrl="/privacy"
         welcomeScreen={() => {
           return <ConnectWalletWelcomeScreen theme={colorMode} />;
         }}
@@ -228,6 +230,7 @@ function ConnectWalletWelcomeScreen(props: { theme: "light" | "dark" }) {
   return (
     <Flex
       h="full"
+      backgroundColor={props.theme === "dark" ? "#18132f" : "#c7b5f1"}
       backgroundImage={`url("/assets/connect-wallet/welcome-gradient-${props.theme}.png")`}
       backgroundSize="cover"
       backgroundPosition="center"
