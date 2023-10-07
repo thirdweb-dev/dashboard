@@ -338,6 +338,54 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                   />
                 </HStack>
 
+                {service.name === "embeddedWallets" && srv.enabled && (
+                  <VStack spacing={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(`redirectUrls`, form.formState)
+                          .error
+                      }
+                    >
+                      <HStack
+                        alignItems="center"
+                        justifyContent="space-between"
+                        pb={2}
+                      >
+                        <FormLabel size="label.sm" mb={0}>
+                          Allowed redirect URIs
+                        </FormLabel>
+                      </HStack>
+
+                      <Textarea
+                        disabled={!srv.enabled}
+                        placeholder="thirdweb://"
+                        {...form.register(`redirectUrls`)}
+                      />
+                      {!form.getFieldState(`redirectUrls`, form.formState)
+                        .error ? (
+                        <FormHelperText>
+                          Enter redirect URIs separated by commas or new lines.
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(`redirectUrls`, form.formState)
+                              .error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+
+                    {/* TODO maybe add warning for empty redirect urls? */}
+                    {/* {!form.watch(`redirectUrls`) && (
+                      <NoTargetAddressesAlert
+                        serviceName={service.title}
+                        serviceDesc={service.description}
+                      />
+                    )} */}
+                  </VStack>
+                )}
+
                 {service.name === "bundler" && srv.enabled && (
                   <VStack spacing={4}>
                     <FormControl

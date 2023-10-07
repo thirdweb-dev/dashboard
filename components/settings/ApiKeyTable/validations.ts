@@ -20,6 +20,11 @@ export const apiKeyValidationSchema = z.object({
   bundleIds: z.string().refine((str) => validStrList(str, RE_BUNDLE_ID), {
     message: "Some of the bundle ids are invalid",
   }),
+  redirectUrls: z
+    .string()
+    .refine((str) => validStrList(str, (url) => url.includes("://")), {
+      message: "Some of the redirectURIs are invalid",
+    }),
   services: z.optional(
     z
       .array(
