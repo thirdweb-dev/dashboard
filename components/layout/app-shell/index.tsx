@@ -7,7 +7,6 @@ import {
   GridItem,
   Icon,
 } from "@chakra-ui/react";
-// import { Ethereum } from "@thirdweb-dev/chain-icons";
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
