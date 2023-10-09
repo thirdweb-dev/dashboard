@@ -3196,15 +3196,10 @@
     uuid "^9.0.0"
     zod "^3.20.2"
 
-"@thirdweb-dev/chains@0.1.54":
+"@thirdweb-dev/chains@0.1.54", "@thirdweb-dev/chains@^0.1.54":
   version "0.1.54"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.54.tgz#90e5c372a1d9cd785c51715bfbeba276ca2a203f"
   integrity sha512-iCuKgtN2KIdfgqbIbZYgB8ObYdOJW9iXW9b5u+WKA4zyGApw1MTOSX0W2aPnadGen1z4iQfAuUDBYQ6JVqDOjg==
-
-"@thirdweb-dev/chains@^0.1.53-next-ec927af5-20230920030536":
-  version "0.1.53-next-ec927af5-20230920030536"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.53-next-ec927af5-20230920030536.tgz#b3a3025123b18c7110e7b057178d8213be704252"
-  integrity sha512-d8PctdS8Pe8f9ahy76JA62uti7UkQWXwgPiRVS32xP7mIf0rH7kYYQQaa8IpZcUjs+Gfjzc+5aep/neZtpiYjQ==
 
 "@thirdweb-dev/contracts-js@1.3.13":
   version "1.3.13"

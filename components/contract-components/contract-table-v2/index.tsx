@@ -13,7 +13,7 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { ContractType } from "@thirdweb-dev/sdk/evm";
+import { ContractType } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { replaceDeployerAddress } from "components/explore/publisher";
 import { BuiltinContractDetails } from "constants/mappings";

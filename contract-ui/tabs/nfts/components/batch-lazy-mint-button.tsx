@@ -7,7 +7,7 @@ import {
   useLazyMint,
   useTotalCount,
 } from "@thirdweb-dev/react";
-import { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
+import { UploadProgressEvent } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { BatchLazyMint } from "core-ui/batch-upload/batch-lazy-mint";

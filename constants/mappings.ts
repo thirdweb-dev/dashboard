@@ -3,7 +3,7 @@ import {
   ContractType,
   FullPublishMetadata,
   Role,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { StaticImageData } from "next/image";
 
 const FeatureIconMap: Record<ContractType, StaticImageData> = {

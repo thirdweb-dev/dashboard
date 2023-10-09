@@ -1,8 +1,5 @@
 import { getAbsoluteUrl } from "./vercel-utils";
-import {
-  ThirdwebSDK as EVMThirdwebSDK,
-  SDKOptions,
-} from "@thirdweb-dev/sdk/evm";
+import { ThirdwebSDK as EVMThirdwebSDK, SDKOptions } from "@thirdweb-dev/sdk";
 import {
   IStorageDownloader,
   StorageDownloader,

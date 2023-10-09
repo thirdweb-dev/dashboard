@@ -1,5 +1,5 @@
 /* eslint-disable line-comment-position */
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 
 export const SupportedNetworkToChainIdMap = {
   ethereum: ChainId.Mainnet, // 1

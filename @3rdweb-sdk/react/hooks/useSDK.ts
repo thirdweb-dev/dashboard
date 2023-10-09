@@ -15,7 +15,7 @@ import {
   OptimismGoerli,
   Polygon,
 } from "@thirdweb-dev/chains";
-import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
+import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk";
 import {
   useSupportedChains,
   useSupportedChainsRecord,
