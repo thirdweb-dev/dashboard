@@ -42,9 +42,10 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   if (walletSelection["Safe"]) {
     const safeId = walletInfoRecord["Safe"].component.id;
     const safeWalletIndex = supportedWallets.findIndex((w) => w.id === safeId);
+    const personalWallets = supportedWallets.filter((w) => w.id !== safeId);
 
     supportedWallets[safeWalletIndex] = safeWallet({
-      personalWallets: supportedWallets.filter((w) => w.id !== safeId),
+      personalWallets: personalWallets.length ? personalWallets : undefined,
     });
   }
 

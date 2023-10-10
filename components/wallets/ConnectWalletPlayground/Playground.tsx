@@ -111,6 +111,35 @@ export const ConnectWalletPlayground: React.FC<{
   });
 
   useEffect(() => {
+    const getSupportedWalletsCode = (walletIds: WalletId[]): string => {
+      return `[${walletIds
+        .map((walletId) => {
+          const recommended = walletInfoRecord[walletId].component.recommended;
+
+          if (walletId === "Safe") {
+            const personalWalletIds = walletIds.filter((w) => w !== "Safe");
+            if (personalWalletIds.length === 0) {
+              return recommended
+                ? `safeWallet({ recommended: true })`
+                : `safeWallet()`;
+            }
+            return `safeWallet({
+              ${recommended ? "recommended: true," : ""}
+              personalWallets: ${getSupportedWalletsCode(
+                walletIds.filter((w) => w !== "Safe"),
+              )}
+            })`;
+          }
+
+          const walletCode = walletInfoRecord[walletId].code(recommended);
+
+          return smartWalletOptions.enabled
+            ? `smartWallet(${walletCode}, smartWalletOptions)`
+            : walletCode;
+        })
+        .join(",")}]`;
+    };
+
     const _code = getCode({
       baseTheme: selectedTheme,
       colorOverrides,
@@ -125,17 +154,7 @@ export const ConnectWalletPlayground: React.FC<{
       thirdwebProvider: {
         supportedWallets:
           enabledWallets.length > 0
-            ? `[${enabledWallets
-                .map((walletId) => {
-                  const walletCode = walletInfoRecord[walletId].code(
-                    walletInfoRecord[walletId].component.recommended,
-                  );
-
-                  return smartWalletOptions.enabled
-                    ? `smartWallet(${walletCode}, smartWalletOptions)`
-                    : walletCode;
-                })
-                .join(",")}]`
+            ? getSupportedWalletsCode(enabledWallets)
             : undefined,
         authConfig: authEnabled
           ? `{ authUrl: "/api/auth", domain: "https://example.com" }`
