@@ -129,6 +129,10 @@ const employees = [
     twitter: "lakshayg18",
   },
   {
+    name: "Mago Khamidov",
+    twitter: "KosmosDeveloper",
+  },
+  {
     name: "Manan Tank",
     twitter: "MananTank_",
   },
