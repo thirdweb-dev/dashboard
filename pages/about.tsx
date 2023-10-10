@@ -30,10 +30,6 @@ const employees = [
     twitter: "avneesh0612",
   },
   {
-    name: "Beverly Rivas",
-    twitter: "BevRivas",
-  },
-  {
     name: "Bobby Wang",
     twitter: "PartTimePlug",
   },
