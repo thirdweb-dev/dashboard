@@ -18,6 +18,10 @@ const employees = [
     twitter: "MajmudarAdam",
   },
   {
+    name: "Andrew Begafria",
+    twitter: "akbmotion",
+  },
+  {
     name: "Atif Khan",
     twitter: "atifkhan31",
   },
