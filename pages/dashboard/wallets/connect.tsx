@@ -325,9 +325,22 @@ function BuildCustomBanner() {
             </Button>
           </Flex>
         </Box>
-
         {/* Right */}
         <Box>
+          {/* Preload images */}
+          <Box visibility="hidden" w={0} h={0}>
+            {bannerPosters.map((poster) => {
+              return (
+                <ChakraNextImage
+                  priority={true}
+                  src={bannerPosters[0].img}
+                  alt=""
+                  key={poster.img}
+                />
+              );
+            })}
+          </Box>
+
           <SlideFade
             in
             offsetY={80}
