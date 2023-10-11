@@ -227,7 +227,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                   {service.name === "embeddedWallets" && (
                     <ApiKeyDetailsRow
                       title="Redirect URIs"
-                      tooltip={`Prevent third-parties from phishing your users by restricting redirect URIs to certain domains after logging in via social authentication methods. Currently only relevant on Unity and React Native platforms.`}
+                      tooltip={`Prevent phishing attacks restricting redirect URIs to your application deep links. Currently only relevant on Unity and React Native platforms.`}
                       content={redirectUrlContent}
                     />
                   )}

@@ -365,7 +365,8 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         .error ? (
                         <FormHelperText>
                           Enter redirect URIs separated by commas or new lines.
-                          This is used during Unity and React Native platform
+                          This is often your application&apos;s deep link.
+                          Currently only used in Unity and React Native platform
                           when users authenticate through social logins.
                         </FormHelperText>
                       ) : (
