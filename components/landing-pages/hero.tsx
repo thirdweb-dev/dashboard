@@ -71,6 +71,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
             ctaText={ctaText}
             ctaLink={ctaLink}
             trackingCategory={trackingCategory}
+            contactUsTitle="Book Demo"
           />
         </Flex>
       </Container>
