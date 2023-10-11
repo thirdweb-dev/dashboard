@@ -32,6 +32,8 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({ auth }) => {
       welcomeScreen={() => {
         return <ConnectWalletWelcomeScreen theme={colorMode} />;
       }}
+      termsOfServiceUrl="/tos"
+      privacyPolicyUrl="/privacy"
       networkSelector={{
         popularChains,
         recentChains,
