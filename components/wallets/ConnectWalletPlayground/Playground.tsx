@@ -932,6 +932,10 @@ export const ConnectWalletPlayground: React.FC<{
                 if (colorInfo.key === "modalBg") {
                   setColorOverrides((c) => ({ ...c, dropdownBg: value }));
                 }
+
+                if (colorInfo.key === "accentText") {
+                  setColorOverrides((c) => ({ ...c, accentButtonBg: value }));
+                }
               }}
             />
           );
