@@ -5,7 +5,7 @@ import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHero } from "components/landing-pages/hero";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { LandingOptionSelector } from "components/landing-pages/option-selector";
 import { ImageCard } from "components/product-pages/common/ImageCard";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
@@ -34,6 +34,86 @@ const CASE_STUDIES = [
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Fractal.png",
     link: "https://blog.thirdweb.com/case-studies/fractal-web3-gaming-platform-and-marketplace-for-blockchain-games-expands-to-evm-chains/",
+  },
+];
+
+const SELECTOR_ITEMS = [
+  {
+    title: "Frictionless onboarding experience",
+    description:
+      "Get users onboarded quickly with familiar email and social log-ins— we create game wallets on behalf of users.  Purchases can be made via credit card, Apple/Google Pay.",
+    steps: [
+      "User sign-in to app with their email or social log-in",
+      "Wallet is created on behalf of the user abstracting away crypto entirely",
+      "User interacts with app seamlessly— without disruptive transaction pop-ups",
+    ],
+    products: ["connect", "embedded-wallets", "smart-wallet", "nft-checkout"],
+  },
+  {
+    title: "Uninterrupted game play",
+    description:
+      "Give users uninterrupted game play by removing disruptive transaction pop-ups.  Generate on-chain transactions reliably and at scale on behalf of users.",
+    steps: [
+      "User completes a level in game and is rewarded with an in-game digital asset",
+      "Developer sponsors the transaction so that user does not have to pay for gas fees",
+      "User receives in-game asset without any interruption to game play",
+    ],
+    products: [
+      "embedded-wallets",
+      "smart-wallet",
+      "sponsored-transactions",
+      "engine",
+    ],
+  },
+  {
+    title: "Subscription and All Access passes",
+    description:
+      "Create digital loyalty passes that provide access to early gameplay content, exclusive NFT drops, and in-game boosts",
+    steps: [
+      "User selects a digital loyalty pass NFT when they login",
+      "Loyalty pass is used to unlock in-game experiences",
+      "User collects rewards to upgrade their loyalty pass",
+    ],
+    products: ["explore", "interact", "nft-checkout"],
+  },
+  /* {
+    title: "Add web3 to web2 game",
+    description: "Easily integrate new web3 features into your existing application infrastructure using reusable UI components, SDK's and minting API's.",
+    steps: ["", "", ""],
+    products: ["connect", "auth", "interact", "engine", "sponsored-transactions", "nft-checkout"],
+  }, */
+  {
+    title: "Interoperable game ecosystems",
+    description:
+      "Give a unified interface to users to login across your gaming ecosystem with the flexibility to import/export their digital assets",
+    steps: [
+      "User logs in using existing game login",
+      "Game links User's gaming wallet to game issued Smart Wallet",
+      "User selects assets they want to import and gives game scoped access to use assets for duration of game play",
+    ],
+    products: ["auth", "smart-wallet", "engine"],
+  },
+  {
+    title: "Game appchain",
+    description:
+      "Connect seamlessly to any EVM compatible L1, L2 blockchains as well as build your game on your own app chain.",
+    steps: [
+      "Game devs can add their app chain to thirdweb Dashboard and SDK's",
+      "An app chain landing page is generated with links to SDKs, contract deployment and infrastructure for their app chain",
+      "Developers can easily deploy contracts to their app chain in just a few clicks and get code snippets to integrate contracts into their games",
+    ],
+    products: ["rpc-edge", "explore", "interact", "engine"],
+  },
+  {
+    title: "Marketplace for digital assets",
+    description:
+      "Generate revenue through the launch of your own on-chain marketplace",
+    steps: [
+      "Deploy marketplace contract",
+      "Set % platform fee (% collected by game dev on every in-game asset sale, e.g. when buyer buys tokens from listing)",
+      "Players can list and trade NFTs for sale at a fixed price",
+    ],
+    products: ["explore", "interact", "nft-checkout", "engine", "storage"],
   },
 ];
 
@@ -127,6 +207,13 @@ const SolutionsGaming: ThirdwebNextPage = () => {
             </ImageCard>
           </SimpleGrid>
         </Flex>
+        <LandingOptionSelector
+          items={SELECTOR_ITEMS}
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+          blackToWhiteTitle=""
+          title="What You Can Build"
+        />
+
         <LandingGridSection>
           <Card p={8}>
             <LandingIconSectionItem
@@ -203,37 +290,6 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
               title="Interact"
               description="The complete toolkit to add any smart contract into your apps — and call functions for any type of onchain interaction."
-            />
-          </Card>
-        </LandingGridSection>
-
-        <LandingGridSection
-          title={
-            <LandingSectionHeading
-              title="What You Can Build"
-              blackToWhiteTitle=""
-            />
-          }
-        >
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
-              title="NFT & token mints"
-              description="Deploy any smart contract, add custom extensions for advanced functionality, & instantly add it to any app — with an auto-generated mint embed so that your users can claim & mint NFTs directly from within it."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-analytics.svg")}
-              title="App clients & analytics"
-              description="Plug any existing smart contract into your app via our SDK to read from & write to it — so that you can build anything from app clients to insights aggregators, complete with intuitive data feeds for onchain analytics."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
-              title="Web3 apps, games & marketplaces"
-              description="Build blockchain-powered games & marketplaces using all of the smart contracts you need —  with functions for token minting & redemption, buying & selling, burning, and everything else you need to build full-stack web3 apps."
             />
           </Card>
         </LandingGridSection>

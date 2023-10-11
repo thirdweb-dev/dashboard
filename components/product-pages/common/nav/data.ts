@@ -146,6 +146,9 @@ export const PRODUCTS: SectionItemProps[] = [
   },
 ];
 
+const PRODUCT_LABELS = PRODUCTS.map((product) => product.label);
+export type ProductLabel = (typeof PRODUCT_LABELS)[number];
+
 export const SOLUTIONS: SectionItemProps[] = [
   {
     name: "CommerceKit",
