@@ -95,8 +95,8 @@ export const ConnectWalletPlayground: React.FC<{
     setSmartWalletOptions,
     supportedWallets,
   } = usePlaygroundWallets({
-    MetaMask: "recommended",
-    Coinbase: true,
+    MetaMask: true,
+    Coinbase: "recommended",
     WalletConnect: true,
     Safe: false,
     "Guest Mode": true,
