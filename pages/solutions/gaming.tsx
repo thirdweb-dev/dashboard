@@ -122,16 +122,16 @@ const SolutionsGaming: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Integrate smart contracts into your apps",
+        title: "GamingKit: The #1 Unity SDK for Web3 Gaming",
         description:
-          "The complete toolkit to add any smart contract into your apps — and call functions for any type of onchain interaction. Learn more.",
+          "Build web3 games with thirdweb's Unity SDK, smart contracts, & dev tools for Browser, Native, Mobile, Console, & VR. Try GamingKit — it's free.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/interact.png`,
+              url: `${getAbsoluteUrl()}/thirdwebxcoinbase.png`,
               width: 1200,
               height: 630,
-              alt: "Integrate smart contracts into your apps",
+              alt: "thirdweb gaming",
             },
           ],
         },
