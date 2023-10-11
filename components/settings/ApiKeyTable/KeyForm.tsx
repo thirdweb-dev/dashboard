@@ -1,5 +1,3 @@
-import { ApiKeyDetailsRow } from "./DetailsRow";
-import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
@@ -45,13 +43,15 @@ import {
   Text,
 } from "tw-components";
 import {
-  SecretHandlingAlert,
   AnyBundleIdAlert,
   AnyDomainAlert,
   NoBundleIdsAlert,
   NoDomainsAlert,
   NoTargetAddressesAlert,
+  SecretHandlingAlert,
 } from "./Alerts";
+import { ApiKeyDetailsRow } from "./DetailsRow";
+import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
 
 interface ApiKeyFormProps {
   form: UseFormReturn<ApiKeyValidationSchema, any>;
@@ -365,6 +365,8 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         .error ? (
                         <FormHelperText>
                           Enter redirect URIs separated by commas or new lines.
+                          This is used during Unity and React Native platform
+                          when users authenticate through social logins.
                         </FormHelperText>
                       ) : (
                         <FormErrorMessage>
