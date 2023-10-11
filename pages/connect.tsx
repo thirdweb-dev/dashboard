@@ -2,6 +2,7 @@ import { Box, Center, Container, Flex, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
@@ -15,6 +16,26 @@ import connectLottie from "../public/assets/product-pages/connect/connect-lottie
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
+const GUIDES = [
+  {
+    title: "The Quick-Start Guide to thirdweb Connect",
+    image: require("/public/assets/product-pages/connect/get-started.png"),
+    link: "https://portal.thirdweb.com/react/react.connectwallet",
+  },
+  {
+    title: "Add a Connect Wallet Button to Your App or Website",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/How-to-Add-a-Connect-Wallet-Button-to-your-App-or-Website.png",
+    link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
+  },
+  {
+    title: "Create Your Own Custom Connect Wallet Button",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/Create-a-Customizable-Connect-Wallet-Button.png",
+    link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
+  },
+];
+
 const ConnectLanding: ThirdwebNextPage = () => {
   return (
     <LandingLayout
@@ -26,7 +47,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/thirdweb-connect.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/connect-wallet.png`,
               width: 1200,
               height: 630,
               alt: "Web3 Onboarding, For Everyone",
@@ -238,6 +259,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
             description="Integrate with just a few lines of code — with an interactive builder, powerful hooks for full customization, and onchain analytics."
           />
         </LandingGridSection>
+        <LandingGuidesShowcase
+          title="Get started with thirdweb Connect"
+          category={TRACKING_CATEGORY}
+          description="See our quick-start guides to add powerful login experiences into your web3 app."
+          solution="Connect"
+          guides={GUIDES}
+        />
         <LandingEndCTA
           title="Integrate in"
           titleWithGradient="a few lines of code."
