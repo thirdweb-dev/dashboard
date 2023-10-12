@@ -65,7 +65,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
 };
 
   const seo = {
-    title: "Build Your Own Connect Wallet Modal | thirdweb",
+    title: "Build Your Own Connect Wallet Modal | Connect",
     desc: "Onboard your users to web3 with a beautiful Connect Wallet modal, customizable auth flows, and sign-in for web2 & web3 — in a few lines of code.",
   };
 
