@@ -1,9 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ApiKeysCreateModal } from "./CreateKeyModal";
-import { toastMessages } from "./messages";
-import { apiKeyValidationSchema, ApiKeyValidationSchema } from "./validations";
 import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SERVICES } from "@thirdweb-dev/service-utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -12,6 +9,9 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { Button } from "tw-components";
 import { toArrFromList } from "utils/string";
+import { ApiKeysCreateModal } from "./CreateKeyModal";
+import { toastMessages } from "./messages";
+import { ApiKeyValidationSchema, apiKeyValidationSchema } from "./validations";
 
 export const CreateApiKeyButton: React.FC = () => {
   const trackEvent = useTrack();
@@ -34,6 +34,8 @@ export const CreateApiKeyButton: React.FC = () => {
         return {
           name: srv.name,
           targetAddresses: "",
+          recoveryShareManagement:
+            srv.name === "embeddedWallets" ? "AWS_MANAGED" : undefined,
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
         };
@@ -65,6 +67,7 @@ export const CreateApiKeyButton: React.FC = () => {
           .map((srv) => ({
             ...srv,
             targetAddresses: toArrFromList(srv.targetAddresses),
+            recoveryShareManagement: srv.recoveryShareManagement,
           })),
       };
 

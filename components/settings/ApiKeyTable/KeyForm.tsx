@@ -12,6 +12,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Select,
   Spinner,
   Switch,
   Tab,
@@ -46,6 +47,7 @@ import {
   AnyBundleIdAlert,
   AnyDomainAlert,
   NoBundleIdsAlert,
+  NoChangingRecoveryShareManagementAlert,
   NoDomainsAlert,
   NoTargetAddressesAlert,
   SecretHandlingAlert,
@@ -339,7 +341,50 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                 </HStack>
 
                 {service.name === "embeddedWallets" && srv.enabled && (
-                  <VStack spacing={4}>
+                  <VStack spacing={6}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
+                          `services.${idx}.recoveryShareManagement`,
+                          form.formState,
+                        ).error
+                      }
+                    >
+                      <FormLabel size="label.sm">
+                        Recovery share management type
+                      </FormLabel>
+                      <Select
+                        {...form.register(
+                          `services.${idx}.recoveryShareManagement`,
+                        )}
+                      >
+                        <option value={"USER_MANAGED"}>
+                          User managed recovery
+                        </option>
+                        <option value={"AWS_MANAGED"}>
+                          KMS hosted recovery
+                        </option>
+                      </Select>
+                      {!form.getFieldState(
+                        `services.${idx}.recoveryShareManagement`,
+                        form.formState,
+                      ).error ? (
+                        <FormHelperText pb={2}>
+                          Choose the wallet recovery share hosting option.
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(
+                              `services.${idx}.recoveryShareManagement`,
+                              form.formState,
+                            ).error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                      <NoChangingRecoveryShareManagementAlert />
+                    </FormControl>
+
                     <FormControl
                       isInvalid={
                         !!form.getFieldState(`redirectUrls`, form.formState)
@@ -378,14 +423,6 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         </FormErrorMessage>
                       )}
                     </FormControl>
-
-                    {/* TODO maybe add warning for empty redirect urls? */}
-                    {/* {!form.watch(`redirectUrls`) && (
-                      <NoTargetAddressesAlert
-                        serviceName={service.title}
-                        serviceDesc={service.description}
-                      />
-                    )} */}
                   </VStack>
                 )}
 

@@ -44,6 +44,9 @@ export const apiKeyValidationSchema = z.object({
             .refine((str) => validStrList(str, isAddress), {
               message: "Some of the addresses are invalid",
             }),
+          recoveryShareManagement: z
+            .enum(["USER_MANAGED", "AWS_MANAGED"])
+            .optional(),
           actions: z.array(z.string()),
         }),
       )
