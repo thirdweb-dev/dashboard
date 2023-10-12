@@ -1,12 +1,12 @@
 import { Account, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useUser } from "@thirdweb-dev/react";
-import { useEffect, useState } from "react";
-import { OnboardingModal } from "./Modal";
-import { OnboardingGeneral } from "./General";
-import { OnboardingConfirmEmail } from "./ConfirmEmail";
-import { useRouter } from "next/router";
-import { OnboardingBilling } from "./Billing";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { OnboardingBilling } from "./Billing";
+import { OnboardingConfirmEmail } from "./ConfirmEmail";
+import { OnboardingGeneral } from "./General";
+import { OnboardingModal } from "./Modal";
 
 export const Onboarding: React.FC = () => {
   const meQuery = useAccount();
@@ -67,6 +67,8 @@ export const Onboarding: React.FC = () => {
         },
       });
     }
+
+    setState("confirming");
   };
 
   useEffect(() => {
