@@ -237,17 +237,17 @@ const SolutionsGaming: ThirdwebNextPage = () => {
 
         <LandingGridSection>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-grow.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-grow.svg")}
             title="Grow your customer base"
-            description="Allow new customers to discover your brand by enabling customers to earn and redeem points from any company within your loyalty alliance ecosystem."
+            description="Allow new customers to discover your brand by enabling customers to earn and redeem points from any company within your icons alliance ecosystem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-scale.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-scale.svg")}
             title="Increase customer lifetime value"
             description="Create communities and turn your customers into your biggest advocates by sending digital collectibles that they can own, trade, and redeem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-fee.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
             title="Unlock new revenue streams"
             description="Generate recurring revenue from membership subscriptions, sell digital assets from your storefront, and collect royalty fees from traded loyalty points."
           />
