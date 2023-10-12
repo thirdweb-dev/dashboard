@@ -6,6 +6,7 @@ import { LandingHero } from "components/landing-pages/hero";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingOptionSelector } from "components/landing-pages/option-selector";
+import { LandingShowcaseImage } from "components/landing-pages/showcase-image";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -36,6 +37,21 @@ const CASE_STUDIES = [
   },
 ];
 
+const GUIDES = [
+  {
+    title: "Build a Loyalty Program using the Loyalty Card Contract",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/09/Build-a-Loyalty-Program-using-the-Loyalty-Card-Contract--1-.png",
+    link: "https://blog.thirdweb.com/guides/loyalty-card-contract/",
+  },
+  {
+    title: "How to accept credit card payments for your NFT drop",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/08/thumbnail-3.png",
+    link: "https://blog.thirdweb.com/guides/accept-credit-card-payments/",
+  },
+];
+
 const SELECTOR_ITEMS = [
   {
     title: "Frictionless onboarding experience",
@@ -52,6 +68,8 @@ const SELECTOR_ITEMS = [
       "sponsored-transactions",
       "smart-wallet",
     ],
+    image: require("public/assets/solutions-pages/loyalty/frictionless-onboarding-experience-desktop.png"),
+    mobileImage: require("public/assets/solutions-pages/loyalty/frictionless-onboarding-experience-mobile.png"),
   },
   {
     title: "Cross-brand Collaborations",
@@ -70,6 +88,8 @@ const SELECTOR_ITEMS = [
       "engine",
       "nft-checkout",
     ],
+    image: require("public/assets/solutions-pages/loyalty/cross-brand-activations-desktop.png"),
+    mobileImage: require("public/assets/solutions-pages/loyalty/cross-brand-activations-mobile.png"),
   },
   {
     title: "Personalized loyalty programs",
@@ -211,23 +231,23 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://blog.thirdweb.com/guides/loyalty-card-contract/"
           gradient="linear(to-r, #4830A4, #9786DF)"
-          image={require("public/assets/product-pages/hero/desktop-hero-interact.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-interact.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-loyalty.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-loyalty.png")}
         />
 
         <LandingGridSection>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-grow.svg")}
             title="Grow your customer base"
             description="Allow new customers to discover your brand by enabling customers to earn and redeem points from any company within your loyalty alliance ecosystem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-scale.svg")}
             title="Increase customer lifetime value"
             description="Create communities and turn your customers into your biggest advocates by sending digital collectibles that they can own, trade, and redeem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-fee.svg")}
             title="Unlock new revenue streams"
             description="Generate recurring revenue from membership subscriptions, sell digital assets from your storefront, and collect royalty fees from traded loyalty points."
           />
@@ -237,6 +257,42 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           TRACKING_CATEGORY={TRACKING_CATEGORY}
           blackToWhiteTitle=""
           title="What You Can Build"
+        />
+
+        <LandingShowcaseImage
+          miniTitle=""
+          titleWithGradient="Evolving NFTs"
+          title=""
+          gradient="linear(to-r, #4830A4, #9786DF)"
+          description="Give your loyal customers an NFT that evolves based on other asset holdings in user's wallet. This enables you to create a tiered membership NFT that dynamically updates through different membership tiers (e.g. bronze, silver, gold) as the user receives on-chain loyalty points."
+          image={require("public/assets/solutions-pages/loyalty/evolving-loyalty-contract-desktop.png")}
+        />
+
+        <LandingShowcaseImage
+          miniTitle=""
+          titleWithGradient="Token Bound Account"
+          title=""
+          gradient="linear(to-r, #4830A4, #9786DF)"
+          description="Convert NFTs into a smart contract wallet. This enables the NFT to hold other on-chain assets and enable bundled easy transfer of loyalty accounts and points. This  enables the Multi-Alliance Loyalty Program use case where entire membership accounts can be traded."
+          image={require("public/assets/solutions-pages/loyalty/token-bound-acc-desktop.png")}
+          imagePosition="left"
+        />
+
+        <LandingShowcaseImage
+          miniTitle=""
+          titleWithGradient="Commerce SDK"
+          title=""
+          gradient="linear(to-r, #4830A4, #9786DF)"
+          description="An intuitive developer-first SDK that makes it easier for you to distribute loyalty tokens to a wallet address, distribute membership NFTs, generate on-chain discount codes, and enable token-gated access to exclusive products."
+          image={require("public/assets/solutions-pages/loyalty/commerce-sdk-desktop.png")}
+        />
+
+        <LandingGuidesShowcase
+          title="Learn how to build"
+          description="Start Building Next-Gen Loyalty"
+          solution="Loyalty"
+          category={TRACKING_CATEGORY}
+          guides={GUIDES}
         />
 
         <LandingGuidesShowcase

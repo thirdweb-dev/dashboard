@@ -10,6 +10,7 @@ import {
   PRODUCTS,
   ProductLabel,
 } from "components/product-pages/common/nav/data";
+import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 
 interface OptionItem {
   title: string;
@@ -17,6 +18,7 @@ interface OptionItem {
   products?: ProductLabel[];
   steps: string[];
   image?: StaticImageData;
+  mobileImage?: StaticImageData;
 }
 
 interface LandingOptionSelectorProps extends LandingSectionHeadingProps {
@@ -71,8 +73,8 @@ export const LandingOptionSelector: React.FC<LandingOptionSelectorProps> = ({
           </Card>
         ))}
       </Flex>
-      <SimpleGrid columns={{ base: 1, md: 12 }} gap={8}>
-        <GridItem colSpan={{ base: 1, md: 4 }}>
+      <SimpleGrid columns={{ base: 1, lg: 12 }} gap={8}>
+        <GridItem colSpan={{ base: 1, lg: 4 }}>
           <Card as={Flex} flexDir="column" gap={4} p={8}>
             <Heading as="h4" size="title.md">
               {selectedItem.title}
@@ -120,12 +122,15 @@ export const LandingOptionSelector: React.FC<LandingOptionSelectorProps> = ({
             )}
           </Card>
         </GridItem>
-        <GridItem colSpan={{ base: 1, md: 8 }}>
-          <Card p={0}>
+        <GridItem colSpan={{ base: 1, lg: 8 }}>
+          <Card p={0} overflow="hidden">
             {selectedItem?.image && (
-              <ChakraNextImage alt="" src={selectedItem.image} />
+              <LandingDesktopMobileImage
+                image={selectedItem.image}
+                mobileImage={selectedItem?.mobileImage}
+              />
             )}
-            <SimpleGrid columns={{ base: 1, md: selectedItem.steps.length }}>
+            <SimpleGrid columns={{ base: 1, lg: selectedItem.steps.length }}>
               {selectedItem.steps.map((step, idx) => (
                 <Flex key={step} flexDir="column" gap={4} p={8}>
                   <Flex

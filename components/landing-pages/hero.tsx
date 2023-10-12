@@ -34,8 +34,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
     <Flex
       flexDir="column"
       gap={{ base: 12, md: 20 }}
-      paddingY={{ base: 0, md: "64px" }}
-      mb={{ base: "80px", md: "120px" }}
+      paddingTop={{ base: 0, md: "64px" }}
     >
       <Container maxW="container.md" paddingX={{ base: 4, md: 16 }}>
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
