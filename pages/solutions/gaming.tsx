@@ -122,13 +122,13 @@ const SolutionsGaming: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "GamingKit: The #1 Unity SDK for Web3 Gaming",
+        title: "Build blockchain games on any platform",
         description:
-          "Build web3 games with thirdweb's Unity SDK, smart contracts, & dev tools for Browser, Native, Mobile, Console, & VR. Try GamingKit — it's free.",
+          "Add web3 features to your game on all platforms, including: Native, Mobile, Console, Browser and VR.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/thirdwebxcoinbase.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/gaming-solutions.png`,
               width: 1200,
               height: 630,
               alt: "thirdweb gaming",
@@ -156,17 +156,17 @@ const SolutionsGaming: ThirdwebNextPage = () => {
 
         <LandingGridSection>
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
             title="Unlock new revenue streams"
             description="Primary sales and royalty fees from secondary sales for in-game assets represented as NFTs."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-scale.svg")}
             title="Increase user retention"
             description="Reward your players with in game currency and digital assets."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/contracts/icon-analytics.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-guest.svg")}
             title="Engage with your community"
             description="Enable access to other games within the studio seamlessly by creating an immersive ecosystem."
           />
@@ -217,49 +217,49 @@ const SolutionsGaming: ThirdwebNextPage = () => {
         <LandingGridSection>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
               title="APIs"
               description="Unity and Unreal SDK support."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace-1.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-smart-wallet.svg")}
               title="Connect"
               description="Onboard all of your users with a beautiful Connect Wallet modal, flexible sign-in options for web2 & web3, and powerful hooks for full customizability."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-email-signin.svg")}
               title="Embedded Wallet"
               description="Give any user the keys to web3 with familiar web2 login flows. Choose from non-custodial or custodial solutions & enable users to sign in with an email, phone number, or social account."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-verified.svg")}
               title="Smart Wallet"
               description="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace-1.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-credit.svg")}
               title="NFT Checkout"
               description="Let users buy digital assets with a credit card, via a one-click checkout flow. Onboard anyone, even if they've never create a wallet or bought crypto before."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
               title="Sponsored Transactions"
               description="Create seamless web3 UX by sponsoring users' gas fees — for any & all transactions. No more disruptive transaction popups or bridging & swapping funds."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-build.svg")}
               title="Engine"
               description={
                 <>
@@ -280,14 +280,14 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace-1.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-verified-user.svg")}
               title="Auth"
               description="Easy auth for the most popular web3 wallets and web2 login flows — so you can verify your users' identities & prove wallet ownership to off-chain systems."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
               title="Interact"
               description="The complete toolkit to add any smart contract into your apps — and call functions for any type of onchain interaction."
             />

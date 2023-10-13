@@ -36,7 +36,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
       gap={{ base: 12, md: 20 }}
       paddingTop={{ base: 0, md: "64px" }}
     >
-      <Container maxW="container.md" paddingX={{ base: 4, md: 16 }}>
+      <Container maxW="container.lg" paddingX={{ base: 4, md: 16 }}>
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
           <Flex flexDir="column" gap={4}>
             {inPartnershipWith && (
@@ -63,7 +63,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
               </Box>
             </Heading>
           </Flex>
-          <Text textAlign="center" size="body.xl">
+          <Text textAlign="center" size="body.lg">
             {subtitle}
           </Text>
           <LandingCTAButtons

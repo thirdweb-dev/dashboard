@@ -75,7 +75,7 @@ export const LandingOptionSelector: React.FC<LandingOptionSelectorProps> = ({
       </Flex>
       <SimpleGrid columns={{ base: 1, lg: 12 }} gap={8}>
         <GridItem colSpan={{ base: 1, lg: 4 }}>
-          <Card as={Flex} flexDir="column" gap={4} p={8}>
+          <Card as={Flex} flexDir="column" gap={8} p={8}>
             <Heading as="h4" size="title.md">
               {selectedItem.title}
             </Heading>
@@ -94,12 +94,20 @@ export const LandingOptionSelector: React.FC<LandingOptionSelectorProps> = ({
                       icon: "",
                     };
                     return (
-                      <Link key={product} href={prd.link} textDecor="none">
+                      <Link
+                        key={product}
+                        href={prd.link}
+                        _hover={{ textDecor: "none" }}
+                        target="_blank"
+                      >
                         <Flex
                           pl={2}
                           border="1px solid"
                           borderRadius="lg"
                           borderColor="borderColor"
+                          _hover={{
+                            borderColor: "blue.500",
+                          }}
                           justifyContent="center"
                           alignItems="center"
                         >
@@ -110,7 +118,7 @@ export const LandingOptionSelector: React.FC<LandingOptionSelectorProps> = ({
                               boxSize={4}
                             />
                           )}
-                          <Text p={2} size="label.sm" textDecor="none">
+                          <Text p={2} size="label.sm">
                             {prd.name}
                           </Text>
                         </Flex>
