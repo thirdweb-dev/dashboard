@@ -1,5 +1,3 @@
-import { ApiKeyDetailsRow } from "./DetailsRow";
-import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
@@ -45,13 +43,15 @@ import {
   Text,
 } from "tw-components";
 import {
-  SecretHandlingAlert,
   AnyBundleIdAlert,
   AnyDomainAlert,
   NoBundleIdsAlert,
   NoDomainsAlert,
   NoTargetAddressesAlert,
+  SecretHandlingAlert,
 } from "./Alerts";
+import { ApiKeyDetailsRow } from "./DetailsRow";
+import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
 
 interface ApiKeyFormProps {
   form: UseFormReturn<ApiKeyValidationSchema, any>;
@@ -198,15 +198,14 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                 <FormLabel size="label.sm" mb={0}>
                   Allowed Domains
                 </FormLabel>
-                <HStack alignItems="center">
-                  <Checkbox
-                    isChecked={form.watch("domains") === "*"}
-                    onChange={(e) => {
-                      form.setValue("domains", e.target.checked ? "*" : "");
-                    }}
-                  />
+                <Checkbox
+                  isChecked={form.watch("domains") === "*"}
+                  onChange={(e) => {
+                    form.setValue("domains", e.target.checked ? "*" : "");
+                  }}
+                >
                   <Text>Unrestricted access</Text>
-                </HStack>
+                </Checkbox>
               </HStack>
 
               <Textarea
@@ -249,15 +248,14 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                 <FormLabel size="label.sm" mb={0}>
                   Allowed Bundle IDs
                 </FormLabel>
-                <HStack alignItems="center">
-                  <Checkbox
-                    isChecked={form.watch("bundleIds") === "*"}
-                    onChange={(e) => {
-                      form.setValue("bundleIds", e.target.checked ? "*" : "");
-                    }}
-                  />
+                <Checkbox
+                  isChecked={form.watch("bundleIds") === "*"}
+                  onChange={(e) => {
+                    form.setValue("bundleIds", e.target.checked ? "*" : "");
+                  }}
+                >
                   <Text>Unrestricted access</Text>
-                </HStack>
+                </Checkbox>
               </HStack>
 
               <Textarea
@@ -340,6 +338,57 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                   />
                 </HStack>
 
+                {service.name === "embeddedWallets" && srv.enabled && (
+                  <VStack spacing={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(`redirectUrls`, form.formState)
+                          .error
+                      }
+                    >
+                      <HStack
+                        alignItems="center"
+                        justifyContent="space-between"
+                        pb={2}
+                      >
+                        <FormLabel size="label.sm" mb={0}>
+                          Allowed redirect URIs
+                        </FormLabel>
+                      </HStack>
+
+                      <Textarea
+                        disabled={!srv.enabled}
+                        placeholder="thirdweb://"
+                        {...form.register(`redirectUrls`)}
+                      />
+                      {!form.getFieldState(`redirectUrls`, form.formState)
+                        .error ? (
+                        <FormHelperText>
+                          Enter redirect URIs separated by commas or new lines.
+                          This is often your application&apos;s deep link.
+                          Currently only used in Unity and React Native platform
+                          when users authenticate through social logins.
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(`redirectUrls`, form.formState)
+                              .error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+
+                    {/* TODO maybe add warning for empty redirect urls? */}
+                    {/* {!form.watch(`redirectUrls`) && (
+                      <NoTargetAddressesAlert
+                        serviceName={service.title}
+                        serviceDesc={service.description}
+                      />
+                    )} */}
+                  </VStack>
+                )}
+
                 {service.name === "bundler" && srv.enabled && (
                   <VStack spacing={4}>
                     <FormControl
@@ -356,21 +405,21 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         <FormLabel size="label.sm" mb={0}>
                           Allowed Contract addresses
                         </FormLabel>
-                        <HStack alignItems="center">
-                          <Checkbox
-                            isChecked={
-                              form.watch(`services.${idx}.targetAddresses`) ===
-                              "*"
-                            }
-                            onChange={(e) => {
-                              form.setValue(
-                                `services.${idx}.targetAddresses`,
-                                e.target.checked ? "*" : "",
-                              );
-                            }}
-                          />
+
+                        <Checkbox
+                          isChecked={
+                            form.watch(`services.${idx}.targetAddresses`) ===
+                            "*"
+                          }
+                          onChange={(e) => {
+                            form.setValue(
+                              `services.${idx}.targetAddresses`,
+                              e.target.checked ? "*" : "",
+                            );
+                          }}
+                        >
                           <Text>Unrestricted access</Text>
-                        </HStack>
+                        </Checkbox>
                       </HStack>
 
                       <Textarea
@@ -424,20 +473,15 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                           bg="transparent"
                           boxShadow="none"
                         >
-                          <HStack gap={1} cursor="help">
-                            <Checkbox
-                              isChecked={srv.actions.includes(sa.name)}
-                              onChange={(e) =>
-                                handleAction(
-                                  idx,
-                                  srv,
-                                  sa.name,
-                                  e.target.checked,
-                                )
-                              }
-                            />
+                          <Checkbox
+                            cursor="help"
+                            isChecked={srv.actions.includes(sa.name)}
+                            onChange={(e) =>
+                              handleAction(idx, srv, sa.name, e.target.checked)
+                            }
+                          >
                             <Text>{sa.title}</Text>
-                          </HStack>
+                          </Checkbox>
                         </Tooltip>
                       ))}
                     </HStack>
