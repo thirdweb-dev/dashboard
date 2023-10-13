@@ -6,7 +6,7 @@ export const LandingDesktopMobileImage: React.FC<
 > = ({ image, mobileImage, ...props }) => {
   return (
     <>
-      {mobileImage && (
+      {!props.video && mobileImage && (
         <ChakraNextImage
           {...props}
           display={{ base: "block", md: "none" }}
@@ -14,6 +14,7 @@ export const LandingDesktopMobileImage: React.FC<
           alt=""
         />
       )}
+
       {!props.video && image && (
         <ChakraNextImage
           {...props}
