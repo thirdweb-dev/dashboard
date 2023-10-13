@@ -180,6 +180,7 @@ export enum PageId {
   SolutionsGaming = "solutions-gaming",
   SolutionsMinting = "solutions-minting",
   SolutionsLoyalty = "solutions-loyalty",
+  SolutionsMarketplace = "solutions-marketplace",
 
   // ---------------------------------------------------------------------------
   //  network pages
