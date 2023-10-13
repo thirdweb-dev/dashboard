@@ -150,8 +150,8 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/gamingkit"
           gradient="linear(to-r, #F213A4, #F97CCE)"
-          image={require("public/assets/product-pages/hero/desktop-hero-interact.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-interact.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-gaming.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-gaming.png")}
         />
 
         <LandingGridSection>
