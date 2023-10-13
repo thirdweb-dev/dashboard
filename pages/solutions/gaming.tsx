@@ -306,7 +306,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           title="Start building"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/sdk"
+          ctaLink="https://portal.thirdweb.com/gamingkit"
           gradient="linear(to-r, #F213A4, #F97CCE)"
         />
       </Container>

@@ -158,7 +158,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
           title="Start building"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/sdk"
+          ctaLink="https://portal.thirdweb.com/minting/getting-started/deploying-smart-contract"
           gradient="linear(to-r, #8E0EFF, #16bdf0)"
         />
       </Container>

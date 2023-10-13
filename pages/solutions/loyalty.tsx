@@ -307,7 +307,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           title="Start building"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/sdk"
+          ctaLink="https://blog.thirdweb.com/guides/loyalty-card-contract/"
           gradient="linear(to-r, #4830A4, #9786DF)"
         />
       </Container>
