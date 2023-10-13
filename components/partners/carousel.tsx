@@ -81,7 +81,7 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="rarible" />
         <PartnerLogo partner="fractal" />
         <PartnerLogo partner="buildspace" />
-        <PartnerLogo partner="aws" />      
+        <PartnerLogo partner="aws" />
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="paradigm" />
         <PartnerLogo partner="unlock" />
