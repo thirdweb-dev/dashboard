@@ -139,7 +139,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/solutions-pages/icons/icon-email-fee.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
               title="Gasless"
               description="Enable free/gasless mints using a Gasless Relayer."
             />
