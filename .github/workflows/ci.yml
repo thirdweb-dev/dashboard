@@ -32,6 +32,10 @@ jobs:
           node-version: ${{ matrix.node_version }}
           cache: "yarn"
 
+      # for testing we're also gonna setup bun
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+
       - name: Run CI
         run: |
           yarn install
