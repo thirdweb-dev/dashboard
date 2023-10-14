@@ -182,7 +182,7 @@ export enum PageId {
   SolutionsLoyalty = "solutions-loyalty",
   SolutionsMarketplace = "solutions-marketplace",
   SolutionsChains = "solutions-chains",
-  SolutionsAppChain = "solutions-app-chain",
+  SolutionsAppChainApi = "solutions-appchain-api",
   SolutionsWeb2Onboarding = "solutions-web2-onboarding",
 
   // ---------------------------------------------------------------------------

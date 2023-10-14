@@ -10,17 +10,17 @@ import { PageId } from "page-id";
 import { Card } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const TRACKING_CATEGORY = "chains-landing";
+const TRACKING_CATEGORY = "appchain-api-landing";
 
 const SELECTOR_ITEMS = [
   {
-    title: "For Chains",
+    title: "For Chains-as-a-service Providers",
     description:
-      "Enhance your developers' experience with building on your chain by providing access to dev tools across: contracts, wallets, payments, and infrastructure. Empower your developers to build production-ready web3 apps and games, faster.",
+      "Allow your appchain developers to programmatically add their subnets to thirdweb global chainlist to get instant access to thirdweb dev tools.",
     steps: [
-      "Contact us to get your chain approved to be added to thirdweb global chainlist.",
-      "Once added, a shareable dynamic landing page will be generated for your chain.",
-      "Subnet developers can easily deploy contracts to their subnet in just a few clicks and access SDKs to integrate contracts into their apps",
+      "Contact us to get all your subnet developers whitelisted (so that you can programmatically add their subnet to thirdweb global chainlist).",
+      "Once added, a shareable dynamic After subnet developers create their subnet on your chains-as-a-service platform, a dynamic landing page is generated with SDKs, contract deployment and infrastructure for their subnet.",
+      "Developers access landing page to deploy contracts to your chain and get access to SDKs to integrate contracts into their apps.",
     ],
     products: ["explore", "interact"],
   },
@@ -37,21 +37,21 @@ const SELECTOR_ITEMS = [
   },
 ];
 
-const SolutionsChains: ThirdwebNextPage = () => {
+const SolutionsAppChainApi: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "All-in-one dev tools for your chain",
+        title: "Instant dev tools for your appchain",
         description:
-          "Accelerate the growth of your chain by providing an all-in-one web3 development stack that allows your developers to build production-ready web3 apps and games.",
+          "Get instant access to a complete web3 development platform to build on your appchain with a simple API call.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/chains-solutions.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/appchain-api-solutions.png`,
               width: 1200,
               height: 630,
-              alt: "All-in-one dev tools for your chain",
+              alt: "Instant dev tools for your appchain",
             },
           ],
         },
@@ -64,15 +64,14 @@ const SolutionsChains: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHero
-          title="All-in-one dev tools"
-          titleWithGradient="for your chain"
-          subtitle="Accelerate the growth of your chain by providing an all-in-one web3 development stack that allows your developers to build production-ready web3 apps and games."
+          title="Instant dev tools"
+          titleWithGradient="for your appchain"
+          subtitle="Get instant access to a complete web3 development platform to build on your appchain with a simple API call."
           trackingCategory={TRACKING_CATEGORY}
-          gradient="linear(to-r, #F213A4, #F97CCE)"
-          image={require("public/assets/product-pages/hero/desktop-hero-marketplace.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-marketplace.png")}
-          noCta={true}
-          contactUsLink="https://docs.google.com/forms/d/e/1FAIpQLSfzwj6mr7mZjntv5C8HD9CfMXkIupuOqBSWa-XIWepJnnCEKg/viewform"
+          gradient="linear(to-r, #4830A4, #9786DF)"
+          image={require("public/assets/product-pages/hero/desktop-hero-appchain-api.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-appchain-api.png")}
+          noCta
         />
 
         <LandingGridSection>
@@ -83,11 +82,11 @@ const SolutionsChains: ThirdwebNextPage = () => {
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/icons/icon-ship.svg")}
-            title="Build faster"
+            title="Build Faster"
             description="Make it easier for developers to onboard onto your chain by providing an all-in-one developer tools, including: contracts, wallets, payments, and infrastructure."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
+            icon={require("public/assets/solutions-pages/icons/icon-dashboard.svg")}
             title="Developer-first experience"
             description="Offer your developers most intuitive SDKs detect extensions in your contracts to handle common contract operations for developers. Extensions also unlock Dashboard UI functionality and data feeds."
           />
@@ -117,32 +116,32 @@ const SolutionsChains: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/solutions-pages/icons/icon-dashboard.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-scale.svg")}
               title="Fully managed infrastructure"
               description="Fully managed infrastructure services in a single ecosystem that enables developers to build for scale."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/solutions-pages/icons/icon-smart-wallet.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-custom.svg")}
               title="Flexible wallet experiences"
               description="Onboard web2 and web3 users with fully customizable connect wallet components."
             />
           </Card>
         </LandingGridSection>
+
         <LandingEndCTA
           title="Start building"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          noCta={true}
-          contactUsLink="https://docs.google.com/forms/d/e/1FAIpQLSfzwj6mr7mZjntv5C8HD9CfMXkIupuOqBSWa-XIWepJnnCEKg/viewform"
-          gradient="linear(to-r, #F213A4, #F97CCE)"
+          noCta
+          gradient="linear(to-r, #4830A4, #9786DF)"
         />
       </Container>
     </LandingLayout>
   );
 };
 
-SolutionsChains.pageId = PageId.SolutionsChains;
+SolutionsAppChainApi.pageId = PageId.SolutionsAppChainApi;
 
-export default SolutionsChains;
+export default SolutionsAppChainApi;

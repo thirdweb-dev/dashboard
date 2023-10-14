@@ -12,7 +12,7 @@ interface LandingHeroProps {
   inPartnershipWith?: StaticImageData;
   trackingCategory: string;
   ctaText?: string;
-  ctaLink: string;
+  ctaLink?: string;
   gradient: string;
   image?: StaticImageData;
   mobileImage?: StaticImageData;
