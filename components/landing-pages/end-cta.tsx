@@ -11,6 +11,7 @@ interface LandingEndCTAProps {
   noCta?: boolean;
   contactUsLink?: string;
   noContactUs?: boolean;
+  contactUsTitle?: string;
   trackingCategory: string;
 }
 
@@ -23,6 +24,7 @@ export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   noCta,
   contactUsLink,
   noContactUs,
+  contactUsTitle,
   trackingCategory,
 }) => {
   return (
@@ -42,6 +44,7 @@ export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
             trackingCategory={trackingCategory}
             noCta={noCta}
             contactUsLink={contactUsLink}
+            contactUsTitle={contactUsTitle}
           />
         </Flex>
       </Flex>

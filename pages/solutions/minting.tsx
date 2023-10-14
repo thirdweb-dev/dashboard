@@ -161,6 +161,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/minting/getting-started/deploying-smart-contract"
           gradient="linear(to-r, #8E0EFF, #16bdf0)"
+          contactUsTitle="Book Demo"
         />
       </Container>
     </LandingLayout>

@@ -130,6 +130,7 @@ const SolutionsMarketplace: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/pre-built-contracts/marketplace"
           gradient="linear(to-r, #F213A4, #F97CCE)"
+          contactUsTitle="Book Demo"
         />
       </Container>
     </LandingLayout>

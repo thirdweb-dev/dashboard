@@ -310,6 +310,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://blog.thirdweb.com/guides/loyalty-card-contract/"
           gradient="linear(to-r, #4830A4, #9786DF)"
+          contactUsTitle="Book Demo"
         />
       </Container>
     </LandingLayout>
