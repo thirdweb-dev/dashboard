@@ -72,6 +72,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
           gradient="linear(to-r, #8E0EFF, #16bdf0)"
           image={require("public/assets/product-pages/hero/desktop-hero-minting.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-minting.png")}
+          contactUsTitle="Book Demo"
         />
 
         <LandingGridSection>

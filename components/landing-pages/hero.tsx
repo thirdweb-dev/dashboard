@@ -16,6 +16,9 @@ interface LandingHeroProps {
   gradient: string;
   image?: StaticImageData;
   mobileImage?: StaticImageData;
+  noCta?: boolean;
+  contactUsTitle?: string;
+  contactUsLink?: string;
 }
 
 export const LandingHero: React.FC<LandingHeroProps> = ({
@@ -29,6 +32,9 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
   gradient,
   image,
   mobileImage,
+  noCta,
+  contactUsTitle,
+  contactUsLink,
 }) => {
   return (
     <Flex
@@ -67,10 +73,12 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
             {subtitle}
           </Text>
           <LandingCTAButtons
+            noCta={noCta}
             ctaText={ctaText}
             ctaLink={ctaLink}
             trackingCategory={trackingCategory}
-            contactUsTitle="Book Demo"
+            contactUsTitle={contactUsTitle}
+            contactUsLink={contactUsLink}
           />
         </Flex>
       </Container>

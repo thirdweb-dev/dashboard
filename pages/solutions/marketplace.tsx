@@ -16,7 +16,7 @@ const SELECTOR_ITEMS = [
   {
     title: "Primary sales",
     description:
-      "Allow your users to list, buy, and sell items, e.g. digital assets or loyalty memberships..",
+      "Allow your users to list, buy, and sell items, e.g. digital assets or loyalty memberships.",
     steps: [
       "Deploy Marketplace contract from Explore to any EVM chain (900+ supported)",
       "Create an ecosystem for collectors to Configure Marketplace contract, e.g. % platform fee collected on any sale",
@@ -31,59 +31,9 @@ const SELECTOR_ITEMS = [
     steps: [
       "Deploy Marketplace contract from Explore to any EVM chain (900+ supported)",
       "Configure Marketplace contract, e.g. % platform fee collected on any sale",
-      "Integrate Marketplace contract into your apps and games using SDK in multiple languages.y",
+      "Integrate Marketplace contract into your apps and games using SDK in multiple languages.",
     ],
     products: ["explore", "interact"],
-  },
-  {
-    title: "Subscription and All Access passes",
-    description:
-      "Create digital loyalty passes that provide access to early gameplay content, exclusive NFT drops, and in-game boosts",
-    steps: [
-      "User selects a digital loyalty pass NFT when they login",
-      "Loyalty pass is used to unlock in-game experiences",
-      "User collects rewards to upgrade their loyalty pass",
-    ],
-    products: ["explore", "interact", "nft-checkout"],
-  },
-  /* {
-    title: "Add web3 to web2 game",
-    description: "Easily integrate new web3 features into your existing application infrastructure using reusable UI components, SDK's and minting API's.",
-    steps: ["", "", ""],
-    products: ["connect", "auth", "interact", "engine", "sponsored-transactions", "nft-checkout"],
-  }, */
-  {
-    title: "Interoperable game ecosystems",
-    description:
-      "Give a unified interface to users to login across your gaming ecosystem with the flexibility to import/export their digital assets",
-    steps: [
-      "User logs in using existing game login",
-      "Game links User's gaming wallet to game issued Smart Wallet",
-      "User selects assets they want to import and gives game scoped access to use assets for duration of game play",
-    ],
-    products: ["auth", "smart-wallet", "engine"],
-  },
-  {
-    title: "Game appchain",
-    description:
-      "Connect seamlessly to any EVM compatible L1, L2 blockchains as well as build your game on your own app chain.",
-    steps: [
-      "Game devs can add their app chain to thirdweb Dashboard and SDK's",
-      "An app chain landing page is generated with links to SDKs, contract deployment and infrastructure for their app chain",
-      "Developers can easily deploy contracts to their app chain in just a few clicks and get code snippets to integrate contracts into their games",
-    ],
-    products: ["rpc-edge", "explore", "interact", "engine"],
-  },
-  {
-    title: "Marketplace for digital assets",
-    description:
-      "Generate revenue through the launch of your own on-chain marketplace",
-    steps: [
-      "Deploy marketplace contract",
-      "Set % platform fee (% collected by game dev on every in-game asset sale, e.g. when buyer buys tokens from listing)",
-      "Players can list and trade NFTs for sale at a fixed price",
-    ],
-    products: ["explore", "interact", "nft-checkout", "engine", "storage"],
   },
 ];
 
@@ -122,6 +72,7 @@ const SolutionsMarketplace: ThirdwebNextPage = () => {
           gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-marketplace.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-marketplace.png")}
+          contactUsTitle="Book Demo"
         />
 
         <LandingGridSection>
@@ -147,7 +98,7 @@ const SolutionsMarketplace: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-contract.svg")}
               title="Marketplace Contract"
-              description="thirdweb's marketplace contract is a dynamic contract that allows the marketplace to be upgraded over time with new functionality.."
+              description="thirdweb's marketplace contract is a dynamic contract that allows the marketplace to be upgraded over time with new functionality."
             />
           </Card>
           <Card p={8}>

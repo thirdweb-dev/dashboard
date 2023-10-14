@@ -233,6 +233,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           gradient="linear(to-r, #4830A4, #9786DF)"
           image={require("public/assets/product-pages/hero/desktop-hero-loyalty.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-loyalty.png")}
+          contactUsTitle="Book Demo"
         />
 
         <LandingGridSection>
