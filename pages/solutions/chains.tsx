@@ -69,8 +69,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
           subtitle="Accelerate the growth of your chain by providing an all-in-one web3 development stack that allows your developers to build production-ready web3 apps and games."
           trackingCategory={TRACKING_CATEGORY}
           gradient="linear(to-r, #F213A4, #F97CCE)"
-          image={require("public/assets/product-pages/hero/desktop-hero-marketplace.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-marketplace.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-chains.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-chains.png")}
           noCta={true}
           contactUsLink="https://docs.google.com/forms/d/e/1FAIpQLSfzwj6mr7mZjntv5C8HD9CfMXkIupuOqBSWa-XIWepJnnCEKg/viewform"
         />

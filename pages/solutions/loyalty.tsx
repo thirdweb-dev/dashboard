@@ -50,6 +50,12 @@ const GUIDES = [
       "https://blog.thirdweb.com/content/images/size/w2000/2022/08/thumbnail-3.png",
     link: "https://blog.thirdweb.com/guides/accept-credit-card-payments/",
   },
+  {
+    title: "Getting Started with Paper Wallet",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-Add-Paper-Wallet-to-your-Connect-Wallet-Button.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-paper-wallet/",
+  },
 ];
 
 const SELECTOR_ITEMS = [

@@ -110,7 +110,7 @@ const SolutionsMarketplace: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/solutions-pages/icons/icon-lib.svg")}
+              icon={require("public/assets/solutions-pages/icons/icon-library.svg")}
               title="Explore"
               description="Browse smart contracts from the world's best engineers & protocols, for every use case — and deploy them to any EVM chain."
             />
