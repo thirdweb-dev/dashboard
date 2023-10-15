@@ -3174,17 +3174,17 @@
     "@tanstack/query-core" "4.36.1"
     use-sync-external-store "^1.2.0"
 
-"@tanstack/react-table@8.9.3":
-  version "8.9.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.9.3.tgz#03a52e9e15f65c82a8c697a445c42bfca0c5cfc4"
-  integrity sha512-Ng9rdm3JPoSCi6cVZvANsYnF+UoGVRxflMb270tVj0+LjeT/ZtZ9ckxF6oLPLcKesza6VKBqtdF9mQ+vaz24Aw==
+"@tanstack/react-table@^8.10.7":
+  version "8.10.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.10.7.tgz#733f4bee8cf5aa19582f944dd0fd3224b21e8c94"
+  integrity sha512-bXhjA7xsTcsW8JPTTYlUg/FuBpn8MNjiEPhkNhIGCUR6iRQM2+WEco4OBpvDeVcR9SE+bmWLzdfiY7bCbCSVuA==
   dependencies:
-    "@tanstack/table-core" "8.9.3"
+    "@tanstack/table-core" "8.10.7"
 
-"@tanstack/table-core@8.9.3":
-  version "8.9.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.3.tgz#991da6b015f6200fdc841c48048bee5e197f6a46"
-  integrity sha512-NpHZBoHTfqyJk0m/s/+CSuAiwtebhYK90mDuf5eylTvgViNOujiaOaxNDxJkQQAsVvHWZftUGAx1EfO1rkKtLg==
+"@tanstack/table-core@8.10.7":
+  version "8.10.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.10.7.tgz#577e8a635048875de4c9d6d6a3c21d26ff9f9d08"
+  integrity sha512-KQk5OMg5OH6rmbHZxuNROvdI+hKDIUxANaHlV+dPlNN7ED3qYQ/WkpY2qlXww1SIdeMlkIhpN/2L00rof0fXFw==
 
 "@thirdweb-dev/auth@4.0.3", "@thirdweb-dev/auth@^4.0.3":
   version "4.0.3"
@@ -4237,21 +4237,10 @@ agentkeepalive@^4.3.0:
   dependencies:
     humanize-ms "^1.2.1"
 
-airtable@*:
+airtable@*, airtable@^0.12.2:
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.12.2.tgz#e53e66db86744f9bc684faa58881d6c9c12f0e6f"
   integrity sha512-HS3VytUBTKj8A0vPl7DDr5p/w3IOGv6RXL0fv7eczOWAtj9Xe8ri4TAiZRXoOyo+Z/COADCj+oARFenbxhmkIg==
-  dependencies:
-    "@types/node" ">=8.0.0 <15"
-    abort-controller "^3.0.0"
-    abortcontroller-polyfill "^1.4.0"
-    lodash "^4.17.21"
-    node-fetch "^2.6.7"
-
-airtable@^0.11.6:
-  version "0.11.6"
-  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.6.tgz#3b90f9c671ee93c4ad647eb131d630dea9f1f84a"
-  integrity sha512-Na67L2TO1DflIJ1yOGhQG5ilMfL2beHpsR+NW/jhaYOa4QcoxZOtDFs08cpSd1tBMsLpz5/rrz/VMX/pGL/now==
   dependencies:
     "@types/node" ">=8.0.0 <15"
     abort-controller "^3.0.0"
