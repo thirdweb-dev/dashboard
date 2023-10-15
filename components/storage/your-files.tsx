@@ -120,7 +120,7 @@ const columns = [
   }),
   columnHelper.accessor((row) => toSize(BigInt(row.fileSizeBytes), "MB"), {
     header: "File Size",
-    cell: ({ cell }) => <Text>{cell.getValue()}</Text>,
+    cell: ({ cell }) => <Text fontFamily="mono">{cell.getValue()}</Text>,
   }),
   columnHelper.accessor((row) => row.pinnedAt, {
     header: "Pinned",
@@ -137,7 +137,7 @@ const columns = [
             </Card>
           }
         >
-          {`${formatDistance(date, new Date())} ago`}
+          <Text>{formatDistance(date, new Date())} ago</Text>
         </Tooltip>
       );
     },
