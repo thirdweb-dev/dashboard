@@ -101,10 +101,6 @@ const columnHelper = createColumnHelper<PinnedFile>();
 
 const columns = [
   columnHelper.accessor((row) => row.ipfsHash, {
-    id: "file_preview",
-    header: "",
-  }),
-  columnHelper.accessor((row) => row.ipfsHash, {
     header: "IPFS Hash (CID)",
     cell: ({ cell }) => {
       const value = cell.getValue();
