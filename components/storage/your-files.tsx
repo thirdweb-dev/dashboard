@@ -1,18 +1,14 @@
 import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { Center, Flex, Tooltip } from "@chakra-ui/react";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import { TWTable } from "components/shared/TWTable";
 import { DASHBOARD_STORAGE_URL } from "lib/sdk";
 import { Button, Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { formatDistance } from "date-fns";
-import { useMemo } from "react";
+import { useCallback, useState } from "react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { toSize } from "utils/number";
+import { TWQueryTable } from "components/shared/TWQueryTable";
 
 export interface PinnedFilesResponse {
   result: PinnedFilesResult;
@@ -20,7 +16,6 @@ export interface PinnedFilesResponse {
 
 export interface PinnedFilesResult {
   pinnedFiles: PinnedFile[];
-  cursor: string;
   count: number;
 }
 
@@ -33,17 +28,29 @@ export interface PinnedFile {
 // TODO: move to hooks file
 const PINNED_FILES_QUERY_KEY_ROOT = "pinned-files";
 
-const PAGE_SIZE = 50;
-function useAllPinnedFilesQuery() {
+const DEFAULT_PAGE_SIZE = 50;
+function usePinnedFilesQuery({
+  page = 0,
+  pageSize = DEFAULT_PAGE_SIZE,
+}: {
+  page: number;
+  pageSize: number;
+}) {
   const user = useLoggedInUser();
   const { token } = useApiAuthToken();
 
-  return useInfiniteQuery({
+  const offset = page * pageSize;
+
+  return useQuery({
     queryKey: [
       PINNED_FILES_QUERY_KEY_ROOT,
-      { userAddress: user.user?.address, __page_size__: PAGE_SIZE },
+      {
+        userAddress: user.user?.address,
+        __page_size__: pageSize,
+        __offset__: offset,
+      },
     ],
-    queryFn: async ({ pageParam }) => {
+    queryFn: async () => {
       if (!user.isLoggedIn) {
         throw new Error("User is not logged in");
       }
@@ -51,8 +58,8 @@ function useAllPinnedFilesQuery() {
         throw new Error("No token");
       }
       const res = await fetch(
-        `${DASHBOARD_STORAGE_URL}/ipfs/pinned?limit=${PAGE_SIZE}${
-          pageParam ? `&cursor=${pageParam}` : ``
+        `${DASHBOARD_STORAGE_URL}/ipfs/pinned?limit=${pageSize}${
+          offset ? `&offset=${offset}` : ``
         }`,
         {
           headers: {
@@ -62,11 +69,9 @@ function useAllPinnedFilesQuery() {
       );
       return (await res.json()) as PinnedFilesResponse;
     },
-    getNextPageParam: (lastPage) =>
-      // there is only a next page cursor if the last page was full && there is a cursor
-      lastPage.result.pinnedFiles.length === PAGE_SIZE &&
-      lastPage.result.cursor,
     enabled: user.isLoggedIn && !!user.user?.address && !!token,
+    // keep the previous data when fetching new data
+    keepPreviousData: true,
   });
 }
 
@@ -129,6 +134,7 @@ const columns = [
       return (
         <Tooltip
           p={0}
+          shouldWrapChildren
           bg="transparent"
           boxShadow="none"
           label={
@@ -165,24 +171,20 @@ const UnpinButton: React.FC<{ cid: string }> = ({ cid }) => {
 
 export const YourFilesSection: React.FC = () => {
   const user = useLoggedInUser();
-  const {
-    data,
-    isLoading,
-    isFetched,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useAllPinnedFilesQuery();
+  const [page, setPage] = useState(0);
 
-  const mergedPages = useMemo(
-    () =>
-      data?.pages.reduce(
-        (acc, page) => [...acc, ...page.result.pinnedFiles],
-        [] as PinnedFile[],
-      ),
-    [data?.pages],
+  const query = usePinnedFilesQuery({
+    page,
+    pageSize: DEFAULT_PAGE_SIZE,
+  });
+  const selectData = useCallback(
+    (data?: PinnedFilesResponse) => data?.result.pinnedFiles || [],
+    [],
   );
-
+  const selectTotalCount = useCallback(
+    (data?: PinnedFilesResponse) => data?.result.count || 0,
+    [],
+  );
   return (
     <Flex flexDir="column" w="full" gap={4}>
       <Heading size="title.md" as="h2">
@@ -190,27 +192,18 @@ export const YourFilesSection: React.FC = () => {
       </Heading>
 
       {user.isLoggedIn ? (
-        <>
-          <TWTable
-            title="file"
-            data={mergedPages || []}
-            columns={columns}
-            isLoading={isLoading}
-            isFetched={isFetched}
-          />
-          {hasNextPage && (
-            <Center>
-              <Button
-                isLoading={isFetchingNextPage}
-                onClick={() => fetchNextPage()}
-                size="sm"
-                variant="outline"
-              >
-                Load more
-              </Button>
-            </Center>
-          )}
-        </>
+        <TWQueryTable
+          title="file"
+          query={query}
+          columns={columns}
+          selectData={selectData}
+          pagination={{
+            page,
+            setPage,
+            pageSize: DEFAULT_PAGE_SIZE,
+            selectTotalCount,
+          }}
+        />
       ) : (
         <Card>
           <Center>
