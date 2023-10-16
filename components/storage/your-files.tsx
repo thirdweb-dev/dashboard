@@ -26,7 +26,7 @@ export interface PinnedFile {
 }
 
 // TODO: move to hooks file
-const PINNED_FILES_QUERY_KEY_ROOT = "pinned-files";
+export const PINNED_FILES_QUERY_KEY_ROOT = "pinned-files";
 
 const DEFAULT_PAGE_SIZE = 50;
 function usePinnedFilesQuery({
