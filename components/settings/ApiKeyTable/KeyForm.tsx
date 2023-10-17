@@ -84,6 +84,16 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
     isEditing ? "keys" : "name",
   );
   const [domainsFieldActive, setDomainsFieldActive] = useState(true);
+  const [ewCustomAuthActive, setEWCustomAuthActive] = useState(false);
+
+
+  const getCustomAuthToggle = (idx: number) => {
+    return () => {
+      form.setValue(`services.${idx}.customAuthentication`, undefined);
+      form.clearErrors(`services.${idx}.customAuthentication`);
+      setEWCustomAuthActive(prev => !prev);
+    }
+  }
 
   const enabledServices =
     form
@@ -423,6 +433,87 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         </FormErrorMessage>
                       )}
                     </FormControl>
+                    {ewCustomAuthActive && (
+                      <>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>Custom JSON Web Token</FormLabel>
+                        </FormControl>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.jwksUri`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>JWKS URI</FormLabel>
+                          <Input
+                            autoFocus
+                            placeholder="https://example.com/.well-known/jwks.json"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.jwksUri`)}
+                          />
+                          {
+                            !form.getFieldState(`services.${idx}.customAuthentication.jwksUri`, form.formState).error ?
+                              (<FormHelperText>
+                                Enter the URI of the JWKS
+                              </FormHelperText>) :
+                              (<FormErrorMessage>
+                                {form.getFieldState(`services.${idx}.customAuthentication.jwksUri`, form.formState).error?.message}
+                              </FormErrorMessage>
+                              )
+                          }
+                        </FormControl>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.aud`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>AUD Value</FormLabel>
+                          <Input
+                            placeholder="AUD"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.aud`)}
+                          />
+                          {
+                            !form.getFieldState(`services.${idx}.customAuthentication.aud`, form.formState).error ?
+                              (<FormHelperText>
+                                Enter the audience claim for the JWT
+                              </FormHelperText>) :
+                              (<FormErrorMessage>
+                                {form.getFieldState(`services.${idx}.customAuthentication.aud`, form.formState).error?.message}
+                              </FormErrorMessage>)
+                          }
+                        </FormControl>
+                      </>
+                    )
+                    }
+                    <Button
+                      onClick={getCustomAuthToggle(idx)}
+                      variant='link'
+                      colorScheme='brand'
+                      size='sm'
+                      alignSelf='self-end'
+                    >
+                      {
+                        ewCustomAuthActive
+                          ? 'Use ThirdWeb authentication →'
+                          : 'Use my own authentication →'
+                      }
+                    </Button>
+
                   </VStack>
                 )}
 

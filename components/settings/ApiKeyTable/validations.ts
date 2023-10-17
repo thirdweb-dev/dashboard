@@ -3,6 +3,24 @@ import { RE_BUNDLE_ID, RE_DOMAIN } from "utils/regex";
 import { validStrList } from "utils/validations";
 import { z } from "zod";
 
+
+const customAuthenticationSchema = z.object({
+  jwksUri: z
+    .string()
+    .refine(
+      (str) => {
+        try {
+          return Boolean(new URL(str));
+        } catch (e) {
+          return false;
+        }
+      },
+      "Invalid JWKS URI"
+    ),
+  /* TODO: should this allow list of strings ? */
+  aud: z.string().min(1, { message: "Missing AUD value" }),
+});
+
 export const apiKeyValidationSchema = z.object({
   name: z
     .string()
@@ -48,6 +66,7 @@ export const apiKeyValidationSchema = z.object({
             .enum(["USER_MANAGED", "AWS_MANAGED"])
             .optional(),
           actions: z.array(z.string()),
+          customAuthentication: customAuthenticationSchema.optional()
         }),
       )
       .optional(),

@@ -38,6 +38,7 @@ export const CreateApiKeyButton: React.FC = () => {
             srv.name === "embeddedWallets" ? "AWS_MANAGED" : undefined,
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
+          customAuthentication: undefined
         };
       }),
     },
@@ -70,7 +71,7 @@ export const CreateApiKeyButton: React.FC = () => {
             recoveryShareManagement: srv.recoveryShareManagement,
           })),
       };
-
+      
       trackEvent({
         category: "api-keys",
         action: "create",
