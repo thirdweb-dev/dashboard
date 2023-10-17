@@ -140,6 +140,16 @@ export interface UsageBillableByService {
   };
 }
 
+export interface WalletStats {
+  timeSeries: {
+    dayTime: string;
+    clientId: string;
+    walletType: string;
+    totalWallets: number;
+    uniqueWallets: number;
+  }[];
+}
+
 export function useAccount() {
   const { user, isLoggedIn } = useUser();
 
@@ -187,6 +197,70 @@ export function useAccountUsage() {
       return json.data as UsageBillableByService;
     },
     { enabled: !!user?.address && isLoggedIn },
+  );
+}
+
+const DEBUG_DATA = {
+  timeSeries: [
+    {
+      dayTime: "2023-10-16",
+      walletType: "metamask",
+      totalWallets: 3,
+      uniqueWallets: 1,
+    },
+    {
+      dayTime: "2023-10-16",
+      walletType: "rainbow",
+      totalWallets: 5,
+      uniqueWallets: 5,
+    },
+    {
+      dayTime: "2023-10-17",
+      walletType: "metamask",
+      totalWallets: 3,
+      uniqueWallets: 1,
+    },
+    {
+      dayTime: "2023-10-17",
+      walletType: "rainbow",
+      totalWallets: 5,
+      uniqueWallets: 5,
+    },
+    {
+      dayTime: "2023-10-17",
+      walletType: "coinbase",
+      totalWallets: 9,
+      uniqueWallets: 7,
+    },
+  ],
+};
+
+export function useWalletStats(clientId: string | undefined) {
+  const { user, isLoggedIn } = useUser();
+
+  return useQuery(
+    accountKeys.walletStats(user?.address as string),
+    async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/account/wallets?clientId=${clientId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      // return json.data as WalletStats;
+      return DEBUG_DATA;
+    },
+    { enabled: !!clientId && !!user?.address && isLoggedIn },
   );
 }
 
