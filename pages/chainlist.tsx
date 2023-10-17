@@ -247,7 +247,7 @@ interface DashboardRPCProps {
 // TODO replace this with proper SSR partial rendering of chains and paginate on the frontend
 async function getAllPaginatedChains(
   chains: Chain[] = [],
-  pathname = "/v1/chains",
+  pathname = "/v1/chains?limit=100",
 ): Promise<Chain[]> {
   const url = new URL(THIRDWEB_API_HOST);
   url.pathname = pathname;
@@ -276,7 +276,7 @@ export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
       symbol: chain.nativeCurrency.symbol,
       hasRpc:
         "rpc" in chain &&
-        chain.rpc.findIndex((c) => c.indexOf("thirdweb.com") > -1) > -1,
+        chain.rpc.findIndex((c) => c.indexOf(".thirdweb.com") > -1) > -1,
     }));
   return {
     revalidate: 60,
