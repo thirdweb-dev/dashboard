@@ -63,6 +63,7 @@ export const apiKeyValidationSchema = z.object({
               message: "Some of the addresses are invalid",
             }),
           recoveryShareManagement: z
+            //  This should be the same as @paperxyz/embedded-wallet-service-sdk RecoveryShareManagement enum
             .enum(["USER_MANAGED", "AWS_MANAGED"])
             .optional(),
           actions: z.array(z.string()),
