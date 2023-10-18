@@ -203,7 +203,7 @@ export function useAccountUsage() {
 }
 
 export function useWalletStats(clientId: string | undefined) {
-  const { user, isLoggedIn } = useUser();
+  const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
     accountKeys.walletStats(user?.address as string, clientId as string),
