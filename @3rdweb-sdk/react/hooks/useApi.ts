@@ -642,12 +642,15 @@ async function fetchAuthToken(
   return promise;
 }
 
+// keep the promise around so we don't fetch it multiple times even if the hook gets called from different places
+let inflightPromise: Promise<string> | null = null;
 export function useApiAuthToken() {
   const { user } = useLoggedInUser();
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   // not using a query because we don't want to store this in any cache
+
   useEffect(() => {
     let mounted = true;
     setError(null);
@@ -659,7 +662,11 @@ export function useApiAuthToken() {
 
     const abortController = new AbortController();
 
-    fetchAuthToken(user.address, abortController)
+    if (!inflightPromise) {
+      inflightPromise = fetchAuthToken(user.address, abortController);
+    }
+
+    inflightPromise
       .then((t) => {
         if (mounted) {
           setToken(t);
@@ -672,15 +679,17 @@ export function useApiAuthToken() {
       })
       .finally(() => {
         if (mounted) {
+          inflightPromise = null;
           setIsLoading(false);
         }
       });
 
     return () => {
-      // cancel the fetch
-      abortController.abort();
-      setToken(null);
       mounted = false;
+      // cancel the fetch if it's still in flight
+      abortController.abort();
+      inflightPromise = null;
+      setToken(null);
     };
   }, [user?.address]);
 

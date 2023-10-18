@@ -4,7 +4,6 @@ import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
-import { YourFilesSection } from "components/storage/your-files";
 import { InfrastructureSidebar } from "core-ui/sidebar/infrastructure";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
@@ -68,7 +67,8 @@ const DashboardStorage: ThirdwebNextPage = () => {
               <IpfsUploadDropzone />
             </Flex>
           </Flex>
-          <YourFilesSection />
+          {/* TODO: uncomment this when API is ready */}
+          {/* <YourFilesSection /> */}
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
               Gateway
