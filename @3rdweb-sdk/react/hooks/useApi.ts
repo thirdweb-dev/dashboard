@@ -57,6 +57,11 @@ export type ApiKeyService = {
   name: string;
   targetAddresses: string[];
   actions: string[];
+  recoveryShareManagement?: string;
+  customAuthentication?: {
+    jwksUri: string;
+    aud: string;
+  };
 };
 
 export type ApiKey = {
@@ -365,6 +370,7 @@ export function useApiKeys() {
         },
       });
       const json = await res.json();
+      console.log(`[TEST]: returned api keys: ${JSON.stringify(json)}`);
 
       if (json.error) {
         throw new Error(json.message);

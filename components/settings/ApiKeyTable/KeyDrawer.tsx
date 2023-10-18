@@ -58,6 +58,8 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
             : "",
           enabled: !!existingService,
           actions: existingService?.actions || [],
+          recoveryShareManagement: existingService?.recoveryShareManagement,
+          customAuthentication: existingService?.customAuthentication
         };
       }),
     },

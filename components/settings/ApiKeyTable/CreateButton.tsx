@@ -45,6 +45,7 @@ export const CreateApiKeyButton: React.FC = () => {
   });
 
   const createKeyMutation = useCreateApiKey();
+
   const { onSuccess, onError } = useTxNotifications(
     "API key created",
     "Failed to create API key",
@@ -69,9 +70,10 @@ export const CreateApiKeyButton: React.FC = () => {
             ...srv,
             targetAddresses: toArrFromList(srv.targetAddresses),
             recoveryShareManagement: srv.recoveryShareManagement,
+            customAuthentication: srv.customAuthentication
           })),
       };
-      
+
       trackEvent({
         category: "api-keys",
         action: "create",
