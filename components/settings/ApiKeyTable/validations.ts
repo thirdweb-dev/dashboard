@@ -5,6 +5,7 @@ import { z } from "zod";
 
 
 const customAuthenticationSchema = z.object({
+  active: z.boolean(),
   jwksUri: z
     .string()
     .refine(

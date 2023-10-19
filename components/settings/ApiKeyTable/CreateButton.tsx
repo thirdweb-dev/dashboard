@@ -35,7 +35,7 @@ export const CreateApiKeyButton: React.FC = () => {
           name: srv.name,
           targetAddresses: "",
           recoveryShareManagement:
-            srv.name === "embeddedWallets" ? "AWS_MANAGED" : undefined,
+            srv.name === "embeddedWallets" ? "USER_MANAGED" : undefined,
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
           customAuthentication: undefined
@@ -70,7 +70,10 @@ export const CreateApiKeyButton: React.FC = () => {
             ...srv,
             targetAddresses: toArrFromList(srv.targetAddresses),
             recoveryShareManagement: srv.recoveryShareManagement,
-            customAuthentication: srv.customAuthentication
+            customAuthentication: srv.customAuthentication?.active ? {
+              jwksUri: srv.customAuthentication?.jwksUri,
+              aud: srv.customAuthentication?.aud
+            } : undefined
           })),
       };
 
