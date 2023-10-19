@@ -45,8 +45,11 @@ export const Onboarding: React.FC = () => {
         },
       });
     } else if (state === "confirming") {
-      const newState =
-        account.status === "validPayment" ? "skipped" : "billing";
+      const newState = ["validPayment", "paymentVerification"].includes(
+        account.status,
+      )
+        ? "skipped"
+        : "billing";
       setState(newState);
 
       trackEvent({
@@ -74,12 +77,11 @@ export const Onboarding: React.FC = () => {
       return;
     }
 
-    // user has never seen onboarding screen or
-    // has set email but hasn't confirmed it (pre-email confirmation users)
-    if (!account.onboardedAt || (account.email && !account.emailConfirmedAt)) {
+    // user hasn't confirmed email
+    if (!account.emailConfirmedAt) {
       setState("onboarding");
     }
-    // user has changed email (via account settings) and needs to confirm only
+    // user has changed email and needs to confirm
     else if (account.unconfirmedEmail) {
       setState("confirming");
     }
@@ -87,7 +89,7 @@ export const Onboarding: React.FC = () => {
     else if (
       account.email &&
       !account.onboardSkipped &&
-      account.status !== "validPayment"
+      !["validPayment", "paymentVerification"].includes(account.status)
     ) {
       setState("billing");
     }
@@ -104,11 +106,7 @@ export const Onboarding: React.FC = () => {
   return (
     <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
       {state === "onboarding" && (
-        <OnboardingGeneral
-          account={account}
-          onSave={handleSave}
-          onCancel={() => setState("skipped")}
-        />
+        <OnboardingGeneral account={account} onSave={handleSave} />
       )}
       {state === "confirming" && (
         <OnboardingConfirmEmail
