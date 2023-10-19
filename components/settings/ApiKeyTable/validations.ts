@@ -4,23 +4,27 @@ import { validStrList } from "utils/validations";
 import { z } from "zod";
 
 
-const customAuthenticationSchema = z.object({
-  active: z.boolean(),
-  jwksUri: z
-    .string()
-    .refine(
-      (str) => {
-        try {
-          return Boolean(new URL(str));
-        } catch (e) {
-          return false;
-        }
-      },
-      "Invalid JWKS URI"
-    ),
-  /* TODO: should this allow list of strings ? */
+const activeCustomAuthenticationSchema = z.object({
+  active: z.literal(true),
+  jwksUri: z.string().refine(
+    (str) => {
+      try {
+        return Boolean(new URL(str));
+      } catch (e) {
+        return false;
+      }
+    },
+    "Invalid JWKS URI"
+  ),
   aud: z.string().min(1, { message: "Missing AUD value" }),
 });
+
+const inactiveCustomAuthenticationSchema = z.object({
+  active: z.literal(false),
+  jwksUri: z.string().optional(),
+  aud: z.string().optional(),
+});
+
 
 export const apiKeyValidationSchema = z.object({
   name: z
@@ -68,7 +72,10 @@ export const apiKeyValidationSchema = z.object({
             .enum(["USER_MANAGED", "AWS_MANAGED"])
             .optional(),
           actions: z.array(z.string()),
-          customAuthentication: customAuthenticationSchema.optional()
+          customAuthentication: z.union([
+            activeCustomAuthenticationSchema,
+            inactiveCustomAuthenticationSchema
+          ]).optional()
         }),
       )
       .optional(),

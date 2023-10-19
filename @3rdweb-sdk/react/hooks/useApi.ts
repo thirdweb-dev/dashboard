@@ -370,7 +370,6 @@ export function useApiKeys() {
         },
       });
       const json = await res.json();
-      console.log(`[TEST]: returned api keys: ${JSON.stringify(json)}`);
 
       if (json.error) {
         throw new Error(json.message);

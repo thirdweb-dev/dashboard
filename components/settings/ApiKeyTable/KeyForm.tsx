@@ -93,12 +93,12 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
     if (!account) {
       return false;
     }
-    const isIsaac = account.creatorWalletAddress.toLowerCase() === '0xeBfb127320fcBe8e07E5A03a4BFb782219f4735B'.toLowerCase();
+
     const isThirdwebEmail = account.email && (account.email.split("@")[1] == "thirdweb.com");
     const isInternal = account.isStaff;
     const isEnterprise = account.plan === "enterprise"; // TODO: check this value
 
-    return isIsaac || isThirdwebEmail || isInternal || isEnterprise;
+    return isThirdwebEmail || isInternal || isEnterprise;
   }, [account]);
 
   const enabledServices =
