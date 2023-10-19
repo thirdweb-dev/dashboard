@@ -60,20 +60,19 @@ export const PartnerCarousel: React.FC = () => {
     >
       {/* desktop - 1 row with all logos */}
       <Marquee display={{ base: "none", lg: "flex" }}>
+        <PartnerLogo partner="coinbase" />
+        <PartnerLogo partner="polygon" />
         <PartnerLogo partner="rarible" />
-        <PartnerLogo partner="fractal" />
-        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="aws" />
+        <PartnerLogo partner="fractal" />
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="animoca" />
         <PartnerLogo partner="pixels" />
         <PartnerLogo partner="nyfw" />
+        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="gala_games" />
         <PartnerLogo partner="mirror" />
-        <PartnerLogo partner="heroic_story" />
         <PartnerLogo partner="layer3" />
-        <PartnerLogo partner="paradigm" />
-        <PartnerLogo partner="unlock" />
       </Marquee>
 
       {/* mobile - 2 rows with logos split in two rows */}
