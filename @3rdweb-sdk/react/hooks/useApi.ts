@@ -28,9 +28,9 @@ export type Account = {
   email?: string;
   currentBillingPeriodStartsAt: string;
   currentBillingPeriodEndsAt: string;
-  onboardedAt?: string;
   emailConfirmedAt?: string;
   unconfirmedEmail?: string;
+  stripePaymentActionUrl?: string;
   onboardSkipped?: boolean;
   notificationPreferences?: {
     billing: "email" | "none";
@@ -142,6 +142,16 @@ export interface UsageBillableByService {
   };
 }
 
+export interface WalletStats {
+  timeSeries: {
+    dayTime: string;
+    clientId: string;
+    walletType: string;
+    totalWallets: number;
+    uniqueWallets: number;
+  }[];
+}
+
 export function useAccount() {
   const { user, isLoggedIn } = useLoggedInUser();
 
@@ -189,6 +199,34 @@ export function useAccountUsage() {
       return json.data as UsageBillableByService;
     },
     { enabled: !!user?.address && isLoggedIn },
+  );
+}
+
+export function useWalletStats(clientId: string | undefined) {
+  const { user, isLoggedIn } = useLoggedInUser();
+
+  return useQuery(
+    accountKeys.walletStats(user?.address as string, clientId as string),
+    async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/account/wallets?clientId=${clientId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data as WalletStats;
+    },
+    { enabled: !!clientId && !!user?.address && isLoggedIn },
   );
 }
 
@@ -299,6 +337,43 @@ export function useConfirmEmail() {
         },
         body: JSON.stringify(input),
       });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          accountKeys.me(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
+export function useResendEmailConfirmation() {
+  const { user } = useLoggedInUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async () => {
+      invariant(user?.address, "walletAddress is required");
+
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/account/resendEmailConfirmation`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        },
+      );
       const json = await res.json();
 
       if (json.error) {
