@@ -250,7 +250,6 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                       solidityType={item.type}
                       solidityComponents={item.components}
                       {...form.register(`params.${index}.value`)}
-                      functionName={abiFunction?.name}
                     />
                     <FormErrorMessage>
                       {
