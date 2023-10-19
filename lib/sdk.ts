@@ -1,13 +1,8 @@
 import { getAbsoluteUrl } from "./vercel-utils";
-import {
-  ThirdwebSDK as EVMThirdwebSDK,
-  SDKOptions,
-} from "@thirdweb-dev/sdk/evm";
-import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
+import { ThirdwebSDK as EVMThirdwebSDK, SDKOptions } from "@thirdweb-dev/sdk";
 import {
   IStorageDownloader,
   StorageDownloader,
-  IpfsUploader,
   ThirdwebStorage,
   GatewayUrls,
   SingleDownloadOptions,
@@ -15,10 +10,8 @@ import {
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
   DASHBOARD_THIRDWEB_SECRET_KEY,
-  getSOLRPC,
 } from "constants/rpc";
 import type { Signer } from "ethers";
-import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 // use env var to set IPFS gateway or fallback to ipfscdn.io
 export const IPFS_GATEWAY_URL =
@@ -88,7 +81,7 @@ class SpecialDownloader implements IStorageDownloader {
   }
 }
 
-const DASHBOARD_UPLOAD_URL =
+export const DASHBOARD_STORAGE_URL =
   process.env.NEXT_PUBLIC_DASHBOARD_UPLOAD_SERVER ||
   "https://storage.thirdweb.com";
 
@@ -96,7 +89,7 @@ export const StorageSingleton = new ThirdwebStorage({
   gatewayUrls: [IPFS_GATEWAY_URL],
   clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
   secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-  uploadServerUrl: DASHBOARD_UPLOAD_URL,
+  uploadServerUrl: DASHBOARD_STORAGE_URL,
   downloader: new SpecialDownloader(),
 });
 
@@ -138,34 +131,5 @@ export function getEVMThirdwebSDK(
     sdk.updateSignerOrProvider(signer);
   }
 
-  return sdk;
-}
-
-// SOLANA SDK
-const SOL_SDK_MAP = new Map<DashboardSolanaNetwork, SOLThirdwebSDK>();
-
-export function getSOLThirdwebSDK(
-  network: DashboardSolanaNetwork,
-): SOLThirdwebSDK {
-  if (SOL_SDK_MAP.has(network)) {
-    return SOL_SDK_MAP.get(network) as SOLThirdwebSDK;
-  }
-  const rpcUrl = getSOLRPC(network);
-  const sdk = SOLThirdwebSDK.fromNetwork(
-    rpcUrl,
-    new ThirdwebStorage({
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-      uploadServerUrl: DASHBOARD_UPLOAD_URL,
-      // purposefully using the ipfs.io gateway here because when we upload with gateway url we want to use the public gateway
-      gatewayUrls: ["https://ipfs.io/ipfs/{cid}/{path}"],
-      uploader: new IpfsUploader({
-        uploadWithGatewayUrl: true,
-        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-      }),
-    }),
-  );
-  SOL_SDK_MAP.set(network, sdk);
   return sdk;
 }

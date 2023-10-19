@@ -1,10 +1,9 @@
 import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
-import { SolanaProvider } from "./solana-provider";
 import {
   EVMContractInfo,
   useEVMContractInfo,
 } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { fetchAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
+import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ThirdwebProvider,
@@ -16,7 +15,6 @@ import {
   safeWallet,
   trustWallet,
   phantomWallet,
-  useUser,
   walletConnect,
   zerionWallet,
 } from "@thirdweb-dev/react";
@@ -113,44 +111,21 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       }}
     >
       <GlobalAuthTokenProvider />
-      <SolanaProvider>{children}</SolanaProvider>
+      {children}
     </ThirdwebProvider>
   );
 };
 
 const GlobalAuthTokenProvider = () => {
-  const { user } = useUser();
-
-  const getToken = async () => {
-    try {
-      const token = await fetchAuthToken();
-      return token;
-    } catch (err) {
-      return undefined;
-    }
-  };
+  const { token, isLoading } = useApiAuthToken();
 
   useEffect(() => {
-    let mounted = true;
-
-    (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
-
-    getToken()
-      .then((token) => {
-        if (mounted) {
-          (window as any)[GLOBAL_AUTH_TOKEN_KEY] = token;
-        }
-      })
-      .catch(() => {
-        if (mounted) {
-          (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
-        }
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, [user?.address]);
+    if (token && !isLoading) {
+      (window as any)[GLOBAL_AUTH_TOKEN_KEY] = token;
+    } else {
+      (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
+    }
+  }, [token, isLoading]);
 
   return null;
 };

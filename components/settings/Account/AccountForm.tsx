@@ -14,7 +14,6 @@ import {
   VStack,
   HStack,
   useColorModeValue,
-  Switch,
 } from "@chakra-ui/react";
 import {
   Button,
@@ -23,11 +22,12 @@ import {
   FormErrorMessage,
   Heading,
   Text,
+  Checkbox,
 } from "tw-components";
 import { Account, useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ManageBillingButton } from "components/settings/Account/ManageBillingButton";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface AccountFormProps {
   account: Account;
@@ -41,7 +41,7 @@ interface AccountFormProps {
   optional?: boolean;
   trackingCategory?: string;
   disableUnchanged?: boolean;
-  onSave?: () => void;
+  onSave?: (email: string) => void;
 }
 
 export const AccountForm: React.FC<AccountFormProps> = ({
@@ -71,7 +71,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
     ),
     values: {
       name: account.name || "",
-      email: account.email || "",
+      email: account.unconfirmedEmail || account.email || "",
     },
   });
 
@@ -83,8 +83,8 @@ export const AccountForm: React.FC<AccountFormProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
-    if (optional && onSave) {
-      onSave();
+    if (onSave) {
+      onSave(values.email);
     }
 
     const formData = {
@@ -105,14 +105,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
 
     updateMutation.mutate(formData, {
       onSuccess: (data) => {
-        if (!optional) {
-          onSuccess();
-
-          // already called
-          if (!optional && onSave) {
-            onSave();
-          }
-        }
+        onSuccess();
 
         trackEvent({
           category: "account",
@@ -122,10 +115,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
         });
       },
       onError: (error) => {
-        // don't show errors when form is optional
-        if (!optional) {
-          onError(error);
-        }
+        onError(error);
 
         trackEvent({
           category: "account",
@@ -156,6 +146,38 @@ export const AccountForm: React.FC<AccountFormProps> = ({
           w="full"
         >
           <FormControl
+            isRequired
+            isInvalid={!!form.getFieldState("email", form.formState).error}
+          >
+            <FormLabel>Email</FormLabel>
+
+            {previewEnabled ? (
+              <Flex
+                borderRadius="md"
+                borderColor="borderColor"
+                borderWidth={1}
+                h={10}
+                px={3}
+                alignItems="center"
+              >
+                <Heading size="subtitle.sm">{form.getValues("email")}</Heading>
+              </Flex>
+            ) : (
+              <Input
+                placeholder="you@company.com"
+                type="email"
+                {...form.register("email")}
+              />
+            )}
+
+            {form.getFieldState("email", form.formState).error && (
+              <FormErrorMessage size="body.sm">
+                {form.getFieldState("email", form.formState).error?.message}
+              </FormErrorMessage>
+            )}
+          </FormControl>
+
+          <FormControl
             isRequired={!previewEnabled && !optional}
             isInvalid={!!form.getFieldState("name", form.formState).error}
           >
@@ -176,7 +198,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
               </Flex>
             ) : (
               <Input
-                placeholder="ACME Inc."
+                placeholder="Company Inc."
                 type="text"
                 {...form.register("name")}
               />
@@ -189,52 +211,15 @@ export const AccountForm: React.FC<AccountFormProps> = ({
             )}
           </FormControl>
 
-          <FormControl
-            isRequired={!previewEnabled && !optional}
-            isInvalid={!!form.getFieldState("email", form.formState).error}
-          >
-            <FormLabel>
-              Billing email {optional && <Text as="span">(optional)</Text>}
-            </FormLabel>
-
-            {previewEnabled ? (
-              <Flex
-                borderRadius="md"
-                borderColor="borderColor"
-                borderWidth={1}
-                h={10}
-                px={3}
-                alignItems="center"
-              >
-                <Heading size="subtitle.sm">{form.getValues("email")}</Heading>
-              </Flex>
-            ) : (
-              <Input
-                placeholder="billing@acme.co"
-                type="email"
-                {...form.register("email")}
-              />
-            )}
-
-            {form.getFieldState("email", form.formState).error && (
-              <FormErrorMessage size="body.sm">
-                {form.getFieldState("email", form.formState).error?.message}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-
           {showSubscription && (
-            <HStack gap={2} justifyContent="center">
+            <Checkbox
+              defaultChecked
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setIsSubscribing(e.target.checked)
+              }
+            >
               <Text>Subscribe to new features and key product updates</Text>
-              <Switch
-                isDisabled={
-                  !form.getValues("email").length ||
-                  !!form.getFieldState("email", form.formState).error
-                }
-                isChecked={isSubscribing}
-                onChange={(e) => setIsSubscribing(e.target.checked)}
-              />
-            </HStack>
+            </Checkbox>
           )}
         </Flex>
 
@@ -249,7 +234,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
               {...buttonProps}
               type="button"
               onClick={handleSubmit}
-              colorScheme="blue"
+              colorScheme={buttonProps?.variant ? undefined : "blue"}
               isDisabled={
                 updateMutation.isLoading ||
                 (disableUnchanged && !form.formState.isDirty)

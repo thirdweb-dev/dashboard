@@ -121,7 +121,6 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     // replace all re-written middleware paths
     const path = router.asPath
       .replace("/evm/", "/")
-      .replace("/solana/", "/")
       .replace("/chain/", "/")
       .replace("/publish/", "/");
     return `${base}${path}`;
@@ -178,6 +177,9 @@ const ConsoleApp = memo(function ConsoleApp({
           }
           body {
             font-variant-ligatures: none !important;
+          }
+          .chakra-checkbox__control > div > svg {
+            font-size: 10px !important;
           }
         `}
       />

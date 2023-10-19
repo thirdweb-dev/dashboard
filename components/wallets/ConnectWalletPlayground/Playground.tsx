@@ -13,7 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
-import { Button, Heading, Text, FormLabel, CodeBlock } from "tw-components";
+import {
+  Button,
+  Heading,
+  Text,
+  FormLabel,
+  CodeBlock,
+  TrackedLink,
+} from "tw-components";
 import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
@@ -87,9 +94,52 @@ export const ConnectWalletPlayground: React.FC<{
     smartWalletOptions,
     setSmartWalletOptions,
     supportedWallets,
-  } = usePlaygroundWallets();
+  } = usePlaygroundWallets({
+    MetaMask: true,
+    Coinbase: "recommended",
+    WalletConnect: true,
+    Safe: false,
+    "Guest Mode": true,
+    "Email Wallet": true,
+    Trust: false,
+    Zerion: false,
+    Blocto: false,
+    "Magic Link": false,
+    Frame: false,
+    Rainbow: false,
+    Phantom: false,
+  });
 
   useEffect(() => {
+    const getSupportedWalletsCode = (walletIds: WalletId[]): string => {
+      return `[${walletIds
+        .map((walletId) => {
+          const recommended = walletInfoRecord[walletId].component.recommended;
+
+          if (walletId === "Safe") {
+            const personalWalletIds = walletIds.filter((w) => w !== "Safe");
+            if (personalWalletIds.length === 0) {
+              return recommended
+                ? `safeWallet({ recommended: true })`
+                : `safeWallet()`;
+            }
+            return `safeWallet({
+              ${recommended ? "recommended: true," : ""}
+              personalWallets: ${getSupportedWalletsCode(
+                walletIds.filter((w) => w !== "Safe"),
+              )}
+            })`;
+          }
+
+          const walletCode = walletInfoRecord[walletId].code(recommended);
+
+          return smartWalletOptions.enabled
+            ? `smartWallet(${walletCode}, smartWalletOptions)`
+            : walletCode;
+        })
+        .join(",")}]`;
+    };
+
     const _code = getCode({
       baseTheme: selectedTheme,
       colorOverrides,
@@ -104,17 +154,7 @@ export const ConnectWalletPlayground: React.FC<{
       thirdwebProvider: {
         supportedWallets:
           enabledWallets.length > 0
-            ? `[${enabledWallets
-                .map((walletId) => {
-                  const walletCode = walletInfoRecord[walletId].code(
-                    walletInfoRecord[walletId].component.recommended,
-                  );
-
-                  return smartWalletOptions.enabled
-                    ? `smartWallet(${walletCode}, smartWalletOptions)`
-                    : walletCode;
-                })
-                .join(",")}]`
+            ? getSupportedWalletsCode(enabledWallets)
             : undefined,
         authConfig: authEnabled
           ? `{ authUrl: "/api/auth", domain: "https://example.com" }`
@@ -133,6 +173,10 @@ export const ConnectWalletPlayground: React.FC<{
             : undefined,
         modalTitleIconUrl: modalTitleIconUrl.enabled
           ? `"${modalTitleIconUrl.url}"`
+          : undefined,
+        termsOfServiceUrl: tosUrl.enabled ? `"${tosUrl.url}"` : undefined,
+        privacyPolicyUrl: privacyPolicyUrl.enabled
+          ? `"${privacyPolicyUrl.url}"`
           : undefined,
       },
     });
@@ -156,6 +200,8 @@ export const ConnectWalletPlayground: React.FC<{
     modalTitleIconUrl,
     welcomeScreen,
     colorOverrides,
+    tosUrl,
+    privacyPolicyUrl,
   ]);
 
   const welcomeScreenContent = (
@@ -199,29 +245,31 @@ export const ConnectWalletPlayground: React.FC<{
       </FormItem>
 
       {/* Welcome Screen Image */}
-      <FormItem label="Splash Image">
-        <Flex gap={3} alignItems="center">
-          <Switch
-            size="lg"
-            isChecked={!!welcomeScreen.img}
-            onChange={() => {
-              trackCustomize("splash-image-switch");
-              setWelcomeScreen({
-                ...welcomeScreen,
-                img: welcomeScreen.img
-                  ? undefined
-                  : {
-                      src: "",
-                      width: 150,
-                      height: 150,
-                    },
-              });
-            }}
-          ></Switch>
-          <Text>{welcomeScreen.img ? "Custom" : "Default"}</Text>
-        </Flex>
-        <Spacer height={4} />
-
+      <FormItem
+        label="Splash Image"
+        addOn={
+          <Flex gap={3} alignItems="center">
+            <Text>{welcomeScreen.img ? "Custom" : "Default"}</Text>
+            <Switch
+              size="lg"
+              isChecked={!!welcomeScreen.img}
+              onChange={() => {
+                trackCustomize("splash-image-switch");
+                setWelcomeScreen({
+                  ...welcomeScreen,
+                  img: welcomeScreen.img
+                    ? undefined
+                    : {
+                        src: "",
+                        width: 150,
+                        height: 150,
+                      },
+                });
+              }}
+            />
+          </Flex>
+        }
+      >
         {welcomeScreen.img && (
           <Flex flexDir="column" gap={3}>
             <Box>
@@ -443,6 +491,25 @@ export const ConnectWalletPlayground: React.FC<{
             );
           })}
       </Grid>
+      <Spacer height={3} />
+
+      <TrackedLink
+        category={trackingCategory}
+        label="build-wallet"
+        href="https://portal.thirdweb.com/wallet/build-a-wallet"
+        alignItems="center"
+        color="blue.500"
+        gap={1}
+        isExternal
+        fontSize={14}
+        _hover={{
+          color: "heading",
+          textDecor: "none",
+        }}
+      >
+        Don{`'t`} see the wallet you are looking for? <br />
+        Integrate it with ConnectWallet
+      </TrackedLink>
     </>
   );
 
@@ -612,7 +679,7 @@ export const ConnectWalletPlayground: React.FC<{
       {/* Smart wallet */}
       <SwitchFormItem
         label="Smart Wallets"
-        description="Use ERC-4337 (Account Abstraction) compatible smart wallets"
+        description="Use ERC-4337 (Account Abstraction) compatible smart wallets. Enabling this will connect user to the associated smart wallet"
         onCheck={(_isChecked) => {
           if (_isChecked) {
             trackCustomize("smart-wallet");
@@ -716,27 +783,26 @@ export const ConnectWalletPlayground: React.FC<{
           <FormItem
             label="Modal Title Icon"
             description="Icon to shown next to the modal title"
-          >
-            <Flex gap={3} alignItems="center">
-              <Switch
-                size="lg"
-                isChecked={modalTitleIconUrl.enabled}
-                onChange={() => {
-                  if (!modalTitleIconUrl.enabled) {
-                    trackCustomize("modal-title-icon-switch");
-                  }
+            addOn={
+              <Flex gap={3} alignItems="center">
+                <Text>{modalTitleIconUrl.enabled ? "Custom" : "Default"}</Text>
+                <Switch
+                  size="lg"
+                  isChecked={modalTitleIconUrl.enabled}
+                  onChange={() => {
+                    if (!modalTitleIconUrl.enabled) {
+                      trackCustomize("modal-title-icon-switch");
+                    }
 
-                  setModalTitleIconUrl({
-                    ...modalTitleIconUrl,
-                    enabled: !modalTitleIconUrl.enabled,
-                  });
-                }}
-              ></Switch>
-              <Text>
-                {"custom" in modalTitleIconUrl ? "Custom" : "Default"}
-              </Text>
-            </Flex>
-            <Spacer height={2} />
+                    setModalTitleIconUrl({
+                      ...modalTitleIconUrl,
+                      enabled: !modalTitleIconUrl.enabled,
+                    });
+                  }}
+                ></Switch>
+              </Flex>
+            }
+          >
             {modalTitleIconUrl.enabled && (
               <Input
                 placeholder="https://..."
@@ -866,6 +932,10 @@ export const ConnectWalletPlayground: React.FC<{
                 // also change dropdownBg
                 if (colorInfo.key === "modalBg") {
                   setColorOverrides((c) => ({ ...c, dropdownBg: value }));
+                }
+
+                if (colorInfo.key === "accentText") {
+                  setColorOverrides((c) => ({ ...c, accentButtonBg: value }));
                 }
               }}
             />
@@ -1035,7 +1105,7 @@ export const ConnectWalletPlayground: React.FC<{
         }}
         gap={{
           base: 14,
-          md: 4,
+          md: 8,
         }}
       >
         {/* left */}

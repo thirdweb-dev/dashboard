@@ -98,7 +98,7 @@ export enum PageId {
   ChainsLanding = "chains-landing",
 
   // thirdweb.com/hackathon/solanathon
-  SolanaHackathonLanding = "solanathon",
+  // SolanaHackathonLanding = "solanathon",
   ReadyPlayer3Landing = "readyplayer3",
 
   // thirdweb.com/404
@@ -134,6 +134,8 @@ export enum PageId {
   DashboardWalletsLocal = "dashboard-wallets-local",
   // thirdweb.com/dashboard/wallets/auth
   DashboardWalletsAuth = "dashboard-wallets-auth",
+  // thirdweb.com/dashboard/wallets/auth
+  DashboardWalletsAnalytics = "dashboard-wallets-analytics",
 
   // thirdweb.com/dashboard/contracts/build
   DashboardContractsBuild = "dashboard-contracts-build",
@@ -180,16 +182,20 @@ export enum PageId {
   SolutionsGaming = "solutions-gaming",
   SolutionsMinting = "solutions-minting",
   SolutionsLoyalty = "solutions-loyalty",
+  SolutionsMarketplace = "solutions-marketplace",
+  SolutionsChains = "solutions-chains",
+  SolutionsAppChainApi = "solutions-appchain-api",
+  SolutionsWeb2Onboarding = "solutions-web2-onboarding",
 
   // ---------------------------------------------------------------------------
   //  network pages
   // ---------------------------------------------------------------------------
-  NetworkSolana = "network-solana",
+  // NetworkSolana = "network-solana",
 
   // ---------------------------------------------------------------------------
   //  faucets pages
   // ---------------------------------------------------------------------------
-  FaucetSolana = "faucet-solana",
+  // FaucetSolana = "faucet-solana",
 
   // ---------------------------------------------------------------------------
   //  "publish" product pages
@@ -240,7 +246,7 @@ export enum PageId {
 
   // thirdweb.com/:network/:contractAddress (solana)
   // example: thirdweb.com/solana/5GYspMpsfw3Vrf7FQ37Jbhpg4PeVZHEPrfPcXY9sGQzy
-  DeployedProgram = "deployed-program",
+  // DeployedProgram = "deployed-program",
 
   // thirdweb.com/:network
   // example: thirdweb.com/ethereum

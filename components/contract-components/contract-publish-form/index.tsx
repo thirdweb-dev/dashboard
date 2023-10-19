@@ -21,7 +21,7 @@ import {
   CONTRACT_ADDRESSES,
   ExtraPublishMetadataSchemaInput,
   isExtensionEnabled,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
@@ -239,7 +239,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const hasExtensionsParam = useMemo(
-    () => constructorParams.some((param) => param.name === "_extensions"),
+    () =>
+      constructorParams.some(
+        (param) => param.name === "_extensions" || "_marketplaceV3Params",
+      ),
     [constructorParams],
   );
 

@@ -6,40 +6,33 @@ import {
   PopoverTrigger,
   VStack,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
 import {
   useAddress,
   useDisconnect,
   useLogin,
-  useUser,
   useWalletConfig,
 } from "@thirdweb-dev/react";
 import { ExternalApprovalNotice } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRef } from "react";
-import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
+import { Button, Card, Text, TrackedLink } from "tw-components";
 import { OnboardingModal } from "./Modal";
+import { OnboardingTitle } from "./Title";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const TRACKING_CATEGORY = "notice";
 
 export const SignInModal: React.FC = () => {
   const track = useTrack();
   const evmAddress = useAddress();
-  const solAddress = useWallet().publicKey?.toBase58();
   const walletId = useWalletConfig()?.id;
-  const { isLoading, isLoggedIn } = useUser();
+  const { isLoading, isLoggedIn } = useLoggedInUser();
   const { login, isLoading: loginLoading } = useLogin();
   const disconnect = useDisconnect();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
-  if (!evmAddress && !solAddress) {
-    // if neither solana or evm wallets are connected then don't show the notice
-    return null;
-  }
-
-  // temporary
-  if (!evmAddress && solAddress) {
-    // don't show the notice if it's solana
+  if (!evmAddress) {
+    // if wallet is not connected don't show the notice
     return null;
   }
 
@@ -50,9 +43,13 @@ export const SignInModal: React.FC = () => {
 
   return (
     <OnboardingModal isOpen onClose={() => {}}>
-      <Heading size="title.md" mb={6} textAlign="center">
-        Welcome to <strong>thirdweb</strong>
-      </Heading>
+      <OnboardingTitle
+        heading={
+          <>
+            Welcome to <strong>thirdweb</strong>
+          </>
+        }
+      />
 
       <VStack w="full" gap={3}>
         <Popover
@@ -134,7 +131,7 @@ export const SignInModal: React.FC = () => {
         </Button>
       </VStack>
 
-      <Text textAlign="center" opacity={0.4}>
+      <Text opacity={0.4}>
         By connecting your wallet and using the thirdweb dashboard, you agree to
         our{" "}
         <TrackedLink

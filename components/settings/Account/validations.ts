@@ -16,12 +16,20 @@ export const accountValidationSchema = z.object({
 });
 
 export const accountValidationOptionalSchema = z.object({
+  email: emailValidation,
   name: nameValidation.or(z.literal("")),
-  email: emailValidation.or(z.literal("")),
+});
+
+export const emailConfirmationValidationSchema = z.object({
+  confirmationToken: z.string().length(6),
 });
 
 export type AccountValidationSchema = z.infer<typeof accountValidationSchema>;
 
 export type AccountValidationOptionalSchema = z.infer<
   typeof accountValidationOptionalSchema
+>;
+
+export type EmailConfirmationValidationSchema = z.infer<
+  typeof emailConfirmationValidationSchema
 >;

@@ -16,6 +16,8 @@ type WalletSetupOptions = {
     modalSize?: string;
     modalTitleIconUrl?: string;
     welcomeScreen?: string;
+    termsOfServiceUrl?: string;
+    privacyPolicyUrl?: string;
   };
   baseTheme: "light" | "dark";
   colorOverrides: Record<string, string>;
@@ -27,9 +29,9 @@ export function getCode(options: WalletSetupOptions) {
   if (hasThemeOverrides) {
     themeFn = options.baseTheme === "dark" ? "darkTheme" : "lightTheme";
 
-    options.connectWallet.theme = `${themeFn}(${JSON.stringify(
-      options.colorOverrides,
-    )})`;
+    options.connectWallet.theme = `${themeFn}(${JSON.stringify({
+      colors: options.colorOverrides,
+    })})`;
   }
 
   return `\

@@ -1,7 +1,7 @@
 import { Flex, SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
 import { useAddress, useSDKChainId } from "@thirdweb-dev/react";
 import { SignerWithPermissions } from "@thirdweb-dev/sdk";
-import { differenceInDays } from "date-fns";
+import { formatDistance } from "date-fns";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { Badge, Card, Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -55,7 +55,6 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({
           </Flex>
         </Flex>
 
-        {/*         {!field.isEditing ? ( */}
         {isAdmin ? null : (
           <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
             <Flex direction="column">
@@ -72,11 +71,12 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({
               </Text>
             </Flex>
             <Flex direction="column">
-              <Text fontWeight="bold">Expiration (in days)</Text>
+              <Text fontWeight="bold">Expiration</Text>
               <Text textTransform="capitalize">
-                {differenceInDays(
-                  signer.permissions.expirationDate,
-                  signer.permissions.startDate,
+                {formatDistance(
+                  new Date(signer.permissions.expirationDate),
+                  new Date(),
+                  { addSuffix: true },
                 )}
               </Text>
             </Flex>

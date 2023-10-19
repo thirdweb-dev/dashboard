@@ -100,6 +100,26 @@ const chakraTheme: Theme = extendTheme({
           size: "lg",
           borderRadius: props.fullCircle ? "full" : "12px",
         }),
+        inverted: {
+          bg: "bgBlack",
+          color: "bgWhite",
+          _hover: {
+            opacity: 0.8,
+          },
+          _disabled: {
+            _hover: {
+              bg: "bgBlack !important",
+            },
+          },
+        },
+        outline: {
+          borderWidth: "1px",
+          borderColor: "inputBorder",
+          _hover: {
+            bg: "transparent",
+            borderColor: "inputBorderHover",
+          },
+        },
       },
     },
     Modal: {
@@ -130,7 +150,7 @@ const chakraTheme: Theme = extendTheme({
         filled: {
           field: {
             borderWidth: "1px",
-            borderColor: "inputBorder",
+            borderColor: "borderColor",
             background: "inputBg",
             _hover: {
               background: "inputBgHover",
@@ -149,9 +169,12 @@ const chakraTheme: Theme = extendTheme({
           field: {
             borderWidth: "1px",
             borderColor: "inputBorder",
-            background: "inputBg",
+            background: "transparent",
             _hover: {
-              background: "inputBgHover",
+              borderColor: "inputBorderHover",
+              background: "transparent",
+            },
+            _focus: {
               borderColor: "blue.500",
             },
           },
@@ -188,6 +211,9 @@ const chakraTheme: Theme = extendTheme({
               background: "inputBgHover",
               borderColor: "blue.500",
             },
+            _invalid: {
+              borderColor: "inputBorder",
+            },
           },
         },
       },
@@ -216,9 +242,12 @@ const chakraTheme: Theme = extendTheme({
         filled: {
           borderWidth: "1px",
           borderColor: "inputBorder",
-          background: "inputBg",
+          background: "transparent",
           _hover: {
-            background: "inputBgHover",
+            background: "inputBorderHover",
+            borderColor: "transparent",
+          },
+          _focus: {
             borderColor: "blue.500",
           },
         },
@@ -330,7 +359,8 @@ const chakraTheme: Theme = extendTheme({
       // inputs
       inputBg: { default: "gray.50", _dark: "whiteAlpha.50" },
       inputBgHover: { default: "gray.100", _dark: "whiteAlpha.100" },
-      inputBorder: { default: "gray.200", _dark: "transparent" },
+      inputBorder: { default: "gray.200", _dark: "#272B30" },
+      inputBorderHover: { default: "gray.300", _dark: "whiteAlpha.50" },
       // other
 
       // backgroundBody: "accent.100",

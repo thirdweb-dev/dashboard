@@ -23,7 +23,7 @@ interface SolutionCardProps {
 
 const solutions: SolutionCardProps[] = [
   {
-    title: "GamingKit",
+    title: "Gaming",
     gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
     description:
       "The all-in-one platform for developers to easily bring their games onto web3. Build a stronger community around your game by giving players ownership of in-game assets.",
