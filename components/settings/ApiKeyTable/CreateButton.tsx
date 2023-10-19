@@ -7,13 +7,18 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
-import { Button } from "tw-components";
+import { Button, ButtonProps } from "tw-components";
 import { toArrFromList } from "utils/string";
 import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { toastMessages } from "./messages";
 import { ApiKeyValidationSchema, apiKeyValidationSchema } from "./validations";
 
-export const CreateApiKeyButton: React.FC = () => {
+interface ICreateAPIKeyButtonProps {
+  enabledServices: string[];
+  buttonProps?: ButtonProps
+};
+
+export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({ enabledServices, buttonProps }) => {
   const trackEvent = useTrack();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -30,7 +35,7 @@ export const CreateApiKeyButton: React.FC = () => {
       redirectUrls: "",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
-      services: SERVICES.map((srv) => {
+      services: SERVICES.filter(srv => enabledServices.includes(srv.name)).map((srv) => {
         return {
           name: srv.name,
           targetAddresses: "",
@@ -131,6 +136,7 @@ export const CreateApiKeyButton: React.FC = () => {
         leftIcon={<Icon as={FiPlus} boxSize={4} />}
         isLoading={createKeyMutation.isLoading}
         isDisabled={createKeyMutation.isLoading}
+        {...buttonProps}
       >
         Create API Key
       </Button>

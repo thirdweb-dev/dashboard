@@ -36,6 +36,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import Image from "next/image";
 import { shortenString } from "utils/usedapp-external";
 import { FiChevronDown } from "react-icons/fi";
+import { CreateApiKeyButton } from "components/settings/ApiKeyTable/CreateButton";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 const ACTIVE_THRESHOLD_DAYS = 30;
@@ -115,14 +116,14 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
               <Text>
                 You&apos;ll need to create an API Key to use embedded wallets.
               </Text>
-              <Link
-                variant="ghost"
-                href="/dashboard/settings/api-keys"
-                size="sm"
-                color="primary.500"
-              >
-                <Text color="primary.500">Create an API Key</Text>
-              </Link>
+              <CreateApiKeyButton 
+                buttonProps={{
+                  variant:"link",
+                  size: "sm",
+                  leftIcon: undefined // remove icon
+                }}
+                enabledServices={["embeddedWallets"]} 
+              />
             </Flex>
           </VStack>
         </Card>
