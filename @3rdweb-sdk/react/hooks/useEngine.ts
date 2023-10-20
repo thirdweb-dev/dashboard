@@ -109,22 +109,22 @@ export function useEngineTransactions(instance: string) {
 
 export type WalletConfig =
   | {
-    type: "local";
-  }
+      type: "local";
+    }
   | {
-    type: "aws-kms";
-    awsAccessKeyId: string;
-    awsSecretAccessKey: string;
-    awsRegion: string;
-  }
+      type: "aws-kms";
+      awsAccessKeyId: string;
+      awsSecretAccessKey: string;
+      awsRegion: string;
+    }
   | {
-    type: "gcp-kms";
-    gcpApplicationProjectId: string;
-    gcpKmsLocationId: string;
-    gcpKmsKeyRingId: string;
-    gcpApplicationCredentialEmail: string;
-    gcpApplicationCredentialPrivateKey: string;
-  };
+      type: "gcp-kms";
+      gcpApplicationProjectId: string;
+      gcpKmsLocationId: string;
+      gcpKmsKeyRingId: string;
+      gcpApplicationCredentialEmail: string;
+      gcpApplicationCredentialPrivateKey: string;
+    };
 
 export function useEngineWalletConfig(instance: string) {
   return useQuery(
@@ -151,22 +151,22 @@ export function useEngineWalletConfig(instance: string) {
 
 export type SetWalletConfigInput =
   | {
-    type: "local";
-  }
+      type: "local";
+    }
   | {
-    type: "aws-kms";
-    awsAccessKeyId: string;
-    awsSecretAccessKey: string;
-    awsRegion: string;
-  }
+      type: "aws-kms";
+      awsAccessKeyId: string;
+      awsSecretAccessKey: string;
+      awsRegion: string;
+    }
   | {
-    type: "gcp-kms";
-    gcpApplicationProjectId: string;
-    gcpKmsLocationId: string;
-    gcpKmsKeyRingId: string;
-    gcpApplicationCredentialEmail: string;
-    gcpApplicationCredentialPrivateKey: string;
-  };
+      type: "gcp-kms";
+      gcpApplicationProjectId: string;
+      gcpKmsLocationId: string;
+      gcpKmsKeyRingId: string;
+      gcpApplicationCredentialEmail: string;
+      gcpApplicationCredentialPrivateKey: string;
+    };
 
 export function useEngineSetWalletConfig(instance: string) {
   const queryClient = useQueryClient();
