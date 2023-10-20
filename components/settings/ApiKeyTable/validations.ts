@@ -5,19 +5,13 @@ import { z } from "zod";
 
 const activeCustomAuthenticationSchema = z.object({
   active: z.literal(true),
-  jwksUri: z.string().refine((str) => {
-    try {
-      return Boolean(new URL(str));
-    } catch (e) {
-      return false;
-    }
-  }, "Invalid JWKS URI"),
+  jwksUri: z.string().url(),
   aud: z.string().min(1, { message: "Missing AUD value" }),
 });
 
 const inactiveCustomAuthenticationSchema = z.object({
   active: z.literal(false),
-  jwksUri: z.string().optional(),
+  jwksUri: z.string().url().optional(),
   aud: z.string().optional(),
 });
 
