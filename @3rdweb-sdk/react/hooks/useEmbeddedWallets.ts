@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAddress } from "@thirdweb-dev/react";
 import { embeddedWalletsKeys } from "../cache-keys";
 import { THIRDWEB_EWS_API_HOST } from "constants/urls";
+import { useLoggedInUser } from "./useLoggedInUser";
 
 // FIXME: Make API to return camelCase or transform
 export type EmbeddedWalletUser = {
@@ -24,10 +24,13 @@ export type EmbeddedWalletUser = {
 };
 
 export function useEmbeddedWallets(clientId: string) {
-  const address = useAddress();
+  const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    embeddedWalletsKeys.embeddedWallets(address as string, clientId as string),
+    embeddedWalletsKeys.embeddedWallets(
+      user?.address as string,
+      clientId as string,
+    ),
     async () => {
       const res = await fetch(
         `${THIRDWEB_EWS_API_HOST}/api/thirdweb/embedded-wallet?clientId=${clientId}&lastAccessedAt=0`,
@@ -44,6 +47,6 @@ export function useEmbeddedWallets(clientId: string) {
 
       return json.walletUsers as EmbeddedWalletUser[];
     },
-    { enabled: !!address && !!clientId },
+    { enabled: !!user?.address && isLoggedIn && !!clientId },
   );
 }

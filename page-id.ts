@@ -134,6 +134,8 @@ export enum PageId {
   DashboardWalletsLocal = "dashboard-wallets-local",
   // thirdweb.com/dashboard/wallets/auth
   DashboardWalletsAuth = "dashboard-wallets-auth",
+  // thirdweb.com/dashboard/wallets/auth
+  DashboardWalletsAnalytics = "dashboard-wallets-analytics",
 
   // thirdweb.com/dashboard/contracts/build
   DashboardContractsBuild = "dashboard-contracts-build",
@@ -180,6 +182,10 @@ export enum PageId {
   SolutionsGaming = "solutions-gaming",
   SolutionsMinting = "solutions-minting",
   SolutionsLoyalty = "solutions-loyalty",
+  SolutionsMarketplace = "solutions-marketplace",
+  SolutionsChains = "solutions-chains",
+  SolutionsAppChainApi = "solutions-appchain-api",
+  SolutionsWeb2Onboarding = "solutions-web2-onboarding",
 
   // ---------------------------------------------------------------------------
   //  network pages
