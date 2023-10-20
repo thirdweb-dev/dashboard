@@ -3,19 +3,15 @@ import { RE_BUNDLE_ID, RE_DOMAIN } from "utils/regex";
 import { validStrList } from "utils/validations";
 import { z } from "zod";
 
-
 const activeCustomAuthenticationSchema = z.object({
   active: z.literal(true),
-  jwksUri: z.string().refine(
-    (str) => {
-      try {
-        return Boolean(new URL(str));
-      } catch (e) {
-        return false;
-      }
-    },
-    "Invalid JWKS URI"
-  ),
+  jwksUri: z.string().refine((str) => {
+    try {
+      return Boolean(new URL(str));
+    } catch (e) {
+      return false;
+    }
+  }, "Invalid JWKS URI"),
   aud: z.string().min(1, { message: "Missing AUD value" }),
 });
 
@@ -24,7 +20,6 @@ const inactiveCustomAuthenticationSchema = z.object({
   jwksUri: z.string().optional(),
   aud: z.string().optional(),
 });
-
 
 export const apiKeyValidationSchema = z.object({
   name: z
@@ -69,13 +64,15 @@ export const apiKeyValidationSchema = z.object({
             }),
           recoveryShareManagement: z
             //  This should be the same as @paperxyz/embedded-wallet-service-sdk RecoveryShareManagement enum
-            .enum(["USER_MANAGED", "AWS_MANAGED"])
+            .enum(["AWS_MANAGED", "USER_MANAGED", "CUSTOM_JWT"])
             .optional(),
           actions: z.array(z.string()),
-          customAuthentication: z.union([
-            activeCustomAuthenticationSchema,
-            inactiveCustomAuthenticationSchema
-          ]).optional()
+          customAuthentication: z
+            .union([
+              activeCustomAuthenticationSchema,
+              inactiveCustomAuthenticationSchema,
+            ])
+            .optional(),
         }),
       )
       .optional(),

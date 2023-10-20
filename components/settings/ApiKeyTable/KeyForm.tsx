@@ -94,7 +94,8 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
       return false;
     }
 
-    const isThirdwebEmail = account.email && (account.email.split("@")[1] == "thirdweb.com");
+    const isThirdwebEmail =
+      account.email && account.email.split("@")[1] == "thirdweb.com";
     const isInternal = account.isStaff;
     const isEnterprise = account.plan === "enterprise"; // TODO: check this value
 
@@ -375,18 +376,31 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                           {
                             onChange: (e) => {
                               if (e.target.value === "AWS_MANAGED") {
-                                form.setValue(`services.${idx}.customAuthentication.active`, false);
+                                form.setValue(
+                                  `services.${idx}.customAuthentication.active`,
+                                  false,
+                                );
+                              } else if (e.target.value === "CUSTOM_JWT") {
+                                form.setValue(
+                                  `services.${idx}.customAuthentication.active`,
+                                  e.target.checked ? true : false,
+                                );
                               }
-                            }
-                          }
+                            },
+                          },
                         )}
                       >
-                        <option value={"USER_MANAGED"}>
-                          User managed recovery
-                        </option>
                         <option value={"AWS_MANAGED"}>
-                          KMS hosted recovery
+                          Automatic recovery (Recommended)
                         </option>
+                        <option value={"USER_MANAGED"}>
+                          Password-based recovery
+                        </option>
+                        {hasCustomAuthEnabled && (
+                          <option value={"CUSTOM_JWT"}>
+                            Custom auth (Enterprise only)
+                          </option>
+                        )}
                       </Select>
                       {!form.getFieldState(
                         `services.${idx}.recoveryShareManagement`,
@@ -407,6 +421,90 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                       )}
                       <NoChangingRecoveryShareManagementAlert />
                     </FormControl>
+
+                    {form.watch(`services.${idx}.recoveryShareManagement`) ===
+                      "CUSTOM_JWT" && (
+                      <>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>Custom JSON Web Token</FormLabel>
+                        </FormControl>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.jwksUri`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>JWKS URI</FormLabel>
+                          <Input
+                            placeholder="https://example.com/.well-known/jwks.json"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.jwksUri`,
+                            )}
+                          />
+                          {!form.getFieldState(
+                            `services.${idx}.customAuthentication.jwksUri`,
+                            form.formState,
+                          ).error ? (
+                            <FormHelperText>
+                              Enter the URI of the JWKS
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.customAuthentication.jwksUri`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          )}
+                        </FormControl>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.aud`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel>AUD Value</FormLabel>
+                          <Input
+                            placeholder="AUD"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.aud`,
+                            )}
+                          />
+                          {!form.getFieldState(
+                            `services.${idx}.customAuthentication.aud`,
+                            form.formState,
+                          ).error ? (
+                            <FormHelperText>
+                              Enter the audience claim for the JWT
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.customAuthentication.aud`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          )}
+                        </FormControl>
+                      </>
+                    )}
 
                     <FormControl
                       isInvalid={
@@ -446,94 +544,6 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         </FormErrorMessage>
                       )}
                     </FormControl>
-                    {(hasCustomAuthEnabled && form.watch(`services.${idx}.recoveryShareManagement`) === "USER_MANAGED") &&
-                      (
-                        <Flex
-                          alignItems="center"
-                          justify="flex-start"
-                          width="100%"
-                          pb={2}
-                        >
-                          <Checkbox
-                            isChecked={form.watch(`services.${idx}.customAuthentication.active`) === true}
-                            onChange={(e) => {
-                              form.setValue(
-                                `services.${idx}.customAuthentication.active`,
-                                e.target.checked ? true : false
-                              );
-                            }}
-                          >
-                            <Text>Use Custom Authentication</Text>
-                          </Checkbox>
-                        </Flex>)
-                    }
-                    {form.watch(`services.${idx}.customAuthentication.active`)
-                      && (
-                        <>
-                          <FormControl
-                            isInvalid={
-                              !!form.getFieldState(
-                                `services.${idx}.customAuthentication`,
-                                form.formState,
-                              ).error
-                            }
-                          >
-                            <FormLabel>Custom JSON Web Token</FormLabel>
-                          </FormControl>
-                          <FormControl
-                            isInvalid={
-                              !!form.getFieldState(
-                                `services.${idx}.customAuthentication.jwksUri`,
-                                form.formState,
-                              ).error
-                            }
-                          >
-                            <FormLabel>JWKS URI</FormLabel>
-                            <Input
-                              placeholder="https://example.com/.well-known/jwks.json"
-                              type="text"
-                              {...form.register(
-                                `services.${idx}.customAuthentication.jwksUri`)}
-                            />
-                            {
-                              !form.getFieldState(`services.${idx}.customAuthentication.jwksUri`, form.formState).error ?
-                                (<FormHelperText>
-                                  Enter the URI of the JWKS
-                                </FormHelperText>) :
-                                (<FormErrorMessage>
-                                  {form.getFieldState(`services.${idx}.customAuthentication.jwksUri`, form.formState).error?.message}
-                                </FormErrorMessage>
-                                )
-                            }
-                          </FormControl>
-                          <FormControl
-                            isInvalid={
-                              !!form.getFieldState(
-                                `services.${idx}.customAuthentication.aud`,
-                                form.formState,
-                              ).error
-                            }
-                          >
-                            <FormLabel>AUD Value</FormLabel>
-                            <Input
-                              placeholder="AUD"
-                              type="text"
-                              {...form.register(
-                                `services.${idx}.customAuthentication.aud`)}
-                            />
-                            {
-                              !form.getFieldState(`services.${idx}.customAuthentication.aud`, form.formState).error ?
-                                (<FormHelperText>
-                                  Enter the audience claim for the JWT
-                                </FormHelperText>) :
-                                (<FormErrorMessage>
-                                  {form.getFieldState(`services.${idx}.customAuthentication.aud`, form.formState).error?.message}
-                                </FormErrorMessage>)
-                            }
-                          </FormControl>
-                        </>
-                      )
-                    }
                   </VStack>
                 )}
 
