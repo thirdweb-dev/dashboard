@@ -29,7 +29,7 @@ export function PreviewThirdwebProvider(props: {
             })
       }
       // USER_MANAGED testing throwaway clientId
-      clientId={"41b158d0716269b389029652945eb739"}
+      clientId={"b85c4c5221889bf3dbd1b3a387c6f4c3"}
       storageInterface={StorageSingleton}
       authConfig={
         props.authEnabled
