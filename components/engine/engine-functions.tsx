@@ -11,7 +11,7 @@ export const EngineFunctions: React.FC<EngineFunctionsProps> = ({
 }) => {
   return (
     <Box bg="white" borderRadius="xl">
-      {/* <SwaggerUI url={`${instance}json`} /> */}
+      <SwaggerUI url={`${instance}json`} />
     </Box>
   );
 };
