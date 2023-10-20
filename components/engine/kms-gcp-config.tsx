@@ -114,13 +114,7 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
         />
       </FormControl>
       <Flex justifyContent="end" gap={3}>
-        <Button
-          type="button"
-          onClick={() => setGcpKmsConfig({ type: "local" })}
-          variant="ghost"
-        >
-          Remove Config
-        </Button>
+        <RemoveConfigButton instance={instance} />
         <Button
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"

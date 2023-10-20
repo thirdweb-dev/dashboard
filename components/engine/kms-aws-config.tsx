@@ -6,6 +6,7 @@ import {
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel, Text } from "tw-components";
+import { RemoveConfigButton } from "./remove-config-button";
 
 interface KmsAwsConfigProps {
   instance: string;
@@ -74,13 +75,7 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
         />
       </FormControl>
       <Flex justifyContent="end" gap={3}>
-        <Button
-          type="button"
-          onClick={() => setAwsKmsConfig({ type: "local" })}
-          variant="ghost"
-        >
-          Remove Config
-        </Button>
+        <RemoveConfigButton instance={instance} />
         <Button
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"
