@@ -2,7 +2,7 @@ import {
   BackendWallet,
   useEngineBackendWalletBalance,
 } from "@3rdweb-sdk/react/hooks/useEngine";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
 import { Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -98,7 +98,7 @@ export const BackendWalletsTable: React.FC<BackendWalletsTableProps> = ({
     <TWTable
       title="backend wallets"
       data={wallets}
-      columns={columns}
+      columns={columns as ColumnDef<BackendWallet, string>[]}
       isLoading={isLoading}
       isFetched={isFetched}
     />
