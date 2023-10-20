@@ -82,6 +82,14 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             ...provided,
             width: "full",
           }),
+          downChevron: (provided) => ({
+            ...provided,
+            color: "gray.500",
+          }),
+          dropdownIndicator: (provided) => ({
+            ...provided,
+            color: "gray.500",
+          }),
         }}
         value={
           onMultiChange

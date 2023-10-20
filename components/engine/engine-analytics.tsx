@@ -28,8 +28,6 @@ export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
     (tx) => tx.chainId === selectedChainId.toString(),
   );
 
-  console.log({ chainId, backendWallets, transactions });
-
   return (
     <Flex flexDir="column" gap={12}>
       <Flex gap={4} alignItems="center">
@@ -50,6 +48,8 @@ export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
           </Flex>
         </Flex>
         <BackendWalletsTable
+          chainId={selectedChainId}
+          instance={instance}
           wallets={backendWallets.data ?? []}
           isLoading={backendWallets.isLoading}
           isFetched={backendWallets.isFetched}

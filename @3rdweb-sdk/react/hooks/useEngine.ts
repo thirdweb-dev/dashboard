@@ -149,6 +149,43 @@ export function useEngineWalletConfig(instance: string) {
   );
 }
 
+export type CurrencyValue = {
+  name: string;
+  symbol: string;
+  decimals: number;
+  value: string;
+  displayValue: string;
+};
+
+export function useEngineBackendWalletBalance(
+  instance: string,
+  address: string,
+  chainId: number,
+) {
+  return useQuery(
+    engineKeys.backendWalletBalance(address, chainId),
+    async () => {
+      const res = await fetch(
+        `${instance}${
+          instance.endsWith("/") ? "" : "/"
+        }backend-wallet/${chainId}/${address}/get-balance`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          },
+        },
+      );
+
+      const json = await res.json();
+
+      return json.result as CurrencyValue;
+    },
+    { enabled: !!instance && !!address && !!chainId },
+  );
+}
+
 export type SetWalletConfigInput =
   | {
       type: "local";

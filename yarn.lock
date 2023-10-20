@@ -5223,12 +5223,12 @@ chai@^4.3.4:
     pathval "^1.1.1"
     type-detect "^4.0.8"
 
-chakra-react-select@^4.7.0:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/chakra-react-select/-/chakra-react-select-4.7.3.tgz#e4902819e1685efc0daf576977ddc3494fbcac9e"
-  integrity sha512-oALVidQ1l9PRqJMJCdUJTPoK1HVm1lOTo3z9vzsfUeB4d5EqknlDAAbxh0iOpJ6wOiiiQdRfJuvNufbaKrACug==
+chakra-react-select@^4.7.5:
+  version "4.7.5"
+  resolved "https://registry.yarnpkg.com/chakra-react-select/-/chakra-react-select-4.7.5.tgz#4270417bd4f49c64d0a1384ac859bd9cfd12861f"
+  integrity sha512-lEDiwdy3Y49XeqaPv6qo3HeRr0kxkouRqk8eOV3PHvi/ZOmLbdflE7d+wLgoh8bsNp2acV4f10G7rlJOcEDCdA==
   dependencies:
-    react-select "5.7.0"
+    react-select "5.7.7"
 
 chalk@3.0.0, chalk@^3.0.0:
   version "3.0.0"
@@ -10310,10 +10310,10 @@ react-resize-detector@^8.0.4:
   dependencies:
     lodash "^4.17.21"
 
-react-select@5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.0.tgz#82921b38f1fcf1471a0b62304da01f2896cd8ce6"
-  integrity sha512-lJGiMxCa3cqnUr2Jjtg9YHsaytiZqeNOKeibv6WF5zbK/fPegZ1hg3y/9P1RZVLhqBTs0PfqQLKuAACednYGhQ==
+react-select@5.7.7:
+  version "5.7.7"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.7.tgz#dbade9dbf711ef2a181970c10f8ab319ac37fbd0"
+  integrity sha512-HhashZZJDRlfF/AKj0a0Lnfs3sRdw/46VJIRd8IbB9/Ovr74+ZIwkAdSBjSPXsFMG+u72c5xShqwLSKIJllzqw==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"
