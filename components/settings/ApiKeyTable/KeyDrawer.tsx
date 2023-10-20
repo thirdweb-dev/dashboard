@@ -59,10 +59,12 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
           enabled: !!existingService,
           actions: existingService?.actions || [],
           recoveryShareManagement: existingService?.recoveryShareManagement,
-          customAuthentication: existingService?.customAuthentication ? {
-            active: !!existingService.customAuthentication,
-            ...existingService.customAuthentication
-          }: undefined
+          customAuthentication: existingService?.customAuthentication
+            ? {
+                active: !!existingService.customAuthentication,
+                ...existingService.customAuthentication,
+              }
+            : undefined,
         };
       }),
     },
@@ -181,6 +183,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
       ) : (
         <ApiKeyForm
           form={form}
+          apiKey={apiKey}
           onClose={onClose}
           onSubmit={handleSubmit}
           selectedSection={selectedSection}

@@ -371,6 +371,7 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
                         Recovery share management type
                       </FormLabel>
                       <Select
+                        disabled={isEditing ? true : false}
                         {...form.register(
                           `services.${idx}.recoveryShareManagement`,
                           {
