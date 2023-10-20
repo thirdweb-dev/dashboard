@@ -1,7 +1,7 @@
 import { ThirdwebProvider, WalletConfig } from "@thirdweb-dev/react";
 import React from "react";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
-import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
+import { isProd } from "constants/rpc";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { StorageSingleton } from "lib/sdk";
 
@@ -28,7 +28,8 @@ export function PreviewThirdwebProvider(props: {
               };
             })
       }
-      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
+      // USER_MANAGED testing throwaway clientId
+      clientId={"b85c4c5221889bf3dbd1b3a387c6f4c3"}
       storageInterface={StorageSingleton}
       authConfig={
         props.authEnabled
