@@ -127,7 +127,24 @@ export const BillingAlert = () => {
     return null;
   }
 
-  const { status } = meQuery.data;
+  const { status, stripePaymentActionUrl } = meQuery.data;
+
+  if (status === "paymentVerification") {
+    const message = !stripePaymentActionUrl?.startsWith(
+      "https://payments.stripe.com/microdeposit",
+    )
+      ? "To verify your bank account, we've deposited $0.01 and it should arrive within 1-2 working days. Once you receive it"
+      : "Your card requires further verification. To proceed";
+
+    return (
+      <BillingTypeAlert
+        title="Your payment method is not verified"
+        description={message}
+        status="warning"
+        ctaText="verify your payment method"
+      />
+    );
+  }
 
   if (status === "invalidPayment") {
     return (
@@ -171,8 +188,8 @@ export const BillingAlert = () => {
     return (
       <BillingTypeAlert
         title="You have exceeded your RPC rate limit"
-        description={`You have exceeded your RPC rate limit at ${usageQuery.data.rateLimits.rpc} requests per second. Please add your payment method and upgrade your plan in the next 3 days to continue using thirdweb services without interruption. You can upgrade to thirdweb Pro by`}
-        ctaText="contacting sales team"
+        description={`You have exceeded your RPC rate limit (${usageQuery.data.rateLimits.rpc} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Pro by`}
+        ctaText="contacting Sales"
         ctaHref="/contact-us"
         status="warning"
         onDismiss={() => handleDismiss(DismissedStorageType.RateRpc)}
@@ -187,8 +204,8 @@ export const BillingAlert = () => {
     return (
       <BillingTypeAlert
         title="You have exceeded your Storage Gateway rate limit"
-        description={`You have exceeded your Storage Gateway rate limit at ${usageQuery.data.rateLimits.storage} requests per second. Please add your payment method and upgrade your plan in the next 3 days to continue using thirdweb services without interruption. You can upgrade to thirdweb Pro by`}
-        ctaText="contacting sales team"
+        description={`You have exceeded your Storage Gateway rate limit (${usageQuery.data.rateLimits.storage} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Pro by`}
+        ctaText="contacting Sales"
         ctaHref="/contact-us"
         status="warning"
         onDismiss={() => handleDismiss(DismissedStorageType.RateStorage)}
@@ -235,7 +252,7 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
           <AlertTitle>{title}</AlertTitle>
           <AlertDescription>
             <Text size="body.md" as="span" pr={1}>
-              {description},
+              {description}
             </Text>
             {router.pathname.startsWith(ctaHref) ? (
               <Text as="span">{ctaText}</Text>

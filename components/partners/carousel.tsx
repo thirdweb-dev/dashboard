@@ -60,29 +60,30 @@ export const PartnerCarousel: React.FC = () => {
     >
       {/* desktop - 1 row with all logos */}
       <Marquee display={{ base: "none", lg: "flex" }}>
+        <PartnerLogo partner="coinbase" />
+        <PartnerLogo partner="polygon" />
+        <PartnerLogo partner="aws" />
         <PartnerLogo partner="rarible" />
         <PartnerLogo partner="fractal" />
-        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="shopify" />
-        <PartnerLogo partner="paradigm" />
-        <PartnerLogo partner="unlock" />
         <PartnerLogo partner="animoca" />
         <PartnerLogo partner="pixels" />
         <PartnerLogo partner="nyfw" />
+        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="gala_games" />
         <PartnerLogo partner="mirror" />
-        <PartnerLogo partner="heroic_story" />
         <PartnerLogo partner="layer3" />
       </Marquee>
 
       {/* mobile - 2 rows with logos split in two rows */}
       <Marquee display={{ base: "flex", lg: "none" }}>
+        <PartnerLogo partner="coinbase" />
+        <PartnerLogo partner="polygon" />
+        <PartnerLogo partner="aws" />
         <PartnerLogo partner="rarible" />
         <PartnerLogo partner="fractal" />
-        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="paradigm" />
-        <PartnerLogo partner="unlock" />
       </Marquee>
 
       <Marquee
@@ -94,7 +95,7 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="nyfw" />
         <PartnerLogo partner="gala_games" />
         <PartnerLogo partner="mirror" />
-        <PartnerLogo partner="heroic_story" />
+        <PartnerLogo partner="buildspace" />
         <PartnerLogo partner="layer3" />
       </Marquee>
     </Box>

@@ -1,5 +1,4 @@
 import { Account, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { useUser } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
 import { OnboardingModal } from "./Modal";
 import { OnboardingGeneral } from "./General";
@@ -7,11 +6,12 @@ import { OnboardingConfirmEmail } from "./ConfirmEmail";
 import { useRouter } from "next/router";
 import { OnboardingBilling } from "./Billing";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 export const Onboarding: React.FC = () => {
   const meQuery = useAccount();
   const router = useRouter();
-  const { isLoggedIn } = useUser();
+  const { isLoggedIn } = useLoggedInUser();
   const trackEvent = useTrack();
 
   const [state, setState] = useState<
@@ -46,7 +46,10 @@ export const Onboarding: React.FC = () => {
       });
     } else if (state === "confirming") {
       const newState =
-        account.status === "validPayment" ? "skipped" : "billing";
+        ["validPayment", "paymentVerification"].includes(account.status) ||
+        account.onboardSkipped
+          ? "skipped"
+          : "billing";
       setState(newState);
 
       trackEvent({
@@ -74,12 +77,11 @@ export const Onboarding: React.FC = () => {
       return;
     }
 
-    // user has never seen onboarding screen or
-    // has set email but hasn't confirmed it (pre-email confirmation users)
-    if (!account.onboardedAt || (account.email && !account.emailConfirmedAt)) {
+    // user hasn't confirmed email
+    if (!account.emailConfirmedAt && !account.unconfirmedEmail) {
       setState("onboarding");
     }
-    // user has changed email (via account settings) and needs to confirm only
+    // user has changed email and needs to confirm
     else if (account.unconfirmedEmail) {
       setState("confirming");
     }
@@ -87,7 +89,7 @@ export const Onboarding: React.FC = () => {
     else if (
       account.email &&
       !account.onboardSkipped &&
-      account.status !== "validPayment"
+      !["validPayment", "paymentVerification"].includes(account.status)
     ) {
       setState("billing");
     }
@@ -96,15 +98,15 @@ export const Onboarding: React.FC = () => {
   if (!isLoggedIn || !account || state === "skipped" || !state) {
     return null;
   }
+  if (state === "billing" && !process.env.NEXT_PUBLIC_STRIPE_KEY) {
+    // can't do billing without stripe key
+    return null;
+  }
 
   return (
     <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
       {state === "onboarding" && (
-        <OnboardingGeneral
-          account={account}
-          onSave={handleSave}
-          onCancel={() => setState("skipped")}
-        />
+        <OnboardingGeneral account={account} onSave={handleSave} />
       )}
       {state === "confirming" && (
         <OnboardingConfirmEmail
