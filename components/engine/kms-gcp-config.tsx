@@ -7,6 +7,8 @@ import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel, Text } from "tw-components";
 import { RemoveConfigButton } from "./remove-config-button";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
 
 interface KmsGcpConfigProps {
   instance: string;
@@ -15,6 +17,11 @@ interface KmsGcpConfigProps {
 export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
   const { mutate: setGcpKmsConfig } = useEngineSetWalletConfig(instance);
   const { data: gcpConfig } = useEngineWalletConfig(instance);
+  const trackEvent = useTrack();
+  const { onSuccess, onError } = useTxNotifications(
+    "Configuration set successfully.",
+    "Failed to set configuration.",
+  );
 
   const transformedQueryData: SetWalletConfigInput = {
     type: "gcp-kms" as const,
@@ -50,7 +57,35 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
       as="form"
       flexDir="column"
       gap={4}
-      onSubmit={form.handleSubmit((data) => setGcpKmsConfig(data))}
+      onSubmit={form.handleSubmit((data) => {
+        trackEvent({
+          category: "engine",
+          action: "set-wallet-config",
+          type: "gcp-kms",
+          label: "attempt",
+        });
+        setGcpKmsConfig(data, {
+          onSuccess: () => {
+            onSuccess();
+            trackEvent({
+              category: "engine",
+              action: "set-wallet-config",
+              type: "gcp-kms",
+              label: "success",
+            });
+          },
+          onError: (error) => {
+            onError(error);
+            trackEvent({
+              category: "engine",
+              action: "set-wallet-config",
+              type: "gcp-kms",
+              label: "error",
+              error,
+            });
+          },
+        });
+      })}
     >
       <Text>
         Engine supports Google KMS for signing & sending transactions over any

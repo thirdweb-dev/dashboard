@@ -7,6 +7,8 @@ import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel, Text } from "tw-components";
 import { RemoveConfigButton } from "./remove-config-button";
+import { useTxNotifications } from "hooks/useTxNotifications";
+import { useTrack } from "hooks/analytics/useTrack";
 
 interface KmsAwsConfigProps {
   instance: string;
@@ -15,6 +17,11 @@ interface KmsAwsConfigProps {
 export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
   const { mutate: setAwsKmsConfig } = useEngineSetWalletConfig(instance);
   const { data: awsConfig } = useEngineWalletConfig(instance);
+  const trackEvent = useTrack();
+  const { onSuccess, onError } = useTxNotifications(
+    "Configuration set successfully.",
+    "Failed to set configuration.",
+  );
 
   const transformedQueryData: SetWalletConfigInput = {
     type: "aws-kms" as const,
@@ -38,7 +45,35 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
       as="form"
       flexDir="column"
       gap={4}
-      onSubmit={form.handleSubmit((data) => setAwsKmsConfig(data))}
+      onSubmit={form.handleSubmit((data) => {
+        trackEvent({
+          category: "engine",
+          action: "set-wallet-config",
+          type: "aws-kms",
+          label: "attempt",
+        });
+        setAwsKmsConfig(data, {
+          onSuccess: () => {
+            onSuccess();
+            trackEvent({
+              category: "engine",
+              action: "set-wallet-config",
+              type: "aws-kms",
+              label: "success",
+            });
+          },
+          onError: (error) => {
+            onError(error);
+            trackEvent({
+              category: "engine",
+              action: "set-wallet-config",
+              type: "aws-kms",
+              label: "error",
+              error,
+            });
+          },
+        });
+      })}
     >
       <Text>
         Engine supports AWS KWS for signing & sending transactions over any EVM
