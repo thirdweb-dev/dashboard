@@ -15,10 +15,13 @@ import { ApiKeyValidationSchema, apiKeyValidationSchema } from "./validations";
 
 interface ICreateAPIKeyButtonProps {
   enabledServices: string[];
-  buttonProps?: ButtonProps
-};
+  buttonProps?: ButtonProps;
+}
 
-export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({ enabledServices, buttonProps }) => {
+export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({
+  enabledServices,
+  buttonProps,
+}) => {
   const trackEvent = useTrack();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,15 +38,17 @@ export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({ enabled
       redirectUrls: "",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
-      services: SERVICES.filter(srv => enabledServices.includes(srv.name)).map((srv) => {
+      services: SERVICES.filter((srv) =>
+        enabledServices.includes(srv.name),
+      ).map((srv) => {
         return {
           name: srv.name,
           targetAddresses: "",
           recoveryShareManagement:
-            srv.name === "embeddedWallets" ? "USER_MANAGED" : undefined,
+            srv.name === "embeddedWallets" ? "AWS_MANAGED" : undefined,
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
-          customAuthentication: undefined
+          customAuthentication: undefined,
         };
       }),
     },
@@ -75,10 +80,12 @@ export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({ enabled
             ...srv,
             targetAddresses: toArrFromList(srv.targetAddresses),
             recoveryShareManagement: srv.recoveryShareManagement,
-            customAuthentication: srv.customAuthentication?.active ? {
-              jwksUri: srv.customAuthentication?.jwksUri,
-              aud: srv.customAuthentication?.aud
-            } : undefined
+            customAuthentication: srv.customAuthentication?.active
+              ? {
+                  jwksUri: srv.customAuthentication?.jwksUri,
+                  aud: srv.customAuthentication?.aud,
+                }
+              : undefined,
           })),
       };
 
