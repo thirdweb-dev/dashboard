@@ -1,4 +1,5 @@
 import {
+  SetWalletConfigInput,
   useEngineSetWalletConfig,
   useEngineWalletConfig,
 } from "@3rdweb-sdk/react/hooks/useEngine";
@@ -14,7 +15,7 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
   const { mutate: setAwsKmsConfig } = useEngineSetWalletConfig(instance);
   const { data: awsConfig } = useEngineWalletConfig(instance);
 
-  const transformedQueryData = {
+  const transformedQueryData: SetWalletConfigInput = {
     type: "aws-kms" as const,
     awsAccessKeyId:
       awsConfig?.type === "aws-kms" ? awsConfig?.awsAccessKeyId ?? "" : "",
@@ -22,7 +23,7 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
     awsRegion: awsConfig?.type === "aws-kms" ? awsConfig?.awsRegion ?? "" : "",
   };
 
-  const form = useForm({
+  const form = useForm<SetWalletConfigInput>({
     defaultValues: transformedQueryData,
     values: transformedQueryData,
     resetOptions: {
@@ -72,7 +73,14 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
           {...form.register("awsRegion", { required: true })}
         />
       </FormControl>
-      <Flex justifyContent="end">
+      <Flex justifyContent="end" gap={3}>
+        <Button
+          type="button"
+          onClick={() => setAwsKmsConfig({ type: "local" })}
+          variant="ghost"
+        >
+          Remove Config
+        </Button>
         <Button
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"

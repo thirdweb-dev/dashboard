@@ -1,4 +1,5 @@
 import {
+  SetWalletConfigInput,
   useEngineSetWalletConfig,
   useEngineWalletConfig,
 } from "@3rdweb-sdk/react/hooks/useEngine";
@@ -14,7 +15,7 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
   const { mutate: setGcpKmsConfig } = useEngineSetWalletConfig(instance);
   const { data: gcpConfig } = useEngineWalletConfig(instance);
 
-  const transformedQueryData = {
+  const transformedQueryData: SetWalletConfigInput = {
     type: "gcp-kms" as const,
     gcpApplicationProjectId:
       gcpConfig?.type === "gcp-kms"
@@ -34,7 +35,7 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
         : "",
   };
 
-  const form = useForm({
+  const form = useForm<SetWalletConfigInput>({
     defaultValues: transformedQueryData,
     values: transformedQueryData,
     resetOptions: {
@@ -112,7 +113,14 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
           })}
         />
       </FormControl>
-      <Flex justifyContent="end">
+      <Flex justifyContent="end" gap={3}>
+        <Button
+          type="button"
+          onClick={() => setGcpKmsConfig({ type: "local" })}
+          variant="ghost"
+        >
+          Remove Config
+        </Button>
         <Button
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"

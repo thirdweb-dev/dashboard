@@ -201,3 +201,94 @@ export function useEngineSetWalletConfig(instance: string) {
     },
   );
 }
+
+export function useEngineCreateBackendWallet(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async () => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(
+        `${instance}${instance.endsWith("/") ? "" : "/"}backend-wallet/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          },
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          engineKeys.backendWallets(instance),
+        );
+      },
+    },
+  );
+}
+
+export type ImportBackendWalletInput =
+  | {
+      awsKmsKeyId: string;
+      awsKmsArn: string;
+    }
+  | {
+      gcpKmsKeyId: string;
+      gcpKmsKeyVersionId: string;
+    }
+  | {
+      privateKey?: string;
+    }
+  | {
+      mnemonic?: string;
+    }
+  | {
+      encryptedJson?: string;
+      password?: string;
+    };
+
+export function useEngineImportBackendWallet(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: ImportBackendWalletInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(
+        `${instance}${instance.endsWith("/") ? "" : "/"}backend-wallet/import`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          },
+          body: JSON.stringify(input),
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          engineKeys.backendWallets(instance),
+        );
+      },
+    },
+  );
+}
