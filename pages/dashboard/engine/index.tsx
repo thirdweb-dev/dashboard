@@ -118,7 +118,7 @@ const EngineOverview: ThirdwebNextPage = () => {
               </Button>
             </Text>
 
-            <Flex flexDir="column" gap={{ base: 0, md: 4 }} mb={8} mt={4}>
+            <Flex flexDir="column" gap={{ base: 0, md: 4 }} mb={4} mt={4}>
               <Box
                 w="full"
                 overflow={{ base: "auto", md: "hidden" }}
