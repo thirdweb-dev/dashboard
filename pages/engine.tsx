@@ -26,8 +26,8 @@ const trustedCompanies = [
   },
   {
     title: "Layer3",
-    height: 90,
-    width: 90,
+    height: 74,
+    width: 74,
     src: require("public/assets/partners/layer3.png"),
   },
   {
@@ -110,23 +110,23 @@ const EngineLanding: ThirdwebNextPage = () => {
         >
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
-            title="Go to market faster"
-            description="Save months of development time with solutions that work out-of-the-box and abstract away all of the blockchain complexity for you."
+            title="Scale to millions"
+            description="Manage wallets at scale and protect your transactions against stuck nonces, gas spikes, and network instability."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
-            title="Cross-chain EVM support"
-            description="Launch your web3 app on any (or many) chains. Don't lock your users into one network — unlock ultimate cross-chain flexibility with support for any EVM."
+            title="Go to market faster"
+            description="Build full-scale web3 apps using familiar frameworks. Engine abstracts away all complexity with nonce, gas, signer & private keys."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
-            title="Scale to billions"
-            description="Nonce, key and fund management handled for you. Scale your app without sacrificing performance or security."
+            title="Any EVM support"
+            description="Launch your app on any (or many) chains. Unlock ultimate cross-chain flexibility with support for any EVM."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-3.svg")}
             title="Secure and reliable"
-            description="Best-in-class security for your users and 99.9% infrastructure uptime."
+            description="Back up private keys to the cloud, revoke access to backend wallets, and monitor flow of funds."
           />
         </LandingGridSection>
 
@@ -215,9 +215,9 @@ const EngineLanding: ThirdwebNextPage = () => {
               Coinbase Brings Onchain Experiences to the Real World
             </Heading>
             <Text fontSize="medium" fontWeight="400" color="white">
-              Scalable, fast, & reliable NFT infrastructure to power web3
-              experiences — bringing half of Mainnet 2023 attendees onchain via
-              Coinbase Wallet.
+              Scalable, fast, & reliable NFT infrastructure to power onchain
+              experiences — bringing half of all Mainnet 2023 attendees onchain
+              via Coinbase Wallet.
             </Text>
             <TrackedLinkButton
               variant="outline"
