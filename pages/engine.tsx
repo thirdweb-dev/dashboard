@@ -274,7 +274,7 @@ const EngineLanding: ThirdwebNextPage = () => {
                 engineLabel: "coinbase_learn_more",
               }}
             >
-              {`Learn more in the full case study ->`}
+              See the case study
             </TrackedLink>
           </Box>
         </LandingCardWithImageBackground>
