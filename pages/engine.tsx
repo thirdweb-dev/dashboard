@@ -1,22 +1,13 @@
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  GridItem,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Heading, Card, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
-import { ChakraNextImage } from "components/Image";
 import {
   LandingCardWithImage,
   LandingImages,
@@ -257,25 +248,22 @@ const EngineLanding: ThirdwebNextPage = () => {
               experiences — bringing half of Mainnet 2023 attendees onchain via
               Coinbase Wallet.
             </Text>
-
-            <TrackedLink
-              href={`/`}
-              target="_blank"
-              w="full"
-              alignSelf="center"
+            <TrackedLinkButton
+              variant="outline"
+              isExternal
+              bgColor="#FFF"
+              color="#000"
+              border="none"
               _hover={{
-                textDecoration: "none",
+                background: "#e6d8d8",
               }}
-              textDecoration="underline"
-              role="group"
+              py={6}
               category={TRACKING_CATEGORY}
-              label="coinbase_learn_more"
-              trackingProps={{
-                engineLabel: "coinbase_learn_more",
-              }}
+              label="starter"
+              href="/dashboard/settings/billing"
             >
               See the case study
-            </TrackedLink>
+            </TrackedLinkButton>
           </Box>
         </LandingCardWithImageBackground>
 
