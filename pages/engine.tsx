@@ -1,16 +1,64 @@
-import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Container,
+  Flex,
+  GridItem,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Heading, Card } from "tw-components";
+import { Heading, Card, Text, TrackedLink } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ChakraNextImage } from "components/Image";
+import {
+  LandingCardWithImage,
+  LandingImages,
+} from "components/landing-pages/card-with-image";
+import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 
 const TRACKING_CATEGORY = "engine-landing";
+
+const trustedCompanies = [
+  {
+    title: "Coinbase",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/coinbase.png"),
+  },
+  {
+    title: "Layer3",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/layer3.png"),
+  },
+  {
+    title: "Ava Labs",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/ava.png"),
+  },
+  {
+    title: "Treasure",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/treasure.png"),
+  },
+  {
+    title: "Ex Populus",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/ex.png"),
+  },
+];
+
+const linkBoxBg = "#131418";
 
 const EngineLanding: ThirdwebNextPage = () => {
   return (
@@ -40,30 +88,34 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          miniTitle="thirdweb Engine"
-          title="All-in-one API"
-          titleWithGradient="for enterprise-grade Web3 apps"
-          subtitle="Power your Web3 app with production-grade APIs, including auth, smart contracts, backend wallets, gasless transactions, and managed infrastructure."
+          miniTitleWithGradient="Engine"
+          title="All-in-one API for enterprise-grade Web3 apps"
+          subtitle="Onboard all of your users with a powerful Connect Wallet modal, flexible sign-in options for web2 & web3, and hooks for full customizability."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
-          ctaText="Get beta access"
-          noContactUs={true}
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          ctaText="Get started"
+          miniTitleSize="subtitle.lg"
+          contactUsTitle={"Book a demo"}
+          gradient="linear-gradient(244deg, #BFA3DA -84.5%, #FFF -84.49%, #3385FF 86.64%)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
+          contactUsLink={"/contact"}
         />
         <LandingGridSection
           desktopColumns={4}
           title={
-            <Heading size="label.2xl" color="white">
-              <Box
-                bgGradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-                bgClip="text"
-              >
-                Connect your app to web3,
-              </Box>{" "}
-              without the complexity
-            </Heading>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              marginBottom={{ base: "35px", md: "55px" }}
+            >
+              <Box width="full" maxWidth="700px" textAlign="center">
+                <Heading fontSize="48px" color="white">
+                  Connect your app to web3, without the complexity
+                </Heading>
+              </Box>
+            </Box>
           }
         >
           <LandingIconSectionItem
@@ -88,54 +140,144 @@ const EngineLanding: ThirdwebNextPage = () => {
           />
         </LandingGridSection>
 
-        <Flex flexDir="column" gap={6}>
-          <LandingGridSection
-            title={
-              <LandingSectionHeading
-                title="Solutions for every web3-powered feature in your app"
-                blackToWhiteTitle=""
-              />
-            }
-          >
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/wallet-management.png")}
-                title="Wallet Management"
-                description="Create backend wallets, store keys securely, sign & send transactions, and move funds at scale with nonce management."
-              />
-            </Card>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/account-abstraction.png")}
-                title="Account Abstraction"
-                description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
-              />
-            </Card>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/smart-contracts.png")}
-                title="Smart Contracts"
-                description="Deploy, read, & write to any smart contract across any EVM-compatible blockchain — and build with thirdweb's audited smart contracts."
-              />
-            </Card>
-          </LandingGridSection>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/web3-auth.png")}
-                title="Web3 Auth"
-                description="Create permissions to enable users' wallets to directly interact with certain endpoints on the thirdweb Engine."
-              />
-            </Card>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/gasless-transactions.png")}
-                title="Gasless Transactions"
-                description="Onboard users in an instant & create seamless web3 UX by sponsoring gas fees — for any & all transactions."
-              />
-            </Card>
-          </SimpleGrid>
-        </Flex>
+        <LandingImages
+          title={
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              w="full"
+              marginBottom="38px"
+            >
+              <Heading
+                textAlign="center"
+                fontSize="40px"
+                fontWeight="700"
+                color="white"
+                maxW="800px"
+              >
+                Trusted by the best
+              </Heading>
+            </Box>
+          }
+          gap="44px"
+          images={trustedCompanies}
+        />
+
+        <LandingGridSection
+          title={
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              w="full"
+              marginBottom="38px"
+            >
+              <Heading
+                textAlign="center"
+                fontSize="40px"
+                fontWeight="700"
+                color="white"
+                maxW="800px"
+              >
+                Solutions for every web3-powered feature in your app
+              </Heading>
+            </Box>
+          }
+          desktopColumns={4}
+        >
+          <LandingCardWithImage
+            title="Smart Contracts"
+            description="Deploy, read, & write to any smart contract across any EVM-compatible blockchain — and build with thirdweb's audited smart contracts."
+            image={require("public/assets/landingpage/smart-contract-audits-desktop.png")}
+            mobileImage={require("public/assets/landingpage/smart-contract-audits-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/wallets/connect"
+            linkBoxBg={linkBoxBg}
+          />
+
+          <LandingCardWithImage
+            title="Account Abstraction"
+            description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
+            image={require("public/assets/landingpage/account-abstraction-desktop.png")}
+            mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/wallets/connect"
+            linkBoxBg={linkBoxBg}
+            direction="horizontal"
+          />
+
+          <LandingCardWithImage
+            title="Web3 auth"
+            description="Create permissions to enable users' wallets to directly interact with certain endpoints on the thirdweb Engine."
+            image={require("public/assets/product-pages/connect/desktop-auth.png")}
+            mobileImage={require("public/assets/product-pages/connect/mobile-auth.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/wallets/connect"
+            linkBoxBg={linkBoxBg}
+            colSpan={1}
+          />
+          <LandingCardWithImage
+            title="Wallet Management"
+            description="Nonce management to create backend wallets, store keys securely and sign & send transactions at scale. Eliminate stuck transactions and scale your app to millions."
+            image={require("public/assets/landingpage/managment-desktop.png")}
+            mobileImage={require("public/assets/landingpage/managment-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/wallets/connect"
+            linkBoxBg={linkBoxBg}
+            colSpan={2}
+          />
+          <LandingCardWithImage
+            title="Gasless Transactions"
+            description="Onboard users in an instant & create seamless web3 UX by sponsoring gas fees — for any & all transactions."
+            image={require("public/assets/landingpage/transaction-fee-desktop.png")}
+            mobileImage={require("public/assets/landingpage/transaction-fee-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/wallets/connect"
+            linkBoxBg={linkBoxBg}
+            colSpan={1}
+          />
+        </LandingGridSection>
+
+        <LandingCardWithImageBackground
+          image={require("public/assets/landingpage/coinbase-event.png")}
+        >
+          <Box maxWidth="600px">
+            <Heading fontSize="32px" fontWeight="600" color="white">
+              Coinbase Brings Onchain Experiences to the Real World
+            </Heading>
+            <Text
+              marginTop="16px"
+              fontSize="16px"
+              marginBlock="38px"
+              fontWeight="400"
+              color="white"
+            >
+              Scalable, fast, & reliable NFT infrastructure to power web3
+              experiences — bringing half of Mainnet 2023 attendees onchain via
+              Coinbase Wallet.
+            </Text>
+
+            <TrackedLink
+              href={`/`}
+              target="_blank"
+              w="full"
+              alignSelf="center"
+              _hover={{
+                textDecoration: "none",
+              }}
+              textDecoration="underline"
+              role="group"
+              category={TRACKING_CATEGORY}
+              label="coinbase_learn_more"
+              trackingProps={{
+                engineLabel: "coinbase_learn_more",
+              }}
+            >
+              {`Learn more in the full case study ->`}
+            </TrackedLink>
+          </Box>
+        </LandingCardWithImageBackground>
 
         <LandingEndCTA
           title="Start building with"
