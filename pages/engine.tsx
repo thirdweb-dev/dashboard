@@ -101,7 +101,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             >
               <Box width="full" maxWidth="800px" textAlign="center">
                 <LandingSectionHeading
-                  title="Connect your app to web3, without the complexity"
+                  title="Scale your app without sacrificing performance or security"
                   blackToWhiteTitle=""
                 />
               </Box>
