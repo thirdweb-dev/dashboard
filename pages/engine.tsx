@@ -92,14 +92,14 @@ const EngineLanding: ThirdwebNextPage = () => {
           title="All-in-one API for enterprise-grade Web3 apps"
           subtitle="Onboard all of your users with a powerful Connect Wallet modal, flexible sign-in options for web2 & web3, and hooks for full customizability."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
+          ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
           miniTitleSize="subtitle.lg"
           contactUsTitle={"Book a demo"}
           gradient="linear-gradient(244deg, #BFA3DA -84.5%, #FFF -84.49%, #3385FF 86.64%)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
-          contactUsLink={"/contact"}
+          contactUsLink={"/contact-us"}
         />
         <LandingGridSection
           desktopColumns={4}
@@ -192,7 +192,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/smart-contract-audits-desktop.png")}
             mobileImage={require("public/assets/landingpage/smart-contract-audits-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/wallets/connect"
+            href="/explore"
             linkBoxBg={linkBoxBg}
           />
 
@@ -202,7 +202,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/account-abstraction-desktop.png")}
             mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/wallets/connect"
+            href="/account-abstraction"
             linkBoxBg={linkBoxBg}
             direction="horizontal"
           />
@@ -213,7 +213,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/product-pages/connect/desktop-auth.png")}
             mobileImage={require("public/assets/product-pages/connect/mobile-auth.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/wallets/connect"
+            href="/auth"
             linkBoxBg={linkBoxBg}
             colSpan={1}
           />
@@ -223,7 +223,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/managment-desktop.png")}
             mobileImage={require("public/assets/landingpage/managment-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/wallets/connect"
+            href="https://portal.thirdweb.com/wallet"
             linkBoxBg={linkBoxBg}
             colSpan={2}
           />
@@ -233,7 +233,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/transaction-fee-desktop.png")}
             mobileImage={require("public/assets/landingpage/transaction-fee-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/wallets/connect"
+            href="/sponsored-transactions"
             linkBoxBg={linkBoxBg}
             colSpan={1}
           />
@@ -284,7 +284,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           titleWithGradient="thirdweb Engine."
           trackingCategory={TRACKING_CATEGORY}
           ctaText="Get beta access"
-          ctaLink="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
+          ctaLink="https://portal.thirdweb.com/engine"
           noContactUs={true}
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
