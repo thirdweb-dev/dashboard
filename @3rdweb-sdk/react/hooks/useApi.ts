@@ -1,8 +1,8 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { THIRDWEB_API_HOST } from "../../../constants/urls";
-import { apiKeys, accountKeys, authorizedWallets } from "../cache-keys";
+import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import invariant from "tiny-invariant";
 import { useLoggedInUser } from "./useLoggedInUser";
@@ -59,7 +59,8 @@ export type ApiKeyService = {
   name: string;
   targetAddresses: string[];
   actions: string[];
-  recoveryShareManagement?: string;
+  // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
+  recoveryShareManagement?: "AWS_MANAGED" | "USER_MANAGED" | "CUSTOM_JWT";
   customAuthentication?: {
     jwksUri: string;
     aud: string;

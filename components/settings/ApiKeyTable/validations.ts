@@ -58,6 +58,7 @@ export const apiKeyValidationSchema = z.object({
             }),
           recoveryShareManagement: z
             //  This should be the same as @paperxyz/embedded-wallet-service-sdk RecoveryShareManagement enum
+            // ALso needs to be kept in sync with the type in `useApi.ts`
             .enum(["AWS_MANAGED", "USER_MANAGED", "CUSTOM_JWT"])
             .optional(),
           actions: z.array(z.string()),
