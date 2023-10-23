@@ -14,6 +14,11 @@ import {
 import { FormEventHandler, useRef } from "react";
 import { Card, Link, Text, Button } from "tw-components";
 
+function simplifyURL(url: string): string {
+  const parsedURL = new URL(url);
+  return `${parsedURL.protocol}//${parsedURL.host}/`;
+}
+
 interface NoEngineInstanceProps {
   setInstanceUrl: (value: string) => void;
 }
@@ -27,7 +32,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
   const onSubmit: FormEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
     const url = instanceUrlRef.current?.value ?? "";
-    setInstanceUrl(`${url}${url.endsWith("/") ? "" : "/"}`);
+    setInstanceUrl(simplifyURL(url));
   };
 
   return (
