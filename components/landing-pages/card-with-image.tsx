@@ -12,7 +12,6 @@ interface LandingCardWithImageProps {
   mobileImage?: StaticImageData;
   direction?: "vertical" | "horizontal";
   colSpan?: number;
-  linkBoxBg?: string;
   href: string;
   TRACKING_CATEGORY: string;
 }
@@ -24,7 +23,6 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
   mobileImage,
   direction = "vertical",
   colSpan = 2,
-  linkBoxBg = "transparent",
   href,
   TRACKING_CATEGORY,
 }) => {
@@ -49,7 +47,6 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
           }}
           justifyContent="space-between"
           alignItems="end"
-          background={linkBoxBg}
         >
           <Flex
             gap={4}
@@ -109,6 +106,7 @@ export const LandingImages: React.FC<LandingImageProps> = ({
         justifyContent="center"
         flexWrap="wrap"
         gap={gap}
+        marginTop="24px"
       >
         {images.length
           ? images.map(({ src, height, width, title: imgTitle }, idx) => {

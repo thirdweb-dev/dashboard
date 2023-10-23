@@ -13,6 +13,7 @@ import {
   LandingImages,
 } from "components/landing-pages/card-with-image";
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 
 const TRACKING_CATEGORY = "engine-landing";
 
@@ -79,18 +80,17 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          miniTitleWithGradient="Engine"
+          titleWithGradient=""
+          miniTitle="Engine"
           title="All-in-one API for enterprise-grade Web3 apps"
           subtitle="Onboard all of your users with a powerful Connect Wallet modal, flexible sign-in options for web2 & web3, and hooks for full customizability."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
-          miniTitleSize="subtitle.lg"
-          contactUsTitle={"Book a demo"}
-          gradient="linear-gradient(244deg, #BFA3DA -84.5%, #FFF -84.49%, #3385FF 86.64%)"
+          contactUsTitle="Book a demo"
+          gradient="linear(to-r, #BFA3DA, #3385FF)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
-          contactUsLink={"/contact-us"}
         />
         <LandingGridSection
           desktopColumns={4}
@@ -101,10 +101,11 @@ const EngineLanding: ThirdwebNextPage = () => {
               justifyContent="center"
               marginBottom={{ base: "35px", md: "55px" }}
             >
-              <Box width="full" maxWidth="700px" textAlign="center">
-                <Heading fontSize="48px" color="white">
-                  Connect your app to web3, without the complexity
-                </Heading>
+              <Box width="full" maxWidth="800px" textAlign="center">
+                <LandingSectionHeading
+                  title="Connect your app to web3, without the complexity"
+                  blackToWhiteTitle=""
+                />
               </Box>
             </Box>
           }
@@ -133,23 +134,10 @@ const EngineLanding: ThirdwebNextPage = () => {
 
         <LandingImages
           title={
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              w="full"
-              marginBottom="38px"
-            >
-              <Heading
-                textAlign="center"
-                fontSize="40px"
-                fontWeight="700"
-                color="white"
-                maxW="800px"
-              >
-                Trusted by the best
-              </Heading>
-            </Box>
+            <LandingSectionHeading
+              title="Trusted by the best"
+              blackToWhiteTitle=""
+            />
           }
           gap="44px"
           images={trustedCompanies}
@@ -164,15 +152,12 @@ const EngineLanding: ThirdwebNextPage = () => {
               w="full"
               marginBottom="38px"
             >
-              <Heading
-                textAlign="center"
-                fontSize="40px"
-                fontWeight="700"
-                color="white"
-                maxW="800px"
-              >
-                Solutions for every web3-powered feature in your app
-              </Heading>
+              <Box maxWidth="1000px">
+                <LandingSectionHeading
+                  title="Solutions for every web3-powered feature in your app"
+                  blackToWhiteTitle=""
+                />
+              </Box>
             </Box>
           }
           desktopColumns={4}
@@ -184,7 +169,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             mobileImage={require("public/assets/landingpage/smart-contract-audits-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/explore"
-            linkBoxBg={linkBoxBg}
           />
 
           <LandingCardWithImage
@@ -194,7 +178,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/account-abstraction"
-            linkBoxBg={linkBoxBg}
             direction="horizontal"
           />
 
@@ -205,7 +188,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             mobileImage={require("public/assets/product-pages/connect/mobile-auth.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/auth"
-            linkBoxBg={linkBoxBg}
             colSpan={1}
           />
           <LandingCardWithImage
@@ -215,8 +197,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             mobileImage={require("public/assets/landingpage/managment-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/wallet"
-            linkBoxBg={linkBoxBg}
-            colSpan={2}
           />
           <LandingCardWithImage
             title="Gasless Transactions"
@@ -225,7 +205,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             mobileImage={require("public/assets/landingpage/transaction-fee-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/sponsored-transactions"
-            linkBoxBg={linkBoxBg}
             colSpan={1}
           />
         </LandingGridSection>
@@ -233,17 +212,11 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingCardWithImageBackground
           image={require("public/assets/landingpage/coinbase-event.png")}
         >
-          <Box maxWidth="600px">
-            <Heading fontSize="32px" fontWeight="600" color="white">
+          <Flex flexDir="column" gap="27px" maxWidth="600px">
+            <Heading fontSize="xx-large" fontWeight="600" color="white">
               Coinbase Brings Onchain Experiences to the Real World
             </Heading>
-            <Text
-              marginTop="16px"
-              fontSize="16px"
-              marginBlock="38px"
-              fontWeight="400"
-              color="white"
-            >
+            <Text fontSize="medium" fontWeight="400" color="white">
               Scalable, fast, & reliable NFT infrastructure to power web3
               experiences — bringing half of Mainnet 2023 attendees onchain via
               Coinbase Wallet.
@@ -255,16 +228,17 @@ const EngineLanding: ThirdwebNextPage = () => {
               color="#000"
               border="none"
               _hover={{
-                background: "#e6d8d8",
+                opacity: 0.9,
               }}
               py={6}
               category={TRACKING_CATEGORY}
-              label="starter"
-              href="/dashboard/settings/billing"
+              label="coinbase-case-study"
+              href="https://blog.thirdweb.com/case-study/coinbase-brings-onchain-experiences-to-life"
+              maxW="fit-content"
             >
               See the case study
             </TrackedLinkButton>
-          </Box>
+          </Flex>
         </LandingCardWithImageBackground>
 
         <LandingEndCTA
@@ -273,7 +247,6 @@ const EngineLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaText="Get beta access"
           ctaLink="https://portal.thirdweb.com/engine"
-          noContactUs={true}
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
       </Container>
