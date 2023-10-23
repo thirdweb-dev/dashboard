@@ -34,8 +34,8 @@ const trustedCompanies = [
   },
   {
     title: "Layer3",
-    height: 74,
-    width: 74,
+    height: 90,
+    width: 90,
     src: require("public/assets/partners/layer3.png"),
   },
   {
