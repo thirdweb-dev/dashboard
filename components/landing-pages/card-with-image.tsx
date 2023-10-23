@@ -3,6 +3,7 @@ import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 import { Card, Text, TrackedLink } from "tw-components";
 import { LandingDesktopMobileImage } from "./desktop-mobile-image";
+import { ChakraNextImage } from "components/Image";
 
 interface LandingCardWithImageProps {
   title: string;
@@ -11,6 +12,7 @@ interface LandingCardWithImageProps {
   mobileImage?: StaticImageData;
   direction?: "vertical" | "horizontal";
   colSpan?: number;
+  linkBoxBg?: string;
   href: string;
   TRACKING_CATEGORY: string;
 }
@@ -22,6 +24,7 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
   mobileImage,
   direction = "vertical",
   colSpan = 2,
+  linkBoxBg = "transparent",
   href,
   TRACKING_CATEGORY,
 }) => {
@@ -46,6 +49,7 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
           }}
           justifyContent="space-between"
           alignItems="end"
+          background={linkBoxBg}
         >
           <Flex
             gap={4}
@@ -82,5 +86,59 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
         </Card>
       </LinkBox>
     </GridItem>
+  );
+};
+
+interface LandingImageProps {
+  title: ReactNode;
+  gap: string | number;
+  images: { height: number; width: number; src: string; title: string }[];
+}
+
+export const LandingImages: React.FC<LandingImageProps> = ({
+  title,
+  images,
+  gap,
+}) => {
+  return (
+    <Flex flexDir="column" alignItems="center" justifyContent="center" gap={8}>
+      {title && title}
+
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        flexWrap="wrap"
+        gap={gap}
+      >
+        {images.length
+          ? images.map(({ src, height, width, title: imgTitle }, idx) => {
+              return (
+                <Flex
+                  flexDir="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  key={idx}
+                >
+                  <ChakraNextImage
+                    src={src}
+                    height={height}
+                    width={width}
+                    alt="card-with-image"
+                  />
+
+                  <Text
+                    marginTop="16px"
+                    fontWeight={500}
+                    fontSize="14px"
+                    color="#fff"
+                  >
+                    {imgTitle}
+                  </Text>
+                </Flex>
+              );
+            })
+          : null}
+      </Flex>
+    </Flex>
   );
 };
