@@ -88,7 +88,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           contactUsTitle="Book a demo"
           gradient="linear(to-r, #BFA3DA, #3385FF)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
-          mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
+          mobileImage={require("public/assets/product-pages/engine/mobile-hero.png")}
         />
         <LandingGridSection
           desktopColumns={4}
