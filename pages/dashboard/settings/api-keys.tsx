@@ -49,7 +49,9 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
           <Heading size="title.lg" as="h1">
             API Keys
           </Heading>
-          <CreateApiKeyButton enabledServices={SERVICES.map(srv => srv.name)} />
+          <CreateApiKeyButton
+            enabledServices={SERVICES.map((srv) => srv.name)}
+          />
         </Flex>
 
         <Text>

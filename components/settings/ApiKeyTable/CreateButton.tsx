@@ -62,11 +62,11 @@ export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
-    const enabledServices = (values.services || []).filter(
+    const serviceToEnable = (values.services || []).filter(
       (srv) => !!srv.enabled,
     );
 
-    if (enabledServices.length > 0) {
+    if (serviceToEnable.length > 0) {
       const formattedValues = {
         name: values.name,
         domains: toArrFromList(values.domains),

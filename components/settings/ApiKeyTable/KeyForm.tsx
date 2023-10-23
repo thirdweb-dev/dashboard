@@ -23,7 +23,6 @@ import {
   Textarea,
   Tooltip,
   UnorderedList,
-  Flex,
   VStack,
 } from "@chakra-ui/react";
 import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
@@ -95,9 +94,10 @@ export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
     }
 
     const isThirdwebEmail =
-      account.email && account.email.split("@")[1] == "thirdweb.com";
+      account.email && account.email.split("@")[1] === "thirdweb.com";
     const isInternal = account.isStaff;
-    const isEnterprise = account.plan === "enterprise"; // TODO: check this value
+    // TODO: check this value
+    const isEnterprise = account.plan === "enterprise";
 
     return isThirdwebEmail || isInternal || isEnterprise;
   }, [account]);
