@@ -26,7 +26,8 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
 
   const onSubmit: FormEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
-    setInstanceUrl(instanceUrlRef.current?.value ?? "");
+    const url = instanceUrlRef.current?.value ?? "";
+    setInstanceUrl(`${url}${url.endsWith("/") ? "" : "/"}`);
   };
 
   return (

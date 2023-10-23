@@ -15,7 +15,9 @@ export const EngineFunctions: React.FC<EngineFunctionsProps> = ({
   return (
     <ClientOnly ssr={null}>
       <Box bg="white" borderRadius="xl">
-        <SwaggerUI url={`${instance}json`} />
+        <SwaggerUI
+          url={`${instance}${instance.endsWith("/") ? "" : "/"}json`}
+        />
       </Box>
     </ClientOnly>
   );

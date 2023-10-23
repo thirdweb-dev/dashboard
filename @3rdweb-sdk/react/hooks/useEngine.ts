@@ -19,16 +19,13 @@ export function useEngineBackendWallets(instance: string) {
   return useQuery(
     engineKeys.backendWallets(instance),
     async () => {
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}backend-wallet/get-all`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
+      const res = await fetch(`${instance}backend-wallet/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+      });
 
       const json = await res.json();
 
@@ -93,16 +90,13 @@ export function useEngineTransactions(instance: string) {
   return useQuery(
     engineKeys.transactions(instance),
     async () => {
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}transaction/get-all`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
+      const res = await fetch(`${instance}transaction/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+      });
 
       const json = await res.json();
 
@@ -135,16 +129,13 @@ export function useEngineWalletConfig(instance: string) {
   return useQuery(
     engineKeys.walletConfig(instance),
     async () => {
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}configuration/wallets`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
+      const res = await fetch(`${instance}configuration/wallets`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+      });
 
       const json = await res.json();
 
@@ -217,17 +208,14 @@ export function useEngineSetWalletConfig(instance: string) {
     async (input: SetWalletConfigInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}configuration/wallets`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
-          body: JSON.stringify(input),
+      const res = await fetch(`${instance}configuration/wallets`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+        body: JSON.stringify(input),
+      });
       const json = await res.json();
 
       if (json.error) {
@@ -251,16 +239,13 @@ export function useEngineCreateBackendWallet(instance: string) {
     async () => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}backend-wallet/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
+      const res = await fetch(`${instance}backend-wallet/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+      });
       const json = await res.json();
 
       if (json.error) {
@@ -306,17 +291,14 @@ export function useEngineImportBackendWallet(instance: string) {
     async (input: ImportBackendWalletInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(
-        `${instance}${instance.endsWith("/") ? "" : "/"}backend-wallet/import`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
-          },
-          body: JSON.stringify(input),
+      const res = await fetch(`${instance}backend-wallet/import`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
         },
-      );
+        body: JSON.stringify(input),
+      });
       const json = await res.json();
 
       if (json.error) {
