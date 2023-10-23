@@ -50,8 +50,6 @@ const trustedCompanies = [
   },
 ];
 
-const linkBoxBg = "#131418";
-
 const EngineLanding: ThirdwebNextPage = () => {
   return (
     <LandingLayout
