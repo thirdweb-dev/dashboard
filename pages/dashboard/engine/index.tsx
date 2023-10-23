@@ -1,46 +1,36 @@
-import {
-  Box,
-  ButtonGroup,
-  Divider,
-  Flex,
-  FormControl,
-  HStack,
-  Input,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, ButtonGroup, Divider, Flex, Tooltip } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EngineSidebar } from "core-ui/sidebar/engine";
 import { PageId } from "page-id";
-import { FormEventHandler, useRef, useState } from "react";
-import { Button, Card, Heading, Link, Text } from "tw-components";
+import { useState } from "react";
+import { Button, Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { EngineAnalytics } from "components/engine/engine-analytics";
 import { EngineFunctions } from "components/engine/engine-functions";
 import { EngineConfiguration } from "components/engine/engine-configuration";
+import { NoEngineInstance } from "components/engine/no-engine-instance";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 const EngineOverview: ThirdwebNextPage = () => {
-  const [hostedEngineUrl, setHostedEngineUrl] = useState(
-    "https://web3-api-akbv.chainsaw-dev.zeet.app/",
-  );
-  const hostedEngineUrlRef = useRef<HTMLInputElement>(null);
+  const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
   const tabs = [
     {
       title: "Analytics",
       isDisabled: false,
       disabledText: "",
-      children: <EngineAnalytics instance={hostedEngineUrl} />,
+      children: <EngineAnalytics instance={instanceUrl} />,
     },
     {
       title: "Functions",
       isDisabled: false,
       disabledText: "",
-      children: <EngineFunctions instance={hostedEngineUrl} />,
+      children: <EngineFunctions instance={instanceUrl} />,
     },
     {
       title: "Configuration",
       isDisabled: false,
       disabledText: "",
-      children: <EngineConfiguration instance={hostedEngineUrl} />,
+      children: <EngineConfiguration instance={instanceUrl} />,
     },
     {
       title: "Permissions",
@@ -51,11 +41,6 @@ const EngineOverview: ThirdwebNextPage = () => {
   ];
 
   const [tab, setTab] = useState(tabs[0].title);
-
-  const onSubmit: FormEventHandler<HTMLInputElement> = (e) => {
-    e.preventDefault();
-    setHostedEngineUrl(hostedEngineUrlRef.current?.value ?? "");
-  };
 
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
@@ -71,47 +56,16 @@ const EngineOverview: ThirdwebNextPage = () => {
           </Heading>
         </Flex>
 
-        {!hostedEngineUrl ? (
-          <>
-            <Text>
-              Enter your self-hosted Engine URL. {` `}
-              <Link
-                target="_blank"
-                color="blue.500"
-                href="https://portal.thirdweb.com/engine"
-                isExternal
-              >
-                Learn more
-              </Link>
-            </Text>
-
-            <Flex
-              flexDir="column"
-              as="form"
-              alignItems="start"
-              onSubmit={onSubmit}
-            >
-              <FormControl isRequired>
-                <HStack w="full">
-                  <Input
-                    ref={hostedEngineUrlRef}
-                    type="url"
-                    id="url"
-                    placeholder="Enter your Engine URL"
-                  />
-                  <Button type="submit">Save</Button>
-                </HStack>
-              </FormControl>
-            </Flex>
-          </>
+        {!instanceUrl ? (
+          <NoEngineInstance setInstanceUrl={setInstanceUrl} />
         ) : (
           <>
             <Text>
-              Managing Engine instance: <em>{hostedEngineUrl}</em> {` `}
+              Managing Engine instance: <em>{instanceUrl}</em>{" "}
               <Button
                 size="sm"
                 variant="link"
-                onClick={() => setHostedEngineUrl("")}
+                onClick={() => setInstanceUrl("")}
                 color="blue.500"
               >
                 Edit

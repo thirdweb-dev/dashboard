@@ -262,7 +262,7 @@ const AppHeader: React.FC = () => {
             }}
             rounded="lg"
           >
-            Engine™
+            Engine
           </LinkButton>
           <LinkButton
             href="/dashboard/settings"
