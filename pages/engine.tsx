@@ -80,8 +80,8 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           titleWithGradient=""
           miniTitle="Engine"
-          title="All-in-one API for enterprise-grade Web3 apps"
-          subtitle="Onboard all of your users with a powerful Connect Wallet modal, flexible sign-in options for web2 & web3, and hooks for full customizability."
+          title="Backend wallet management for web3 apps at scale."
+          subtitle="Complete back-end solution for scalable web3 apps on any EVM chain. Engine creates and manages backend wallets enabling high throughput with automatic nonce and gas management."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
@@ -243,7 +243,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           title="Start building with"
           titleWithGradient="thirdweb Engine."
           trackingCategory={TRACKING_CATEGORY}
-          ctaText="Get beta access"
+          ctaText="Get started"
           ctaLink="https://portal.thirdweb.com/engine"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
