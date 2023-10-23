@@ -3404,29 +3404,7 @@
     qrcode "^1.5.3"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-4.0.6.tgz#f9c64b7d6a3beafa69777640228b773b40ed7dd5"
-  integrity sha512-s0VvSrNq5QiKcRfj/X/jjjDj5uzeJaFTZWsZxFUpyWhyTG9UjMXrTpJmCeHTf4jr4Xs0GkKI6L15NP6TYROM8Q==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.55"
-    "@thirdweb-dev/contracts-js" "1.3.16"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "2.0.0"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    eventemitter3 "^5.0.1"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.1"
-    yaml "^2.3.1"
-    zod "^3.22.3"
-
-"@thirdweb-dev/sdk@4.0.8-nightly-d1743a32-20231023053221", "@thirdweb-dev/sdk@^4.0.8-nightly-cc651135-20231023133010":
+"@thirdweb-dev/sdk@4.0.6", "@thirdweb-dev/sdk@4.0.8-nightly-d1743a32-20231023053221", "@thirdweb-dev/sdk@^4.0.8-nightly-cc651135-20231023133010":
   version "4.0.8-nightly-d1743a32-20231023053221"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-4.0.8-nightly-d1743a32-20231023053221.tgz#02e8ac822b3317ba18c06e60efb1ea585994222c"
   integrity sha512-+Jxrgs7D4tZckB16kV1jRiNUkvXvw7AIFDpLaG51cBQvikv1kZV6GOyppC4JLA2wiBNJVa/rT8B8O/mnWIw37Q==
@@ -3455,15 +3433,6 @@
   dependencies:
     aws4fetch "^1.0.17"
     zod "^3.22.3"
-
-"@thirdweb-dev/storage@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-2.0.0.tgz#b3e4a34bcbcdd3b2ce3171af76d69a56993e7fa0"
-  integrity sha512-pfTbiwgrp2N2lrTfa8nLt5E9V1+IGtYKtKU82ReOKKYkRTi0qkqI5ydNuzM2VUcwIyyPnlRR/W7NloHyyBW5/Q==
-  dependencies:
-    cid-tool "^3.0.0"
-    form-data "^4.0.0"
-    uuid "^9.0.1"
 
 "@thirdweb-dev/storage@2.0.1":
   version "2.0.1"
