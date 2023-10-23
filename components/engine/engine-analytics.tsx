@@ -20,13 +20,13 @@ export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
   instance,
 }) => {
   const backendWallets = useEngineBackendWallets(instance);
-  const transactions = useEngineTransactions(instance);
+  const transactionsQuery = useEngineTransactions(instance);
   const chainId = useChainId();
   const [selectedChainId, setSelectedChainId] = useState(chainId || 1);
 
-  const filteredTransactions = transactions.data?.filter(
-    (tx) => tx.chainId === selectedChainId.toString(),
-  );
+  const filteredTransactions = (
+    transactionsQuery.data?.transactions || []
+  )?.filter((tx) => tx.chainId === selectedChainId.toString());
 
   return (
     <Flex flexDir="column" gap={12}>
@@ -59,8 +59,8 @@ export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
         <Heading size="title.sm">Transactions</Heading>
         <TransactionsTable
           transactions={filteredTransactions ?? []}
-          isLoading={transactions.isLoading}
-          isFetched={transactions.isFetched}
+          isLoading={transactionsQuery.isLoading}
+          isFetched={transactionsQuery.isFetched}
         />
       </Flex>
     </Flex>

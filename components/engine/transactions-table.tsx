@@ -1,16 +1,16 @@
-import { TransactionResponse } from "@3rdweb-sdk/react/hooks/useEngine";
+import { Transaction } from "@3rdweb-sdk/react/hooks/useEngine";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
 import { Badge, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 
 interface TransactionsTableProps {
-  transactions: TransactionResponse[];
+  transactions: Transaction[];
   isLoading: boolean;
   isFetched: boolean;
 }
 
-const columnHelper = createColumnHelper<TransactionResponse>();
+const columnHelper = createColumnHelper<Transaction>();
 
 const columns = [
   columnHelper.accessor("chainId", {

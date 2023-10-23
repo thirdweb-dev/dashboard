@@ -38,7 +38,7 @@ export function useEngineBackendWallets(instance: string) {
   );
 }
 
-export type TransactionResponse = {
+export type Transaction = {
   queueId?: string | null;
   chainId?: string | null;
   fromAddress?: string | null;
@@ -84,6 +84,11 @@ export type TransactionResponse = {
   functionArgs?: string | null;
 };
 
+export type TransactionResponse = {
+  transactions: Transaction[];
+  totalCount: number;
+};
+
 export function useEngineTransactions(instance: string) {
   return useQuery(
     engineKeys.transactions(instance),
@@ -101,7 +106,7 @@ export function useEngineTransactions(instance: string) {
 
       const json = await res.json();
 
-      return json.result as TransactionResponse[];
+      return json.result as TransactionResponse;
     },
     { enabled: !!instance },
   );
