@@ -78,10 +78,10 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient=""
+          titleWithGradient="scalable web3 apps"
           miniTitle="Engine"
-          title="Backend wallet management for web3 apps at scale."
-          subtitle="Complete back-end solution for scalable web3 apps on any EVM chain. Engine creates and manages backend wallets enabling high throughput with automatic nonce and gas management."
+          title="The open-source API for"
+          subtitle="Complete back-end solution for web3 apps on any EVM chain. Engine creates, secures, & manages backend wallets — enabling high throughput with automatic nonce and gas management."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
