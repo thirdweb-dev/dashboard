@@ -3287,6 +3287,11 @@
     uuid "^9.0.1"
     zod "^3.22.3"
 
+"@thirdweb-dev/chains@0.1.56-nightly-042459fe-20231023142110":
+  version "0.1.56-nightly-042459fe-20231023142110"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.56-nightly-042459fe-20231023142110.tgz#b22bbc221b2255e65ee5777825c2c7dc9eae1ed8"
+  integrity sha512-MjZsGIhphzwb37X54K3y9Gd/ytck8HrAe4udZ4Y4zd+FeWKDuuY24FG0x2QGgmes9Yrx73WcW4lAITvC+zM7pg==
+
 "@thirdweb-dev/chains@0.1.56-nightly-cc651135-20231023133010":
   version "0.1.56-nightly-cc651135-20231023133010"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.56-nightly-cc651135-20231023133010.tgz#9ffc0a12a7cbc114a86fac930f7563e4c09c44e5"
@@ -3362,12 +3367,12 @@
     qrcode "^1.5.3"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@4.0.8-nightly-cc651135-20231023133010":
-  version "4.0.8-nightly-cc651135-20231023133010"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-4.0.8-nightly-cc651135-20231023133010.tgz#f17f54ac5f9e0c3c1f7568e8e7f7ba4cf421ed6c"
-  integrity sha512-uc5brA+OYReHaCvhESGMGL/6rnIEOw549gKUNCuivLqxGrLtliLqstHSS5U0J9WP8ZQZoMIgxwlgt5b66CezNA==
+"@thirdweb-dev/sdk@4.0.8-nightly-042459fe-20231023142110", "@thirdweb-dev/sdk@4.0.8-nightly-cc651135-20231023133010":
+  version "4.0.8-nightly-042459fe-20231023142110"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-4.0.8-nightly-042459fe-20231023142110.tgz#f16b9b07961df5044a25d7f09a54786ffc6b3771"
+  integrity sha512-l9XnxOzZM2p8WumBo5A9DgS5xx4xxfgqPeg3v2qU5Un6x+mP0M2e4hAyr/h5GvZb+eNk1j5uAMG1VUxRuh3x7g==
   dependencies:
-    "@thirdweb-dev/chains" "0.1.56-nightly-cc651135-20231023133010"
+    "@thirdweb-dev/chains" "0.1.56-nightly-042459fe-20231023142110"
     "@thirdweb-dev/contracts-js" "1.3.16"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "2.0.1"
