@@ -6,7 +6,6 @@ import {
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel, Text } from "tw-components";
-import { RemoveConfigButton } from "./remove-config-button";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useTrack } from "hooks/analytics/useTrack";
 
@@ -109,15 +108,18 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
           {...form.register("awsRegion", { required: true })}
         />
       </FormControl>
-      <Flex justifyContent="end" gap={3}>
-        <RemoveConfigButton instance={instance} />
+      <Flex justifyContent="end" gap={4} alignItems="center">
+        <Text fontStyle="italic">
+          Setting this config will make it the default and remove any other
+          configurations.
+        </Text>
         <Button
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"
           px={12}
           type="submit"
         >
-          {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
+          {form.formState.isSubmitting ? "Setting..." : "Set AWS KMS Config"}
         </Button>
       </Flex>
     </Flex>

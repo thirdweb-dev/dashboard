@@ -3,13 +3,18 @@ import { useState } from "react";
 import { Heading, Card, Button } from "tw-components";
 import { KmsGcpConfig } from "./kms-gcp-config";
 import { KmsAwsConfig } from "./kms-aws-config";
+import { LocalConfig } from "./local-config.tsx";
+import { useEngineWalletConfig } from "@3rdweb-sdk/react/hooks/useEngine";
 
 interface EngineKmsProps {
   instance: string;
 }
 
 export const EngineKmsConfig: React.FC<EngineKmsProps> = ({ instance }) => {
-  const [selected, setSelected] = useState<"aws-kms" | "gcp-kms">("aws-kms");
+  const { data: localConfig } = useEngineWalletConfig(instance);
+  const [selected, setSelected] = useState<"aws-kms" | "gcp-kms" | "local">(
+    localConfig?.type || "local",
+  );
 
   return (
     <Flex flexDir="column" gap={4}>
@@ -22,6 +27,18 @@ export const EngineKmsConfig: React.FC<EngineKmsProps> = ({ instance }) => {
             pb={{ base: 4, md: 0 }}
           >
             <ButtonGroup size="sm" variant="ghost" spacing={2}>
+              <Button
+                type="button"
+                isActive={selected === "local"}
+                _active={{
+                  bg: "bgBlack",
+                  color: "bgWhite",
+                }}
+                rounded="lg"
+                onClick={() => setSelected("local")}
+              >
+                Local
+              </Button>
               <Button
                 type="button"
                 isActive={selected === "aws-kms"}
@@ -49,6 +66,7 @@ export const EngineKmsConfig: React.FC<EngineKmsProps> = ({ instance }) => {
             </ButtonGroup>
           </Box>
         </Flex>
+        {selected === "local" && <LocalConfig instance={instance} />}
         {selected === "aws-kms" && <KmsAwsConfig instance={instance} />}
         {selected === "gcp-kms" && <KmsGcpConfig instance={instance} />}
       </Card>
