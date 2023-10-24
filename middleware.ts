@@ -1,6 +1,7 @@
 // middleware.ts
+import type { Chain } from "@thirdweb-dev/chains";
+import { THIRDWEB_API_HOST } from "constants/urls";
 import { NextRequest, NextResponse } from "next/server";
-import { getAllChainRecords } from "utils/allChainsRecords";
 
 // ignore assets, api - only intercept page routes
 export const config = {
@@ -16,10 +17,19 @@ export const config = {
   ],
 };
 
-// used for resolving chainId to network slug with constant time lookup
-const { chainIdToChain, slugToChain } = getAllChainRecords();
+async function getChainFromNetworkPath(network: string) {
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${network}`);
+  if (res.ok) {
+    try {
+      return (await res.json()).data as Chain;
+    } catch (err) {
+      return null;
+    }
+  }
+  return null;
+}
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // remove '/' in front and then split by '/'
@@ -27,14 +37,15 @@ export function middleware(request: NextRequest) {
 
   // we're in chain mode, rewrite to `/chain/<slug>`
   if (paths.length === 1) {
-    // redirect numbers to strings
-    if (paths[0] in chainIdToChain) {
-      const chainId = Number(paths[0]);
-      return redirect(request, `/${chainIdToChain[chainId].slug}`);
-    }
-
-    if (paths[0] in slugToChain) {
-      return rewrite(request, `/chain/${slugToChain[paths[0]].slug}`);
+    const chain = await getChainFromNetworkPath(paths[0]);
+    // if we found a chain we can do more logic
+    if (chain) {
+      if (chain.slug !== paths[0]) {
+        // redirect to the slug
+        return redirect(request, `/${chain.slug}`);
+      }
+      // otherwise we're at the correct slug
+      return rewrite(request, `/chain/${chain.slug}`);
     }
   }
   // end chain mode
@@ -70,10 +81,13 @@ export function middleware(request: NextRequest) {
   // /<network>/... or /<chainId>/...
   if (isPossibleEVMAddress(catchAll[0])) {
     // /<chainId>/... => /evm/<network>/...
-    if (networkOrAddress in chainIdToChain) {
-      const networkInfo = chainIdToChain[Number(networkOrAddress)];
-      // can not use rewrite here because slug is required client side for resolving the network
-      return redirect(request, `/${networkInfo.slug}/${catchAll.join("/")}`);
+
+    // if networkOrAddress is a Number then it's likely a chainId and we should redirect to the slug instead
+    if (!isNaN(Number(networkOrAddress))) {
+      const chain = await getChainFromNetworkPath(networkOrAddress);
+      if (chain) {
+        return redirect(request, `/${chain.slug}/${catchAll.join("/")}`);
+      }
     }
 
     // /<network>/...  => /evm/<network>/...
