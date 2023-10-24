@@ -5,12 +5,12 @@ import { PageId } from "page-id";
 import { useState } from "react";
 import { Button, Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { EngineAnalytics } from "components/engine/engine-analytics";
-import { EngineFunctions } from "components/engine/engine-functions";
-import { EngineConfiguration } from "components/engine/engine-configuration";
+import { EngineAnalytics } from "components/engine/analytics/engine-analytics";
+import { EngineFunctions } from "components/engine/functions/engine-functions";
+import { EngineConfiguration } from "components/engine/configuration/engine-configuration";
 import { NoEngineInstance } from "components/engine/no-engine-instance";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { EnginePermissions } from "components/engine/engine-permissions";
+import { EnginePermissions } from "components/engine/permissions/engine-permissions";
 
 const EngineOverview: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
