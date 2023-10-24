@@ -54,6 +54,10 @@ export const engineKeys = {
     [...engineKeys.all, instance, "permissions"] as const,
   accessTokens: (instance: string) =>
     [...engineKeys.all, instance, "accessTokens"] as const,
+  webhooks: (instance: string) =>
+    [...engineKeys.all, instance, "webhooks"] as const,
+  webhookEventTypes: (instance: string) =>
+    [...engineKeys.all, instance, "webhookEventTypes"] as const,
   walletConfig: (instance: string) =>
     [...engineKeys.all, instance, "walletConfig"] as const,
   backendWallet: (address: string, chainId: number) =>

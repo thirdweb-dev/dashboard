@@ -202,7 +202,7 @@ export function useEnginePermissions(instance: string) {
 
       const json = await res.json();
 
-      return (json.result as PermissionsItem[]) || {};
+      return (json.result as PermissionsItem[]) || [];
     },
     { enabled: !!instance },
   );
@@ -230,7 +230,57 @@ export function useEngineAccessTokens(instance: string) {
 
       const json = await res.json();
 
-      return (json.result as AccessToken[]) || {};
+      return (json.result as AccessToken[]) || [];
+    },
+    { enabled: !!instance },
+  );
+}
+
+export type Webhook = {
+  url: string;
+  name: string;
+  secret?: string | null;
+  eventType: string;
+  active: boolean;
+  createdAt: string;
+  id: number;
+};
+
+export function useEngineWebhooks(instance: string) {
+  return useQuery(
+    engineKeys.webhooks(instance),
+    async () => {
+      const res = await fetch(`${instance}webhooks/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as Webhook[]) || [];
+    },
+    { enabled: !!instance },
+  );
+}
+
+export function useEngineWebhooksEventTypes(instance: string) {
+  return useQuery(
+    engineKeys.webhookEventTypes(instance),
+    async () => {
+      const res = await fetch(`${instance}webhooks/event-types`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as string[]) || [];
     },
     { enabled: !!instance },
   );
@@ -500,6 +550,78 @@ export function useEngineRevokeAccessToken(instance: string) {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(engineKeys.accessTokens(instance));
+      },
+    },
+  );
+}
+
+export type CreateWebhookInput = {
+  url: string;
+  name: string;
+  eventType: string;
+};
+
+export function useEngineCreateWebhook(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: CreateWebhookInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}webhooks/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.webhooks(instance));
+      },
+    },
+  );
+}
+
+type RevokeWebhookInput = {
+  id: number;
+};
+
+export function useEngineRevokeWebhook(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: RevokeWebhookInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}webhooks/revoke`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.webhooks(instance));
       },
     },
   );
