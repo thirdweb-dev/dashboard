@@ -16,13 +16,13 @@ const EngineManage: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
   const tabs = [
     {
-      title: "Analytics",
+      title: "Overview",
       isDisabled: false,
       disabledText: "",
       children: <EngineOverview instance={instanceUrl} />,
     },
     {
-      title: "Functions",
+      title: "Explorer",
       isDisabled: false,
       disabledText: "",
       children: <EngineExplorer instance={instanceUrl} />,

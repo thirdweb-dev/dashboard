@@ -6,11 +6,13 @@ import { KmsAwsConfig } from "./kms-aws-config";
 import { LocalConfig } from "./local-config.tsx";
 import { useEngineWalletConfig } from "@3rdweb-sdk/react/hooks/useEngine";
 
-interface EngineKmsProps {
+interface EngineWalletConfigProps {
   instance: string;
 }
 
-export const EngineKmsConfig: React.FC<EngineKmsProps> = ({ instance }) => {
+export const EngineWalletConfig: React.FC<EngineWalletConfigProps> = ({
+  instance,
+}) => {
   const { data: localConfig } = useEngineWalletConfig(instance);
   const [selected, setSelected] = useState<"aws-kms" | "gcp-kms" | "local">(
     localConfig?.type || "local",
@@ -18,7 +20,7 @@ export const EngineKmsConfig: React.FC<EngineKmsProps> = ({ instance }) => {
 
   return (
     <Flex flexDir="column" gap={4}>
-      <Heading size="title.md">Key Management Services</Heading>
+      <Heading size="title.md">Wallet Configuration</Heading>
       <Card>
         <Flex flexDir="column" gap={{ base: 0, md: 4 }} mb={6}>
           <Box

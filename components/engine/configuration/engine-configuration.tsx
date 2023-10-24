@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
-import { EngineKmsConfig } from "./engine-kms-config";
+import { EngineWalletConfig } from "./engine-wallet-config";
+import { EngineWebhooks } from "./engine-webhooks";
 
 interface EngineConfigurationProps {
   instance: string;
@@ -10,7 +11,8 @@ export const EngineConfiguration: React.FC<EngineConfigurationProps> = ({
 }) => {
   return (
     <Flex flexDir="column" gap={12}>
-      <EngineKmsConfig instance={instance} />
+      <EngineWalletConfig instance={instance} />
+      <EngineWebhooks instance={instance} />
     </Flex>
   );
 };

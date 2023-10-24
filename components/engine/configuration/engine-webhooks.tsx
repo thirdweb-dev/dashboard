@@ -4,13 +4,11 @@ import { Heading } from "tw-components";
 import { WebhooksTable } from "./webhooks-table";
 import { AddWebhookButton } from "./add-webhook-button";
 
-interface PermissionsWebhooksProps {
+interface EngineWebhooksProps {
   instance: string;
 }
 
-export const PermissionsWebhooks: React.FC<PermissionsWebhooksProps> = ({
-  instance,
-}) => {
+export const EngineWebhooks: React.FC<EngineWebhooksProps> = ({ instance }) => {
   const webhooks = useEngineWebhooks(instance);
 
   return (
