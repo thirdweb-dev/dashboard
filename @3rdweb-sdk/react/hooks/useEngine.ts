@@ -3,6 +3,7 @@ import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 
+// GET Requests
 export type BackendWallet = {
   address: string;
   type: string;
@@ -23,13 +24,13 @@ export function useEngineBackendWallets(instance: string) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
       });
 
       const json = await res.json();
 
-      return json.result as BackendWallet[];
+      return (json.result as BackendWallet[]) || [];
     },
     { enabled: !!instance },
   );
@@ -94,13 +95,13 @@ export function useEngineTransactions(instance: string) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
       });
 
       const json = await res.json();
 
-      return json.result as TransactionResponse;
+      return (json.result as TransactionResponse) || {};
     },
     { enabled: !!instance },
   );
@@ -133,13 +134,13 @@ export function useEngineWalletConfig(instance: string) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
       });
 
       const json = await res.json();
 
-      return json.result as WalletConfig;
+      return (json.result as WalletConfig) || {};
     },
     { enabled: !!instance },
   );
@@ -169,19 +170,45 @@ export function useEngineBackendWalletBalance(
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+            Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
           },
         },
       );
 
       const json = await res.json();
 
-      return json.result as CurrencyValue;
+      return (json.result as CurrencyValue) || {};
     },
     { enabled: !!instance && !!address && !!chainId },
   );
 }
 
+export type PermissionItem = {
+  walletAddress: string;
+  permissions: "OWNER" | "ADMIN";
+};
+
+export function useEnginePermissions(instance: string) {
+  return useQuery(
+    engineKeys.permissions(instance),
+    async () => {
+      const res = await fetch(`${instance}auth/permissions/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as PermissionItem[]) || {};
+    },
+    { enabled: !!instance },
+  );
+}
+
+// POST REQUESTS
 export type SetWalletConfigInput =
   | {
       type: "local";
@@ -212,7 +239,7 @@ export function useEngineSetWalletConfig(instance: string) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
         body: JSON.stringify(input),
       });
@@ -243,7 +270,7 @@ export function useEngineCreateBackendWallet(instance: string) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
       });
       const json = await res.json();
@@ -295,7 +322,7 @@ export function useEngineImportBackendWallet(instance: string) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_TEMP_KEY as string,
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
         body: JSON.stringify(input),
       });
@@ -312,6 +339,37 @@ export function useEngineImportBackendWallet(instance: string) {
         return queryClient.invalidateQueries(
           engineKeys.backendWallets(instance),
         );
+      },
+    },
+  );
+}
+
+export function useEngineGrantPermissions(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: PermissionItem) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/permissions/grant`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.permissions(instance));
       },
     },
   );
