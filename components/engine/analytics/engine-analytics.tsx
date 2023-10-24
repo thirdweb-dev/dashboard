@@ -56,7 +56,7 @@ export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
         />
       </Flex>
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.sm">Transactions</Heading>
+        <Heading size="title.sm">Transactions (last 24hs)</Heading>
         <TransactionsTable
           transactions={filteredTransactions ?? []}
           isLoading={transactionsQuery.isLoading}

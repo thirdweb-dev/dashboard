@@ -208,6 +208,34 @@ export function useEnginePermissions(instance: string) {
   );
 }
 
+export type AccessToken = {
+  id: string;
+  tokenMask: string;
+  walletAddress: string;
+  createdAt: string;
+  expiresAt: string;
+};
+
+export function useEngineAccessTokens(instance: string) {
+  return useQuery(
+    engineKeys.accessTokens(instance),
+    async () => {
+      const res = await fetch(`${instance}auth/access-tokens/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as AccessToken[]) || {};
+    },
+    { enabled: !!instance },
+  );
+}
+
 // POST REQUESTS
 export type SetWalletConfigInput =
   | {
@@ -249,7 +277,7 @@ export function useEngineSetWalletConfig(instance: string) {
         throw new Error(json.message);
       }
 
-      return json.data;
+      return json.result;
     },
     {
       onSuccess: () => {
@@ -269,7 +297,6 @@ export function useEngineCreateBackendWallet(instance: string) {
       const res = await fetch(`${instance}backend-wallet/create`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
         },
       });
@@ -279,7 +306,7 @@ export function useEngineCreateBackendWallet(instance: string) {
         throw new Error(json.message);
       }
 
-      return json.data;
+      return json.result;
     },
     {
       onSuccess: () => {
@@ -332,7 +359,7 @@ export function useEngineImportBackendWallet(instance: string) {
         throw new Error(json.message);
       }
 
-      return json.data;
+      return json.result;
     },
     {
       onSuccess: () => {
@@ -365,7 +392,7 @@ export function useEngineGrantPermissions(instance: string) {
         throw new Error(json.message);
       }
 
-      return json.data;
+      return json.result;
     },
     {
       onSuccess: () => {
@@ -400,11 +427,79 @@ export function useEngineRevokePermissions(instance: string) {
         throw new Error(json.message);
       }
 
-      return json.data;
+      return json.result;
     },
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(engineKeys.permissions(instance));
+      },
+    },
+  );
+}
+
+export type CreateAccessTokenResponse = AccessToken & {
+  accessToken: string;
+};
+
+export function useEngineCreateAccessToken(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async () => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/access-tokens/create`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result as CreateAccessTokenResponse;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.accessTokens(instance));
+      },
+    },
+  );
+}
+
+type RevokeAccessTokenInput = {
+  id: string;
+};
+
+export function useEngineRevokeAccessToken(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: RevokeAccessTokenInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/access-tokens/revoke`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.accessTokens(instance));
       },
     },
   );

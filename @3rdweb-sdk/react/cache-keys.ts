@@ -52,6 +52,8 @@ export const engineKeys = {
     [...engineKeys.all, instance, "transactions"] as const,
   permissions: (instance: string) =>
     [...engineKeys.all, instance, "permissions"] as const,
+  accessTokens: (instance: string) =>
+    [...engineKeys.all, instance, "accessTokens"] as const,
   walletConfig: (instance: string) =>
     [...engineKeys.all, instance, "walletConfig"] as const,
   backendWallet: (address: string, chainId: number) =>
