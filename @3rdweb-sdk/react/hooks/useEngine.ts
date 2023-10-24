@@ -183,7 +183,7 @@ export function useEngineBackendWalletBalance(
   );
 }
 
-export type PermissionItem = {
+export type PermissionsItem = {
   walletAddress: string;
   permissions: "OWNER" | "ADMIN";
 };
@@ -202,7 +202,7 @@ export function useEnginePermissions(instance: string) {
 
       const json = await res.json();
 
-      return (json.result as PermissionItem[]) || {};
+      return (json.result as PermissionsItem[]) || {};
     },
     { enabled: !!instance },
   );
@@ -348,10 +348,45 @@ export function useEngineGrantPermissions(instance: string) {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: PermissionItem) => {
+    async (input: PermissionsItem) => {
       invariant(instance, "instance is required");
 
       const res = await fetch(`${instance}auth/permissions/grant`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("engine-auth")}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.permissions(instance));
+      },
+    },
+  );
+}
+
+type RevokePermissionsInput = {
+  walletAddress: string;
+};
+
+export function useEngineRevokePermissions(instance: string) {
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: RevokePermissionsInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/permissions/revoke`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

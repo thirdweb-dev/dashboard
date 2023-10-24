@@ -10,6 +10,7 @@ import { EngineFunctions } from "components/engine/engine-functions";
 import { EngineConfiguration } from "components/engine/engine-configuration";
 import { NoEngineInstance } from "components/engine/no-engine-instance";
 import { useLocalStorage } from "hooks/useLocalStorage";
+import { EnginePermissions } from "components/engine/engine-permissions";
 
 const EngineOverview: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
@@ -34,9 +35,9 @@ const EngineOverview: ThirdwebNextPage = () => {
     },
     {
       title: "Permissions",
-      isDisabled: true,
+      isDisabled: false,
       disabledText: "",
-      children: <></>,
+      children: <EnginePermissions instance={instanceUrl} />,
     },
   ];
 
