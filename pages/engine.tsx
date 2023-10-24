@@ -86,7 +86,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
           contactUsTitle="Book a demo"
-          gradient="linear(to-r, #BFA3DA, #3385FF)"
+          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/engine/mobile-hero.png")}
         />
