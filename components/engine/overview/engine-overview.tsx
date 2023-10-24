@@ -12,13 +12,11 @@ import { NetworkDropdown } from "components/contract-components/contract-publish
 import { useChainId } from "@thirdweb-dev/react";
 import { useState } from "react";
 
-interface EngineAnalyticsProps {
+interface EngineOverviewProps {
   instance: string;
 }
 
-export const EngineAnalytics: React.FC<EngineAnalyticsProps> = ({
-  instance,
-}) => {
+export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
   const backendWallets = useEngineBackendWallets(instance);
   const transactionsQuery = useEngineTransactions(instance);
   const chainId = useChainId();

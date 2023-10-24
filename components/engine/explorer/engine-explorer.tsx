@@ -5,13 +5,11 @@ import dynamic from "next/dynamic";
 
 const SwaggerUI = dynamic(() => import("swagger-ui-react"), { ssr: false });
 
-interface EngineFunctionsProps {
+interface EngineExplorerProps {
   instance: string;
 }
 
-export const EngineFunctions: React.FC<EngineFunctionsProps> = ({
-  instance,
-}) => {
+export const EngineExplorer: React.FC<EngineExplorerProps> = ({ instance }) => {
   return (
     <ClientOnly ssr={null}>
       <Box bg="white" borderRadius="xl">

@@ -48,7 +48,7 @@ export const ImportBackendWalletButton: React.FC<
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="primary">
+      <Button onClick={onOpen} colorScheme="primary" variant="outline">
         Import
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

@@ -5,27 +5,27 @@ import { PageId } from "page-id";
 import { useState } from "react";
 import { Button, Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { EngineAnalytics } from "components/engine/analytics/engine-analytics";
-import { EngineFunctions } from "components/engine/functions/engine-functions";
+import { EngineOverview } from "components/engine/overview/engine-overview";
+import { EngineExplorer } from "components/engine/explorer/engine-explorer";
 import { EngineConfiguration } from "components/engine/configuration/engine-configuration";
 import { NoEngineInstance } from "components/engine/no-engine-instance";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { EnginePermissions } from "components/engine/permissions/engine-permissions";
 
-const EngineOverview: ThirdwebNextPage = () => {
+const EngineManage: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
   const tabs = [
     {
       title: "Analytics",
       isDisabled: false,
       disabledText: "",
-      children: <EngineAnalytics instance={instanceUrl} />,
+      children: <EngineOverview instance={instanceUrl} />,
     },
     {
       title: "Functions",
       isDisabled: false,
       disabledText: "",
-      children: <EngineFunctions instance={instanceUrl} />,
+      children: <EngineExplorer instance={instanceUrl} />,
     },
     {
       title: "Configuration",
@@ -131,13 +131,13 @@ const EngineOverview: ThirdwebNextPage = () => {
   );
 };
 
-EngineOverview.getLayout = (page, props) => (
+EngineManage.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <EngineSidebar activePage="overview" />
+    <EngineSidebar activePage="manage" />
     {page}
   </AppLayout>
 );
 
-EngineOverview.pageId = PageId.EngineOverview;
+EngineManage.pageId = PageId.EngineManage;
 
-export default EngineOverview;
+export default EngineManage;

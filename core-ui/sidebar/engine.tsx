@@ -2,11 +2,11 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type EngineSidebarProps = {
-  activePage: "overview";
+  activePage: "manage";
 };
 
 const links: Route[] = [
-  { path: "/dashboard/engine", title: "Overview", name: "overview" },
+  { path: "/dashboard/engine", title: "Manage", name: "manage" },
 ];
 
 export const EngineSidebar: React.FC<EngineSidebarProps> = ({ activePage }) => {

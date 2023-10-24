@@ -18,7 +18,8 @@ import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
-import { Button, Text } from "tw-components";
+import { Badge, Button, Text } from "tw-components";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { toDateTimeLocal } from "utils/date-utils";
 
 export function beautifyString(str: string): string {
@@ -50,6 +51,35 @@ const columns = [
       return <Text>{beautifyString(cell.getValue())}</Text>;
     },
   }),
+  columnHelper.accessor("active", {
+    header: "Status",
+    cell: (cell) => {
+      return (
+        <Badge
+          borderRadius="full"
+          size="label.sm"
+          variant="subtle"
+          px={3}
+          py={1.5}
+          colorScheme={cell.getValue() ? "green" : "red"}
+        >
+          {cell.getValue() ? "Active" : "Inactive"}
+        </Badge>
+      );
+    },
+  }),
+  columnHelper.accessor("secret", {
+    header: "Secret",
+    cell: (cell) => {
+      return <AddressCopyButton address={cell.getValue() || ""} />;
+    },
+  }),
+  columnHelper.accessor("url", {
+    header: "URL",
+    cell: (cell) => {
+      return <Text>{cell.getValue()}</Text>;
+    },
+  }),
   columnHelper.accessor("createdAt", {
     header: "Created At",
     cell: (cell) => {
@@ -59,12 +89,6 @@ const columns = [
         return;
       }
       return <Text>{toDateTimeLocal(value)}</Text>;
-    },
-  }),
-  columnHelper.accessor("url", {
-    header: "URL",
-    cell: (cell) => {
-      return <Text>{cell.getValue()}</Text>;
     },
   }),
 ];
