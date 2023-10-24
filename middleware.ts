@@ -12,8 +12,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - assets/
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|assets).*)",
   ],
 };
 
@@ -34,9 +35,8 @@ export async function middleware(request: NextRequest) {
 
   // remove '/' in front and then split by '/'
   const paths = pathname.slice(1).split("/");
-
   // we're in chain mode, rewrite to `/chain/<slug>`
-  if (paths.length === 1) {
+  if (paths.length === 1 && paths[0] !== "") {
     const chain = await getChainFromNetworkPath(paths[0]);
     // if we found a chain we can do more logic
     if (chain) {
