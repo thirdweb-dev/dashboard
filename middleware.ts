@@ -67,16 +67,6 @@ export async function middleware(request: NextRequest) {
     return legacyRedirect;
   }
 
-  // solana contract page
-  // if (isSupportedSOLNetwork(networkOrAddress)) {
-  //   const solNetwork = getSolNetworkFromNetworkPath(networkOrAddress);
-  //   if (!solNetwork) {
-  //     return redirect(request, "/404");
-  //   } else {
-  //     return rewrite(request, `/sol${pathname}`);
-  //   }
-  // }
-
   // evm contract page
   // /<network>/... or /<chainId>/...
   if (isPossibleEVMAddress(catchAll[0])) {
