@@ -29,7 +29,7 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
       <Flex flexDir="column" gap={4}>
         <Flex flexDir="column" gap={4} justifyItems="flex-end">
           <Flex justify="space-between" alignItems="center">
-            <Flex gap={4}>
+            <Flex gap={3}>
               <Heading size="title.sm">Backend Wallets</Heading>
               {walletConfig?.type && (
                 <Tooltip
@@ -73,6 +73,7 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
               <Text>Showing Balance for: </Text>
               <Flex>
                 <NetworkDropdown
+                  size="sm"
                   value={selectedChainId}
                   onSingleChange={(val) => setSelectedChainId(val)}
                 />
