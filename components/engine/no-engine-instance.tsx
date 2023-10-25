@@ -76,18 +76,6 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
         </ModalContent>
       </Modal>
       <Flex flexDir="column" gap={4}>
-        <Text>
-          Engine provides a server-side interface for contracts & wallets,
-          without the complexities of wallet and transaction management.{" "}
-          <Link
-            color="blue.500"
-            href="https://portal.thirdweb.com/engine"
-            isExternal
-          >
-            Learn more
-          </Link>
-          .
-        </Text>
         <Card py={12}>
           <Flex flexDir="column" gap={2}>
             <Text textAlign="center">
