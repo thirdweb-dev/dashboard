@@ -37,12 +37,6 @@ const trustedCompanies = [
     src: require("public/assets/partners/ava.png"),
   },
   {
-    title: "Treasure",
-    height: 74,
-    width: 74,
-    src: require("public/assets/partners/treasure.png"),
-  },
-  {
     title: "Ex Populus",
     height: 74,
     width: 74,
