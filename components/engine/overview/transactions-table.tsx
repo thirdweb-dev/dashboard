@@ -20,10 +20,26 @@ const columns = [
       return <Text>{cell.getValue()}</Text>;
     },
   }),
+  columnHelper.accessor("queueId", {
+    header: "Queue ID",
+    cell: (cell) => {
+      const value = cell.getValue();
+
+      if (!value) {
+        return;
+      }
+
+      return <AddressCopyButton address={value} title="queue ID" />;
+    },
+  }),
   columnHelper.accessor("extension", {
     header: "Extension",
     cell: (cell) => {
-      return <Text textTransform="uppercase">{cell.getValue()}</Text>;
+      return (
+        <Text textTransform="capitalize">
+          {cell.getValue()?.replace("erc", "ERC")}
+        </Text>
+      );
     },
   }),
   columnHelper.accessor("functionName", {
@@ -68,12 +84,13 @@ const columns = [
   columnHelper.accessor("transactionHash", {
     header: "Transaction Hash",
     cell: (cell) => {
-      return (
-        <AddressCopyButton
-          address={cell.getValue() || ""}
-          title="transaction hash"
-        />
-      );
+      const value = cell.getValue();
+
+      if (!value) {
+        return;
+      }
+
+      return <AddressCopyButton address={value} title="transaction hash" />;
     },
   }),
   columnHelper.accessor("minedAt", {
