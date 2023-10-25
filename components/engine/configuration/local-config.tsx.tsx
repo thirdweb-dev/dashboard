@@ -37,7 +37,7 @@ export const LocalConfig: React.FC<LocalConfigProps> = ({ instance }) => {
           </Text>
         )}
         <Button
-          disabled={walletConfig?.type && walletConfig.type === "local"}
+          isDisabled={walletConfig?.type && walletConfig.type === "local"}
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"
           px={12}

@@ -157,7 +157,7 @@ export const KmsGcpConfig: React.FC<KmsGcpConfigProps> = ({ instance }) => {
           </Text>
         )}
         <Button
-          disabled={!form.formState.isDirty}
+          isDisabled={!form.formState.isDirty}
           w={{ base: "full", md: "inherit" }}
           colorScheme="primary"
           px={12}
