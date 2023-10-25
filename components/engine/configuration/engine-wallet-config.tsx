@@ -1,6 +1,6 @@
-import { Box, ButtonGroup, Flex, Icon } from "@chakra-ui/react";
+import { ButtonGroup, Flex, Icon } from "@chakra-ui/react";
 import { useState } from "react";
-import { Heading, Card, Button, Text, Link } from "tw-components";
+import { Heading, Button, Text, Link } from "tw-components";
 import { KmsGcpConfig } from "./kms-gcp-config";
 import { KmsAwsConfig } from "./kms-aws-config";
 import { LocalConfig } from "./local-config.tsx";
