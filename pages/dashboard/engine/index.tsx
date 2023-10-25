@@ -1,4 +1,11 @@
-import { Box, ButtonGroup, Divider, Flex, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  ButtonGroup,
+  Divider,
+  Flex,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EngineSidebar } from "core-ui/sidebar/engine";
 import { PageId } from "page-id";
@@ -44,6 +51,7 @@ const EngineManage: ThirdwebNextPage = () => {
   ];
 
   const [tab, setTab] = useState(tabs[0].title);
+  const setInstanceDisclosure = useDisclosure();
 
   const address = useAddress();
 
@@ -74,7 +82,7 @@ const EngineManage: ThirdwebNextPage = () => {
             <Button
               size="sm"
               variant="link"
-              onClick={() => setInstanceUrl("")}
+              onClick={setInstanceDisclosure.onOpen}
               color="blue.500"
             >
               Edit
@@ -82,9 +90,13 @@ const EngineManage: ThirdwebNextPage = () => {
           </Text>
         )}
 
-        {!instanceUrl ? (
-          <NoEngineInstance setInstanceUrl={setInstanceUrl} />
-        ) : !address ? (
+        <NoEngineInstance
+          instance={instanceUrl}
+          setInstanceUrl={setInstanceUrl}
+          disclosure={setInstanceDisclosure}
+        />
+
+        {!address ? (
           <NoConnectedWallet />
         ) : (
           <Flex flexDir="column" gap={4}>
