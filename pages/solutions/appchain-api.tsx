@@ -18,9 +18,9 @@ const SELECTOR_ITEMS = [
     description:
       "Allow your appchain developers to programmatically add their subnets to thirdweb global chainlist to get instant access to thirdweb dev tools.",
     steps: [
-      "Contact us to get all your subnet developers whitelisted (so that you can programmatically add their subnet to thirdweb global chainlist).",
-      "Once added, a shareable dynamic After subnet developers create their subnet on your chains-as-a-service platform, a dynamic landing page is generated with SDKs, contract deployment and infrastructure for their subnet.",
-      "Developers access landing page to deploy contracts to your chain and get access to SDKs to integrate contracts into their apps.",
+      "Contact us to get all your subnet developers allowlisted (so that you can programmatically add their subnet to thirdweb global chainlist).",
+      "After subnet developers create their subnet on your chains-as-a-service platform, a dynamic landing page is generated with SDKs, contract deployment and infrastructure for their subnet.",
+      "Subnet developers can easily deploy contracts to their subnet in just a few clicks and access SDKs to integrate contracts into their apps.",
     ],
     products: ["explore", "interact"],
   },
@@ -38,6 +38,8 @@ const SELECTOR_ITEMS = [
 ];
 
 const SolutionsAppChainApi: ThirdwebNextPage = () => {
+  const contactUsLink =
+    "https://docs.google.com/forms/d/e/1FAIpQLSfzwj6mr7mZjntv5C8HD9CfMXkIupuOqBSWa-XIWepJnnCEKg/viewform";
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -72,6 +74,7 @@ const SolutionsAppChainApi: ThirdwebNextPage = () => {
           image={require("public/assets/product-pages/hero/desktop-hero-appchain-api.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-appchain-api.png")}
           noCta
+          contactUsLink={contactUsLink}
         />
 
         <LandingGridSection>
@@ -104,7 +107,7 @@ const SolutionsAppChainApi: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-ship.svg")}
               title="Deploy"
-              description="Offer your Deploy contracts directly to your appchain."
+              description="Deploy contracts directly to your appchain."
             />
           </Card>
           <Card p={8}>
