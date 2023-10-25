@@ -6,7 +6,7 @@ import {
 import { Flex, Tooltip } from "@chakra-ui/react";
 import { BackendWalletsTable } from "./backend-wallets-table";
 import { TransactionsTable } from "./transactions-table";
-import { Badge, Card, Heading, Text } from "tw-components";
+import { Badge, Card, Heading, Link, Text } from "tw-components";
 import { CreateBackendWalletButton } from "./create-backend-wallet-button";
 import { ImportBackendWalletButton } from "./import-backend-wallet-button";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
@@ -29,38 +29,56 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
       <Flex flexDir="column" gap={4}>
         <Flex flexDir="column" gap={4} justifyItems="flex-end">
           <Flex justify="space-between" alignItems="center">
-            <Flex gap={3}>
-              <Heading size="title.sm">Backend Wallets</Heading>
-              {walletConfig?.type && (
-                <Tooltip
-                  placement="auto-end"
-                  borderRadius="md"
-                  bg="transparent"
-                  boxShadow="none"
-                  p={4}
-                  minW={{ md: "450px" }}
-                  label={
-                    <Card bgColor="backgroundHighlight">
-                      <Text>
-                        This is the wallet type that&apos;s used to create and
-                        import backend wallets by default. You can change this
-                        in the Configuration tab.
-                      </Text>
-                    </Card>
-                  }
-                >
-                  <Badge
-                    borderRadius="full"
-                    size="label.sm"
-                    variant="outline"
-                    px={3}
-                    py={1.5}
-                    colorScheme="green"
+            <Flex flexDir="column" gap={2}>
+              <Flex gap={3}>
+                <Heading size="title.sm">Backend Wallets</Heading>
+                {walletConfig?.type && (
+                  <Tooltip
+                    placement="auto-end"
+                    borderRadius="md"
+                    bg="transparent"
+                    boxShadow="none"
+                    p={4}
+                    minW={{ md: "450px" }}
+                    label={
+                      <Card bgColor="backgroundHighlight">
+                        <Text>
+                          Engine is configured to use{" "}
+                          {walletConfig.type === "aws-kms"
+                            ? "backend wallets secured by AWS KMS"
+                            : walletConfig.type === "gcp-kms"
+                            ? "backend wallets secured by GCP KMS"
+                            : "local backend wallets"}
+                          . You can change this in the Configuration tab.
+                        </Text>
+                      </Card>
+                    }
                   >
-                    {walletConfig.type.replace("-", " ")}
-                  </Badge>
-                </Tooltip>
-              )}
+                    <Badge
+                      borderRadius="full"
+                      size="label.sm"
+                      variant="outline"
+                      px={3}
+                      py={1.5}
+                      colorScheme="green"
+                    >
+                      {walletConfig.type.replace("-", " ")}
+                    </Badge>
+                  </Tooltip>
+                )}
+              </Flex>
+              <Text>
+                Engine performs blockchain actions using backend wallets you own
+                and manage.{" "}
+                <Link
+                  href="https://portal.thirdweb.com/engine/backend-wallets"
+                  color="primary.500"
+                  isExternal
+                >
+                  Learn more
+                </Link>
+                .
+              </Text>
             </Flex>
 
             <Flex gap={2}>
@@ -90,7 +108,10 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
         />
       </Flex>
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.sm">Transactions (24hrs)</Heading>
+        <Flex flexDir="column" gap={2}>
+          <Heading size="title.sm">Transactions (24hrs)</Heading>
+          <Text>View recent transactions sent from your backend wallets.</Text>
+        </Flex>
         <TransactionsTable
           transactions={transactionsQuery.data?.transactions ?? []}
           isLoading={transactionsQuery.isLoading}

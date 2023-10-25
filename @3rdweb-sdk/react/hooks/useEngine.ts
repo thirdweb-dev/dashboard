@@ -183,7 +183,7 @@ export function useEngineBackendWalletBalance(
   );
 }
 
-export type PermissionsItem = {
+export type EngineAdmin = {
   walletAddress: string;
   permissions: "OWNER" | "ADMIN";
 };
@@ -202,7 +202,7 @@ export function useEnginePermissions(instance: string) {
 
       const json = await res.json();
 
-      return (json.result as PermissionsItem[]) || [];
+      return (json.result as EngineAdmin[]) || [];
     },
     { enabled: !!instance },
   );
@@ -425,7 +425,7 @@ export function useEngineGrantPermissions(instance: string) {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: PermissionsItem) => {
+    async (input: EngineAdmin) => {
       invariant(instance, "instance is required");
 
       const res = await fetch(`${instance}auth/permissions/grant`, {

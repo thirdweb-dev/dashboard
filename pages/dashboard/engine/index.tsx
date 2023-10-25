@@ -62,7 +62,7 @@ const EngineManage: ThirdwebNextPage = () => {
         ) : (
           <>
             <Text>
-              Managing Engine instance: <em>{instanceUrl}</em>{" "}
+              Engine URL: <em>{instanceUrl}</em>{" "}
               <Button
                 size="sm"
                 variant="link"
