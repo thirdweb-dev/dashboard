@@ -49,10 +49,9 @@ const EngineLanding: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title:
-          "The Blockchain API for Production-Grade Web3 Apps | thirdweb Engine",
+        title: "Open-Source Server for Scalable Web3 Apps",
         description:
-          "Connect any app to the blockchain via API — with auth, smart contracts, wallets, gasless transactions, & managed infrastructure. Learn more.",
+          "A production-grade HTTP server to generate backend wallets on any EVM blockchain—with smart contracts, auth, gasless transactions, & managed infra. Get started.",
         openGraph: {
           images: [
             {
@@ -209,7 +208,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             direction="horizontal"
           />
           <LandingCardWithImage
-            title="Self-host or Managed"
+            title="Self-Host or Managed"
             description="Set up on your own server for free with minimal configuration or use our managed service."
             image={require("public/assets/landingpage/selfhost.png")}
             mobileImage={require("public/assets/landingpage/selfhost.png")}
