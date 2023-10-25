@@ -12,12 +12,15 @@
     "fix": "next lint --fix",
     "format": "prettier --write .",
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
-    "postinstall": "yarn run gen:theme-typings",
+    "postinstall": "yarn run gen:theme-typings & yarn run gql:compile",
     "find:unused": "next-unused",
     "postbuild": "next-sitemap",
-    "build:analyze": "ANALYZE=true yarn run build"
+    "build:analyze": "ANALYZE=true yarn run build",
+    "gql:compile": "graphql-codegen",
+    "gql:watch": "graphql-codegen -w"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.6",
     "@chakra-ui/react": "^2.5.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
@@ -51,6 +54,7 @@
     "flat": "^6.0.1",
     "framer-motion": "^10.16.4",
     "fuse.js": "^6.6.2",
+    "graphql": "^16.8.1",
     "idb-keyval": "^6.2.0",
     "next": "^13.5.4",
     "next-plausible": "^3.9.1",
@@ -84,6 +88,9 @@
   "devDependencies": {
     "@babel/core": "^7.22.15",
     "@chakra-ui/cli": "^2.4.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@next/bundle-analyzer": "^13.5.5",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/airtable": "^0.10.1",

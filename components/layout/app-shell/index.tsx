@@ -235,10 +235,13 @@ const AppHeader: React.FC = () => {
             Contracts
           </LinkButton>
           <LinkButton
-            href="https://withpaper.com/product/checkouts"
+            href="/dashboard/payments/purchases"
             rounded="lg"
-            isExternal
-            noIcon
+            isActive={pathname.startsWith("/dashboard/payments")}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
           >
             Payments
           </LinkButton>
