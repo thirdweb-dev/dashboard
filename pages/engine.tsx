@@ -199,6 +199,23 @@ const EngineLanding: ThirdwebNextPage = () => {
             href="/sponsored-transactions"
             colSpan={1}
           />
+          <LandingCardWithImage
+            title="Infrastructure"
+            description="Built-in infrastructure so you don't have to worry about RPCs, storage, bundlers or paymasters."
+            image={require("public/assets/landingpage/infastructure-desktop.png")}
+            mobileImage={require("public/assets/landingpage/infastructure-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/rpc-edge"
+            direction="horizontal"
+          />
+          <LandingCardWithImage
+            title="Self-host or Managed"
+            description="Set up on your own server for free with minimal configuration or use our managed service."
+            image={require("public/assets/landingpage/selfhost.png")}
+            mobileImage={require("public/assets/landingpage/selfhost.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/rpc-edge"
+          />
         </LandingGridSection>
 
         <LandingCardWithImageBackground
