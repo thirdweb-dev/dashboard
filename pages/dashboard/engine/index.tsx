@@ -98,7 +98,7 @@ const EngineManage: ThirdwebNextPage = () => {
 
         {!address ? (
           <NoConnectedWallet />
-        ) : (
+        ) : instanceUrl ? (
           <Flex flexDir="column" gap={4}>
             <Flex flexDir="column" gap={{ base: 0, md: 4 }} mb={4} mt={4}>
               <Box
@@ -152,7 +152,7 @@ const EngineManage: ThirdwebNextPage = () => {
 
             {tabs.find((t) => t.title === tab)?.children}
           </Flex>
-        )}
+        ) : null}
       </Flex>
     </Flex>
   );

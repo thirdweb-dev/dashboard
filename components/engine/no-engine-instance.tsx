@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   UseDisclosureReturn,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { useForm } from "react-hook-form";
 import { Card, Link, Text, Button, FormHelperText } from "tw-components";
 
@@ -30,6 +31,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
   setInstanceUrl,
   disclosure,
 }) => {
+  const address = useAddress();
   const form = useForm({
     defaultValues: {
       url: instance,
@@ -81,7 +83,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      {!instance && (
+      {!instance && address && (
         <Flex flexDir="column" gap={4}>
           <Card py={12}>
             <Flex flexDir="column" gap={2}>
