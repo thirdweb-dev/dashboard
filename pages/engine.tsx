@@ -81,7 +81,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           titleWithGradient="scalable web3 apps"
           miniTitle="Engine"
           title="The open-source API for"
-          subtitle="Complete back-end solution for web3 apps on any EVM chain. Engine creates, secures, & manages backend wallets — enabling high throughput with automatic nonce and gas management."
+          subtitle="A production-grade HTTP server for interacting with any smart contract on any EVM blockchain. Engine lets you create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
@@ -111,12 +111,12 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
             title="Scale to millions"
-            description="Manage wallets at scale and protect your transactions against stuck nonces, gas spikes, and network instability."
+            description="Production-grade infra that scales. Eliminate gas spikes, stuck transactions and network instability."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
             title="Go to market faster"
-            description="Build full-scale web3 apps using familiar frameworks. Engine abstracts away all complexity with nonce, gas, signer & private keys."
+            description="Build web3 apps and games using familiar frameworks. Engine lowers the barrier to entry for developers and gives them the power of web3 with one http call."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
@@ -126,7 +126,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-3.svg")}
             title="Secure and reliable"
-            description="Back up private keys to the cloud, revoke access to backend wallets, and monitor flow of funds."
+            description="Back up private keys to the cloud, leverage secure cloud key management for signing and custody, revoke access to backend wallets, and monitor flow of funds."
           />
         </LandingGridSection>
 
@@ -152,7 +152,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             >
               <Box maxWidth="1000px">
                 <LandingSectionHeading
-                  title="Solutions for every web3-powered feature in your app"
+                  title="Solutions for every web3-powered feature"
                   blackToWhiteTitle=""
                 />
               </Box>
@@ -245,6 +245,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaText="Get started"
           ctaLink="https://portal.thirdweb.com/engine"
+          contactUsTitle="Book a demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
       </Container>
