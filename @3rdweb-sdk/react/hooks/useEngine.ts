@@ -3,6 +3,7 @@ import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
+import { useChainId } from "@thirdweb-dev/react";
 
 // GET Requests
 export type BackendWallet = {
@@ -167,17 +168,17 @@ export type CurrencyValue = {
 export function useEngineBackendWalletBalance(
   instance: string,
   address: string,
-  chainId: number,
 ) {
   const { token } = useApiAuthToken();
+  const chainId = useChainId();
+
+  invariant(chainId, "chainId is required");
 
   return useQuery(
     engineKeys.backendWalletBalance(address, chainId),
     async () => {
       const res = await fetch(
-        `${instance}${
-          instance.endsWith("/") ? "" : "/"
-        }backend-wallet/${chainId}/${address}/get-balance`,
+        `${instance}backend-wallet/${chainId}/${address}/get-balance`,
         {
           method: "GET",
           headers: {
