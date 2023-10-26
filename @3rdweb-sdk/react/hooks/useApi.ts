@@ -6,6 +6,7 @@ import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 
 import invariant from "tiny-invariant";
 import { useLoggedInUser } from "./useLoggedInUser";
+import type { Chain } from "@thirdweb-dev/chains";
 
 export type AuthorizedWallet = {
   id: string;
@@ -343,6 +344,43 @@ export function useConfirmEmail() {
         },
         body: JSON.stringify(input),
       });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          accountKeys.me(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
+export function useConfirmPaperEmail() {
+  const { user } = useLoggedInUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async ({ paperJwt }: { paperJwt: string }) => {
+      invariant(user?.address, "walletAddress is required");
+
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/account/confirmPaperEmail`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ paperJwt }),
+        },
+      );
       const json = await res.json();
 
       if (json.error) {
@@ -798,4 +836,30 @@ export async function fetchApiKeyAvailability(name: string) {
   }
 
   return !!json.data.available;
+}
+
+/**
+ *
+ */
+export async function fetchChainsFromApi() {
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const json = await res.json();
+
+  if (json.error) {
+    throw new Error(json.message);
+  }
+
+  return json.data as Chain[];
+}
+
+export function useApiChains() {
+  return useQuery(["all-chains"], async () => {
+    return fetchChainsFromApi();
+  });
 }
