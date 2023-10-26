@@ -12,12 +12,12 @@
     "fix": "next lint --fix",
     "format": "prettier --write .",
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
-    "postinstall": "yarn run gen:theme-typings & yarn run gql:compile",
+    "postinstall": "yarn run gen:theme-typings & yarn apollo",
     "find:unused": "next-unused",
     "postbuild": "next-sitemap",
     "build:analyze": "ANALYZE=true yarn run build",
-    "gql:compile": "graphql-codegen",
-    "gql:watch": "graphql-codegen -w"
+    "apollo": "node scripts/apollo.mjs && yarn apollo-codegen",
+    "apollo-codegen": "graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
@@ -90,6 +90,8 @@
     "@chakra-ui/cli": "^2.4.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@next/bundle-analyzer": "^13.5.5",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
@@ -112,6 +114,8 @@
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-inclusive-language": "^2.1.1",
     "eslint-plugin-prettier": "^5.0.0",
+    "execa": "^8.0.1",
+    "graphqurl": "^1.0.1",
     "isomorphic-fetch": "^3.0.0",
     "lodash.merge": "^4.6.2",
     "next-sitemap": "^4.2.3",

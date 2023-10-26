@@ -1,4 +1,5 @@
 import { AppLayout } from "components/app-layouts/app";
+import { PurchasesList } from "components/payments/purchases/overview/purchases-list";
 import { PaymentsSidebar } from "core-ui/sidebar/payments";
 import { PageId } from "page-id";
 import { Link } from "tw-components";
@@ -13,6 +14,8 @@ const PaymentsPurchases: ThirdwebNextPage = () => {
       <br />
       {/* ID link */}
       <Link href={`/dashboard/payments/purchases/${id}`}>/ID page link</Link>
+      {/* test */}
+      <PurchasesList />
     </div>
   );
 };
