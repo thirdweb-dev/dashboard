@@ -6,8 +6,8 @@ export const NoServerConnection = () => {
     <Card py={8}>
       <Flex flexDir="column" gap={4}>
         <Text textAlign="center">
-          A connection with the Engine wasn&apos;t possible, please ensure the
-          URL is correct and the server is up and running.
+          We weren&apos;t able to establish a connection with Engine. Please
+          ensure the URL is correct, and the server is running.
         </Text>
       </Flex>
     </Card>
