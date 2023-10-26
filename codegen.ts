@@ -17,7 +17,7 @@ const config: CodegenConfig = {
       plugins: ["typescript-operations", "typescript-react-apollo"],
       presetConfig: {
         gqlTagName: "gql",
-        baseTypesPath: "./graphql/generated-types.ts",
+        baseTypesPath: "../generated_types.ts",
         extension: ".generated.tsx",
         folder: "../__generated__",
       },
