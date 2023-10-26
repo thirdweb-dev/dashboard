@@ -673,7 +673,7 @@
 .swagger-ui .expand-methods,
 .swagger-ui .expand-operation {
   border: none!important;
-  background: #5189f8!important;
+  background-color: transparent!important;
   padding: 4px!important;
   border-radius: 1000px!important;
   overflow: hidden!important;
@@ -681,9 +681,10 @@
 
 .swagger-ui .expand-methods svg,
 .swagger-ui .expand-operation svg {
-  width: 16px!important;
-  height: 16px!important;
-
+  width: 18px!important;
+  height: 18px!important; 
+  background-color: transparent;
+  fill:#fff!important;
 }
 
 .swagger-ui .expand-methods {
@@ -1695,10 +1696,6 @@
   fill: #49cc90!important;
 }
 
-.swagger-ui .arrow {
-  background: #5189f8!important;
-}
-
 .swagger-ui .parameter__type {
   color: #5189f8!important;
 }
@@ -1751,4 +1748,12 @@
 
 .swagger-ui input {
   border: none!important;
+}
+
+.swagger-ui .nostyle span {
+  font-size: 20px!important;
+}
+
+.swagger-ui .opblock-summary-path .nostyle span {
+  font-size: 14px!important;
 }
