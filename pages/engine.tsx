@@ -73,8 +73,8 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           titleWithGradient="scalable web3 apps"
           miniTitle="Engine"
-          title="The open-source API for"
-          subtitle="A production-grade HTTP server for interacting with any smart contract on any EVM blockchain. Engine lets you create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
+          title="The open-source server for"
+          subtitle="Production-grade HTTP server to interact with any smart contract on any EVM. Engine lets you create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/engine"
           ctaText="Get started"
@@ -143,12 +143,10 @@ const EngineLanding: ThirdwebNextPage = () => {
               w="full"
               marginBottom="38px"
             >
-              <Box maxWidth="1000px">
-                <LandingSectionHeading
-                  title="Solutions for every web3-powered feature"
-                  blackToWhiteTitle=""
-                />
-              </Box>
+              <LandingSectionHeading
+                title="Solutions for every web3-powered feature"
+                blackToWhiteTitle=""
+              />
             </Box>
           }
           desktopColumns={4}
@@ -173,7 +171,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           />
 
           <LandingCardWithImage
-            title="Web3 auth"
+            title="Web3 Auth"
             description="Create permissions to enable users' wallets to directly interact with certain endpoints on the thirdweb Engine."
             image={require("public/assets/product-pages/connect/desktop-auth.png")}
             mobileImage={require("public/assets/product-pages/connect/mobile-auth.png")}
@@ -208,12 +206,12 @@ const EngineLanding: ThirdwebNextPage = () => {
             direction="horizontal"
           />
           <LandingCardWithImage
-            title="Self-Host or Managed"
+            title="Self-hosted or Managed"
             description="Set up on your own server for free with minimal configuration or use our managed service."
             image={require("public/assets/landingpage/selfhost.png")}
             mobileImage={require("public/assets/landingpage/selfhost.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/rpc-edge"
+            href="/dashboard/engine"
           />
         </LandingGridSection>
 
