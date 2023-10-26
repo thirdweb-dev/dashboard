@@ -5,8 +5,6 @@ import { Card } from "tw-components";
 export const PurchasesList: React.FC = () => {
   const checkouts = useGetAllCheckoutQuery();
 
-  console.log("checkouts", checkouts.data);
-
   return (
     <Flex flexDir="column" gap={4}>
       {checkouts.data?.checkout?.map((c) => {
