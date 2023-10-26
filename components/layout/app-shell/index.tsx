@@ -254,6 +254,17 @@ const AppHeader: React.FC = () => {
             Infrastructure
           </LinkButton>
           <LinkButton
+            href="/dashboard/engine"
+            isActive={pathname.startsWith("/dashboard/engine")}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+          >
+            Engine
+          </LinkButton>
+          <LinkButton
             href="/dashboard/settings"
             isActive={pathname.startsWith("/dashboard/settings")}
             _active={{
