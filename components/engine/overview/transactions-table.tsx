@@ -25,7 +25,7 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FiInfo, FiTrash } from "react-icons/fi";
-import { Button, FormLabel, LinkButton, Text } from "tw-components";
+import { Card, Button, FormLabel, LinkButton, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { fetchChain } from "utils/fetchChain";
 
@@ -147,7 +147,24 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
         return (
           <Flex align="center" gap={1}>
-            <Tooltip label={tooltip}>
+            <Tooltip
+              borderRadius="md"
+              bg="transparent"
+              boxShadow="none"
+              p={4}
+              minW={{ md: "450px" }}
+              label={
+                <Card bgColor="backgroundHighlight">
+                  <Text>
+                    {status === "errored"
+                      ? errorMessage
+                      : status === "mined" && minedAt
+                      ? `Completed ${format(new Date(minedAt), "PP pp")}`
+                      : undefined}
+                  </Text>
+                </Card>
+              }
+            >
               <Tag
                 size="sm"
                 variant="subtle"
@@ -239,7 +256,19 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
         const date = new Date(value);
         return (
-          <Tooltip label={format(date, "PP pp z")} shouldWrapChildren>
+          <Tooltip
+            borderRadius="md"
+            bg="transparent"
+            boxShadow="none"
+            p={4}
+            minW={{ md: "450px" }}
+            label={
+              <Card bgColor="backgroundHighlight">
+                <Text>{format(date, "PP pp z")}</Text>
+              </Card>
+            }
+            shouldWrapChildren
+          >
             <Text>{formatDistanceToNowStrict(date, { addSuffix: true })}</Text>
           </Tooltip>
         );
