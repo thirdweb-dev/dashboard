@@ -7,9 +7,9 @@ export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
     useLocalStorage("dismissed-smart-w-allet", false, true);
 
-  /*  if (hasDismissedAnnouncement) {
+  if (hasDismissedAnnouncement) {
     return null;
-  } */
+  }
 
   return (
     <Box
