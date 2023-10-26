@@ -214,11 +214,19 @@ export function useEnginePermissions(instance: string) {
         },
       });
 
+      console.log(res.status, res.statusText);
+
+      if (res.status !== 200) {
+        throw new Error(`${res.status}`);
+      }
+
       const json = await res.json();
 
       return (json.result as EngineAdmin[]) || [];
     },
-    { enabled: !!instance && !!token },
+    {
+      enabled: !!instance && !!token,
+    },
   );
 }
 
