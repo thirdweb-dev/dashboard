@@ -18,7 +18,7 @@ const config: CodegenConfig = {
       presetConfig: {
         gqlTagName: "gql",
         baseTypesPath: "../generated_types.ts",
-        extension: ".generated.tsx",
+        extension: ".generated.ts",
         folder: "../__generated__",
       },
     },
