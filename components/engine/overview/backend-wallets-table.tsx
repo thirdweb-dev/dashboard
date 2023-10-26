@@ -4,7 +4,7 @@ import {
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
-import { Badge, Text } from "tw-components";
+import { Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface BackendWalletsTableProps {
