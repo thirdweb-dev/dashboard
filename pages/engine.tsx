@@ -55,7 +55,7 @@ const EngineLanding: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/thirdweb-engine.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/engine.png`,
               width: 1200,
               height: 630,
               alt: "thirdweb Engine",
