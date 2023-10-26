@@ -6,14 +6,12 @@ import {
   IconButton,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
   Stack,
   Tag,
-  TagCloseButton,
   TagLabel,
   Tooltip,
   useDisclosure,
@@ -27,7 +25,6 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FiInfo, FiTrash } from "react-icons/fi";
-import { MdOutlineCancel } from "react-icons/md";
 import { Button, FormLabel, LinkButton, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { fetchChain } from "utils/fetchChain";
@@ -129,13 +126,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
     columnHelper.accessor("status", {
       header: "Status",
       cell: (cell) => {
-        const status = "queued";
         const transaction = cell.row.original;
-        const {
-          // status,
-          errorMessage,
-          minedAt,
-        } = transaction;
+        const { status, errorMessage, minedAt } = transaction;
         if (!status) {
           return null;
         }
@@ -154,7 +146,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
         ].includes(status);
 
         return (
-          <Flex align="center" gap={0}>
+          <Flex align="center" gap={1}>
             <Tooltip label={tooltip}>
               <Tag
                 size="sm"
@@ -272,7 +264,7 @@ const CancelTransactionButton = ({
   transaction: Transaction;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { token } = useApiAuthToken();
+  const auth = useApiAuthToken();
   const [instanceUrl] = useLocalStorage("engine-instance", "");
   const { onSuccess, onError } = useTxNotifications(
     "Successfully sent a request to cancel transaction",
@@ -285,13 +277,14 @@ const CancelTransactionButton = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${auth.token}`,
           "x-backend-wallet-address": transaction.fromAddress ?? "",
         },
         body: JSON.stringify({ queueId: transaction.queueId }),
       });
       if (!resp.ok) {
-        throw new Error(`Unexpected status ${resp.status}`);
+        const json = await resp.json();
+        throw json.error?.message;
       }
       onSuccess();
     } catch (e) {
