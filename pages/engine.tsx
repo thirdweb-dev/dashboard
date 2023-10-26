@@ -152,22 +152,22 @@ const EngineLanding: ThirdwebNextPage = () => {
           desktopColumns={4}
         >
           <LandingCardWithImage
+            title="Wallets"
+            description="Create backend wallets you can programatically use with automatic nonce and gas management. Eliminate gas spikes, stuck transactions and network instability."
+            image={require("public/assets/landingpage/account-abstraction-desktop.png")}
+            mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            direction="horizontal"
+          />
+
+          <LandingCardWithImage
             title="Smart Contracts"
             description="Deploy, read, & write to any smart contract across any EVM-compatible blockchain — and build with thirdweb's audited smart contracts."
             image={require("public/assets/landingpage/smart-contract-audits-desktop.png")}
             mobileImage={require("public/assets/landingpage/smart-contract-audits-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/explore"
-          />
-
-          <LandingCardWithImage
-            title="Account Abstraction"
-            description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
-            image={require("public/assets/landingpage/account-abstraction-desktop.png")}
-            mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/account-abstraction"
-            direction="horizontal"
           />
 
           <LandingCardWithImage
@@ -180,12 +180,13 @@ const EngineLanding: ThirdwebNextPage = () => {
             colSpan={1}
           />
           <LandingCardWithImage
-            title="Wallet Management"
-            description="Nonce management to create backend wallets, store keys securely and sign & send transactions at scale. Eliminate stuck transactions and scale your app to millions."
-            image={require("public/assets/landingpage/managment-desktop.png")}
-            mobileImage={require("public/assets/landingpage/managment-mobile.png")}
+            title="Account Abstraction"
+            description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
+            image={require("public/assets/landingpage/account-abstraction-desktop.png")}
+            mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="/account-abstraction"
+            direction="horizontal"
           />
           <LandingCardWithImage
             title="Gasless Transactions"
