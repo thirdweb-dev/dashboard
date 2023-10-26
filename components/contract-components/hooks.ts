@@ -356,7 +356,10 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
     compositeAbi &&
     (dynamicContractType === "plugin" ||
       dynamicContractType === "dynamic" ||
-      !publishedContractInfo.data?.publishedMetadata.deployType)
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
   ) {
     return extractFunctionsFromAbi(compositeAbi);
   }
@@ -380,7 +383,10 @@ export function usePublishedContractEvents(contract: PublishedContract) {
     compositeAbi &&
     (dynamicContractType === "plugin" ||
       dynamicContractType === "dynamic" ||
-      !publishedContractInfo.data?.publishedMetadata.deployType)
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
   ) {
     return extractEventsFromAbi(compositeAbi);
   }
