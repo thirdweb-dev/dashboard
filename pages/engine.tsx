@@ -182,8 +182,8 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingCardWithImage
             title="Account Abstraction"
             description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
-            image={require("public/assets/landingpage/account-abstraction-desktop.png")}
-            mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
+            image={require("public/assets/landingpage/account-desktop.png")}
+            mobileImage={require("public/assets/landingpage/account-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/account-abstraction"
             direction="horizontal"
