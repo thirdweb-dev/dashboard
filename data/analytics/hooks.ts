@@ -15,7 +15,7 @@ import {
   Optimism,
   Polygon,
   PolygonZkevmTestnet,
-  ScrollAlphaTestnet,
+  ScrollSepoliaTestnet,
   Sepolia,
 } from "@thirdweb-dev/chains";
 import { ethers } from "ethers";
@@ -44,7 +44,7 @@ export const SUPPORTED_ANALYTICS_CHAINS: number[] = [
   Mumbai.chainId,
   BaseGoerli.chainId,
   ArbitrumGoerli.chainId,
-  ScrollAlphaTestnet.chainId,
+  ScrollSepoliaTestnet.chainId,
   Sepolia.chainId,
 ];
 
