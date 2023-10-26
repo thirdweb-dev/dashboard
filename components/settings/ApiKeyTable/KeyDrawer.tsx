@@ -51,11 +51,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
         const existingService = (services || []).find(
           (s) => s.name === srv.name,
         );
-        console.log("existingService", existingService);
-        console.log(
-          "existingService?.customAuthentication",
-          existingService?.customAuthentication,
-        );
+
         return {
           name: srv.name,
           targetAddresses: existingService
