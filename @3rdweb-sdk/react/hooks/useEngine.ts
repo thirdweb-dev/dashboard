@@ -378,6 +378,7 @@ export function useEngineCreateBackendWallet(instance: string) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({}),
       });
       const json = await res.json();
 
@@ -536,6 +537,7 @@ export function useEngineCreateAccessToken(instance: string) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({}),
       });
       const json = await res.json();
 
