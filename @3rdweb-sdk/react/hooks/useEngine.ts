@@ -3,6 +3,7 @@ import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
+import { useChainId } from "@thirdweb-dev/react";
 
 // GET Requests
 export type BackendWallet = {
@@ -174,17 +175,17 @@ export type CurrencyValue = {
 export function useEngineBackendWalletBalance(
   instance: string,
   address: string,
-  chainId: number,
 ) {
   const { token } = useApiAuthToken();
+  const chainId = useChainId();
+
+  invariant(chainId, "chainId is required");
 
   return useQuery(
     engineKeys.backendWalletBalance(address, chainId),
     async () => {
       const res = await fetch(
-        `${instance}${
-          instance.endsWith("/") ? "" : "/"
-        }backend-wallet/${chainId}/${address}/get-balance`,
+        `${instance}backend-wallet/${chainId}/${address}/get-balance`,
         {
           method: "GET",
           headers: {
@@ -221,11 +222,17 @@ export function useEnginePermissions(instance: string) {
         },
       });
 
+      if (res.status !== 200) {
+        throw new Error(`${res.status}`);
+      }
+
       const json = await res.json();
 
       return (json.result as EngineAdmin[]) || [];
     },
-    { enabled: !!instance && !!token },
+    {
+      enabled: !!instance && !!token,
+    },
   );
 }
 
@@ -376,6 +383,7 @@ export function useEngineCreateBackendWallet(instance: string) {
       const res = await fetch(`${instance}backend-wallet/create`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({}),
@@ -535,6 +543,7 @@ export function useEngineCreateAccessToken(instance: string) {
       const res = await fetch(`${instance}auth/access-tokens/create`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({}),
