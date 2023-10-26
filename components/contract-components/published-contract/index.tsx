@@ -80,12 +80,20 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const contractPublishMetadata = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
+
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+
   const compositeAbi =
     publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
-  const enabledExtensions = useContractEnabledExtensions(
-    compositeAbi || contractPublishMetadata.data?.abi,
-  );
+  const abi =
+    compositeAbi &&
+    (dynamicContractType === "plugin" || dynamicContractType === "dynamic")
+      ? compositeAbi
+      : contractPublishMetadata.data?.abi;
+
+  const enabledExtensions = useContractEnabledExtensions(abi);
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
@@ -428,7 +436,13 @@ Deploy it in one click`,
           <Divider />
           {contractPublishMetadata.data?.abi && (
             <Extensions
-              abi={compositeAbi || contractPublishMetadata.data?.abi}
+              abi={
+                compositeAbi &&
+                (dynamicContractType === "plugin" ||
+                  dynamicContractType === "dynamic")
+                  ? compositeAbi
+                  : contractPublishMetadata.data?.abi
+              }
             />
           )}
           <Divider />

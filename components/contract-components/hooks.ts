@@ -350,7 +350,12 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" || dynamicContractType === "dynamic")
+  ) {
     return extractFunctionsFromAbi(compositeAbi);
   }
 
@@ -367,7 +372,12 @@ export function usePublishedContractEvents(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" || dynamicContractType === "dynamic")
+  ) {
     return extractEventsFromAbi(compositeAbi);
   }
 
