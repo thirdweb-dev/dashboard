@@ -7,8 +7,8 @@ export const NoAuthorizedWallet = () => {
       <Flex flexDir="column" gap={4}>
         <Text textAlign="center">
           You do not have permission to view this Engine instance. Please
-          connect from a wallet that has permissions or add the admin of the
-          Instance to give them to you.
+          connect from a wallet with permission or ask the admin of the instance
+          to grant you permission.
         </Text>
       </Flex>
     </Card>
