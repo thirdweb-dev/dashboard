@@ -66,41 +66,36 @@ export const OnboardingConfirmEmail: React.FC<OnboardingConfirmEmailProps> = ({
     onSave();
     setSaving(false);
 
-    trackEvent({
-      category: "account",
-      action: "confirmEmail",
-      label: "success",
+    mutation.mutate(values, {
+      onSuccess: () => {
+        onSave();
+        setSaving(false);
+
+        trackEvent({
+          category: "account",
+          action: "confirmEmail",
+          label: "success",
+        });
+      },
+      onError: (error: any) => {
+        const message =
+          "message" in error
+            ? error.message
+            : "Couldn't verify your email address. Try later!";
+
+        onError(message);
+        form.reset();
+        setToken("");
+        setSaving(false);
+
+        trackEvent({
+          category: "account",
+          action: "confirmEmail",
+          label: "error",
+          error: message,
+        });
+      },
     });
-    // mutation.mutate(values, {
-    //   onSuccess: () => {
-    //     onSave();
-    //     setSaving(false);
-
-    //     trackEvent({
-    //       category: "account",
-    //       action: "confirmEmail",
-    //       label: "success",
-    //     });
-    //   },
-    //   onError: (error: any) => {
-    //     const message =
-    //       "message" in error
-    //         ? error.message
-    //         : "Couldn't verify your email address. Try later!";
-
-    //     onError(message);
-    //     form.reset();
-    //     setToken("");
-    //     setSaving(false);
-
-    //     trackEvent({
-    //       category: "account",
-    //       action: "confirmEmail",
-    //       label: "error",
-    //       error: message,
-    //     });
-    //   },
-    // });
   });
 
   const handleResend = () => {
