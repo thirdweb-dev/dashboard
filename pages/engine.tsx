@@ -49,7 +49,7 @@ const EngineLanding: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Open-Source Server for Scalable Web3 Apps",
+        title: "Engine: Open-Source Server for Scalable Web3 Apps",
         description:
           "A production-grade HTTP server to generate backend wallets on any EVM blockchain—with smart contracts, auth, gasless transactions, & managed infra. Get started.",
         openGraph: {
