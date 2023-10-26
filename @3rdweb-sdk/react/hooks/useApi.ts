@@ -60,7 +60,7 @@ export type ApiKeyService = {
   targetAddresses: string[];
   actions: string[];
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
-  recoveryShareManagement?: "AWS_MANAGED" | "USER_MANAGED" | "CUSTOM_JWT";
+  recoveryShareManagement?: "AWS_MANAGED" | "USER_MANAGED";
   customAuthentication?: {
     jwksUri: string;
     aud: string;

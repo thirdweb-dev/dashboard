@@ -11,22 +11,6 @@ import { FiX } from "react-icons/fi";
 
 import { Heading, Text, TrackedLink } from "tw-components";
 
-export const NoChangingRecoveryShareManagementAlert = () => {
-  return (
-    <Alert status="warning" variant="left-accent" borderRadius="md">
-      <AlertIcon />
-      <Flex direction="column" gap={2}>
-        <Heading as={AlertTitle} size="label.md">
-          Recovery Share Management cannot be changed
-        </Heading>
-        <Text as={AlertDescription} size="body.md">
-          The recovery share management type for embedded wallets cannot be
-          changed after the API key is created.
-        </Text>
-      </Flex>
-    </Alert>
-  );
-};
 export const SecretHandlingAlert = () => {
   return (
     <Alert status="warning" variant="left-accent" borderRadius="md">

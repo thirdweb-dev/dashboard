@@ -80,7 +80,7 @@ export const CreateApiKeyButton: React.FC<ICreateAPIKeyButtonProps> = ({
             ...srv,
             targetAddresses: toArrFromList(srv.targetAddresses),
             recoveryShareManagement: srv.recoveryShareManagement,
-            customAuthentication: srv.customAuthentication?.active
+            customAuthentication: srv.customAuthentication?.jwksUri
               ? {
                   jwksUri: srv.customAuthentication?.jwksUri,
                   aud: srv.customAuthentication?.aud,

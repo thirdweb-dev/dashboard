@@ -51,6 +51,11 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
         const existingService = (services || []).find(
           (s) => s.name === srv.name,
         );
+        console.log("existingService", existingService);
+        console.log(
+          "existingService?.customAuthentication",
+          existingService?.customAuthentication,
+        );
         return {
           name: srv.name,
           targetAddresses: existingService
@@ -61,7 +66,6 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
           recoveryShareManagement: existingService?.recoveryShareManagement,
           customAuthentication: existingService?.customAuthentication
             ? {
-                active: !!existingService.customAuthentication,
                 ...existingService.customAuthentication,
               }
             : undefined,

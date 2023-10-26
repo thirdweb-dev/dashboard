@@ -2,20 +2,20 @@ import {
   useConfirmEmail,
   useResendEmailConfirmation,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import { Button, Text } from "tw-components";
-import OtpInput from "react-otp-input";
-import { useState, ClipboardEvent } from "react";
-import { Input, Flex } from "@chakra-ui/react";
-import { OnboardingTitle } from "./Title";
-import { useForm } from "react-hook-form";
+import { Flex, Input } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   EmailConfirmationValidationSchema,
   emailConfirmationValidationSchema,
 } from "components/settings/Account/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { ClipboardEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import OtpInput from "react-otp-input";
+import { Button, Text } from "tw-components";
+import { OnboardingTitle } from "./Title";
 
 interface OnboardingConfirmEmailProps {
   email: string;
@@ -63,36 +63,44 @@ export const OnboardingConfirmEmail: React.FC<OnboardingConfirmEmailProps> = ({
       label: "attempt",
     });
 
-    mutation.mutate(values, {
-      onSuccess: () => {
-        onSave();
-        setSaving(false);
+    onSave();
+    setSaving(false);
 
-        trackEvent({
-          category: "account",
-          action: "confirmEmail",
-          label: "success",
-        });
-      },
-      onError: (error: any) => {
-        const message =
-          "message" in error
-            ? error.message
-            : "Couldn't verify your email address. Try later!";
-
-        onError(message);
-        form.reset();
-        setToken("");
-        setSaving(false);
-
-        trackEvent({
-          category: "account",
-          action: "confirmEmail",
-          label: "error",
-          error: message,
-        });
-      },
+    trackEvent({
+      category: "account",
+      action: "confirmEmail",
+      label: "success",
     });
+    // mutation.mutate(values, {
+    //   onSuccess: () => {
+    //     onSave();
+    //     setSaving(false);
+
+    //     trackEvent({
+    //       category: "account",
+    //       action: "confirmEmail",
+    //       label: "success",
+    //     });
+    //   },
+    //   onError: (error: any) => {
+    //     const message =
+    //       "message" in error
+    //         ? error.message
+    //         : "Couldn't verify your email address. Try later!";
+
+    //     onError(message);
+    //     form.reset();
+    //     setToken("");
+    //     setSaving(false);
+
+    //     trackEvent({
+    //       category: "account",
+    //       action: "confirmEmail",
+    //       label: "error",
+    //       error: message,
+    //     });
+    //   },
+    // });
   });
 
   const handleResend = () => {
