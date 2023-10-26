@@ -20,6 +20,8 @@ const EngineManage: ThirdwebNextPage = () => {
 
   const enginePermissions = useEnginePermissions(instanceUrl);
 
+  console.log({ enginePermissions });
+
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
       <Flex direction="column" gap={4}>
