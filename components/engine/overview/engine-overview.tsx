@@ -105,7 +105,7 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
           <Flex flexDir="column" gap={2}>
             <Heading size="title.sm">Transactions</Heading>
             <Text>
-              View transactions sent from your backend wallets in the last 24
+              View transactions sent from your backend wallets in the past 24
               hours.
             </Text>
           </Flex>

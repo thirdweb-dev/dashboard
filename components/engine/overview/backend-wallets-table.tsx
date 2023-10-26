@@ -25,24 +25,15 @@ const setColumns = (instance: string) => [
     header: "Address",
     cell: (cell) => {
       const address = cell.getValue();
-      return <AddressCopyButton address={address} />;
+      return (
+        <AddressCopyButton address={address} shortenAddress={false} size="xs" />
+      );
     },
   }),
   columnHelper.accessor("type", {
     header: "Type",
     cell: (cell) => {
-      return (
-        <Badge
-          borderRadius="full"
-          size="label.sm"
-          variant="subtle"
-          px={3}
-          py={1.5}
-          colorScheme="black"
-        >
-          {cell.getValue()}
-        </Badge>
-      );
+      return <Text>{cell.getValue()}</Text>;
     },
   }),
   columnHelper.accessor("address", {
@@ -71,7 +62,8 @@ const BackendWalletBalanceCell: React.FC<BackendWalletBalanceCellProps> = ({
 
   return (
     <Text>
-      {backendWalletBalance?.displayValue} {backendWalletBalance?.symbol}
+      {parseFloat(backendWalletBalance?.displayValue ?? "0").toFixed(6)}{" "}
+      {backendWalletBalance?.symbol}
     </Text>
   );
 };
