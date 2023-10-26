@@ -89,7 +89,9 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
 
   const abi =
     compositeAbi &&
-    (dynamicContractType === "plugin" || dynamicContractType === "dynamic")
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType)
       ? compositeAbi
       : contractPublishMetadata.data?.abi;
 
@@ -439,7 +441,8 @@ Deploy it in one click`,
               abi={
                 compositeAbi &&
                 (dynamicContractType === "plugin" ||
-                  dynamicContractType === "dynamic")
+                  dynamicContractType === "dynamic" ||
+                  !publishedContractInfo.data?.publishedMetadata.deployType)
                   ? compositeAbi
                   : contractPublishMetadata.data?.abi
               }
