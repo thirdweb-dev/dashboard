@@ -36,6 +36,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const apolloClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_PAYMENTS_API,
+  credentials: "include",
   cache: new InMemoryCache(),
 });
 
