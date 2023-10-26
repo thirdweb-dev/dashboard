@@ -1,3 +1,4 @@
+import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Flex,
   GridItem,
@@ -14,7 +15,7 @@ import {
 import type { Chain } from "@thirdweb-dev/chains";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { THIRDWEB_API_HOST } from "constants/urls";
+
 import Fuse from "fuse.js";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
@@ -242,42 +243,33 @@ interface DashboardRPCProps {
 }
 
 // server side ----------------
-
-// helper function to get all chains
-// TODO replace this with proper SSR partial rendering of chains and paginate on the frontend
-async function getAllPaginatedChains(
-  chains: Chain[] = [],
-  pathname = "/v1/chains",
-): Promise<Chain[]> {
-  const url = new URL(THIRDWEB_API_HOST);
-  url.pathname = pathname;
-  const res = await fetch(decodeURIComponent(url.toString()));
-  const json = await res.json();
-
-  if (json.error) {
-    console.error("Failed to fully load chains from DB", json.error);
-    return chains;
-  }
-  if (json.next) {
-    return getAllPaginatedChains([...chains, ...json.data], json.next);
-  }
-  return [...chains, ...json.data];
-}
-
 export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
-  const chains = await getAllPaginatedChains();
+  const chains = await fetchChainsFromApi();
+
   const minimalChains = chains
     .filter((c) => c.chainId !== 1337)
-    .map((chain) => ({
-      slug: chain.slug,
-      name: chain.name,
-      chainId: chain.chainId,
-      iconUrl: chain?.icon?.url || "",
-      symbol: chain.nativeCurrency.symbol,
-      hasRpc:
-        "rpc" in chain &&
-        chain.rpc.findIndex((c) => c.indexOf("thirdweb.com") > -1) > -1,
-    }));
+    .map((chain) => {
+      let hasRpc = chain.rpc.length > 0;
+      if (hasRpc) {
+        try {
+          const firstRpcUrl = new URL(chain.rpc[0]);
+          // check if the rpc url specifically is thirdweb rpc
+          hasRpc = firstRpcUrl.hostname.endsWith(".thirdweb.com");
+        } catch {
+          // ignore the failure, probably failed to parse the url
+          hasRpc = false;
+        }
+      }
+
+      return {
+        slug: chain.slug,
+        name: chain.name,
+        chainId: chain.chainId,
+        iconUrl: chain?.icon?.url || "",
+        symbol: chain.nativeCurrency.symbol,
+        hasRpc,
+      };
+    });
   return {
     revalidate: 60,
     props: {

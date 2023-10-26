@@ -3,7 +3,7 @@ import {
   EVMContractInfo,
   useEVMContractInfo,
 } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { fetchAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
+import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ThirdwebProvider,
@@ -15,11 +15,13 @@ import {
   safeWallet,
   trustWallet,
   phantomWallet,
-  useUser,
   walletConnect,
   zerionWallet,
 } from "@thirdweb-dev/react";
-import { GLOBAL_AUTH_TOKEN_KEY } from "constants/app";
+import {
+  GLOBAL_AUTH_TOKEN_KEY,
+  GLOBAL_PAPER_AUTH_TOKEN_KEY,
+} from "constants/app";
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
   DASHBOARD_THIRDWEB_SECRET_KEY,
@@ -53,6 +55,10 @@ const personalWallets = [
     paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
     advancedOptions: {
       recoveryShareManagement: "AWS_MANAGED",
+    },
+    onAuthSuccess: ({ storedToken }) => {
+      // expose paper auth token for onboarding screens to pick up and clear up
+      (window as any)[GLOBAL_PAPER_AUTH_TOKEN_KEY] = storedToken.cookieString;
     },
   }),
   localWallet(),
@@ -118,38 +124,15 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
 };
 
 const GlobalAuthTokenProvider = () => {
-  const { user } = useUser();
-
-  const getToken = async () => {
-    try {
-      const token = await fetchAuthToken();
-      return token;
-    } catch (err) {
-      return undefined;
-    }
-  };
+  const { token, isLoading } = useApiAuthToken();
 
   useEffect(() => {
-    let mounted = true;
-
-    (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
-
-    getToken()
-      .then((token) => {
-        if (mounted) {
-          (window as any)[GLOBAL_AUTH_TOKEN_KEY] = token;
-        }
-      })
-      .catch(() => {
-        if (mounted) {
-          (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
-        }
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, [user?.address]);
+    if (token && !isLoading) {
+      (window as any)[GLOBAL_AUTH_TOKEN_KEY] = token;
+    } else {
+      (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
+    }
+  }, [token, isLoading]);
 
   return null;
 };

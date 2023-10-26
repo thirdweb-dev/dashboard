@@ -134,6 +134,8 @@ export enum PageId {
   DashboardWalletsLocal = "dashboard-wallets-local",
   // thirdweb.com/dashboard/wallets/auth
   DashboardWalletsAuth = "dashboard-wallets-auth",
+  // thirdweb.com/dashboard/wallets/analytics
+  DashboardWalletsAnalytics = "dashboard-wallets-analytics",
 
   // thirdweb.com/dashboard/contracts/build
   DashboardContractsBuild = "dashboard-contracts-build",
@@ -151,6 +153,15 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
+
+  // ---------------------------------------------------------------------------
+  //  engine pages
+  // ---------------------------------------------------------------------------
+  // thirdweb.com/dashboard/engine
+  Engine = "engine",
+
+  // thirdweb.com/dashboard/engine
+  EngineManage = "engine-manage",
 
   // ---------------------------------------------------------------------------
   //  settings pages

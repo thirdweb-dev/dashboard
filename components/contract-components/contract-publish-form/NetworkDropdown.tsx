@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
+import { SizeProp } from "chakra-react-select/dist/types/types";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
@@ -10,6 +11,7 @@ interface NetworkDropdownProps {
   onMultiChange?: (networksEnabled: number[]) => void;
   onSingleChange?: (networksEnabled: number) => void;
   value: any;
+  size?: SizeProp;
 }
 
 function cleanChainName(chainName: string) {
@@ -21,6 +23,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   onMultiChange,
   onSingleChange,
   value,
+  size = "md",
 }) => {
   const form = useFormContext();
   const supportedChains = useSupportedChains();
@@ -37,15 +40,24 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   }, [supportedChains, useCleanChainName]);
 
   const defaultValues = useMemo(() => {
-    return options.filter(
-      ({ value: val }) =>
-        form.watch("networksForDeployment.networksEnabled")?.includes(val),
+    const networksEnabled = form?.watch(
+      "networksForDeployment.networksEnabled",
     );
+
+    if (networksEnabled) {
+      return options.filter(
+        ({ value: val }) =>
+          form.watch("networksForDeployment.networksEnabled")?.includes(val),
+      );
+    } else {
+      return options;
+    }
   }, [form, options]);
 
   return (
     <Flex gap={2} alignItems="center" w="full">
       <Select
+        size={size}
         placeholder={`${
           onSingleChange ? "Select a network" : "Select Networks"
         }`}
@@ -73,6 +85,19 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           container: (provided) => ({
             ...provided,
             width: "full",
+          }),
+          downChevron: (provided) => ({
+            ...provided,
+            color: "gray.500",
+          }),
+          dropdownIndicator: (provided) => ({
+            ...provided,
+            color: "gray.500",
+          }),
+          control: (provided) => ({
+            ...provided,
+            borderRadius: "lg",
+            minWidth: "178px",
           }),
         }}
         value={

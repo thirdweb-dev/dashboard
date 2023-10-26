@@ -11,14 +11,17 @@ import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { ManageBillingButton } from "components/settings/Account/ManageBillingButton";
 import { StepsCard } from "components/dashboard/StepsCard";
 import { useEffect, useMemo, useState } from "react";
-import { FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import { FiCheckCircle, FiAlertCircle, FiInfo } from "react-icons/fi";
 import { BillingPlan } from "components/settings/Account/BillingPlan";
+import { useRouter } from "next/router";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
   const address = useAddress();
   const meQuery = useAccount();
+  const router = useRouter();
   const { data: account } = meQuery;
   const validPayment = account?.status === "validPayment";
+  const paymentVerification = account?.status === "paymentVerification";
 
   const [stepsCompleted, setStepsCompleted] = useState<
     | undefined
@@ -84,7 +87,9 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
   useEffect(() => {
     let refetchInterval: ReturnType<typeof setInterval> | undefined;
 
-    if (account?.status === "noPayment") {
+    if (
+      ["noPayment", "paymentVerification"].includes(account?.status as string)
+    ) {
       refetchInterval = setInterval(() => {
         meQuery.refetch();
       }, 3000);
@@ -104,10 +109,17 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
     if (!stepsCompleted && account) {
       setStepsCompleted({
         account: !!account.email,
-        payment: validPayment,
+        payment: validPayment || paymentVerification,
       });
     }
-  }, [account, stepsCompleted, validPayment]);
+  }, [account, stepsCompleted, validPayment, paymentVerification]);
+
+  useEffect(() => {
+    const { payment_intent, source_redirect_slug } = router.query;
+    if (payment_intent || source_redirect_slug) {
+      router.replace("/dashboard/settings/billing");
+    }
+  }, [router]);
 
   if (!address) {
     return <ConnectWalletPrompt />;
@@ -154,11 +166,27 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
               >
                 <HStack>
                   <Icon
-                    as={validPayment ? FiCheckCircle : FiAlertCircle}
-                    color={validPayment ? "green.500" : "red.500"}
+                    as={
+                      validPayment
+                        ? FiCheckCircle
+                        : paymentVerification
+                        ? FiInfo
+                        : FiAlertCircle
+                    }
+                    color={
+                      validPayment
+                        ? "green.500"
+                        : paymentVerification
+                        ? "orange.500"
+                        : "red.500"
+                    }
                   />
                   <Text size="label.sm">
-                    {validPayment ? "Valid payment" : "Invalid payment"}
+                    {validPayment
+                      ? "Valid payment"
+                      : paymentVerification
+                      ? "Needs verification"
+                      : "Invalid payment"}
                   </Text>
                 </HStack>
               </Badge>

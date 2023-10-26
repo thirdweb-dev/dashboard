@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextRequest } from "next/server";
-import { getAllChainRecords } from "utils/allChainsRecords";
+import { fetchChain } from "utils/fetchChain";
 
 // Make sure the font exists in the specified path:
 export const config = {
@@ -66,9 +67,6 @@ const TWLogo: React.FC = () => (
     </defs>
   </svg>
 );
-
-const { chainIdToChain } = getAllChainRecords();
-
 const IPFS_GATEWAY = process.env.API_ROUTES_CLIENT_ID
   ? `https://${process.env.API_ROUTES_CLIENT_ID}.ipfscdn.io/ipfs/`
   : "https://ipfs.io/ipfs/";
@@ -94,17 +92,19 @@ export default async function handler(req: NextRequest) {
   if (!chainId) {
     return new Response("ChainId not found", { status: 400 });
   }
-
-  const chain =
-    chainId in chainIdToChain
-      ? chainIdToChain[parseInt(chainId) as keyof typeof chainIdToChain]
-      : null;
+  const chain = await fetchChain(chainId);
   if (!chain) {
     return new Response("Chain not found", { status: 400 });
   }
 
   const iconUrl = chain.icon?.url
     ? replaceAnyIpfsUrlWithGateway(chain.icon.url)
+    : undefined;
+
+  const optimizedIconUrl = iconUrl
+    ? `${getAbsoluteUrl()}/_next/image?url=${encodeURIComponent(
+        iconUrl,
+      )}&w=256&q=75`
     : undefined;
 
   const [inter400, inter500, inter700, imageData] = await Promise.all([
@@ -134,10 +134,10 @@ export default async function handler(req: NextRequest) {
         />
         {/* the actual component starts here */}
 
-        {iconUrl && (
+        {optimizedIconUrl && (
           <img
             alt=""
-            src={iconUrl}
+            src={optimizedIconUrl}
             tw="absolute rounded-full"
             // eslint-disable-next-line react/forbid-dom-props
             style={{

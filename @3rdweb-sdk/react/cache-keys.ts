@@ -15,6 +15,8 @@ export const accountKeys = {
     [...accountKeys.wallet(walletAddress), "me"] as const,
   usage: (walletAddress: string) =>
     [...accountKeys.wallet(walletAddress), "usage"] as const,
+  walletStats: (walletAddress: string, clientId: string) =>
+    [...accountKeys.wallet(walletAddress), "wallets", clientId] as const,
 };
 
 export const apiKeys = {
@@ -40,6 +42,28 @@ export const embeddedWalletsKeys = {
     [...embeddedWalletsKeys.all, walletAddress] as const,
   embeddedWallets: (walletAddress: string, clientId: string | undefined) =>
     [...embeddedWalletsKeys.wallet(walletAddress), clientId] as const,
+};
+
+export const engineKeys = {
+  all: ["engine"] as const,
+  backendWallets: (instance: string) =>
+    [...engineKeys.all, instance, "backendWallets"] as const,
+  transactions: (instance: string) =>
+    [...engineKeys.all, instance, "transactions"] as const,
+  permissions: (instance: string) =>
+    [...engineKeys.all, instance, "permissions"] as const,
+  accessTokens: (instance: string) =>
+    [...engineKeys.all, instance, "accessTokens"] as const,
+  webhooks: (instance: string) =>
+    [...engineKeys.all, instance, "webhooks"] as const,
+  webhookEventTypes: (instance: string) =>
+    [...engineKeys.all, instance, "webhookEventTypes"] as const,
+  walletConfig: (instance: string) =>
+    [...engineKeys.all, instance, "walletConfig"] as const,
+  backendWallet: (address: string, chainId: number) =>
+    ["backendWallet", address, chainId] as const,
+  backendWalletBalance: (address: string, chainId: number) =>
+    [...engineKeys.backendWallet(address, chainId), "balance"] as const,
 };
 
 export const contractKeys = {
