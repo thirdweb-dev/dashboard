@@ -24,6 +24,7 @@ import { TWTable } from "components/shared/TWTable";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useRef } from "react";
 import { FiInfo, FiTrash } from "react-icons/fi";
 import { Card, Button, FormLabel, LinkButton, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -132,13 +133,6 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           return null;
         }
 
-        const tooltip =
-          status === "errored"
-            ? errorMessage
-            : status === "mined" && minedAt
-            ? `Completed ${format(new Date(minedAt), "PP pp")}`
-            : undefined;
-
         const showCancelTransactionButton = [
           "processed",
           "queued",
@@ -152,7 +146,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
               bg="transparent"
               boxShadow="none"
               p={4}
-              minW={{ md: "450px" }}
+              maxW={{ md: "450px" }}
               label={
                 <Card bgColor="backgroundHighlight">
                   <Text>
@@ -261,7 +255,6 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
             bg="transparent"
             boxShadow="none"
             p={4}
-            minW={{ md: "450px" }}
             label={
               <Card bgColor="backgroundHighlight">
                 <Text>{format(date, "PP pp z")}</Text>
@@ -299,6 +292,7 @@ const CancelTransactionButton = ({
     "Successfully sent a request to cancel transaction",
     "Failed to cancel transaction",
   );
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const onClickContinue = async () => {
     try {
@@ -320,11 +314,18 @@ const CancelTransactionButton = ({
       console.error("Cancelling transaction:", e);
       onError(e);
     }
+
+    onClose();
   };
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        initialFocusRef={closeButtonRef}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Cancel Transaction</ModalHeader>
@@ -370,7 +371,12 @@ const CancelTransactionButton = ({
           </ModalBody>
 
           <ModalFooter as={Flex} gap={3}>
-            <Button type="button" onClick={onClose} variant="ghost">
+            <Button
+              ref={closeButtonRef}
+              type="button"
+              onClick={onClose}
+              variant="ghost"
+            >
               Close
             </Button>
             <Button type="submit" colorScheme="red" onClick={onClickContinue}>
