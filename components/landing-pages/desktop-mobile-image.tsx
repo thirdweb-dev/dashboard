@@ -30,7 +30,11 @@ export const LandingDesktopMobileImage: React.FC<
           h="100%"
           display={{ base: mobileImage ? "none" : "block", md: "block" }}
         >
-          <Lottie animationData={lottie} loop={true} />
+          <Lottie
+            animationData={lottie}
+            style={{ height: "100%" }}
+            loop={true}
+          />
         </Box>
       )}
     </>
