@@ -163,7 +163,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                         contract for your app&apos; or game&apos;s use case.
                       </>
                     }
-                    icon={require("public/assets/product-icons/contracts.png")}
+                    icon={require("public/assets/product-icons/contracts.svg")}
                     linkProps={{
                       category: "getting-started",
                       label: "browse-contracts",
@@ -183,7 +183,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                         custom contracts specific to your use case.
                       </>
                     }
-                    icon={require("public/assets/product-icons/extensions.png")}
+                    icon={require("public/assets/product-icons/extensions.svg")}
                     linkProps={{
                       category: "getting-started",
                       label: "custom-contracts",
@@ -204,7 +204,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                         interactive <b>CLI</b>.
                       </>
                     }
-                    icon={require("public/assets/product-icons/deploy.png")}
+                    icon={require("public/assets/product-icons/deploy.svg")}
                   >
                     <CodeBlock
                       mt="auto"
