@@ -61,7 +61,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "publish",
     description: "Publish your contracts on-chain",
     link: "/publish",
-    icon: require("public/assets/product-icons/publish.svg"),
+    icon: require("public/assets/product-icons/publish.png"),
     section: "contracts",
   },
   {

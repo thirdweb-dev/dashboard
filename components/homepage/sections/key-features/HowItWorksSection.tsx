@@ -16,12 +16,12 @@ const data: { title: string; icons: Item[] }[] = [
         href: "/build",
       },
       {
-        icon: require("/public/assets/product-icons/deploy.svg"),
+        icon: require("/public/assets/product-icons/deploy.png"),
         title: "Deploy",
         href: "/deploy",
       },
       {
-        icon: require("/public/assets/product-icons/interact.svg"),
+        icon: require("/public/assets/product-icons/interact.png"),
         title: "Interact",
         href: "/interact",
       },
@@ -31,7 +31,7 @@ const data: { title: string; icons: Item[] }[] = [
         href: "/explore",
       },
       {
-        icon: require("/public/assets/product-icons/publish.svg"),
+        icon: require("/public/assets/product-icons/publish.png"),
         title: "Publish",
         href: "/publish",
       },
