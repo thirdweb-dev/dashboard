@@ -33,7 +33,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "explore",
     description: "Ready-to-deploy contracts",
     link: "/smart-contracts",
-    icon: require("public/assets/product-icons/contracts.png"),
+    icon: require("public/assets/product-icons/contracts.svg"),
     section: "contracts",
   },
   {
@@ -41,7 +41,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "publish",
     description: "Publish your contracts on-chain",
     link: "/publish",
-    icon: require("public/assets/product-icons/publish.png"),
+    icon: require("public/assets/product-icons/publish.svg"),
     section: "contracts",
   },
   {
@@ -49,7 +49,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "contractkit",
     description: "Build your own contract easily",
     link: "/build",
-    icon: require("public/assets/product-icons/extensions.png"),
+    icon: require("public/assets/product-icons/extensions.svg"),
     section: "contracts",
   },
   {
@@ -57,7 +57,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "deploy",
     description: "Seamless contract deployment for teams",
     link: "/deploy",
-    icon: require("public/assets/product-icons/deploy.png"),
+    icon: require("public/assets/product-icons/deploy.svg"),
     section: "contracts",
   },
   {
@@ -73,7 +73,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "auth",
     description: "Authenticate users with their wallets",
     link: "/auth",
-    icon: require("public/assets/product-icons/auth.png"),
+    icon: require("public/assets/product-icons/auth.svg"),
     section: "wallets",
   },
   {
@@ -97,7 +97,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "connect",
     description: "Web3 onboarding, for the next billion users",
     link: "/connect",
-    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    icon: require("public/assets/product-icons/wallet-sdk.svg"),
     section: "wallets",
   },
   {
@@ -105,7 +105,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "storage",
     description: "Secure, fast, decentralized storage",
     link: "/storage",
-    icon: require("public/assets/product-icons/storage.png"),
+    icon: require("public/assets/product-icons/storage.svg"),
     section: "infrastructure",
   },
   {
@@ -137,7 +137,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "engine",
     description: "All-in-one API for enterprise-grade Web3 apps",
     link: "/engine",
-    icon: require("public/assets/product-icons/engine.png"),
+    icon: require("public/assets/product-icons/engine.svg"),
     section: "infrastructure",
   },
 ];
