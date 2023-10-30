@@ -25,22 +25,6 @@ export const PRODUCT_SECTIONS: SectionProps[] = [
 
 export const PRODUCTS: SectionItemProps[] = [
   {
-    name: "Explore",
-    label: "explore",
-    description: "Ready-to-deploy contracts",
-    link: "/smart-contracts",
-    icon: require("public/assets/product-icons/contracts.svg"),
-    section: "contracts",
-  },
-  {
-    name: "Publish",
-    label: "publish",
-    description: "Publish your contracts on-chain",
-    link: "/publish",
-    icon: require("public/assets/product-icons/publish.svg"),
-    section: "contracts",
-  },
-  {
     name: "Build",
     label: "contractkit",
     description: "Build your own contract easily",
@@ -65,11 +49,27 @@ export const PRODUCTS: SectionItemProps[] = [
     section: "contracts",
   },
   {
-    name: "Auth",
-    label: "auth",
-    description: "Authenticate users with their wallets",
-    link: "/auth",
-    icon: require("public/assets/product-icons/auth.svg"),
+    name: "Explore",
+    label: "explore",
+    description: "Ready-to-deploy contracts",
+    link: "/smart-contracts",
+    icon: require("public/assets/product-icons/contracts.svg"),
+    section: "contracts",
+  },
+  {
+    name: "Publish",
+    label: "publish",
+    description: "Publish your contracts on-chain",
+    link: "/publish",
+    icon: require("public/assets/product-icons/publish.svg"),
+    section: "contracts",
+  },
+  {
+    name: "Connect",
+    label: "connect",
+    description: "Web3 onboarding, for the next billion users",
+    link: "/connect",
+    icon: require("public/assets/product-icons/wallet-sdk.svg"),
     section: "wallets",
   },
   {
@@ -89,11 +89,11 @@ export const PRODUCTS: SectionItemProps[] = [
     section: "wallets",
   },
   {
-    name: "Connect",
-    label: "connect",
-    description: "Web3 onboarding, for the next billion users",
-    link: "/connect",
-    icon: require("public/assets/product-icons/wallet-sdk.svg"),
+    name: "Auth",
+    label: "auth",
+    description: "Authenticate users with their wallets",
+    link: "/auth",
+    icon: require("public/assets/product-icons/auth.svg"),
     section: "wallets",
   },
   {

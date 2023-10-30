@@ -16,14 +16,19 @@ const data: { title: string; icons: Item[] }[] = [
         href: "/build",
       },
       {
-        icon: require("/public/assets/product-icons/contracts.svg"),
-        title: "Explore",
-        href: "/explore",
-      },
-      {
         icon: require("/public/assets/product-icons/deploy.svg"),
         title: "Deploy",
         href: "/deploy",
+      },
+      {
+        icon: require("/public/assets/product-icons/interact.svg"),
+        title: "Interact",
+        href: "/interact",
+      },
+      {
+        icon: require("/public/assets/product-icons/contracts.svg"),
+        title: "Explore",
+        href: "/explore",
       },
       {
         icon: require("/public/assets/product-icons/publish.svg"),
@@ -36,9 +41,19 @@ const data: { title: string; icons: Item[] }[] = [
     title: "WALLET",
     icons: [
       {
+        icon: require("/public/assets/product-icons/wallet-sdk.svg"),
+        title: "Connect",
+        href: "/connect",
+      },
+      {
         icon: require("/public/assets/product-icons/smart-wallet.svg"),
         title: "Smart Wallet",
         href: "/account-abstraction",
+      },
+      {
+        icon: require("/public/assets/product-icons/embedded-wallet.svg"),
+        title: "Embedded Wallets",
+        href: "/embedded-wallets",
       },
       {
         icon: require("/public/assets/product-icons/auth.svg"),
@@ -66,11 +81,6 @@ const data: { title: string; icons: Item[] }[] = [
     title: "INFRASTRUCTURE",
     icons: [
       {
-        icon: require("/public/assets/product-icons/engine.svg"),
-        title: "Engine",
-        href: "/engine",
-      },
-      {
         icon: require("/public/assets/product-icons/storage.svg"),
         title: "Decentralized Storage",
         href: "/storage",
@@ -79,6 +89,11 @@ const data: { title: string; icons: Item[] }[] = [
         icon: require("/public/assets/product-icons/rpc-edge.svg"),
         title: "RPC Edge",
         href: "/rpc-edge",
+      },
+      {
+        icon: require("/public/assets/product-icons/engine.svg"),
+        title: "Engine",
+        href: "/engine",
       },
     ],
   },
@@ -228,17 +243,17 @@ export const HowItWorksSection: React.FC = () => {
           <HowItWorksSectionItem
             item={data.find(({ title }) => title === "CONTRACTS")}
           />
+          <HowItWorksSectionItem
+            item={data.find(({ title }) => title === "WALLET")}
+          />
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 12, md: 8 }}>
-            <HowItWorksSectionItem
-              item={data.find(({ title }) => title === "WALLET")}
-            />
             <HowItWorksSectionItem
               item={data.find(({ title }) => title === "PAYMENTS")}
             />
+            <HowItWorksSectionItem
+              item={data.find(({ title }) => title === "INFRASTRUCTURE")}
+            />
           </SimpleGrid>
-          <HowItWorksSectionItem
-            item={data.find(({ title }) => title === "INFRASTRUCTURE")}
-          />
         </Flex>
       </Flex>
     </KeyFeatureLayout>
