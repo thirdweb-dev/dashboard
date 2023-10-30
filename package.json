@@ -103,7 +103,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-inclusive-language": "^2.1.1",
-    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
     "isomorphic-fetch": "^3.0.0",
     "lodash.merge": "^4.6.2",
     "next-sitemap": "^4.2.3",
