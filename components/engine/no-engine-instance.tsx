@@ -47,12 +47,13 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
         <ModalContent
           as="form"
           onSubmit={form.handleSubmit((data) => {
-            setInstanceUrl(simplifyURL(data.url));
+            const simplifiedURL = simplifyURL(data.url);
+            setInstanceUrl(simplifiedURL);
             trackEvent({
               category: "engine",
               action: "set-engine-instance",
               label: "success",
-              url: data.url,
+              url: simplifiedURL,
             });
             disclosure.onClose();
           })}
