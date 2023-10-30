@@ -11,7 +11,7 @@ const data: { title: string; icons: Item[] }[] = [
     title: "CONTRACTS",
     icons: [
       {
-        icon: require("/public/assets/product-icons/extensions.svg"),
+        icon: require("/public/assets/product-icons/extensions.png"),
         title: "Build",
         href: "/build",
       },
@@ -26,7 +26,7 @@ const data: { title: string; icons: Item[] }[] = [
         href: "/interact",
       },
       {
-        icon: require("/public/assets/product-icons/contracts.svg"),
+        icon: require("/public/assets/product-icons/contracts.png"),
         title: "Explore",
         href: "/explore",
       },
@@ -41,22 +41,22 @@ const data: { title: string; icons: Item[] }[] = [
     title: "WALLET",
     icons: [
       {
-        icon: require("/public/assets/product-icons/wallet-sdk.svg"),
+        icon: require("/public/assets/product-icons/wallet-sdk.png"),
         title: "Connect",
         href: "/connect",
       },
       {
-        icon: require("/public/assets/product-icons/smart-wallet.svg"),
+        icon: require("/public/assets/product-icons/smart-wallet.png"),
         title: "Smart Wallet",
         href: "/account-abstraction",
       },
       {
-        icon: require("/public/assets/product-icons/embedded-wallet.svg"),
+        icon: require("/public/assets/product-icons/embedded-wallet.png"),
         title: "Embedded Wallets",
         href: "/embedded-wallets",
       },
       {
-        icon: require("/public/assets/product-icons/auth.svg"),
+        icon: require("/public/assets/product-icons/auth.png"),
         title: "Auth",
         href: "/auth",
       },
@@ -66,12 +66,12 @@ const data: { title: string; icons: Item[] }[] = [
     title: "PAYMENTS",
     icons: [
       {
-        icon: require("/public/assets/product-icons/payments.svg"),
+        icon: require("/public/assets/product-icons/payments.png"),
         title: "NFT Checkout",
         href: "/checkout",
       },
       {
-        icon: require("/public/assets/product-icons/sponsored-transactions.svg"),
+        icon: require("/public/assets/product-icons/sponsored-transactions.png"),
         title: "Sponsored Transactions",
         href: "/sponsored-transactions",
       },
@@ -81,17 +81,17 @@ const data: { title: string; icons: Item[] }[] = [
     title: "INFRASTRUCTURE",
     icons: [
       {
-        icon: require("/public/assets/product-icons/storage.svg"),
+        icon: require("/public/assets/product-icons/storage.png"),
         title: "Decentralized Storage",
         href: "/storage",
       },
       {
-        icon: require("/public/assets/product-icons/rpc-edge.svg"),
+        icon: require("/public/assets/product-icons/rpc-edge.png"),
         title: "RPC Edge",
         href: "/rpc-edge",
       },
       {
-        icon: require("/public/assets/product-icons/engine.svg"),
+        icon: require("/public/assets/product-icons/engine.png"),
         title: "Engine",
         href: "/engine",
       },

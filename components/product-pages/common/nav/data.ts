@@ -29,7 +29,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "contractkit",
     description: "Build your own contract easily",
     link: "/build",
-    icon: require("public/assets/product-icons/extensions.svg"),
+    icon: require("public/assets/product-icons/extensions.png"),
     section: "contracts",
   },
   {
@@ -37,7 +37,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "deploy",
     description: "Seamless contract deployment for teams",
     link: "/deploy",
-    icon: require("public/assets/product-icons/deploy.svg"),
+    icon: require("public/assets/product-icons/deploy.png"),
     section: "contracts",
   },
   {
@@ -45,7 +45,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "interact",
     description: "Seamlessly integrate smart contracts into your apps",
     link: "/interact",
-    icon: require("public/assets/product-icons/interact.svg"),
+    icon: require("public/assets/product-icons/interact.png"),
     section: "contracts",
   },
   {
@@ -53,7 +53,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "explore",
     description: "Ready-to-deploy contracts",
     link: "/smart-contracts",
-    icon: require("public/assets/product-icons/contracts.svg"),
+    icon: require("public/assets/product-icons/contracts.png"),
     section: "contracts",
   },
   {
@@ -69,7 +69,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "connect",
     description: "Web3 onboarding, for the next billion users",
     link: "/connect",
-    icon: require("public/assets/product-icons/wallet-sdk.svg"),
+    icon: require("public/assets/product-icons/wallet-sdk.png"),
     section: "wallets",
   },
   {
@@ -77,7 +77,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "smart-wallet",
     description: "Transform UX with Account Abstraction",
     link: "/account-abstraction",
-    icon: require("public/assets/product-icons/smart-wallet.svg"),
+    icon: require("public/assets/product-icons/smart-wallet.png"),
     section: "wallets",
   },
   {
@@ -85,7 +85,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "embedded-wallets",
     description: "The power of web3, with the user experience of web2",
     link: "/embedded-wallets",
-    icon: require("public/assets/product-icons/embedded-wallet.svg"),
+    icon: require("public/assets/product-icons/embedded-wallet.png"),
     section: "wallets",
   },
   {
@@ -93,7 +93,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "auth",
     description: "Authenticate users with their wallets",
     link: "/auth",
-    icon: require("public/assets/product-icons/auth.svg"),
+    icon: require("public/assets/product-icons/auth.png"),
     section: "wallets",
   },
   {
@@ -101,7 +101,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "storage",
     description: "Secure, fast, decentralized storage",
     link: "/storage",
-    icon: require("public/assets/product-icons/storage.svg"),
+    icon: require("public/assets/product-icons/storage.png"),
     section: "infrastructure",
   },
   {
@@ -109,7 +109,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "rpc-edge",
     description: "Enterprise-grade RPCs, for free",
     link: "/rpc-edge",
-    icon: require("public/assets/product-icons/rpc-edge.svg"),
+    icon: require("public/assets/product-icons/rpc-edge.png"),
     section: "infrastructure",
   },
   {
@@ -117,7 +117,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "nft-checkout",
     description: "One-click NFT checkout flows with just a credit card",
     link: "/checkout",
-    icon: require("public/assets/product-icons/payments.svg"),
+    icon: require("public/assets/product-icons/payments.png"),
     section: "payments",
   },
   {
@@ -125,7 +125,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "sponsored-transactions",
     description: "Remove all user friction with invisible transactions",
     link: "/sponsored-transactions",
-    icon: require("public/assets/product-icons/sponsored-transactions.svg"),
+    icon: require("public/assets/product-icons/sponsored-transactions.png"),
     section: "payments",
   },
   {
@@ -133,7 +133,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "engine",
     description: "All-in-one API for enterprise-grade Web3 apps",
     link: "/engine",
-    icon: require("public/assets/product-icons/engine.svg"),
+    icon: require("public/assets/product-icons/engine.png"),
     section: "infrastructure",
   },
 ];
@@ -307,7 +307,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "wallet-sdk",
     description: "Connect any wallet",
     link: "https://portal.thirdweb.com/wallet",
-    icon: require("public/assets/product-icons/wallet-sdk.svg"),
+    icon: require("public/assets/product-icons/wallet-sdk.png"),
     section: "sdks",
   },
 ];

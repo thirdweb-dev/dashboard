@@ -124,7 +124,7 @@ const UIComponents: ThirdwebNextPage = () => {
               href="https://portal.thirdweb.com/ui-components/connectwalletbutton"
             />
             <ProductLearnMoreCard
-              icon={require("public/assets/product-icons/contracts.svg")}
+              icon={require("public/assets/product-icons/contracts.png")}
               category={TRACKING_CATEGORY}
               title="Web3 Button"
               description="Enables calling any function on any smart contract with one click."
@@ -138,7 +138,7 @@ const UIComponents: ThirdwebNextPage = () => {
               href="https://portal.thirdweb.com/ui-components/nft-renderer"
             />
             <ProductLearnMoreCard
-              icon={require("public/assets/product-icons/storage.svg")}
+              icon={require("public/assets/product-icons/storage.png")}
               category={TRACKING_CATEGORY}
               title="IPFS Metadata Renderer"
               description="Consistent display of media assets of NFTs with metadata stored on IPFS for all file types (image or video)."
