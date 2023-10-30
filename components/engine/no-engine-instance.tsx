@@ -12,7 +12,6 @@ import {
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useForm } from "react-hook-form";
 import { Card, Link, Text, Button, FormHelperText } from "tw-components";
 
@@ -32,7 +31,6 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
   setInstanceUrl,
   disclosure,
 }) => {
-  const trackEvent = useTrack();
   const address = useAddress();
   const form = useForm({
     defaultValues: {
@@ -47,14 +45,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
         <ModalContent
           as="form"
           onSubmit={form.handleSubmit((data) => {
-            const simplifiedURL = simplifyURL(data.url);
-            setInstanceUrl(simplifiedURL);
-            trackEvent({
-              category: "engine",
-              action: "set-engine-instance",
-              label: "success",
-              url: simplifiedURL,
-            });
+            setInstanceUrl(simplifyURL(data.url));
             disclosure.onClose();
           })}
         >
