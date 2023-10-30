@@ -2223,10 +2223,10 @@
   resolved "https://registry.yarnpkg.com/@n8tb1t/use-scroll-position/-/use-scroll-position-2.0.3.tgz#207c54d584285cac0954d556964f83cf5774940b"
   integrity sha512-6GO4FHVJTMI4jbRHborzemuL6B319qh2cVLOLj8DApJhjyT71eLgANbQ4bNKSZ51zBm3uJ3WmqnyNF17eSsDyw==
 
-"@next/bundle-analyzer@^13.5.5":
-  version "13.5.6"
-  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.5.6.tgz#3c73f2e15ff5507317b37b87ce984bac5a5d7ad0"
-  integrity sha512-4P5YVpR3N/B5+p0TQ/rPAr+9fsjkdfCVTGzJhKwE7XHqS+QME4gYxAYeGKkfkHEkP2A3GKXs8QSp0LjIvWLI3g==
+"@next/bundle-analyzer@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-14.0.0.tgz#40b1681ec9958cb17da44a81584ffefc70d1e70f"
+  integrity sha512-a1Wbs0eXCMj30vxTfaGEO4DP3NjrqN+ge6rMhKZ43VtsXEjiVX95d7XFr7VkNps9lvlkofBF54RnIHhTJ2Ls0Q==
   dependencies:
     webpack-bundle-analyzer "4.7.0"
 
@@ -9655,10 +9655,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-plausible@^3.11.2:
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-3.11.2.tgz#05032ba71af4abe8ca2a47dde8b1a9230631295d"
-  integrity sha512-T/5RPVYFRk4HODvcnpMPk6pe4HYHQHSwJFGUbAdyKIJWgs4jl3oq3S16D6xKSKP3AEjIwQe4YsotQrDN2ILbjA==
+next-plausible@^3.9.1:
+  version "3.11.3"
+  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-3.11.3.tgz#387d2039b66f17f8f704027b2572a0e84e58eee7"
+  integrity sha512-2dpG58ryxdsr4ZI8whWQpGv0T6foRDPGiehcICpDhYfmMJmluewswQgfDA8Z37RFMXAY+6SHOPS7Xi+9ewNi2Q==
 
 next-seo@^5.15.0:
   version "5.15.0"
@@ -9689,7 +9689,7 @@ next-unused@^0.0.6:
     ts-loader "^7.0.0"
     typescript "^4.2.3"
 
-next@^13.5.0:
+next@^13.5.4:
   version "13.5.6"
   resolved "https://registry.yarnpkg.com/next/-/next-13.5.6.tgz#e964b5853272236c37ce0dd2c68302973cf010b1"
   integrity sha512-Y2wTcTbO4WwEsVb4A8VSnOsG1I9ok+h74q0ZdxkwM3EODqrs4pasq7O0iUxbcS9VtWMicG7f3+HAj0r1+NtKSw==
