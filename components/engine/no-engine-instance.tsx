@@ -51,7 +51,8 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
             trackEvent({
               category: "engine",
               action: "set-engine-instance",
-              label: data.url,
+              label: "success",
+              url: data.url,
             });
             disclosure.onClose();
           })}
