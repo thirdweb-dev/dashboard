@@ -12,6 +12,7 @@ import {
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useForm } from "react-hook-form";
 import { Card, Link, Text, Button, FormHelperText } from "tw-components";
 
@@ -31,6 +32,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
   setInstanceUrl,
   disclosure,
 }) => {
+  const trackEvent = useTrack();
   const address = useAddress();
   const form = useForm({
     defaultValues: {
@@ -46,6 +48,11 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
           as="form"
           onSubmit={form.handleSubmit((data) => {
             setInstanceUrl(simplifyURL(data.url));
+            trackEvent({
+              category: "engine",
+              action: "set-engine-instance",
+              label: data.url,
+            });
             disclosure.onClose();
           })}
         >
