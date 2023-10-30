@@ -5,25 +5,21 @@ export const PRODUCT_SECTIONS: SectionProps[] = [
     name: "Smart Contracts",
     label: "contracts",
     description: "Create, deploy, and interact with smart contracts",
-    icon: require("public/assets/product-icons/smart-contracts.png"),
   },
   {
     name: "Wallets",
     label: "wallets",
     description: "Onboard, authenticate and manage users",
-    icon: require("public/assets/product-icons/wallets.png"),
   },
   {
     name: "Infrastructure",
     label: "infrastructure",
     description: "Connect your application to decentralized networks",
-    icon: require("public/assets/product-icons/infrastructure.png"),
   },
   {
     name: "Payments",
     label: "payments",
     description: "Facilitate financial transactions on the blockchain",
-    icon: require("public/assets/product-icons/payments.png"),
   },
 ];
 
