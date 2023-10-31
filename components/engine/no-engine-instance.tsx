@@ -1,3 +1,4 @@
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Flex,
   FormControl,
@@ -38,6 +39,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
   setInstanceUrl,
   disclosure,
 }) => {
+  const meQuery = useAccount();
   const address = useAddress();
   const form = useForm({
     defaultValues: {
@@ -45,7 +47,9 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
     },
   });
 
-  const earlyAccessRequestformUrl = `https://share.hsforms.com/1k5tu00ueS5OYMaxHK6De-gea58c?email=phil@thirdweb.com`;
+  const earlyAccessRequestformUrl = `https://share.hsforms.com/1k5tu00ueS5OYMaxHK6De-gea58c?email=${
+    meQuery.data?.email || ""
+  }&thirdweb_account_id=${meQuery.data?.id || ""}`;
 
   return (
     <>
