@@ -22,6 +22,7 @@ import {
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { CSSProperties } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowRight } from "react-icons/fi";
 import {
@@ -159,8 +160,8 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
                   <Tag
                     variant="outline"
                     w="fit-content"
-                    // @ts-ignore: Fixes wrong --badge-color value in dark mode.
-                    style={{ "--badge-color": "gray" }}
+                    // Hack to fix tags in dark mode.
+                    style={{ "--badge-color": "gray" } as CSSProperties}
                   >
                     <TagLabel>Free</TagLabel>
                   </Tag>
@@ -195,8 +196,8 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
                   <Tag
                     variant="outline"
                     w="fit-content"
-                    // @ts-ignore: Fixes wrong --badge-color value in dark mode.
-                    style={{ "--badge-color": "gray" }}
+                    // Hack to fix tags in dark mode.
+                    style={{ "--badge-color": "gray" } as CSSProperties}
                   >
                     $99 / month
                   </Tag>
@@ -223,33 +224,6 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
               </Card>
             </LinkBox>
           </SimpleGrid>
-
-          {/*
-
-            <Text textAlign="left">
-              Don&apos;t have Engine running yet?{" "}
-              <Link
-                href="https://portal.thirdweb.com/engine/getting-started"
-                isExternal
-                color="blue.500"
-                fontSize="14px"
-              >
-                Self-host for free
-              </Link>{" "}
-              or{" "}
-              <TrackedLink
-                href={earlyAccessRequestformUrl}
-                isExternal
-                category="engine"
-                label="clicked-request-early-access"
-                fontWeight="medium"
-                color="blue.500"
-              >
-                request a managed cloud-hosted instance
-              </TrackedLink>
-              .
-            </Text>
-          </Flex> */}
         </>
       )}
     </>
