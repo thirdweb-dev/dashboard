@@ -66,11 +66,17 @@ const EngineManage: ThirdwebNextPage = () => {
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "401" ? (
-            <NoAuthorizedWallet instance={instanceUrl} />
+            <NoAuthorizedWallet
+              instance={instanceUrl}
+              disclosure={setInstanceDisclosure}
+            />
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "Failed to fetch" ? (
-            <NoServerConnection instance={instanceUrl} />
+            <NoServerConnection
+              instance={instanceUrl}
+              disclosure={setInstanceDisclosure}
+            />
           ) : (
             <EngineNavigation instance={instanceUrl} />
           )
