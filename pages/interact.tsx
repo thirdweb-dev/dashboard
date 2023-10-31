@@ -74,6 +74,7 @@ const InteractLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-interact.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-interact.png")}
+          miniImage={require("public/assets/product-icons/interact.png")}
         />
 
         <LandingGridSection>

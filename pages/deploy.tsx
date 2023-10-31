@@ -94,6 +94,7 @@ const DeployLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-deploy.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-deploy.png")}
+          miniImage={require("public/assets/product-icons/deploy.png")}
         />
 
         <LandingGridSection>

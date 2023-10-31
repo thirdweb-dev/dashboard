@@ -98,6 +98,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-build.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-build.png")}
+          miniImage={require("public/assets/product-icons/extensions.png")}
         />
 
         <LandingGridSection>

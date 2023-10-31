@@ -71,6 +71,7 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #00A876, #75FFD6)"
           image={require("public/assets/product-pages/hero/desktop-hero-sponsored-transactions.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-sponsored-transactions.png")}
+          miniImage={require("public/assets/product-icons/sponsored-transactions.png")}
         />
 
         <LandingGridSection>

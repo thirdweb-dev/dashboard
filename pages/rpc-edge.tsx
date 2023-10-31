@@ -74,6 +74,7 @@ const RPCEdgeLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           image={require("public/assets/product-pages/hero/desktop-hero-rpc-edge.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-rpc-edge.png")}
+          miniImage={require("public/assets/product-icons/rpc-edge.png")}
         />
 
         <LandingGridSection>

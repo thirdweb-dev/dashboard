@@ -65,6 +65,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           miniTitle="Connect"
           title="Web3 onboarding,"
+          miniImage={require("public/assets/product-icons/wallet-sdk.png")}
           titleWithGradient="for everyone"
           subtitle="Onboard all of your users with a beautiful Connect Wallet modal, flexible sign-in options for web2 & web3, and powerful hooks for full customizability."
           trackingCategory={TRACKING_CATEGORY}

@@ -65,6 +65,7 @@ const PublishLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-publish.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-publish.png")}
+          miniImage={require("public/assets/product-icons/publish.png")}
         />
 
         <LandingGridSection>

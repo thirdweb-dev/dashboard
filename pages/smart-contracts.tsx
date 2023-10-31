@@ -71,6 +71,7 @@ const ExploreLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-explore.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-explore.png")}
+          miniImage={require("public/assets/product-icons/contracts.png")}
         />
 
         <LandingGridSection>

@@ -82,6 +82,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           image={require("public/assets/product-pages/engine/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/engine/mobile-hero.png")}
+          miniImage={require("public/assets/product-icons/engine.png")}
         />
         <LandingGridSection
           desktopColumns={4}

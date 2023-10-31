@@ -71,6 +71,7 @@ const AuthLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r, #3385FF, #7BB0FF)"
           image={require("public/assets/product-pages/hero/desktop-hero-auth.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-auth.png")}
+          miniImage={require("public/assets/product-icons/auth.png")}
         />
 
         <LandingGridSection>

@@ -67,6 +67,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           gradient="linear(to-r,  #00A876, #75FFD6)"
           image={require("public/assets/product-pages/hero/desktop-hero-checkout.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-checkout.png")}
+          miniImage={require("public/assets/product-icons/payments.png")}
         />
 
         <LandingGridSection>
