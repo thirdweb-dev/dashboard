@@ -10,7 +10,6 @@ import {
   embeddedWallet,
   localWallet,
   metamaskWallet,
-  paperWallet,
   phantomWallet,
   rainbowWallet,
   safeWallet,
@@ -53,16 +52,6 @@ const personalWallets = [
   zerionWallet(),
   phantomWallet(),
   embeddedWallet({
-    onAuthSuccess: ({ storedToken }) => {
-      // expose paper auth token for onboarding screens to pick up and clear up
-      (window as any)[GLOBAL_PAPER_AUTH_TOKEN_KEY] = storedToken.cookieString;
-    },
-  }),
-  paperWallet({
-    paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
-    advancedOptions: {
-      recoveryShareManagement: "AWS_MANAGED",
-    },
     onAuthSuccess: ({ storedToken }) => {
       // expose paper auth token for onboarding screens to pick up and clear up
       (window as any)[GLOBAL_PAPER_AUTH_TOKEN_KEY] = storedToken.cookieString;
