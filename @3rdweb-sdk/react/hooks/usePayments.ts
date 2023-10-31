@@ -29,6 +29,14 @@ import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
+import {
+  ContractsByAddressAndChainQueryVariables,
+  useContractsByAddressAndChainQuery,
+} from "graphql/queries/__generated__/ContractsByAddressAndChain.generated";
+import {
+  DetailedAnalyticsQueryVariables,
+  useDetailedAnalyticsQuery,
+} from "graphql/queries/__generated__/DetailedAnalytics.generated";
 
 // TODO: Get this from API
 export const validPaymentsChainIds: number[] = [
@@ -68,6 +76,24 @@ const ChainIdToPaperChain: Record<number, string> = {
   [BinanceTestnet.chainId]: "BSCTestnet",
   [Base.chainId]: "Base",
   [BaseGoerli.chainId]: "BaseGoerli",
+};
+
+export const PaperChainToChainId: Record<string, number> = {
+  Ethereum: Ethereum.chainId,
+  Goerli: Goerli.chainId,
+  Sepolia: Sepolia.chainId,
+  Polygon: Polygon.chainId,
+  Mumbai: Mumbai.chainId,
+  Avalanche: Avalanche.chainId,
+  AvalancheFuji: AvalancheFuji.chainId,
+  Optimism: Optimism.chainId,
+  OptimismGoerli: OptimismGoerli.chainId,
+  ArbitrumOne: Arbitrum.chainId,
+  ArbitrumGoerli: ArbitrumGoerli.chainId,
+  BSC: Binance.chainId,
+  BSCTestnet: BinanceTestnet.chainId,
+  Base: Base.chainId,
+  BaseGoerli: BaseGoerli.chainId,
 };
 
 export type RegisterContractInput = {
@@ -158,7 +184,57 @@ export function usePaymentsEnabledContracts() {
   return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
-      return data;
+      return data && (data?.contract || []) ? data.contract : [];
+    },
+    { enabled: !!paymentsSellerId && !!address },
+  );
+}
+
+export function usePaymentsContractByAddressAndChain(
+  contractAddress: string | undefined,
+  chainId: number | undefined,
+) {
+  invariant(contractAddress, "contractAddress is required");
+  invariant(chainId, "chainId is required");
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const { data } = useContractsByAddressAndChainQuery({
+    variables: {
+      ownerId: paymentsSellerId,
+      chain: ChainIdToPaperChain[chainId],
+      contractAddress,
+    } as ContractsByAddressAndChainQueryVariables,
+  });
+
+  return useQuery(
+    paymentsKeys.contracts(address as string),
+    async () => {
+      return data && (data?.contract || []).length > 0
+        ? data.contract[0]
+        : undefined;
+    },
+    { enabled: !!paymentsSellerId && !!address },
+  );
+}
+
+export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
+  invariant(checkoutId, "checkoutId is required");
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const { data } = useDetailedAnalyticsQuery({
+    variables: {
+      ownerId: paymentsSellerId,
+      checkoutId,
+    } as DetailedAnalyticsQueryVariables,
+  });
+
+  return useQuery(
+    paymentsKeys.detailedAnalytics(checkoutId),
+    async () => {
+      return {
+        overview: data?.analytics_overview_2,
+        detailed: data?.get_detailed_analytics,
+      };
     },
     { enabled: !!paymentsSellerId && !!address },
   );

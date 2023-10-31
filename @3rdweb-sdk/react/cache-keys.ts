@@ -69,7 +69,9 @@ export const engineKeys = {
 export const paymentsKeys = {
   all: ["payments"] as const,
   contracts: (walletAddress: string) =>
-    [...authorizedWallets.all, walletAddress] as const,
+    [...paymentsKeys.all, walletAddress] as const,
+  detailedAnalytics: (checkoutId: string) =>
+    [...paymentsKeys.all, "checkout", checkoutId] as const,
 };
 
 export const contractKeys = {

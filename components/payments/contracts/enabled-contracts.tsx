@@ -1,15 +1,20 @@
 import { Flex } from "@chakra-ui/react";
-import { Card, Heading, Text } from "tw-components";
-import { usePaymentsEnabledContracts } from "@3rdweb-sdk/react/hooks/usePayments";
+import { Card, Heading, Link, Text } from "tw-components";
+import {
+  PaperChainToChainId,
+  usePaymentsEnabledContracts,
+} from "@3rdweb-sdk/react/hooks/usePayments";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 export const EnabledContracts = () => {
-  const { data } = usePaymentsEnabledContracts();
+  const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
+
+  console.log({ paymentEnabledContracts });
 
   return (
     <Flex flexDir="column" gap={6}>
       <Heading size="title.md">Enabled Contracts</Heading>
-      {data?.contract?.map((c) => (
+      {paymentEnabledContracts?.map((c) => (
         <Card key={c.id} as={Flex} flexDir="column" gap={4}>
           <Flex flexDir="column">
             <Text color="bgBlack">{c.display_name}</Text>
@@ -24,6 +29,12 @@ export const EnabledContracts = () => {
               <Text>Contract Address</Text>
               <AddressCopyButton address={c.address} size="xs" />
             </Flex>
+            <Link
+              href={`/${PaperChainToChainId[c.chain]}/${c.address}/payments`}
+              color="blue.500"
+            >
+              Go to contract
+            </Link>
           </Flex>
         </Card>
       ))}
