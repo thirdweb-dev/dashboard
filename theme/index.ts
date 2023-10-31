@@ -370,8 +370,6 @@ const chakraTheme: Theme = extendTheme({
       // other
       badgeBg: { default: "blackAlpha.50", _dark: "whiteAlpha.50" },
 
-      badgeBg: { default: "blackAlpha.50", _dark: "whiteAlpha.50" },
-
       // backgroundBody: "accent.100",
       // backgroundHighlight: { default: "white", _dark: "accent.200" },
       // backgroundCardHighlight: { default: "white", _dark: "accent.100" },
