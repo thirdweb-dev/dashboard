@@ -274,7 +274,6 @@ export enum PageId {
   PaymentsPurchases = "payments-purchases",
   PaymentsPurchasesDetail = "payments-purchases-detail",
   PaymentsContracts = "payments-contracts",
-  PaymentsContractsNew = "payments-contracts-new",
   PaymentsSettings = "payments-settings",
 
   // ---------------------------------------------------------------------------

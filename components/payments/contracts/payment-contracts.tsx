@@ -4,7 +4,6 @@ import { useAddress } from "@thirdweb-dev/react";
 import { PaymentContractsTable } from "./payment-contracts-table";
 import { Heading, Text } from "tw-components";
 import { validPaymentsChainIds } from "@3rdweb-sdk/react/hooks/usePayments";
-import { EnablePaymentsButton } from "../enable-payments-button";
 
 export const PaymentContracts = () => {
   const address = useAddress();

@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiAuthToken } from "./useApi";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { Abi } from "@thirdweb-dev/sdk";
@@ -25,6 +25,10 @@ import {
 } from "@thirdweb-dev/chains";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { RPC_ENV } from "constants/rpc";
+import {
+  ContractsByOwnerIdQueryVariables,
+  useContractsByOwnerIdQuery,
+} from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 
 // TODO: Get this from API
 export const validPaymentsChainIds: number[] = [
@@ -139,5 +143,23 @@ export function usePaymentsRegisterContract() {
         );
       },
     },
+  );
+}
+
+export function usePaymentsEnabledContracts() {
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const { data } = useContractsByOwnerIdQuery({
+    variables: {
+      ownerId: paymentsSellerId,
+    } as ContractsByOwnerIdQueryVariables,
+  });
+
+  return useQuery(
+    paymentsKeys.contracts(address as string),
+    async () => {
+      return data;
+    },
+    { enabled: !!paymentsSellerId && !!address },
   );
 }
