@@ -3642,10 +3642,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/generated-abis/-/generated-abis-0.0.1.tgz#0d788d6aff0ac08f11e9eeb9ae4c8321845272a8"
   integrity sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==
 
-"@thirdweb-dev/react-core@0.0.0-dev-b9f637d-20231031153907":
-  version "0.0.0-dev-b9f637d-20231031153907"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-b9f637d-20231031153907.tgz#f37039ee892938bb8ab8e5fa42c71e042183bb13"
-  integrity sha512-Wc9GEaU8eWf3B2gY1lpDrQu3hlGV2lNH5gu6V5qtmEauhh+Xip3vrz935bpS8cqn0qx/6qP30T0Qn7mXImpTSg==
+"@thirdweb-dev/react-core@0.0.0-dev-4fc7bb3-20231031164248":
+  version "0.0.0-dev-4fc7bb3-20231031164248"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-4fc7bb3-20231031164248.tgz#35ee10b30a4b4cd032beea583379bbcf56803f45"
+  integrity sha512-YAsKZSKCiG+bWS69vU7SuVVfYCm2JXfmBgavocFQ1gtsAnB2UcDxDMehicUpkBCYac3QD7VdUshwPKsTNCuc7w==
   dependencies:
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/auth" "4.1.2"
@@ -3657,10 +3657,10 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-b9f637d-20231031153907":
-  version "0.0.0-dev-b9f637d-20231031153907"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-b9f637d-20231031153907.tgz#08c7996631419a3cb5d9837de41e908094f7fa17"
-  integrity sha512-WGYHCv5Vqd3wz2UjJaFcWGHC77WUuiZ8tnoQmkO+zMxg9PAG8MkUv/HVTHlM4HzLK+H5zbjIqc5Ra4KIZNIVXA==
+"@thirdweb-dev/react@0.0.0-dev-4fc7bb3-20231031164248":
+  version "0.0.0-dev-4fc7bb3-20231031164248"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-4fc7bb3-20231031164248.tgz#b88682c2707d0495c4466979bf55bfca73cd5f58"
+  integrity sha512-KFyb56DEi3+ouPydQaauBCpV3YPXsseAkC2Uevovko+pfRr3QH16w+qcjHajyNUVX1uH+A2QUfmFZ4V1fvWAGQ==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -3675,7 +3675,7 @@
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/chains" "0.1.57"
-    "@thirdweb-dev/react-core" "0.0.0-dev-b9f637d-20231031153907"
+    "@thirdweb-dev/react-core" "0.0.0-dev-4fc7bb3-20231031164248"
     "@thirdweb-dev/wallets" "2.0.10"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
