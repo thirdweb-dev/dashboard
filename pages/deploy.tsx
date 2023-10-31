@@ -91,7 +91,7 @@ const DeployLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/deploy"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #F213A4, #F97CCE)"
+          gradient="linear(to-r,  #F856C8, #F856C8)"
           image={require("public/assets/product-pages/hero/desktop-hero-deploy.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-deploy.png")}
           miniImage={require("public/assets/product-icons/deploy.png")}

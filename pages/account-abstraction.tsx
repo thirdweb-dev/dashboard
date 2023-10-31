@@ -65,7 +65,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/smart-wallet"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #3385FF, #7BB0FF)"
+          gradient="linear(to-r, #4490FF, #4490FF)"
           image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
           miniImage={require("public/assets/product-icons/smart-wallet.png")}
