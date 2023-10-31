@@ -5,6 +5,7 @@ import {
   useContractsByOwnerIdQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 import { Card } from "tw-components";
+import { PaymentContracts } from "../payment-contracts";
 
 export const ContractsList: React.FC = () => {
   const { paymentsSellerId } = useApiAuthToken();
@@ -16,6 +17,7 @@ export const ContractsList: React.FC = () => {
     });
   return (
     <Flex flexDir="column" gap={4}>
+      <PaymentContracts />
       {data?.contract?.map((c) => {
         return (
           <Card key={c.id}>
