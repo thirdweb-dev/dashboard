@@ -1,8 +1,13 @@
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Divider,
   Flex,
   FormControl,
+  Icon,
+  Image,
   Input,
+  LinkBox,
+  LinkOverlay,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,17 +15,23 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
+  Stack,
+  Tag,
+  TagLabel,
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { useForm } from "react-hook-form";
+import { FiArrowRight } from "react-icons/fi";
 import {
   Card,
   Link,
   Text,
   Button,
   FormHelperText,
-  TrackedLink,
+  Heading,
+  TrackedLinkOverlay,
 } from "tw-components";
 
 function simplifyURL(url: string): string {
@@ -96,45 +107,150 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
-      {!instance && address && (
-        <Flex flexDir="column" gap={4}>
-          <Card py={12}>
-            <Flex flexDir="column">
-              <Text
-                textAlign="center"
-                color="primary.500"
-                cursor="pointer"
-                onClick={disclosure.onOpen}
-              >
-                Manage your Engine instance
-              </Text>
-            </Flex>
-          </Card>
 
-          <Text textAlign="left">
-            Don&apos;t have Engine running yet?{" "}
-            <Link
-              href="https://portal.thirdweb.com/engine/getting-started"
-              isExternal
-              color="blue.500"
-              fontSize="14px"
+      {!instance && address && (
+        <>
+          <LinkBox my={6}>
+            <Card
+              p={10}
+              _hover={{
+                borderColor: "blue.500",
+              }}
+              transitionDuration="200ms"
+              bgColor="backgroundHighlight"
+              borderColor="#0000"
             >
-              Self-host for free
-            </Link>{" "}
-            or{" "}
-            <TrackedLink
-              href={earlyAccessRequestformUrl}
-              isExternal
-              category="engine"
-              label="clicked-request-early-access"
-              fontWeight="medium"
-              color="blue.500"
-            >
-              request a managed cloud-hosted instance
-            </TrackedLink>
-            .
-          </Text>
-        </Flex>
+              <Stack spacing={4}>
+                <LinkOverlay href="#" onClick={disclosure.onOpen}>
+                  <Flex align="center" gap={2}>
+                    <Image
+                      src="/assets/engine/cloud-icon.png"
+                      alt="cloud icon"
+                      w={8}
+                    />
+                    <Heading size="title.sm">Add my Engine instance</Heading>
+                    <Icon as={FiArrowRight} boxSize={6} />
+                  </Flex>
+                </LinkOverlay>
+
+                <Text>
+                  Manage Engine by providing the URL to your running Engine
+                  instance.
+                </Text>
+              </Stack>
+            </Card>
+          </LinkBox>
+
+          <Divider />
+
+          <Text fontStyle="italic">Don&apos;t have Engine running yet?</Text>
+
+          <SimpleGrid columns={2} gap={8}>
+            <LinkBox>
+              <Card
+                p={10}
+                _hover={{
+                  borderColor: "blue.500",
+                }}
+                transitionDuration="200ms"
+                h="full"
+              >
+                <Stack spacing={4}>
+                  <Tag
+                    variant="outline"
+                    w="fit-content"
+                    // @ts-ignore: Fixes wrong --badge-color value in dark mode.
+                    style={{ "--badge-color": "gray" }}
+                  >
+                    <TagLabel>Free</TagLabel>
+                  </Tag>
+
+                  <LinkOverlay
+                    href="https://portal.thirdweb.com/engine/getting-started"
+                    isExternal
+                  >
+                    <Flex align="center" gap={2}>
+                      <Heading size="title.sm">Self-host Engine</Heading>
+                      <Icon as={FiArrowRight} boxSize={6} />
+                    </Flex>
+                  </LinkOverlay>
+
+                  <Text>
+                    Host Engine on your own infrastructure with minimal setup.
+                  </Text>
+                </Stack>
+              </Card>
+            </LinkBox>
+
+            <LinkBox>
+              <Card
+                p={10}
+                _hover={{
+                  borderColor: "blue.500",
+                }}
+                transitionDuration="200ms"
+                h="full"
+              >
+                <Stack spacing={4}>
+                  <Tag
+                    variant="outline"
+                    w="fit-content"
+                    // @ts-ignore: Fixes wrong --badge-color value in dark mode.
+                    style={{ "--badge-color": "gray" }}
+                  >
+                    $99 / month
+                  </Tag>
+                  <TrackedLinkOverlay
+                    href={earlyAccessRequestformUrl}
+                    isExternal
+                    category="engine"
+                    label="clicked-request-early-access"
+                    fontWeight="medium"
+                  >
+                    <Flex align="center" gap={2}>
+                      <Heading size="title.sm">
+                        Request a cloud-hosted Engine
+                      </Heading>
+                      <Icon as={FiArrowRight} boxSize={6} />
+                    </Flex>
+                  </TrackedLinkOverlay>
+
+                  <Text>
+                    Host Engine on thirdweb-managed infrastructure with no
+                    setup.
+                  </Text>
+                </Stack>
+              </Card>
+            </LinkBox>
+          </SimpleGrid>
+
+          {/*
+
+            <Text textAlign="left">
+              Don&apos;t have Engine running yet?{" "}
+              <Link
+                href="https://portal.thirdweb.com/engine/getting-started"
+                isExternal
+                color="blue.500"
+                fontSize="14px"
+              >
+                Self-host for free
+              </Link>{" "}
+              or{" "}
+              <TrackedLink
+                href={earlyAccessRequestformUrl}
+                isExternal
+                category="engine"
+                label="clicked-request-early-access"
+                fontWeight="medium"
+                color="blue.500"
+              >
+                request a managed cloud-hosted instance
+              </TrackedLink>
+              .
+            </Text>
+          </Flex> */}
+        </>
       )}
     </>
   );

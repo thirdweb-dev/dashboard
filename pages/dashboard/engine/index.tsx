@@ -60,7 +60,7 @@ const EngineManage: ThirdwebNextPage = () => {
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
                 <Spinner size="sm" />
-                <Text>Loading Instance</Text>
+                <Text>Connecting to your Engine instance</Text>
               </Flex>
             </Center>
           ) : enginePermissions.isError &&
