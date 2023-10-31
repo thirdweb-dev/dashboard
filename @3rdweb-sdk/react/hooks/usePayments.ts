@@ -74,8 +74,35 @@ export type RegisterContractInput = {
   displayName?: string;
 };
 
-export function usePaymentsRegisterContract() {
+function usePaymentsApi() {
   const { token } = useApiAuthToken();
+
+  const fetchFromApi = async <T>(endpoint: string, body: T) => {
+    const res = await fetch(
+      `${THIRDWEB_PAYMENTS_API_HOST}/api/2022-08-12/${endpoint}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.message);
+    }
+
+    return json.result;
+  };
+
+  return fetchFromApi;
+}
+
+export function usePaymentsRegisterContract() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
@@ -100,24 +127,10 @@ export function usePaymentsRegisterContract() {
         displayName: input.displayName,
       };
 
-      const res = await fetch(
-        `${THIRDWEB_PAYMENTS_API_HOST}/api/2022-08-12/register-contract`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
-        },
+      return fetchFromPaymentsAPI<RegisterContractInput>(
+        "register-contract",
+        body,
       );
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.message);
-      }
-
-      return json.result;
     },
     {
       onSuccess: () => {
