@@ -29,15 +29,7 @@ const EngineManage: ThirdwebNextPage = () => {
           </Heading>
           <Text>
             Engine is a backend HTTP server that calls smart contracts with your
-            managed backend wallets.{" "}
-            <Link
-              href="https://portal.thirdweb.com/engine"
-              isExternal
-              color="blue.500"
-            >
-              Learn more
-            </Link>
-            .
+            managed backend wallets.
           </Text>
         </Flex>
 

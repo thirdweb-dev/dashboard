@@ -99,7 +99,7 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
       {!instance && address && (
         <Flex flexDir="column" gap={4}>
           <Card py={12}>
-            <Flex flexDir="column" textAlign="center">
+            <Flex flexDir="column">
               <Text
                 textAlign="center"
                 color="primary.500"
@@ -108,33 +108,32 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
               >
                 Manage your Engine instance
               </Text>
-
-              <Text textAlign="center" mt={4}>
-                Don&apos;t have Engine running yet?
-                <br />
-                <Link
-                  href="https://portal.thirdweb.com/engine/getting-started"
-                  isExternal
-                  color="blue.500"
-                  fontSize="14px"
-                >
-                  Self-host for free
-                </Link>{" "}
-                or{" "}
-                <TrackedLink
-                  href={earlyAccessRequestformUrl}
-                  isExternal
-                  category="engine"
-                  label="clicked-request-early-access"
-                  fontWeight="medium"
-                  color="blue.500"
-                >
-                  request a managed cloud-hosted instance
-                </TrackedLink>
-                .
-              </Text>
             </Flex>
           </Card>
+
+          <Text textAlign="left">
+            Don&apos;t have Engine running yet?{" "}
+            <Link
+              href="https://portal.thirdweb.com/engine/getting-started"
+              isExternal
+              color="blue.500"
+              fontSize="14px"
+            >
+              Self-host for free
+            </Link>{" "}
+            or{" "}
+            <TrackedLink
+              href={earlyAccessRequestformUrl}
+              isExternal
+              category="engine"
+              label="clicked-request-early-access"
+              fontWeight="medium"
+              color="blue.500"
+            >
+              request a managed cloud-hosted instance
+            </TrackedLink>
+            .
+          </Text>
         </Flex>
       )}
     </>
