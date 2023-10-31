@@ -53,6 +53,11 @@ const chakraTheme: Theme = extendTheme({
         borderColor: "borderColor",
       },
     },
+    Badge: {
+      baseStyle: {
+        backgroundColor: "badgeBg",
+      },
+    },
     Button: {
       baseStyle: {
         borderRadius: "md",
@@ -363,6 +368,8 @@ const chakraTheme: Theme = extendTheme({
       inputBorderHover: { default: "gray.300", _dark: "whiteAlpha.50" },
 
       // other
+      badgeBg: { default: "blackAlpha.50", _dark: "whiteAlpha.50" },
+
       badgeBg: { default: "blackAlpha.50", _dark: "whiteAlpha.50" },
 
       // backgroundBody: "accent.100",
