@@ -17,12 +17,9 @@ import {
   ModalOverlay,
   SimpleGrid,
   Stack,
-  Tag,
-  TagLabel,
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { CSSProperties } from "react";
 import { useForm } from "react-hook-form";
 import { FiArrowRight } from "react-icons/fi";
 import {
@@ -33,6 +30,7 @@ import {
   FormHelperText,
   Heading,
   TrackedLinkOverlay,
+  Badge,
 } from "tw-components";
 
 function simplifyURL(url: string): string {
@@ -157,15 +155,15 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
                 h="full"
               >
                 <Stack spacing={4}>
-                  <Tag
+                  <Badge
                     variant="outline"
                     w="fit-content"
-                    // Hack to fix tags in dark mode.
-                    style={{ "--badge-color": "gray" } as CSSProperties}
+                    colorScheme="gray"
+                    rounded="md"
+                    size="label.sm"
                   >
-                    <TagLabel>Free</TagLabel>
-                  </Tag>
-
+                    Free
+                  </Badge>
                   <LinkOverlay
                     href="https://portal.thirdweb.com/engine/getting-started"
                     isExternal
@@ -193,14 +191,15 @@ export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
                 h="full"
               >
                 <Stack spacing={4}>
-                  <Tag
+                  <Badge
                     variant="outline"
                     w="fit-content"
-                    // Hack to fix tags in dark mode.
-                    style={{ "--badge-color": "gray" } as CSSProperties}
+                    colorScheme="gray"
+                    rounded="md"
+                    size="label.sm"
                   >
                     $99 / month
-                  </Tag>
+                  </Badge>
                   <TrackedLinkOverlay
                     href={earlyAccessRequestformUrl}
                     isExternal
