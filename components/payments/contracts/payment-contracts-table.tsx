@@ -12,6 +12,7 @@ import { TWTable } from "components/shared/TWTable";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { fetchChain } from "utils/fetchChain";
 import { Text } from "tw-components";
+import { EnablePaymentsButton } from "../enable-payments-button";
 
 interface PaymentContractsTableProps {
   paymentContracts: ContractWithMetadata[];
@@ -74,6 +75,20 @@ export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
       cell: (cell) => {
         const address = cell.getValue();
         return <AddressCopyButton address={address} />;
+      },
+    }),
+    columnHelper.accessor((row) => row.address, {
+      header: "",
+      id: "actions",
+      cell: (cell) => {
+        const contractAddress = cell.getValue();
+        const chainId = cell.row.original.chainId;
+        return (
+          <EnablePaymentsButton
+            contractAddress={contractAddress}
+            chainId={chainId}
+          />
+        );
       },
     }),
   ];

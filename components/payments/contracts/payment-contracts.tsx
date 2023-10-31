@@ -2,39 +2,9 @@ import { useAllContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { PaymentContractsTable } from "./payment-contracts-table";
-import {
-  Arbitrum,
-  ArbitrumGoerli,
-  Avalanche,
-  AvalancheFuji,
-  Base,
-  BaseGoerli,
-  Ethereum,
-  Goerli,
-  Mumbai,
-  Optimism,
-  OptimismGoerli,
-  Polygon,
-  Sepolia,
-} from "@thirdweb-dev/chains";
 import { Heading, Text } from "tw-components";
-
-// TODO: Get this from API
-const validCheckoutChainIds: number[] = [
-  Polygon.chainId,
-  Ethereum.chainId,
-  Optimism.chainId,
-  Base.chainId,
-  Avalanche.chainId,
-  Arbitrum.chainId,
-  Mumbai.chainId,
-  Goerli.chainId,
-  Sepolia.chainId,
-  OptimismGoerli.chainId,
-  BaseGoerli.chainId,
-  AvalancheFuji.chainId,
-  ArbitrumGoerli.chainId,
-];
+import { validPaymentsChainIds } from "@3rdweb-sdk/react/hooks/usePayments";
+import { EnablePaymentsButton } from "../enable-payments-button";
 
 export const PaymentContracts = () => {
   const address = useAddress();
@@ -42,7 +12,7 @@ export const PaymentContracts = () => {
 
   const filteredContracts =
     deployedContracts?.data?.filter((contract) =>
-      validCheckoutChainIds.includes(contract.chainId),
+      validPaymentsChainIds.includes(contract.chainId),
     ) || [];
 
   return (

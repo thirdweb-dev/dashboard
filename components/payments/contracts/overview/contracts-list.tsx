@@ -15,6 +15,9 @@ export const ContractsList: React.FC = () => {
         ownerId: paymentsSellerId,
       } as ContractsByOwnerIdQueryVariables,
     });
+
+  console.log({ data });
+
   return (
     <Flex flexDir="column" gap={4}>
       <PaymentContracts />

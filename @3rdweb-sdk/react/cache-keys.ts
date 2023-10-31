@@ -66,6 +66,12 @@ export const engineKeys = {
     [...engineKeys.backendWallet(address, chainId), "balance"] as const,
 };
 
+export const paymentsKeys = {
+  all: ["payments"] as const,
+  contracts: (walletAddress: string) =>
+    [...authorizedWallets.all, walletAddress] as const,
+};
+
 export const contractKeys = {
   all: ["contract"] as const,
   lists: () => [...contractKeys.all, "list"] as const,
