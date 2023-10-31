@@ -2,7 +2,7 @@ import { Center, Flex, Spinner, useDisclosure } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EngineSidebar } from "core-ui/sidebar/engine";
 import { PageId } from "page-id";
-import { Button, Heading, Link, Text } from "tw-components";
+import { Button, Heading, Link, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { NoEngineInstance } from "components/engine/no-engine-instance";
 import { useLocalStorage } from "hooks/useLocalStorage";
@@ -28,18 +28,11 @@ const EngineManage: ThirdwebNextPage = () => {
             Engine
           </Heading>
           <Text>
-            Engine provides a server-side interface for contracts & wallets,
-            without the complexities of wallet and transaction management.{" "}
-            <Link
-              color="blue.500"
-              href="https://portal.thirdweb.com/engine"
-              isExternal
-            >
-              Learn more
-            </Link>
-            .
+            Engine is a backend HTTP server that calls smart contracts with your
+            managed backend wallets.
           </Text>
         </Flex>
+
         {instanceUrl && (
           <Text>
             Engine URL: <em>{instanceUrl}</em>{" "}
@@ -61,7 +54,7 @@ const EngineManage: ThirdwebNextPage = () => {
         />
 
         {!address ? (
-          <NoConnectedWallet />
+          <NoConnectedWallet instance={instanceUrl} />
         ) : instanceUrl ? (
           enginePermissions.isLoading ? (
             <Center>
@@ -73,11 +66,11 @@ const EngineManage: ThirdwebNextPage = () => {
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "401" ? (
-            <NoAuthorizedWallet />
+            <NoAuthorizedWallet instance={instanceUrl} />
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "Failed to fetch" ? (
-            <NoServerConnection />
+            <NoServerConnection instance={instanceUrl} />
           ) : (
             <EngineNavigation instance={instanceUrl} />
           )
