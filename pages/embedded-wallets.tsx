@@ -1,4 +1,7 @@
-import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { LandingCardWithImage } from "components/landing-pages/card-with-image";
+import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
@@ -37,16 +40,16 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Embedded Wallets for Every Web3 App",
+        title: "Embedded Wallets: Onboard Everyone to your App",
         description:
-          "Onboard any user with web2 login flows — using just an email, phone, or social account. Choose from non-custodial or custodial in-app wallets.",
+          "Onboard anyone with an email or Google account—with 1-click login flows, flexible auth options, & secure account recovery. Learn more.",
         openGraph: {
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/embedded-wallets.png`,
               width: 1200,
               height: 630,
-              alt: "Embedded Wallets for Every Web3 App",
+              alt: "Embedded Wallets: Onboard Everyone to your App",
             },
           ],
         },
@@ -62,7 +65,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           miniTitle="Embedded Wallets"
           title="The power of web3, "
           titleWithGradient="with web2 UX"
-          subtitle="Give any user the keys to web3 with familiar web2 login flows. Choose from non-custodial or custodial solutions & enable users to sign in with an email, phone number, or social account."
+          subtitle="Onboard anyone with an email or Google account — with 1-click login flows, flexible auth options, and secure account recovery. Free up to 10k users."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/embedded"
           contactUsTitle="Book Demo"
@@ -71,114 +74,161 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
         />
 
-        <LandingGridSection>
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-personalize.svg")}
-            title="Every way to login"
-            description="Choose from the largest selection of embedded wallet solutions & tailor it to your app — with support for email, smart, local, and server wallets."
-          />
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
-            title="Login flows for every user"
-            description="Auth for the most common web2 login flows — enabling users to onboard with just an email, phone number, social account, or passkeys."
-          />
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-secure.svg")}
-            title="Complete key management"
-            description="Determine how your users should manage their private keys, with non-custodial or custodial wallets. Build the most secure solution for your use case."
-          />
-        </LandingGridSection>
-        <Flex flexDir="column" gap={6}>
-          <LandingGridSection>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
-                title="Email and social authentication"
-                description="Email log-in, social log-in, and bring your own auth."
-              />
-            </Card>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
-                title="Customizable branding"
-                description="Fully customizable, choose your fonts, colors, and logos to make users' wallets indistinguishable from your app."
-              />
-            </Card>
-            <Card p={8}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages-icons/wallets/icon-verified.svg")}
-                title="Account recovery"
-                description="Users can access their accounts on authenticated devices."
-              />
-            </Card>
-          </LandingGridSection>
-          <SimpleGrid columns={{ base: 1, md: 6 }} gap={6}>
-            <Card p={8} gridColumnStart={2} gridColumnEnd={4}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages-icons/wallets/icon-save.svg")}
-                title="Gasless transactions"
-                description="Users can interact with your app without paying for gas fees."
-              />
-            </Card>
-            <Card p={8} gridColumnStart={4} gridColumnEnd={6}>
-              <LandingIconSectionItem
-                icon={require("public/assets/product-pages-icons/wallets/icon-private.svg")}
-                title="Non-custodial"
-                description="Using Multi-Party Computation (MPC), private key shard across (1) device, (2) emailed recovery password, and (3) login authentication."
-              />
-            </Card>
-          </SimpleGrid>
-        </Flex>
+        <LandingDynamicSelector
+          gradient="linear(to-r, #4490FF, #4490FF)"
+          title="Flexible flows so you can onboard your way"
+          blackToWhiteTitle=""
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+          items={[
+            {
+              title: "Seamless onboarding with managed auth",
+              description:
+                "Let users access your app instantly with email, google, and social logins.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/product-pages/embedded-wallets/seamless.png")}
+                  alt=""
+                  borderRadius="lg"
+                />
+              ),
+            },
+            {
+              title:
+                "Let users access your app instantly with email, google, and social logins.",
+              description:
+                "Spin up embedded wallets with the authentication system from your app or game.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/product-pages/embedded-wallets/auth.png")}
+                  alt=""
+                  borderRadius="lg"
+                />
+              ),
+            },
+            {
+              title: "Cross-platform support",
+              description:
+                "Let users access the same account across different devices with one-click. Support for web, mobile and unity.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/product-pages/embedded-wallets/cross-platform.png")}
+                  alt=""
+                  borderRadius="lg"
+                />
+              ),
+            },
+          ]}
+        />
 
-        <LandingGridSection
-          desktopColumns={4}
-          title={
-            <LandingSectionHeading
-              title="What You Can Build"
-              blackToWhiteTitle=""
-            />
-          }
-        >
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
-              title="Web2 login flows"
-              description="Enable your users to sign in with just an email, social login, or phone number — even if they've never created a wallet or purchased crypto before."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-efficient.svg")}
-              title="Invisible wallet experiences"
-              description="Enable gasless and signless transactions with in-app smart wallets (powered by ERC-4337) and remove any friction from your web3 app."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-guest.svg")}
-              title="Continue as guest"
-              description="Instantly onboard any user onto your app without a login process. Spin up wallets tied to your users' devices, which they can export at a later date or access using the same device."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-smart-wallet.svg")}
-              title="Build your own wallet experiences"
-              description="Low-level tools with everything you need to build your own fully-featured wallets, from generating wallets on the backend to managing users' wallets including importing & exporting keys, saving keys to secure storage, and private key recovery."
-            />
-          </Card>
+        <LandingGridSection desktopColumns={4}>
+          <LandingCardWithImage
+            title="Onboard anyone, instantly"
+            description="One-click login with a Google account, two-step verification with email, and custom auth integration for your existing users."
+            image={require("public/assets/landingpage/desktop/onboard.png")}
+            mobileImage={require("public/assets/landingpage/mobile/onboard.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            direction="horizontal"
+          />
+
+          <LandingCardWithImage
+            title="Cross-platform support"
+            description="Users can log into their accounts (and access their wallets) from any device, in one click. Support for web, mobile, & Unity."
+            image={require("public/assets/landingpage/desktop/cross-platform.png")}
+            mobileImage={require("public/assets/landingpage/mobile/cross-platform.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+          />
+
+          <LandingCardWithImage
+            title="Enterprise-grade wallet security"
+            description="Self-custodial wallets with flexible & secure account recovery — powered by MPC."
+            image={require("public/assets/landingpage/desktop/enterprise-security.png")}
+            mobileImage={require("public/assets/landingpage/mobile/enterprise-security.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            colSpan={1}
+          />
+
+          <LandingCardWithImage
+            title="User experiences that feel like magic"
+            description="Seamless integration with Account Abstraction (ERC-4337) for gas-free, signless onboarding & user experiences."
+            image={require("public/assets/landingpage/desktop/magic.png")}
+            mobileImage={require("public/assets/landingpage/mobile/magic.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+          />
+
+          <LandingCardWithImage
+            title="Guest mode"
+            description="Allow anyone to use your app in seconds — with a wallet that's generated automatically when they press Continue as guest."
+            image={require("public/assets/landingpage/desktop/guest.png")}
+            mobileImage={require("public/assets/landingpage/mobile/guest.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            colSpan={1}
+          />
+
+          <LandingCardWithImage
+            title="Bring your own auth"
+            description="Integrate your authentication system and spin up embedded wallets for your users — new and existing."
+            image={require("public/assets/landingpage/desktop/auth.png")}
+            mobileImage={require("public/assets/landingpage/mobile/auth.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+          />
+
+          <LandingCardWithImage
+            title="Everything a wallet needs"
+            description="Give users the ability to send, receive, & view assets. Transaction history, ENS support, & more out of the box."
+            image={require("public/assets/landingpage/desktop/wallet.png")}
+            mobileImage={require("public/assets/landingpage/mobile/wallet.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            direction="horizontal"
+          />
+
+          <LandingCardWithImage
+            title="Powerful hooks"
+            description="Flexible hooks, functions, and low-level tools for fully custom Embedded Wallet experiences."
+            image={require("public/assets/landingpage/desktop/powerful.png")}
+            mobileImage={require("public/assets/landingpage/mobile/powerful.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            colSpan={1}
+          />
+
+          <LandingCardWithImage
+            title="Sign-in with Ethereum"
+            description="Verify a user's onchain identity with web3-first authentication, using the SIWE (Sign-in with Ethereum) standard."
+            image={require("public/assets/landingpage/desktop/siwe.png")}
+            mobileImage={require("public/assets/landingpage/mobile/siwe.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            direction="horizontal"
+          />
+
+          <LandingCardWithImage
+            title="Wallet analytics"
+            description="Comprehensive wallet insights to understand how users are interacting with your app."
+            image={require("public/assets/landingpage/desktop/analytics.png")}
+            mobileImage={require("public/assets/landingpage/mobile/analytics.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet"
+            colSpan={1}
+          />
         </LandingGridSection>
 
         <LandingGuidesShowcase
-          title="Learn to build with in-app embedded wallets"
+          title="Get started with Embedded Wallets"
           category={TRACKING_CATEGORY}
-          description="Tailor your app's onboarding & experience to your users"
+          description="See our quick-start guides to implement embedded wallets & onboard anyone"
           guides={GUIDES}
         />
 
         <LandingEndCTA
-          title="Start building"
-          titleWithGradient="today."
+          title="Integrate in"
+          titleWithGradient="a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/embedded"
           gradient="linear(to-r, #3385FF, #7BB0FF)"
