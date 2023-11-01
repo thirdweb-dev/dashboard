@@ -622,11 +622,6 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
     };
   }
 
-  if (!chain) {
-    return {
-      notFound: true,
-    };
-  }
   let gradientColors: [string, string] | null = null;
   try {
     gradientColors = await getGradientColorStops(chain);
