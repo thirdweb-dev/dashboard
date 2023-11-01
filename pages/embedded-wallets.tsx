@@ -18,18 +18,18 @@ const TRACKING_CATEGORY = "embedded-wallets-landing";
 
 const GUIDES = [
   {
-    title: "Get Started with Embedded Wallets",
+    title: "Docs: Quick-Start Guide to Embedded Wallets",
     image: require("/public/assets/product-pages/embedded-wallets/embedded-wallet.png"),
     link: "https://docs.withpaper.com/reference/embedded-wallet-service-overview",
   },
   {
-    title: "How to Implement Email Wallets",
+    title: "Embedded Wallets in Action",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-Add-Paper-Wallet-to-your-Connect-Wallet-Button.png",
     link: "https://blog.thirdweb.com/guides/how-to-use-paper-wallet/",
   },
   {
-    title: "How to Implement Smart Wallets",
+    title: "Quick-Start Template: Embedded + Smart Wallets",
     image: require("/public/assets/product-pages/smart-wallet/get-started.png"),
     link: "https://portal.thirdweb.com/smart-wallet/getting%20started",
   },
@@ -59,7 +59,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         maxW="container.page"
         as={Flex}
         flexDir="column"
-        gap={{ base: "80px", md: "120px" }}
+        gap={{ base: "80px", md: "200px" }}
       >
         <LandingHeroWithSideImage
           miniTitle="Embedded Wallets"
@@ -77,14 +77,19 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
 
         <LandingDynamicSelector
           gradient="linear(to-r, #4490FF, #4490FF)"
-          title="Flexible flows so you can onboard your way"
+          titleGradient="linear(to-r, #3385FF, #7BB0FF)"
+          titleWithGradient="onboard your way"
+          title="Flexible flows so you can"
+          lineHeight="120%"
+          titleSize="title.2xl"
           blackToWhiteTitle=""
           TRACKING_CATEGORY={TRACKING_CATEGORY}
+          margin="40px 0 0 0"
           items={[
             {
               title: "Seamless onboarding with managed auth",
               description:
-                "Let users access your app instantly with email, google, and social logins.",
+                "Let users access your app instantly an email address, Google account, or social logins.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/embedded-wallets/seamless.png")}
@@ -94,8 +99,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
               ),
             },
             {
-              title:
-                "Let users access your app instantly with email, google, and social logins.",
+              title: "Integrate with your own custom auth",
               description:
                 "Spin up embedded wallets with the authentication system from your app or game.",
               Component: (
@@ -109,7 +113,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             {
               title: "Cross-platform support",
               description:
-                "Let users access the same account across different devices with one-click. Support for web, mobile and unity.",
+                "Enable users to log into their accounts (and access their wallets) from any device, in one click. Support for web, mobile, & Unity.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/embedded-wallets/cross-platform.png")}
@@ -128,7 +132,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/onboard.png")}
             mobileImage={require("public/assets/landingpage/mobile/onboard.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
             direction="horizontal"
           />
 
@@ -138,7 +142,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/cross-platform.png")}
             mobileImage={require("public/assets/landingpage/mobile/cross-platform.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
           />
 
           <LandingCardWithImage
@@ -147,7 +151,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/enterprise-security.png")}
             mobileImage={require("public/assets/landingpage/mobile/enterprise-security.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
             colSpan={1}
           />
 
@@ -157,7 +161,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/magic.png")}
             mobileImage={require("public/assets/landingpage/mobile/magic.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
           />
 
           <LandingCardWithImage
@@ -166,7 +170,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/guest.png")}
             mobileImage={require("public/assets/landingpage/mobile/guest.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
             colSpan={1}
           />
 
@@ -176,7 +180,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/auth.png")}
             mobileImage={require("public/assets/landingpage/mobile/auth.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
           />
 
           <LandingCardWithImage
@@ -185,7 +189,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/wallet.png")}
             mobileImage={require("public/assets/landingpage/mobile/wallet.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet"
             direction="horizontal"
           />
 
@@ -205,7 +209,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/siwe.png")}
             mobileImage={require("public/assets/landingpage/mobile/siwe.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/auth"
             direction="horizontal"
           />
 
@@ -215,7 +219,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/analytics.png")}
             mobileImage={require("public/assets/landingpage/mobile/analytics.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://thirdweb.com/dashboard/wallets/analytics"
             colSpan={1}
           />
         </LandingGridSection>
@@ -223,8 +227,9 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         <LandingGuidesShowcase
           title="Get started with Embedded Wallets"
           category={TRACKING_CATEGORY}
-          description="See our quick-start guides to implement embedded wallets & onboard anyone"
+          description="Read the docs, see the live demo, and use the quick-start template to build with Embedded Wallets"
           guides={GUIDES}
+          py={0}
         />
 
         <LandingEndCTA
