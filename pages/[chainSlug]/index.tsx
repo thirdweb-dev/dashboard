@@ -606,6 +606,12 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${chainSlug}`);
   const chain = (await res.json()).data as Chain;
 
+  if (!chain) {
+    return {
+      notFound: true,
+    };
+  }
+
   // determine if the chainSlug is a chainId and not a slug
   if (chain?.slug !== chainSlug) {
     return {
