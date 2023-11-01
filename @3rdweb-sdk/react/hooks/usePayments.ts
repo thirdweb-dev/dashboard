@@ -253,7 +253,7 @@ export enum FiatCurrency {
 const WALLET_TYPE = "wallet_type";
 const PAYMENT_METHOD = "payment_method";
 export function parseAnalyticOverviewData(data: any[]): any[] {
-  const result: { [checkout_id: string]: any; } = {};
+  const result: { [checkout_id: string]: any } = {};
 
   for (const item of data) {
     const temp = result[item.checkout_id] || { revenue_cents: {} };
