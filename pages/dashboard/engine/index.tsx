@@ -29,8 +29,6 @@ import { NoAuthorizedWallet } from "components/engine/no-authorized-wallet";
 import { NoServerConnection } from "components/engine/no-server-connection";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { useForm } from "react-hook-form";
-import { VscServer } from "react-icons/vsc";
-import { FaServer } from "react-icons/fa6";
 
 const EngineManage: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
