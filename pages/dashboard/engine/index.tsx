@@ -2,26 +2,26 @@ import { Center, Flex, Spinner, useDisclosure } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EngineSidebar } from "core-ui/sidebar/engine";
 import { PageId } from "page-id";
-import { Button, Heading, Link, Text, TrackedLink } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { NoEngineInstance } from "components/engine/no-engine-instance";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { useAddress } from "@thirdweb-dev/react";
 import { NoConnectedWallet } from "components/engine/no-connected-wallet";
 import { useEnginePermissions } from "@3rdweb-sdk/react/hooks/useEngine";
 import { EngineNavigation } from "components/engine/engine-navigation";
 import { NoAuthorizedWallet } from "components/engine/no-authorized-wallet";
 import { NoServerConnection } from "components/engine/no-server-connection";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const EngineManage: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
   const setInstanceDisclosure = useDisclosure();
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
 
   const enginePermissions = useEnginePermissions(instanceUrl);
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <Flex direction="column" gap={4}>
         <Flex direction="column" gap={2}>
           <Heading size="title.lg" as="h1">
@@ -53,24 +53,30 @@ const EngineManage: ThirdwebNextPage = () => {
           disclosure={setInstanceDisclosure}
         />
 
-        {!address ? (
+        {!isLoggedIn ? (
           <NoConnectedWallet instance={instanceUrl} />
         ) : instanceUrl ? (
           enginePermissions.isLoading ? (
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
                 <Spinner size="sm" />
-                <Text>Loading Instance</Text>
+                <Text>Connecting to your Engine instance</Text>
               </Flex>
             </Center>
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "401" ? (
-            <NoAuthorizedWallet instance={instanceUrl} />
+            <NoAuthorizedWallet
+              instance={instanceUrl}
+              disclosure={setInstanceDisclosure}
+            />
           ) : enginePermissions.isError &&
             (enginePermissions?.error as { message: string }).message ===
               "Failed to fetch" ? (
-            <NoServerConnection instance={instanceUrl} />
+            <NoServerConnection
+              instance={instanceUrl}
+              disclosure={setInstanceDisclosure}
+            />
           ) : (
             <EngineNavigation instance={instanceUrl} />
           )
