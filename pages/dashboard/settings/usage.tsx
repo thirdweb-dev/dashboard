@@ -1,6 +1,5 @@
 import { AppLayout } from "components/app-layouts/app";
 import { Flex, HStack } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -10,13 +9,14 @@ import { Usage } from "components/settings/Account/Usage";
 import { BillingPeriod } from "components/settings/Account/BillingPeriod";
 import { useAccount, useAccountUsage } from "@3rdweb-sdk/react/hooks/useApi";
 import { BillingPlan } from "components/settings/Account/BillingPlan";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const SettingsUsagePage: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
   const usageQuery = useAccountUsage();
 
-  if (!address) {
+  if (!isLoggedIn) {
     return <ConnectWalletPrompt />;
   }
 
@@ -27,7 +27,7 @@ const SettingsUsagePage: ThirdwebNextPage = () => {
   const account = meQuery.data;
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <Flex direction="column">
         <Heading size="title.lg" as="h1">
           Usage
