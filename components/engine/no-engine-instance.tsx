@@ -35,17 +35,18 @@ function simplifyURL(url: string): string {
 }
 
 interface NoEngineInstanceProps {
+  address?: string;
   instance: string;
   setInstanceUrl: (value: string) => void;
   disclosure: UseDisclosureReturn;
 }
 
 export const NoEngineInstance: React.FC<NoEngineInstanceProps> = ({
+  address,
   instance,
   setInstanceUrl,
   disclosure,
 }) => {
-  const address = useAddress();
   const form = useForm({
     defaultValues: {
       url: instance,

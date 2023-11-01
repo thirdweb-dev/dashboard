@@ -16,7 +16,7 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 const EngineManage: ThirdwebNextPage = () => {
   const [instanceUrl, setInstanceUrl] = useLocalStorage("engine-instance", "");
   const setInstanceDisclosure = useDisclosure();
-  const { isLoggedIn } = useLoggedInUser();
+  const { user } = useLoggedInUser();
 
   const enginePermissions = useEnginePermissions(instanceUrl);
 
@@ -48,12 +48,13 @@ const EngineManage: ThirdwebNextPage = () => {
         )}
 
         <NoEngineInstance
+          address={user?.address}
           instance={instanceUrl}
           setInstanceUrl={setInstanceUrl}
           disclosure={setInstanceDisclosure}
         />
 
-        {!isLoggedIn ? (
+        {!user?.address ? (
           <NoConnectedWallet instance={instanceUrl} />
         ) : instanceUrl ? (
           enginePermissions.isLoading ? (
