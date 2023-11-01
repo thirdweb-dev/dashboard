@@ -604,7 +604,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   }
 
   const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${chainSlug}`);
-  const chain = (await res.json()).data as Chain;
+  const chain = (await res.json()).data as Chain | null;
 
   if (!chain) {
     return {
