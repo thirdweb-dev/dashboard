@@ -666,7 +666,7 @@ export function useCustomContractDeployMutation(
           } else {
             let salt;
             if (data.deployDeterministic) {
-              const salt = data.signerAsSalt
+              salt = data.signerAsSalt
                 ? (await signer?.getAddress())?.concat(
                     data.saltForCreate2 || "",
                   )
