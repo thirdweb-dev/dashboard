@@ -37,7 +37,7 @@ export const AddAdminButton: React.FC<AddAdminButtonProps> = ({ instance }) => {
   });
 
   const { onSuccess, onError } = useTxNotifications(
-    "Admin added successfully.",
+    "Successfully added admin.",
     "Failed to add admin.",
   );
 
@@ -46,7 +46,7 @@ export const AddAdminButton: React.FC<AddAdminButtonProps> = ({ instance }) => {
       <Flex onClick={onOpen} alignItems="center" gap={2}>
         <Icon as={AiOutlinePlusCircle} boxSize={6} color="primary.500" />
         <Text color="primary.500" cursor="pointer" fontWeight="bold">
-          Add New Admin
+          Add admin
         </Text>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
