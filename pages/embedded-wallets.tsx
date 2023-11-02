@@ -1,4 +1,4 @@
-import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
@@ -11,7 +11,7 @@ import { LandingLayout } from "components/landing-pages/layout";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card } from "tw-components";
+import { Card, Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "embedded-wallets-landing";
@@ -122,7 +122,16 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           ]}
         />
 
-        <LandingGridSection desktopColumns={4}>
+        <LandingGridSection
+          desktopColumns={4}
+          title={
+            <Center>
+              <Heading size="display.sm" color="white">
+                Abstract away complexity for your users
+              </Heading>
+            </Center>
+          }
+        >
           <LandingCardWithImage
             title="Onboard anyone, instantly"
             description="One-click login with a Google account, two-step verification with email, and custom auth integration for your existing users."
