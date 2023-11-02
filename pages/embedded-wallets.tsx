@@ -66,7 +66,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           titleWithGradient="with web2 UX"
           subtitle="Onboard anyone with an email or Google account — with 1-click login flows, flexible auth options, and secure account recovery. Free up to 10k users."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/dashboard/wallets/embedded"
+          ctaLink="https://portal.thirdweb.com/embedded-wallet"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #4490FF, #4490FF)"
           image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallets.png")}
@@ -244,7 +244,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           title="Integrate in"
           titleWithGradient="a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/dashboard/wallets/embedded"
+          ctaLink="https://portal.thirdweb.com/embedded-wallet"
           gradient="linear(to-r, #3385FF, #7BB0FF)"
         />
       </Container>
