@@ -18,20 +18,19 @@ const TRACKING_CATEGORY = "embedded-wallets-landing";
 
 const GUIDES = [
   {
-    title: "Docs: Quick-Start Guide to Embedded Wallets",
+    title: "Docs: Embedded Wallets Overview",
     image: require("/public/assets/product-pages/embedded-wallets/embedded-wallet.png"),
-    link: "https://docs.withpaper.com/reference/embedded-wallet-service-overview",
+    link: "https://portal.thirdweb.com/embedded-wallet",
   },
   {
-    title: "Embedded Wallets in Action",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-Add-Paper-Wallet-to-your-Connect-Wallet-Button.png",
-    link: "https://blog.thirdweb.com/guides/how-to-use-paper-wallet/",
+    title: "Live Demo: Embedded Wallets",
+    image: require("/public/assets/product-pages/embedded-wallets/paper.png"),
+    link: "https://catattack.thirdweb.com",
   },
   {
     title: "Quick-Start Template: Embedded + Smart Wallets",
     image: require("/public/assets/product-pages/smart-wallet/get-started.png"),
-    link: "https://portal.thirdweb.com/smart-wallet/getting%20started",
+    link: "https://github.com/thirdweb-example/embedded-smart-wallet",
   },
 ];
 
@@ -59,7 +58,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         maxW="container.page"
         as={Flex}
         flexDir="column"
-        gap={{ base: "80px", md: "200px" }}
+        gap={{ base: "80px", md: "240px" }}
       >
         <LandingHeroWithSideImage
           miniTitle="Embedded Wallets"
@@ -80,8 +79,6 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           titleGradient="linear(to-r, #3385FF, #7BB0FF)"
           titleWithGradient="onboard your way"
           title="Flexible flows so you can"
-          lineHeight="120%"
-          titleSize="title.2xl"
           blackToWhiteTitle=""
           TRACKING_CATEGORY={TRACKING_CATEGORY}
           margin="40px 0 0 0"
@@ -101,7 +98,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             {
               title: "Integrate with your own custom auth",
               description:
-                "Spin up embedded wallets with the authentication system from your app or game.",
+                "Spin up embedded wallets for your users with your app or game's existing auth system.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/embedded-wallets/auth.png")}
@@ -166,7 +163,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
 
           <LandingCardWithImage
             title="Guest mode"
-            description="Allow anyone to use your app in seconds — with a wallet that's generated automatically when they press Continue as guest."
+            description={`Allow anyone to use your app in seconds — with a wallet that's generated automatically when they press "Continue as guest."`}
             image={require("public/assets/landingpage/desktop/guest.png")}
             mobileImage={require("public/assets/landingpage/mobile/guest.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -227,8 +224,10 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         <LandingGuidesShowcase
           title="Get started with Embedded Wallets"
           category={TRACKING_CATEGORY}
-          description="Read the docs, see the live demo, and use the quick-start template to build with Embedded Wallets"
+          description="Read the docs, see the live demo, and use the quick-start template to build with Embedded Wallets."
           guides={GUIDES}
+          customSolution="See the full Embedded Wallet docs"
+          customSolutionHref="https://portal.thirdweb.com/embedded-wallet"
           py={0}
         />
 

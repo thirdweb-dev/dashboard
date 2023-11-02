@@ -18,6 +18,8 @@ interface LandingGuidesShowcaseProps {
   guides: BlogPost[];
   caseStudies?: true;
   py?: number;
+  customSolution?: string;
+  customSolutionHref?: string;
 }
 
 export const LandingGuidesShowcase: React.FC<LandingGuidesShowcaseProps> = ({
@@ -27,6 +29,8 @@ export const LandingGuidesShowcase: React.FC<LandingGuidesShowcaseProps> = ({
   guides,
   caseStudies,
   category,
+  customSolution,
+  customSolutionHref,
   py = 16,
 }) => {
   return (
@@ -73,6 +77,28 @@ export const LandingGuidesShowcase: React.FC<LandingGuidesShowcaseProps> = ({
           )}
         </SimpleGrid>
       </Flex>
+      {customSolution && customSolutionHref && (
+        <TrackedLink
+          href={customSolutionHref}
+          category={category}
+          label="see-all-guides"
+          isExternal
+        >
+          <Flex align="center" gap={2}>
+            <Heading
+              fontSize="20px"
+              fontWeight="medium"
+              as="p"
+              lineHeight={{ base: 1.5, md: undefined }}
+              position="relative"
+            >
+              {customSolution}
+            </Heading>
+            <Icon as={FiArrowRight} />
+          </Flex>
+        </TrackedLink>
+      )}
+
       {solution && (
         <TrackedLink
           href={`https://blog.thirdweb.com/tag/${

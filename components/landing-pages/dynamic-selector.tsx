@@ -98,6 +98,7 @@ export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
                       : "linear(to-r, #fff, #fff)",
                 }}
                 pb={4}
+                lineHeight="120%"
               >
                 {item.title}
               </Text>
