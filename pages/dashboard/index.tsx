@@ -1,10 +1,18 @@
-import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  DarkMode,
+  Flex,
+  GridItem,
+  SimpleGrid,
+  VStack,
+  useColorMode,
+} from "@chakra-ui/react";
 import { useConnectionStatus } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { FTUX } from "components/FTUX/FTUX";
 import { AppLayout } from "components/app-layouts/app";
 import { Changelog, ChangelogItem } from "components/dashboard/Changelog";
 import { NavigationCard } from "components/dashboard/NavigationCard";
+import { OnboardingSteps } from "components/onboarding/Steps";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -14,30 +22,40 @@ const TRACKING_CATEGORY = "dashboard";
 
 const GET_STARTED_SECTIONS = [
   {
-    title: "Wallets",
+    title: "Deploy a contract",
     description:
-      "Onboard, authenticate, and manage users. Connect any wallets to your app and games.",
-    image: require("public/assets/dashboard/home-wallets.png"),
-    href: "/dashboard/wallets/connect",
-  },
-  {
-    title: "Contracts",
-    description:
-      "Create, deploy, and manage smart contracts on any EVM network.",
+      "Explore contracts from world-class web3 protocols & engineers- all deployable with 1-click to any chain.",
     image: require("public/assets/dashboard/home-contracts.png"),
     href: "/dashboard/contracts/deploy",
+    badge: "Contracts",
+    badgeColor: "#6820CB",
   },
   {
-    title: "Payments",
-    description: "Facilitate financial transactions on the blockchain.",
+    title: "Onboard users",
+    description:
+      "A complete toolkit for connecting wallets to apps. UI components that work out of the box.",
+    image: require("public/assets/dashboard/home-wallets.png"),
+    href: "/dashboard/wallets/connect",
+    badge: "Wallets",
+    badgeColor: "blue.500",
+  },
+  {
+    title: "Create a checkout link",
+    description:
+      "Create pre-built checkout links or embedded checkouts to sell NFTs.",
     image: require("public/assets/dashboard/home-payments.png"),
     href: "https://withpaper.com/product/checkouts",
+    badge: "Payments",
+    badgeColor: "green.500",
   },
   {
-    title: "Infrastructure",
-    description: "Connect your application to decentralized networks.",
-    image: require("public/assets/dashboard/home-infrastructure.png"),
-    href: "/dashboard/infrastructure/storage",
+    title: "Run Engine",
+    description:
+      "Engine is a backend HTTP server that calls smart contracts with your managed backend wallets.",
+    badge: "Web3 Backend",
+    badgeColor: "gray.700",
+    image: require("public/assets/dashboard/home-infra.png"),
+    href: "/dashboard/engine",
   },
 ];
 
@@ -45,6 +63,8 @@ const Dashboard: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) => {
   const connectionStatus = useConnectionStatus();
+  const { colorMode } = useColorMode();
+
   const showFTUX =
     connectionStatus !== "connected" && connectionStatus !== "connecting";
   const isLoading = connectionStatus === "unknown";
@@ -52,32 +72,43 @@ const Dashboard: ThirdwebNextPage = (
   return (
     <Flex flexDir="column" gap={4}>
       {/* Any announcements: <AnnouncementCard /> */}
-      <SimpleGrid
-        columns={{ base: 1, lg: 4 }}
-        gap={16}
-        mt={{ base: 2, md: 10 }}
-      >
+      <SimpleGrid columns={{ base: 1, lg: 4 }} gap={16}>
         <GridItem colSpan={{ lg: 3 }}>
-          <Heading mb={8}>Get started quickly</Heading>
+          <Heading mb={10}>Get started quickly</Heading>
           {!isLoading && (
             <ClientOnly fadeInDuration={600} ssr={null}>
               {showFTUX ? (
                 <FTUX />
               ) : (
-                <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-                  {GET_STARTED_SECTIONS.map(
-                    ({ title, description, image, href }) => (
-                      <NavigationCard
-                        key={title}
-                        title={title}
-                        description={description}
-                        image={image}
-                        href={href}
-                        TRACKING_CATEGORY={TRACKING_CATEGORY}
-                      />
-                    ),
-                  )}
-                </SimpleGrid>
+                <VStack gap={10}>
+                  <OnboardingSteps />
+                  <DarkMode>
+                    <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
+                      {GET_STARTED_SECTIONS.map(
+                        ({
+                          title,
+                          description,
+                          badge,
+                          badgeColor,
+                          image,
+                          href,
+                        }) => (
+                          <NavigationCard
+                            key={title}
+                            title={title}
+                            description={description}
+                            badge={badge}
+                            badgeColor={badgeColor}
+                            image={image}
+                            href={href}
+                            TRACKING_CATEGORY={TRACKING_CATEGORY}
+                            colorMode={colorMode}
+                          />
+                        ),
+                      )}
+                    </SimpleGrid>
+                  </DarkMode>
+                </VStack>
               )}
             </ClientOnly>
           )}

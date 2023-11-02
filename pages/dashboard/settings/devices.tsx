@@ -1,7 +1,7 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { useAuthorizedWallets } from "@3rdweb-sdk/react/hooks/useApi";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Container, Divider, Flex } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { AuthorizedWalletsTable } from "components/settings/AuthorizedWallets/AuthorizedWalletsTable";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
@@ -10,10 +10,10 @@ import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsDevicesPage: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
   const authorizedWalletsQuery = useAuthorizedWallets();
 
-  if (!address) {
+  if (!isLoggedIn) {
     return (
       <Container maxW="lg">
         <Card p={6} as={Flex} flexDir="column" gap={2}>
@@ -31,7 +31,7 @@ const SettingsDevicesPage: ThirdwebNextPage = () => {
   }
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <Flex direction="column" gap={2}>
         <Flex
           justifyContent="space-between"

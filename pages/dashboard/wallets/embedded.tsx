@@ -1,47 +1,47 @@
+import { ApiKey, useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
+import { useEmbeddedWallets } from "@3rdweb-sdk/react/hooks/useEmbeddedWallets";
 import {
+  Divider,
   Flex,
   ListItem,
-  SimpleGrid,
-  UnorderedList,
-  Switch,
-  Divider,
-  VStack,
-  MenuList,
   Menu,
   MenuButton,
+  MenuList,
+  SimpleGrid,
+  Switch,
+  UnorderedList,
+  VStack,
 } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { WalletsSidebar } from "core-ui/sidebar/wallets";
-import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
-import { WALLETS_SNIPPETS } from "./wallet-sdk";
+import { EmbeddedWalletsTable } from "components/embedded-wallets";
+import { ActiveUsersCard } from "components/embedded-wallets/ActiveUsersCard";
+import { CreateApiKeyButton } from "components/settings/ApiKeys/Create";
+import { WalletsSidebar } from "core-ui/sidebar/wallets";
+import Image from "next/image";
+import { PageId } from "page-id";
+import { useEffect, useMemo, useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
 import {
   Button,
   Card,
   Heading,
-  Link,
   MenuItem,
   Text,
   TrackedLink,
 } from "tw-components";
-import React, { useEffect, useMemo, useState } from "react";
-import { ActiveUsersCard } from "components/embedded-wallets/ActiveUsersCard";
-import { useEmbeddedWallets } from "@3rdweb-sdk/react/hooks/useEmbeddedWallets";
-import { EmbeddedWalletsTable } from "components/embedded-wallets";
-import { ApiKey, useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { withinDays } from "utils/date-utils";
-import { useAddress } from "@thirdweb-dev/react";
-import Image from "next/image";
+import { ThirdwebNextPage } from "utils/types";
 import { shortenString } from "utils/usedapp-external";
-import { FiChevronDown } from "react-icons/fi";
+import { WALLETS_SNIPPETS } from "./wallet-sdk";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 const ACTIVE_THRESHOLD_DAYS = 30;
 
 const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
   const keysQuery = useApiKeys();
   const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
 
@@ -80,7 +80,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
   }, [apiKeys, selectedKey]);
 
   return (
-    <Flex flexDir="column" gap={10} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={10}>
       <Flex flexDir="column" gap={4}>
         <Heading size="title.lg" as="h1">
           Embedded Wallets
@@ -101,7 +101,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
         </Text>
       </Flex>
 
-      {address && !hasApiKeys && (
+      {isLoggedIn && !hasApiKeys && (
         <Card p={6}>
           <VStack alignItems="center" justifyContent="center" gap={6}>
             <Image
@@ -114,20 +114,21 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
               <Text>
                 You&apos;ll need to create an API Key to use embedded wallets.
               </Text>
-              <Link
-                variant="ghost"
-                href="/dashboard/settings/api-keys"
-                size="sm"
-                color="primary.500"
-              >
-                <Text color="primary.500">Create an API Key</Text>
-              </Link>
+              <CreateApiKeyButton
+                buttonProps={{
+                  variant: "link",
+                  size: "sm",
+                  // remove icon
+                  leftIcon: undefined,
+                }}
+                enabledServices={["embeddedWallets"]}
+              />
             </Flex>
           </VStack>
         </Card>
       )}
 
-      {address && hasApiKeys && selectedKey && (
+      {isLoggedIn && hasApiKeys && selectedKey && (
         <>
           <ActiveUsersCard count={activeWallets.length} />
 
@@ -233,7 +234,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
         </>
       )}
 
-      {!address && (
+      {!isLoggedIn && (
         <>
           <Flex flexDir="column" gap={4}>
             <Heading size="title.sm" as="h2">

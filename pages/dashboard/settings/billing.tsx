@@ -1,6 +1,5 @@
 import { AppLayout } from "components/app-layouts/app";
 import { Flex, HStack, Icon } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -14,9 +13,10 @@ import { useEffect, useMemo, useState } from "react";
 import { FiCheckCircle, FiAlertCircle, FiInfo } from "react-icons/fi";
 import { BillingPlan } from "components/settings/Account/BillingPlan";
 import { useRouter } from "next/router";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
   const router = useRouter();
   const { data: account } = meQuery;
@@ -121,7 +121,7 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
     }
   }, [router]);
 
-  if (!address) {
+  if (!isLoggedIn) {
     return <ConnectWalletPrompt />;
   }
 
@@ -132,8 +132,8 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
   const showSteps = ["noCustomer", "noPayment"].includes(account.status);
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }} maxW="3xl">
-      <Card>
+    <Flex flexDir="column" gap={8} maxW="3xl">
+      <Card p={6}>
         <BillingPlan
           account={account}
           direction="column"
