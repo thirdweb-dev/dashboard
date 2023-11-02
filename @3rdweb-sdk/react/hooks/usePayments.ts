@@ -37,6 +37,10 @@ import {
   DetailedAnalyticsQueryVariables,
   useDetailedAnalyticsQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
+import {
+  CheckoutByContractAddressQueryVariables,
+  useCheckoutByContractAddressQuery,
+} from "graphql/queries/__generated__/CheckoutByContractAddress.generated";
 
 // TODO: Get this from API
 export const validPaymentsChainIds: number[] = [
@@ -107,16 +111,20 @@ export type RegisterContractInput = {
 function usePaymentsApi() {
   const { token } = useApiAuthToken();
 
-  const fetchFromApi = async <T>(endpoint: string, body: T) => {
+  const fetchFromApi = async <T>(
+    method: string,
+    endpoint: string,
+    body?: T,
+  ) => {
     const res = await fetch(
       `${THIRDWEB_PAYMENTS_API_HOST}/api/2022-08-12/${endpoint}`,
       {
-        method: "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
+        ...(body && { body: JSON.stringify(body) }),
       },
     );
     const json = await res.json();
@@ -158,6 +166,7 @@ export function usePaymentsRegisterContract() {
       };
 
       return fetchFromPaymentsAPI<RegisterContractInput>(
+        "POST",
         "register-contract",
         body,
       );
@@ -166,6 +175,128 @@ export function usePaymentsRegisterContract() {
       onSuccess: () => {
         return queryClient.invalidateQueries(
           paymentsKeys.contracts(address as string),
+        );
+      },
+    },
+  );
+}
+
+export type CreateCheckoutInput = {
+  contractId: string;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  limitPerTransaction?: number;
+  twitterHandleOverride?: string;
+  successCallbackUrl?: string;
+  redirectAfterPayment?: boolean;
+  cancelCallbackUrl?: string;
+  mintMethod?: string;
+  eligibilityMethod?: {
+    name: string;
+    args: string[];
+  };
+  tokenId?: string;
+  listingId?: string;
+  contractArgs?: string;
+  hideNativeMint?: boolean;
+  hidePaperWallet?: boolean;
+  hideExternalWallet?: boolean;
+  hidePayWithCard?: boolean;
+  hidePayWithCrypto?: boolean;
+  hidePayWithIdeal?: boolean;
+  sendEmailOnTransferSucceeded?: boolean;
+  brandDarkMode?: boolean;
+  brandButtonShape?: "full" | "lg" | "none";
+  brandColorScheme?:
+    | "gray"
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "teal"
+    | "blue"
+    | "cyan"
+    | "purple"
+    | "pink";
+};
+
+export function usePaymentsCreateCheckout(contractAddress: string) {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (input: CreateCheckoutInput) => {
+      invariant(address, "No wallet address found");
+
+      console.log({ input });
+
+      return fetchFromPaymentsAPI<CreateCheckoutInput>(
+        "POST",
+        "shareable-checkout-link",
+        input,
+      );
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.checkouts(contractAddress, address as string),
+        );
+      },
+    },
+  );
+}
+
+export type RemoveCheckoutInput = {
+  checkoutId: string;
+};
+
+export function usePaymentsRemoveCheckout(contractAddress: string) {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (input: RemoveCheckoutInput) => {
+      invariant(address, "No wallet address found");
+
+      return fetchFromPaymentsAPI<RemoveCheckoutInput>(
+        "DELETE",
+        `shareable-checkout-link/${input.checkoutId}`,
+      );
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.checkouts(contractAddress, address as string),
+        );
+      },
+    },
+  );
+}
+
+export type UpdateCheckoutInput = CreateCheckoutInput & RemoveCheckoutInput;
+
+export function usePaymentsUpdateCheckout(contractAddress: string) {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (input: UpdateCheckoutInput) => {
+      invariant(address, "No wallet address found");
+
+      return fetchFromPaymentsAPI<UpdateCheckoutInput>(
+        "POST",
+        `shareable-checkout-link/${input.checkoutId}`,
+        input,
+      );
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.checkouts(contractAddress, address as string),
         );
       },
     },
@@ -181,10 +312,33 @@ export function usePaymentsEnabledContracts() {
     } as ContractsByOwnerIdQueryVariables,
   });
 
+  console.log({ data });
+
   return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
-      return data && (data?.contract || []) ? data.contract : [];
+      return data && data?.contract.length > 0 ? data.contract : [];
+    },
+    { enabled: !!paymentsSellerId && !!address },
+  );
+}
+
+export function usePaymentsCheckoutsByContract(contractAddress: string) {
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const { data } = useCheckoutByContractAddressQuery({
+    variables: {
+      ownerId: paymentsSellerId,
+      contractAddress,
+    } as CheckoutByContractAddressQueryVariables,
+  });
+
+  console.log({ checkouts: data });
+
+  return useQuery(
+    paymentsKeys.checkouts(contractAddress, address as string),
+    async () => {
+      return data?.checkout || [];
     },
     { enabled: !!paymentsSellerId && !!address },
   );

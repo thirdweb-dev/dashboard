@@ -1,48 +1,9 @@
-import {
-  useDashboardEVMChainId,
-  useEVMContractInfo,
-} from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import {
-  usePaymentsContractByAddressAndChain,
-  usePaymentsDetailedAnalytics,
-} from "@3rdweb-sdk/react/hooks/usePayments";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Flex,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Stat,
-  StatLabel,
-  StatNumber,
-} from "@chakra-ui/react";
-import { UseQueryResult } from "@tanstack/react-query";
-import {
-  AreaChartProps,
-  GenericDataType,
-} from "components/analytics/area-chart";
-import { AutoBarChart } from "components/analytics/auto-bar-chart";
-import { BarChart } from "components/analytics/bar-chart";
-import { ChartContainer } from "components/analytics/chart-container";
-import {
-  AnalyticsQueryParams,
-  SUPPORTED_ANALYTICS_CHAINS,
-  TotalQueryResult,
-  useEventsAnalytics,
-  useFunctionsAnalytics,
-  useLogsAnalytics,
-  useTotalLogsAnalytics,
-  useTotalTransactionAnalytics,
-  useTotalWalletsAnalytics,
-  useTransactionAnalytics,
-  useUniqueWalletsAnalytics,
-} from "data/analytics/hooks";
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react/hooks/useActiveChainId";
+import { usePaymentsContractByAddressAndChain } from "@3rdweb-sdk/react/hooks/usePayments";
+import { Flex } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { PaymentsAnalytics } from "./components/payments-analytics";
+import { PaymentCheckouts } from "./components/payments-checkouts";
 
 interface ContractPaymentsPageProps {
   contractAddress?: string;
@@ -68,6 +29,12 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       payments page yay
+      {paymentContract?.id && (
+        <PaymentCheckouts
+          contractId={paymentContract?.id}
+          contractAddress={contractAddress}
+        />
+      )}
       {paymentContract?.id && (
         <PaymentsAnalytics contractId={paymentContract?.id} />
       )}
