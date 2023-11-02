@@ -647,10 +647,14 @@ export function useCustomContractDeployMutation(
             chainId,
           );
         } else {
-          if (data.deployDeterministic) {
+          if (
+            fullPublishMetadata.data?.deployType === "standard" &&
+            data.deployDeterministic
+          ) {
             const salt = data.signerAsSalt
               ? (await signer?.getAddress())?.concat(data.saltForCreate2 || "")
               : data.saltForCreate2;
+
             contractAddress =
               await sdk.deployer.deployPublishedContractDeterministic(
                 fullPublishMetadata.data?.name as string,
@@ -662,7 +666,11 @@ export function useCustomContractDeployMutation(
           } else {
             let salt;
             if (data.deployDeterministic) {
-              salt = data.saltForCreate2;
+              const salt = data.signerAsSalt
+                ? (await signer?.getAddress())?.concat(
+                    data.saltForCreate2 || "",
+                  )
+                : data.saltForCreate2;
             }
             contractAddress = await sdk.deployer.deployContractFromUri(
               ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,

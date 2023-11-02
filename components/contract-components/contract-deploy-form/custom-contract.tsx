@@ -169,14 +169,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       addToDashboard: shouldDefaulCheckAddToDashboard,
       deployDeterministic: isAccountFactory,
       saltForCreate2: "",
-      signerAsSalt: true,
+      signerAsSalt: !isAccountFactory,
       deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: shouldDefaulCheckAddToDashboard,
       deployDeterministic: isAccountFactory,
       saltForCreate2: "",
-      signerAsSalt: true,
+      signerAsSalt: !isAccountFactory,
       deployParams: parseDeployParams,
     },
     resetOptions: {
