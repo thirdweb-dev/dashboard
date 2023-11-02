@@ -549,16 +549,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   solidityType={"string"}
                   {...form.register(`saltForCreate2`)}
                 />
-                <Flex alignItems="center" gap={3}>
-                  <Checkbox
-                    {...form.register("signerAsSalt")}
-                    isChecked={form.watch("signerAsSalt")}
-                  />
+                {!isAccountFactory && (
+                  <Flex alignItems="center" gap={3}>
+                    <Checkbox
+                      {...form.register("signerAsSalt")}
+                      isChecked={form.watch("signerAsSalt")}
+                    />
 
-                  <Text mt={1}>
-                    Include deployer wallet address in salt (recommended)
-                  </Text>
-                </Flex>
+                    <Text mt={1}>
+                      Include deployer wallet address in salt (recommended)
+                    </Text>
+                  </Flex>
+                )}
               </FormControl>
             )}
           </Flex>

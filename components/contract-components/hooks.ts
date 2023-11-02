@@ -660,11 +660,16 @@ export function useCustomContractDeployMutation(
                 salt,
               );
           } else {
+            let salt;
+            if (data.deployDeterministic) {
+              salt = data.saltForCreate2;
+            }
             contractAddress = await sdk.deployer.deployContractFromUri(
               ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
               Object.values(data.deployParams),
               {
                 forceDirectDeploy,
+                saltForProxyDeploy: salt,
               },
             );
           }
