@@ -157,7 +157,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/enterprise-security.png")}
             mobileImage={require("public/assets/landingpage/mobile/enterprise-security.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/embedded-wallet/how-it-works"
             colSpan={1}
           />
 
@@ -167,7 +167,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/magic.png")}
             mobileImage={require("public/assets/landingpage/mobile/magic.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/embedded-wallet/smart-wallet-and-embedded-wallet"
           />
 
           <LandingCardWithImage
@@ -176,7 +176,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/guest.png")}
             mobileImage={require("public/assets/landingpage/mobile/guest.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/wallet/local-wallet"
             colSpan={1}
           />
 
@@ -186,7 +186,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/auth.png")}
             mobileImage={require("public/assets/landingpage/mobile/auth.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/embedded-wallet/custom-auth"
           />
 
           <LandingCardWithImage
@@ -195,7 +195,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/wallet.png")}
             mobileImage={require("public/assets/landingpage/mobile/wallet.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/embedded-wallet/connect"
             direction="horizontal"
           />
 
@@ -205,7 +205,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/powerful.png")}
             mobileImage={require("public/assets/landingpage/mobile/powerful.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/embedded-wallet/custom"
             colSpan={1}
           />
 
