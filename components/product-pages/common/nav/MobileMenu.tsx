@@ -42,6 +42,7 @@ export const MobileMenu: React.FC<FlexProps> = (props) => {
         drawerBodyProps={{ bg: "#111315", maxHeight: "100vh" }}
         isOpen={disclosure.isOpen}
         onClose={disclosure.onClose}
+        blockScrollOnMount={true}
       >
         <Flex gap={6} direction="column">
           <MobileNavSection
