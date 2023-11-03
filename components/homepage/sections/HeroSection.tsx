@@ -19,20 +19,20 @@ export const HeroSection = () => {
 
   const images = [
     {
-      src: require("public/assets/landingpage/homepage-contracts.png"),
-      href: "/embedded-wallets",
+      src: require("public/assets/landingpage/homepage-wallets.png"),
+      href: "/explore",
     },
     {
-      src: require("public/assets/landingpage/homepage-infra.png"),
-      href: "/embedded-wallets",
+      src: require("public/assets/landingpage/homepage-contracts.png"),
+      href: "/connect",
     },
     {
       src: require("public/assets/landingpage/homepage-payments.png"),
-      href: "/embedded-wallets",
+      href: "/checkout",
     },
     {
-      src: require("public/assets/landingpage/homepage-wallets.png"),
-      href: "/embedded-wallets",
+      src: require("public/assets/landingpage/homepage-infra.png"),
+      href: "/engine",
     },
   ];
 
