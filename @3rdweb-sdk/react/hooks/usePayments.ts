@@ -333,14 +333,12 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
     } as CheckoutByContractAddressQueryVariables,
   });
 
-  console.log({ checkouts: data });
-
   return useQuery(
     paymentsKeys.checkouts(contractAddress, address as string),
     async () => {
       return data?.checkout || [];
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!paymentsSellerId && !!address && !!data?.checkout },
   );
 }
 
@@ -367,7 +365,7 @@ export function usePaymentsContractByAddressAndChain(
         ? data.contract[0]
         : undefined;
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!paymentsSellerId && !!address && !!data?.contract },
   );
 }
 
