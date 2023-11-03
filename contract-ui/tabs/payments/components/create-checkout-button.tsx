@@ -8,7 +8,6 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Icon,
   FormControl,
   Input,
   Select,
@@ -18,8 +17,7 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel, Text } from "tw-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, FormHelperText, FormLabel } from "tw-components";
 import {
   CreateCheckoutInput,
   usePaymentsCreateCheckout,
@@ -316,12 +314,9 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
 
   return (
     <FormProvider {...form}>
-      <Flex onClick={onOpen} alignItems="center" gap={2}>
-        <Icon as={AiOutlinePlusCircle} boxSize={6} color="primary.500" />
-        <Text color="primary.500" cursor="pointer" fontWeight="bold">
-          Create Checkout
-        </Text>
-      </Flex>
+      <Button onClick={onOpen} colorScheme="primary">
+        New Checkout Link
+      </Button>
       <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
         <ModalContent

@@ -28,7 +28,6 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
 
   return (
     <Flex direction="column" gap={6}>
-      payments page yay
       {paymentContract?.id && (
         <PaymentCheckouts
           contractId={paymentContract?.id}
