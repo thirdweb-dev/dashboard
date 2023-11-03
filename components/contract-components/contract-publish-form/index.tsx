@@ -241,17 +241,30 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   const hasExtensionsParam = useMemo(
     () =>
       constructorParams.some(
-        (param) =>
-          param.name === "_extensions" ||
-          "_marketplaceV3Params" ||
-          "_defaultExtensions",
+        (param) => param.name === "_extensions" || "_marketplaceV3Params",
       ),
     [constructorParams],
   );
 
+  const isDynamicAccountFactory = useMemo(
+    () =>
+      constructorParams.some((param) => param.name === "_defaultExtensions") &&
+      publishMetadata.data?.name === "DynamicAccountFactory",
+
+    [constructorParams, publishMetadata.data?.name],
+  );
+
   const shouldShowDynamicFactoryInput = useMemo(
-    () => isPluginRouter || (isDynamicContract && hasExtensionsParam),
-    [isPluginRouter, isDynamicContract, hasExtensionsParam],
+    () =>
+      isPluginRouter ||
+      (isDynamicContract && hasExtensionsParam) ||
+      isDynamicAccountFactory,
+    [
+      isPluginRouter,
+      isDynamicContract,
+      hasExtensionsParam,
+      isDynamicAccountFactory,
+    ],
   );
 
   // during loading and after success we should stay in loading state
