@@ -312,11 +312,6 @@ export function usePaymentsEnabledContracts() {
     } as ContractsByOwnerIdQueryVariables,
   });
 
-  console.log({
-    data,
-    test: data && data?.contract.length > 0 ? data.contract : [],
-  });
-
   return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
@@ -341,7 +336,13 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
     async () => {
       return data?.checkout || [];
     },
-    { enabled: !!paymentsSellerId && !!address && !!data?.checkout },
+    {
+      enabled:
+        !!paymentsSellerId &&
+        !!address &&
+        !!data?.checkout &&
+        !!contractAddress,
+    },
   );
 }
 
@@ -361,14 +362,23 @@ export function usePaymentsContractByAddressAndChain(
     } as ContractsByAddressAndChainQueryVariables,
   });
 
+  console.log({ data });
+
   return useQuery(
-    paymentsKeys.contracts(address as string),
+    paymentsKeys.contractsByChainId(address as string, chainId),
     async () => {
       return data && (data?.contract || []).length > 0
         ? data.contract[0]
-        : undefined;
+        : ({} as { id: string });
     },
-    { enabled: !!paymentsSellerId && !!address && !!data?.contract },
+    {
+      enabled:
+        !!paymentsSellerId &&
+        !!address &&
+        !!data?.contract &&
+        !!contractAddress &&
+        !!chainId,
+    },
   );
 }
 
