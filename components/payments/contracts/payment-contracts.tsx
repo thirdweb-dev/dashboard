@@ -16,8 +16,8 @@ export const PaymentContracts = () => {
 
   return (
     <Flex flexDir="column" gap={3}>
-      <Heading size="title.md">Contracts</Heading>
-      <Text>Select a contract to enable payments & checkout links for</Text>
+      {/*       <Heading size="title.md">Contracts</Heading>
+      <Text>Select a contract to enable payments & checkout links for</Text> */}
       <PaymentContractsTable
         paymentContracts={filteredContracts}
         isLoading={deployedContracts.isLoading}

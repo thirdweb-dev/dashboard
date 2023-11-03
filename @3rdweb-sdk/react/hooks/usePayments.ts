@@ -312,14 +312,17 @@ export function usePaymentsEnabledContracts() {
     } as ContractsByOwnerIdQueryVariables,
   });
 
-  console.log({ data });
+  console.log({
+    data,
+    test: data && data?.contract.length > 0 ? data.contract : [],
+  });
 
   return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
       return data && data?.contract.length > 0 ? data.contract : [];
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!paymentsSellerId && !!address && !!data?.contract },
   );
 }
 
