@@ -20,11 +20,11 @@ export const HeroSection = () => {
   const images = [
     {
       src: require("public/assets/landingpage/homepage-wallets.png"),
-      href: "/explore",
+      href: "/connect",
     },
     {
       src: require("public/assets/landingpage/homepage-contracts.png"),
-      href: "/connect",
+      href: "/explore",
     },
     {
       src: require("public/assets/landingpage/homepage-payments.png"),
