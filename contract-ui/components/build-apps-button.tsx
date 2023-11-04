@@ -12,11 +12,17 @@ export const BuildAppsButton: ComponentWithChildren<BuildAppsButtonProps> = ({
   ...restButtonProps
 }) => {
   const { query, asPath } = useRouter();
-  const path = useMemo(() => {
-    const [network, address] = query.paths as string[];
 
-    return `/${network}/${address}/code`;
-  }, [query.paths]);
+  const [path] = useMemo(() => {
+    const [network, address = ""] = [
+      ...new Set(
+        ([query.chainSlug, ...(query.paths as string[])]
+        ),
+      ),
+    ];
+
+    return [`/${network}/${address}/code`] as const;
+  }, [query.chainSlug, query.paths]);
 
   if (asPath.includes("code")) {
     return null;
