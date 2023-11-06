@@ -110,12 +110,15 @@ export const AdminsTable: React.FC<AdminsTableProps> = ({
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Revoke Admin</ModalHeader>
+          <ModalHeader>Delete admin</ModalHeader>
           <ModalBody>
-            <Text>
-              Are you sure you want to revoke permissions for this admin?
-              <Text fontFamily="mono">{adminToRevoke}</Text>
-            </Text>
+            <Text>Are you sure you want to delete this admin?</Text>
+            <AddressCopyButton
+              address={adminToRevoke}
+              shortenAddress={false}
+              size="xs"
+              mt={2}
+            />
           </ModalBody>
 
           <ModalFooter as={Flex} gap={3}>
@@ -123,7 +126,7 @@ export const AdminsTable: React.FC<AdminsTableProps> = ({
               Cancel
             </Button>
             <Button type="submit" colorScheme="red" onClick={onRevoke}>
-              Revoke
+              Delete
             </Button>
           </ModalFooter>
         </ModalContent>

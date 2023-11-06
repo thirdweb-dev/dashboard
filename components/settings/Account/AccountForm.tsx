@@ -69,7 +69,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({
     resolver: zodResolver(
       optional ? accountValidationOptionalSchema : accountValidationSchema,
     ),
-    values: {
+    defaultValues: {
       name: account.name || "",
       email: account.unconfirmedEmail || account.email || "",
     },
@@ -83,10 +83,6 @@ export const AccountForm: React.FC<AccountFormProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
-    if (onSave) {
-      onSave(values.email);
-    }
-
     const formData = {
       ...values,
       ...(showSubscription
@@ -105,6 +101,9 @@ export const AccountForm: React.FC<AccountFormProps> = ({
 
     updateMutation.mutate(formData, {
       onSuccess: (data) => {
+        if (onSave) {
+          onSave(values.email);
+        }
         onSuccess();
 
         trackEvent({
@@ -115,7 +114,13 @@ export const AccountForm: React.FC<AccountFormProps> = ({
         });
       },
       onError: (error) => {
-        onError(error);
+        const err = error as Error;
+
+        if (err?.message?.match(/already exists/)) {
+          form.setError("email", { type: "required", message: err.message });
+        } else {
+          onError(error);
+        }
 
         trackEvent({
           category: "account",
