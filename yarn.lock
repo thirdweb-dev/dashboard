@@ -3690,10 +3690,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/generated-abis/-/generated-abis-0.0.1.tgz#0d788d6aff0ac08f11e9eeb9ae4c8321845272a8"
   integrity sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==
 
-"@thirdweb-dev/react-core@0.0.0-dev-6eba340-20231101225150":
-  version "0.0.0-dev-6eba340-20231101225150"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-6eba340-20231101225150.tgz#e379caf26cf0185c67d9e2d7beec47170d3b19d3"
-  integrity sha512-PFhCOTOn2FU19/EOFhwmytvi2L0yxH8lnZK5v1iTKDz99OK5m4KJItK1ksYE8+f5fAI8Nzdrrt7q5gFPKIPzvw==
+"@thirdweb-dev/react-core@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-4.1.1.tgz#844e21eec48afca907d49a89c6962244109a2163"
+  integrity sha512-GlGQiuIkJUtQsy/o3kJaW5fuf6cvE3DN7lH43lB8j+f+pexLKPfYiTdRgzp63padvQzQwRu6xgHqeU9LWm+yqQ==
   dependencies:
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/auth" "4.1.3"
@@ -3705,10 +3705,10 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-6eba340-20231101225150":
-  version "0.0.0-dev-6eba340-20231101225150"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-6eba340-20231101225150.tgz#960b2406234bf66ab96c0eb49bea7fd21b926520"
-  integrity sha512-UAwDxcWS37RLUuHcMdV2U+W4TnmFrk7Y/fZelP9QxGHfr79Ziavm5IGrNtkDqyEGrceFlTlStI1A7suJrTz3xQ==
+"@thirdweb-dev/react@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-4.1.1.tgz#978a6254c0f96dfd0e5dfc800438723613bc3f89"
+  integrity sha512-BehgQtcnEopzXX6PTa2Ej/jSNcJXJCrw9PbOYrfQBALjh3Vjn3sqNEP6AblNp/ZbP3if2xkkhPkehTigGo1nyA==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -3723,7 +3723,7 @@
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/chains" "0.1.57"
-    "@thirdweb-dev/react-core" "0.0.0-dev-6eba340-20231101225150"
+    "@thirdweb-dev/react-core" "4.1.1"
     "@thirdweb-dev/wallets" "2.1.0"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
