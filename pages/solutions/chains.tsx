@@ -45,7 +45,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Chains"
-          title="Empower developers, on your chain"
+          title="Instant developer tools on your chain"
           titleWithGradient=""
           subtitle="The easiest way for developers to build on your EVM chain — with wallets, contracts, payments, and infrastructure for them to scale web3 apps."
           trackingCategory={TRACKING_CATEGORY}
@@ -76,11 +76,11 @@ const SolutionsChains: ThirdwebNextPage = () => {
         >
           <LandingCardWithImage
             title="Wallets"
-            description="Create backend wallets you can programatically use with automatic nonce and gas management. Eliminate gas spikes, stuck transactions and network instability."
+            description="​The complete web3 wallet toolkit — with Connect Wallet UI components, embedded wallets, auth, and account abstraction out of the box.​"
             image={require("public/assets/landingpage/account-abstraction-desktop.png")}
             mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="/connect"
             direction="horizontal"
           />
 
@@ -104,7 +104,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           />
           <LandingCardWithImage
             title="Infrastructure"
-            description="Built-in infrastructure so you don't have to worry about RPCs, storage, bundlers or paymasters."
+            description="​Built-in infrastructure so you don’t have to worry about RPCs, storage, bundlers or paymasters — or bring your own providers."
             image={require("public/assets/landingpage/infastructure-desktop.png")}
             mobileImage={require("public/assets/landingpage/infastructure-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -113,7 +113,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           />
           <LandingCardWithImage
             title="Account Abstraction"
-            description="Create managed smart wallets with shared custody between the backend wallet & a user's EOA wallet."
+            description="A best-in-class SDK, full wallet customizability, and managed infra for ERC-4337."
             image={require("public/assets/landingpage/account-desktop.png")}
             mobileImage={require("public/assets/landingpage/account-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -128,7 +128,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           title={
             <Center>
               <Heading fontSize={48}>
-                Your chain&nbsp;s application layer, solved
+                Your chain's application layer, solved
               </Heading>
             </Center>
           }
@@ -150,7 +150,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/support.svg")}
-              title="World-Class Support"
+              title="Expert Support"
               description="Give developers access to best-in-class learning resources and support from professional web3 developers."
             />
           </Card>
@@ -177,8 +177,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
               Launch Production-Ready Subnets with thirdweb and AvaCloud
             </Heading>
             <Text fontSize="medium" fontWeight="400" color="white">
-              thirdweb&apos;s integration into AvaCloud empowers anyone to
-              deploy production-ready subnets — and empower developers to build
+              thirdweb&apos;s integration into AvaCloud enables anyone to
+              deploy production-ready subnets — and empowers developers to build
               end-to-end apps on them, from day one.
             </Text>
             <TrackedLinkButton
@@ -203,7 +203,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
         </LandingCardWithImageBackground>
 
         <LandingEndCTA
-          title="Empower developers to grow your ecosystem"
+          title="Empower developers to build."
           titleWithGradient=""
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/gamingkit"
