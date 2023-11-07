@@ -38,6 +38,16 @@ const apolloClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_PAYMENTS_API,
   credentials: "include",
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "ignore",
+    },
+    query: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all",
+    },
+  },
 });
 
 const __CACHE_BUSTER = "3.14.40-nightly-1e6f9dcc-20230831023648";

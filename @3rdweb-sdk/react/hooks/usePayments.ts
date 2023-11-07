@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiAuthToken } from "./useApi";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { Abi } from "@thirdweb-dev/sdk";
+import { Abi, SmartContract } from "@thirdweb-dev/sdk";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { paymentsKeys } from "../cache-keys";
 import { useAddress } from "@thirdweb-dev/react";
@@ -41,6 +41,20 @@ import {
   CheckoutByContractAddressQueryVariables,
   useCheckoutByContractAddressQuery,
 } from "graphql/queries/__generated__/CheckoutByContractAddress.generated";
+import { BaseContract } from "ethers";
+import { detectFeatures } from "components/contract-components/utils";
+
+export const isPaymentsSupported = (
+  contract: SmartContract<BaseContract> | undefined,
+) => {
+  return detectFeatures(contract, [
+    "ERC721SharedMetadata",
+    "ERC721ClaimPhasesV2",
+    "ERC721ClaimConditionsV2",
+    "ERC1155ClaimPhasesV1",
+    "ERC1155ClaimPhasesV2",
+  ]);
+};
 
 // TODO: Get this from API
 export const validPaymentsChainIds: number[] = [

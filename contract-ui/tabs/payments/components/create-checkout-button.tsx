@@ -20,10 +20,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Button, FormHelperText, FormLabel } from "tw-components";
 import {
   CreateCheckoutInput,
+  isPaymentsSupported,
   usePaymentsCreateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useState } from "react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import { useContract } from "@thirdweb-dev/react";
+import { detectFeatures } from "components/contract-components/utils";
 
 const formInputs = [
   {
@@ -49,6 +52,15 @@ const formInputs = [
         sideField: false,
       },
       {
+        name: "tokenId",
+        label: "Token ID",
+        type: "number",
+        placeholder: "",
+        required: true,
+        helper: "Defines the token within the ERC-1155 contract to purchase.",
+        sideField: false,
+      },
+      {
         name: "successCallbackUrl",
         label: "Post-Purchase URL",
         type: "text",
@@ -70,6 +82,20 @@ const formInputs = [
       },
     ],
   },
+  /*   {
+    step: "non-tw",
+    fields: [
+      {
+        name: "mintMethod",
+        label: "Mint Method",
+        type: "text",
+        placeholder: "",
+        required: true,
+        helper: "",
+        sideField: false,
+      },
+    ],
+  }, */
   {
     step: "branding",
     fields: [
@@ -234,6 +260,10 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
   contractId,
   contractAddress,
 }) => {
+  const { contract } = useContract(contractAddress);
+  const isSupportedContract = isPaymentsSupported(contract);
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+
   const [step, setStep] = useState<
     "info" | /* "non-tw" | */ "branding" | "delivery" | "advanced"
   >("info");
@@ -254,8 +284,6 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
       sendEmailOnTransferSucceeded: true,
     },
   });
-
-  form.watch("imageUrl");
 
   const { onSuccess, onError } = useTxNotifications(
     "Checkout created successfully.",
@@ -278,7 +306,10 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
       return;
     }
     setStep((prev) => {
-      if (prev === "info") {
+      /*       if (prev === "info" && !isSupportedContract) {
+        return "non-tw";
+      } */
+      if (prev === "info" && isSupportedContract) {
         return "branding";
       }
       if (prev === "branding") {
@@ -299,6 +330,9 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
 
   const handleBack = () => {
     setStep((prev) => {
+      /*       if (prev === "non-tw") {
+        return "info";
+      } */
       if (prev === "branding") {
         return "info";
       }
@@ -361,6 +395,9 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
                 return (
                   <Flex key={input.step} flexDir="column" gap={5}>
                     {input.fields.map((field) => {
+                      if (!isErc1155 && field.name === "tokenId") {
+                        return null;
+                      }
                       return (
                         <FormControl
                           key={field.name}
