@@ -87,7 +87,8 @@ export const HeroSection = () => {
           >
             Complete web3 development toolkit: Onboard users with wallets, 
             build & deploy smart contracts, accept fiat with payments, 
-            and scale apps with production-grade infrastructure — on any EVM chain.
+            and scale apps with production-grade infrastructure — on any
+            EVM chain.
           </Heading>
 
           <LightMode>
