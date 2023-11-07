@@ -309,7 +309,7 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
       /*       if (prev === "info" && !isSupportedContract) {
         return "non-tw";
       } */
-      if (prev === "info" && isSupportedContract) {
+      if (prev === "info" && isSupportedContract /* || prev === "non-tw" */) {
         return "branding";
       }
       if (prev === "branding") {
