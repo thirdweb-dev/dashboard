@@ -2093,6 +2093,7 @@ export type Checkout = {
   should_send_transfer_completed_email: Scalars['Boolean']['output'];
   sponsored_fees: Scalars['Boolean']['output'];
   success_callback_url?: Maybe<Scalars['String']['output']>;
+  thirdweb_client_id?: Maybe<Scalars['String']['output']>;
   token_id?: Maybe<Scalars['String']['output']>;
   use_paper_access_key: Scalars['Boolean']['output'];
   webhook_urls: Scalars['jsonb']['output'];
@@ -2478,6 +2479,7 @@ export type Checkout_Bool_Exp = {
   should_send_transfer_completed_email?: InputMaybe<Boolean_Comparison_Exp>;
   sponsored_fees?: InputMaybe<Boolean_Comparison_Exp>;
   success_callback_url?: InputMaybe<String_Comparison_Exp>;
+  thirdweb_client_id?: InputMaybe<String_Comparison_Exp>;
   token_id?: InputMaybe<String_Comparison_Exp>;
   use_paper_access_key?: InputMaybe<Boolean_Comparison_Exp>;
   webhook_urls?: InputMaybe<Jsonb_Comparison_Exp>;
@@ -2571,6 +2573,7 @@ export type Checkout_Insert_Input = {
   should_send_transfer_completed_email?: InputMaybe<Scalars['Boolean']['input']>;
   sponsored_fees?: InputMaybe<Scalars['Boolean']['input']>;
   success_callback_url?: InputMaybe<Scalars['String']['input']>;
+  thirdweb_client_id?: InputMaybe<Scalars['String']['input']>;
   token_id?: InputMaybe<Scalars['String']['input']>;
   use_paper_access_key?: InputMaybe<Scalars['Boolean']['input']>;
   webhook_urls?: InputMaybe<Scalars['jsonb']['input']>;
@@ -2605,6 +2608,7 @@ export type Checkout_Max_Fields = {
   registered_contract_id?: Maybe<Scalars['uuid']['output']>;
   seller_twitter_handle?: Maybe<Scalars['String']['output']>;
   success_callback_url?: Maybe<Scalars['String']['output']>;
+  thirdweb_client_id?: Maybe<Scalars['String']['output']>;
   token_id?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2636,6 +2640,7 @@ export type Checkout_Max_Order_By = {
   registered_contract_id?: InputMaybe<Order_By>;
   seller_twitter_handle?: InputMaybe<Order_By>;
   success_callback_url?: InputMaybe<Order_By>;
+  thirdweb_client_id?: InputMaybe<Order_By>;
   token_id?: InputMaybe<Order_By>;
 };
 
@@ -2668,6 +2673,7 @@ export type Checkout_Min_Fields = {
   registered_contract_id?: Maybe<Scalars['uuid']['output']>;
   seller_twitter_handle?: Maybe<Scalars['String']['output']>;
   success_callback_url?: Maybe<Scalars['String']['output']>;
+  thirdweb_client_id?: Maybe<Scalars['String']['output']>;
   token_id?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2699,6 +2705,7 @@ export type Checkout_Min_Order_By = {
   registered_contract_id?: InputMaybe<Order_By>;
   seller_twitter_handle?: InputMaybe<Order_By>;
   success_callback_url?: InputMaybe<Order_By>;
+  thirdweb_client_id?: InputMaybe<Order_By>;
   token_id?: InputMaybe<Order_By>;
 };
 
@@ -2774,6 +2781,7 @@ export type Checkout_Order_By = {
   should_send_transfer_completed_email?: InputMaybe<Order_By>;
   sponsored_fees?: InputMaybe<Order_By>;
   success_callback_url?: InputMaybe<Order_By>;
+  thirdweb_client_id?: InputMaybe<Order_By>;
   token_id?: InputMaybe<Order_By>;
   use_paper_access_key?: InputMaybe<Order_By>;
   webhook_urls?: InputMaybe<Order_By>;
@@ -2885,6 +2893,8 @@ export enum Checkout_Select_Column {
   SponsoredFees = 'sponsored_fees',
   /** column name */
   SuccessCallbackUrl = 'success_callback_url',
+  /** column name */
+  ThirdwebClientId = 'thirdweb_client_id',
   /** column name */
   TokenId = 'token_id',
   /** column name */
@@ -3012,6 +3022,7 @@ export type Checkout_Set_Input = {
   should_send_transfer_completed_email?: InputMaybe<Scalars['Boolean']['input']>;
   sponsored_fees?: InputMaybe<Scalars['Boolean']['input']>;
   success_callback_url?: InputMaybe<Scalars['String']['input']>;
+  thirdweb_client_id?: InputMaybe<Scalars['String']['input']>;
   token_id?: InputMaybe<Scalars['String']['input']>;
   use_paper_access_key?: InputMaybe<Scalars['Boolean']['input']>;
   webhook_urls?: InputMaybe<Scalars['jsonb']['input']>;
@@ -3111,6 +3122,7 @@ export type Checkout_Stream_Cursor_Value_Input = {
   should_send_transfer_completed_email?: InputMaybe<Scalars['Boolean']['input']>;
   sponsored_fees?: InputMaybe<Scalars['Boolean']['input']>;
   success_callback_url?: InputMaybe<Scalars['String']['input']>;
+  thirdweb_client_id?: InputMaybe<Scalars['String']['input']>;
   token_id?: InputMaybe<Scalars['String']['input']>;
   use_paper_access_key?: InputMaybe<Scalars['Boolean']['input']>;
   webhook_urls?: InputMaybe<Scalars['jsonb']['input']>;
@@ -3221,6 +3233,8 @@ export enum Checkout_Update_Column {
   SponsoredFees = 'sponsored_fees',
   /** column name */
   SuccessCallbackUrl = 'success_callback_url',
+  /** column name */
+  ThirdwebClientId = 'thirdweb_client_id',
   /** column name */
   TokenId = 'token_id',
   /** column name */
@@ -12131,6 +12145,7 @@ export type Transaction = {
   email?: Maybe<Scalars['String']['output']>;
   expected_crypto_payment: Scalars['jsonb']['output'];
   expires_at?: Maybe<Scalars['timestamptz']['output']>;
+  failure_reason?: Maybe<Scalars['String']['output']>;
   fee_bearer: Scalars['String']['output'];
   fiat_currency?: Maybe<Scalars['String']['output']>;
   float_wallet_nonce?: Maybe<Scalars['Int']['output']>;
@@ -12336,6 +12351,7 @@ export type Transaction_Bool_Exp = {
   email?: InputMaybe<String_Comparison_Exp>;
   expected_crypto_payment?: InputMaybe<Jsonb_Comparison_Exp>;
   expires_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  failure_reason?: InputMaybe<String_Comparison_Exp>;
   fee_bearer?: InputMaybe<String_Comparison_Exp>;
   fiat_currency?: InputMaybe<String_Comparison_Exp>;
   float_wallet_nonce?: InputMaybe<Int_Comparison_Exp>;
@@ -12461,6 +12477,7 @@ export type Transaction_Insert_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   expected_crypto_payment?: InputMaybe<Scalars['jsonb']['input']>;
   expires_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  failure_reason?: InputMaybe<Scalars['String']['input']>;
   fee_bearer?: InputMaybe<Scalars['String']['input']>;
   fiat_currency?: InputMaybe<Scalars['String']['input']>;
   float_wallet_nonce?: InputMaybe<Scalars['Int']['input']>;
@@ -12519,6 +12536,7 @@ export type Transaction_Max_Fields = {
   deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   expires_at?: Maybe<Scalars['timestamptz']['output']>;
+  failure_reason?: Maybe<Scalars['String']['output']>;
   fee_bearer?: Maybe<Scalars['String']['output']>;
   fiat_currency?: Maybe<Scalars['String']['output']>;
   float_wallet_nonce?: Maybe<Scalars['Int']['output']>;
@@ -12569,6 +12587,7 @@ export type Transaction_Min_Fields = {
   deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   expires_at?: Maybe<Scalars['timestamptz']['output']>;
+  failure_reason?: Maybe<Scalars['String']['output']>;
   fee_bearer?: Maybe<Scalars['String']['output']>;
   fiat_currency?: Maybe<Scalars['String']['output']>;
   float_wallet_nonce?: Maybe<Scalars['Int']['output']>;
@@ -12894,6 +12913,7 @@ export type Transaction_Order_By = {
   email?: InputMaybe<Order_By>;
   expected_crypto_payment?: InputMaybe<Order_By>;
   expires_at?: InputMaybe<Order_By>;
+  failure_reason?: InputMaybe<Order_By>;
   fee_bearer?: InputMaybe<Order_By>;
   fiat_currency?: InputMaybe<Order_By>;
   float_wallet_nonce?: InputMaybe<Order_By>;
@@ -12990,6 +13010,8 @@ export enum Transaction_Select_Column {
   ExpectedCryptoPayment = 'expected_crypto_payment',
   /** column name */
   ExpiresAt = 'expires_at',
+  /** column name */
+  FailureReason = 'failure_reason',
   /** column name */
   FeeBearer = 'fee_bearer',
   /** column name */
@@ -13090,6 +13112,7 @@ export type Transaction_Set_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   expected_crypto_payment?: InputMaybe<Scalars['jsonb']['input']>;
   expires_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  failure_reason?: InputMaybe<Scalars['String']['input']>;
   fee_bearer?: InputMaybe<Scalars['String']['input']>;
   fiat_currency?: InputMaybe<Scalars['String']['input']>;
   float_wallet_nonce?: InputMaybe<Scalars['Int']['input']>;
@@ -13191,6 +13214,7 @@ export type Transaction_Stream_Cursor_Value_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   expected_crypto_payment?: InputMaybe<Scalars['jsonb']['input']>;
   expires_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  failure_reason?: InputMaybe<Scalars['String']['input']>;
   fee_bearer?: InputMaybe<Scalars['String']['input']>;
   fiat_currency?: InputMaybe<Scalars['String']['input']>;
   float_wallet_nonce?: InputMaybe<Scalars['Int']['input']>;
@@ -13278,6 +13302,8 @@ export enum Transaction_Update_Column {
   ExpectedCryptoPayment = 'expected_crypto_payment',
   /** column name */
   ExpiresAt = 'expires_at',
+  /** column name */
+  FailureReason = 'failure_reason',
   /** column name */
   FeeBearer = 'fee_bearer',
   /** column name */
