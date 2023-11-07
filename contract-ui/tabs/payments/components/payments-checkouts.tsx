@@ -30,6 +30,8 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
   const { data: checkouts } = usePaymentsCheckoutsByContract(contractAddress);
   const { mutate: removeCheckout } = usePaymentsRemoveCheckout(contractAddress);
 
+  console.log({ checkouts });
+
   return (
     <Flex flexDir="column" gap={6}>
       <Flex justifyContent="space-between" alignItems="center">
