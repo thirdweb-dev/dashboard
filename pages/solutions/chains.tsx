@@ -1,20 +1,22 @@
 import { Container, Flex } from "@chakra-ui/react";
+import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHero } from "components/landing-pages/hero";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingOptionSelector } from "components/landing-pages/option-selector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card } from "tw-components";
+import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains-landing";
 
 const SELECTOR_ITEMS = [
   {
-    title: "For Chains",
+    title: "For Chains-as-a-Service Providers",
     description:
       "Enhance your developers' experience with building on your chain by providing access to dev tools across: contracts, wallets, payments, and infrastructure. Empower your developers to build production-ready web3 apps and games, faster.",
     steps: [
@@ -63,16 +65,18 @@ const SolutionsChains: ThirdwebNextPage = () => {
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
-        <LandingHero
-          title="All-in-one dev tools"
-          titleWithGradient="for your chain"
-          subtitle="Accelerate the growth of your chain by providing an all-in-one web3 development stack that allows your developers to build production-ready web3 apps and games."
+        <LandingHeroWithSideImage
+          miniTitle="Chains & Appchains"
+          title="Instant developer tools on your chain"
+          titleWithGradient=""
+          subtitle="The easiest way for developers to build on your EVM chain (or appchain) — with wallets, smart contracts, payments, and infrastructure for them to scale web3 apps."
           trackingCategory={TRACKING_CATEGORY}
-          gradient="linear(to-r, #F213A4, #F97CCE)"
+          ctaLink="/contact-us"
+          noContactUs
+          gradient="linear(to-r,  #F856C8, #F856C8)"
+          ctaText="Contact Us"
           image={require("public/assets/product-pages/hero/desktop-hero-chains.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-chains.png")}
-          noCta={true}
-          contactUsLink="https://docs.google.com/forms/d/e/1FAIpQLSfzwj6mr7mZjntv5C8HD9CfMXkIupuOqBSWa-XIWepJnnCEKg/viewform"
         />
 
         <LandingGridSection>
@@ -130,6 +134,40 @@ const SolutionsChains: ThirdwebNextPage = () => {
             />
           </Card>
         </LandingGridSection>
+
+        <LandingCardWithImageBackground
+          image={require("public/assets/landingpage/coinbase-event.png")}
+        >
+          <Flex flexDir="column" gap="27px" maxWidth="600px">
+            <Heading fontSize="xx-large" fontWeight="600" color="white">
+              Launch production-ready subnets with thirdweb and AvaCloud
+            </Heading>
+            <Text fontSize="medium" fontWeight="400" color="white">
+              Thirdweb&apos;s integration into AvaCloud enables anyone to build
+              comprehensive apps with tools for Wallets, Payments, Contracts and
+              infrastructure, while also running customizable blockchains which
+              maintain their own security.
+            </Text>
+            <TrackedLinkButton
+              variant="outline"
+              isExternal
+              bgColor="#FFF"
+              color="#000"
+              border="none"
+              _hover={{
+                opacity: 0.9,
+              }}
+              py={6}
+              category={TRACKING_CATEGORY}
+              label="coinbase-case-study"
+              href="https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life"
+              maxW="fit-content"
+            >
+              Learn More
+            </TrackedLinkButton>
+          </Flex>
+        </LandingCardWithImageBackground>
+
         <LandingEndCTA
           title="Start building"
           titleWithGradient="today."
