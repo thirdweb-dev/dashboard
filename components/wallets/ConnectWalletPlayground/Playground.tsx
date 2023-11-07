@@ -84,7 +84,7 @@ export const ConnectWalletPlayground: React.FC<{
   const selectedTheme = colorMode === "light" ? "light" : "dark";
   const [authEnabled, setAuthEnabled] = useState(false);
   const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
-  const [locale, setLocale] = useState<"en" | "jp">("en");
+  const [locale, setLocale] = useState<"en" | "ja" | "es">("en");
   const [code, setCode] = useState("");
 
   const { colorOverrides, themeObj, setColorOverrides } =
@@ -670,11 +670,12 @@ export const ConnectWalletPlayground: React.FC<{
             }}
             value={locale}
             onChange={(e) => {
-              setLocale(e.target.value as "en" | "jp");
+              setLocale(e.target.value as "en" | "ja" | "es");
             }}
           >
             <option value="en">English </option>
-            <option value="jp">Japanese </option>
+            <option value="ja">Japanese </option>
+            <option value="es">Spanish </option>
           </Select>
         </FormControl>
       </Grid>

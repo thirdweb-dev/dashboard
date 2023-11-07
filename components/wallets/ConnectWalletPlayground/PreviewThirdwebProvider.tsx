@@ -1,4 +1,10 @@
-import { ThirdwebProvider, WalletConfig, en, jp } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  WalletConfig,
+  en,
+  es,
+  ja,
+} from "@thirdweb-dev/react";
 import React from "react";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
@@ -7,14 +13,15 @@ import { StorageSingleton } from "lib/sdk";
 
 const localeIdToObj = {
   en: en(),
-  jp: jp(),
+  ja: ja(),
+  es: es(),
 };
 
 export function PreviewThirdwebProvider(props: {
   authEnabled: boolean;
   supportedWallets: WalletConfig<any>[];
   children: React.ReactNode;
-  locale?: "en" | "jp";
+  locale?: keyof typeof localeIdToObj;
 }) {
   return (
     <ThirdwebProvider
