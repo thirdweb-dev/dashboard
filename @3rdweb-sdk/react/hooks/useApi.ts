@@ -127,16 +127,22 @@ export interface UsageEmbeddedWallets {
   countWalletAddresses: number;
 }
 
+export interface UsageCheckout {
+  sumTransactionFeeUsd: number;
+}
+
 export interface UsageBillableByService {
   usage: {
     bundler: UsageBundler[];
     storage: UsageStorage;
     embeddedWallets: UsageEmbeddedWallets;
+    checkout: UsageCheckout;
   };
   billableUsd: {
     bundler: number;
     storage: number;
     embeddedWallets: number;
+    checkouts: number;
   };
   limits: {
     storage: number;
