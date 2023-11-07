@@ -11,7 +11,6 @@ import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
-import { LoggedInOnlyView } from "components/dashboard/LoggedInOnlyView";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { SupportedPlatformLink } from "../../../components/wallets/SupportedPlatformLink";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
