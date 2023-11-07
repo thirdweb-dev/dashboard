@@ -9,13 +9,15 @@ import {
 import { useConnectionStatus } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { FTUX } from "components/FTUX/FTUX";
+import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { Changelog, ChangelogItem } from "components/dashboard/Changelog";
 import { NavigationCard } from "components/dashboard/NavigationCard";
 import { OnboardingSteps } from "components/onboarding/Steps";
+import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
-import { Heading } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "dashboard";
@@ -82,32 +84,42 @@ const Dashboard: ThirdwebNextPage = (
               ) : (
                 <VStack gap={10}>
                   <OnboardingSteps />
-                  <DarkMode>
-                    <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-                      {GET_STARTED_SECTIONS.map(
-                        ({
-                          title,
-                          description,
-                          badge,
-                          badgeColor,
-                          image,
-                          href,
-                        }) => (
-                          <NavigationCard
-                            key={title}
-                            title={title}
-                            description={description}
-                            badge={badge}
-                            badgeColor={badgeColor}
-                            image={image}
-                            href={href}
-                            TRACKING_CATEGORY={TRACKING_CATEGORY}
-                            colorMode={colorMode}
-                          />
-                        ),
-                      )}
-                    </SimpleGrid>
-                  </DarkMode>
+                  <Flex flexDir="column" gap={6}>
+                    {["wallets", "contracts", "infrastructure", "payments"].map(
+                      (section) => {
+                        const products = PRODUCTS.filter(
+                          (p) => p.section === section && !!p.dashboardLink,
+                        );
+
+                        return (
+                          <Flex key={section} gap={4} flexDir="column">
+                            <Heading size="title.sm" textTransform="capitalize">
+                              {section}
+                            </Heading>
+                            {products.map((product) => (
+                              <Card
+                                key={section}
+                                p={0}
+                                overflow="hidden"
+                                bgColor="backgroundCardHighlight"
+                              >
+                                <Flex gap={2}>
+                                  {product.icon && (
+                                    <ChakraNextImage
+                                      alt=""
+                                      boxSize={7}
+                                      src={product.icon}
+                                    />
+                                  )}
+                                  <Text>{product.name}</Text>
+                                </Flex>
+                              </Card>
+                            ))}
+                          </Flex>
+                        );
+                      },
+                    )}
+                  </Flex>
                 </VStack>
               )}
             </ClientOnly>
