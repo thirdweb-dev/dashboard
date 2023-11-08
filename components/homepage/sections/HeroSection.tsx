@@ -85,8 +85,9 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            SDKs in every language, smart contracts, tools, and infrastructure
-            for web3 development.
+            Onboard users with wallets, build & deploy smart contracts, accept
+            fiat with payments, and scale apps with infrastructure — on any EVM
+            chain.
           </Heading>
 
           <LightMode>
