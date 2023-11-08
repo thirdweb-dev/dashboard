@@ -82,11 +82,9 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
                     noIcon
                     bg="none"
                   />
-                  <IconButton
-                    variant="outline"
-                    icon={<Icon as={FiTrash2} />}
-                    aria-label="Remove checkout"
-                    onClick={() => removeCheckout({ checkoutId: checkout.id })}
+                  <RemoveCheckoutButton
+                    contractAddress={contractAddress}
+                    checkoutId={checkout.id}
                   />
                 </ButtonGroup>
               </Flex>
