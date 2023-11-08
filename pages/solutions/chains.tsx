@@ -47,7 +47,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           miniTitle="Chains"
           title="Instant developer tools on your chain"
           titleWithGradient=""
-          subtitle="The easiest way for developers to build on your EVM chain — with wallets, contracts, payments, and infrastructure for them to scale web3 apps."
+          subtitle="The easiest way for developers to build on your EVM chain — with wallets, contracts, payments, and infrastructure to scale their web3 apps."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/contact-us"
           noContactUs
