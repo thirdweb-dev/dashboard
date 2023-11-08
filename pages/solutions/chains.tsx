@@ -196,7 +196,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               py={6}
               category={TRACKING_CATEGORY}
               label="solutions-chain-case-study"
-              href="https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life"
+              href="https://blog.thirdweb.com/partnering-with-avacloud/"
               maxW="fit-content"
               marginTop="10px"
             >
@@ -206,7 +206,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
         </LandingCardWithImageBackground>
 
         <LandingEndCTA
-          title="Empower developers to build."
+          title="Grow your ecosystem."
           titleWithGradient=""
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/gamingkit"
