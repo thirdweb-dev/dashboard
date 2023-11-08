@@ -3,10 +3,10 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Input
+  Input,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Card, Heading } from "tw-components";
 
 const formInputs = [
@@ -17,8 +17,7 @@ const formInputs = [
       type: "text",
       placeholder: "@Handle",
       required: true,
-      helper:
-        "A clear title for this checkout that is shown on the checkout UX, credit card statement, and post-purchase email.",
+      helper: null,
       sideField: false,
     },
     {
@@ -27,7 +26,7 @@ const formInputs = [
       type: "text",
       placeholder: "Username",
       required: false,
-      helper: "",
+      helper: null,
       sideField: false,
     },
   ],
@@ -38,7 +37,7 @@ const formInputs = [
       type: "text",
       placeholder: "Your Company",
       required: true,
-      helper: "Defines the token within the ERC-1155 contract to purchase.",
+      helper: null,
       sideField: false,
     },
     {
@@ -47,20 +46,7 @@ const formInputs = [
       type: "text",
       placeholder: "support@company.email",
       required: true,
-      helper:
-        "A buyer will be navigated to this page after a successful purchase.",
-      sideField: false,
-    },
-  ],
-  [
-    {
-      key: "companyLogoUrl",
-      label: "Company Logo",
-      type: "image",
-      placeholder: "https://your-website.com/...",
-      required: true,
-      helper:
-        "A buyer will be navigated to this page if they are unable to make a purchase.",
+      helper: null,
       sideField: false,
     },
   ],
@@ -68,26 +54,34 @@ const formInputs = [
     {
       key: "launchDate",
       label: "Launch Date",
-      type: "text",
-      placeholder: "08-24-2022",
+      type: "date",
+      placeholder: "MM/DD/YYYY",
       required: true,
-      helper:
-        "A buyer will be navigated to this page if they are unable to make a purchase.",
+      helper: null,
+      sideField: false,
+    },
+    {
+      key: null,
+      label: "",
+      type: null,
+      placeholder: "",
+      required: false,
+      helper: null,
       sideField: false,
     },
   ],
 ] as const satisfies {
-  key: string;
+  key: string | null;
   label: string;
-  type: "text" | "textarea" | "select" | "switch" | "image";
+  type: "text" | "date" | null;
   placeholder: string;
   required: boolean;
-  helper: string;
+  helper: string | null;
   sideField: boolean;
 }[][];
 
 type IPaymentsSettingsAccountState = Record<
-  (typeof formInputs)[number][number]["key"],
+  (typeof formInputs)[number][number]["key"] & "companyLogoUrl",
   string
 >;
 
@@ -107,96 +101,110 @@ export const PaymentsSettingsAccount: React.FC = () => {
     <Card>
       <Heading>Seller Information</Heading>
 
-      <Flex flexDir="column" gap={4}>
-        {formInputs.map((inputs) => (
-          <Flex flexDir="row" gap={5}>
-            {inputs.map((field) => (
-              <Flex key={field.key} flexDir="column" gap={5}>
-                {
-                  <FormControl key={field.key} isRequired={field.required}>
-                    <Flex
-                      flexDir={field.sideField ? "row" : "column"}
-                      alignItems={field.sideField ? "center" : "flex-start"}
-                      justifyContent="space-between"
-                    >
-                      <FormLabel mb={field.sideField ? 0 : 1} py={2}>
-                        {field.label}
-                      </FormLabel>
-                      {(() => {
-                        switch (field.type) {
-                          case "text": {
-                            return (
-                              <Input
-                                {...form.register(field.key, {
-                                  required: field.required,
-                                })}
-                                type={field.type}
-                                placeholder={field.placeholder}
-                              />
-                            );
-                          }
-                          // case "textarea": {
-                          //   return (
-                          //     <Textarea
-                          //       {...form.register(field.key, {
-                          //         required: field.required,
-                          //       })}
-                          //       placeholder={field.placeholder}
-                          //     />
-                          //   );
-                          // }
-                          // case "select": {
-                          //   return (
-                          //     <Select
-                          //       borderRadius="lg"
-                          //       w="inherit"
-                          //       size="sm"
-                          //       {...form.register(field.key, {
-                          //         required: field.required,
-                          //       })}
-                          //       placeholder={field.placeholder}
-                          //     />
-                          //   );
-                          // }
-                          // case "switch": {
-                          //   return (
-                          //     <Switch
-                          //       onChange={(e) => {
-                          //         form.setValue(field.key, e.target.checked , {
-                          //           shouldDirty: true,
-                          //         });
-                          //       }}
-                          //       isChecked={false}
-                          //     />
-                          //   );
-                          // }
-                          case "image": {
-                            return (
-                              <SolidityInput
-                                solidityType="string"
-                                placeholder={field.placeholder}
-                                {...form.register(field.key)}
-                              />
-                            );
-                          }
-                          default: {
-                            return <div>Invalid `field.type`</div>;
-                          }
-                        }
-                      })()}
-                    </Flex>
-                    {field.helper && (
-                      <FormHelperText mt={field.sideField ? 0 : 2}>
-                        {field.helper}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                }
-              </Flex>
-            ))}
-          </Flex>
-        ))}
-      </Flex>
+      <FormProvider {...form}>
+        {/* Text Information */}
+        <Flex flexDir="column" gap={4}>
+          {formInputs.map((inputs) => (
+            <SimpleGrid
+              key={inputs[0].key}
+              columns={{ sm: 1, md: inputs.length }}
+              gap={4}
+            >
+              {inputs.map((input) => {
+                if (!input.key) return null;
+                return (
+                  <Flex key={input.key} flexDir="column" gap={5}>
+                    {
+                      <FormControl key={input.key} isRequired={input.required}>
+                        <Flex
+                          flexDir={input.sideField ? "row" : "column"}
+                          alignItems={input.sideField ? "center" : "flex-start"}
+                          justifyContent="space-between"
+                        >
+                          <FormLabel mb={input.sideField ? 0 : 1} pt={2}>
+                            {input.label}
+                          </FormLabel>
+                          {input.helper && (
+                            <FormHelperText pb={4}>
+                              {input.helper}
+                            </FormHelperText>
+                          )}
+                          {(() => {
+                            switch (input.type) {
+                              case "date":
+                              case "text": {
+                                return (
+                                  <Input
+                                    {...form.register(
+                                      input.key as keyof IPaymentsSettingsAccountState,
+                                      {
+                                        required: input.required,
+                                      },
+                                    )}
+                                    type={input.type}
+                                    placeholder={input.placeholder}
+                                  />
+                                );
+                              }
+                              // case "textarea": {
+                              //   return (
+                              //     <Textarea
+                              //       {...form.register(input.key, {
+                              //         required: input.required,
+                              //       })}
+                              //       placeholder={input.placeholder}
+                              //     />
+                              //   );
+                              // }
+                              // case "select": {
+                              //   return (
+                              //     <Select
+                              //       borderRadius="lg"
+                              //       w="inherit"
+                              //       size="sm"
+                              //       {...form.register(input.key, {
+                              //         required: input.required,
+                              //       })}
+                              //       placeholder={input.placeholder}
+                              //     />
+                              //   );
+                              // }
+                              // case "switch": {
+                              //   return (
+                              //     <Switch
+                              //       onChange={(e) => {
+                              //         form.setValue(input.key, e.target.checked , {
+                              //           shouldDirty: true,
+                              //         });
+                              //       }}
+                              //       isChecked={false}
+                              //     />
+                              //   );
+                              // }
+                              // case "image": {
+                              //   return (
+                              //     <SolidityInput
+                              //       solidityType="string"
+                              //       placeholder={input.placeholder}
+                              //       {...form.register(input.key)}
+                              //     />
+                              //   );
+                              // }
+                              default: {
+                                return null;
+                              }
+                            }
+                          })()}
+                        </Flex>
+                      </FormControl>
+                    }
+                  </Flex>
+                );
+              })}
+            </SimpleGrid>
+          ))}
+        </Flex>
+      </FormProvider>
     </Card>
   );
 };
