@@ -432,9 +432,15 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
                             ) : field.type === "switch" ? (
                               <Switch
                                 onChange={(e) => {
-                                  form.setValue(field.name, e.target.checked, {
-                                    shouldDirty: true,
-                                  });
+                                  form.setValue(
+                                    field.name,
+                                    field.name.startsWith("hide")
+                                      ? !e.target.checked
+                                      : e.target.checked,
+                                    {
+                                      shouldDirty: true,
+                                    },
+                                  );
                                 }}
                                 isChecked={
                                   field.name.startsWith("hide")
