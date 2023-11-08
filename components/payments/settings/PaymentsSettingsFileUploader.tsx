@@ -26,15 +26,20 @@ export const PaymentsSettingsFileUploader: React.FC<
     }
 
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      try {
-        const { variants } = await uploadToCloudflare(reader.result as string);
-        onUpdate(variants.public);
-      } catch (e) {
-        console.error({ e });
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      if (e.target) {
+        const upload = async (url: string) => {
+          try {
+            const { variants } = await uploadToCloudflare(url);
+            onUpdate(variants.public);
+          } catch (error) {
+            console.error({ error });
+          }
+        };
+        upload(e.target.result as string);
       }
     };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -93,7 +98,7 @@ interface IUploadResponse {
 /**
  * Takes a base64-encoded image, uploads to Cloudflare Images, and returns a promise with the resulting URL in the expected variant.
  */
-export const uploadToCloudflare = async (
+const uploadToCloudflare = async (
   dataBase64: string,
 ): Promise<IUploadResponse> => {
   const file = await getBlobFromBase64Image(dataBase64);
