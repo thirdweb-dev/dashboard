@@ -1,28 +1,31 @@
 import { Icon } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
 import { BsTerminal } from "react-icons/bs";
 import { LinkButton, LinkButtonProps } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
-
+import { useEVMContractInfo } from "@3rdweb-sdk/react";
 interface BuildAppsButtonProps extends Omit<LinkButtonProps, "href"> {}
 
 export const BuildAppsButton: ComponentWithChildren<BuildAppsButtonProps> = ({
   children,
   ...restButtonProps
 }) => {
-  const { query, asPath } = useRouter();
+  const { asPath } = useRouter();
 
-  const [path] = useMemo(() => {
-    const [network, address = ""] = [
-      ...new Set(
-        ([query.chainSlug, ...(query.paths as string[])]
-        ),
-      ),
-    ];
+  const getPath = () => {
+    const contractInfo = useEVMContractInfo();
+    if (!contractInfo) {
+      return;
+    }
 
-    return [`/${network}/${address}/code`] as const;
-  }, [query.chainSlug, query.paths]);
+    const { contractAddress: address, chainSlug: network } = contractInfo;
+
+    if (!address || !network) {
+      return;
+    }
+
+    return `/${network}/${address}/code`;
+  }
 
   if (asPath.includes("code")) {
     return null;
@@ -37,14 +40,14 @@ export const BuildAppsButton: ComponentWithChildren<BuildAppsButtonProps> = ({
       _hover={{
         opacity: 0.85,
       }}
-      _active={{
-        opacity: 0.75,
-      }}
-      leftIcon={<Icon as={BsTerminal} />}
-      {...restButtonProps}
-      href={path}
-    >
-      {children}
-    </LinkButton>
+          _active={{
+            opacity: 0.75,
+          }}
+          leftIcon={<Icon as={BsTerminal} />}
+          {...restButtonProps}
+          href={getPath() || ''}
+        >
+          {children}
+        </LinkButton>
   );
 };
