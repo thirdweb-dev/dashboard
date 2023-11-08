@@ -15,16 +15,21 @@ export const BuildAppsButton: ComponentWithChildren<BuildAppsButtonProps> = ({
   const getPath = () => {
     const contractInfo = useEVMContractInfo();
     if (!contractInfo) {
-      return;
+      return null;
     }
 
     const { contractAddress: address, chainSlug: network } = contractInfo;
 
     if (!address || !network) {
-      return;
+      return null;
     }
 
     return `/${network}/${address}/code`;
+  };
+
+  const path = getPath();
+  if (!path) {
+    return null;
   }
 
   if (asPath.includes("code")) {
@@ -40,14 +45,14 @@ export const BuildAppsButton: ComponentWithChildren<BuildAppsButtonProps> = ({
       _hover={{
         opacity: 0.85,
       }}
-          _active={{
-            opacity: 0.75,
-          }}
-          leftIcon={<Icon as={BsTerminal} />}
-          {...restButtonProps}
-          href={getPath() || ''}
-        >
-          {children}
-        </LinkButton>
+      _active={{
+        opacity: 0.75,
+      }}
+      leftIcon={<Icon as={BsTerminal} />}
+      {...restButtonProps}
+      href={path}
+    >
+      {children}
+    </LinkButton>
   );
 };
