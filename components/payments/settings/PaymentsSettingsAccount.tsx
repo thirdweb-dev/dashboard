@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Card, Heading } from "tw-components";
+import { PaymentsSettingsFileUploader } from "./PaymentsSettingsFileUploader";
 
 const formInputs = [
   [
@@ -61,7 +62,7 @@ const formInputs = [
       sideField: false,
     },
     {
-      key: null,
+      key: "",
       label: "",
       type: null,
       placeholder: "",
@@ -71,7 +72,7 @@ const formInputs = [
     },
   ],
 ] as const satisfies {
-  key: string | null;
+  key: string;
   label: string;
   type: "text" | "date" | null;
   placeholder: string;
@@ -81,7 +82,7 @@ const formInputs = [
 }[][];
 
 type IPaymentsSettingsAccountState = Record<
-  (typeof formInputs)[number][number]["key"] & "companyLogoUrl",
+  (typeof formInputs)[number][number]["key"] | "companyLogoUrl",
   string
 >;
 
@@ -102,6 +103,16 @@ export const PaymentsSettingsAccount: React.FC = () => {
       <Heading>Seller Information</Heading>
 
       <FormProvider {...form}>
+        <FormControl>
+          <PaymentsSettingsFileUploader
+            label="Company Logo"
+            helper="76px x 76px recommended"
+            accept={{ "image/*": [] }}
+            value={form.getValues("companyLogoUrl")}
+            onUpdate={(value) => form.setValue("companyLogoUrl", value)}
+          />
+        </FormControl>
+
         {/* Text Information */}
         <Flex flexDir="column" gap={4}>
           {formInputs.map((inputs) => (
