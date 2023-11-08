@@ -177,7 +177,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               Launch Production-Ready Subnets with thirdweb and AvaCloud
             </Heading>
             <Text fontSize="medium" fontWeight="400" color="white">
-              thirdweb&apos;s integration into AvaCloud enables anyone to
+              thirdweb's integration into AvaCloud enables anyone to
               deploy production-ready subnets — and empowers developers to build
               end-to-end apps on them, from day one.
             </Text>
