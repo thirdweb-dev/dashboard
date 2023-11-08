@@ -22,16 +22,16 @@ const SolutionsChains: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "All-in-one dev tools for your chain",
+        title: "Instant Dev Tools & Infrastructure on your Chain",
         description:
-          "Accelerate the growth of your chain by providing an all-in-one web3 development stack that allows your developers to build production-ready web3 apps and games.",
+          "The easiest way for developers to build apps on your EVM chain — with the complete web3 development stack: wallets, contracts, payments, & infra.",
         openGraph: {
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/chains-solutions.png`,
               width: 1200,
               height: 630,
-              alt: "All-in-one dev tools for your chain",
+              alt: "Instant Dev Tools & Infrastructure on your Chain",
             },
           ],
         },
@@ -76,7 +76,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
         >
           <LandingCardWithImage
             title="Wallets"
-            description="​The complete web3 wallet toolkit — with Connect Wallet UI components, embedded wallets, auth, and account abstraction out of the box.​"
+            description="The complete web3 wallet toolkit — with Connect Wallet UI components, embedded wallets, auth, and account abstraction out of the box.​"
             image={require("public/assets/landingpage/account-abstraction-desktop.png")}
             mobileImage={require("public/assets/landingpage/account-abstraction-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -104,7 +104,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           />
           <LandingCardWithImage
             title="Infrastructure"
-            description="​Built-in infrastructure so you don’t have to worry about RPCs, storage, bundlers or paymasters — or bring your own providers."
+            description="Built-in infrastructure so you don't have to worry about RPCs, storage, bundlers or paymasters — or bring your own providers."
             image={require("public/assets/landingpage/infastructure-desktop.png")}
             mobileImage={require("public/assets/landingpage/infastructure-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -114,11 +114,10 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <LandingCardWithImage
             title="Account Abstraction"
             description="A best-in-class SDK, full wallet customizability, and managed infra for ERC-4337."
-            image={require("public/assets/landingpage/account-desktop.png")}
-            mobileImage={require("public/assets/landingpage/account-mobile.png")}
+            image={require("public/assets/landingpage/desktop-account-abstraction.png")}
+            mobileImage={require("public/assets/landingpage/mobile-account-abstraction.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/account-abstraction"
-            direction="horizontal"
             colSpan={1}
           />
         </LandingGridSection>
@@ -128,7 +127,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           title={
             <Center>
               <Heading fontSize={48}>
-                Your chain's application layer, solved
+                Your chain&apos;s application layer, solved
               </Heading>
             </Center>
           }
@@ -138,6 +137,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               icon={require("public/assets/solutions-pages/icons/icon-ship.svg")}
               title="Launch Ecosystem-Ready"
               description="Give developers a full web3 developer stack and production-grade infrastructure to build apps and games on your chain, from day one."
+              shouldShowNoBorder
             />
           </Card>
           <Card p={8}>
@@ -145,6 +145,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               icon={require("public/assets/solutions-pages/icons/accility.svg")}
               title="Accelerate Activity"
               description="Grow active wallets & transaction activity on your chain. Reduce time-to-market for developers with and accelerate your ecosystem."
+              shouldShowNoBorder
             />
           </Card>
           <Card p={8}>
@@ -152,6 +153,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               icon={require("public/assets/solutions-pages/icons/support.svg")}
               title="Expert Support"
               description="Give developers access to best-in-class learning resources and support from professional web3 developers."
+              shouldShowNoBorder
             />
           </Card>
           <Card p={8}>
@@ -159,6 +161,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               icon={require("public/assets/solutions-pages/icons/worldclass.svg")}
               title="Innovation, Built-In"
               description="Don't let developers fall behind: Give them first access to new standards, infrastructure, and tools before anyone else."
+              shouldShowNoBorder
             />
           </Card>
         </LandingGridSection>
@@ -177,8 +180,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
               Launch Production-Ready Subnets with thirdweb and AvaCloud
             </Heading>
             <Text fontSize="medium" fontWeight="400" color="white">
-              thirdweb's integration into AvaCloud enables anyone to
-              deploy production-ready subnets — and empowers developers to build
+              thirdweb&apos;s integration into AvaCloud enables anyone to deploy
+              production-ready subnets — and empowers developers to build
               end-to-end apps on them, from day one.
             </Text>
             <TrackedLinkButton
