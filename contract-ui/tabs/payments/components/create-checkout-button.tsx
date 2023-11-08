@@ -294,13 +294,33 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
     await form.trigger();
 
     if (step === "advanced") {
+      trackEvent({
+        category: "payments",
+        action: "create-checkout",
+        label: "attempt",
+      });
       form.handleSubmit((data) => {
         createCheckout(data, {
           onSuccess: () => {
             onSuccess();
             onClose();
+            setStep("info");
+            form.reset();
+            trackEvent({
+              category: "payments",
+              action: "create-checkout",
+              label: "success",
+            });
           },
-          onError,
+          onError: (error) => {
+            onError(error);
+            trackEvent({
+              category: "payments",
+              action: "create-checkout",
+              label: "error",
+              error,
+            });
+          },
         });
       })();
       return;
@@ -353,37 +373,7 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
       </Button>
       <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
-        <ModalContent
-          as="form"
-          onSubmit={form.handleSubmit((data) => {
-            trackEvent({
-              category: "payments",
-              action: "create-checkout",
-              label: "attempt",
-            });
-            createCheckout(data, {
-              onSuccess: () => {
-                onSuccess();
-                onClose();
-                trackEvent({
-                  category: "payments",
-                  action: "create-checkout",
-                  label: "success",
-                });
-              },
-              onError: (error) => {
-                onError(error);
-                trackEvent({
-                  category: "payments",
-                  action: "create-checkout",
-                  label: "error",
-
-                  error,
-                });
-              },
-            });
-          })}
-        >
+        <ModalContent as="form">
           <ModalHeader>Create New Checkout</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
