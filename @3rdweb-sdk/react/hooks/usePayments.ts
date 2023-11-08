@@ -343,6 +343,7 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
       ownerId: paymentsSellerId,
       contractAddress,
     } as CheckoutByContractAddressQueryVariables,
+    fetchPolicy: "network-only",
   });
 
   return useQuery(
@@ -351,11 +352,19 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
       return data?.checkout || [];
     },
     {
-      enabled:
-        !!paymentsSellerId &&
-        !!address &&
-        !!data?.checkout &&
-        !!contractAddress,
+      enabled: !!paymentsSellerId && !!address && !!data && !!contractAddress,
+      refetchInterval: (refetchIntervalData) => {
+        console.log({
+          refetchIntervalData,
+          data,
+          refetchIntervalDataLength: refetchIntervalData?.length,
+          dataLength: data?.checkout?.length,
+        });
+        if (refetchIntervalData?.length === data?.checkout?.length) {
+          return 3000;
+        }
+        return 0;
+      },
     },
   );
 }
