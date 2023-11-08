@@ -300,28 +300,34 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
         label: "attempt",
       });
       form.handleSubmit((data) => {
-        createCheckout(data, {
-          onSuccess: () => {
-            onSuccess();
-            onClose();
-            setStep("info");
-            form.reset();
-            trackEvent({
-              category: "payments",
-              action: "create-checkout",
-              label: "success",
-            });
+        createCheckout(
+          {
+            ...data,
+            limitPerTransaction: parseInt(String(data.limitPerTransaction)),
           },
-          onError: (error) => {
-            onError(error);
-            trackEvent({
-              category: "payments",
-              action: "create-checkout",
-              label: "error",
-              error,
-            });
+          {
+            onSuccess: () => {
+              onSuccess();
+              onClose();
+              setStep("info");
+              form.reset();
+              trackEvent({
+                category: "payments",
+                action: "create-checkout",
+                label: "success",
+              });
+            },
+            onError: (error) => {
+              onError(error);
+              trackEvent({
+                category: "payments",
+                action: "create-checkout",
+                label: "error",
+                error,
+              });
+            },
           },
-        });
+        );
       })();
       return;
     }
