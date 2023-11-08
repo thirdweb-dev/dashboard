@@ -3,10 +3,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Input,
-  Select,
-  Switch,
-  Textarea,
+  Input
 } from "@chakra-ui/react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useForm } from "react-hook-form";
@@ -59,7 +56,7 @@ const formInputs = [
     {
       key: "companyLogoUrl",
       label: "Company Logo",
-      type: "text",
+      type: "image",
       placeholder: "https://your-website.com/...",
       required: true,
       helper:
@@ -113,10 +110,10 @@ export const PaymentsSettingsAccount: React.FC = () => {
       <Flex flexDir="column" gap={4}>
         {formInputs.map((inputs) => (
           <Flex flexDir="row" gap={5}>
-            {inputs.map((input) => (
-              <Flex key={input.key} flexDir="column" gap={5}>
+            {inputs.map((field) => (
+              <Flex key={field.key} flexDir="column" gap={5}>
                 {
-                  <FormControl key={field.name} isRequired={field.required}>
+                  <FormControl key={field.key} isRequired={field.required}>
                     <Flex
                       flexDir={field.sideField ? "row" : "column"}
                       alignItems={field.sideField ? "center" : "flex-start"}
@@ -125,57 +122,68 @@ export const PaymentsSettingsAccount: React.FC = () => {
                       <FormLabel mb={field.sideField ? 0 : 1} py={2}>
                         {field.label}
                       </FormLabel>
-                      {field.type === "textarea" ? (
-                        <Textarea
-                          {...form.register(field.name, {
-                            required: field.required,
-                          })}
-                          placeholder={field.placeholder}
-                        />
-                      ) : field.type === "select" ? (
-                        <Select
-                          borderRadius="lg"
-                          w="inherit"
-                          size="sm"
-                          {...form.register(field.name, {
-                            required: field.required,
-                          })}
-                          placeholder={field.placeholder}
-                        >
-                          {field.options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </Select>
-                      ) : field.type === "switch" ? (
-                        <Switch
-                          onChange={(e) => {
-                            form.setValue(field.name, e.target.checked, {
-                              shouldDirty: true,
-                            });
-                          }}
-                          isChecked={
-                            field.name.startsWith("hide")
-                              ? !form.watch(field.name)
-                              : form.watch(field.name)
+                      {(() => {
+                        switch (field.type) {
+                          case "text": {
+                            return (
+                              <Input
+                                {...form.register(field.key, {
+                                  required: field.required,
+                                })}
+                                type={field.type}
+                                placeholder={field.placeholder}
+                              />
+                            );
                           }
-                        />
-                      ) : field.type === "image" ? (
-                        <SolidityInput
-                          solidityType="string"
-                          placeholder={field.placeholder}
-                          {...form.register(field.name)}
-                        />
-                      ) : (
-                        <Input
-                          {...form.register(field.name, {
-                            required: field.required,
-                          })}
-                          type={field.type}
-                          placeholder={field.placeholder}
-                        />
-                      )}
+                          // case "textarea": {
+                          //   return (
+                          //     <Textarea
+                          //       {...form.register(field.key, {
+                          //         required: field.required,
+                          //       })}
+                          //       placeholder={field.placeholder}
+                          //     />
+                          //   );
+                          // }
+                          // case "select": {
+                          //   return (
+                          //     <Select
+                          //       borderRadius="lg"
+                          //       w="inherit"
+                          //       size="sm"
+                          //       {...form.register(field.key, {
+                          //         required: field.required,
+                          //       })}
+                          //       placeholder={field.placeholder}
+                          //     />
+                          //   );
+                          // }
+                          // case "switch": {
+                          //   return (
+                          //     <Switch
+                          //       onChange={(e) => {
+                          //         form.setValue(field.key, e.target.checked , {
+                          //           shouldDirty: true,
+                          //         });
+                          //       }}
+                          //       isChecked={false}
+                          //     />
+                          //   );
+                          // }
+                          case "image": {
+                            return (
+                              <SolidityInput
+                                solidityType="string"
+                                placeholder={field.placeholder}
+                                {...form.register(field.key)}
+                              />
+                            );
+                          }
+                          default: {
+                            return <div>Invalid `field.type`</div>;
+                          }
+                        }
+                      })()}
                     </Flex>
                     {field.helper && (
                       <FormHelperText mt={field.sideField ? 0 : 2}>
