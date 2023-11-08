@@ -14,9 +14,10 @@ import { Text, Heading, Link, LinkButton } from "tw-components";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { IoMdCheckmark } from "react-icons/io";
-import { FiCopy, FiTrash2 } from "react-icons/fi";
+import { FiCopy } from "react-icons/fi";
 import { BiPencil } from "react-icons/bi";
 import { AiOutlineQrcode } from "react-icons/ai";
+import { RemoveCheckoutButton } from "./remove-checkout-button";
 
 interface PaymentCheckoutsProps {
   contractId: string;
@@ -28,7 +29,6 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
   contractAddress,
 }) => {
   const { data: checkouts } = usePaymentsCheckoutsByContract(contractAddress);
-  const { mutate: removeCheckout } = usePaymentsRemoveCheckout(contractAddress);
 
   console.log({ checkouts });
 
