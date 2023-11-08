@@ -1,10 +1,12 @@
-import { Box, FormHelperText, FormLabel, Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { FileInput } from "components/shared/FileInput";
 import { replaceIpfsUrl } from "lib/sdk";
 import React from "react";
 import { Accept } from "react-dropzone";
+import { FormHelperText, FormLabel } from "tw-components";
 
-const maxFileSizeBytes = 10 * 1024 * 1024; // 10 MB.
+// Max file size is 10 MB.
+const maxFileSizeBytes = 10 * 1024 * 1024;
 
 interface IPaymentsSettingsFileUploader {
   label: string;
@@ -18,7 +20,8 @@ export const PaymentsSettingsFileUploader: React.FC<
 > = ({ label, helper, accept, value, onUpdate }) => {
   const handleFileUpload = (file: File) => {
     if (file.size > maxFileSizeBytes) {
-      alert(`File size must be less than ${maxFileSizeBytes} bytes.`);
+      const message = `File size must be less than ${maxFileSizeBytes} bytes.`;
+      alert(message);
       return;
     }
 
@@ -27,8 +30,9 @@ export const PaymentsSettingsFileUploader: React.FC<
     reader.onloadend = async () => {
       try {
         const { variants } = await uploadToCloudflare(reader.result as string);
-      } catch(e) {
-        console.log({e})
+        onUpdate(variants.public);
+      } catch (e) {
+        console.error({ e });
       }
     };
   };
@@ -95,7 +99,7 @@ export const uploadToCloudflare = async (
   const file = await getBlobFromBase64Image(dataBase64);
 
   // Get the cloudflare upload link from the server.
-  const url =`${process.env.NEXT_PUBLIC_THIRDWEB_EWS_API_HOST}/api/storage/get-image-upload-link`
+  const url = `${process.env.NEXT_PUBLIC_THIRDWEB_EWS_API_HOST}/api/storage/get-image-upload-link`;
   const res = await fetch(url, {
     method: "GET",
     credentials: "include",

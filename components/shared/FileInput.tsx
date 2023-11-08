@@ -59,7 +59,8 @@ export const FileInput: React.FC<IFileInputProps> = ({
     accept,
   });
 
-  const file: File | null = value instanceof File ? value : null;
+  const file: File | null =
+    typeof window !== "undefined" && value instanceof File ? value : null;
   const fileUrl = useImageFileOrUrl(value);
 
   const helperTextOrFile = helperText
