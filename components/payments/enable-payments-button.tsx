@@ -1,6 +1,7 @@
 import { usePaymentsRegisterContract } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useChainSlug } from "hooks/chains/chainSlug";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { Button } from "tw-components";
@@ -17,6 +18,7 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
   const { mutate: registerContract } = usePaymentsRegisterContract();
   const router = useRouter();
   const trackEvent = useTrack();
+  const chainSlug = useChainSlug(chainId);
 
   const { onSuccess, onError } = useTxNotifications(
     "Successfully enabled payments",
@@ -47,7 +49,7 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
                   label: "success",
                 });
                 router.push(
-                  `/${chainId}/${contractAddress}/payments`,
+                  `/${chainSlug}/${contractAddress}/payments`,
                   undefined,
                   { scroll: true },
                 );

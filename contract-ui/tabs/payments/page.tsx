@@ -1,11 +1,17 @@
-import { useDashboardEVMChainId } from "@3rdweb-sdk/react/hooks/useActiveChainId";
+import {
+  useDashboardEVMChainId,
+  useEVMContractInfo,
+} from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { usePaymentsContractByAddressAndChain } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Center, Flex, Stack } from "@chakra-ui/react";
+import { Center, Flex, Spinner, Stack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { PaymentsAnalytics } from "./components/payments-analytics";
 import { PaymentCheckouts } from "./components/payments-checkouts";
 import { Card, Heading, Text } from "tw-components";
 import { EnablePaymentsButton } from "components/payments/enable-payments-button";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { NoWalletConnectedPayments } from "./components/no-wallet-connected-payments";
 
 interface ContractPaymentsPageProps {
   contractAddress?: string;
@@ -15,10 +21,13 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
   contractAddress,
 }) => {
   const chainId = useDashboardEVMChainId();
-  const { data: paymentContract } = usePaymentsContractByAddressAndChain(
-    contractAddress,
-    chainId,
-  );
+  const { user } = useLoggedInUser();
+
+  const { data: paymentContract, isLoading } =
+    usePaymentsContractByAddressAndChain(contractAddress, chainId);
+
+  console.log({ paymentContract });
+
   useEffect(() => {
     window?.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -28,9 +37,17 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
     return <div>Loading...</div>;
   }
 
+  if (!user?.address) {
+    return <NoWalletConnectedPayments />;
+  }
+
   return (
     <Flex direction="column" gap={6}>
-      {paymentContract?.id ? (
+      {isLoading ? (
+        <Center pb={16}>
+          <Spinner size="sm" />
+        </Center>
+      ) : paymentContract?.id ? (
         <>
           <PaymentCheckouts
             contractId={paymentContract?.id}
