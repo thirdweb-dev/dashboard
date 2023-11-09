@@ -1,14 +1,14 @@
+import { Box, Flex, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
+import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import { FormProvider, useForm } from "react-hook-form";
 import {
-  Box,
-  Flex,
-  FormControl,
+  Button,
+  Card,
   FormHelperText,
   FormLabel,
-  Input,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { FormProvider, useForm } from "react-hook-form";
-import { Card, Heading, Text } from "tw-components";
+  Heading,
+  Text,
+} from "tw-components";
 import { PaymentsSettingsFileUploader } from "./PaymentsSettingsFileUploader";
 
 const formInputs = [
@@ -43,7 +43,7 @@ const formInputs = [
       sideField: false,
     },
     {
-      key: "companyEmail",
+      key: "supportEmail",
       label: "Company Email",
       type: "text",
       placeholder: "support@company.email",
@@ -88,28 +88,54 @@ type IPaymentsSettingsAccountState = Record<
 >;
 
 export const PaymentsSettingsAccount: React.FC = () => {
+  const [updateSellerByThirdwebAccountId] =
+    useUpdateSellerByThirdwebAccountIdMutation();
   const form = useForm<IPaymentsSettingsAccountState>({
     defaultValues: {
       twitter: "",
       discord: "",
       companyName: "",
-      companyEmail: "",
+      supportEmail: "",
       companyLogoUrl: "",
       launchDate: "",
     },
   });
 
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
+    e,
+  ) => {
+    e.preventDefault();
+    await form.trigger();
+    form.handleSubmit((data) => {
+      console.log({ data });
+      updateSellerByThirdwebAccountId({
+        variables: {
+          thirdwebAccountId: "sellerId",
+          sellerValue: {
+            twitter_handle: data.twitter,
+            discord_username: data.discord,
+            company_name: data.companyName,
+            company_logo_url: data.companyLogoUrl,
+            support_email: data.supportEmail,
+            estimated_launch_date: data.launchDate,
+          },
+        },
+      });
+    })();
+  };
+
   return (
-    <Card>
+    <Card maxW="744px">
       <Heading>Seller Information</Heading>
       <Text>These fields are shown to your buyers. </Text>
 
       <FormProvider {...form}>
-        <FormControl>
-          <FormLabel pt={2}>Company Logo</FormLabel>
-          <FormHelperText pb={4}>76px x 76px recommended</FormHelperText>
+        <Flex flexDir="column" gap={4} py="4">
+          {/* Company Logo Input */}
+          <FormControl>
+            <FormLabel pt={2}>Company Logo</FormLabel>
+            <FormHelperText pb={4}>76px x 76px recommended</FormHelperText>
 
-          <Flex>
             <Box w="32">
               <PaymentsSettingsFileUploader
                 accept={{ "image/*": [] }}
@@ -117,110 +143,122 @@ export const PaymentsSettingsAccount: React.FC = () => {
                 onUpdate={(value) => form.setValue("companyLogoUrl", value)}
               />
             </Box>
-          </Flex>
-        </FormControl>
+          </FormControl>
 
-        {/* Text Information */}
-        <Flex flexDir="column" gap={4}>
-          {formInputs.map((inputs) => (
-            <SimpleGrid
-              key={inputs[0].key}
-              columns={{ sm: 1, md: inputs.length }}
-              gap={4}
-            >
-              {inputs.map((input) => {
-                if (!input.key) return null;
-                return (
-                  <Flex key={input.key} flexDir="column" gap={5}>
-                    {
-                      <FormControl key={input.key} isRequired={input.required}>
-                        <Flex
-                          flexDir={input.sideField ? "row" : "column"}
-                          alignItems={input.sideField ? "center" : "flex-start"}
-                          justifyContent="space-between"
+          {/* Text Information Input */}
+          <Flex flexDir="column" gap={4}>
+            {formInputs.map((inputs) => (
+              <SimpleGrid
+                key={inputs[0].key}
+                columns={{ sm: 1, md: inputs.length }}
+                gap={4}
+              >
+                {inputs.map((input) => {
+                  if (!input.key) {
+                    return null;
+                  }
+                  return (
+                    <Flex key={input.key} flexDir="column" gap={5}>
+                      {
+                        <FormControl
+                          key={input.key}
+                          isRequired={input.required}
                         >
-                          <FormLabel mb={input.sideField ? 0 : 1} pt={2}>
-                            {input.label}
-                          </FormLabel>
-                          {input.helper && (
-                            <FormHelperText pb={4}>
-                              {input.helper}
-                            </FormHelperText>
-                          )}
-                          {(() => {
-                            switch (input.type) {
-                              case "date":
-                              case "text": {
-                                return (
-                                  <Input
-                                    {...form.register(
-                                      input.key as keyof IPaymentsSettingsAccountState,
-                                      {
-                                        required: input.required,
-                                      },
-                                    )}
-                                    type={input.type}
-                                    placeholder={input.placeholder}
-                                  />
-                                );
-                              }
-                              // case "textarea": {
-                              //   return (
-                              //     <Textarea
-                              //       {...form.register(input.key, {
-                              //         required: input.required,
-                              //       })}
-                              //       placeholder={input.placeholder}
-                              //     />
-                              //   );
-                              // }
-                              // case "select": {
-                              //   return (
-                              //     <Select
-                              //       borderRadius="lg"
-                              //       w="inherit"
-                              //       size="sm"
-                              //       {...form.register(input.key, {
-                              //         required: input.required,
-                              //       })}
-                              //       placeholder={input.placeholder}
-                              //     />
-                              //   );
-                              // }
-                              // case "switch": {
-                              //   return (
-                              //     <Switch
-                              //       onChange={(e) => {
-                              //         form.setValue(input.key, e.target.checked , {
-                              //           shouldDirty: true,
-                              //         });
-                              //       }}
-                              //       isChecked={false}
-                              //     />
-                              //   );
-                              // }
-                              // case "image": {
-                              //   return (
-                              //     <SolidityInput
-                              //       solidityType="string"
-                              //       placeholder={input.placeholder}
-                              //       {...form.register(input.key)}
-                              //     />
-                              //   );
-                              // }
-                              default: {
-                                return null;
-                              }
+                          <Flex
+                            flexDir={input.sideField ? "row" : "column"}
+                            alignItems={
+                              input.sideField ? "center" : "flex-start"
                             }
-                          })()}
-                        </Flex>
-                      </FormControl>
-                    }
-                  </Flex>
-                );
-              })}
-            </SimpleGrid>
-          ))}
+                            justifyContent="space-between"
+                          >
+                            <FormLabel mb={input.sideField ? 0 : 1} pt={2}>
+                              {input.label}
+                            </FormLabel>
+                            {input.helper && (
+                              <FormHelperText pb={4}>
+                                {input.helper}
+                              </FormHelperText>
+                            )}
+                            {(() => {
+                              switch (input.type) {
+                                case "date":
+                                case "text": {
+                                  return (
+                                    <Input
+                                      {...form.register(
+                                        input.key as keyof IPaymentsSettingsAccountState,
+                                        {
+                                          required: input.required,
+                                        },
+                                      )}
+                                      type={input.type}
+                                      placeholder={input.placeholder}
+                                    />
+                                  );
+                                }
+                                // case "textarea": {
+                                //   return (
+                                //     <Textarea
+                                //       {...form.register(input.key, {
+                                //         required: input.required,
+                                //       })}
+                                //       placeholder={input.placeholder}
+                                //     />
+                                //   );
+                                // }
+                                // case "select": {
+                                //   return (
+                                //     <Select
+                                //       borderRadius="lg"
+                                //       w="inherit"
+                                //       size="sm"
+                                //       {...form.register(input.key, {
+                                //         required: input.required,
+                                //       })}
+                                //       placeholder={input.placeholder}
+                                //     />
+                                //   );
+                                // }
+                                // case "switch": {
+                                //   return (
+                                //     <Switch
+                                //       onChange={(e) => {
+                                //         form.setValue(input.key, e.target.checked , {
+                                //           shouldDirty: true,
+                                //         });
+                                //       }}
+                                //       isChecked={false}
+                                //     />
+                                //   );
+                                // }
+                                // case "image": {
+                                //   return (
+                                //     <SolidityInput
+                                //       solidityType="string"
+                                //       placeholder={input.placeholder}
+                                //       {...form.register(input.key)}
+                                //     />
+                                //   );
+                                // }
+                                default: {
+                                  return null;
+                                }
+                              }
+                            })()}
+                          </Flex>
+                        </FormControl>
+                      }
+                    </Flex>
+                  );
+                })}
+              </SimpleGrid>
+            ))}
+          </Flex>
+        </Flex>
+        <Flex justifyContent="flex-end">
+          <Button type="button" colorScheme="primary" onClick={handleSubmit}>
+            Save
+          </Button>
         </Flex>
       </FormProvider>
     </Card>
