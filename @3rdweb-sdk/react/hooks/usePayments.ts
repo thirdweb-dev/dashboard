@@ -195,7 +195,7 @@ export function usePaymentsRegisterContract() {
   );
 }
 
-export type CreateCheckoutInput = {
+export type CreateUpdateCheckoutInput = {
   contractId: string;
   title: string;
   description?: string;
@@ -233,22 +233,21 @@ export type CreateCheckoutInput = {
     | "cyan"
     | "purple"
     | "pink";
+  checkoutId?: string;
 };
 
-export function usePaymentsCreateCheckout(contractAddress: string) {
+export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
-    async (input: CreateCheckoutInput) => {
+    async (input: CreateUpdateCheckoutInput) => {
       invariant(address, "No wallet address found");
 
-      console.log({ input });
-
-      return fetchFromPaymentsAPI<CreateCheckoutInput>(
+      return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
         "POST",
-        "shareable-checkout-link",
+        `shareable-checkout-link/${input?.checkoutId}`,
         input,
       );
     },
@@ -278,33 +277,6 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
       return fetchFromPaymentsAPI<RemoveCheckoutInput>(
         "DELETE",
         `shareable-checkout-link/${input.checkoutId}`,
-      );
-    },
-    {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
-          paymentsKeys.checkouts(contractAddress, address as string),
-        );
-      },
-    },
-  );
-}
-
-export type UpdateCheckoutInput = CreateCheckoutInput & RemoveCheckoutInput;
-
-export function usePaymentsUpdateCheckout(contractAddress: string) {
-  const fetchFromPaymentsAPI = usePaymentsApi();
-  const queryClient = useQueryClient();
-  const address = useAddress();
-
-  return useMutationWithInvalidate(
-    async (input: UpdateCheckoutInput) => {
-      invariant(address, "No wallet address found");
-
-      return fetchFromPaymentsAPI<UpdateCheckoutInput>(
-        "POST",
-        `shareable-checkout-link/${input.checkoutId}`,
-        input,
       );
     },
     {
@@ -354,12 +326,6 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
     {
       enabled: !!paymentsSellerId && !!address && !!data && !!contractAddress,
       refetchInterval: (refetchIntervalData) => {
-        console.log({
-          refetchIntervalData,
-          data,
-          refetchIntervalDataLength: refetchIntervalData?.length,
-          dataLength: data?.checkout?.length,
-        });
         if (refetchIntervalData?.length === data?.checkout?.length) {
           return 3000;
         }
@@ -384,8 +350,6 @@ export function usePaymentsContractByAddressAndChain(
       contractAddress,
     } as ContractsByAddressAndChainQueryVariables,
   });
-
-  console.log({ data });
 
   return useQuery(
     paymentsKeys.contractsByChainId(address as string, chainId),

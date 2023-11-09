@@ -1,7 +1,4 @@
-import {
-  usePaymentsCheckoutsByContract,
-  usePaymentsRemoveCheckout,
-} from "@3rdweb-sdk/react/hooks/usePayments";
+import { usePaymentsCheckoutsByContract } from "@3rdweb-sdk/react/hooks/usePayments";
 import {
   ButtonGroup,
   Flex,
@@ -9,15 +6,15 @@ import {
   IconButton,
   useClipboard,
 } from "@chakra-ui/react";
-import { CreateCheckoutButton } from "./create-checkout-button";
+import { CreateUpdateCheckoutButton } from "./create-update-checkout-button";
 import { Text, Heading, Link, LinkButton } from "tw-components";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { IoMdCheckmark } from "react-icons/io";
 import { FiCopy } from "react-icons/fi";
-import { BiPencil } from "react-icons/bi";
 import { AiOutlineQrcode } from "react-icons/ai";
 import { RemoveCheckoutButton } from "./remove-checkout-button";
+import { Checkout } from "graphql/generated_types";
 
 interface PaymentCheckoutsProps {
   contractId: string;
@@ -29,14 +26,11 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
   contractAddress,
 }) => {
   const { data: checkouts } = usePaymentsCheckoutsByContract(contractAddress);
-
-  console.log({ checkouts });
-
   return (
     <Flex flexDir="column" gap={6}>
       <Flex justifyContent="space-between" alignItems="center">
         <Heading size="title.md">Checkout Links</Heading>
-        <CreateCheckoutButton
+        <CreateUpdateCheckoutButton
           contractAddress={contractAddress}
           contractId={contractId}
         />
@@ -65,10 +59,11 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
                   <CopyCheckoutButton text={checkoutLink} />
                 </Flex>
                 <ButtonGroup>
-                  <IconButton
-                    variant="outline"
-                    icon={<Icon as={BiPencil} />}
-                    aria-label="Edit checkout"
+                  <CreateUpdateCheckoutButton
+                    contractAddress={checkout.contract_address}
+                    contractId={contractId}
+                    checkoutId={checkout.id}
+                    checkout={checkout as Checkout}
                   />
                   <IconButton
                     as={LinkButton}

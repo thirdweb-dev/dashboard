@@ -13,20 +13,24 @@ import {
   Select,
   Textarea,
   Switch,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button, FormHelperText, FormLabel } from "tw-components";
 import {
-  CreateCheckoutInput,
+  CreateUpdateCheckoutInput,
   isPaymentsSupported,
-  usePaymentsCreateCheckout,
+  usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useState } from "react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
+import { BiPencil } from "react-icons/bi";
+import { Checkout } from "graphql/generated_types";
 
 const formInputs = [
   {
@@ -251,15 +255,16 @@ const formInputs = [
   },
 ] as const;
 
-interface CreateCheckoutButtonProps {
+interface CreateUpdateCheckoutButtonProps {
   contractId: string;
   contractAddress: string;
+  checkout?: Checkout;
+  checkoutId?: string;
 }
 
-export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
-  contractId,
-  contractAddress,
-}) => {
+export const CreateUpdateCheckoutButton: React.FC<
+  CreateUpdateCheckoutButtonProps
+> = ({ contractId, contractAddress, checkout, checkoutId }) => {
   const { contract } = useContract(contractAddress);
   const isSupportedContract = isPaymentsSupported(contract);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
@@ -268,27 +273,61 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
     "info" | /* "non-tw" | */ "branding" | "delivery" | "advanced"
   >("info");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate: createCheckout } = usePaymentsCreateCheckout(contractAddress);
+  const { mutate: createOrUpdateCheckout } =
+    usePaymentsCreateUpdateCheckout(contractAddress);
   const trackEvent = useTrack();
-  const form = useForm<CreateCheckoutInput>({
-    defaultValues: {
-      contractId,
-      imageUrl: "",
-      hidePaperWallet: false,
-      hideExternalWallet: false,
-      hidePayWithCard: false,
-      hidePayWithCrypto: false,
-      hidePayWithIdeal: true,
-      limitPerTransaction: 5,
-      redirectAfterPayment: false,
-      sendEmailOnTransferSucceeded: true,
+
+  const values: CreateUpdateCheckoutInput = {
+    title: checkout?.collection_title || "",
+    description: checkout?.collection_description || "",
+    successCallbackUrl: checkout?.success_callback_url || "",
+    cancelCallbackUrl: checkout?.cancel_callback_url || "",
+    brandButtonShape: (checkout?.brand_button_shape as any) || "",
+    brandColorScheme: (checkout?.brand_color_scheme as any) || "",
+    brandDarkMode: checkout?.brand_dark_mode || false,
+    contractArgs: checkout?.contract_args || [],
+    hideNativeMint: checkout?.hide_native_mint || false,
+    listingId: checkout?.listing_id || "",
+    /* mintMethod: checkout?.mint_abi_function_name || {},
+    eligibilityMethod: "",*/
+    tokenId: checkout?.token_id || undefined,
+    twitterHandleOverride: checkout?.seller_twitter_handle || "",
+    imageUrl: checkout?.image_url || "",
+    hidePaperWallet: checkout?.hide_connect_paper_wallet || false,
+    hideExternalWallet: checkout?.hide_connect_external_wallet || false,
+    hidePayWithCard: checkout?.hide_pay_with_card || false,
+    hidePayWithCrypto: checkout?.hide_pay_with_crypto || false,
+    hidePayWithIdeal: checkout?.hide_pay_with_ideal || true,
+    limitPerTransaction: checkout?.limit_per_transaction || 5,
+    redirectAfterPayment: checkout?.redirect_after_payment || false,
+    sendEmailOnTransferSucceeded:
+      checkout?.should_send_transfer_completed_email || false,
+    contractId,
+  };
+
+  const form = useForm<CreateUpdateCheckoutInput>({
+    defaultValues: values,
+    values,
+    resetOptions: {
+      keepDirty: true,
+      keepDirtyValues: true,
     },
   });
 
-  const { onSuccess, onError } = useTxNotifications(
-    "Checkout created successfully.",
-    "Failed to create checkout.",
-  );
+  const { onSuccess: onCreateSuccess, onError: onCreateError } =
+    useTxNotifications(
+      "Checkout created successfully.",
+      "Failed to create checkout.",
+    );
+
+  const { onSuccess: onUpdateSuccess, onError: onUpdateError } =
+    useTxNotifications(
+      "Checkout updated successfully.",
+      "Failed to update checkout.",
+    );
+
+  const onSuccess = checkoutId ? onUpdateSuccess : onCreateSuccess;
+  const onError = checkoutId ? onUpdateError : onCreateError;
 
   const handleNext = async () => {
     await form.trigger();
@@ -296,12 +335,14 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
     if (step === "advanced") {
       trackEvent({
         category: "payments",
-        action: "create-checkout",
+        action: checkoutId ? "update-checkout" : "create-checkout",
         label: "attempt",
       });
+
       form.handleSubmit((data) => {
-        createCheckout(
+        createOrUpdateCheckout(
           {
+            checkoutId,
             ...data,
             limitPerTransaction: parseInt(String(data.limitPerTransaction)),
           },
@@ -313,7 +354,7 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
               form.reset();
               trackEvent({
                 category: "payments",
-                action: "create-checkout",
+                action: checkoutId ? "update-checkout" : "create-checkout",
                 label: "success",
               });
             },
@@ -321,7 +362,7 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
               onError(error);
               trackEvent({
                 category: "payments",
-                action: "create-checkout",
+                action: checkoutId ? "update-checkout" : "create-checkout",
                 label: "error",
                 error,
               });
@@ -353,7 +394,6 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
     onClose();
     form.reset();
   };
-
   const handleBack = () => {
     setStep((prev) => {
       /*       if (prev === "non-tw") {
@@ -374,9 +414,19 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
 
   return (
     <FormProvider {...form}>
-      <Button onClick={onOpen} colorScheme="primary">
-        New Checkout Link
-      </Button>
+      {checkoutId ? (
+        <IconButton
+          variant="outline"
+          icon={<Icon as={BiPencil} />}
+          aria-label="Edit checkout"
+          onClick={onOpen}
+        />
+      ) : (
+        <Button onClick={onOpen} colorScheme="primary">
+          New Checkout Link
+        </Button>
+      )}
+
       <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
         <ModalContent as="form">
@@ -492,7 +542,11 @@ export const CreateCheckoutButton: React.FC<CreateCheckoutButtonProps> = ({
             )}
 
             <Button type="button" colorScheme="primary" onClick={handleNext}>
-              {step === "advanced" ? "Create" : "Next"}
+              {step === "advanced"
+                ? checkoutId
+                  ? "Update"
+                  : "Create"
+                : "Next"}
             </Button>
           </ModalFooter>
         </ModalContent>
