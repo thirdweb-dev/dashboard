@@ -1,3 +1,4 @@
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { Box, Flex, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 import { FormProvider, useForm } from "react-hook-form";
@@ -88,6 +89,7 @@ type IPaymentsSettingsAccountState = Record<
 >;
 
 export const PaymentsSettingsAccount: React.FC = () => {
+  const { data: account } = useAccount();
   const [updateSellerByThirdwebAccountId] =
     useUpdateSellerByThirdwebAccountIdMutation();
   const form = useForm<IPaymentsSettingsAccountState>({
@@ -105,12 +107,16 @@ export const PaymentsSettingsAccount: React.FC = () => {
     e,
   ) => {
     e.preventDefault();
+    if (!account?.id) {
+      return;
+    }
+
     await form.trigger();
     form.handleSubmit((data) => {
-      console.log({ data });
+      console.log({data})
       updateSellerByThirdwebAccountId({
         variables: {
-          thirdwebAccountId: "sellerId",
+          thirdwebAccountId: account?.id,
           sellerValue: {
             twitter_handle: data.twitter,
             discord_username: data.discord,
