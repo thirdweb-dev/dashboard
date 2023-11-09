@@ -113,7 +113,6 @@ export const PaymentsSettingsAccount: React.FC = () => {
 
     await form.trigger();
     form.handleSubmit((data) => {
-      console.log({data})
       updateSellerByThirdwebAccountId({
         variables: {
           thirdwebAccountId: account?.id,
