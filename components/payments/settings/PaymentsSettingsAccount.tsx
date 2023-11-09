@@ -6,6 +6,7 @@ import {
   useGetSellerByThirdwebAccountIdQuery,
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
@@ -116,6 +117,11 @@ export const PaymentsSettingsAccount: React.FC = () => {
     },
   });
 
+  const { onSuccess, onError } = useTxNotifications(
+    "Failed to save profile.",
+    "Profile saved.",
+  );
+
   useEffect(() => {
     const seller = sellerData?.seller[0];
     if (!seller) {
@@ -145,19 +151,26 @@ export const PaymentsSettingsAccount: React.FC = () => {
 
     await form.trigger();
     form.handleSubmit((data) => {
-      updateSellerByThirdwebAccountId({
-        variables: {
-          thirdwebAccountId: account?.id,
-          sellerValue: {
-            twitter_handle: data.twitter,
-            discord_username: data.discord,
-            company_name: data.companyName,
-            company_logo_url: data.companyLogoUrl,
-            support_email: data.supportEmail,
-            estimated_launch_date: new Date(data.launchDate),
-          },
-        },
-      });
+      (async () => {
+        try {
+          await updateSellerByThirdwebAccountId({
+            variables: {
+              thirdwebAccountId: account?.id,
+              sellerValue: {
+                twitter_handle: data.twitter,
+                discord_username: data.discord,
+                company_name: data.companyName,
+                company_logo_url: data.companyLogoUrl,
+                support_email: data.supportEmail,
+                estimated_launch_date: new Date(data.launchDate),
+              },
+            },
+          });
+          onSuccess();
+        } catch (error) {
+          onError(error);
+        }
+      })();
     })();
   };
 

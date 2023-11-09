@@ -1,5 +1,6 @@
 import { Image } from "@chakra-ui/react";
 import { FileInput } from "components/shared/FileInput";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useState } from "react";
 import { Accept } from "react-dropzone";
 
@@ -17,10 +18,15 @@ export const PaymentsSettingsFileUploader: React.FC<
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
+  const { onSuccess, onError } = useTxNotifications(
+    "Failed to upload file.",
+    "File uploaded successfully.",
+  );
+
   const handleFileUpload = (file: File) => {
     if (file.size > maxFileSizeBytes) {
       const message = `File size must be less than ${maxFileSizeBytes} bytes.`;
-      alert(message);
+      onError(new Error(message));
       return;
     }
 
@@ -33,6 +39,7 @@ export const PaymentsSettingsFileUploader: React.FC<
             const { variants } = await uploadToCloudflare(url);
             onUpdate(variants.public);
             setImageUrl(variants.public);
+            onSuccess();
           } catch (error) {
             console.error({ error });
           } finally {
