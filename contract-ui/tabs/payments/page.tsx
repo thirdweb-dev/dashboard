@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { PaymentsAnalytics } from "./components/payments-analytics";
 import { PaymentCheckouts } from "./components/payments-checkouts";
 import { Card, Heading, Text } from "tw-components";
-import { EnablePaymentsButton } from "components/payments/enable-payments-button";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { NoWalletConnectedPayments } from "./components/no-wallet-connected-payments";
+import { NoPaymentsEnabled } from "./components/no-payments-enabled";
 
 interface ContractPaymentsPageProps {
   contractAddress?: string;
@@ -62,25 +62,10 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
           </Center>
         </Card>
       ) : (
-        <Card p={8} bgColor="backgroundCardHighlight" my={6}>
-          <Center as={Stack} spacing={4}>
-            <Stack spacing={2}>
-              <Heading size="title.sm" textAlign="center">
-                No payments enabled
-              </Heading>
-              <Text>
-                You need to enable payments first to be able to create a
-                checkout
-              </Text>
-            </Stack>
-            {chainId && (
-              <EnablePaymentsButton
-                contractAddress={contractAddress}
-                chainId={chainId}
-              />
-            )}
-          </Center>
-        </Card>
+        <NoPaymentsEnabled
+          contractAddress={contractAddress}
+          chainId={chainId}
+        />
       )}
     </Flex>
   );

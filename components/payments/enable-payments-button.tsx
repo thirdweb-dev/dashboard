@@ -1,9 +1,13 @@
-import { usePaymentsRegisterContract } from "@3rdweb-sdk/react/hooks/usePayments";
+import {
+  usePaymentsEnabledContracts,
+  usePaymentsRegisterContract,
+} from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 import { Button } from "tw-components";
 
 interface EnablePaymentsButtonProps {
@@ -16,6 +20,15 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
   chainId,
 }) => {
   const { mutate: registerContract } = usePaymentsRegisterContract();
+  const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
+
+  const contractIsEnabled = useMemo(() => {
+    return paymentEnabledContracts?.some(
+      (contract) =>
+        contract.address.toLowerCase() === contractAddress.toLowerCase(),
+    );
+  }, [paymentEnabledContracts, contractAddress]);
+
   const router = useRouter();
   const trackEvent = useTrack();
   const chainSlug = useChainSlug(chainId);
@@ -27,50 +40,57 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
 
   return (
     <Flex justifyContent="end">
-      <Button
-        colorScheme="blackAlpha"
-        size="sm"
-        onClick={() => {
-          trackEvent({
-            category: "payments",
-            action: "enable-payments",
-            label: "attempt",
-          });
-          registerContract(
-            {
-              chain: `${chainId}`,
-              contractAddress,
-            },
-            {
-              onSuccess: () => {
-                trackEvent({
-                  category: "payments",
-                  action: "enable-payments",
-                  label: "success",
-                });
-                router.push(
-                  `/${chainSlug}/${contractAddress}/payments`,
-                  undefined,
-                  { scroll: true },
-                );
-                onSuccess();
+      {contractIsEnabled ? (
+        <Button colorScheme="blackAlpha" size="sm" isDisabled w="full">
+          Payments Enabled
+        </Button>
+      ) : (
+        <Button
+          colorScheme="blackAlpha"
+          size="sm"
+          onClick={() => {
+            trackEvent({
+              category: "payments",
+              action: "enable-payments",
+              label: "attempt",
+            });
+            registerContract(
+              {
+                chain: `${chainId}`,
+                contractAddress,
               },
-              onError: (error) => {
-                trackEvent({
-                  category: "payments",
-                  action: "enable-payments",
-                  label: "error",
-                  error,
-                });
-                onError(error);
+              {
+                onSuccess: () => {
+                  trackEvent({
+                    category: "payments",
+                    action: "enable-payments",
+                    label: "success",
+                  });
+                  router.push(
+                    `/${chainSlug}/${contractAddress}/payments`,
+                    undefined,
+                    { scroll: true },
+                  );
+                  onSuccess();
+                },
+                onError: (error) => {
+                  trackEvent({
+                    category: "payments",
+                    action: "enable-payments",
+                    label: "error",
+                    error,
+                  });
+                  onError(error);
+                },
               },
-            },
-          );
-        }}
-        px={6}
-      >
-        Enable Payments
-      </Button>
+            );
+          }}
+          px={6}
+          w="full"
+        >
+          Enable Payments
+        </Button>
+      )}
     </Flex>
   );
 };

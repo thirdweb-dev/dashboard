@@ -11,8 +11,9 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { fetchChain } from "utils/fetchChain";
-import { Text } from "tw-components";
+import { Button, Text } from "tw-components";
 import { EnablePaymentsButton } from "../enable-payments-button";
+import { validPaymentsChainIdsMainnets } from "@3rdweb-sdk/react/hooks/usePayments";
 
 interface PaymentContractsTableProps {
   paymentContracts: ContractWithMetadata[];
@@ -83,6 +84,17 @@ export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
       cell: (cell) => {
         const contractAddress = cell.getValue();
         const chainId = cell.row.original.chainId;
+
+        const isMainnet = validPaymentsChainIdsMainnets.includes(chainId ?? 0);
+
+        if (isMainnet) {
+          return (
+            <Button colorScheme="blackAlpha" size="sm" isDisabled w="full">
+              KYC Required
+            </Button>
+          );
+        }
+
         return (
           <EnablePaymentsButton
             contractAddress={contractAddress}

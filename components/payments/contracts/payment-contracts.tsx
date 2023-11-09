@@ -59,7 +59,7 @@ export const PaymentContracts = () => {
 
   return (
     <Flex flexDir="column" gap={3}>
-      {isFilteringLoading ? (
+      {isFilteringLoading && filteredContracts.length === 0 ? (
         <Center>
           <Flex py={8} direction="row" gap={4} align="center">
             <Spinner size="sm" />

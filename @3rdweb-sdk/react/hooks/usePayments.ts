@@ -59,7 +59,6 @@ export const isPaymentsSupported = (
 };
 
 // TODO: Get this from API
-
 export const validPaymentsChainIdsMainnets: number[] = [
   Ethereum.chainId,
   Polygon.chainId,
