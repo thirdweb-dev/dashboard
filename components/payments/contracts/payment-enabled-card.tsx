@@ -51,9 +51,7 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
       >
         <Flex flexDir="column">
           <Text color="bgBlack">
-            <LinkOverlay
-              href={`/${PaperChainToChainId[chain]}/${address}/payments`}
-            >
+            <LinkOverlay href={`/${chainSlug}/${address}/payments`}>
               {contractName || display_name}
             </LinkOverlay>
           </Text>
