@@ -1,7 +1,7 @@
 import { Image } from "@chakra-ui/react";
 import { FileInput } from "components/shared/FileInput";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accept } from "react-dropzone";
 
 // Max file size is 10 MB.
@@ -11,12 +11,17 @@ interface IPaymentsSettingsFileUploader {
   value: string;
   accept: Accept;
   onUpdate: (fileUrl: string) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 export const PaymentsSettingsFileUploader: React.FC<
   IPaymentsSettingsFileUploader
-> = ({ accept, value, onUpdate }) => {
+> = ({ accept, value, onUpdate, setIsLoading: _setIsLoading }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(value);
+
+  useEffect(() => {
+    setImageUrl(value);
+  }, [value]);
 
   const { onSuccess, onError } = useTxNotifications(
     "File uploaded successfully.",
@@ -36,6 +41,7 @@ export const PaymentsSettingsFileUploader: React.FC<
         const upload = async (url: string) => {
           try {
             setIsLoading(true);
+            _setIsLoading(true);
             const { variants } = await uploadToCloudflare(url);
             onSuccess();
             onUpdate(variants.public);
@@ -45,6 +51,7 @@ export const PaymentsSettingsFileUploader: React.FC<
             console.error({ error });
           } finally {
             setIsLoading(false);
+            _setIsLoading(false);
           }
         };
         upload(e.target.result as string);

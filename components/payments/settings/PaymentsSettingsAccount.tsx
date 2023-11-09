@@ -7,7 +7,7 @@ import {
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Button,
@@ -100,15 +100,7 @@ const formInputs = [
       sideField: false,
     },
   ],
-] as const satisfies {
-  readonly key: string;
-  readonly label: string;
-  readonly type: "text" | "date" | "upload" | null;
-  readonly placeholder: string;
-  readonly required: boolean;
-  readonly helper: string | null;
-  readonly sideField: boolean;
-}[][];
+] as const;
 
 type IPaymentsSettingsAccountState = Record<
   (typeof formInputs)[number][number]["key"] | "companyLogoUrl",
@@ -116,6 +108,7 @@ type IPaymentsSettingsAccountState = Record<
 >;
 
 export const PaymentsSettingsAccount: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { data: account } = useAccount();
   const [updateSellerByThirdwebAccountId] =
     useUpdateSellerByThirdwebAccountIdMutation({
@@ -261,6 +254,7 @@ export const PaymentsSettingsAccount: React.FC = () => {
                                         onUpdate={(value) =>
                                           form.setValue(input.key, value)
                                         }
+                                        setIsLoading={setIsLoading}
                                       />{" "}
                                     </Box>
                                   );
@@ -325,7 +319,13 @@ export const PaymentsSettingsAccount: React.FC = () => {
           </Flex>
         </Flex>
         <Flex justifyContent="flex-end">
-          <Button type="button" colorScheme="primary" onClick={handleSubmit}>
+          <Button
+            type="button"
+            colorScheme="primary"
+            minW="200px"
+            onClick={handleSubmit}
+            isLoading={isLoading}
+          >
             Save
           </Button>
         </Flex>
