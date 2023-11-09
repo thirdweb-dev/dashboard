@@ -5,6 +5,7 @@ import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import React, { useEffect, useState } from "react";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { RPC_ENV } from "constants/rpc";
+import { useChainSlug } from "hooks/chains/chainSlug";
 
 interface PaymentEnabledCardProps {
   contract: {
@@ -19,6 +20,8 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
   contract: { chain, address, display_name, id },
 }) => {
   const [contractName, setContractName] = useState("");
+
+  const chainSlug = useChainSlug(PaperChainToChainId[chain]);
 
   useEffect(() => {
     const getName = async () => {
