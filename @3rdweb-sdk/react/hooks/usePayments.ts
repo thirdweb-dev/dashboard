@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiAuthToken } from "./useApi";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { Abi, SmartContract } from "@thirdweb-dev/sdk";
+import { Abi, FeatureName, SmartContract } from "@thirdweb-dev/sdk";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { paymentsKeys } from "../cache-keys";
 import { useAddress } from "@thirdweb-dev/react";
@@ -44,16 +44,18 @@ import {
 import { BaseContract } from "ethers";
 import { detectFeatures } from "components/contract-components/utils";
 
+export const paymentsExtensions: FeatureName[] = [
+  "ERC721SharedMetadata",
+  "ERC721ClaimPhasesV2",
+  "ERC721ClaimConditionsV2",
+  "ERC1155ClaimPhasesV1",
+  "ERC1155ClaimPhasesV2",
+];
+
 export const isPaymentsSupported = (
   contract: SmartContract<BaseContract> | undefined,
 ) => {
-  return detectFeatures(contract, [
-    "ERC721SharedMetadata",
-    "ERC721ClaimPhasesV2",
-    "ERC721ClaimConditionsV2",
-    "ERC1155ClaimPhasesV1",
-    "ERC1155ClaimPhasesV2",
-  ]);
+  return detectFeatures(contract, paymentsExtensions);
 };
 
 // TODO: Get this from API
@@ -275,10 +277,11 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
   return useMutationWithInvalidate(
     async (input: RemoveCheckoutInput) => {
       invariant(address, "No wallet address found");
+      invariant(input.checkoutId, "No checkoutId found");
 
       return fetchFromPaymentsAPI<RemoveCheckoutInput>(
         "DELETE",
-        `shareable-checkout-link/${input?.checkoutId || ""}`,
+        `shareable-checkout-link/${input.checkoutId}`,
       );
     },
     {

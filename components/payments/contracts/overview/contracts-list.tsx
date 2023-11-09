@@ -9,7 +9,7 @@ export const ContractsList: React.FC = () => {
 
   return (
     <Flex flexDir="column" gap={4} w="full">
-      <Flex flexDir="column" gap={{ base: 0, md: 4 }} mt={4}>
+      <Flex flexDir="column" gap={6} mt={4}>
         <Flex flexDir="column" gap={2}>
           <Heading size="title.md">Contracts</Heading>
           <Text>
