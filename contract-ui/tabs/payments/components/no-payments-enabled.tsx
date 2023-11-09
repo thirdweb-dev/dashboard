@@ -27,7 +27,7 @@ export const NoPaymentsEnabled: React.FC<NoPaymentsEnabledProps> = ({
               : "You need to enable payments first to be able to create a checkout"}
           </Text>
         </Stack>
-        {chainId && isMainnet && (
+        {chainId && !isMainnet && (
           <EnablePaymentsButton
             contractAddress={contractAddress}
             chainId={chainId}
