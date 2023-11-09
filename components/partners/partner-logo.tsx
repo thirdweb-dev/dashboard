@@ -66,7 +66,6 @@ const PARTNER_LOGO_MAP = {
     img: require("./logos/polygon.png"),
     filter: undefined,
   },
-  },
   avacloud: {
     img: require("./logos/avacloud.png"),
     filter: "grayscale(1)",
