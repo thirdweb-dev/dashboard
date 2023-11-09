@@ -16,11 +16,11 @@ export const PaymentsSettingsFileUploader: React.FC<
   IPaymentsSettingsFileUploader
 > = ({ accept, value, onUpdate }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(value);
 
   const { onSuccess, onError } = useTxNotifications(
-    "Failed to upload file.",
     "File uploaded successfully.",
+    "Failed to upload file.",
   );
 
   const handleFileUpload = (file: File) => {
@@ -37,10 +37,11 @@ export const PaymentsSettingsFileUploader: React.FC<
           try {
             setIsLoading(true);
             const { variants } = await uploadToCloudflare(url);
+            onSuccess();
             onUpdate(variants.public);
             setImageUrl(variants.public);
-            onSuccess();
           } catch (error) {
+            onError(error);
             console.error({ error });
           } finally {
             setIsLoading(false);

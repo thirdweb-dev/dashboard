@@ -22,6 +22,26 @@ import { PaymentsSettingsFileUploader } from "./PaymentsSettingsFileUploader";
 const formInputs = [
   [
     {
+      key: "companyLogoUrl",
+      label: "Company Logo",
+      type: "upload",
+      placeholder: "@Handle",
+      required: true,
+      helper: "76px x 76px recommended",
+      sideField: false,
+    },
+    {
+      key: "",
+      label: "",
+      type: null,
+      placeholder: "",
+      required: false,
+      helper: null,
+      sideField: false,
+    },
+  ],
+  [
+    {
       key: "twitter",
       label: "X (Twitter) Username",
       type: "text",
@@ -81,13 +101,13 @@ const formInputs = [
     },
   ],
 ] as const satisfies {
-  key: string;
-  label: string;
-  type: "text" | "date" | null;
-  placeholder: string;
-  required: boolean;
-  helper: string | null;
-  sideField: boolean;
+  readonly key: string;
+  readonly label: string;
+  readonly type: "text" | "date" | "upload" | null;
+  readonly placeholder: string;
+  readonly required: boolean;
+  readonly helper: string | null;
+  readonly sideField: boolean;
 }[][];
 
 type IPaymentsSettingsAccountState = Record<
@@ -118,8 +138,8 @@ export const PaymentsSettingsAccount: React.FC = () => {
   });
 
   const { onSuccess, onError } = useTxNotifications(
-    "Failed to save profile.",
     "Profile saved.",
+    "Failed to save profile.",
   );
 
   useEffect(() => {
@@ -181,20 +201,6 @@ export const PaymentsSettingsAccount: React.FC = () => {
 
       <FormProvider {...form}>
         <Flex flexDir="column" gap={4} py="4">
-          {/* Company Logo Input */}
-          <FormControl>
-            <FormLabel pt={2}>Company Logo</FormLabel>
-            <FormHelperText pb={4}>76px x 76px recommended</FormHelperText>
-
-            <Box w="32">
-              <PaymentsSettingsFileUploader
-                accept={{ "image/*": [] }}
-                value={form.watch("companyLogoUrl")}
-                onUpdate={(value) => form.setValue("companyLogoUrl", value)}
-              />
-            </Box>
-          </FormControl>
-
           {/* Text Information Input */}
           <Flex flexDir="column" gap={4}>
             {formInputs.map((inputs) => (
@@ -244,6 +250,19 @@ export const PaymentsSettingsAccount: React.FC = () => {
                                       type={input.type}
                                       placeholder={input.placeholder}
                                     />
+                                  );
+                                }
+                                case "upload": {
+                                  return (
+                                    <Box w="32">
+                                      <PaymentsSettingsFileUploader
+                                        accept={{ "image/*": [] }}
+                                        value={form.watch(input.key)}
+                                        onUpdate={(value) =>
+                                          form.setValue(input.key, value)
+                                        }
+                                      />{" "}
+                                    </Box>
                                   );
                                 }
                                 // case "textarea": {
