@@ -237,7 +237,7 @@ const AppHeader: React.FC = () => {
             Contracts
           </LinkButton>
           <LinkButton
-            href="/dashboard/payments/purchases"
+            href="/dashboard/payments/contracts"
             rounded="lg"
             isActive={pathname.startsWith("/dashboard/payments")}
             _active={{

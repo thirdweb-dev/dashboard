@@ -1,13 +1,15 @@
 import { usePaymentsCheckoutsByContract } from "@3rdweb-sdk/react/hooks/usePayments";
 import {
   ButtonGroup,
+  Center,
   Flex,
   Icon,
   IconButton,
+  Stack,
   useClipboard,
 } from "@chakra-ui/react";
 import { CreateUpdateCheckoutButton } from "./create-update-checkout-button";
-import { Text, Heading, Link, LinkButton } from "tw-components";
+import { Text, Heading, Link, LinkButton, Card } from "tw-components";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { IoMdCheckmark } from "react-icons/io";
@@ -36,6 +38,14 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
         />
       </Flex>
       <Flex flexDir="column" gap={4}>
+        {checkouts?.length === 0 && (
+          <Card p={8} bgColor="backgroundCardHighlight" my={6}>
+            <Center as={Stack} spacing={2}>
+              <Heading size="title.sm">No checkouts found</Heading>
+              <Text>Please create your first one</Text>
+            </Center>
+          </Card>
+        )}
         {(checkouts || [])?.map((checkout) => {
           const checkoutLink = `${THIRDWEB_PAYMENTS_API_HOST}/checkout/${checkout.id}`;
           return (
