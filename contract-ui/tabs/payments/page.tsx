@@ -8,6 +8,7 @@ import { Card, Heading, Text } from "tw-components";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { NoWalletConnectedPayments } from "./components/no-wallet-connected-payments";
 import { NoPaymentsEnabled } from "./components/no-payments-enabled";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface ContractPaymentsPageProps {
   contractAddress?: string;
@@ -45,13 +46,21 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
           <Spinner size="sm" />
         </Center>
       ) : paymentContract?.id ? (
-        <>
+        <Flex gap={4} flexDir="column">
+          <Flex gap={2}>
+            Contract ID:
+            <AddressCopyButton
+              title="contract ID"
+              address={paymentContract?.id}
+              size="xs"
+            />
+          </Flex>
           <PaymentCheckouts
             contractId={paymentContract?.id}
             contractAddress={contractAddress}
           />
           <PaymentsAnalytics contractId={paymentContract?.id} />
-        </>
+        </Flex>
       ) : isError ? (
         <Card p={8} bgColor="backgroundCardHighlight" my={6}>
           <Center as={Stack} spacing={2}>
