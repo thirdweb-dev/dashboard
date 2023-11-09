@@ -4,7 +4,6 @@ import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
 import { useAddress, useChainId } from "@thirdweb-dev/react";
-import { useTrack } from "hooks/analytics/useTrack";
 
 // GET Requests
 export type BackendWallet = {
@@ -223,11 +222,13 @@ export function useEnginePermissions(instance: string) {
           Authorization: `Bearer ${token}`,
         },
       });
+
       if (res.status !== 200) {
         throw new Error(`${res.status}`);
       }
 
       const json = await res.json();
+
       return (json.result as EngineAdmin[]) || [];
     },
     {
