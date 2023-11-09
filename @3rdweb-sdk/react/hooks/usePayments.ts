@@ -276,7 +276,7 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
 
       return fetchFromPaymentsAPI<RemoveCheckoutInput>(
         "DELETE",
-        `shareable-checkout-link/${input.checkoutId}`,
+        `shareable-checkout-link/${input?.checkoutId || ""}`,
       );
     },
     {
