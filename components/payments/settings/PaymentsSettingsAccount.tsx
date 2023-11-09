@@ -1,6 +1,12 @@
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { Box, Flex, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
+import { format } from "date-fns";
+import {
+  GetSellerByThirdwebAccountIdDocument,
+  useGetSellerByThirdwebAccountIdQuery,
+} from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Button,
@@ -91,7 +97,14 @@ type IPaymentsSettingsAccountState = Record<
 export const PaymentsSettingsAccount: React.FC = () => {
   const { data: account } = useAccount();
   const [updateSellerByThirdwebAccountId] =
-    useUpdateSellerByThirdwebAccountIdMutation();
+    useUpdateSellerByThirdwebAccountIdMutation({
+      refetchQueries: [GetSellerByThirdwebAccountIdDocument],
+    });
+  const { data: sellerData } = useGetSellerByThirdwebAccountIdQuery({
+    variables: { thirdwebAccountId: account?.id ?? "" },
+    skip: !account?.id,
+  });
+
   const form = useForm<IPaymentsSettingsAccountState>({
     defaultValues: {
       twitter: "",
@@ -102,6 +115,25 @@ export const PaymentsSettingsAccount: React.FC = () => {
       launchDate: "",
     },
   });
+
+  useEffect(() => {
+    const seller = sellerData?.seller[0];
+    if (!seller) {
+      return;
+    }
+
+    form.setValue("twitter", seller?.twitter_handle ?? "");
+    form.setValue("discord", seller?.discord_username ?? "");
+    form.setValue("companyName", seller?.company_name ?? "");
+    form.setValue("companyLogoUrl", seller?.company_logo_url ?? "");
+    form.setValue("supportEmail", seller?.support_email ?? "");
+    form.setValue(
+      "launchDate",
+      seller?.estimated_launch_date
+        ? format(new Date(seller?.estimated_launch_date), "yyyy-MM-dd")
+        : "",
+    );
+  }, [sellerData, form]);
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (
     e,
@@ -122,7 +154,7 @@ export const PaymentsSettingsAccount: React.FC = () => {
             company_name: data.companyName,
             company_logo_url: data.companyLogoUrl,
             support_email: data.supportEmail,
-            estimated_launch_date: data.launchDate,
+            estimated_launch_date: new Date(data.launchDate),
           },
         },
       });
