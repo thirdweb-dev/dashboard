@@ -247,7 +247,9 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
 
       return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
         "POST",
-        `shareable-checkout-link/${input?.checkoutId}`,
+        `shareable-checkout-link${
+          input?.checkoutId ? `/${input.checkoutId} ` : ""
+        }`,
         input,
       );
     },
