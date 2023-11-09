@@ -1,5 +1,6 @@
 import {
   Account,
+  AccountStatus,
   useAccount,
   useConfirmEmbeddedWallet,
 } from "@3rdweb-sdk/react/hooks/useApi";
@@ -14,11 +15,13 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { useWallet } from "@thirdweb-dev/react";
 import { GLOBAL_EWS_AUTH_TOKEN_KEY } from "constants/app";
 import { walletIds } from "@thirdweb-dev/wallets";
+import { OnboardingChoosePlan } from "./ChoosePlan";
 
 const skipBilling = (account: Account) => {
   return (
-    ["validPayment", "paymentVerification"].includes(account.status) ||
-    account.onboardSkipped
+    [AccountStatus.ValidPayment, AccountStatus.PaymentVerification].includes(
+      account.status,
+    ) || account.onboardSkipped
   );
 };
 
@@ -31,13 +34,15 @@ export const Onboarding: React.FC = () => {
   const ewsConfirmMutation = useConfirmEmbeddedWallet();
 
   const [state, setState] = useState<
-    "onboarding" | "confirming" | "billing" | "skipped" | undefined
+    "onboarding" | "confirming" | "plan" | "billing" | "skipped" | undefined
   >();
   const [updatedEmail, setUpdatedEmail] = useState<string | undefined>();
 
   const account = meQuery.data;
 
-  const handleSave = (email?: string) => {
+  const handleSave = (args?: { email?: string; plan?: string }) => {
+    const { email } = args || {};
+
     const tracking = {
       category: "account",
       action: "onboardingStep",
@@ -69,7 +74,7 @@ export const Onboarding: React.FC = () => {
     }
 
     if (state === "confirming") {
-      const newState = skipBilling(account) ? "skipped" : "billing";
+      const newState = skipBilling(account) ? "skipped" : "plan";
       setState(newState);
 
       trackEvent({
@@ -78,6 +83,17 @@ export const Onboarding: React.FC = () => {
           ...tracking.data,
           currentStep: "confirming",
           nextStep: newState,
+        },
+      });
+    } else if (state === "plan") {
+      setState("billing");
+
+      trackEvent({
+        ...tracking,
+        data: {
+          ...tracking.data,
+          currentStep: "plan",
+          nextStep: "billing",
         },
       });
     } else if (state === "billing") {
@@ -131,7 +147,7 @@ export const Onboarding: React.FC = () => {
     }
     // user hasn't skipped onboarding, has valid email and no valid payment yet
     else if (!skipBilling(account)) {
-      setState("billing");
+      setState("plan");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, account, router, state, wallet]);
@@ -168,9 +184,16 @@ export const Onboarding: React.FC = () => {
   }
 
   return (
-    <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
+    <OnboardingModal
+      isOpen={!!state}
+      onClose={() => setState("skipped")}
+      wide={state === "plan"}
+    >
       {state === "onboarding" && (
-        <OnboardingGeneral account={account} onSave={handleSave} />
+        <OnboardingGeneral
+          account={account}
+          onSave={(email) => handleSave({ email })}
+        />
       )}
       {state === "confirming" && (
         <OnboardingConfirmEmail
@@ -178,6 +201,9 @@ export const Onboarding: React.FC = () => {
           onBack={() => setState("onboarding")}
           email={(account.unconfirmedEmail || updatedEmail) as string}
         />
+      )}
+      {state === "plan" && (
+        <OnboardingChoosePlan onSave={(plan) => handleSave({ plan })} />
       )}
       {state === "billing" && (
         <OnboardingBilling

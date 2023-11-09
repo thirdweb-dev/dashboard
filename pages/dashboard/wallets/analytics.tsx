@@ -15,6 +15,7 @@ import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ApiKey,
+  useAccount,
   useApiKeys,
   useWalletStats,
 } from "@3rdweb-sdk/react/hooks/useApi";
@@ -35,6 +36,7 @@ import {
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
+import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
 
 const RADIAN = Math.PI / 180;
 const TRACKING_CATEGORY = "wallet-analytics";
@@ -42,16 +44,15 @@ const TRACKING_CATEGORY = "wallet-analytics";
 const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
   const { colorMode } = useColorMode();
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const barColors = useMemo(() => {
-    if (colorMode === "light") {
-      return BAR_COLORS_LIGHT;
-    }
-
-    return BAR_COLORS_DARK;
-  }, [colorMode]);
   const { isLoggedIn } = useLoggedInUser();
   const keysQuery = useApiKeys();
+  const meQuery = useAccount();
   const [selectedKey, setSelectedKey] = useState<undefined | ApiKey>();
+  const statsQuery = useWalletStats(selectedKey?.key);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { data: account } = meQuery;
+
   useEffect(() => {
     if (selectedKey) {
       return;
@@ -62,7 +63,12 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
       setSelectedKey(undefined);
     }
   }, [keysQuery.data, selectedKey]);
-  const statsQuery = useWalletStats(selectedKey?.key);
+
+  const barColors = useMemo(
+    () => (colorMode === "light" ? BAR_COLORS_LIGHT : BAR_COLORS_DARK),
+    [colorMode],
+  );
+
   const pieChartData = useMemo(() => {
     return statsQuery.data
       ? Object.values(
@@ -83,6 +89,7 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
         )
       : [];
   }, [statsQuery.data]);
+
   const barChartData = useMemo(() => {
     return statsQuery.data
       ? Object.values(
@@ -108,6 +115,7 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
         )
       : [];
   }, [statsQuery.data]);
+
   const walletBarChartData = useMemo(() => {
     return statsQuery.data
       ? Object.values(
@@ -128,6 +136,7 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
         )
       : [];
   }, [statsQuery.data]);
+
   const totalStatsData = useMemo(() => {
     return statsQuery.data
       ? statsQuery.data.timeSeries.reduce(
@@ -210,7 +219,7 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
       </g>
     );
   };
-  const [activeIndex, setActiveIndex] = useState(0);
+
   const onPieEnter = (_: any, index: number) => {
     setActiveIndex(index);
   };
@@ -218,6 +227,24 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
   if (!isLoggedIn) {
     return (
       <ConnectWalletPrompt description="view wallet analytics for your apps" />
+    );
+  }
+
+  if (!account) {
+    return null;
+  }
+
+  if (!account.advancedEnabled) {
+    return (
+      <GatedFeature
+        hadTrial={!!account.trialPeriodEndedAt}
+        title="Wallet Analytics is an advanced feature."
+        description="Dive into user analytics and gather user insights on connect, smart and embedded wallet."
+        trackingLabel="analytics"
+        imgSrc="/assets/dashboard/features/analytics.png"
+        imgWidth={576}
+        imgHeight={624}
+      />
     );
   }
 

@@ -16,230 +16,57 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import { LandingFAQ } from "components/landing-pages/faq";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PricingSection } from "components/homepage/sections/PricingSection";
+import { PLANS, SECTIONS } from "utils/pricing";
 
 const TRACKING_CATEGORY = "pricing-page";
-
-const SECTIONS = [
-  {
-    title: "Infrastructure",
-    icon: require("public/assets/product-icons/infrastructure.png"),
-    items: [
-      {
-        title: "RPC Requests",
-        starter: "Unlimited",
-        pro: "Unlimited",
-      },
-      {
-        title: "RPC Rate Limit",
-        starter: "100 Requests Per Second",
-        pro: "2000 Requests Per Second",
-      },
-      {
-        title: "Storage Gateway Requests",
-        starter: "Unlimited",
-        pro: "Unlimited",
-      },
-      {
-        title: "Storage Gateway Rate Limit",
-        starter: "100 Requests Per Second",
-        pro: "2000 Requests Per Second",
-      },
-      {
-        title: "Storage Pinning",
-        starter: "Free up to 50 GB +$0.10 per GB after",
-        pro: "Free up to 50 GB +$0.10 per GB after",
-      },
-      {
-        title: "Storage Pinning File Size",
-        starter: "5GB (per file size)",
-        pro: "25GB (per file size)",
-      },
-    ],
-  },
-  {
-    title: "Wallets",
-    icon: require("public/assets/product-icons/wallets.png"),
-    items: [
-      {
-        title: "Email Wallet (Self-Recovery)",
-        starter: "Unlimited",
-        pro: "Unlimited",
-      },
-      {
-        title: "Email Wallet (Managed Recovery)",
-        starter:
-          "Free up to 10,000 Monthly Active Wallets ($0.02 per Wallet after)",
-        pro: "Free up to 10,000 Monthly Active Wallets ($0.02 per Wallet after)",
-      },
-      {
-        title: "Device Wallet",
-        starter: "Unlimited",
-        pro: "Unlimited",
-      },
-      {
-        title: "Smart Wallet",
-        starter: "Unlimited",
-        pro: "Unlimited",
-      },
-    ],
-  },
-  {
-    title: "Payments",
-    icon: require("public/assets/product-icons/payments.png"),
-    items: [
-      {
-        title: "Checkout - Seller Fee",
-        starter: "Free",
-        pro: "Free",
-      },
-      {
-        title: "Checkout - Buyer Fee (By Fiat)",
-        starter: "4.9% + $0.30",
-        pro: "4.9% + $0.30",
-      },
-      {
-        title: "Checkout - Buyer Fee (By Crypto)",
-        starter: "1%",
-        pro: "1%",
-      },
-      {
-        title: "Checkout - Transaction Limit",
-        starter: "$2,500 Per Transaction Limit",
-        pro: "$15,000 Per Transaction Limit ",
-      },
-      {
-        title: "Sponsored transactons - Bundler",
-        starter: "10% premium on top of network fee",
-        pro: "10% premium on top of network fee",
-      },
-      {
-        title: "Sponsored transactons - Paymaster",
-        starter: "10% premium on top of network fee",
-        pro: "10% premium on top of network fee",
-      },
-      {
-        title: "Sponsored transactions - Gasless Relayer",
-        starter: "10% premium on top of network fee",
-        pro: "10% premium on top of network fee",
-      },
-    ],
-  },
-  /* {
-    title: "Platform",
-    icon: require("public/assets/product-icons/dashboards.png"),
-    items: [
-      {
-        title: "Custom RPC / IPFS Domains",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "White labelling",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "Team Seats",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "Appchain/Subnet Support",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "Single Sign-on",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "HTML files for IPFS",
-        comingSoon: true,
-        starter: "--",
-        pro: "checkmark",
-      },
-    ],
-  }, */
-  {
-    title: "Support",
-    icon: require("public/assets/product-icons/support.png"),
-    items: [
-      {
-        title: "Infrastructure SLAs",
-        starter: "--",
-        pro: "99.9% Uptime",
-      },
-      {
-        title: "Customer support SLAs",
-        starter: "--",
-        pro: "24 hours Dedicated Support",
-      },
-      {
-        title: "Prioritized Customer Support",
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "Dedicated Slack support channel",
-        starter: "Discord Support Only",
-        pro: "checkmark",
-      },
-    ],
-  },
-];
 
 const generalFaqs = [
   {
     title: "How do I get started?",
     description: (
       <Text>
-        thirdweb Starter plan is open and completely self-serve. We&apos;ve made
-        it easy for you to get started — simply connect your wallet to start
-        using thirdweb platform. You only need to create an account with your
-        email address and add payment method when you&apos;re approaching your
-        monthly free usage limits (so that we can send you billing updates if
-        you go over).
+        thirdweb Starter plan is completely usage based. Simply connect your
+        wallet to start using thirdweb platform. You only need to create an
+        account with your email address and add payment method when you&apos;re
+        approaching your monthly free usage limits (so that we can send you
+        billing updates if you go over).
       </Text>
     ),
   },
   {
-    title: "How do I sign up for thirdweb pro plan?",
+    title: "Which plan is right for me?",
     description: (
       <Text>
-        To sign for a thirdweb pro plan,{" "}
-        <Link href="/contact-us" color="blue.500">
-          Contact Sales
+        If you are looking for production grade infrastructure, advanced
+        customizations, and higher limits for transactions, Growth tier is the
+        right choice. If you are looking for dedicated solutions and support
+        SLAs, we recommend signing up for the Pro plan.
+      </Text>
+    ),
+  },
+  {
+    title: "Do I need to talk to the sales team for the Growth plan?",
+    description: (
+      <Text>
+        Nope! You can self serve and upgrade to the Growth plan in the Dashboard
+        under{" "}
+        <Link href="/dashboard/settings/billing" color="blue.500">
+          Billing
         </Link>{" "}
-        team to learn about thirdweb pro features and get a quote for monthly
-        subscription fee.
+        whenever you are ready!
       </Text>
     ),
   },
   {
-    title: "How do I update my payment method?",
+    title: "Will I be able to see my usage history?",
     description: (
       <Text>
-        Go to thirdweb Settings &gt; Billing in{" "}
-        <Link href="/dashboard/settings/billing" color="blue.500">
-          Dashboard
-        </Link>
-      </Text>
-    ),
-  },
-  {
-    title: "Where can I see my usage history?",
-    description: (
-      <Text>
-        Go to thirdweb Settings &gt; Billing in{" "}
-        <Link href="/dashboard/settings/billing" color="blue.500">
-          Dashboard
-        </Link>
+        You can review your usage history at any time on the Dashboard by
+        visiting the{" "}
+        <Link href="/dashboard/settings/usage" color="blue.500">
+          Usage
+        </Link>{" "}
+        tab under Settings.
       </Text>
     ),
   },
@@ -247,85 +74,50 @@ const generalFaqs = [
 
 const pricingFaqs = [
   {
-    title: "How are RPCs calculated?",
+    title: "RPC requests",
     description: (
       <Text>
-        RPC usage is calculated by requests per second. For the starter plan,
-        users are allowed 100 requests per second rate limit for free. For the
-        pro plan, this rate limit increases 2,000 requests per second rate
-        limit. Contact sales to upgrade to thirdweb pro plan.
+        When your app makes requests to the blockchain, and you use
+        thirdweb&apos;s built-in infrastructure, it will count as a RPC request.
       </Text>
     ),
   },
   {
-    title: "How is Storage Pinning calculated?",
+    title: "Storage gateway",
     description: (
       <Text>
-        Storage pinning usage is calculated by GB per file size. For the starter
-        plan, users receive 50GB monthly free limit + 5GB per file size rate
-        limit. For the pro plan, this rate limit increases to 25GB per file size
-        rate limit. Contact sales to upgrade to thirdweb pro plan.
+        When your app downloads files from IPFS, and you use thirdweb&apos;s
+        built-in infrastructure, it will count as a storage gateway request.
       </Text>
     ),
   },
   {
-    title: "How is Storage Gateway calculated?",
+    title: "Storage pinning",
     description: (
       <Text>
-        Storage gateway usage is calculated by GB per file size. For the starter
-        plan, users get 100 requests per second rate limit for free. For the pro
-        plan, this rate limit increases to 2000 requests per second rate limit.
-        Contact sales to upgrade to thirdweb pro plan.
+        When your app uploads files to IPFS, and you use thirdweb&apos;s
+        built-in infrastructure, it will count towards your storage pinning
+        limit.
       </Text>
     ),
   },
   {
-    title: "How is Email Wallet (managed recovery code) calculated?",
+    title: "Monthly Active Wallet",
     description: (
       <Text>
-        Email wallet (with managed recovery code) usage is calculated by monthly
-        active wallets (i.e. active as defined by at least 1 user log-in via
-        email or social within the billing period month). For both the starter
-        and pro plan, users receive 10,000 free monthly active wallets + charged
-        $0.02 per incremental monthly active wallet after. Note that wallets
-        with self recovery code is completely free to use.
+        When a user logs in during a 30-day period in using the embedded wallet
+        service, they are counted as a monthly active wallet.
       </Text>
     ),
   },
   {
-    title: "How is Payments Gasless calculated?",
-    description: (
-      <Text>
-        Gasless is calculated by sponsored network fees. For both the starter
-        and pro plan, users are charged 10% premium on top of sponsored network
-        fees.
-      </Text>
-    ),
-  },
-  {
-    title: "How is Payments Paymaster calculated?",
-    description: (
-      <Text>
-        Paymaster usage is calculated by sponsored network fees. For both the
-        starter and pro plan, users are charged 10% premium on top of sponsored
-        network fees.
-      </Text>
-    ),
-  },
-  {
-    title: "How is Payments Bundler calculated?",
-    description: (
-      <Text>
-        Bundler usage is calculated by sponsored network fees. For both the
-        starter and pro plan, users are charged 10% premium on top of sponsored
-        network fees.
-      </Text>
-    ),
+    title: "Checkout Transaction Limit",
+    description: <Text>This is the max USD per credit card transaction.</Text>,
   },
 ];
 
 const Pricing: ThirdwebNextPage = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
   return (
     <LandingLayout
@@ -349,155 +141,221 @@ const Pricing: ThirdwebNextPage = () => {
         maxW="container.page"
         as={Flex}
         flexDir="column"
-        gap={{ base: "80px", md: "120px" }}
+        gap={{ base: "80px", lg: "120px" }}
       >
-        <PricingSection TRACKING_CATEGORY={TRACKING_CATEGORY} />
+        <PricingSection trackingCategory={TRACKING_CATEGORY} />
+
         <Flex flexDir="column" gap={20}>
           {SECTIONS.map((section) => (
             <Flex flexDir="column" key={section.title} gap={4}>
-              <SimpleGrid columns={3}>
-                <Flex gap={2} alignItems="center">
+              <SimpleGrid columns={isMobile ? 2 : 4}>
+                <Flex gap={2} alignItems="center" pl={3}>
                   <ChakraNextImage src={section.icon} boxSize={5} alt="" />{" "}
-                  <Text color="white" size="body.xl">
+                  <Text color="white" size="body.lg">
                     {section.title}
                   </Text>
                 </Flex>
+
                 {!isMobile && (
                   <>
-                    <Text size="body.xl" color="gray.600" textAlign="center">
+                    <Text size="body.lg" color="gray.600" textAlign="center">
                       Starter
                     </Text>
-                    <Text
-                      size="body.xl"
-                      color="gray.600"
-                      textAlign="center"
-                      bgGradient="linear(to-r, #4830A4, #9786DF)"
-                      bgClip="text"
-                    >
+                    <Text size="body.lg" color="gray.600" textAlign="center">
+                      Growth
+                    </Text>
+                    <Text size="body.lg" color="gray.600" textAlign="center">
                       Pro
                     </Text>
                   </>
                 )}
               </SimpleGrid>
+
               <Flex flexDir="column">
-                {section.items.map((item) => (
-                  <SimpleGrid
-                    columns={{ base: 1, md: 3 }}
-                    key={item.title}
-                    alignItems="center"
-                  >
-                    <Card
-                      borderRadius="none"
-                      borderColor={{ base: "transparent", md: "gray.900" }}
-                      borderLeft="none"
-                      as={Flex}
+                {section.items.map((item) => {
+                  const isShared =
+                    item.starter === item.growth && item.growth === item.pro;
+                  const sharedItem = (
+                    <GridItem colSpan={3}>
+                      <Card
+                        borderColor={{
+                          base: "transparent",
+                          lg: "gray.900",
+                        }}
+                        borderRadius="none"
+                        borderWidth={0.5}
+                        borderRight="none"
+                      >
+                        <Text
+                          color="gray.600"
+                          size="body.md"
+                          textAlign={{ base: "right", lg: "center" }}
+                        >
+                          {item.starter === "checkmark" ? (
+                            <Icon
+                              as={IoCheckmarkCircle}
+                              boxSize={4}
+                              color="white"
+                            />
+                          ) : (
+                            item.starter
+                          )}
+                        </Text>
+                      </Card>
+                    </GridItem>
+                  );
+
+                  return (
+                    <SimpleGrid
+                      columns={{ base: 1, lg: 4 }}
+                      key={item.title}
                       alignItems="center"
                     >
-                      <Flex gap={2}>
-                        <Text color="white" size="body.lg">
-                          {item.title}
-                        </Text>
-                        {(item as any)?.comingSoon && (
-                          <Text color="gray.800" size="body.lg">
-                            Coming Soon
-                          </Text>
-                        )}
-                      </Flex>
-                    </Card>
-                    {item.starter === item.pro ? (
-                      <GridItem colSpan={2}>
+                      <Flex justifyContent="space-between">
                         <Card
-                          borderColor={{ base: "transparent", md: "gray.900" }}
                           borderRadius="none"
-                          borderRight="none"
+                          borderColor={{ base: "transparent", lg: "gray.900" }}
+                          borderWidth={0.5}
+                          borderLeft="none"
+                          as={Flex}
+                          alignItems="center"
+                          flex={1}
                         >
-                          <Text
-                            color="gray.600"
-                            size="body.lg"
-                            textAlign="center"
-                          >
-                            {item.starter === "checkmark" ? (
-                              <Icon
-                                as={IoCheckmarkCircle}
-                                boxSize={4}
-                                color="blue.500"
-                              />
-                            ) : (
-                              item.starter
+                          <Flex gap={2}>
+                            <Text color="white" size="body.md">
+                              {item.title}
+                            </Text>
+                            {(item as any)?.comingSoon && (
+                              <Text color="gray.800" size="body.md">
+                                Coming Soon
+                              </Text>
                             )}
-                          </Text>
-                        </Card>
-                      </GridItem>
-                    ) : (
-                      <>
-                        <Card
-                          borderColor={{ base: "transparent", md: "gray.900" }}
-                          borderRadius="none"
-                        >
-                          <Flex
-                            justifyContent={{
-                              base: "space-between",
-                              md: "inherit",
-                            }}
-                          >
-                            {isMobile && <Text size="body.lg">Starter</Text>}
-                            <Text
-                              w="full"
-                              color="gray.600"
-                              size="body.lg"
-                              textAlign={{ base: "right", md: "center" }}
-                            >
-                              {item.starter === "checkmark" ? (
-                                <Icon
-                                  as={IoCheckmarkCircle}
-                                  boxSize={4}
-                                  color="blue.500"
-                                />
-                              ) : (
-                                item.starter
-                              )}
-                            </Text>
                           </Flex>
                         </Card>
-                        <Card
-                          borderColor={{ base: "transparent", md: "gray.900" }}
-                          borderRadius="none"
-                          borderRight="none"
-                        >
-                          <Flex
-                            justifyContent={{
-                              base: "space-between",
-                              md: "inherit",
-                            }}
-                          >
-                            {isMobile && <Text size="body.lg">Pro</Text>}
-                            <Text
-                              color="gray.600"
-                              size="body.lg"
-                              textAlign={{ base: "right", md: "center" }}
-                              w="full"
-                            >
-                              {item.pro === "checkmark" ? (
-                                <Icon
-                                  as={IoCheckmarkCircle}
-                                  boxSize={4}
-                                  color="blue.500"
-                                />
-                              ) : (
-                                item.pro
-                              )}
-                            </Text>
-                          </Flex>
-                        </Card>
-                      </>
-                    )}
-                  </SimpleGrid>
-                ))}
+                        {isMobile && sharedItem}
+                      </Flex>
+                      {!isMobile && (
+                        <>
+                          {isShared ? (
+                            sharedItem
+                          ) : (
+                            <>
+                              <Card
+                                borderColor={{
+                                  base: "transparent",
+                                  lg: "gray.900",
+                                }}
+                                borderRadius="none"
+                                borderWidth={0.5}
+                              >
+                                <Flex
+                                  justifyContent={{
+                                    base: "space-between",
+                                    lg: "inherit",
+                                  }}
+                                >
+                                  {isMobile && (
+                                    <Text size="body.lg">Starter</Text>
+                                  )}
+                                  <Text
+                                    w="full"
+                                    color="gray.600"
+                                    size="body.md"
+                                    textAlign={{ base: "right", lg: "center" }}
+                                  >
+                                    {item.starter === "checkmark" ? (
+                                      <Icon
+                                        as={IoCheckmarkCircle}
+                                        boxSize={4}
+                                        color="white"
+                                      />
+                                    ) : (
+                                      item.starter
+                                    )}
+                                  </Text>
+                                </Flex>
+                              </Card>
+                              <Card
+                                borderColor={{
+                                  base: "transparent",
+                                  lg: "gray.900",
+                                }}
+                                borderRadius="none"
+                                borderWidth={0.5}
+                              >
+                                <Flex
+                                  justifyContent={{
+                                    base: "space-between",
+                                    lg: "inherit",
+                                  }}
+                                >
+                                  {isMobile && (
+                                    <Text size="body.lg">Growth</Text>
+                                  )}
+                                  <Text
+                                    w="full"
+                                    color="gray.600"
+                                    size="body.md"
+                                    textAlign={{ base: "right", lg: "center" }}
+                                  >
+                                    {item.growth === "checkmark" ? (
+                                      <Icon
+                                        as={IoCheckmarkCircle}
+                                        boxSize={4}
+                                        color="white"
+                                      />
+                                    ) : (
+                                      item.growth
+                                    )}
+                                  </Text>
+                                </Flex>
+                              </Card>
+                              <Card
+                                borderColor={{
+                                  base: "transparent",
+                                  lg: "gray.900",
+                                }}
+                                borderRadius="none"
+                                borderRight="none"
+                                borderWidth={0.5}
+                              >
+                                <Flex
+                                  justifyContent={{
+                                    base: "space-between",
+                                    lg: "inherit",
+                                  }}
+                                >
+                                  {isMobile && <Text size="body.lg">Pro</Text>}
+                                  <Text
+                                    color="gray.600"
+                                    size="body.md"
+                                    textAlign={{ base: "right", lg: "center" }}
+                                    w="full"
+                                  >
+                                    {item.pro === "checkmark" ? (
+                                      <Icon
+                                        as={IoCheckmarkCircle}
+                                        boxSize={4}
+                                        color="white"
+                                      />
+                                    ) : (
+                                      item.pro
+                                    )}
+                                  </Text>
+                                </Flex>
+                              </Card>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </SimpleGrid>
+                  );
+                })}
               </Flex>
             </Flex>
           ))}
           {!isMobile && (
-            <SimpleGrid columns={3} mt={-14}>
+            <SimpleGrid columns={4} mt={-14}>
               <Box>&nbsp;</Box>
               <TrackedLinkButton
                 mx={6}
@@ -512,13 +370,24 @@ const Pricing: ThirdwebNextPage = () => {
               </TrackedLinkButton>
               <TrackedLinkButton
                 mx={6}
+                py={6}
+                category={TRACKING_CATEGORY}
+                label="growth"
+                href="/dashboard/settings/billing"
                 bgColor="white"
                 _hover={{
                   bgColor: "white",
                   opacity: 0.8,
                 }}
                 color="black"
+              >
+                Start {PLANS.growth.trialPeriodDays} day Free Trial
+              </TrackedLinkButton>
+              <TrackedLinkButton
+                mx={6}
                 py={6}
+                variant="outline"
+                borderColor="gray.900"
                 category={TRACKING_CATEGORY}
                 label="pro"
                 href="/contact-us"
@@ -538,7 +407,7 @@ const Pricing: ThirdwebNextPage = () => {
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <LandingFAQ
-            title="Pricing"
+            title="Key Terminologies"
             faqs={pricingFaqs}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />

@@ -110,6 +110,22 @@ export const Usage: React.FC<UsageProps> = ({
     };
   }, [usageData]);
 
+  const checkoutMetrics = useMemo(() => {
+    const metric = {
+      title: "Total sponsored fees",
+      total: 0,
+    };
+
+    if (!usageData) {
+      return metric;
+    }
+
+    return {
+      title: metric.title,
+      total: usageData.billableUsd.checkout,
+    };
+  }, [usageData]);
+
   return (
     <VStack gap={8} w="full">
       {usageLoading && <Spinner size="sm" />}
@@ -175,6 +191,12 @@ export const Usage: React.FC<UsageProps> = ({
                 {...bundlerMetrics}
                 name="Smart Wallets"
                 tooltip="Smart Wallets (Gasless, Paymaster, Bundler) usage is calculated by sponsored network fees."
+              />
+
+              <UsageCard
+                {...checkoutMetrics}
+                name="Checkout"
+                tooltip="Checkout usage is calculated by total fees sponsored by seller."
               />
             </SimpleGrid>
           </VStack>

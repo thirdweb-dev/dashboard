@@ -107,7 +107,7 @@ const HomePage: ThirdwebNextPage = () => {
           <Suspense>
             <SDKSection />
             <AnyEVMSection />
-            <PricingSection TRACKING_CATEGORY={TRACKING_CATEGORY} onHomepage />
+            <PricingSection trackingCategory={TRACKING_CATEGORY} onHomepage />
             <SolutionsSection />
             <GetStartedSection />
             <NewsletterSection />
