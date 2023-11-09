@@ -1,23 +1,22 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import { FileInput } from "components/shared/FileInput";
-import { replaceIpfsUrl } from "lib/sdk";
-import React from "react";
+import React, { useState } from "react";
 import { Accept } from "react-dropzone";
-import { FormHelperText, FormLabel } from "tw-components";
 
 // Max file size is 10 MB.
 const maxFileSizeBytes = 10 * 1024 * 1024;
 
 interface IPaymentsSettingsFileUploader {
-  label: string;
-  helper: string;
   value: string;
   accept: Accept;
   onUpdate: (fileUrl: string) => void;
 }
 export const PaymentsSettingsFileUploader: React.FC<
   IPaymentsSettingsFileUploader
-> = ({ label, helper, accept, value, onUpdate }) => {
+> = ({ accept, value, onUpdate }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
   const handleFileUpload = (file: File) => {
     if (file.size > maxFileSizeBytes) {
       const message = `File size must be less than ${maxFileSizeBytes} bytes.`;
@@ -30,10 +29,14 @@ export const PaymentsSettingsFileUploader: React.FC<
       if (e.target) {
         const upload = async (url: string) => {
           try {
+            setIsLoading(true);
             const { variants } = await uploadToCloudflare(url);
             onUpdate(variants.public);
+            setImageUrl(variants.public);
           } catch (error) {
             console.error({ error });
+          } finally {
+            setIsLoading(false);
           }
         };
         upload(e.target.result as string);
@@ -43,31 +46,21 @@ export const PaymentsSettingsFileUploader: React.FC<
   };
 
   return (
-    <Box>
-      <FormLabel pt={2}>{label}</FormLabel>
-      {helper && <FormHelperText pb={4}>{helper}</FormHelperText>}
-
-      <FileInput
-        accept={accept}
-        value={value}
-        setValue={handleFileUpload}
-        border="1px solid"
-        borderColor="gray.200"
-        borderRadius="md"
-        transition="all 200ms ease"
-        _hover={{ shadow: "sm" }}
-        renderPreview={(fileUrl) => (
-          <Image
-            alt=""
-            w="100%"
-            h="100%"
-            src={replaceIpfsUrl(fileUrl)}
-            borderRadius="full"
-          />
-        )}
-        helperText="Image"
-      />
-    </Box>
+    <FileInput
+      accept={accept}
+      value={value}
+      setValue={handleFileUpload}
+      isDisabled={isLoading}
+      border="1px solid"
+      borderColor="gray.200"
+      borderRadius="md"
+      transition="all 200ms ease"
+      _hover={{ shadow: "sm" }}
+      renderPreview={() => (
+        <Image alt="" w="100%" h="100%" src={imageUrl} borderRadius="full" />
+      )}
+      helperText="Image"
+    />
   );
 };
 

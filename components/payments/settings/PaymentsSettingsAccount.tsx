@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   FormControl,
   FormHelperText,
@@ -7,7 +8,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Card, Heading } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 import { PaymentsSettingsFileUploader } from "./PaymentsSettingsFileUploader";
 
 const formInputs = [
@@ -101,16 +102,22 @@ export const PaymentsSettingsAccount: React.FC = () => {
   return (
     <Card>
       <Heading>Seller Information</Heading>
+      <Text>These fields are shown to your buyers. </Text>
 
       <FormProvider {...form}>
         <FormControl>
-          <PaymentsSettingsFileUploader
-            label="Company Logo"
-            helper="76px x 76px recommended"
-            accept={{ "image/*": [] }}
-            value={form.getValues("companyLogoUrl")}
-            onUpdate={(value) => form.setValue("companyLogoUrl", value)}
-          />
+          <FormLabel pt={2}>Company Logo</FormLabel>
+          <FormHelperText pb={4}>76px x 76px recommended</FormHelperText>
+
+          <Flex>
+            <Box w="32">
+              <PaymentsSettingsFileUploader
+                accept={{ "image/*": [] }}
+                value={form.watch("companyLogoUrl")}
+                onUpdate={(value) => form.setValue("companyLogoUrl", value)}
+              />
+            </Box>
+          </Flex>
         </FormControl>
 
         {/* Text Information */}
