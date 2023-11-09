@@ -59,22 +59,31 @@ export const isPaymentsSupported = (
 };
 
 // TODO: Get this from API
-export const validPaymentsChainIds: number[] = [
+
+export const validPaymentsChainIdsMainnets: number[] = [
   Ethereum.chainId,
+  Polygon.chainId,
+  Avalanche.chainId,
+  Optimism.chainId,
+  Arbitrum.chainId,
+  Binance.chainId,
+  Base.chainId,
+];
+
+export const validPaymentsChainIdsTestnets: number[] = [
   Goerli.chainId,
   Sepolia.chainId,
-  Polygon.chainId,
   Mumbai.chainId,
-  Avalanche.chainId,
   AvalancheFuji.chainId,
-  Optimism.chainId,
   OptimismGoerli.chainId,
-  Arbitrum.chainId,
   ArbitrumGoerli.chainId,
-  Binance.chainId,
   BinanceTestnet.chainId,
-  Base.chainId,
   BaseGoerli.chainId,
+];
+
+export const validPaymentsChainIds: number[] = [
+  ...validPaymentsChainIdsMainnets,
+  ...validPaymentsChainIdsTestnets,
 ];
 
 // type for validcheckoutchainids
