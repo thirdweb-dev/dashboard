@@ -56,6 +56,7 @@ export const AnyEVMSection = () => {
                   See the Chainlist
                 </LinkButton>
               </Flex>
+          </Flex>
       </Flex>
       <Box
         pointerEvents="none"
