@@ -54,16 +54,19 @@ const HomePage: ThirdwebNextPage = () => {
                 title: "Connect",
                 description: "Fully customizable Connect Wallet component",
                 img: require("public/assets/product-icons/wallet-sdk.png"),
+                link: "/connect",
               },
               {
                 title: "Smart Wallet",
                 description: "Complete toolkit for Account Abstraction",
                 img: require("public/assets/product-icons/wallet-sdk.png"),
+                link: "/account-abstraction",
               },
               {
                 title: "Embedded Wallet",
                 description: "Email & social login wallets for your customers",
                 img: require("public/assets/product-icons/wallet-sdk.png"),
+                link: "/embedded-wallets",
               },
             ]}
           />
@@ -78,22 +81,26 @@ const HomePage: ThirdwebNextPage = () => {
                 title: "Deploy",
                 description: "Contract deployment built for any use-case.",
                 img: require("public/assets/product-icons/deploy.png"),
+                link: "/deploy",
               },
               {
                 title: "Interact",
                 description:
                   "Integrate smart contract interactions directly into your app",
                 img: require("public/assets/product-icons/interact.png"),
+                link: "/interact",
               },
               {
                 title: "Build",
                 description: "Write your own smart contracts",
                 img: require("public/assets/product-icons/extensions.png"),
+                link: "/build",
               },
               {
                 title: "Explore",
                 description: "Ready-to-deploy contracts",
                 img: require("public/assets/product-icons/contracts.png"),
+                link: "/smart-contracts",
               },
             ]}
           />
@@ -109,12 +116,13 @@ const HomePage: ThirdwebNextPage = () => {
                 description:
                   "HTTP server with contract APIs and backend wallets",
                 img: require("public/assets/product-icons/engine.png"),
+                link: "/engine",
               },
             ]}
           />
           <HomePageCard
             title="Simplify NFT purchases with fiat checkouts"
-            description="The complete web3 wallet stack — with a customizable Connect Wallet modal, embedded wallets for flexible sign-in options, and account abstraction for the smoothest user experiences."
+            description="The most powerful NFT checkout — with worldwide availability, support for major payment methods, and full compliance for enterprise-grade apps. Built to onboard everyone, even if they've never created a web3 wallet or bought crypto."
             introductionTitle="CHECKOUT PRODUCT"
             image={require("public/assets/bear-market-airdrop/desktop-checkout.png")}
             mobileImage={require("public/assets/bear-market-airdrop/mobile-checkout.png")}
@@ -123,6 +131,7 @@ const HomePage: ThirdwebNextPage = () => {
                 title: "NFT Checkout",
                 description: "Credit card checkout for NFTs",
                 img: require("public/assets/product-icons/payments.png"),
+                link: "/checkout",
               },
             ]}
           />
