@@ -1,6 +1,7 @@
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Flex, Icon, Image } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Text } from "tw-components";
+import { BsLightningCharge } from "react-icons/bs";
+import { Heading, LinkButton, Text } from "tw-components";
 
 export const AnyEVMSection = () => {
   return (
@@ -33,30 +34,33 @@ export const AnyEVMSection = () => {
         >
           Our tools work with any contract deployed on any EVM-compatible chain.
         </Text>
+
         <Flex
-              flexDirection={{ base: "column", md: "row" }}
-              gap={4}
-              mt={{ base: 8, md: 0 }}
-            >
-              <Flex flexDir="column" gap={3} flexGrow={1} minW={300}>
-                <LinkButton
-                  href="/chainlist"
-                  px={4}
-                  py={7}
-                  // h={{ base: "48px", md: "68px" }}
-                  fontSize="20px"
-                  leftIcon={<Icon as={BsLightningCharge} color="black" />}
-                  color="black"
-                  flexShrink={0}
-                  background="rgba(255,255,255,1)"
-                  _hover={{
-                    background: "rgba(255,255,255,0.9)!important",
-                  }}
-                >
-                  See the Chainlist
-                </LinkButton>
-              </Flex>
-          </Flex>
+          flexDir="column"
+          justifyContent={"center"}
+          alignItems={"center"}
+          marginTop={"16px"}
+          w={"100%"}
+        >
+          <LinkButton
+            href="/chainlist"
+            px={4}
+            py={7}
+            // h={{ base: "48px", md: "68px" }}
+            fontSize="20px"
+            leftIcon={<Icon as={BsLightningCharge} color="black" />}
+            color="black"
+            flexShrink={0}
+            background="rgba(255,255,255,1)"
+            _hover={{
+              background: "rgba(255,255,255,0.9)!important",
+            }}
+            maxW={"320px"}
+            width={"100%"}
+          >
+            See the Chainlist
+          </LinkButton>
+        </Flex>
       </Flex>
       <Box
         pointerEvents="none"
