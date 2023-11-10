@@ -77,7 +77,7 @@ export const HeroSection = () => {
           >
             Complete web3
             <br />
-            development toolkit.
+            development toolkit
           </Heading>
           <Heading
             as="h3"

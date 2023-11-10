@@ -1,17 +1,9 @@
-import {
-  Box,
-  Container,
-  Flex,
-  GridItem,
-  LinkBox,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { LandingCTAButtons } from "components/landing-pages/cta-buttons";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { StaticImageData } from "next/image";
 import React from "react";
-import { Card, ChakraNextLink, Heading, Text } from "tw-components";
+import { ChakraNextLink, Heading, Text } from "tw-components";
 
 interface Item {
   img: StaticImageData;
