@@ -167,6 +167,7 @@ export function usePaymentsRegisterContract() {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
+  const { apolloRefetch } = usePaymentsEnabledContracts();
 
   return useMutationWithInvalidate(
     async (input: RegisterContractInput) => {
@@ -196,8 +197,9 @@ export function usePaymentsRegisterContract() {
       );
     },
     {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
+      onSuccess: async () => {
+        await apolloRefetch();
+        await queryClient.invalidateQueries(
           paymentsKeys.contracts(address as string),
         );
       },
@@ -307,19 +309,21 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
 export function usePaymentsEnabledContracts() {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data } = useContractsByOwnerIdQuery({
+  const { data, refetch: apolloRefetch } = useContractsByOwnerIdQuery({
     variables: {
       ownerId: paymentsSellerId,
     } as ContractsByOwnerIdQueryVariables,
   });
 
-  return useQuery(
+  const query = useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
       return data && data?.contract.length > 0 ? data.contract : [];
     },
     { enabled: !!paymentsSellerId && !!address && !!data?.contract },
   );
+
+  return { ...query, apolloRefetch };
 }
 
 export function usePaymentsCheckoutsByContract(contractAddress: string) {
