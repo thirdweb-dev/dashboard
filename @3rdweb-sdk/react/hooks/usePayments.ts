@@ -250,6 +250,7 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
+  const { apolloRefetch } = usePaymentsCheckoutsByContract(contractAddress);
 
   return useMutationWithInvalidate(
     async (input: CreateUpdateCheckoutInput) => {
@@ -264,8 +265,9 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
       );
     },
     {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
+      onSuccess: async () => {
+        await apolloRefetch();
+        await queryClient.invalidateQueries(
           paymentsKeys.checkouts(contractAddress, address as string),
         );
       },
@@ -323,31 +325,26 @@ export function usePaymentsEnabledContracts() {
 export function usePaymentsCheckoutsByContract(contractAddress: string) {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data } = useCheckoutByContractAddressQuery({
+  const { data, refetch: apolloRefetch } = useCheckoutByContractAddressQuery({
     variables: {
       ownerId: paymentsSellerId,
       contractAddress,
     } as CheckoutByContractAddressQueryVariables,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
   });
 
-  return useQuery(
+  const query = useQuery(
     paymentsKeys.checkouts(contractAddress, address as string),
     async () => {
       return data?.checkout || [];
     },
     {
       enabled: !!paymentsSellerId && !!address && !!data && !!contractAddress,
-      refetchInterval: (refetchIntervalData) => {
-        if (refetchIntervalData?.length === data?.checkout?.length) {
-          return 3000;
-        }
-        return 0;
-      },
     },
   );
-}
 
+  return { ...query, apolloRefetch };
+}
 export function usePaymentsContractByAddressAndChain(
   contractAddress: string | undefined,
   chainId: number | undefined,

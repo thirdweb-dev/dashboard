@@ -1,11 +1,8 @@
-import { paymentsKeys } from "@3rdweb-sdk/react/cache-keys";
 import {
   usePaymentsEnabledContracts,
   usePaymentsRegisterContract,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useAddress } from "@thirdweb-dev/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -24,8 +21,6 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
 }) => {
   const { mutate: registerContract } = usePaymentsRegisterContract();
   const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
-  const queryClient = useQueryClient();
-  const address = useAddress();
 
   const contractIsEnabled = useMemo(() => {
     return paymentEnabledContracts?.some(
@@ -71,9 +66,6 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
                     action: "enable-payments",
                     label: "success",
                   });
-                  queryClient.invalidateQueries(
-                    paymentsKeys.contracts(address as string),
-                  );
                   router.push(
                     `/${chainSlug}/${contractAddress}/payments`,
                     undefined,

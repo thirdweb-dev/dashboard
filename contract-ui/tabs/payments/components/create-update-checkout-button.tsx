@@ -16,7 +16,6 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
@@ -28,11 +27,10 @@ import {
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useState } from "react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
-import { useAddress, useContract } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
-import { paymentsKeys } from "@3rdweb-sdk/react/cache-keys";
 
 const formInputs = [
   {
@@ -268,8 +266,6 @@ export const CreateUpdateCheckoutButton: React.FC<
   CreateUpdateCheckoutButtonProps
 > = ({ contractId, contractAddress, checkout, checkoutId }) => {
   const { contract } = useContract(contractAddress);
-  const queryClient = useQueryClient();
-  const address = useAddress();
 
   const isSupportedContract = isPaymentsSupported(contract);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
@@ -357,9 +353,6 @@ export const CreateUpdateCheckoutButton: React.FC<
               onClose();
               setStep("info");
               form.reset();
-              queryClient.invalidateQueries(
-                paymentsKeys.checkouts(contractAddress, address as string),
-              );
               trackEvent({
                 category: "payments",
                 action: checkoutId ? "update-checkout" : "create-checkout",
