@@ -17,6 +17,11 @@ function redirects() {
       permanent: false,
     },
     {
+      source: "/privacy",
+      destination: "/privacy",
+      permanent: false,
+    },
+    {
       source: "/tos",
       destination: "/Thirdweb_Terms_of_Service.pdf",
       permanent: false,
