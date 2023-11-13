@@ -21,7 +21,7 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel, Text } from "tw-components";
+import { Button, FormHelperText, FormLabel } from "tw-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { beautifyString } from "./webhooks-table";
 
@@ -45,12 +45,17 @@ export const AddWebhookButton: React.FC<AddWebhookButtonProps> = ({
 
   return (
     <>
-      <Flex onClick={onOpen} alignItems="center" gap={2}>
-        <Icon as={AiOutlinePlusCircle} boxSize={6} color="primary.500" />
-        <Text color="primary.500" cursor="pointer" fontWeight="bold">
-          Create Webhook
-        </Text>
-      </Flex>
+      <Button
+        onClick={onOpen}
+        variant="ghost"
+        size="sm"
+        leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
+        colorScheme="primary"
+        w="fit-content"
+      >
+        Create webhook
+      </Button>
+
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent

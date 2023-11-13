@@ -17,7 +17,7 @@ const SettingsUsagePage: ThirdwebNextPage = () => {
   const usageQuery = useAccountUsage();
 
   if (!isLoggedIn) {
-    return <ConnectWalletPrompt />;
+    return <ConnectWalletPrompt description="view usage analytics" />;
   }
 
   if (meQuery.isLoading || !meQuery.data) {
@@ -27,7 +27,7 @@ const SettingsUsagePage: ThirdwebNextPage = () => {
   const account = meQuery.data;
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <Flex direction="column">
         <Heading size="title.lg" as="h1">
           Usage

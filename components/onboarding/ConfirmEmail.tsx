@@ -41,7 +41,7 @@ export const OnboardingConfirmEmail: React.FC<OnboardingConfirmEmailProps> = ({
 
   const form = useForm<EmailConfirmationValidationSchema>({
     resolver: zodResolver(emailConfirmationValidationSchema),
-    values: {
+    defaultValues: {
       confirmationToken: "",
     },
   });
@@ -62,9 +62,6 @@ export const OnboardingConfirmEmail: React.FC<OnboardingConfirmEmailProps> = ({
       action: "confirmEmail",
       label: "attempt",
     });
-
-    onSave();
-    setSaving(false);
 
     mutation.mutate(values, {
       onSuccess: () => {

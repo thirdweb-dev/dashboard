@@ -33,16 +33,20 @@ const columnHelper = createColumnHelper<AccessToken>();
 
 const columns = [
   columnHelper.accessor("tokenMask", {
-    header: "Token Mask",
+    header: "Access Token",
     cell: (cell) => {
-      return <Text fontFamily="mono">{cell.getValue()}</Text>;
+      return (
+        <Text fontFamily="mono" fontSize="small">
+          {cell.getValue()}
+        </Text>
+      );
     },
   }),
   columnHelper.accessor("walletAddress", {
     header: "Created By",
     cell: (cell) => {
       const address = cell.getValue();
-      return <AddressCopyButton address={address} />;
+      return <AddressCopyButton address={address} size="xs" />;
     },
   }),
   columnHelper.accessor("createdAt", {
@@ -123,7 +127,7 @@ export const AccessTokensTable: React.FC<AccessTokensTableProps> = ({
           <ModalCloseButton />
           <ModalBody>
             <Text>
-              Are you sure you want to revoke access token with token mask{" "}
+              Are you sure you want to revoke the access token{" "}
               <Text fontFamily="mono" display="inline-flex">
                 {accessTokenToRevoke?.tokenMask}
               </Text>
