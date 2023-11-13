@@ -266,6 +266,7 @@ export const CreateUpdateCheckoutButton: React.FC<
   CreateUpdateCheckoutButtonProps
 > = ({ contractId, contractAddress, checkout, checkoutId }) => {
   const { contract } = useContract(contractAddress);
+
   const isSupportedContract = isPaymentsSupported(contract);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
