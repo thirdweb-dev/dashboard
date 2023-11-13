@@ -245,6 +245,7 @@ export type CreateUpdateCheckoutInput = {
     | "cyan"
     | "purple"
     | "pink";
+  thirdwebClientId: string;
   checkoutId?: string;
 };
 

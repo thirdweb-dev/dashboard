@@ -19,18 +19,20 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel } from "tw-components";
+import { Button, FormHelperText, FormLabel, LinkButton } from "tw-components";
 import {
   CreateUpdateCheckoutInput,
   isPaymentsSupported,
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
+import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
+import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 
 const formInputs = [
   {
@@ -65,23 +67,12 @@ const formInputs = [
         sideField: false,
       },
       {
-        name: "successCallbackUrl",
-        label: "Post-Purchase URL",
-        type: "text",
-        placeholder: "https://your-website.com/thank-you",
-        required: false,
-        helper:
-          "A buyer will be navigated to this page after a successful purchase.",
-        sideField: false,
-      },
-      {
-        name: "cancelCallbackUrl",
-        label: "Error URL",
-        type: "text",
-        placeholder: "https://your-website.com/something-went-wrong",
-        required: false,
-        helper:
-          "A buyer will be navigated to this page if they are unable to make a purchase.",
+        name: "thirdwebClientId",
+        label: "Client ID",
+        type: "clientId",
+        placeholder: "",
+        required: true,
+        helper: "You need a client ID to be able to use checkouts.",
         sideField: false,
       },
     ],
@@ -242,6 +233,26 @@ const formInputs = [
         sideField: true,
       },
       {
+        name: "successCallbackUrl",
+        label: "Post-Purchase URL",
+        type: "text",
+        placeholder: "https://your-website.com/thank-you",
+        required: false,
+        helper:
+          "A buyer will be navigated to this page after a successful purchase.",
+        sideField: false,
+      },
+      {
+        name: "cancelCallbackUrl",
+        label: "Error URL",
+        type: "text",
+        placeholder: "https://your-website.com/something-went-wrong",
+        required: false,
+        helper:
+          "A buyer will be navigated to this page if they are unable to make a purchase.",
+        sideField: false,
+      },
+      {
         name: "twitterHandleOverride",
         label: "Seller Twitter username",
         type: "text",
@@ -269,6 +280,14 @@ export const CreateUpdateCheckoutButton: React.FC<
 
   const isSupportedContract = isPaymentsSupported(contract);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+
+  const keysQuery = useApiKeys();
+
+  const apiKeys = useMemo(() => {
+    return (keysQuery?.data || []).filter((key) => {
+      return (key.services || []).some((srv) => srv.name === "embeddedWallets");
+    });
+  }, [keysQuery]);
 
   const [step, setStep] = useState<
     "info" | /* "non-tw" | */ "branding" | "delivery" | "advanced"
@@ -304,6 +323,8 @@ export const CreateUpdateCheckoutButton: React.FC<
     sendEmailOnTransferSucceeded:
       checkout?.should_send_transfer_completed_email || false,
     contractId,
+    thirdwebClientId:
+      checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.id) || "",
   };
 
   const form = useForm<CreateUpdateCheckoutInput>({
@@ -431,7 +452,9 @@ export const CreateUpdateCheckoutButton: React.FC<
       <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
         <ModalContent as="form">
-          <ModalHeader>Create New Checkout</ModalHeader>
+          <ModalHeader>
+            {checkoutId ? "Update" : "Create New"} Checkout
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir="column" gap={4}>
@@ -442,6 +465,9 @@ export const CreateUpdateCheckoutButton: React.FC<
                 return (
                   <Flex key={input.step} flexDir="column" gap={5}>
                     {input.fields.map((field) => {
+                      const foundApiKey = apiKeys.find(
+                        (key) => key.id === form.watch(field.name),
+                      );
                       if (!isErc1155 && field.name === "tokenId") {
                         return null;
                       }
@@ -472,9 +498,16 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 borderRadius="lg"
                                 w="inherit"
                                 size="sm"
-                                {...form.register(field.name, {
-                                  required: field.required,
-                                })}
+                                value={form.watch(field.name)}
+                                onChange={(e) => {
+                                  form.setValue(
+                                    field.name,
+                                    e.target.value as any,
+                                    {
+                                      shouldDirty: true,
+                                    },
+                                  );
+                                }}
                                 placeholder={field.placeholder}
                               >
                                 {field.options.map((option) => (
@@ -511,6 +544,23 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 placeholder={field.placeholder}
                                 {...form.register(field.name)}
                               />
+                            ) : field.type === "clientId" ? (
+                              apiKeys.length > 0 ? (
+                                <ApiKeysMenu
+                                  apiKeys={apiKeys}
+                                  selectedKey={foundApiKey}
+                                  onSelect={(val) =>
+                                    form.setValue(field.name, val.id)
+                                  }
+                                />
+                              ) : (
+                                <LinkButton
+                                  href="/dashboard/settings/api-keys"
+                                  colorScheme="blue"
+                                >
+                                  Create API Key
+                                </LinkButton>
+                              )
                             ) : (
                               <Input
                                 {...form.register(field.name, {
@@ -542,7 +592,17 @@ export const CreateUpdateCheckoutButton: React.FC<
               </Button>
             )}
 
-            <Button type="button" colorScheme="primary" onClick={handleNext}>
+            <Button
+              type="button"
+              colorScheme="primary"
+              onClick={handleNext}
+              isDisabled={
+                apiKeys.length === 0 ||
+                form.watch("thirdwebClientId") === "" ||
+                form.watch("title") === "" ||
+                form.watch("tokenId") === ""
+              }
+            >
               {step === "advanced"
                 ? checkoutId
                   ? "Update"
