@@ -272,7 +272,8 @@ const PrivacyPolicy = () => {
       <p>
         If you want to learn more about the personal information that thirdweb
         has about you, or you would like to update, change, or delete that
-        information, please contact us by email at privacy@thirdweb.com. We will
+        information, please contact us by email at{" "}
+        <a href="mailto:privacy@thirdweb.com">privacy@thirdweb.com</a>. We will
         respond to your request as soon as reasonably possible and no longer
         than what is permitted under applicable law.
       </p>
@@ -354,8 +355,9 @@ const PrivacyPolicy = () => {
       </Text>
       <p>
         Should you have any questions or concerns about this Policy, you can
-        contact us by, sending us at privacy@thirdweb.com or at: Non-Fungible
-        Labs, Inc. 2 Marina Blvd, B300N, San Francisco, CA 94123
+        contact us by, sending us at{" "}
+        <a href="mailto:privacy@thirdweb.com">privacy@thirdweb.com</a> or at:
+        Non-Fungible Labs, Inc. 2 Marina Blvd, B300N, San Francisco, CA 94123
       </p>
     </div>
   );
