@@ -5,6 +5,7 @@ import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
 import { useAddress, useChainId } from "@thirdweb-dev/react";
 import { THIRDWEB_API_HOST } from "constants/urls";
+import { useLoggedInUser } from "./useLoggedInUser";
 
 // Engine instances
 export interface EngineInstance {
@@ -15,11 +16,12 @@ export interface EngineInstance {
   lastAccessedAt: string;
 }
 
-export function useEngineInstances({ skip }: { skip: boolean }) {
+export function useEngineInstances() {
   const { token } = useApiAuthToken();
+  const { user } = useLoggedInUser();
 
   return useQuery(
-    engineKeys.instances(),
+    engineKeys.instances(user?.address ?? ""),
     async (): Promise<EngineInstance[]> => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine`, {
         method: "GET",
@@ -36,7 +38,7 @@ export function useEngineInstances({ skip }: { skip: boolean }) {
       return json.data?.instances || [];
     },
     {
-      enabled: !skip && !!token,
+      enabled: !!user && !!token,
     },
   );
 }

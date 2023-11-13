@@ -18,10 +18,7 @@ const EngineManage: ThirdwebNextPage = () => {
   const [connectedInstance, setConnectedInstance] = useState<
     EngineInstance | undefined
   >();
-
-  const instancesQuery = useEngineInstances({
-    skip: !isLoggedIn || !!connectedInstance,
-  });
+  const instancesQuery = useEngineInstances();
   const instances: EngineInstance[] = instancesQuery.data ?? [];
 
   if (!isLoggedIn) {
