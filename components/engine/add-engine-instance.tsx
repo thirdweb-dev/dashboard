@@ -21,7 +21,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCloudCheck, BsGear } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
-import { Text, Heading, Button, Link, Badge, FormLabel } from "tw-components";
+import { Text, Heading, Button, Badge, FormLabel } from "tw-components";
 
 interface AddEngineInstanceButtonProps {
   refetch: () => void;
@@ -228,13 +228,19 @@ const ModalImportEngine = ({
 
   const onSubmit = async (data: { name: string; url: string }) => {
     try {
+      // Instance URLs should end with a /.
+      const url = data.url.endsWith("/") ? data.url : `${data.url}/`;
+
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          url,
+        }),
       });
       if (!res.ok) {
         throw new Error(`Unexpected status ${res.status}`);

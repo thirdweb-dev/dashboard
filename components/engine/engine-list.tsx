@@ -78,9 +78,9 @@ export const EngineInstancesList = ({
         {instances.length === 0 ? (
           <Card p={8}>
             <Stack>
-              <Heading size="label.lg">Nothing here yet.</Heading>
+              <Heading size="label.lg">Get Started</Heading>
               <Text>
-                Get started by setting up or importing an Engine instance.
+                View Engine instances you&apos;ve set up and imported here.
               </Text>
             </Stack>
           </Card>
@@ -245,6 +245,9 @@ const EditModal = ({
   });
 
   const onSubmit = async (data: { name: string; url: string }) => {
+    // Instance URLs should end with a /.
+    const url = data.url.endsWith("/") ? data.url : `${data.url}/`;
+
     try {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine/${instance.id}`, {
         method: "PUT",
@@ -252,7 +255,10 @@ const EditModal = ({
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          url,
+        }),
       });
       if (!res.ok) {
         throw new Error(`Unexpected status ${res.status}`);

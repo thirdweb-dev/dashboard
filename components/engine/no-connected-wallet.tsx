@@ -1,36 +1,9 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { Flex, Stack } from "@chakra-ui/react";
-import { useTrack } from "hooks/analytics/useTrack";
-import { useEffect } from "react";
+import { Stack } from "@chakra-ui/react";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 
-export const EngineNoConnectedWallet: React.FC<> = () => {
-  const trackEvent = useTrack();
-
-  // useEffect(() => {
-  //   if (instance) {
-  //     trackEvent({
-  //       category: "engine",
-  //       action: "set-engine-instance",
-  //       label: "no-connected-wallet",
-  //       url: instance,
-  //     });
-  //   }
-  // }, [instance, trackEvent]);
-
+export const EngineNoConnectedWallet: React.FC = () => {
   return (
-    // <>
-    //   <Card p={10} bgColor="backgroundHighlight" borderColor="#0000" my={6}>
-    //     <Stack textAlign="center" spacing={4}>
-    //       <Text>Sign in with an admin wallet from your Engine instance.</Text>
-    //       <Flex justifyContent="center">
-
-    //       </Flex>
-    //     </Stack>
-    //   </Card>
-
-    //   <EngineHostingOptionsCta />
-    // </>
     <Stack spacing={8}>
       <Stack>
         <Heading size="title.lg" as="h1">
