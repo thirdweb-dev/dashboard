@@ -33,6 +33,7 @@ import {
 import { AddEngineInstanceButton } from "./add-engine-instance";
 import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useAddress } from "@thirdweb-dev/react";
+import { useTrack } from "hooks/analytics/useTrack";
 
 interface EngineInstancesListProps {
   instances: EngineInstance[];
@@ -47,6 +48,7 @@ export const EngineInstancesList = ({
 }: EngineInstancesListProps) => {
   const editDisclosure = useDisclosure();
   const removeDisclosure = useDisclosure();
+  const trackEvent = useTrack();
 
   const [instanceToUpdate, setInstanceToUpdate] = useState<
     EngineInstance | undefined
@@ -108,6 +110,11 @@ export const EngineInstancesList = ({
                   <Tooltip label="Edit">
                     <IconButton
                       onClick={() => {
+                        trackEvent({
+                          category: "engine",
+                          action: "edit",
+                          label: "open-modal",
+                        });
                         setInstanceToUpdate(instance);
                         editDisclosure.onOpen();
                       }}
@@ -118,6 +125,11 @@ export const EngineInstancesList = ({
                   <Tooltip label="Remove">
                     <IconButton
                       onClick={() => {
+                        trackEvent({
+                          category: "engine",
+                          action: "remove",
+                          label: "open-modal",
+                        });
                         setInstanceToUpdate(instance);
                         removeDisclosure.onOpen();
                       }}
@@ -162,6 +174,8 @@ const ConnectButton = ({
   const { token } = useApiAuthToken();
   const address = useAddress();
   const toast = useToast();
+  const trackEvent = useTrack();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const onClickConnect = async () => {
@@ -179,8 +193,18 @@ const ConnectButton = ({
         },
       });
       if (res.ok) {
+        trackEvent({
+          category: "engine",
+          action: "connect",
+          label: "success",
+        });
         setConnectedInstance(instance);
       } else if (res.status === 401) {
+        trackEvent({
+          category: "engine",
+          action: "connect",
+          label: "unauthorized",
+        });
         toast({
           status: "error",
           title: "Unauthorized",
@@ -193,6 +217,11 @@ const ConnectButton = ({
       }
     } catch (e: any) {
       if (e?.message === "Failed to fetch") {
+        trackEvent({
+          category: "engine",
+          action: "connect",
+          label: "unreachable",
+        });
         toast({
           status: "error",
           description: `Unable to connect to ${instance.url}. Ensure that your Engine is publicly accessible.`,

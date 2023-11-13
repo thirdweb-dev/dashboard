@@ -58,8 +58,8 @@ export const AddEngineInstanceButton = ({
         onClick={() => {
           trackEvent({
             category: "engine",
-            action: "add-instance",
-            label: "clicked-add-engine-instance",
+            action: "click",
+            label: "add-engine-instance",
           });
           onOpen();
         }}
@@ -93,7 +93,7 @@ const ModalSelectHostingOption = ({
     trackEvent({
       category: "engine",
       action: "click",
-      label: "cloud-hosted",
+      label: "clicked-request-early-access",
     });
 
     const url = `https://share.hsforms.com/1k5tu00ueS5OYMaxHK6De-gea58c?email=${
@@ -106,7 +106,7 @@ const ModalSelectHostingOption = ({
     trackEvent({
       category: "engine",
       action: "click",
-      label: "self-hosted",
+      label: "clicked-self-host-instructions",
     });
     window.open("https://portal.thirdweb.com/engine/getting-started");
   };
@@ -114,8 +114,8 @@ const ModalSelectHostingOption = ({
   const onClickImport = () => {
     trackEvent({
       category: "engine",
-      action: "add-instance",
-      label: "clicked-import",
+      action: "import",
+      label: "open-modal",
     });
     setModalState("importEngine");
   };
@@ -245,6 +245,7 @@ const ModalImportEngine = ({
       if (!res.ok) {
         throw new Error(`Unexpected status ${res.status}`);
       }
+
       onSuccess();
     } catch (e) {
       toast({
