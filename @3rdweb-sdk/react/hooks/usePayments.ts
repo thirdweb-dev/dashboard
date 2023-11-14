@@ -28,17 +28,14 @@ import { RPC_ENV } from "constants/rpc";
 import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
-  useContractsByOwnerIdQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 import {
   ContractsByAddressAndChainQueryVariables,
   useContractsByAddressAndChainLazyQuery,
-  useContractsByAddressAndChainQuery,
 } from "graphql/queries/__generated__/ContractsByAddressAndChain.generated";
 import {
   DetailedAnalyticsQueryVariables,
   useDetailedAnalyticsLazyQuery,
-  useDetailedAnalyticsQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
   CheckoutByContractAddressQueryVariables,
@@ -170,7 +167,6 @@ export function usePaymentsRegisterContract() {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
-  const { apolloRefetch } = usePaymentsEnabledContracts();
 
   return useMutationWithInvalidate(
     async (input: RegisterContractInput) => {
@@ -201,7 +197,6 @@ export function usePaymentsRegisterContract() {
     },
     {
       onSuccess: async () => {
-        await apolloRefetch();
         await queryClient.invalidateQueries(
           paymentsKeys.contracts(address as string),
         );
