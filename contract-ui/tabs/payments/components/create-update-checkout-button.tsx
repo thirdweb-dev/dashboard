@@ -61,7 +61,7 @@ const formInputs = [
         name: "tokenId",
         label: "Token ID",
         type: "number",
-        placeholder: "",
+        placeholder: "0",
         required: true,
         helper: "Defines the token within the ERC-1155 contract to purchase.",
         sideField: false,

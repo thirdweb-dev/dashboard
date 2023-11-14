@@ -27,14 +27,17 @@ import { getEVMThirdwebSDK } from "lib/sdk";
 import { RPC_ENV } from "constants/rpc";
 import {
   ContractsByOwnerIdQueryVariables,
+  useContractsByOwnerIdLazyQuery,
   useContractsByOwnerIdQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 import {
   ContractsByAddressAndChainQueryVariables,
+  useContractsByAddressAndChainLazyQuery,
   useContractsByAddressAndChainQuery,
 } from "graphql/queries/__generated__/ContractsByAddressAndChain.generated";
 import {
   DetailedAnalyticsQueryVariables,
+  useDetailedAnalyticsLazyQuery,
   useDetailedAnalyticsQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
@@ -308,21 +311,20 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
 export function usePaymentsEnabledContracts() {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data, refetch: apolloRefetch } = useContractsByOwnerIdQuery({
-    variables: {
-      ownerId: paymentsSellerId,
-    } as ContractsByOwnerIdQueryVariables,
-  });
+  const [getContractsByOwnerId] = useContractsByOwnerIdLazyQuery();
 
-  const query = useQuery(
+  return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
+      const { data } = await getContractsByOwnerId({
+        variables: {
+          ownerId: paymentsSellerId,
+        } as ContractsByOwnerIdQueryVariables,
+      });
       return data && data?.contract.length > 0 ? data.contract : [];
     },
-    { enabled: !!paymentsSellerId && !!address && !!data?.contract },
+    { enabled: !!paymentsSellerId && !!address },
   );
-
-  return { ...query, apolloRefetch };
 }
 
 export function usePaymentsCheckoutsByContract(contractAddress: string) {
@@ -364,28 +366,27 @@ export function usePaymentsContractByAddressAndChain(
   invariant(chainId, "chainId is required");
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data } = useContractsByAddressAndChainQuery({
-    variables: {
-      ownerId: paymentsSellerId,
-      chain: ChainIdToPaperChain[chainId],
-      contractAddress,
-    } as ContractsByAddressAndChainQueryVariables,
-  });
+  const [getContractsByAddressAndChain] =
+    useContractsByAddressAndChainLazyQuery();
 
   return useQuery(
     paymentsKeys.contractsByChainId(address as string, chainId),
     async () => {
+      const { data } = await getContractsByAddressAndChain({
+        variables: {
+          ownerId: paymentsSellerId,
+          chain: ChainIdToPaperChain[chainId],
+          contractAddress,
+        } as ContractsByAddressAndChainQueryVariables,
+      });
+
       return data && (data?.contract || []).length > 0
         ? data.contract[0]
         : ({} as { id: string });
     },
     {
       enabled:
-        !!paymentsSellerId &&
-        !!address &&
-        !!data?.contract &&
-        !!contractAddress &&
-        !!chainId,
+        !!paymentsSellerId && !!address && !!contractAddress && !!chainId,
     },
   );
 }
@@ -487,16 +488,18 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
   invariant(checkoutId, "checkoutId is required");
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data } = useDetailedAnalyticsQuery({
-    variables: {
-      ownerId: paymentsSellerId,
-      checkoutId,
-    } as DetailedAnalyticsQueryVariables,
-  });
+  const [getDetailedAnalytics] = useDetailedAnalyticsLazyQuery();
 
   return useQuery(
     paymentsKeys.detailedAnalytics(checkoutId),
     async () => {
+      const { data } = await getDetailedAnalytics({
+        variables: {
+          ownerId: paymentsSellerId,
+          checkoutId,
+        } as DetailedAnalyticsQueryVariables,
+      });
+
       return {
         overview: data?.analytics_overview_2,
         detailed: data?.get_detailed_analytics,
