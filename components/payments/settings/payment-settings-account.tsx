@@ -17,7 +17,7 @@ import {
   Heading,
   Text,
 } from "tw-components";
-import { PaymentsSettingsFileUploader } from "./PaymentsSettingsFileUploader";
+import { PaymentsSettingsFileUploader } from "./payment-setting-file-uploader";
 
 const formInputs = [
   [

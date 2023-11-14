@@ -1,5 +1,5 @@
 import { AppLayout } from "components/app-layouts/app";
-import { PaymentsSettingsAccount } from "components/payments/settings/PaymentsSettingsAccount";
+import { PaymentsSettingsAccount } from "components/payments/settings/payment-settings-account";
 import { PaymentsSidebar } from "core-ui/sidebar/payments";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
