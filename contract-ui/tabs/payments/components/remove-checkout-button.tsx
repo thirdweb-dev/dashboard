@@ -14,7 +14,8 @@ export const RemoveCheckoutButton: React.FC<RemoveCheckoutButtonProps> = ({
   checkoutId,
 }) => {
   const trackEvent = useTrack();
-  const { mutate: removeCheckout } = usePaymentsRemoveCheckout(contractAddress);
+  const { mutate: removeCheckout, isLoading } =
+    usePaymentsRemoveCheckout(contractAddress);
   const { onSuccess, onError } = useTxNotifications(
     "Successfully removed checkout",
     "Failed to remove checkout",
@@ -25,6 +26,7 @@ export const RemoveCheckoutButton: React.FC<RemoveCheckoutButtonProps> = ({
       variant="outline"
       icon={<Icon as={FiTrash2} />}
       aria-label="Remove checkout"
+      isLoading={isLoading}
       onClick={() => {
         trackEvent({
           category: "payments",

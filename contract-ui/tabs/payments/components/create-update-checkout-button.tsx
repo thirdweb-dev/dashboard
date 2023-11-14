@@ -605,6 +605,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                 form.watch("title") === "" ||
                 form.watch("tokenId") === ""
               }
+              isLoading={form.formState.isSubmitting}
             >
               {step === "advanced"
                 ? checkoutId
