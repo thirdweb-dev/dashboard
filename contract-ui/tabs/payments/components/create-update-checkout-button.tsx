@@ -324,7 +324,7 @@ export const CreateUpdateCheckoutButton: React.FC<
       checkout?.should_send_transfer_completed_email || false,
     contractId,
     thirdwebClientId:
-      checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.id) || "",
+      checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.key) || "",
   };
 
   const form = useForm<CreateUpdateCheckoutInput>({
@@ -335,6 +335,8 @@ export const CreateUpdateCheckoutButton: React.FC<
       keepDirtyValues: true,
     },
   });
+
+  console.log({ checkout });
 
   const { onSuccess: onCreateSuccess, onError: onCreateError } =
     useTxNotifications(
@@ -466,8 +468,9 @@ export const CreateUpdateCheckoutButton: React.FC<
                   <Flex key={input.step} flexDir="column" gap={5}>
                     {input.fields.map((field) => {
                       const foundApiKey = apiKeys.find(
-                        (key) => key.id === form.watch(field.name),
+                        (key) => key.key === form.watch(field.name),
                       );
+                      console.log({ foundApiKey });
                       if (!isErc1155 && field.name === "tokenId") {
                         return null;
                       }
@@ -550,7 +553,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   apiKeys={apiKeys}
                                   selectedKey={foundApiKey}
                                   onSelect={(val) =>
-                                    form.setValue(field.name, val.id)
+                                    form.setValue(field.name, val.key)
                                   }
                                 />
                               ) : (

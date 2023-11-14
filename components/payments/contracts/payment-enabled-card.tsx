@@ -1,4 +1,4 @@
-import { Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Flex, LinkBox, LinkOverlay, Skeleton } from "@chakra-ui/react";
 import { Card, Text } from "tw-components";
 import { PaperChainToChainId } from "@3rdweb-sdk/react/hooks/usePayments";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -20,20 +20,28 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
   contract: { chain, address, display_name, id },
 }) => {
   const [contractName, setContractName] = useState("");
+  const [isContractNameLoading, setIsContractNameLoading] = useState(true);
 
   const chainSlug = useChainSlug(PaperChainToChainId[chain]);
 
   useEffect(() => {
     const getName = async () => {
-      const chainId = PaperChainToChainId[chain];
-      const sdk = getEVMThirdwebSDK(
-        chainId,
-        `https://${chainId}.${RPC_ENV}.thirdweb.com`,
-      );
+      setIsContractNameLoading(true);
+      try {
+        const chainId = PaperChainToChainId[chain];
+        const sdk = getEVMThirdwebSDK(
+          chainId,
+          `https://${chainId}.${RPC_ENV}.thirdweb.com`,
+        );
 
-      const sdkContract = await sdk.getContract(address);
-      const name = (await sdkContract.metadata.get()).name;
-      setContractName(name);
+        const sdkContract = await sdk.getContract(address);
+        const name = (await sdkContract.metadata.get()).name;
+        setContractName(name);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsContractNameLoading(false);
+      }
     };
 
     getName();
@@ -55,7 +63,9 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
         <Flex flexDir="column">
           <Text color="bgBlack">
             <LinkOverlay href={`/${chainSlug}/${address}/payments`}>
-              {contractName || display_name}
+              <Skeleton isLoaded={!isContractNameLoading}>
+                {contractName || display_name}
+              </Skeleton>
             </LinkOverlay>
           </Text>
           <Text>{chain}</Text>

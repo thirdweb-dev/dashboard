@@ -331,7 +331,7 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
   const [getCheckoutsByContractAddress] =
     useCheckoutByContractAddressLazyQuery();
 
-  const query = useQuery(
+  return useQuery(
     paymentsKeys.checkouts(contractAddress, address as string),
     async () => {
       const { data, error } = await getCheckoutsByContractAddress({
@@ -354,9 +354,8 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
       enabled: !!paymentsSellerId && !!address && !!contractAddress,
     },
   );
-
-  return query;
 }
+
 export function usePaymentsContractByAddressAndChain(
   contractAddress: string | undefined,
   chainId: number | undefined,
