@@ -39,7 +39,7 @@ import {
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
   CheckoutByContractAddressQueryVariables,
-  useCheckoutByContractAddressQuery,
+  useCheckoutByContractAddressLazyQuery,
 } from "graphql/queries/__generated__/CheckoutByContractAddress.generated";
 import { BaseContract } from "ethers";
 import { detectFeatures } from "components/contract-components/utils";
@@ -253,7 +253,6 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
-  const { apolloRefetch } = usePaymentsCheckoutsByContract(contractAddress);
 
   return useMutationWithInvalidate(
     async (input: CreateUpdateCheckoutInput) => {
@@ -269,7 +268,6 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
     },
     {
       onSuccess: async () => {
-        await apolloRefetch();
         await queryClient.invalidateQueries(
           paymentsKeys.checkouts(contractAddress, address as string),
         );
@@ -330,24 +328,34 @@ export function usePaymentsEnabledContracts() {
 export function usePaymentsCheckoutsByContract(contractAddress: string) {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const { data, refetch: apolloRefetch } = useCheckoutByContractAddressQuery({
-    variables: {
-      ownerId: paymentsSellerId,
-      contractAddress,
-    } as CheckoutByContractAddressQueryVariables,
-  });
+  const [getCheckoutsByContractAddress] =
+    useCheckoutByContractAddressLazyQuery();
 
   const query = useQuery(
     paymentsKeys.checkouts(contractAddress, address as string),
     async () => {
-      return data?.checkout || [];
+      const { data, error } = await getCheckoutsByContractAddress({
+        variables: {
+          ownerId: paymentsSellerId,
+          contractAddress,
+        } as CheckoutByContractAddressQueryVariables,
+      });
+
+      // TODO: Handle error
+
+      const checkouts = data?.checkout || [];
+      return (
+        checkouts.filter(
+          (checkout) => !checkout.generated_by_registered_contract,
+        ) ?? []
+      );
     },
     {
-      enabled: !!paymentsSellerId && !!address && !!data && !!contractAddress,
+      enabled: !!paymentsSellerId && !!address && !!contractAddress,
     },
   );
 
-  return { ...query, apolloRefetch };
+  return query;
 }
 export function usePaymentsContractByAddressAndChain(
   contractAddress: string | undefined,

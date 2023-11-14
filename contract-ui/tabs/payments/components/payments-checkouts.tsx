@@ -17,7 +17,7 @@ import { FiCopy } from "react-icons/fi";
 import { AiOutlineQrcode } from "react-icons/ai";
 import { RemoveCheckoutButton } from "./remove-checkout-button";
 import { Checkout } from "graphql/generated_types";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 interface PaymentCheckoutsProps {
   contractId: string;
@@ -30,12 +30,8 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
 }) => {
   const { data: checkouts } = usePaymentsCheckoutsByContract(contractAddress);
 
-  const filteredCheckouts = useMemo(() => {
-    return (
-      checkouts?.filter(
-        (checkout) => !checkout.generated_by_registered_contract,
-      ) ?? []
-    );
+  useEffect(() => {
+    console.log("checkouts updated", checkouts);
   }, [checkouts]);
 
   return (
@@ -48,7 +44,7 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
         />
       </Flex>
       <Flex flexDir="column" gap={4}>
-        {filteredCheckouts?.length === 0 && (
+        {(checkouts || []).length === 0 && (
           <Card p={8} bgColor="backgroundCardHighlight" my={6}>
             <Center as={Stack} spacing={2}>
               <Heading size="title.sm">No checkouts found</Heading>
@@ -56,7 +52,7 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
             </Center>
           </Card>
         )}
-        {filteredCheckouts.map((checkout) => {
+        {(checkouts || []).map((checkout) => {
           const checkoutLink = `${THIRDWEB_PAYMENTS_API_HOST}/checkout/${checkout.id}`;
           return (
             <Flex
