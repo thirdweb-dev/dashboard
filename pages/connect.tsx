@@ -13,6 +13,7 @@ import { PageId } from "page-id";
 import { Heading, TrackedLink, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import connectLottie from "../public/assets/product-pages/connect/connect-lottie.json";
+import { HeroCopySection } from "components/landing-pages/hero-copy-section";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -121,6 +122,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
           <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Box>
+
+        <HeroCopySection
+          label="docs"
+          href="https://portal.thirdweb.com/connect"
+          text="See the docs"
+          category={TRACKING_CATEGORY}
+        />
 
         <Flex flexDir="column" gap={6}>
           <LandingGridSection
