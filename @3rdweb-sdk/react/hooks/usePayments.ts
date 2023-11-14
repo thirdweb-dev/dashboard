@@ -335,7 +335,6 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
       ownerId: paymentsSellerId,
       contractAddress,
     } as CheckoutByContractAddressQueryVariables,
-    fetchPolicy: "network-only",
   });
 
   const query = useQuery(
