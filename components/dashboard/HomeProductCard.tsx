@@ -29,7 +29,7 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
         p={5}
         overflow="hidden"
         bgColor="backgroundCardHighlight"
-        borderWidth="0.5px"
+        borderWidth={0.5}
         borderColor="borderColor"
         transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
         _hover={{
@@ -51,7 +51,7 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
               </Heading>
             </LinkOverlay>
           </Flex>
-          <Text color="faded">{product.description}</Text>
+          <Text color="faded">123</Text>
         </Flex>
       </Card>
     </LinkBox>

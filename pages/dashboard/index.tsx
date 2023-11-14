@@ -44,12 +44,7 @@ const Dashboard: ThirdwebNextPage = (
                         );
 
                         return (
-                          <Flex
-                            key={section}
-                            gap={4}
-                            flexDir="column"
-                            w={"100%"}
-                          >
+                          <Flex key={section} gap={4} flexDir="column">
                             <Heading
                               size="title.sm"
                               textTransform="capitalize"
