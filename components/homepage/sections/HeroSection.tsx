@@ -81,9 +81,9 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            The fastest way to
+            The complete web3
             <br />
-            build web3 apps.
+            development toolkit
           </Heading>
           <Heading
             as="h3"
@@ -129,7 +129,7 @@ export const HeroSection = () => {
                   Get Started
                 </LinkButton>
               </Flex>
-              <AnimatedCLICommand />
+              {/*  <AnimatedCLICommand /> */}
             </Flex>
           </LightMode>
         </Flex>
