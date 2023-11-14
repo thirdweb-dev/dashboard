@@ -52,6 +52,9 @@ const personalWallets = [
   zerionWallet(),
   phantomWallet(),
   embeddedWallet({
+    auth: {
+      options: ["apple", "facebook", "google", "email"],
+    },
     onAuthSuccess: ({ storedToken }) => {
       // expose paper auth token for onboarding screens to pick up and clear up
       (window as any)[GLOBAL_EWS_AUTH_TOKEN_KEY] = storedToken.cookieString;
