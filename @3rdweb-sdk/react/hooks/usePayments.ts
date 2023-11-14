@@ -325,9 +325,7 @@ export type UpdateSellerByAccountIdInput = {
   sellerValue: SellerValueInput;
 };
 
-export function usePaymentsUpdateSellerByAccountId(
-  accountId: string | undefined,
-) {
+export function usePaymentsUpdateSellerByAccountId(accountId: string) {
   const queryClient = useQueryClient();
   const address = useAddress();
 
@@ -351,7 +349,7 @@ export function usePaymentsUpdateSellerByAccountId(
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          paymentsKeys.checkouts(accountId ?? "", address as string),
+          paymentsKeys.checkouts(accountId, address as string),
         );
       },
     },
@@ -562,7 +560,7 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
   );
 }
 
-export function usePaymentsSellerByAccountId(accountId: string | undefined) {
+export function usePaymentsSellerByAccountId(accountId: string) {
   invariant(accountId, "accountId is required");
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
