@@ -50,7 +50,11 @@ const columns = [
   columnHelper.accessor("label", {
     header: "Label",
     cell: (cell) => {
-      return <Text>{cell.getValue()}</Text>;
+      return (
+        <Text isTruncated maxW={300}>
+          {cell.getValue()}
+        </Text>
+      );
     },
   }),
   columnHelper.accessor("walletAddress", {
@@ -141,8 +145,7 @@ const EditModal = ({
     updateAccessToken(
       {
         id: accessToken.id,
-        // Treat '' as undefined to avoid empty strings in the DB.
-        label: label || undefined,
+        label,
       },
       {
         onSuccess: () => {
@@ -193,15 +196,13 @@ const EditModal = ({
           </Stack>
         </ModalBody>
 
-        <ModalFooter>
-          <Flex gap={3}>
-            <Button type="button" onClick={disclosure.onClose} variant="ghost">
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="blue" onClick={onClick}>
-              Save
-            </Button>
-          </Flex>
+        <ModalFooter as={Flex} gap={3}>
+          <Button type="button" onClick={disclosure.onClose} variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="blue" onClick={onClick}>
+            Save
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -274,15 +275,13 @@ const RemoveModal = ({
           </Stack>
         </ModalBody>
 
-        <ModalFooter>
-          <Flex gap={3}>
-            <Button type="button" onClick={disclosure.onClose} variant="ghost">
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="red" onClick={onClick}>
-              Remove
-            </Button>
-          </Flex>
+        <ModalFooter as={Flex} gap={3}>
+          <Button type="button" onClick={disclosure.onClose} variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="red" onClick={onClick}>
+            Delete
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

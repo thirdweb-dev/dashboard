@@ -54,7 +54,7 @@ const columns = [
     header: "Label",
     cell: (cell) => {
       return (
-        <Text maxW={300} isTruncated>
+        <Text isTruncated maxW={300}>
           {cell.getValue()}
         </Text>
       );
@@ -137,8 +137,7 @@ const EditModal = ({
       {
         walletAddress: admin.walletAddress,
         permissions: admin.permissions,
-        // Treat '' as undefined to avoid empty strings in the DB.
-        label: label || undefined,
+        label,
       },
       {
         onSuccess: () => {
@@ -189,15 +188,13 @@ const EditModal = ({
           </Stack>
         </ModalBody>
 
-        <ModalFooter>
-          <Flex gap={3}>
-            <Button type="button" onClick={disclosure.onClose} variant="ghost">
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="blue" onClick={onClick}>
-              Save
-            </Button>
-          </Flex>
+        <ModalFooter as={Flex} gap={3}>
+          <Button type="button" onClick={disclosure.onClose} variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="blue" onClick={onClick}>
+            Save
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -270,15 +267,13 @@ const RemoveModal = ({
           </Stack>
         </ModalBody>
 
-        <ModalFooter>
-          <Flex gap={3}>
-            <Button type="button" onClick={disclosure.onClose} variant="ghost">
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="red" onClick={onClick}>
-              Remove
-            </Button>
-          </Flex>
+        <ModalFooter as={Flex} gap={3}>
+          <Button type="button" onClick={disclosure.onClose} variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="red" onClick={onClick}>
+            Remove
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
