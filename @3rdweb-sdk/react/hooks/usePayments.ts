@@ -43,6 +43,13 @@ import {
 } from "graphql/queries/__generated__/CheckoutByContractAddress.generated";
 import { BaseContract } from "ethers";
 import { detectFeatures } from "components/contract-components/utils";
+import {
+  GetSellerByThirdwebAccountIdDocument,
+  GetSellerByThirdwebAccountIdQuery,
+  GetSellerByThirdwebAccountIdQueryVariables,
+  useGetSellerByThirdwebAccountIdLazyQuery,
+} from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
+import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -303,6 +310,53 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
   );
 }
 
+export type SellerValueInput = {
+  twitter_handle: string;
+  discord_username: string;
+  company_name: string;
+  company_logo_url: string;
+  support_email: string;
+  estimated_launch_date: Date;
+};
+
+export type UpdateSellerByAccountIdInput = {
+  thirdwebAccountId: string;
+  sellerValue: SellerValueInput;
+};
+
+export function usePaymentsUpdateSellerByAccountId(
+  accountId: string | undefined,
+) {
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  const [updateSellerByThirdwebAccountId] =
+    useUpdateSellerByThirdwebAccountIdMutation({
+      refetchQueries: [GetSellerByThirdwebAccountIdDocument],
+    });
+
+  return useMutationWithInvalidate(
+    async (input: UpdateSellerByAccountIdInput) => {
+      invariant(address, "No wallet address found");
+      invariant(accountId, "No accountId found");
+
+      return updateSellerByThirdwebAccountId({
+        variables: {
+          thirdwebAccountId: input.thirdwebAccountId,
+          sellerValue: input.sellerValue,
+        } as UpdateSellerByAccountIdInput,
+      });
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.checkouts(accountId ?? "", address as string),
+        );
+      },
+    },
+  );
+}
+
 export function usePaymentsEnabledContracts() {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
@@ -502,6 +556,32 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
           data?.analytics_overview_2 || [],
         )[0],
       };
+    },
+    { enabled: !!paymentsSellerId && !!address },
+  );
+}
+
+export type SellerItemType =
+  GetSellerByThirdwebAccountIdQuery["seller"][number];
+
+export function usePaymentsSellerByAccountId(accountId: string | undefined) {
+  invariant(accountId, "accountId is required");
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const [getSellerByAccountId] = useGetSellerByThirdwebAccountIdLazyQuery();
+
+  return useQuery(
+    paymentsKeys.detailedAnalytics(accountId),
+    async () => {
+      const { data } = await getSellerByAccountId({
+        variables: {
+          thirdwebAccountId: accountId,
+        } as GetSellerByThirdwebAccountIdQueryVariables,
+      });
+
+      return data && data?.seller.length > 0
+        ? data.seller[0]
+        : ({} as SellerItemType);
     },
     { enabled: !!paymentsSellerId && !!address },
   );
