@@ -243,6 +243,7 @@ export function useEngineBackendWalletBalance(
 
 export type EngineAdmin = {
   walletAddress: string;
+  label?: string;
   permissions: "OWNER" | "ADMIN";
 };
 
@@ -281,6 +282,7 @@ export type AccessToken = {
   walletAddress: string;
   createdAt: string;
   expiresAt: string;
+  label?: string;
 };
 
 export function useEngineAccessTokens(instance: string) {
@@ -616,6 +618,43 @@ export function useEngineRevokeAccessToken(instance: string) {
       invariant(instance, "instance is required");
 
       const res = await fetch(`${instance}auth/access-tokens/revoke`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.accessTokens(instance));
+      },
+    },
+  );
+}
+
+type UpdateAccessTokenInput = {
+  id: string;
+  label?: string;
+};
+
+export function useEngineUpdateAccessToken(instance: string) {
+  const { token } = useApiAuthToken();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: UpdateAccessTokenInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/access-tokens/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
