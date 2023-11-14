@@ -148,12 +148,11 @@ export const HeroSection = () => {
                     quality={95}
                     justifySelf="flex-end"
                     transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
+                    boxShadow="0 0 20px hsl(215deg 100% 60% / 50%)"
                     _hover={{
-                      borderColor: "blue.500",
-                      boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
-                      transform: "scale(1.01)",
+                      transform: "scale(1.05)",
                     }}
-                    borderRadius={"12px"}
+                    borderRadius="12px"
                   />
                 </ChakraNextLink>
               </GridItem>
