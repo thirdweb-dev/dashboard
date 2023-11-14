@@ -60,4 +60,5 @@ fragment Checkout on checkout {
   post_purchase_message_markdown
   post_purchase_button_text
   sponsored_fees
+  thirdweb_client_id
 }
