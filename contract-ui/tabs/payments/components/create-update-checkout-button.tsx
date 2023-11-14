@@ -336,8 +336,6 @@ export const CreateUpdateCheckoutButton: React.FC<
     },
   });
 
-  console.log({ checkout });
-
   const { onSuccess: onCreateSuccess, onError: onCreateError } =
     useTxNotifications(
       "Checkout created successfully.",
@@ -470,7 +468,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                       const foundApiKey = apiKeys.find(
                         (key) => key.key === form.watch(field.name),
                       );
-                      console.log({ foundApiKey });
                       if (!isErc1155 && field.name === "tokenId") {
                         return null;
                       }

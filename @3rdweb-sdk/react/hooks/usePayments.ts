@@ -30,6 +30,7 @@ import {
   useContractsByOwnerIdLazyQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 import {
+  ContractsByAddressAndChainQuery,
   ContractsByAddressAndChainQueryVariables,
   useContractsByAddressAndChainLazyQuery,
 } from "graphql/queries/__generated__/ContractsByAddressAndChain.generated";
@@ -431,7 +432,7 @@ export function usePaymentsContractByAddressAndChain(
 
       return data && (data?.contract || []).length > 0
         ? data.contract[0]
-        : ({} as { id: string });
+        : ({} as ContractsByAddressAndChainQuery["contract"][number]);
     },
     {
       enabled:
@@ -561,9 +562,6 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
   );
 }
 
-export type SellerItemType =
-  GetSellerByThirdwebAccountIdQuery["seller"][number];
-
 export function usePaymentsSellerByAccountId(accountId: string | undefined) {
   invariant(accountId, "accountId is required");
   const address = useAddress();
@@ -581,7 +579,7 @@ export function usePaymentsSellerByAccountId(accountId: string | undefined) {
 
       return data && data?.seller.length > 0
         ? data.seller[0]
-        : ({} as SellerItemType);
+        : ({} as GetSellerByThirdwebAccountIdQuery["seller"][number]);
     },
     { enabled: !!paymentsSellerId && !!address },
   );

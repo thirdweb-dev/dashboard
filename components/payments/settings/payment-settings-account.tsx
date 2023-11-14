@@ -56,6 +56,8 @@ export const PaymentsSettingsAccount: React.FC<
     "Failed to save profile",
   );
 
+  console.log(form.watch("company_logo_url"));
+
   return (
     <Card
       p={8}
@@ -189,12 +191,15 @@ export const PaymentsSettingsAccount: React.FC<
               </FormErrorMessage>
             </FormControl>
           </SimpleGrid>
-          {/*           <Flex w={{ base: "50%", md: "full" }}>
-            <PaymentsSettingsFileUploader
-              value={form.watch("company_logo_url")}
-              onUpdate={(value) => form.setValue("company_logo_url", value)}
-            />
-          </Flex> */}
+          {/*           <Flex w={{ base: "50%", md: "full" }}> */}
+          {/* <PaymentsSettingsFileUploader
+            value={form.watch("company_logo_url")}
+            onUpdate={(value) => {
+              console.log({ value });
+              form.setValue("company_logo_url", value);
+            }}
+          /> */}
+          {/*      </Flex> */}
         </Flex>
       </Flex>
       <Flex justifyContent="flex-end">
