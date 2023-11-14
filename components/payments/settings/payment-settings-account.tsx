@@ -62,7 +62,7 @@ export const PaymentsSettingsAccount: React.FC<
       as={Flex}
       flexDir="column"
       gap={8}
-      maxW={{ base: "full", md: "70%" }}
+      maxW={{ base: "full", lg: "70%" }}
     >
       <Flex flexDir="column" gap={2}>
         <Heading>Seller Information</Heading>
@@ -168,12 +168,21 @@ export const PaymentsSettingsAccount: React.FC<
               <Input
                 type="datetime-local"
                 value={toDateTimeLocal(form.getValues().estimated_launch_date)}
-                onChange={(e) =>
+                onChange={(e) => {
                   form.setValue(
                     `estimated_launch_date`,
                     new Date(e.target.value),
-                  )
-                }
+                  );
+                  if (new Date(e.target.value) < new Date()) {
+                    form.setError("estimated_launch_date", {
+                      type: "validate",
+                      message: "Estimated launch date must be in the future.",
+                    });
+                    return;
+                  } else {
+                    form.clearErrors("estimated_launch_date");
+                  }
+                }}
               />
               <FormErrorMessage>
                 {form.formState.errors?.estimated_launch_date?.message}
