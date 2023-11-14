@@ -196,7 +196,7 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
       return {
         ...chn,
         rpc: chn.rpc.map((rpc) =>
-          rpc.replace("rpc.thirdweb.com", "rpc-staging.thirdweb.com"),
+          rpc.replace("rpc.thirdweb.com", "rpc.thirdweb-dev.com"),
         ),
       };
     });
