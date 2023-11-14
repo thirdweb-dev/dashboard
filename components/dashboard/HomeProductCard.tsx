@@ -26,8 +26,10 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
       }}
     >
       <Card
+        p={5}
         overflow="hidden"
         bgColor="backgroundCardHighlight"
+        borderWidth="0.5px"
         borderColor="borderColor"
         transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
         _hover={{
@@ -35,7 +37,8 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
           boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
           transform: "scale(1.01)",
         }}
-        h={{ base: "full", md: 28 }}
+        h="full"
+        minHeight={{ base: "full", md: 28 }}
       >
         <Flex flexDir="column" gap={2}>
           <Flex gap={2} alignItems="center">
