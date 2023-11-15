@@ -187,7 +187,7 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
     [applyOverrides],
   );
 
-  const replaceRpcsWithStagingUrl = useCallback((chains: Chain[]) => {
+  const replaceRpcsWithDevUrl = useCallback((chains: Chain[]) => {
     if (isProd) {
       return chains;
     }
@@ -212,7 +212,7 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
       return;
     }
 
-    const allChainsReplaced = replaceRpcsWithStagingUrl(allChains);
+    const allChainsReplaced = replaceRpcsWithDevUrl(allChains);
 
     const _modifiedChains = chainStorage.get(MODIFIED_CHAINS_KEY);
 
@@ -236,7 +236,7 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
     applyModificationsToSupportedChains,
     applyOverrides,
     supportedChains,
-    replaceRpcsWithStagingUrl,
+    replaceRpcsWithDevUrl,
   ]);
 
   const modifyChain = useCallback(
