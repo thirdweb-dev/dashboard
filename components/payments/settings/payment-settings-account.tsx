@@ -25,7 +25,7 @@ interface PaymentsSettingsAccountProps {
 export const PaymentsSettingsAccount: React.FC<
   PaymentsSettingsAccountProps
 > = ({ accountId }) => {
-  const { mutate: updateSellerByAccountId } =
+  const { mutate: updateSellerByAccountId, isLoading } =
     usePaymentsUpdateSellerByAccountId(accountId);
   const { data: sellerData } = usePaymentsSellerByAccountId(accountId);
   const trackEvent = useTrack();
@@ -206,7 +206,7 @@ export const PaymentsSettingsAccount: React.FC<
             type="submit"
             colorScheme="primary"
             px={12}
-            isLoading={form.formState.isSubmitting}
+            isLoading={form.formState.isSubmitting || isLoading}
           >
             Save
           </Button>

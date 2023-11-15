@@ -293,7 +293,7 @@ export const CreateUpdateCheckoutButton: React.FC<
     "info" | /* "non-tw" | */ "branding" | "delivery" | "advanced"
   >("info");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate: createOrUpdateCheckout } =
+  const { mutate: createOrUpdateCheckout, isLoading } =
     usePaymentsCreateUpdateCheckout(contractAddress);
   const trackEvent = useTrack();
 
@@ -602,7 +602,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                 form.watch("title") === "" ||
                 form.watch("tokenId") === ""
               }
-              isLoading={form.formState.isSubmitting}
+              isLoading={form.formState.isSubmitting || isLoading}
             >
               {step === "advanced"
                 ? checkoutId

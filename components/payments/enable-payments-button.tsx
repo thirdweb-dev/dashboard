@@ -19,8 +19,7 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
   contractAddress,
   chainId,
 }) => {
-  const { mutate: registerContract, isLoading: isMutationLoading } =
-    usePaymentsRegisterContract();
+  const { mutate: registerContract, isLoading } = usePaymentsRegisterContract();
   const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
 
   const contractIsEnabled = useMemo(() => {
@@ -88,7 +87,7 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
           }}
           px={6}
           w="full"
-          isLoading={isMutationLoading}
+          isLoading={isLoading}
         >
           Enable Payments
         </Button>
