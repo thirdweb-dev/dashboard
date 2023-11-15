@@ -1,4 +1,5 @@
 import { Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 /* import { MaskedAvatar } from "components/contract-components/releaser/masked-avatar";
  */ import { Heading, Text, TrackedLink } from "tw-components";
 
@@ -7,17 +8,17 @@ export const Judges: React.FC = () => {
     {
       name: "Furqan Rhydan",
       twitter: "FurqanR",
-      image: "/assets/landingpage/furqan-rydhan.png",
+      image: require("public/assets/landingpage/furqan-rydhan.png"),
     },
     {
       name: "Samina Kabir",
       twitter: "saminacodes",
-      image: "/assets/landingpage/samina.jpeg",
+      image: require("public/assets/landingpage/samina.jpeg"),
     },
     {
       name: "Joaquim Vergès",
       twitter: "joenrv",
-      image: "/assets/landingpage/joaquim.jpeg",
+      image: require("public/assets/landingpage/joaquim.jpeg"),
     },
   ];
 
@@ -31,7 +32,12 @@ export const Judges: React.FC = () => {
       >
         {judges.map((judge) => (
           <Flex key={judge.name} flexDir="column" gap={2} alignItems="center">
-            {/*  <MaskedAvatar src={judge.image} alt="" boxSize={40} /> */}
+            <ChakraNextImage
+              boxSize={40}
+              objectFit="cover"
+              src={judge.image}
+              alt={judge.name}
+            />
             <Heading size="title.sm">{judge.name}</Heading>
             <TrackedLink
               href={`https://twitter.com/${judge.twitter}`}

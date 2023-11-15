@@ -1,12 +1,4 @@
-import {
-  Box,
-  DarkMode,
-  Divider,
-  Flex,
-  Icon,
-  List,
-  ListItem,
-} from "@chakra-ui/react";
+import { Box, DarkMode, Divider, Flex, Icon } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
@@ -26,6 +18,20 @@ import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
   ssr: false,
 });
+
+const ListItem = dynamic(
+  () => import("@chakra-ui/react").then((result) => result.ListItem),
+  {
+    ssr: false,
+  },
+);
+
+const List = dynamic(
+  () => import("@chakra-ui/react").then((result) => result.List),
+  {
+    ssr: false,
+  },
+);
 
 const SolanaHackathon = () => {
   const trackEvent = useTrack();
@@ -191,7 +197,7 @@ const SolanaHackathon = () => {
             </Flex>
           </Flex>
         </HomepageSection>
-        {/*          <Resources /> */}
+
         <Box
           w="full"
           h={{ base: "200px", md: "250px" }}
