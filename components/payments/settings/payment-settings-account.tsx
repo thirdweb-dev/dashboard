@@ -63,7 +63,7 @@ export const PaymentsSettingsAccount: React.FC<
       as={Flex}
       flexDir="column"
       gap={8}
-      maxW={{ base: "full", lg: "70%" }}
+      maxW={{ base: "full", xl: "70%" }}
     >
       <Flex flexDir="column" gap={2}>
         <Heading>Seller Information</Heading>
