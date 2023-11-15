@@ -14,7 +14,6 @@ export interface SectionItemProps {
   description: string;
   link: string;
   dashboardLink?: string;
-  landingLink?: string;
   icon?: StaticImageData;
   iconType?: IconType;
   comingSoon?: boolean;

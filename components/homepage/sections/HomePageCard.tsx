@@ -1,11 +1,10 @@
 import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { HomeProductCard } from "components/dashboard/HomeProductCard";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { SectionItemProps } from "components/product-pages/common/nav/types";
 import { StaticImageData } from "next/image";
 import React from "react";
-import { ChakraNextLink, Heading, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 interface HomePageCardProps {
   title: string;

@@ -33,7 +33,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/deploy.png"),
     section: "contracts",
     inLandingPage: true,
-    landingLink: "/deploy",
   },
   {
     name: "Build",
@@ -44,7 +43,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/extensions.png"),
     section: "contracts",
     inLandingPage: true,
-    landingLink: "/build",
   },
   {
     name: "Interact",
@@ -55,7 +53,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/interact.png"),
     section: "contracts",
     inLandingPage: true,
-    landingLink: "/interact",
   },
   {
     name: "Explore",
@@ -65,7 +62,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/contracts.png"),
     section: "contracts",
     inLandingPage: true,
-    landingLink: "/explore",
   },
   {
     name: "Publish",
@@ -84,7 +80,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/wallet-sdk.png"),
     section: "wallets",
     inLandingPage: true,
-    landingLink: "/connect",
   },
   {
     name: "Smart Wallet",
@@ -95,7 +90,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/smart-wallet.png"),
     section: "wallets",
     inLandingPage: true,
-    landingLink: "/account-abstraction",
   },
   {
     name: "Embedded Wallets",
@@ -106,7 +100,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/embedded-wallet.png"),
     section: "wallets",
     inLandingPage: true,
-    landingLink: "/embedded-wallets",
   },
   {
     name: "Auth",
@@ -141,7 +134,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/payments.png"),
     section: "payments",
     inLandingPage: true,
-    landingLink: "/checkout",
   },
   {
     name: "Sponsored Transactions",
@@ -160,7 +152,6 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/engine.png"),
     section: "infrastructure",
     inLandingPage: true,
-    landingLink: "/engine",
   },
 ];
 

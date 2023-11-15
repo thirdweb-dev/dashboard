@@ -48,9 +48,7 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
               <ChakraNextImage alt="" boxSize={6} src={product.icon} />
             )}
             <LinkOverlay
-              href={
-                isFromLandingPage ? product.landingLink : product.dashboardLink
-              }
+              href={isFromLandingPage ? product.link : product.dashboardLink}
             >
               <Text size="label.md" m={0} color="bgBlack">
                 {product.name}
