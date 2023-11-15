@@ -28,7 +28,7 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
       }}
     >
       <Card
-        p={5}
+        p={4}
         overflow="hidden"
         bgColor="backgroundCardHighlight"
         borderWidth={0.5}
@@ -42,7 +42,7 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
         h="full"
         minHeight={{ base: "full", md: 28 }}
       >
-        <Flex flexDir="column" gap={2}>
+        <Flex flexDir="column">
           <Flex gap={2} alignItems="center">
             {product.icon && (
               <ChakraNextImage alt="" boxSize={6} src={product.icon} />
@@ -52,12 +52,14 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
                 isFromLandingPage ? product.landingLink : product.dashboardLink
               }
             >
-              <Text fontSize="title.xs" m={0}>
+              <Text size="label.md" m={0} color="bgBlack">
                 {product.name}
               </Text>
             </LinkOverlay>
           </Flex>
-          <Text color="faded">{product.description}</Text>
+          <Text mt={3} color="faded">
+            {product.description}
+          </Text>
         </Flex>
       </Card>
     </LinkBox>
