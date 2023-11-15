@@ -72,6 +72,7 @@ const HomePageCard = ({
                   key={idx}
                   TRACKING_CATEGORY={TRACKING_CATEGORY}
                   product={product}
+                  isFromLandingPage
                 />
               );
             })}

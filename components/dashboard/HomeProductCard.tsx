@@ -6,12 +6,14 @@ import { Card, Heading, Text } from "tw-components";
 
 interface HomeProductCardProps {
   product: SectionItemProps;
+  isFromLandingPage?: boolean;
   TRACKING_CATEGORY: string;
 }
 
 export const HomeProductCard: React.FC<HomeProductCardProps> = ({
   product,
   TRACKING_CATEGORY,
+  isFromLandingPage,
 }) => {
   const trackEvent = useTrack();
   return (
@@ -45,10 +47,14 @@ export const HomeProductCard: React.FC<HomeProductCardProps> = ({
             {product.icon && (
               <ChakraNextImage alt="" boxSize={6} src={product.icon} />
             )}
-            <LinkOverlay href={product.dashboardLink}>
-              <Heading size="title.xs" m={0}>
+            <LinkOverlay
+              href={
+                isFromLandingPage ? product.landingLink : product.dashboardLink
+              }
+            >
+              <Text fontSize="title.xs" m={0}>
                 {product.name}
-              </Heading>
+              </Text>
             </LinkOverlay>
           </Flex>
           <Text color="faded">{product.description}</Text>

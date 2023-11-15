@@ -26,7 +26,9 @@ const TRACKING_CATEGORY = "homepage";
 
 const HomePage: ThirdwebNextPage = () => {
   const filterProducts = (section: string) => {
-    return PRODUCTS.filter((p) => p.section === section && !!p.dashboardLink);
+    return PRODUCTS.filter(
+      (p) => p.section === section && !!p.inLandingPage && !!p.landingLink,
+    );
   };
 
   return (

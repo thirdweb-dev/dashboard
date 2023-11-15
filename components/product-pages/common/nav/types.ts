@@ -14,9 +14,11 @@ export interface SectionItemProps {
   description: string;
   link: string;
   dashboardLink?: string;
+  landingLink?: string;
   icon?: StaticImageData;
   iconType?: IconType;
   comingSoon?: boolean;
+  inLandingPage?: boolean;
   section:
     | "contracts"
     | "wallets"
