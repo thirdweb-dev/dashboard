@@ -32,9 +32,13 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         ? smartWallet(walletConfig, {
             factoryAddress: smartWalletOptions.factoryAddress,
             gasless: smartWalletOptions.gasless,
-            bundlerUrl: isProd ? "https://goerli.bundler.thirdweb.com" : "https://goerli.bundler.thirdweb-dev.com",
+            bundlerUrl: isProd
+              ? "https://goerli.bundler.thirdweb.com"
+              : "https://goerli.bundler.thirdweb-dev.com",
             // eslint-disable-next-line inclusive-language/use-inclusive-words
-            paymasterUrl: isProd ? "https://goerli.bundler.thirdweb.com" : "https://goerli.bundler.thirdweb-dev.com",
+            paymasterUrl: isProd
+              ? "https://goerli.bundler.thirdweb.com"
+              : "https://goerli.bundler.thirdweb-dev.com",
           })
         : walletConfig;
     },
