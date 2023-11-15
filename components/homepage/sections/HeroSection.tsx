@@ -26,7 +26,7 @@ export const HeroSection = () => {
     },
     {
       src: require("public/assets/landingpage/homepage-contracts.png"),
-      href: "/explore",
+      href: "/smart-contracts",
       background: "linear-gradient(218deg, #F5B7FF -6.46%, #C04DCA 93.97%)",
     },
     {
