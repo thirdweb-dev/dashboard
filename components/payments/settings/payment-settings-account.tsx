@@ -39,6 +39,7 @@ export const PaymentsSettingsAccount: React.FC<
     support_email: sellerData?.support_email || "",
     discord_username: sellerData?.discord_username || "",
     twitter_handle: sellerData?.twitter_handle || "",
+    is_sole_proprietor: false,
   };
 
   const form = useForm<SellerValueInput>({

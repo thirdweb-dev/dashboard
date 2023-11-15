@@ -51,6 +51,8 @@ import {
   useGetSellerByThirdwebAccountIdLazyQuery,
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
+import { TransactionDocument } from "graphql/queries/__generated__/Transaction.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -140,6 +142,8 @@ export type RegisterContractInput = {
   displayName?: string;
 };
 
+const apiDate = "2022-08-12";
+
 function usePaymentsApi() {
   const { token } = useApiAuthToken();
 
@@ -148,17 +152,14 @@ function usePaymentsApi() {
     endpoint: string,
     body?: T,
   ) => {
-    const res = await fetch(
-      `${THIRDWEB_PAYMENTS_API_HOST}/api/2022-08-12/${endpoint}`,
-      {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        ...(body && { body: JSON.stringify(body) }),
+    const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      ...(body && { body: JSON.stringify(body) }),
+    });
     const json = await res.json();
 
     if (json.error) {
@@ -199,7 +200,7 @@ export function usePaymentsRegisterContract() {
 
       return fetchFromPaymentsAPI<RegisterContractInput>(
         "POST",
-        "register-contract",
+        `${apiDate}/register-contract`,
         body,
       );
     },
@@ -266,7 +267,7 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
 
       return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
         "POST",
-        `shareable-checkout-link${
+        `${apiDate}/shareable-checkout-link${
           input?.checkoutId ? `/${input.checkoutId} ` : ""
         }`,
         input,
@@ -298,13 +299,60 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
 
       return fetchFromPaymentsAPI<RemoveCheckoutInput>(
         "DELETE",
-        `shareable-checkout-link/${input.checkoutId}`,
+        `${apiDate}/shareable-checkout-link/${input.checkoutId}`,
       );
     },
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
           paymentsKeys.checkouts(contractAddress, address as string),
+        );
+      },
+    },
+  );
+}
+
+export type UploadKybFileInput = {
+  file: File;
+};
+
+export function usePaymentsUploadKybFile() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (input: UploadKybFileInput) => {
+      invariant(address, "No wallet address found");
+      invariant(input.file, "No file found");
+
+      const { url } = await fetchFromPaymentsAPI(
+        "POST",
+        "storage/generate-signed-url",
+      );
+
+      if (!url) {
+        throw new Error("Unable to generate presigned URL");
+      }
+
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": input.file.type },
+        body: input.file,
+      });
+
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.kybStatus(address as string),
         );
       },
     },
@@ -318,6 +366,7 @@ export type SellerValueInput = {
   company_logo_url: string;
   support_email: string;
   estimated_launch_date: Date;
+  is_sole_proprietor: boolean;
 };
 
 export type UpdateSellerByAccountIdInput = {
@@ -351,6 +400,22 @@ export function usePaymentsUpdateSellerByAccountId(accountId: string) {
         return queryClient.invalidateQueries(paymentsKeys.settings(accountId));
       },
     },
+  );
+}
+
+export function usePaymentsKybStatus() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const address = useAddress();
+
+  return useQuery(
+    paymentsKeys.kybStatus(address as string),
+    async () => {
+      return fetchFromPaymentsAPI<RegisterContractInput>(
+        "GET",
+        "seller-verification/seller-document-count",
+      );
+    },
+    { enabled: !!address },
   );
 }
 

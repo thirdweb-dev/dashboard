@@ -17,11 +17,12 @@ export const PaymentsSettingsChecklist: React.FC<
       title: "Personal Identity Verification",
       description: "",
       completed: !!sellerData?.date_personal_documents_verified,
+      /* completed: true, */
       children: <PaymentsSettingsKyc />,
     },
     {
       title: "Business Information",
-      description: "Connect your wallet to see your eligibility.",
+      description: "",
       completed: false,
       children: <PaymentsSettingsKyb />,
     },
