@@ -348,9 +348,7 @@ export function usePaymentsUpdateSellerByAccountId(accountId: string) {
     },
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(
-          paymentsKeys.checkouts(accountId, address as string),
-        );
+        return queryClient.invalidateQueries(paymentsKeys.settings(accountId));
       },
     },
   );
@@ -567,7 +565,7 @@ export function usePaymentsSellerByAccountId(accountId: string) {
   const [getSellerByAccountId] = useGetSellerByThirdwebAccountIdLazyQuery();
 
   return useQuery(
-    paymentsKeys.detailedAnalytics(accountId),
+    paymentsKeys.settings(accountId),
     async () => {
       const { data } = await getSellerByAccountId({
         variables: {

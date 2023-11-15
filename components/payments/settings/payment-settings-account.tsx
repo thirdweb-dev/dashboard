@@ -31,7 +31,6 @@ export const PaymentsSettingsAccount: React.FC<
   const trackEvent = useTrack();
 
   const values: SellerValueInput = {
-    ...sellerData,
     estimated_launch_date: sellerData?.estimated_launch_date
       ? new Date(sellerData?.estimated_launch_date)
       : new Date(),
@@ -201,16 +200,17 @@ export const PaymentsSettingsAccount: React.FC<
           /> */}
           {/*      </Flex> */}
         </Flex>
-      </Flex>
-      <Flex justifyContent="flex-end">
-        <Button
-          type="submit"
-          colorScheme="primary"
-          px={12}
-          isLoading={form.formState.isSubmitting}
-        >
-          Save
-        </Button>
+
+        <Flex justifyContent="flex-end">
+          <Button
+            type="submit"
+            colorScheme="primary"
+            px={12}
+            isLoading={form.formState.isSubmitting}
+          >
+            Save
+          </Button>
+        </Flex>
       </Flex>
     </Card>
   );
