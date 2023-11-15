@@ -53,6 +53,10 @@ function determineIpfsGateways() {
       protocol: "https",
       hostname: `${process.env.API_ROUTES_CLIENT_ID}.thirdwebstorage-staging.com`,
     });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.API_ROUTES_CLIENT_ID}.thirdwebstorage-dev.com`,
+    });
   } else {
     // this should only happen in development
     remotePatterns.push({
@@ -69,6 +73,10 @@ function determineIpfsGateways() {
     remotePatterns.push({
       protocol: "https",
       hostname: `${process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID}.thirdwebstorage-staging.com`,
+    });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID}.thirdwebstorage-dev.com`,
     });
   }
   return remotePatterns;
