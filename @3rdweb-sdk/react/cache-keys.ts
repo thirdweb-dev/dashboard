@@ -74,6 +74,8 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "kybStatus", walletAddress] as const,
   kycStatus: (walletAddress: string) =>
     [...paymentsKeys.all, "kycStatus", walletAddress] as const,
+  verificationSession: (walletAddress: string) =>
+    [...paymentsKeys.all, "verificationSession", walletAddress] as const,
   contracts: (walletAddress: string) =>
     [...paymentsKeys.all, "contracts", walletAddress] as const,
   contractsByChainId: (walletAddress: string, chainId: number) =>

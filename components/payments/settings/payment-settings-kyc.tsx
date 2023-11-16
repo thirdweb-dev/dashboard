@@ -1,43 +1,12 @@
-import {
-  usePaymentsCreateVerificationSession,
-  usePaymentsKycStatus,
-} from "@3rdweb-sdk/react/hooks/usePayments";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Box,
-  Flex,
-  ListItem,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { usePaymentsGetVerificationSession } from "@3rdweb-sdk/react/hooks/usePayments";
+import { Box, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button, Text } from "tw-components";
+import { KycStatus } from "./kyc-status";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string,
 );
-
-export const SellerVerificationStatusRecord: Record<
-  string,
-  { message: string; type: "error" | "success" }
-> = {
-  document_expired: {
-    message:
-      "Your document is expired. Please provide an non-expired document.",
-    type: "error",
-  },
-  document_failure: {
-    message: "Your document verification failed. Please try again.",
-    type: "error",
-  },
-  sanctions_failure: {
-    message:
-      "Your verification failed. Contact support@thirdweb.com for more details.",
-    type: "error",
-  },
-  success: { message: "Verification successful.", type: "success" },
-};
 
 interface PaymentsSettingsKycProps {
   sellerId: string;
@@ -46,34 +15,24 @@ interface PaymentsSettingsKycProps {
 export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
   sellerId,
 }) => {
-  const { data } = usePaymentsKycStatus();
-  const { mutate: createVerificationSession } =
-    usePaymentsCreateVerificationSession();
+  const { data: verificationSession, isLoading: isVerificationSessionLoading } =
+    usePaymentsGetVerificationSession(sellerId);
 
-  console.log({ data });
+  const handleSubmit = async () => {
+    const stripe = await stripePromise;
+    if (!verificationSession?.clientSecret) {
+      console.error("Missing client secret.");
+      return;
+    }
 
-  const handleSubmit = () => {
-    createVerificationSession(
-      {
-        sellerId,
-      },
-      {
-        onSuccess: async (session: { id: string; clientSecret: string }) => {
-          const stripe = await stripePromise;
-          if (!session?.clientSecret) {
-            console.error("Missing client secret.");
-            return;
-          }
-
-          if (stripe) {
-            const result = await stripe.verifyIdentity(session.clientSecret);
-            if (result.error) {
-              console.error(result.error.message);
-            }
-          }
-        },
-      },
-    );
+    if (stripe) {
+      const result = await stripe.verifyIdentity(
+        verificationSession.clientSecret,
+      );
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    }
   };
 
   return (
@@ -101,22 +60,16 @@ export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
         <Text as={ListItem}>A Piece of ID</Text>
       </UnorderedList>
       <Box>
-        <Button colorScheme="primary" onClick={handleSubmit}>
+        <Button
+          colorScheme="primary"
+          isLoading={isVerificationSessionLoading}
+          onClick={handleSubmit}
+        >
           Verify Personal Information
         </Button>
       </Box>
-      {data?.status && (
-        <Alert
-          status={SellerVerificationStatusRecord[data.status].type}
-          variant="left-accent"
-          borderRadius="lg"
-          mt={2}
-        >
-          <AlertIcon />
-          <Text as={AlertDescription}>
-            {SellerVerificationStatusRecord[data.status].message}
-          </Text>
-        </Alert>
+      {verificationSession?.id && (
+        <KycStatus sessionId={verificationSession.id} />
       )}
     </Flex>
   );

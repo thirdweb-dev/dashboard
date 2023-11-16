@@ -153,6 +153,7 @@ function usePaymentsApi() {
       isGenerateSignedUrl?: boolean;
       isCreateVerificationSession?: boolean;
       isSellerDocumentCount?: boolean;
+      isSellerVerificationStatus?: boolean;
     },
   ) => {
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
@@ -178,7 +179,11 @@ function usePaymentsApi() {
     }
 
     if (options?.isSellerDocumentCount) {
-      return json as { fileNames: string[]; count: number; };
+      return json as { fileNames: string[]; count: number };
+    }
+
+    if (options?.isSellerVerificationStatus) {
+      return json as { status: { type: string; message: string } };
     }
 
     return json.result;
@@ -372,37 +377,6 @@ export function usePaymentsUploadKybFile() {
   );
 }
 
-export type CreateVerificationSessionInput = {
-  sellerId: string;
-};
-
-export function usePaymentsCreateVerificationSession() {
-  const fetchFromPaymentsAPI = usePaymentsApi();
-  const queryClient = useQueryClient();
-  const address = useAddress();
-
-  return useMutationWithInvalidate(
-    async (input: CreateVerificationSessionInput) => {
-      invariant(address, "No wallet address found");
-      invariant(input.sellerId, "No sellerId found");
-
-      return fetchFromPaymentsAPI(
-        "POST",
-        "seller-verification/create-verification-session",
-        { sellerId: input.sellerId },
-        { isCreateVerificationSession: true },
-      );
-    },
-    {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
-          paymentsKeys.kycStatus(address as string),
-        );
-      },
-    },
-  );
-}
-
 const getBlobFromBase64Image = async (strBase64: string): Promise<Blob> => {
   if (!strBase64.startsWith("data:image/")) {
     return Promise.reject("Invalid base64 image format");
@@ -548,6 +522,26 @@ export function usePaymentsKybStatus() {
   );
 }
 
+export function usePaymentsGetVerificationSession(sellerId: string) {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const address = useAddress();
+
+  return useQuery(
+    paymentsKeys.verificationSession(address as string),
+    async () => {
+      invariant(address, "No wallet address found");
+      invariant(sellerId, "No sellerId found");
+      return fetchFromPaymentsAPI(
+        "POST",
+        "seller-verification/create-verification-session",
+        { sellerId },
+        { isCreateVerificationSession: true },
+      );
+    },
+    { enabled: !!address && !!sellerId },
+  );
+}
+
 export function usePaymentsKycStatus(sessionId: string) {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const address = useAddress();
@@ -557,9 +551,14 @@ export function usePaymentsKycStatus(sessionId: string) {
     async () => {
       invariant(address, "No wallet address found");
       invariant(sessionId, "No sessionId found");
-      return fetchFromPaymentsAPI("POST", "seller-verification/status", {
-        verificationSessionId: sessionId,
-      });
+      return fetchFromPaymentsAPI(
+        "POST",
+        "seller-verification/status",
+        {
+          verificationSessionId: sessionId,
+        },
+        { isSellerVerificationStatus: true },
+      );
     },
     { enabled: !!address },
   );
