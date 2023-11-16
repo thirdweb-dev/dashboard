@@ -16,8 +16,9 @@ export const HackathonFooter: FC = () => {
       bgPosition="center"
       w="100%"
       py={20}
-      gap={8}
+      gap={10}
       borderTopRadius="50px"
+      px={6}
     >
       <ChakraNextImage
         src={require("public/assets/landingpage/base-tw-logo.svg")}
@@ -25,14 +26,21 @@ export const HackathonFooter: FC = () => {
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
       />
-      <Flex flexDir="column" gap={2}>
-        <Heading size="display.sm" textAlign="center">
-          Consumer Crypto Hackathon
-        </Heading>
-        <Heading size="title.2xl" textAlign="center">
-          Dec 8th - Dec 10th
-        </Heading>
-      </Flex>
+      <ChakraNextImage
+        src={require("public/assets/landingpage/consumer-crypto-logo.svg")}
+        alt="Hackathon"
+        maxW={{ base: "full", lg: "5xl" }}
+      />
+
+      <Heading
+        size="title.sm"
+        color="white"
+        opacity={0.7}
+        letterSpacing={5}
+        textAlign="center"
+      >
+        DECEMBER 8 - 10
+      </Heading>
 
       <LinkButton
         href="https://docs.google.com/forms/d/1CT8LPG1DrcpTKAW38ScVzTcyBNwS6ANOk6xpfjpXLAs/edit"

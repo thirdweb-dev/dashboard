@@ -175,7 +175,7 @@ const Hackathon = () => {
                   fulfill the following requirements:
                 </Text>
                 <Text size="body.xl">
-                  <List color="white">
+                  <List color="white" opacity={0.7}>
                     <ListItem>
                       - Built using thirdweb&apos;s products within any of the
                       following categories: Wallets, Smart Contracts, Payments,

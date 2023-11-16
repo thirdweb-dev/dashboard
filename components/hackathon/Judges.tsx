@@ -23,19 +23,13 @@ export const Judges: React.FC = () => {
       description: "Partner, Framework Ventures",
       image: "assets/landingpage/manderson.jpg",
     },
-    {
-      name: "Someone from Base",
-      twitter: "base",
-      description: "Base",
-      image: "assets/landingpage/manderson.jpg",
-    },
   ];
 
   return (
     <VStack spacing={8} position="relative">
       <Heading size="title.2xl">Judges</Heading>
       <SimpleGrid
-        columns={{ base: 1, md: 4 }}
+        columns={{ base: 1, md: 3 }}
         gap={{ base: 8, md: 24 }}
         justifyContent="space-evenly"
       >

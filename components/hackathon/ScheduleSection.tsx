@@ -5,24 +5,20 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { Badge, Heading, Text } from "tw-components";
 
 export const ScheduleSection: React.FC = () => {
-  const trackEvent = useTrack();
   const items = [
     {
       day: 8,
       title:
-        "Introduction to thirdweb and Coinbase, meet and greet | 5:00pm - 7:00pm",
+        "Hackathon Kickoff: Intro to Base & thirdweb, Team Formation | 5:00pm - 7:00pm",
     },
     {
       day: 9,
-      title: "Building | 9:00am - 9:00pm",
+      title: "Hack Day | 9:00am - 9:00pm",
     },
     {
       day: 10,
-      title: "Final submission | 9:00am",
-    },
-    {
-      day: 10,
-      title: "Lunch and winners announce | 12:00pm",
+      title: "Final Submission | 9:00am",
+      secondTitle: "Lunch & Winners Announcement | 12:00pm",
     },
   ];
 
@@ -51,7 +47,7 @@ export const ScheduleSection: React.FC = () => {
           transform="translate(-50%, -50%)"
           backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 90% 50% / 15%), transparent 60%)`}
         />
-        {items.map(({ day, title }) => (
+        {items.map(({ day, title, secondTitle }) => (
           <Flex
             role="group"
             as={LinkBox}
@@ -80,14 +76,20 @@ export const ScheduleSection: React.FC = () => {
               </Heading>
             </Flex>
             <Flex
-              alignItems="center"
+              justifyContent="center"
               width={{ base: "full", md: "500px" }}
               gap={2}
               ml={4}
+              flexDir={"column"}
             >
               <Heading size="subtitle.sm" fontWeight={500} color="white">
                 {title}
               </Heading>
+              {secondTitle && (
+                <Heading size="subtitle.sm" fontWeight={500} color="white">
+                  {secondTitle}
+                </Heading>
+              )}
             </Flex>
           </Flex>
         ))}
