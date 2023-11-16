@@ -38,7 +38,7 @@ interface FormSchema {
   how_did_you_hear_about_us_: string;
 }
 
-const TRACKING_CATEGORY = "contract-us";
+const TRACKING_CATEGORY = "contact-us";
 
 const ContactUs: ThirdwebNextPage = () => {
   const form = useForm<FormSchema>();
