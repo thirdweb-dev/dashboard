@@ -1,32 +1,12 @@
-import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
-
-const stats: StatBoxProps[] = [
-  {
-    title: "100k+",
-    description: "Web3 Developers use thirdweb",
-  },
-  {
-    title: "300k+",
-    description: "Total Contracts Deployed",
-  },
-  {
-    title: "5M+",
-    description: "Total Transactions",
-  },
-];
 
 interface StatBoxProps {
   title: string;
   description: string;
-  showRightBorder?: boolean;
 }
 
-const Stat: React.FC<StatBoxProps> = ({
-  title,
-  description,
-  showRightBorder,
-}) => {
+const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
   return (
     <Flex
       justifyContent="center"
