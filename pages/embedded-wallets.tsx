@@ -7,6 +7,7 @@ import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingLayout } from "components/landing-pages/layout";
+import { useGoogleTagManager } from "hooks/analytics/useGoogleTagManager";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -33,6 +34,8 @@ const GUIDES = [
 ];
 
 const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
+  useGoogleTagManager();
+
   return (
     <LandingLayout
       bgColor="#0F0F0F"
