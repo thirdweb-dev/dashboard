@@ -1,3 +1,7 @@
+import {
+  usePaymentsCreateVerificationSession,
+  usePaymentsKycStatus,
+} from "@3rdweb-sdk/react/hooks/usePayments";
 import { Box, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button, Text } from "tw-components";
@@ -6,7 +10,38 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string,
 );
 
-export const PaymentsSettingsKyc: React.FC = () => {
+interface PaymentsSettingsKycProps {
+  sellerId: string;
+}
+
+export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
+  sellerId,
+}) => {
+  const { data } = usePaymentsKycStatus();
+  const { mutate: createVerificationSession } =
+    usePaymentsCreateVerificationSession();
+
+  console.log({ data });
+
+  const handleSubmit = () => {
+    createVerificationSession(
+      {
+        sellerId,
+      },
+      {
+        onSuccess: async (session: { id: string; clientSecret: string }) => {
+          const stripe = await stripePromise;
+          if (stripe) {
+            const result = await stripe.verifyIdentity(session.clientSecret);
+            if (result.error) {
+              console.error(result.error.message);
+            }
+          }
+        },
+      },
+    );
+  };
+
   /*   const options = {
     // passing the client secret obtained from the server
     clientSecret: '{{CLIENT_SECRET}}',
@@ -37,7 +72,9 @@ export const PaymentsSettingsKyc: React.FC = () => {
         <Text as={ListItem}>A Piece of ID</Text>
       </UnorderedList>
       <Box>
-        <Button>Verify Personal Information</Button>
+        <Button colorScheme="primary" onClick={handleSubmit}>
+          Verify Personal Information
+        </Button>
       </Box>
     </Flex>
   );

@@ -359,6 +359,36 @@ export function usePaymentsUploadKybFile() {
   );
 }
 
+export type CreateVerificationSessionInput = {
+  sellerId: string;
+};
+
+export function usePaymentsCreateVerificationSession() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (input: CreateVerificationSessionInput) => {
+      invariant(address, "No wallet address found");
+      invariant(input.sellerId, "No sellerId found");
+
+      return fetchFromPaymentsAPI(
+        "POST",
+        "seller-verification/create-verification-session",
+        { sellerId: input.sellerId },
+      );
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.kycStatus(address as string),
+        );
+      },
+    },
+  );
+}
+
 export type SellerValueInput = {
   twitter_handle: string;
   discord_username: string;
@@ -410,10 +440,23 @@ export function usePaymentsKybStatus() {
   return useQuery(
     paymentsKeys.kybStatus(address as string),
     async () => {
-      return fetchFromPaymentsAPI<RegisterContractInput>(
+      return fetchFromPaymentsAPI(
         "GET",
         "seller-verification/seller-document-count",
       );
+    },
+    { enabled: !!address },
+  );
+}
+
+export function usePaymentsKycStatus() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const address = useAddress();
+
+  return useQuery(
+    paymentsKeys.kycStatus(address as string),
+    async () => {
+      return fetchFromPaymentsAPI("GET", "seller-verification/status");
     },
     { enabled: !!address },
   );
