@@ -4,7 +4,7 @@ import { PaperChainToChainId } from "@3rdweb-sdk/react/hooks/usePayments";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import React, { useEffect, useState } from "react";
 import { getEVMThirdwebSDK } from "lib/sdk";
-import { RPC_ENV } from "constants/rpc";
+import { PROD_OR_DEV_URL } from "constants/rpc";
 import { useChainSlug } from "hooks/chains/chainSlug";
 
 interface PaymentEnabledCardProps {
@@ -31,7 +31,7 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
         const chainId = PaperChainToChainId[chain];
         const sdk = getEVMThirdwebSDK(
           chainId,
-          `https://${chainId}.${RPC_ENV}.thirdweb.com`,
+          `https://${chainId}.rpc.${PROD_OR_DEV_URL}.com`,
         );
 
         const sdkContract = await sdk.getContract(address);

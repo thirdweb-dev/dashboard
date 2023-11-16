@@ -24,7 +24,7 @@ import {
   Sepolia,
 } from "@thirdweb-dev/chains";
 import { getEVMThirdwebSDK } from "lib/sdk";
-import { RPC_ENV } from "constants/rpc";
+import { PROD_OR_DEV_URL } from "constants/rpc";
 import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
@@ -192,7 +192,7 @@ export function usePaymentsRegisterContract() {
       invariant(address, "No wallet address found");
       const sdk = getEVMThirdwebSDK(
         parseInt(input.chain),
-        `https://${input.chain}.${RPC_ENV}.thirdweb.com`,
+        `https://${input.chain}.rpc.${PROD_OR_DEV_URL}.com`,
       );
       invariant(sdk, "No SDK found");
 
