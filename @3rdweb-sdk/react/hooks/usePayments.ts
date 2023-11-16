@@ -152,6 +152,7 @@ function usePaymentsApi() {
     options?: {
       isGenerateSignedUrl?: boolean;
       isCreateVerificationSession?: boolean;
+      isSellerDocumentCount?: boolean;
     },
   ) => {
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
@@ -174,6 +175,10 @@ function usePaymentsApi() {
 
     if (options?.isCreateVerificationSession) {
       return json as { clientSecret: string; id: string };
+    }
+
+    if (options?.isSellerDocumentCount) {
+      return json as { fileNames: string[]; count: number; };
     }
 
     return json.result;
@@ -535,20 +540,26 @@ export function usePaymentsKybStatus() {
       return fetchFromPaymentsAPI(
         "GET",
         "seller-verification/seller-document-count",
+        undefined,
+        { isSellerDocumentCount: true },
       );
     },
     { enabled: !!address },
   );
 }
 
-export function usePaymentsKycStatus() {
+export function usePaymentsKycStatus(sessionId: string) {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const address = useAddress();
 
   return useQuery(
     paymentsKeys.kycStatus(address as string),
     async () => {
-      return fetchFromPaymentsAPI("GET", "seller-verification/status");
+      invariant(address, "No wallet address found");
+      invariant(sessionId, "No sessionId found");
+      return fetchFromPaymentsAPI("POST", "seller-verification/status", {
+        verificationSessionId: sessionId,
+      });
     },
     { enabled: !!address },
   );

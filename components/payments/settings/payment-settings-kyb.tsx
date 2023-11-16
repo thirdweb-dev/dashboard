@@ -14,7 +14,6 @@ import { usePaymentsKybStatus } from "@3rdweb-sdk/react/hooks/usePayments";
 
 export const PaymentsSettingsKyb: React.FC = () => {
   const { data } = usePaymentsKybStatus();
-  console.log({ data });
 
   return (
     <Flex flexDir="column" gap={3}>
@@ -72,11 +71,11 @@ export const PaymentsSettingsKyb: React.FC = () => {
       </Accordion>
       <KybFileUploader />
       {data?.fileNames && (
-        <Flex>
-          <Heading>Submitted files:</Heading>
+        <Flex flexDir="column" gap={2} mt={4}>
+          <Heading size="title.sm">Submitted files:</Heading>
           <UnorderedList>
-            {data.fileNames.map((fileName: string) => (
-              <Text key={fileName} as={ListItem}>
+            {data.fileNames.map((fileName: string, idx: number) => (
+              <Text key={idx} as={ListItem}>
                 {fileName}
               </Text>
             ))}

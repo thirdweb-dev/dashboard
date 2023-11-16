@@ -24,6 +24,12 @@ export const PaymentContracts = () => {
   useEffect(() => {
     const filterContractsAsync = async (contracts: ContractWithMetadata[]) => {
       setIsFilteringLoading(true);
+
+      if (contracts.length === 0) {
+        setIsFilteringLoading(false);
+        return [];
+      }
+
       const filtered = await contracts.reduce(
         async (accumulatedFilteredPromise, contract) => {
           const accumulatedFiltered = await accumulatedFilteredPromise;
@@ -52,7 +58,7 @@ export const PaymentContracts = () => {
       return filtered;
     };
 
-    if (deployedContracts?.data) {
+    if (deployedContracts?.data.length > 0) {
       filterContractsAsync(deployedContracts.data).then(setFilteredContracts);
     }
   }, [deployedContracts?.data]);

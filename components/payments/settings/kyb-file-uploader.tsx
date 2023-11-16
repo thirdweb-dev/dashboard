@@ -67,7 +67,11 @@ export const KybFileUploader: React.FC = () => {
           helperText="Document"
         />
       </Box>
-      <Button type="submit" colorScheme="primary">
+      <Button
+        type="submit"
+        colorScheme="primary"
+        isDisabled={!form.watch("file")}
+      >
         Secure Upload
       </Button>
     </Flex>
