@@ -167,6 +167,18 @@ const Optimism: CurrencyMetadata[] = [
   {
     ...NATIVE_TOKENS[ChainId.Optimism].wrapped,
   },
+  // Source: https://www.circle.com/blog/now-available-usdc-on-op-mainnet
+  {
+    address: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
+  // Source: https://www.circle.com/blog/now-available-usdc-on-op-mainnet
+  {
+    address: "0x7f5c764cbc14f9669b88837ca1490cca17c31607",
+    name: "USD Coin (Bridged)",
+    symbol: "USDC.e",
+  },
 ];
 
 const OptimismGoerli: CurrencyMetadata[] = [
