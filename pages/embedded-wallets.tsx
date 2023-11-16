@@ -51,6 +51,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           ],
         },
       }}
+      shouldUseGTM
     >
       <Container
         maxW="container.page"

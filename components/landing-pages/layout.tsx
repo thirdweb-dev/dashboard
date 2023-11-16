@@ -2,22 +2,26 @@ import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
+import GoogleTagManager from "components/seo/GoogleTagManager";
 import { NextSeo, NextSeoProps } from "next-seo";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface LandingLayoutProps {
   seo: NextSeoProps;
+  shouldUseGTM?: boolean;
   bgColor?: string;
 }
 
 export const LandingLayout: ComponentWithChildren<LandingLayoutProps> = ({
   seo,
+  shouldUseGTM,
   bgColor = "#000",
   children,
 }) => {
   return (
     <DarkMode>
       <NextSeo {...seo} />
+      {shouldUseGTM && <GoogleTagManager />}
       <Flex
         sx={{
           // overwrite the theme colors because the home page is *always* in "dark mode"

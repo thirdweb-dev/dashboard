@@ -50,6 +50,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           ],
         },
       }}
+      shouldUseGTM
     >
       <Container
         maxW="container.page"
