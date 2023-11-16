@@ -2,13 +2,43 @@ import {
   usePaymentsCreateVerificationSession,
   usePaymentsKycStatus,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Box, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Box,
+  Flex,
+  ListItem,
+  UnorderedList,
+  useToast,
+} from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button, Text } from "tw-components";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string,
 );
+
+export const SellerVerificationStatusRecord: Record<
+  string,
+  { message: string; type: "error" | "success" }
+> = {
+  document_expired: {
+    message:
+      "Your document is expired. Please provide an non-expired document.",
+    type: "error",
+  },
+  document_failure: {
+    message: "Your document verification failed. Please try again.",
+    type: "error",
+  },
+  sanctions_failure: {
+    message:
+      "Your verification failed. Contact support@thirdweb.com for more details.",
+    type: "error",
+  },
+  success: { message: "Verification successful.", type: "success" },
+};
 
 interface PaymentsSettingsKycProps {
   sellerId: string;
@@ -42,11 +72,6 @@ export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
     );
   };
 
-  /*   const options = {
-    // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}',
-  }; */
-
   return (
     <Flex flexDir="column" gap={3}>
       <Text>
@@ -76,6 +101,19 @@ export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
           Verify Personal Information
         </Button>
       </Box>
+      {data?.status && (
+        <Alert
+          status={SellerVerificationStatusRecord[data.status].type}
+          variant="left-accent"
+          borderRadius="lg"
+          mt={2}
+        >
+          <AlertIcon />
+          <Text as={AlertDescription}>
+            {SellerVerificationStatusRecord[data.status].message}
+          </Text>
+        </Alert>
+      )}
     </Flex>
   );
 };

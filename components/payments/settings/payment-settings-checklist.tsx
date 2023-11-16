@@ -18,12 +18,12 @@ export const PaymentsSettingsChecklist: React.FC<
       description: "",
       completed: !!sellerData?.date_personal_documents_verified,
       /* completed: true, */
-      children: <PaymentsSettingsKyc />,
+      children: sellerData && <PaymentsSettingsKyc sellerId={sellerData.id} />,
     },
     {
       title: "Business Information",
       description: "",
-      completed: false,
+      completed: !!sellerData?.date_business_documents_verified,
       children: <PaymentsSettingsKyb />,
     },
   ];
