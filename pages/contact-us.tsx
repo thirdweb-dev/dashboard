@@ -16,6 +16,7 @@ import { HomepageFooter } from "components/footer/Footer";
 import { PartnerLogo } from "components/partners/partner-logo";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { useTrack } from "hooks/analytics/useTrack";
 import { PageId } from "page-id";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,11 +38,15 @@ interface FormSchema {
   how_did_you_hear_about_us_: string;
 }
 
+const TRACKING_CATEGORY = "contract-us";
+
 const ContactUs: ThirdwebNextPage = () => {
   const form = useForm<FormSchema>();
   const [formStatus, setFormStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
+
+  const trackEvent = useTrack();
 
   return (
     <DarkMode>
@@ -135,6 +140,12 @@ const ContactUs: ThirdwebNextPage = () => {
 
                   setFormStatus("submitting");
 
+                  trackEvent({
+                    category: TRACKING_CATEGORY,
+                    action: "submit-form",
+                    label: "attempt",
+                  });
+
                   try {
                     const response = await fetch("/api/hubspot", {
                       method: "POST",
@@ -142,13 +153,33 @@ const ContactUs: ThirdwebNextPage = () => {
                     });
 
                     if (!response.ok) {
+                      trackEvent({
+                        category: TRACKING_CATEGORY,
+                        action: "submit-form",
+                        label: "error",
+                        error: "Form submission failed",
+                      });
                       throw new Error("Form submission failed");
                     }
 
                     await response.json();
+
+                    trackEvent({
+                      category: TRACKING_CATEGORY,
+                      action: "submit-form",
+                      label: "success",
+                    });
+
                     setFormStatus("success");
+
                     form.reset();
                   } catch (error) {
+                    trackEvent({
+                      category: TRACKING_CATEGORY,
+                      action: "submit-form",
+                      label: "error",
+                      error: (error as Error).message,
+                    });
                     setFormStatus("error");
                   }
                 })}
