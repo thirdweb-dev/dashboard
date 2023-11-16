@@ -155,9 +155,9 @@ const AvalancheFujiTestnet: CurrencyMetadata[] = [
   {
     ...NATIVE_TOKENS[ChainId.AvalancheFujiTestnet].wrapped,
   },
-   // Source: https://developers.circle.com/stablecoins/docs/usdc-on-testing-networks#usdc-on-avalanche-testnet
-   {
-    address: "0x5425890298aed601595a70ab815c96711a31bc65",
+  // Source: https://developers.circle.com/stablecoins/docs/usdc-on-testing-networks#usdc-on-avalanche-testnet
+  {
+    address: "0x5425890298aed601595a70AB815c96711a31Bc65",
     name: "USD Coin",
     symbol: "USDC",
   },
