@@ -169,13 +169,13 @@ const Hackathon = () => {
               <Heading size="title.2xl" textStyle="center">
                 Guidelines
               </Heading>
-              <Flex flexDir="column" gap={4}>
-                <Text size="body.lg">
+              <Flex flexDir="column" gap={4} maxW={907}>
+                <Text size="body.xl" color="white">
                   To be eligible to win the hackathon, submitted projects must
                   fulfill the following requirements:
                 </Text>
-                <Text size="body.lg">
-                  <List>
+                <Text size="body.xl">
+                  <List color="white">
                     <ListItem>
                       - Built using thirdweb&apos;s products within any of the
                       following categories: Wallets, Smart Contracts, Payments,
@@ -192,7 +192,7 @@ const Hackathon = () => {
                     </ListItem>
                   </List>
                 </Text>
-                <Text size="body.lg">
+                <Text size="body.xl" color="white">
                   Participants will be able to submit their project to the form
                   in the hackathon landing page before the deadline, on December
                   10th at 9:00am PST.
@@ -232,11 +232,11 @@ const Hackathon = () => {
                 Judging Criteria
               </Heading>
               <Flex flexDir="column" gap={4}>
-                <Text size="body.lg">
+                <Text size="body.xl" color="white">
                   Our judges will grade submissions across 3 equally-weighted
                   categories:
                 </Text>
-                <Text size="body.lg">
+                <Text size="body.xl" color="white">
                   <List>
                     <ListItem>
                       <b>1. Usability:</b> How useful or valuable is the
