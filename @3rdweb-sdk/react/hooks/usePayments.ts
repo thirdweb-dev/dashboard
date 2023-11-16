@@ -389,6 +389,88 @@ export function usePaymentsCreateVerificationSession() {
   );
 }
 
+const getBlobFromBase64Image = async (strBase64: string): Promise<Blob> => {
+  if (!strBase64.startsWith("data:image/")) {
+    return Promise.reject("Invalid base64 image format");
+  }
+
+  const imageBase64Response = await fetch(strBase64);
+  return imageBase64Response.blob();
+};
+
+interface UploadLinkResponse {
+  uploadLink: string;
+  imageId: string;
+}
+
+interface UploadImageResponse {
+  result: {
+    id: string;
+    meta: { [field: string]: string };
+    variants: string[];
+  };
+  success: boolean;
+  errors: any;
+  messages: any;
+}
+
+export function usePaymentsUploadToCloudflare() {
+  const fetchFromPaymentsAPI = usePaymentsApi();
+  const queryClient = useQueryClient();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (dataBase64: string) => {
+      invariant(address, "No wallet address found");
+      invariant(dataBase64, "No file found");
+      const file = await getBlobFromBase64Image(dataBase64);
+
+      const res = await fetchFromPaymentsAPI(
+        "POST",
+        "storage/get-image-upload-link",
+      );
+
+      const json = await res.json();
+
+      const { uploadLink, imageId } = json.data as UploadLinkResponse;
+      if (!uploadLink || uploadLink === "") {
+        throw new Error("Unable to get upload link.");
+      }
+
+      // Append the data to the form and upload to cloudflare.
+      const uploadForm = new FormData();
+      uploadForm.append("file", file, imageId);
+
+      // Upload the image to cloudflare.
+      const response = await fetch(uploadLink, {
+        method: "POST",
+        body: uploadForm,
+      });
+      if (response.status !== 200) {
+        throw new Error("Failed to upload image.");
+      }
+      const responseData = (await response.json()) as UploadImageResponse;
+      const imageUrl =
+        responseData.result.variants[1] ||
+        responseData.result.variants[0] ||
+        "";
+      if (imageUrl === "") {
+        throw new Error("Unable to generate image URL.");
+      }
+
+      // Return the string URL.
+      return imageUrl;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.kycStatus(address as string),
+        );
+      },
+    },
+  );
+}
+
 export type SellerValueInput = {
   twitter_handle: string;
   discord_username: string;

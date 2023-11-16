@@ -1,4 +1,4 @@
-import { Flex, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import {
@@ -16,7 +16,7 @@ import {
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { toDateTimeLocal } from "utils/date-utils";
 import { useTrack } from "hooks/analytics/useTrack";
-import { PaymentsSettingsFileUploader } from "./payment-setting-file-uploader";
+import { PaymentsSettingsFileUploader } from "./payment-settings-file-uploader";
 
 interface PaymentsSettingsAccountProps {
   accountId: string;
@@ -55,8 +55,6 @@ export const PaymentsSettingsAccount: React.FC<
     "Profile saved succesfully.",
     "Failed to save profile",
   );
-
-  console.log(form.watch("company_logo_url"));
 
   return (
     <Card
@@ -110,7 +108,7 @@ export const PaymentsSettingsAccount: React.FC<
           );
         })}
       >
-        <Flex flexDir="column" gap={4}>
+        <Flex flexDir="column" gap={6}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
             <FormControl
               isInvalid={!!form.formState.errors.twitter_handle}
@@ -191,15 +189,17 @@ export const PaymentsSettingsAccount: React.FC<
               </FormErrorMessage>
             </FormControl>
           </SimpleGrid>
-          {/*           <Flex w={{ base: "50%", md: "full" }}> */}
-          {/* <PaymentsSettingsFileUploader
-            value={form.watch("company_logo_url")}
-            onUpdate={(value) => {
-              console.log({ value });
-              form.setValue("company_logo_url", value);
-            }}
-          /> */}
-          {/*      </Flex> */}
+          <FormControl isInvalid={!!form.formState.errors.company_logo_url}>
+            <FormLabel>Company Logo</FormLabel>
+            <Box w={44}>
+              <PaymentsSettingsFileUploader
+                value={form.watch("company_logo_url")}
+                onUpdate={(value: string) => {
+                  form.setValue("company_logo_url", value);
+                }}
+              />
+            </Box>
+          </FormControl>
         </Flex>
 
         <Flex justifyContent="flex-end">
