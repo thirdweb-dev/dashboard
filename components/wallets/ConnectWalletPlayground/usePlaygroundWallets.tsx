@@ -1,8 +1,16 @@
-import { WalletConfig, safeWallet, smartWallet } from "@thirdweb-dev/react";
+import {
+  WalletConfig,
+  embeddedWallet,
+  safeWallet,
+  smartWallet,
+} from "@thirdweb-dev/react";
 import { useState } from "react";
 import { walletInfoRecord, WalletId } from "./walletInfoRecord";
+import { isProd } from "constants/rpc";
 
 type WalletSelection = Record<WalletId, boolean | "recommended">;
+
+type AuthOption = "google" | "email" | "facebook" | "apple";
 
 export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const [smartWalletOptions, setSmartWalletOptions] = useState({
@@ -11,6 +19,13 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
     gasless: true,
   });
 
+  const [socialOptions, setSocialOptions] = useState<AuthOption[]>([
+    "email",
+    "google",
+    "apple",
+    "facebook",
+  ]);
+
   const [walletSelection, setWalletSelection] = useState<
     Record<WalletId, boolean | "recommended">
   >(defaultWalletSelection);
@@ -18,8 +33,18 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const enabledWallets = Object.entries(walletSelection)
     .filter((x) => x[1])
     .map((x) => x[0] as WalletId);
+
   const supportedWallets: WalletConfig<any>[] = enabledWallets.map(
     (walletId) => {
+      if (walletId === "Email Wallet") {
+        walletInfoRecord[walletId].component = embeddedWallet({
+          recommended: !!walletSelection[walletId],
+          auth: {
+            options: socialOptions,
+          },
+        });
+      }
+
       // set recommended
       walletInfoRecord[walletId].component.recommended =
         walletSelection[walletId] === "recommended";
@@ -31,9 +56,13 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         ? smartWallet(walletConfig, {
             factoryAddress: smartWalletOptions.factoryAddress,
             gasless: smartWalletOptions.gasless,
-            bundlerUrl: "https://goerli.bundler-staging.thirdweb.com",
+            bundlerUrl: isProd
+              ? "https://goerli.bundler.thirdweb.com"
+              : "https://goerli.bundler.thirdweb-dev.com",
             // eslint-disable-next-line inclusive-language/use-inclusive-words
-            paymasterUrl: "https://goerli.bundler-staging.thirdweb.com",
+            paymasterUrl: isProd
+              ? "https://goerli.bundler.thirdweb.com"
+              : "https://goerli.bundler.thirdweb-dev.com",
           })
         : walletConfig;
     },
@@ -56,5 +85,7 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
     supportedWallets,
     smartWalletOptions,
     setSmartWalletOptions,
+    socialOptions,
+    setSocialOptions,
   };
 }
