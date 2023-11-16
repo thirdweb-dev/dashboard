@@ -158,7 +158,7 @@ const ContactUs: ThirdwebNextPage = () => {
                         category: TRACKING_CATEGORY,
                         action: TRACKING_ACTION,
                         label: "error",
-                        error: "Form submission failed",
+                        error: "form-submission-failed",
                       });
                       throw new Error("Form submission failed");
                     }
