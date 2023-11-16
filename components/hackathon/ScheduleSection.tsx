@@ -1,0 +1,97 @@
+import { Box, Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
+import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
+import { useTrack } from "hooks/analytics/useTrack";
+import { Badge, Heading, Text } from "tw-components";
+
+export const ScheduleSection: React.FC = () => {
+  const trackEvent = useTrack();
+  const items = [
+    {
+      day: 8,
+      title:
+        "Introduction to thirdweb and Coinbase, meet and greet | 5:00pm - 7:00pm",
+    },
+    {
+      day: 9,
+      title: "Building | 9:00am - 9:00pm",
+    },
+    {
+      day: 10,
+      title: "Final submission | 9:00am",
+    },
+    {
+      day: 10,
+      title: "Lunch and winners announce | 12:00pm",
+    },
+  ];
+
+  return (
+    <Flex flexDir="column" alignItems="center">
+      <Heading size="title.2xl" mb={{ base: 8, md: 12 }}>
+        Schedule
+      </Heading>
+      <Flex
+        w="full"
+        justify={{ base: "center", md: "space-between" }}
+        flexDir="column"
+        align="center"
+        borderRadius="lg"
+        overflow="hidden"
+        boxShadow="0 0 0 1px rgba(255, 255, 255, 0.1)"
+      >
+        <Box
+          pointerEvents={"none"}
+          width="100vw"
+          height={{ base: "1400px", md: "2200px" }}
+          position="absolute"
+          zIndex={-1}
+          top="55%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 90% 50% / 15%), transparent 60%)`}
+        />
+        {items.map(({ day, title }) => (
+          <Flex
+            role="group"
+            as={LinkBox}
+            key={title}
+            align="center"
+            justify="flex-start"
+            w="full"
+            px={{ base: 4, md: 8 }}
+            bg="transparent"
+            boxShadow="0 0 0 1px rgba(255, 255, 255, 0.1)"
+            _hover={{ bg: "whiteAlpha.50" }}
+            py={3}
+            gap={{ base: 4, md: 12 }}
+          >
+            <Flex
+              flexDir="column"
+              alignItems="center"
+              w={"60px"}
+              flexShrink={0}
+            >
+              <Text size="body.md" color="gray.300" textTransform="uppercase">
+                DECEMBER
+              </Text>
+              <Heading size="title.lg" color="white">
+                {day}
+              </Heading>
+            </Flex>
+            <Flex
+              alignItems="center"
+              width={{ base: "full", md: "500px" }}
+              gap={2}
+              ml={4}
+            >
+              <Heading size="subtitle.sm" fontWeight={500} color="white">
+                {title}
+              </Heading>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+    </Flex>
+  );
+};

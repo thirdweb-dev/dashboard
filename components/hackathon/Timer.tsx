@@ -12,8 +12,13 @@ interface ITimeLeft {
 const Timer: React.FC = () => {
   const calculateTimeLeft = () => {
     const difference =
-      Number(new Date("2022-10-19T22:00:00")) - Number(new Date());
-    let timeLeft = {};
+      Number(new Date("2023-12-10T09:00:00-08:00")) - Number(new Date());
+    let timeLeft = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
 
     if (difference > 0) {
       timeLeft = {
@@ -31,10 +36,12 @@ const Timer: React.FC = () => {
   const { days, hours, minutes, seconds } = timeLeft;
 
   useEffect(() => {
-    setTimeout(() => {
+    const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-  });
+
+    return () => clearInterval(interval);
+  }, []);
 
   const items = [
     { label: "Day", value: days },

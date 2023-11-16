@@ -13,6 +13,7 @@ import { Heading, Text } from "tw-components";
 interface LandingFAQProps {
   TRACKING_CATEGORY: string;
   title: string;
+  hideMarginTop?: boolean;
   faqs: {
     title: string;
     description: React.ReactNode;
@@ -22,6 +23,7 @@ interface LandingFAQProps {
 export const LandingFAQ: React.FC<LandingFAQProps> = ({
   TRACKING_CATEGORY,
   title = "FAQ",
+  hideMarginTop,
   faqs,
 }) => {
   const trackEvent = useTrack();
@@ -36,7 +38,7 @@ export const LandingFAQ: React.FC<LandingFAQProps> = ({
 
   return (
     <Flex
-      mt={12}
+      mt={hideMarginTop ? 0 : 12}
       flexDirection="column"
       w="full"
       maxW={{

@@ -1,10 +1,11 @@
 import hexagon from "./hexagon.png";
-import { Image, ImgProps } from "@chakra-ui/image";
+import { ImgProps } from "@chakra-ui/image";
 import { Skeleton } from "@chakra-ui/skeleton";
+import { ChakraNextImage } from "components/Image";
+import { StaticImageData } from "next/image";
 
-export interface MaskedAvatarProps
-  extends Omit<ImgProps, "as" | "viewBox" | "boxSize"> {
-  src: string;
+export interface MaskedAvatarProps {
+  src: StaticImageData;
   isLoading?: boolean;
   name?: string;
   boxSize?: number;
@@ -28,7 +29,7 @@ export const MaskedAvatar: React.FC<MaskedAvatarProps> = ({
       }}
       boxSize={boxSize}
     >
-      <Image
+      <ChakraNextImage
         boxSize={boxSize}
         objectFit="cover"
         {...restBoxProps}

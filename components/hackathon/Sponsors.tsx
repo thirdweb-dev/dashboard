@@ -1,26 +1,27 @@
 import { Flex, Image, SimpleGrid } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { Text, TrackedLink } from "tw-components";
 
 const sponsors = [
   {
-    name: "Solana University",
-    logo: "/assets/hackathon/sponsors/solanauniversity.png",
+    name: "Base",
+    logo: require("public/assets/landingpage/base.svg"),
     link: "https://www.solanau.org/",
   },
   {
-    name: "Phantom",
-    logo: "/assets/hackathon/sponsors/phantom.png",
-    link: "https://phantom.app/",
+    name: "Founders.Inc",
+    logo: require("public/assets/landingpage/founders.png"),
+    link: "https://f.inc/",
   },
   {
-    name: "buildspace",
-    logo: "/assets/hackathon/sponsors/buildspace.png",
-    link: "https://buildspace.so/",
+    name: "Haun Ventures",
+    logo: require("public/assets/landingpage/haun.svg"),
+    link: "https://www.haun.co/",
   },
   {
-    name: "Superteam",
-    logo: "/assets/hackathon/sponsors/superteam.png",
-    link: "https://superteam.fun/",
+    name: "Framework Ventures",
+    logo: require("public/assets/landingpage/framework.svg"),
+    link: "https://framework.ventures/",
   },
 ] as const;
 
@@ -39,7 +40,7 @@ export const Sponsors: React.FC = () => {
             category="solanathon"
             label={sponsor.name}
           >
-            <Image
+            <ChakraNextImage
               w="164px"
               h="50px"
               objectFit="contain"

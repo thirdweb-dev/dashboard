@@ -1,5 +1,6 @@
 import { Flex, Icon, Image, VStack } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
+import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import type { FC } from "react";
 import { Heading, LinkButton } from "tw-components";
@@ -18,23 +19,23 @@ export const HackathonFooter: FC = () => {
       gap={8}
       borderTopRadius="50px"
     >
-      <Image
-        src="/assets/hackathon/tw-solana.svg"
-        alt="Solana Hackathon"
+      <ChakraNextImage
+        src={require("public/assets/landingpage/base-tw-logo.svg")}
+        alt="hackathon-partner"
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
       />
       <Flex flexDir="column" gap={2}>
         <Heading size="display.sm" textAlign="center">
-          $10,000 in prizes.
+          Consumer Crypto Hackathon
         </Heading>
         <Heading size="title.2xl" textAlign="center">
-          Oct 19th - Oct 26th.
+          Dec 8th - Dec 10th
         </Heading>
       </Flex>
 
       <LinkButton
-        href="https://thirdweb.typeform.com/to/zfrq8Jx0"
+        href="https://docs.google.com/forms/d/1CT8LPG1DrcpTKAW38ScVzTcyBNwS6ANOk6xpfjpXLAs/edit"
         onClick={() =>
           trackEvent({
             category: "solanathon",
