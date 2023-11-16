@@ -11,9 +11,5 @@ export const PaymentsAnalytics: React.FC<PaymentsAnalyticsProps> = ({
   const { data: detailedAnalytics } = usePaymentsDetailedAnalytics(contractId);
 
   console.log({ detailedAnalytics });
-  return (
-    <Flex flexDir="column" gap={12}>
-      analytics
-    </Flex>
-  );
+  return <Flex flexDir="column" gap={12}></Flex>;
 };
