@@ -11,10 +11,10 @@ const Reason = () => {
       <Text textAlign="center" size="body.lg">
         We&apos;re partnering with Base to host a Consumer Crypto hackathon in
         San Francisco — with the goal of discovering the next billion dollar
-        consumer web3 app. We'll provide expert support and resources to every
-        builder who participates to accelerate their development. Winners of the
-        hackathon will receive exclusive perks for building on thirdweb, and
-        introductions to VCs and investors to fund your idea.
+        consumer web3 app. We&apos;ll provide expert support and resources to
+        every builder who participates to accelerate their development. Winners
+        of the hackathon will receive exclusive perks for building on thirdweb,
+        and introductions to VCs and investors to fund your idea.
       </Text>
     </Container>
   );
