@@ -39,6 +39,7 @@ interface FormSchema {
 }
 
 const TRACKING_CATEGORY = "contact-us";
+const TRACKING_ACTION = "submit-form";
 
 const ContactUs: ThirdwebNextPage = () => {
   const form = useForm<FormSchema>();
@@ -142,7 +143,7 @@ const ContactUs: ThirdwebNextPage = () => {
 
                   trackEvent({
                     category: TRACKING_CATEGORY,
-                    action: "submit-form",
+                    action: TRACKING_ACTION,
                     label: "attempt",
                   });
 
@@ -155,7 +156,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     if (!response.ok) {
                       trackEvent({
                         category: TRACKING_CATEGORY,
-                        action: "submit-form",
+                        action: TRACKING_ACTION,
                         label: "error",
                         error: "Form submission failed",
                       });
@@ -166,7 +167,7 @@ const ContactUs: ThirdwebNextPage = () => {
 
                     trackEvent({
                       category: TRACKING_CATEGORY,
-                      action: "submit-form",
+                      action: TRACKING_ACTION,
                       label: "success",
                     });
 
@@ -176,7 +177,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   } catch (error) {
                     trackEvent({
                       category: TRACKING_CATEGORY,
-                      action: "submit-form",
+                      action: TRACKING_ACTION,
                       label: "error",
                       error: (error as Error).message,
                     });
