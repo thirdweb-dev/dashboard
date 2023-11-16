@@ -8,7 +8,6 @@ import { PrizeSection } from "components/hackathon/PrizeSection";
 import Reason from "components/hackathon/Reason";
 import { ScheduleSection } from "components/hackathon/ScheduleSection";
 import { Sponsors } from "components/hackathon/Sponsors";
-import Timer from "components/hackathon/Timer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -24,6 +23,10 @@ const List = dynamic(
     ssr: false,
   },
 );
+
+const Timer = dynamic(() => import("components/hackathon/Timer"), {
+  ssr: false,
+});
 
 const TRACKING_CATEGORY = "hackathon";
 

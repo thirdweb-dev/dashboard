@@ -9,25 +9,25 @@ export const Judges: React.FC = () => {
       name: "Furqan Rhydan",
       twitter: "FurqanR",
       description: "Founder, thirdweb",
-      image: require("public/assets/landingpage/furqan-rydhan.png"),
+      image: "assets/landingpage/furqan-rydhan.png",
     },
     {
       name: "Chris Ahn",
       twitter: "ahnchrisj",
       description: "Partner, Haun Ventures",
-      image: require("public/assets/landingpage/chris.jpg"),
+      image: "assets/landingpage/chris.jpg",
     },
     {
       name: "Michael Anderson",
       twitter: "im_manderson",
       description: "Partner, Framework Ventures",
-      image: require("public/assets/landingpage/manderson.jpg"),
+      image: "assets/landingpage/manderson.jpg",
     },
     {
       name: "Someone from Base",
       twitter: "base",
       description: "Base",
-      image: require("public/assets/landingpage/manderson.jpg"),
+      image: "assets/landingpage/manderson.jpg",
     },
   ];
 
