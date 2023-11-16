@@ -11,7 +11,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { fetchChain } from "utils/fetchChain";
-import { Button, Text } from "tw-components";
+import { LinkButton, Text } from "tw-components";
 import { EnablePaymentsButton } from "../enable-payments-button";
 import { validPaymentsChainIdsMainnets } from "@3rdweb-sdk/react/hooks/usePayments";
 
@@ -89,9 +89,14 @@ export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
 
         if (isMainnet) {
           return (
-            <Button colorScheme="blackAlpha" size="sm" isDisabled w="full">
+            <LinkButton
+              colorScheme="blackAlpha"
+              size="sm"
+              w="full"
+              href="/dashboard/payments/settings"
+            >
               KYC Required
-            </Button>
+            </LinkButton>
           );
         }
 
