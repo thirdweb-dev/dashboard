@@ -12,8 +12,8 @@ export const KybFileUploader: React.FC = () => {
   const trackEvent = useTrack();
 
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully uploaded file",
-    "Failed to uplod file",
+    "Successfully uploaded file.",
+    "Failed to uplod file.",
   );
 
   return (

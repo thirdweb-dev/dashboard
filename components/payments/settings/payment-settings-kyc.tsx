@@ -10,7 +10,6 @@ import {
   Flex,
   ListItem,
   UnorderedList,
-  useToast,
 } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button, Text } from "tw-components";
@@ -61,6 +60,11 @@ export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
       {
         onSuccess: async (session: { id: string; clientSecret: string }) => {
           const stripe = await stripePromise;
+          if (!session?.clientSecret) {
+            console.error("Missing client secret.");
+            return;
+          }
+
           if (stripe) {
             const result = await stripe.verifyIdentity(session.clientSecret);
             if (result.error) {

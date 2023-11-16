@@ -51,8 +51,6 @@ import {
   useGetSellerByThirdwebAccountIdLazyQuery,
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
-import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
-import { TransactionDocument } from "graphql/queries/__generated__/Transaction.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -151,6 +149,10 @@ function usePaymentsApi() {
     method: string,
     endpoint: string,
     body?: T,
+    options?: {
+      isGenerateSignedUrl?: boolean;
+      isCreateVerificationSession?: boolean;
+    },
   ) => {
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
       method,
@@ -164,6 +166,14 @@ function usePaymentsApi() {
 
     if (json.error) {
       throw new Error(json.message);
+    }
+
+    if (options?.isGenerateSignedUrl) {
+      return json.url;
+    }
+
+    if (options?.isCreateVerificationSession) {
+      return json as { clientSecret: string; id: string };
     }
 
     return json.result;
@@ -326,9 +336,11 @@ export function usePaymentsUploadKybFile() {
       invariant(address, "No wallet address found");
       invariant(input.file, "No file found");
 
-      const { url } = await fetchFromPaymentsAPI(
+      const url = await fetchFromPaymentsAPI(
         "POST",
         "storage/generate-signed-url",
+        { fileName: input.file.name, fileType: input.file.type },
+        { isGenerateSignedUrl: true },
       );
 
       if (!url) {
@@ -341,13 +353,9 @@ export function usePaymentsUploadKybFile() {
         body: input.file,
       });
 
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.message);
+      if (res.status !== 200) {
+        throw new Error(`Unexpected status ${res.status}`);
       }
-
-      return json.result;
     },
     {
       onSuccess: () => {
@@ -377,6 +385,7 @@ export function usePaymentsCreateVerificationSession() {
         "POST",
         "seller-verification/create-verification-session",
         { sellerId: input.sellerId },
+        { isCreateVerificationSession: true },
       );
     },
     {
@@ -522,6 +531,7 @@ export function usePaymentsKybStatus() {
   return useQuery(
     paymentsKeys.kybStatus(address as string),
     async () => {
+      invariant(address, "No wallet address found");
       return fetchFromPaymentsAPI(
         "GET",
         "seller-verification/seller-document-count",
