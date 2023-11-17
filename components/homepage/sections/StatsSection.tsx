@@ -6,7 +6,7 @@ interface StatBoxProps {
   description: string;
 }
 
-const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
+export const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
   return (
     <Flex
       justifyContent="center"

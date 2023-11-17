@@ -31,6 +31,9 @@ export enum PageId {
   // thirdweb..com/privacy
   Privacy = "privacy-page",
 
+  // thirdweb..com/tos
+  ToS = "tos-page",
+
   // thirdweb.com/cli/login
   CliLoginPage = "cli-login-page",
 
@@ -100,8 +103,8 @@ export enum PageId {
   // thirdweb.com/chainlist
   ChainsLanding = "chains-landing",
 
-  // thirdweb.com/hackathon/solanathon
-  // SolanaHackathonLanding = "solanathon",
+  // thirdweb.com/hackathon
+  HackathonLanding = "hackathon",
   ReadyPlayer3Landing = "readyplayer3",
 
   // thirdweb.com/404
