@@ -1,21 +1,38 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import React from "react";
 import { Heading, Text } from "tw-components";
 
 const Reason = () => {
   return (
-    <Container maxW={"container.page"}>
+    <Container maxW={907} mt={28}>
       <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
         Why?
       </Heading>
-      <Text textAlign="center" size="body.lg">
-        We&apos;re partnering with Base to host a Consumer Crypto hackathon in
-        San Francisco — with the goal of discovering the next billion dollar
-        consumer web3 app. We&apos;ll provide expert support and resources to
-        every builder who participates to accelerate their development. Winners
-        of the hackathon will receive exclusive perks for building on thirdweb,
-        and introductions to VCs and investors to fund your idea.
-      </Text>
+
+      <Flex flexDir="column" gap={8}>
+        <Text textAlign="left" size="body.xl" color="white">
+          The next wave of web3 mass adoption is already happening.{" "}
+          <b>
+            If you want to be one of the next big crypto apps, the time to build
+            is now!
+          </b>
+        </Text>
+
+        <Text textAlign="left" size="body.xl" color="white">
+          We&apos;re partnering with Base to host the{" "}
+          <b>Consumer Crypto Hackathon</b> — bringing the hungriest builders to
+          San Francisco to{" "}
+          <b>discover the next billion-dollar web3 consumer app.</b>&nbsp;Get
+          resources & expertise from top operators, find your next co-founder,
+          and meet VCs & industry leaders from{" "}
+          <b>Coinbase, Haun Ventures, Founders Inc</b>. and
+          <b>Framework Ventures.</b>
+        </Text>
+
+        <Text textAlign="left" size="body.xl" color="white">
+          Join us!
+        </Text>
+      </Flex>
     </Container>
   );
 };

@@ -4,7 +4,6 @@ import { ChakraNextImage } from "components/Image";
 import FAQ from "components/hackathon/FAQ";
 import { HackathonFooter } from "components/hackathon/HackathonFooter";
 import { Judges } from "components/hackathon/Judges";
-import { PrizeSection } from "components/hackathon/PrizeSection";
 import Reason from "components/hackathon/Reason";
 import { ScheduleSection } from "components/hackathon/ScheduleSection";
 import { Sponsors } from "components/hackathon/Sponsors";
@@ -12,10 +11,11 @@ import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 
 const List = dynamic(
   () => import("@chakra-ui/react").then((result) => result.List),
@@ -35,20 +35,19 @@ const Hackathon = () => {
   return (
     <DarkMode>
       <NextSeo
-        title="thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000"
-        description="Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more."
+        title="Consumer Crypto Hackathon | Presented by Base & thirdweb"
+        description="Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Base & thirdweb. Learn more & sign up here."
         openGraph={{
-          title:
-            "thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000",
-          url: "https://thirdweb.com/hackathon/solanathon",
+          title: "Consumer Crypto Hackathon | Presented by Base & thirdweb",
+          url: "https://thirdweb.com/hackathon/base-consumer-crypto",
           description:
-            "Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more.",
+            "Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Base & thirdweb. Learn more & sign up here.",
           images: [
             {
-              url: "https://thirdweb.com/assets/og-image/solanathon.jpg",
+              url: `${getAbsoluteUrl()}/assets/og-image/hackathon.png`,
               width: 1200,
               height: 630,
-              alt: "thirdweb Solanathon: October 19 - 26",
+              alt: "Consumer Crypto Hackathon | Presented by Base & thirdweb",
             },
           ],
         }}
@@ -156,8 +155,7 @@ const Hackathon = () => {
         </HomepageSection>
         <Divider mt={16} />
 
-        <Flex flexDir={"column"} gap={180}>
-          <PrizeSection />
+        <Flex flexDir={"column"} gap={{ base: 100, md: 180 }}>
           <Reason />
 
           <HomepageSection>
@@ -167,44 +165,70 @@ const Hackathon = () => {
           <HomepageSection>
             <Flex flexDir="column" alignItems="center" gap={8}>
               <Heading size="title.2xl" textStyle="center">
+                Prizes & Benefits
+              </Heading>
+              <Flex flexDir="column" gap={4} maxW={907}>
+                <Text size="body.xl">
+                  <List color="white">
+                    <ListItem>
+                      • $10,000 in thirdweb credits — $5K for 1st place, $3K for
+                      2nd place, $2K for 3rd place
+                    </ListItem>
+                    <ListItem>• 1 ETH for 1st Place</ListItem>
+                    <ListItem>
+                      • Meet & present to top industry leaders, operators, and
+                      investors in crypto — from Coinbase, Haun Ventures,
+                      Founders Inc. and Framework Ventures
+                    </ListItem>
+                    <ListItem>
+                      • Amplification to 500k+ followers on thirdweb and
+                      Base&apos;s social channels
+                    </ListItem>
+                    <ListItem>
+                      • $50 Gas Sponsorship for every hackathon builder
+                    </ListItem>
+                  </List>
+                </Text>
+              </Flex>
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection>
+            <Flex flexDir="column" alignItems="center" gap={8}>
+              <Heading size="title.2xl" textAlign="center">
                 Guidelines
               </Heading>
               <Flex flexDir="column" gap={4} maxW={907}>
-                <Text size="body.xl" color="white">
+                <Text
+                  size="body.xl"
+                  color="white"
+                  fontWeight="bold"
+                  textAlign="center"
+                >
                   To be eligible to win the hackathon, submitted projects must
                   fulfill the following requirements:
                 </Text>
                 <Text size="body.xl">
-                  <List color="white" opacity={0.7}>
+                  <List color="white">
                     <ListItem>
-                      - Built using thirdweb&apos;s products within any of the
-                      following categories: Wallets, Smart Contracts, Payments,
-                      Infrastructure (Engine)
+                      • Built using any of the following thirdweb products:
+                      Engine, Embedded Wallets, and/or Account Abstraction
                     </ListItem>
                     <ListItem>
-                      - Must be deployed on Base testnet or mainnet
+                      • Must be deployed on Base testnet or mainnet
                     </ListItem>
-                    <ListItem>- Code must be open-source</ListItem>
+                    <ListItem>• Code must be open-source</ListItem>
                     <ListItem>
-                      - Project must be submitted through GitHub, with a
-                      descriptive README file detailing the project (what it is,
-                      what the goals are, and how you built it)
+                      • Project must be submitted through GitHub, with a
+                      descriptive README file detailing what the project is,
+                      what its goals are, and how you built it
                     </ListItem>
                   </List>
                 </Text>
                 <Text size="body.xl" color="white">
                   Participants will be able to submit their project to the form
-                  in the hackathon landing page before the deadline, on December
-                  10th at 9:00am PST.
-                  <TrackedLink
-                    href="https://discord.gg/thirdweb"
-                    category="solanathon"
-                    label="discord"
-                    textDecoration="underline"
-                  >
-                    discord
-                  </TrackedLink>{" "}
-                  if you have any questions.
+                  in the hackathon landing page before the deadline, on{" "}
+                  <b>December 10th at 9:00am PST</b>.
                 </Text>
               </Flex>
             </Flex>
@@ -232,7 +256,12 @@ const Hackathon = () => {
                 Judging Criteria
               </Heading>
               <Flex flexDir="column" gap={4}>
-                <Text size="body.xl" color="white">
+                <Text
+                  size="body.xl"
+                  color="white"
+                  fontWeight="bold"
+                  textAlign="center"
+                >
                   Our judges will grade submissions across 3 equally-weighted
                   categories:
                 </Text>

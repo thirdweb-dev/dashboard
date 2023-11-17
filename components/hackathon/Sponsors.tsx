@@ -6,7 +6,7 @@ const sponsors = [
   {
     name: "Base",
     logo: require("public/assets/landingpage/base.svg"),
-    link: "https://www.solanau.org/",
+    link: "https://base.org/",
   },
   {
     name: "Founders.Inc",

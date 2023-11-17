@@ -75,13 +75,7 @@ export const ScheduleSection: React.FC = () => {
                 {day}
               </Heading>
             </Flex>
-            <Flex
-              justifyContent="center"
-              width={{ base: "full", md: "500px" }}
-              gap={2}
-              ml={4}
-              flexDir={"column"}
-            >
+            <Flex justifyContent="center" gap={2} ml={4} flexDir={"column"}>
               <Heading size="subtitle.sm" fontWeight={500} color="white">
                 {title}
               </Heading>

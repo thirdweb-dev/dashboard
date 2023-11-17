@@ -42,6 +42,7 @@ const FAQ = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
         TRACKING_CATEGORY={TRACKING_CATEGORY}
         title={"FAQ"}
         faqs={faqs}
+        titleSize="title.2xl"
       />
     </Container>
   );
