@@ -40,8 +40,6 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         walletInfoRecord[walletId].component = embeddedWallet({
           recommended: !!walletSelection[walletId],
           auth: {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             options: socialOptions,
           },
         });
