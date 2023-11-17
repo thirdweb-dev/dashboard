@@ -28,6 +28,9 @@ export enum PageId {
   // thirdweb..com/pricing
   Pricing = "pricing-page",
 
+  // thirdweb..com/privacy
+  Privacy = "privacy-page",
+
   // thirdweb.com/cli/login
   CliLoginPage = "cli-login-page",
 
@@ -157,8 +160,6 @@ export enum PageId {
   // ---------------------------------------------------------------------------
   //  engine pages
   // ---------------------------------------------------------------------------
-  // thirdweb.com/dashboard/engine
-  Engine = "engine",
 
   // thirdweb.com/dashboard/engine
   EngineManage = "engine-manage",
@@ -171,6 +172,9 @@ export enum PageId {
 
   // thirdweb.com/dashboard/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
+
+  // thirdweb.com/dashboard/settings/api-keys/:id
+  SettingsApiKey = "settings-api-key",
 
   // thirdweb.com/dashboard/settings/devices
   SettingsDevices = "settings-devices",
@@ -274,7 +278,6 @@ export enum PageId {
   PaymentsPurchases = "payments-purchases",
   PaymentsPurchasesDetail = "payments-purchases-detail",
   PaymentsContracts = "payments-contracts",
-  PaymentsContractsNew = "payments-contracts-new",
   PaymentsSettings = "payments-settings",
 
   // ---------------------------------------------------------------------------

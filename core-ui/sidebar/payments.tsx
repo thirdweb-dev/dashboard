@@ -2,15 +2,10 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type PaymentsSidebarProps = {
-  activePage: "purchases" | "contracts" | "settings";
+  activePage: "contracts" | "settings";
 };
 
 const links: Route[] = [
-  {
-    path: "/dashboard/payments/purchases",
-    title: "Purchases",
-    name: "purchases",
-  },
   {
     path: "/dashboard/payments/contracts",
     title: "Contracts",

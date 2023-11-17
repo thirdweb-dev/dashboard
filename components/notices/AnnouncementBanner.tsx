@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/connect"
+          href="/embedded-wallets"
           category="announcement"
-          label="connect-wallet-v3"
+          label="embedded-wallets"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,7 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing: The complete toolkit to build powerful web3 wallet
-                experiences. Start building with Connect
+                {`📧 Embedded wallets — Onboard everyone to web3 with email, Google, and social logins.`}
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

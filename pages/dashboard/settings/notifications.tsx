@@ -1,6 +1,5 @@
 import { AppLayout } from "components/app-layouts/app";
 import { Flex } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -8,13 +7,16 @@ import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { Heading, Text } from "tw-components";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { Notifications } from "components/settings/Account/Notifications";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const SettingsNotificationsPage: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
 
-  if (!address) {
-    return <ConnectWalletPrompt />;
+  if (!isLoggedIn) {
+    return (
+      <ConnectWalletPrompt description="configure your notification preferences" />
+    );
   }
 
   if (meQuery.isLoading || !meQuery.data) {
@@ -24,7 +26,7 @@ const SettingsNotificationsPage: ThirdwebNextPage = () => {
   const account = meQuery.data;
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <Flex direction="column" gap={2}>
         <Heading size="title.lg" as="h1" h={10}>
           Notification Settings

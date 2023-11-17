@@ -4,6 +4,7 @@ import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
+import { YourFilesSection } from "components/storage/your-files";
 import { InfrastructureSidebar } from "core-ui/sidebar/infrastructure";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
@@ -44,7 +45,7 @@ const DashboardStorage: ThirdwebNextPage = () => {
     "Upload, pin, and host NFT metadata, images, or any type of file on IPFS—using thirdweb's IPFS pinning service. Store files on IPFS for free.";
 
   return (
-    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={{ base: 2, md: 6 }}>
+    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <NextSeo
         title={title}
         description={description}
@@ -67,8 +68,8 @@ const DashboardStorage: ThirdwebNextPage = () => {
               <IpfsUploadDropzone />
             </Flex>
           </Flex>
-          {/* TODO: uncomment this when API is ready */}
-          {/* <YourFilesSection /> */}
+
+          <YourFilesSection />
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
               Gateway

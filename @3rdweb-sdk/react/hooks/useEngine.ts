@@ -3,11 +3,50 @@ import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
-import { useChainId } from "@thirdweb-dev/react";
+import { useAddress, useChainId } from "@thirdweb-dev/react";
+import { THIRDWEB_API_HOST } from "constants/urls";
+import { useLoggedInUser } from "./useLoggedInUser";
+
+// Engine instances
+export interface EngineInstance {
+  id: string;
+  accountId: string;
+  name: string;
+  url: string;
+  lastAccessedAt: string;
+}
+
+export function useEngineInstances() {
+  const { token } = useApiAuthToken();
+  const { user } = useLoggedInUser();
+
+  return useQuery(
+    engineKeys.instances(user?.address ?? ""),
+    async (): Promise<EngineInstance[]> => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!res.ok) {
+        throw new Error(`Unexpected status ${res.status}`);
+      }
+
+      const json = await res.json();
+      return json.data?.instances || [];
+    },
+    {
+      enabled: !!user && !!token,
+    },
+  );
+}
 
 // GET Requests
 export type BackendWallet = {
   address: string;
+  label?: string;
   type: string;
   awsKmsKeyId?: string | null;
   awsKmsArn?: string | null;
@@ -205,11 +244,13 @@ export function useEngineBackendWalletBalance(
 
 export type EngineAdmin = {
   walletAddress: string;
+  label?: string;
   permissions: "OWNER" | "ADMIN";
 };
 
 export function useEnginePermissions(instance: string) {
   const { token } = useApiAuthToken();
+  const address = useAddress();
 
   return useQuery(
     engineKeys.permissions(instance),
@@ -231,7 +272,7 @@ export function useEnginePermissions(instance: string) {
       return (json.result as EngineAdmin[]) || [];
     },
     {
-      enabled: !!instance && !!token,
+      enabled: !!instance && !!token && !!address,
     },
   );
 }
@@ -242,6 +283,7 @@ export type AccessToken = {
   walletAddress: string;
   createdAt: string;
   expiresAt: string;
+  label?: string;
 };
 
 export function useEngineAccessTokens(instance: string) {
@@ -383,8 +425,49 @@ export function useEngineCreateBackendWallet(instance: string) {
       const res = await fetch(`${instance}backend-wallet/create`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({}),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          engineKeys.backendWallets(instance),
+        );
+      },
+    },
+  );
+}
+
+interface UpdateBackendWalletInput {
+  walletAddress: string;
+  label?: string;
+}
+
+export function useEngineUpdateBackendWallet(instance: string) {
+  const { token } = useApiAuthToken();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: UpdateBackendWalletInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}backend-wallet/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
       });
       const json = await res.json();
 
@@ -541,8 +624,10 @@ export function useEngineCreateAccessToken(instance: string) {
       const res = await fetch(`${instance}auth/access-tokens/create`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({}),
       });
       const json = await res.json();
 
@@ -573,6 +658,43 @@ export function useEngineRevokeAccessToken(instance: string) {
       invariant(instance, "instance is required");
 
       const res = await fetch(`${instance}auth/access-tokens/revoke`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.accessTokens(instance));
+      },
+    },
+  );
+}
+
+type UpdateAccessTokenInput = {
+  id: string;
+  label?: string;
+};
+
+export function useEngineUpdateAccessToken(instance: string) {
+  const { token } = useApiAuthToken();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: UpdateAccessTokenInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/access-tokens/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

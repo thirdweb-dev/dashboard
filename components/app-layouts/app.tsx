@@ -27,17 +27,28 @@ import {
   useSetIsNetworkConfigModalOpen,
 } from "hooks/networkConfigModal";
 import { del, get, set } from "idb-keyval";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { bigNumberReplacer } from "utils/bignumber";
 import { isBrowser } from "utils/isBrowser";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { isProd } from "constants/rpc";
 
 const apolloClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_PAYMENTS_API,
   credentials: "include",
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "ignore",
+    },
+    query: {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all",
+    },
+  },
 });
 
 const __CACHE_BUSTER = "3.14.40-nightly-1e6f9dcc-20230831023648";
@@ -113,6 +124,18 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
         },
       }),
   );
+
+  useEffect(() => {
+    if (!isProd) {
+      console.debug("IS_PAPER_DEV");
+      localStorage.setItem("IS_PAPER_DEV", "true");
+      localStorage.setItem(
+        "PAPER_DEV_URL",
+        "https://embedded-wallet.thirdweb-dev.com",
+      );
+    }
+  }, []);
+
   return (
     <PersistQueryClientProvider
       client={queryClient}

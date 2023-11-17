@@ -1,16 +1,46 @@
-import { AnimatedCLICommand } from "../AnimatedCLICommand/AnimatedCLICommand";
 import { Aurora } from "../Aurora";
-import { Flex, Grid, Icon, LightMode } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Icon,
+  LightMode,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
-import Hero from "public/assets/landingpage/hero.png";
-import HeroMobile from "public/assets/landingpage/hero-mobile.png";
 import { BsLightningCharge } from "react-icons/bs";
-import { Heading, LinkButton } from "tw-components";
+import { ChakraNextLink, Heading, LinkButton } from "tw-components";
 
 export const HeroSection = () => {
   const trackEvent = useTrack();
+
+  const images = [
+    {
+      src: require("public/assets/landingpage/homepage-wallets.png"),
+      href: "/connect",
+      background: "linear-gradient(218deg, #95BBF2 -6.46%, #3385FF 93.97%)",
+    },
+    {
+      src: require("public/assets/landingpage/homepage-contracts.png"),
+      href: "/smart-contracts",
+      background: "linear-gradient(218deg, #F5B7FF -6.46%, #C04DCA 93.97%)",
+    },
+    {
+      src: require("public/assets/landingpage/homepage-payments.png"),
+      href: "/checkout",
+      background:
+        "linear-gradient(43deg, #2E938C 14.8%, #4BB8B1 63.81%, #B8EEE8 104.19%)",
+    },
+    {
+      src: require("public/assets/landingpage/homepage-infra.png"),
+      href: "/engine",
+      background: "linear-gradient(218deg, #946CBA -6.46%, #9444D3 93.97%)",
+    },
+  ];
+
   return (
     <HomepageSection id="home" bottomPattern>
       {/* right */}
@@ -50,9 +80,9 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            The fastest way to
+            The complete web3
             <br />
-            build web3 apps.
+            development toolkit
           </Heading>
           <Heading
             as="h3"
@@ -60,8 +90,9 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            SDKs in every language, smart contracts, tools, and infrastructure
-            for web3 development.
+            Onboard users with wallets, build & deploy smart contracts, accept
+            fiat with payments, and scale apps with infrastructure — on any EVM
+            chain.
           </Heading>
 
           <LightMode>
@@ -97,38 +128,42 @@ export const HeroSection = () => {
                   Get Started
                 </LinkButton>
               </Flex>
-              <AnimatedCLICommand />
+              {/*  <AnimatedCLICommand /> */}
             </Flex>
           </LightMode>
         </Flex>
 
-        <ChakraNextImage
-          display={{ base: "none", lg: "flex" }}
-          alt=""
-          maxW="100%"
-          w={96}
-          src={Hero}
-          priority
-          quality={95}
-          justifySelf="flex-end"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 30vw"
-        />
-        <Flex
-          w="full"
-          justifyContent="center"
-          display={{ base: "flex", lg: "none" }}
+        <SimpleGrid
+          columns={2}
+          gap={6}
+          justifyItems={"center"}
+          maxW={{ base: "384px", lg: "100%" }}
+          mx="auto"
+          marginTop={{ base: 5, lg: "0" }}
         >
-          <ChakraNextImage
-            alt=""
-            maxW="100%"
-            w={96}
-            src={HeroMobile}
-            priority
-            quality={95}
-            justifySelf="flex-end"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 30vw"
-          />
-        </Flex>
+          {images.map((image, index) => {
+            return (
+              <GridItem key={index} maxW={{ base: "100%", lg: "180px" }}>
+                <ChakraNextLink href={image.href}>
+                  <Box
+                    transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
+                    _hover={{
+                      borderColor: "blue.500",
+                      transform: "scale(1.05)",
+                      boxShadow: "0 0 20px hsl(215deg 100% 60% / 50%)",
+                    }}
+                    borderWidth="thin"
+                    background={image.background}
+                    borderRadius="lg"
+                    borderColor="borderColor"
+                  >
+                    <ChakraNextImage alt="" src={image.src} />
+                  </Box>
+                </ChakraNextLink>
+              </GridItem>
+            );
+          })}
+        </SimpleGrid>
       </Grid>
     </HomepageSection>
   );

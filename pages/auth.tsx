@@ -15,7 +15,7 @@ const TRACKING_CATEGORY = "auth-landing";
 
 const GUIDES = [
   {
-    title: "How to Create a Web3 Creator Platform with a Web2 Backend",
+    title: "How to Build a Web3 Creator Platform with a Web2 Backend",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2023/03/How-to-create-a-web3-creator----platform-with-a-web2-backend.png",
     link: "https://blog.thirdweb.com/guides/how-to-create-a-web3-creator-platform/",
@@ -68,9 +68,10 @@ const AuthLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/auth"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #3385FF, #7BB0FF)"
+          gradient="linear(to-r, #4490FF, #4490FF)"
           image={require("public/assets/product-pages/hero/desktop-hero-auth.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-auth.png")}
+          miniImage={require("public/assets/product-icons/auth.png")}
         />
 
         <LandingGridSection>

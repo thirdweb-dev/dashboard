@@ -240,6 +240,7 @@ export async function fetchAllVersions(
   invariant(publisherAddress, "address is not defined");
   invariant(contractName, "contract name is not defined");
   invariant(sdk, "sdk not provided");
+
   const allVersions = await sdk
     .getPublisher()
     .getAllVersions(publisherAddress, contractName);
@@ -350,7 +351,17 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
+  ) {
     return extractFunctionsFromAbi(compositeAbi);
   }
 
@@ -367,7 +378,17 @@ export function usePublishedContractEvents(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
+  ) {
     return extractEventsFromAbi(compositeAbi);
   }
 

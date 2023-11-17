@@ -84,17 +84,19 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
               <CreateBackendWalletButton instance={instance} />
             </Flex>
           </Flex>
+
           <Flex flexDirection="row-reverse">
             <Flex alignItems="center" gap={2}>
-              <Text>Showing Balance for: </Text>
+              <Text>Show balance for</Text>
               <Flex>
                 <NetworkSelectorButton />
               </Flex>
             </Flex>
           </Flex>
         </Flex>
+
         <BackendWalletsTable
-          instance={instance}
+          instanceUrl={instance}
           wallets={backendWallets.data ?? []}
           isLoading={backendWallets.isLoading}
           isFetched={backendWallets.isFetched}

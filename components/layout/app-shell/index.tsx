@@ -1,4 +1,5 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   ButtonGroup,
   Container,
@@ -55,14 +56,15 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         position="sticky"
         top={0}
         zIndex="sticky"
-        boxShadow="md"
+        boxShadow="sm"
         w={{ md: hasSidebar ? SIDEBAR_WIDTH : "auto" }}
       >
         {" "}
       </GridItem>
       <GridItem
         minH={{ base: "100vh", md: "unset" }}
-        py={8}
+        pt={{ base: 6, md: 10 }}
+        pb={{ base: 6, md: 20 }}
         as="main"
         colSpan={{ base: 2, md: 1 }}
         rowSpan={1}
@@ -86,6 +88,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
 
 const AppHeader: React.FC = () => {
   const { pathname, route } = useRouter();
+  const { data: account } = useAccount();
 
   return (
     <GridItem
@@ -93,7 +96,8 @@ const AppHeader: React.FC = () => {
       rowSpan={1}
       background="backgroundHighlight"
       zIndex="sticky"
-      boxShadow="md"
+      boxShadow="sm"
+      pb={2}
     >
       <Container
         maxW="100%"
@@ -234,17 +238,28 @@ const AppHeader: React.FC = () => {
           >
             Contracts
           </LinkButton>
-          <LinkButton
-            href="/dashboard/payments/purchases"
-            rounded="lg"
-            isActive={pathname.startsWith("/dashboard/payments")}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
-          >
-            Payments
-          </LinkButton>
+          {account?.email?.includes("@thirdweb.com") ? (
+            <LinkButton
+              href="/dashboard/payments/contracts"
+              rounded="lg"
+              isActive={pathname.startsWith("/dashboard/payments")}
+              _active={{
+                bg: "bgBlack",
+                color: "bgWhite",
+              }}
+            >
+              Payments
+            </LinkButton>
+          ) : (
+            <LinkButton
+              href="https://withpaper.com/product/checkouts"
+              rounded="lg"
+              isExternal
+              noIcon
+            >
+              Payments
+            </LinkButton>
+          )}
           <LinkButton
             href="/dashboard/infrastructure/storage"
             isActive={pathname.startsWith("/dashboard/infrastructure")}
@@ -306,13 +321,13 @@ const AppFooter: React.FC = () => {
         category="footer"
         label="feedback"
       >
-        Feedback
+        <Text>Feedback</Text>
       </TrackedLink>
       <TrackedLink isExternal href="/privacy" category="footer" label="privacy">
-        Privacy Policy
+        <Text>Privacy Policy</Text>
       </TrackedLink>
       <TrackedLink isExternal href="/tos" category="footer" label="terms">
-        Terms of Service
+        <Text>Terms of Service</Text>
       </TrackedLink>
 
       <TrackedLink
@@ -322,7 +337,7 @@ const AppFooter: React.FC = () => {
         display={{ base: "none", md: "flex" }}
         label="gas-estimator"
       >
-        Gas Estimator
+        <Text>Gas Estimator</Text>
       </TrackedLink>
       <TrackedLink
         href="/chainlist"
@@ -331,9 +346,9 @@ const AppFooter: React.FC = () => {
         display={{ base: "none", md: "flex" }}
         label="chains"
       >
-        Chainlist
+        <Text>Chainlist</Text>
       </TrackedLink>
-      <Text alignSelf="center" order={{ base: 2, md: 0 }}>
+      <Text alignSelf="center" order={{ base: 2, md: 0 }} opacity={0.5}>
         thirdweb &copy; {new Date().getFullYear()}
       </Text>
     </GridItem>

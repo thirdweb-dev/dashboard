@@ -1,6 +1,7 @@
 import { LandingCTAButtons } from "./cta-buttons";
 import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import { Heading, Text } from "tw-components";
 
@@ -17,7 +18,8 @@ interface LandingHeroWithSideImageProps {
   gradient: string;
   image?: StaticImageData;
   mobileImage?: StaticImageData;
-  video?: string;
+  lottie?: {};
+  miniImage?: StaticImageData;
 }
 
 export const LandingHeroWithSideImage: React.FC<
@@ -35,7 +37,8 @@ export const LandingHeroWithSideImage: React.FC<
   gradient,
   image,
   mobileImage,
-  video,
+  lottie,
+  miniImage,
 }) => {
   return (
     <SimpleGrid
@@ -45,7 +48,11 @@ export const LandingHeroWithSideImage: React.FC<
     >
       <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
         <Flex flexDir="column" gap={4}>
-          <Flex gap={2}>
+          <Flex gap={2} alignItems="center">
+            {miniImage ? (
+              <ChakraNextImage alt="" boxSize={7} src={miniImage} />
+            ) : null}
+
             <Heading size="subtitle.sm" as="span">
               {miniTitle}
             </Heading>
@@ -71,7 +78,7 @@ export const LandingHeroWithSideImage: React.FC<
       </Flex>
       <Flex maxH="500px">
         <LandingDesktopMobileImage
-          video={video}
+          lottie={lottie}
           image={image}
           mobileImage={mobileImage}
         />

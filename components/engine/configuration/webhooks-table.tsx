@@ -12,15 +12,17 @@ import {
   ModalFooter,
   Flex,
   useDisclosure,
+  Stack,
+  FormControl,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
+import { format } from "date-fns";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
-import { Badge, Button, Text } from "tw-components";
+import { Button, FormLabel, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
-import { toDateTimeLocal } from "utils/date-utils";
 
 export function beautifyString(str: string): string {
   return str
@@ -51,28 +53,15 @@ const columns = [
       return <Text>{beautifyString(cell.getValue())}</Text>;
     },
   }),
-  columnHelper.accessor("active", {
-    header: "Status",
-    cell: (cell) => {
-      return (
-        <Badge
-          borderRadius="full"
-          size="label.sm"
-          variant="subtle"
-          px={3}
-          py={1.5}
-          colorScheme={cell.getValue() ? "green" : "red"}
-        >
-          {cell.getValue() ? "Active" : "Inactive"}
-        </Badge>
-      );
-    },
-  }),
   columnHelper.accessor("secret", {
     header: "Secret",
     cell: (cell) => {
       return (
-        <AddressCopyButton address={cell.getValue() || ""} title="secret" />
+        <AddressCopyButton
+          address={cell.getValue() || ""}
+          title="secret"
+          size="xs"
+        />
       );
     },
   }),
@@ -86,11 +75,10 @@ const columns = [
     header: "Created At",
     cell: (cell) => {
       const value = cell.getValue();
-
       if (!value) {
         return;
       }
-      return <Text>{toDateTimeLocal(value)}</Text>;
+      return <Text>{format(new Date(value), "PP p")}</Text>;
     },
   }),
 ];
@@ -106,8 +94,8 @@ export const WebhooksTable: React.FC<WebhooksTableProps> = ({
   const { mutate: revokeWebhook } = useEngineRevokeWebhook(instance);
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully revoked webhook",
-    "Failed to revoked webhook",
+    "Successfully deleted webhook",
+    "Failed to delete webhook",
   );
 
   const onDelete = (webhook: Webhook) => {
@@ -154,18 +142,38 @@ export const WebhooksTable: React.FC<WebhooksTableProps> = ({
     );
   };
 
+  const activeWebhooks = webhooks.filter((webhook) => webhook.active);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Revoke Webhook</ModalHeader>
+          <ModalHeader>Delete webhook</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>
-              Are you sure you want to revoke webook with name{" "}
-              {webhookToRevoke?.name}?
-            </Text>
+            {webhookToRevoke && (
+              <Stack gap={4}>
+                <Text>Are you sure you want to delete this webook?</Text>
+                <FormControl>
+                  <FormLabel>Name</FormLabel>
+                  <Text>{webhookToRevoke?.name}</Text>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>URL</FormLabel>
+                  <Text>{webhookToRevoke?.url}</Text>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Created at</FormLabel>
+                  <Text>
+                    {format(
+                      new Date(webhookToRevoke?.createdAt ?? ""),
+                      "PP pp z",
+                    )}
+                  </Text>
+                </FormControl>
+              </Stack>
+            )}
           </ModalBody>
 
           <ModalFooter as={Flex} gap={3}>
@@ -173,14 +181,15 @@ export const WebhooksTable: React.FC<WebhooksTableProps> = ({
               Cancel
             </Button>
             <Button type="submit" colorScheme="red" onClick={onRevoke}>
-              Revoke
+              Delete
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
+
       <TWTable
         title="webhooks"
-        data={webhooks}
+        data={activeWebhooks}
         columns={columns}
         isLoading={isLoading}
         isFetched={isFetched}

@@ -15,11 +15,12 @@ import {
   Icon,
   FormControl,
   Input,
+  Stack,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
-import { Button, FormLabel, Text } from "tw-components";
+import { Button, FormLabel } from "tw-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface AddAdminButtonProps {
@@ -33,22 +34,27 @@ export const AddAdminButton: React.FC<AddAdminButtonProps> = ({ instance }) => {
   const form = useForm<EngineAdmin>({
     defaultValues: {
       permissions: "ADMIN",
+      label: undefined,
     },
   });
 
   const { onSuccess, onError } = useTxNotifications(
-    "Admin added successfully.",
+    "Successfully added admin.",
     "Failed to add admin.",
   );
 
   return (
     <>
-      <Flex onClick={onOpen} alignItems="center" gap={2}>
-        <Icon as={AiOutlinePlusCircle} boxSize={6} color="primary.500" />
-        <Text color="primary.500" cursor="pointer" fontWeight="bold">
-          Add New Admin
-        </Text>
-      </Flex>
+      <Button
+        onClick={onOpen}
+        variant="ghost"
+        size="sm"
+        leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
+        colorScheme="primary"
+        w="fit-content"
+      >
+        Add admin
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
@@ -84,17 +90,27 @@ export const AddAdminButton: React.FC<AddAdminButtonProps> = ({ instance }) => {
             });
           })}
         >
-          <ModalHeader>Add New Admin</ModalHeader>
+          <ModalHeader>Add Admin</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isRequired>
-              <FormLabel>Wallet Address</FormLabel>
-              <Input
-                type="text"
-                placeholder="eg: 0x..."
-                {...form.register("walletAddress", { required: true })}
-              />
-            </FormControl>
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel>Wallet Address</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="The wallet address for this admin"
+                  {...form.register("walletAddress", { required: true })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Label</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Enter a description for this admin"
+                  {...form.register("label")}
+                />
+              </FormControl>
+            </Stack>
           </ModalBody>
 
           <ModalFooter as={Flex} gap={3}>
