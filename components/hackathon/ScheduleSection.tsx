@@ -1,8 +1,5 @@
-import { Box, Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
-import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
-import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
-import { useTrack } from "hooks/analytics/useTrack";
-import { Badge, Heading, Text } from "tw-components";
+import { Box, Flex, LinkBox } from "@chakra-ui/react";
+import { Heading, Text } from "tw-components";
 
 export const ScheduleSection: React.FC = () => {
   const items = [
@@ -35,6 +32,7 @@ export const ScheduleSection: React.FC = () => {
         borderRadius="lg"
         overflow="hidden"
         boxShadow="0 0 0 1px rgba(255, 255, 255, 0.1)"
+        maxW={907}
       >
         <Box
           pointerEvents={"none"}

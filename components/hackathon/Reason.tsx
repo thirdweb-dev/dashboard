@@ -25,12 +25,8 @@ const Reason = () => {
           <b>discover the next billion-dollar web3 consumer app.</b>&nbsp;Get
           resources & expertise from top operators, find your next co-founder,
           and meet VCs & industry leaders from{" "}
-          <b>Coinbase, Haun Ventures, Founders Inc</b>. and
+          <b>Coinbase, Haun Ventures, Founders Inc</b>. and&nbsp;
           <b>Framework Ventures.</b>
-        </Text>
-
-        <Text textAlign="left" size="body.xl" color="white">
-          Join us!
         </Text>
       </Flex>
     </Container>

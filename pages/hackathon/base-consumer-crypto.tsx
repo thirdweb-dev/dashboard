@@ -199,12 +199,7 @@ const Hackathon = () => {
                 Guidelines
               </Heading>
               <Flex flexDir="column" gap={4} maxW={907}>
-                <Text
-                  size="body.xl"
-                  color="white"
-                  fontWeight="bold"
-                  textAlign="center"
-                >
+                <Text size="body.xl" color="white" fontWeight="bold">
                   To be eligible to win the hackathon, submitted projects must
                   fulfill the following requirements:
                 </Text>
@@ -260,7 +255,7 @@ const Hackathon = () => {
                   size="body.xl"
                   color="white"
                   fontWeight="bold"
-                  textAlign="center"
+                  textAlign="left"
                 >
                   Our judges will grade submissions across 3 equally-weighted
                   categories:
