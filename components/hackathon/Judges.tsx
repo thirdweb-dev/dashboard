@@ -15,7 +15,7 @@ export const Judges: React.FC = () => {
       name: "Chris Ahn",
       twitter: "ahnchrisj",
       description: "Partner, Haun Ventures",
-      image: "/assets/landingpage/chris.jpg",
+      image: "/assets/landingpage/chris.png",
     },
     {
       name: "Michael Anderson",
