@@ -82,6 +82,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     compilerMetadata.data?.abi,
   );
 
+  const extensions = useContractEnabledExtensions(compilerMetadata.data?.abi);
+
   const [customFactoryNetwork, customFactoryAddress] = Object.entries(
     fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
       ?.customFactoryAddresses || {},
@@ -115,10 +117,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const isAccountFactory =
-    !isFactoryDeployment &&
-    (fullPublishMetadata.data?.name.includes("AccountFactory") || false);
-
+  const isAccountFactory = extensions.some(
+    (extension) => extension.name === "AccountFactory",
+  );
   const parseDeployParams = {
     ...deployParams.reduce(
       (acc, param) => {
@@ -242,7 +243,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     return false;
   };
 
-  const extensions = useContractEnabledExtensions(compilerMetadata.data?.abi);
   const isErc721SharedMetadadata = extensions.some(
     (extension) => extension.name === "ERC721SharedMetadata",
   );
