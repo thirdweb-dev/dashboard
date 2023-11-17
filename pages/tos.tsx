@@ -19,13 +19,13 @@ const ToS: ThirdwebNextPage = () => {
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
-        <ToSMDX />
+        <ToSMDXComponent />
       </Container>
     </LandingLayout>
   );
 };
 
-const ToSMDX = () => {
+const ToSMDXComponent = () => {
   return <MarkdownRenderer markdownText={TOS_TEXT} />;
 };
 
