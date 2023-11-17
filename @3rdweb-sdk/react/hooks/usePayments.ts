@@ -572,11 +572,16 @@ export function usePaymentsEnabledContracts() {
   return useQuery(
     paymentsKeys.contracts(address as string),
     async () => {
-      const { data } = await getContractsByOwnerId({
+      const { data, error } = await getContractsByOwnerId({
         variables: {
           ownerId: paymentsSellerId,
         } as ContractsByOwnerIdQueryVariables,
       });
+
+      if (error) {
+        console.error(error);
+      }
+
       return data && data?.contract.length > 0 ? data.contract : [];
     },
     { enabled: !!paymentsSellerId && !!address },
@@ -599,7 +604,9 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
         } as CheckoutByContractAddressQueryVariables,
       });
 
-      // TODO: Handle error
+      if (error) {
+        console.error(error);
+      }
 
       const checkouts = data?.checkout || [];
       return (
@@ -628,13 +635,17 @@ export function usePaymentsContractByAddressAndChain(
   return useQuery(
     paymentsKeys.contractsByChainId(address as string, chainId),
     async () => {
-      const { data } = await getContractsByAddressAndChain({
+      const { data, error } = await getContractsByAddressAndChain({
         variables: {
           ownerId: paymentsSellerId,
           chain: ChainIdToPaperChain[chainId],
           contractAddress,
         } as ContractsByAddressAndChainQueryVariables,
       });
+
+      if (error) {
+        console.error(error);
+      }
 
       return data && (data?.contract || []).length > 0
         ? data.contract[0]
@@ -749,12 +760,16 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
   return useQuery(
     paymentsKeys.detailedAnalytics(checkoutId),
     async () => {
-      const { data } = await getDetailedAnalytics({
+      const { data, error } = await getDetailedAnalytics({
         variables: {
           ownerId: paymentsSellerId,
           checkoutId,
         } as DetailedAnalyticsQueryVariables,
       });
+
+      if (error) {
+        console.error(error);
+      }
 
       return {
         overview: data?.analytics_overview_2,
@@ -777,11 +792,15 @@ export function usePaymentsSellerByAccountId(accountId: string) {
   return useQuery(
     paymentsKeys.settings(accountId),
     async () => {
-      const { data } = await getSellerByAccountId({
+      const { data, error } = await getSellerByAccountId({
         variables: {
           thirdwebAccountId: accountId,
         } as GetSellerByThirdwebAccountIdQueryVariables,
       });
+
+      if (error) {
+        console.error(error);
+      }
 
       return data && data?.seller.length > 0
         ? data.seller[0]

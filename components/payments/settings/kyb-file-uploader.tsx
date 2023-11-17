@@ -40,6 +40,7 @@ export const KybFileUploader: React.FC = () => {
                 action: "upload-kyb-file",
                 label: "success",
               });
+              form.reset();
             },
             onError: (error) => {
               onError(error);

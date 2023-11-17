@@ -37,27 +37,23 @@ export const PaymentsSettingsKyc: React.FC<PaymentsSettingsKycProps> = ({
 
   return (
     <Flex flexDir="column" gap={3}>
-      <Text>
-        A personal identity check is required to create mainnet checkouts. If
-        your company is not publicly traded, the individual that performs this
-        check must
+      <Text color="faded">
+        If your company is not publicly traded, the individual that performs
+        this check must
       </Text>
       <UnorderedList>
         <Text as={ListItem}>
-          directly or indirectly own 25% or more of the business; and
+          Directly or indirectly own 25% or more of the business
         </Text>
         <Text as={ListItem}>
-          be a single individual with significant responsibility to control,
-          manage, or direct the business (e.g., an executive officer, director,
-          partner, manager, etc.)
+          <Text as="span">
+            Be a single individual with significant responsibility that controls
+            and directs this business
+          </Text>{" "}
+          <Text color="faded" as="span">
+            (e.g. executive officer, director, partner, manager, etc.)
+          </Text>
         </Text>
-      </UnorderedList>
-      <Text>Please have the following information ready:</Text>
-      <UnorderedList>
-        <Text as={ListItem}>Full Name</Text>
-        <Text as={ListItem}>Date of Birth</Text>
-        <Text as={ListItem}>Country</Text>
-        <Text as={ListItem}>A Piece of ID</Text>
       </UnorderedList>
       <Box>
         <Button

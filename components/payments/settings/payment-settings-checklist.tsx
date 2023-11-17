@@ -12,6 +12,7 @@ export const PaymentsSettingsChecklist: React.FC<
   PaymentsSettingsChecklistProps
 > = ({ accountId }) => {
   const { data: sellerData } = usePaymentsSellerByAccountId(accountId);
+
   const steps = [
     {
       title: "Personal Identity Verification",
