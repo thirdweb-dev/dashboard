@@ -74,7 +74,6 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const [chainNotFound, setChainNotFound] = useState(false);
   const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
 
-  // contractInfo is never undefined on this page
   const contractInfo = useEVMContractInfo();
 
   const chain = contractInfo?.chain || null;
