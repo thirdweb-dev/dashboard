@@ -35,7 +35,7 @@ Thank you for using the thirdweb software development kits (“**SDK**s”), web
 
 **Please read this Agreement carefully, as it (among other things) provides in Section 13 that you and the Company will arbitrate certain claims instead of going to court and that you will not bring class action claims against the Company**. Please only use the Software if you agree to be legally bound by all terms and conditions herein. Your access, download or use of the Software constitutes your agreement to be bound by all terms and conditions of this Agreement. If you do not agree with any aspect of this Agreement, do not download, link your crypto wallet to, or otherwise use the Software.
 
-As of July 2022, Non-Fungible Labs, Inc. (dba: thirdweb) has acquired Caves Inc. (dba: Paper). If you use thirdweb's services, you agree to the terms listed in thirdweb's Terms of Service in addition to the terms listed in https://withpaper.com/terms.
+As of July 2023, Non-Fungible Labs, Inc. (dba: thirdweb) has acquired Caves Inc. (dba: Paper). If you use thirdweb's services, you agree to the terms listed in thirdweb's Terms of Service in addition to the terms listed in https://withpaper.com/terms.
 
 **Note for Children**. Use of the Software by anyone under the age of 13 is prohibited. By accessing, downloading or using the Software, you represent and warrant that are you at least 13 years of age.
 
