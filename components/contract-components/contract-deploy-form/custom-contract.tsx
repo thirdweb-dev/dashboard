@@ -120,6 +120,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const isAccountFactory = extensions.some(
     (extension) => extension.name === "AccountFactory",
   );
+
   const parseDeployParams = {
     ...deployParams.reduce(
       (acc, param) => {
@@ -503,7 +504,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </Text>
         </Checkbox>
 
-        {fullPublishMetadata.data?.deployType === "standard" && (
+        {(fullPublishMetadata.data?.deployType === "standard" ||
+          isAccountFactory) && (
           <Flex gap={4} flexDir="column">
             <Checkbox
               {...form.register("deployDeterministic")}

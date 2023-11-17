@@ -666,11 +666,7 @@ export function useCustomContractDeployMutation(
           } else {
             let salt;
             if (data.deployDeterministic) {
-              salt = data.signerAsSalt
-                ? (await signer?.getAddress())?.concat(
-                    data.saltForCreate2 || "",
-                  )
-                : data.saltForCreate2;
+              salt = data.saltForCreate2 || "thirdweb";
             }
             contractAddress = await sdk.deployer.deployContractFromUri(
               ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
