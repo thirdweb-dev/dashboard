@@ -17,6 +17,7 @@ import { FactoryContracts } from "components/contract-components/tables/factory-
 import { NextSeo } from "next-seo";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 
 const TRACKING_CATEGORY = "smart-wallet";
 
@@ -88,6 +89,10 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
     title: "The Complete Account Abstraction Toolkit | thirdweb",
     desc: "Add smart wallets to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Get started.",
   };
+
+  if (!isLoggedIn) {
+    return <ConnectWalletPrompt description="manage smart wallets" />;
+  }
 
   return (
     <Flex flexDir="column" gap={10}>
