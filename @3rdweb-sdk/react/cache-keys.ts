@@ -79,7 +79,12 @@ export const paymentsKeys = {
   contracts: (walletAddress: string) =>
     [...paymentsKeys.all, "contracts", walletAddress] as const,
   contractsByChainId: (walletAddress: string, chainId: number) =>
-    [...paymentsKeys.all, "contracts", walletAddress, chainId] as const,
+    [
+      ...paymentsKeys.all,
+      "contractsByChainId",
+      walletAddress,
+      chainId,
+    ] as const,
   checkouts: (contractAddress: string, walletAddress: string) =>
     [...paymentsKeys.all, "checkouts", contractAddress, walletAddress] as const,
   detailedAnalytics: (checkoutId: string) =>
