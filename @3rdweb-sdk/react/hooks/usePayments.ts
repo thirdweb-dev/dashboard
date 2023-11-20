@@ -104,7 +104,7 @@ export const validPaymentsChainIds: number[] = [
 // type for validcheckoutchainids
 export type PaymentChainId = (typeof validPaymentsChainIds)[number];
 
-const ChainIdToPaperChain: Record<number, string> = {
+const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [Ethereum.chainId]: "Ethereum",
   [Goerli.chainId]: "Goerli",
   [Sepolia.chainId]: "Sepolia",
@@ -115,11 +115,15 @@ const ChainIdToPaperChain: Record<number, string> = {
   [Optimism.chainId]: "Optimism",
   [OptimismGoerli.chainId]: "OptimismGoerli",
   [Arbitrum.chainId]: "ArbitrumOne",
+  [ArbitrumNova.chainId]: "ArbitrumNova",
   [ArbitrumGoerli.chainId]: "ArbitrumGoerli",
+  [ArbitrumSepolia.chainId]: "ArbitrumSepolia",
   [Binance.chainId]: "BSC",
   [BinanceTestnet.chainId]: "BSCTestnet",
   [Base.chainId]: "Base",
   [BaseGoerli.chainId]: "BaseGoerli",
+  [Zora.chainId]: "Zora",
+  [ZoraTestnet.chainId]: "ZoraTestnet",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
