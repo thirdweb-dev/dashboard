@@ -136,7 +136,10 @@ contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
 
+// Reference the SDK
 var sdk = ThirdwebManager.Instance.SDK;
+
+// Get your contract
 var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {

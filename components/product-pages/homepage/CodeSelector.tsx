@@ -83,9 +83,13 @@ func main() {
 }`,
   unity: `using Thirdweb;
 
+// Reference the SDK
 var sdk = ThirdwebManager.Instance.SDK;
-string address = "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e";
-Contract contract = sdk.GetContract(address);
+
+// Get any contract
+Contract contract = sdk.GetContract("0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e");
+
+// Get all NFTs
 List<NFT> nfts = await contract.ERC721.GetAll()`,
 };
 
@@ -134,9 +138,13 @@ func main() {
   address, err := sdk.Auth.Verify(payload)
 }`,
   unity: `using Thirdweb;
+
+// Reference the SDK
 var sdk = ThirdwebManager.Instance.SDK;
+
 // Generate and sign
 LoginPayload data = await ThirdwebManager.Instance.SDK.wallet.Authenticate("example.com");
+
 // Verify
 string result = await ThirdwebManager.Instance.SDK.wallet.Verify(data);`,
 };

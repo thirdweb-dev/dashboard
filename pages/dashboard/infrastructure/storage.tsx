@@ -290,7 +290,11 @@ func main() {
     uri, _ := sdk.Storage.Upload(context.Background(), metadata, "", "")
 }`,
   unity: `using Thirdweb;
+
+// Reference the SDK
 var sdk = ThirdwebManager.Instance.SDK;
+
+// Create data
 NFTMetadata meta = new NFTMetadata()
 {
     name = "Unity NFT",
@@ -298,6 +302,8 @@ NFTMetadata meta = new NFTMetadata()
     image = "ipfs://QmbpciV7R5SSPb6aT9kEBAxoYoXBUsStJkMpxzymV4ZcVc",
 };
 string metaJson = Newtonsoft.Json.JsonConvert.SerializeObject(meta);
+
+// Upload raw text or from a file path
 var response = await ThirdwebManager.Instance.SDK.storage.UploadText(metaJson);`,
 };
 
