@@ -111,29 +111,6 @@ export const PaymentsSettingsAccount: React.FC<
         <Flex flexDir="column" gap={6}>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
             <FormControl
-              isInvalid={!!form.formState.errors.twitter_handle}
-              isRequired
-            >
-              <FormLabel>X (Twitter) Username</FormLabel>
-              <Input
-                placeholder="@handle"
-                {...form.register("twitter_handle", { required: true })}
-              />
-              <FormErrorMessage>
-                {form.formState.errors?.twitter_handle?.message}
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.formState.errors.discord_username}>
-              <FormLabel>Discord Username</FormLabel>
-              <Input
-                placeholder="username#0000"
-                {...form.register("discord_username")}
-              />
-              <FormErrorMessage>
-                {form.formState.errors?.discord_username?.message}
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl
               isInvalid={!!form.formState.errors.discord_username}
               isRequired
             >
@@ -158,6 +135,26 @@ export const PaymentsSettingsAccount: React.FC<
               />
               <FormErrorMessage>
                 {form.formState.errors?.support_email?.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!form.formState.errors.twitter_handle}>
+              <FormLabel>X (Twitter) Username</FormLabel>
+              <Input
+                placeholder="@handle"
+                {...form.register("twitter_handle", { required: true })}
+              />
+              <FormErrorMessage>
+                {form.formState.errors?.twitter_handle?.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!form.formState.errors.discord_username}>
+              <FormLabel>Discord Username</FormLabel>
+              <Input
+                placeholder="username#0000"
+                {...form.register("discord_username")}
+              />
+              <FormErrorMessage>
+                {form.formState.errors?.discord_username?.message}
               </FormErrorMessage>
             </FormControl>
             <FormControl
