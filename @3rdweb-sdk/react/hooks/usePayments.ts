@@ -9,6 +9,8 @@ import invariant from "tiny-invariant";
 import {
   Arbitrum,
   ArbitrumGoerli,
+  ArbitrumNova,
+  ArbitrumSepolia,
   Avalanche,
   AvalancheFuji,
   Base,
@@ -22,6 +24,8 @@ import {
   OptimismGoerli,
   Polygon,
   Sepolia,
+  Zora,
+  ZoraTestnet,
 } from "@thirdweb-dev/chains";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { PROD_OR_DEV_URL } from "constants/rpc";
@@ -75,6 +79,8 @@ export const validPaymentsChainIdsMainnets: number[] = [
   Arbitrum.chainId,
   Binance.chainId,
   Base.chainId,
+  Zora.chainId,
+  ArbitrumNova.chainId,
 ];
 
 export const validPaymentsChainIdsTestnets: number[] = [
@@ -86,6 +92,8 @@ export const validPaymentsChainIdsTestnets: number[] = [
   ArbitrumGoerli.chainId,
   BinanceTestnet.chainId,
   BaseGoerli.chainId,
+  ZoraTestnet.chainId,
+  ArbitrumSepolia.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
