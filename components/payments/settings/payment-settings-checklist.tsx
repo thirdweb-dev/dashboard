@@ -29,6 +29,10 @@ export const PaymentsSettingsChecklist: React.FC<
     },
   ];
 
+  if (!sellerData?.id) {
+    return null;
+  }
+
   return (
     <Flex w={{ base: "full", xl: "70%" }}>
       <StepsCard
