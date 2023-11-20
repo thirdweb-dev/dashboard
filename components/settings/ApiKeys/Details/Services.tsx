@@ -135,6 +135,16 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
                 {service.name === "embeddedWallets" && (
                   <Flex flexDir="column" gap={4}>
                     <DetailsRow
+                      title="Application Name"
+                      content={applicationNameContent(srv)}
+                    />
+
+                    <DetailsRow
+                      title="Application Image URL"
+                      content={applicationImageUrlContent(srv)}
+                    />
+
+                    <DetailsRow
                       title="Redirect URIs"
                       tooltip={`Prevent phishing attacks restricting redirect URIs to your application deep links. Currently only relevant on Unity and React Native platforms.`}
                       content={redirectUrlContent}
@@ -143,16 +153,6 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
                     <DetailsRow
                       title="Custom JWT Auth"
                       content={renderCustomAuthContent(srv)}
-                    />
-
-                    <DetailsRow
-                      title="Application Name"
-                      content={applicationNameContent(srv)}
-                    />
-
-                    <DetailsRow
-                      title="Application Image URL"
-                      content={applicationImageUrlContent(srv)}
                     />
                   </Flex>
                 )}
