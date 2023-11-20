@@ -6,7 +6,7 @@ const calculateIntMinValues = (solidityType: string) => {
   const isIntType = solidityType.startsWith("int");
   const isUintType = solidityType.startsWith("uint");
 
-  const bitLength = parseInt(solidityType.replace(/int|uint/g, "") || "0", 10);
+  const bitLength = parseInt(solidityType.replace(/int|uint/g, "") || "256", 10);
 
   const min = BigNumber.from(2).pow(bitLength);
 
@@ -23,7 +23,7 @@ const calculateIntMaxValues = (solidityType: string) => {
   const isIntType = solidityType.startsWith("int");
   const isUintType = solidityType.startsWith("uint");
 
-  const bitLength = parseInt(solidityType.replace(/int|uint/g, "") || "0", 10);
+  const bitLength = parseInt(solidityType.replace(/int|uint/g, "") || "256", 10);
 
   const max = BigNumber.from(2).pow(bitLength);
 
