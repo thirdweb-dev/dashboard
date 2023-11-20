@@ -31,7 +31,7 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
         const chainId = PaperChainToChainId[chain];
         const sdk = getEVMThirdwebSDK(
           chainId,
-          `https://${chainId}.rpc.${PROD_OR_DEV_URL}.com`,
+          `https://${chainId}.rpc.${PROD_OR_DEV_URL}`,
         );
 
         const sdkContract = await sdk.getContract(address);

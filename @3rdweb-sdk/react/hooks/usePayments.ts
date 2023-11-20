@@ -9,6 +9,8 @@ import invariant from "tiny-invariant";
 import {
   Arbitrum,
   ArbitrumGoerli,
+  ArbitrumNova,
+  ArbitrumSepolia,
   Avalanche,
   AvalancheFuji,
   Base,
@@ -22,6 +24,8 @@ import {
   OptimismGoerli,
   Polygon,
   Sepolia,
+  Zora,
+  ZoraTestnet,
 } from "@thirdweb-dev/chains";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { PROD_OR_DEV_URL } from "constants/rpc";
@@ -75,6 +79,8 @@ export const validPaymentsChainIdsMainnets: number[] = [
   Arbitrum.chainId,
   Binance.chainId,
   Base.chainId,
+  Zora.chainId,
+  ArbitrumNova.chainId,
 ];
 
 export const validPaymentsChainIdsTestnets: number[] = [
@@ -86,6 +92,8 @@ export const validPaymentsChainIdsTestnets: number[] = [
   ArbitrumGoerli.chainId,
   BinanceTestnet.chainId,
   BaseGoerli.chainId,
+  ZoraTestnet.chainId,
+  ArbitrumSepolia.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -96,7 +104,7 @@ export const validPaymentsChainIds: number[] = [
 // type for validcheckoutchainids
 export type PaymentChainId = (typeof validPaymentsChainIds)[number];
 
-const ChainIdToPaperChain: Record<number, string> = {
+const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [Ethereum.chainId]: "Ethereum",
   [Goerli.chainId]: "Goerli",
   [Sepolia.chainId]: "Sepolia",
@@ -107,11 +115,15 @@ const ChainIdToPaperChain: Record<number, string> = {
   [Optimism.chainId]: "Optimism",
   [OptimismGoerli.chainId]: "OptimismGoerli",
   [Arbitrum.chainId]: "ArbitrumOne",
+  [ArbitrumNova.chainId]: "ArbitrumNova",
   [ArbitrumGoerli.chainId]: "ArbitrumGoerli",
+  [ArbitrumSepolia.chainId]: "ArbitrumSepolia",
   [Binance.chainId]: "BSC",
   [BinanceTestnet.chainId]: "BSCTestnet",
   [Base.chainId]: "Base",
   [BaseGoerli.chainId]: "BaseGoerli",
+  [Zora.chainId]: "Zora",
+  [ZoraTestnet.chainId]: "ZoraTestnet",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -202,7 +214,7 @@ export function usePaymentsRegisterContract() {
       invariant(address, "No wallet address found");
       const sdk = getEVMThirdwebSDK(
         parseInt(input.chain),
-        `https://${input.chain}.rpc.${PROD_OR_DEV_URL}.com`,
+        `https://${input.chain}.rpc.${PROD_OR_DEV_URL}`,
       );
       invariant(sdk, "No SDK found");
 
@@ -633,13 +645,13 @@ export function usePaymentsContractByAddressAndChain(
     useContractsByAddressAndChainLazyQuery();
 
   return useQuery(
-    paymentsKeys.contractsByChainId(address as string, chainId),
+    paymentsKeys.contractByAddressAndChain(contractAddress, chainId),
     async () => {
       const { data, error } = await getContractsByAddressAndChain({
         variables: {
           ownerId: paymentsSellerId,
           chain: ChainIdToPaperChain[chainId],
-          contractAddress,
+          contractAddress: contractAddress.toLowerCase(),
         } as ContractsByAddressAndChainQueryVariables,
       });
 
