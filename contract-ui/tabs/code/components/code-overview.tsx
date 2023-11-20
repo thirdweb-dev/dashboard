@@ -136,12 +136,8 @@ contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
 
-private void Start() {
-    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}", chainId, new ThirdwebSDK.Options() { 
-      clientId = myClientId // you can get client id from dashboard settings
-    });
-    Contract myContract = SDK.GetContract("{{contract_address}}");
-}`,
+var sdk = ThirdwebManager.Instance.SDK;
+var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
     javascript: `const data = await contract.call("{{function}}", [{{args}}])`,

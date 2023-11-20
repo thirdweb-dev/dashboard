@@ -54,7 +54,12 @@ func main() {
   // And verify the address of the logged in wallet
   address, err := sdk.Auth.Verify(payload)
 }`,
-  unity: ``,
+  unity: `using Thirdweb;
+  var sdk = ThirdwebManager.Instance.SDK;
+  // Generate and sign
+  LoginPayload data = await ThirdwebManager.Instance.SDK.wallet.Authenticate("example.com");
+  // Verify
+  string result = await ThirdwebManager.Instance.SDK.wallet.Verify(data);`,
 };
 
 const DashboardWalletsAuth: ThirdwebNextPage = () => {

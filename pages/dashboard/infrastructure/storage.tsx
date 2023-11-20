@@ -289,7 +289,16 @@ func main() {
     }
     uri, _ := sdk.Storage.Upload(context.Background(), metadata, "", "")
 }`,
-  unity: ``,
+  unity: `using Thirdweb;
+var sdk = ThirdwebManager.Instance.SDK;
+NFTMetadata meta = new NFTMetadata()
+{
+    name = "Unity NFT",
+    description = "Minted From Unity",
+    image = "ipfs://QmbpciV7R5SSPb6aT9kEBAxoYoXBUsStJkMpxzymV4ZcVc",
+};
+string metaJson = Newtonsoft.Json.JsonConvert.SerializeObject(meta);
+var response = await ThirdwebManager.Instance.SDK.storage.UploadText(metaJson);`,
 };
 
 DashboardStorage.getLayout = (page, props) => (
