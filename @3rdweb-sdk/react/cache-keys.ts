@@ -78,11 +78,11 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "verificationSession", walletAddress] as const,
   contracts: (walletAddress: string) =>
     [...paymentsKeys.all, "contracts", walletAddress] as const,
-  contractsByChainId: (walletAddress: string, chainId: number) =>
+  contractByAddressAndChain: (contractAddress: string, chainId: number) =>
     [
       ...paymentsKeys.all,
-      "contractsByChainId",
-      walletAddress,
+      "contractByAddressAndChain",
+      contractAddress,
       chainId,
     ] as const,
   checkouts: (contractAddress: string, walletAddress: string) =>

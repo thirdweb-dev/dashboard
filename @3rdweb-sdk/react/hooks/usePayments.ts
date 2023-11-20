@@ -633,13 +633,13 @@ export function usePaymentsContractByAddressAndChain(
     useContractsByAddressAndChainLazyQuery();
 
   return useQuery(
-    paymentsKeys.contractsByChainId(address as string, chainId),
+    paymentsKeys.contractByAddressAndChain(contractAddress, chainId),
     async () => {
       const { data, error } = await getContractsByAddressAndChain({
         variables: {
           ownerId: paymentsSellerId,
           chain: ChainIdToPaperChain[chainId],
-          contractAddress,
+          contractAddress: contractAddress.toLowerCase(),
         } as ContractsByAddressAndChainQueryVariables,
       });
 
