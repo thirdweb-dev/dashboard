@@ -305,7 +305,7 @@ export const CreateUpdateCheckoutButton: React.FC<
     brandButtonShape: (checkout?.brand_button_shape as any) || "gray",
     brandColorScheme: (checkout?.brand_color_scheme as any) || "rounded",
     brandDarkMode: checkout?.brand_dark_mode || false,
-    contractArgs: checkout?.contract_args || [],
+    contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
     listingId: checkout?.listing_id || "",
     /* mintMethod: checkout?.mint_abi_function_name || {},
