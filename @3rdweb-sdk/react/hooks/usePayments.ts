@@ -214,7 +214,7 @@ export function usePaymentsRegisterContract() {
       invariant(address, "No wallet address found");
       const sdk = getEVMThirdwebSDK(
         parseInt(input.chain),
-        `https://${input.chain}.rpc.${PROD_OR_DEV_URL}.com`,
+        `https://${input.chain}.rpc.${PROD_OR_DEV_URL}`,
       );
       invariant(sdk, "No SDK found");
 
