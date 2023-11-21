@@ -580,7 +580,8 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   if (
                                     !/^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
                                       e.target.value,
-                                    )
+                                    ) &&
+                                    e.target.value !== ""
                                   ) {
                                     form.setError(field.name, {
                                       type: "validate",
@@ -593,7 +594,8 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   if (
                                     /^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
                                       e.target.value,
-                                    )
+                                    ) ||
+                                    e.target.value === ""
                                   ) {
                                     form.clearErrors(field.name);
                                   }
