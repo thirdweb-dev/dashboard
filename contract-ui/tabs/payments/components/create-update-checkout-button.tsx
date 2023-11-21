@@ -19,7 +19,13 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel, LinkButton } from "tw-components";
+import {
+  Button,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  LinkButton,
+} from "tw-components";
 import {
   CreateUpdateCheckoutInput,
   isPaymentsSupported,
@@ -235,8 +241,8 @@ const formInputs = [
       {
         name: "successCallbackUrl",
         label: "Post-Purchase URL",
-        type: "text",
-        placeholder: "https://your-website.com/thank-you",
+        type: "url",
+        placeholder: "https://website.com/thank-you",
         required: false,
         helper:
           "A buyer will be navigated to this page after a successful purchase.",
@@ -245,8 +251,8 @@ const formInputs = [
       {
         name: "cancelCallbackUrl",
         label: "Error URL",
-        type: "text",
-        placeholder: "https://your-website.com/something-went-wrong",
+        type: "url",
+        placeholder: "https://website.com/something-went-wrong",
         required: false,
         helper:
           "A buyer will be navigated to this page if they are unable to make a purchase.",
@@ -475,6 +481,10 @@ export const CreateUpdateCheckoutButton: React.FC<
                         <FormControl
                           key={field.name}
                           isRequired={field.required}
+                          isInvalid={
+                            !!form.getFieldState(field.name, form.formState)
+                              .error
+                          }
                         >
                           <Flex
                             flexDir={field.sideField ? "row" : "column"}
@@ -561,6 +571,35 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   Create API Key
                                 </LinkButton>
                               )
+                            ) : field.type === "url" ? (
+                              <Input
+                                type={field.type}
+                                placeholder={field.placeholder}
+                                value={form.watch(field.name)}
+                                onBlur={(e) => {
+                                  if (
+                                    !/^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
+                                      e.target.value,
+                                    )
+                                  ) {
+                                    form.setError(field.name, {
+                                      type: "validate",
+                                      message:
+                                        "Invalid URL, make sure you include https://",
+                                    });
+                                  }
+                                }}
+                                onChange={(e) => {
+                                  if (
+                                    /^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
+                                      e.target.value,
+                                    )
+                                  ) {
+                                    form.clearErrors(field.name);
+                                  }
+                                  form.setValue(field.name, e.target.value);
+                                }}
+                              />
                             ) : (
                               <Input
                                 {...form.register(field.name, {
@@ -571,6 +610,9 @@ export const CreateUpdateCheckoutButton: React.FC<
                               />
                             )}
                           </Flex>
+                          <FormErrorMessage>
+                            {form.formState.errors?.[field.name]?.message}
+                          </FormErrorMessage>
                           {field.helper && (
                             <FormHelperText mt={field.sideField ? 0 : 2}>
                               {field.helper}
@@ -598,9 +640,9 @@ export const CreateUpdateCheckoutButton: React.FC<
               onClick={handleNext}
               isDisabled={
                 apiKeys.length === 0 ||
-                form.watch("thirdwebClientId") === "" ||
-                form.watch("title") === "" ||
-                form.watch("tokenId") === ""
+                !form.watch("thirdwebClientId") ||
+                !form.watch("title") ||
+                !form.watch("tokenId")
               }
               isLoading={form.formState.isSubmitting || isLoading}
             >
