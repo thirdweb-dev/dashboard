@@ -40,6 +40,7 @@ import { Checkout } from "graphql/generated_types";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
+import { PaymentsPreviewButton } from "./preview-button";
 
 const formInputs = [
   {
@@ -103,12 +104,12 @@ const formInputs = [
     fields: [
       {
         name: "imageUrl",
-        label: "Image",
+        label: "NFT Image Preview",
         type: "image",
         placeholder: "https:// or ipfs://",
         required: false,
         helper: "",
-        sideField: false,
+        sideField: true,
       },
       {
         name: "brandDarkMode",
@@ -309,8 +310,8 @@ export const CreateUpdateCheckoutButton: React.FC<
     description: checkout?.collection_description || "",
     successCallbackUrl: checkout?.success_callback_url || "",
     cancelCallbackUrl: checkout?.cancel_callback_url || "",
-    brandButtonShape: (checkout?.brand_button_shape as any) || "gray",
-    brandColorScheme: (checkout?.brand_color_scheme as any) || "rounded",
+    brandButtonShape: (checkout?.brand_button_shape as any) || "rounded",
+    brandColorScheme: (checkout?.brand_color_scheme as any) || "blue",
     brandDarkMode: checkout?.brand_dark_mode || false,
     contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
@@ -550,7 +551,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 }
                               />
                             ) : field.type === "image" ? (
-                              <Box w={32}>
+                              <Box w={28}>
                                 <PaymentsSettingsFileUploader
                                   value={form.watch(field.name) || ""}
                                   onUpdate={(value: string) => {
@@ -627,6 +628,15 @@ export const CreateUpdateCheckoutButton: React.FC<
                         </FormControl>
                       );
                     })}
+                    {input.step === "branding" && (
+                      <PaymentsPreviewButton
+                        isDarkMode={!!form.watch("brandDarkMode")}
+                        buttonShape={
+                          form.watch("brandButtonShape") || "rounded"
+                        }
+                        colorScheme={form.watch("brandColorScheme") || "red"}
+                      />
+                    )}
                   </Flex>
                 );
               })}

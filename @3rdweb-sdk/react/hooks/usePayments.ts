@@ -429,8 +429,6 @@ export function usePaymentsUploadToCloudflare() {
   const queryClient = useQueryClient();
   const address = useAddress();
 
-  console.log("uploadToCloudflare");
-
   return useMutationWithInvalidate(
     async (dataBase64: string) => {
       invariant(address, "No wallet address found");
