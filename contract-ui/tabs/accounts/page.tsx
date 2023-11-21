@@ -11,7 +11,6 @@ import {
   TrackedLinkButton,
 } from "tw-components";
 import { AccountsCount } from "./components/accounts-count";
-import { AccountsNotice } from "./components/accounts-notice";
 
 interface AccountsPageProps {
   contractAddress?: string;
