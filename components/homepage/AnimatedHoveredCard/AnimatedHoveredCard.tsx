@@ -13,6 +13,7 @@ interface AnimatedHoveredCard {
   isActive: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  isHidden: boolean;
 }
 
 const AnimatedHoveredCard = ({
@@ -22,10 +23,13 @@ const AnimatedHoveredCard = ({
   isActive,
   image,
   content,
+  isHidden,
   onMouseEnter,
   onMouseLeave,
 }: AnimatedHoveredCard) => {
-  return (
+  return isHidden ? (
+    <></>
+  ) : (
     <Flex
       borderWidth={1}
       borderColor={isActive ? "transparent" : "borderColor"}

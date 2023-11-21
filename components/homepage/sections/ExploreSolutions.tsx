@@ -40,8 +40,12 @@ const ExploreSolutions = () => {
     >
       <Flex alignItems="stretch" gap={5}>
         {sections.map((section, idx) => {
+          const lastIndex = sections.length - 1;
+          const isLastIndexSelected = lastIndex === selectedIndex;
+
           return (
             <AnimatedHoveredCard
+              isHidden={isLastIndexSelected && idx === 0 ? true : false}
               key={idx}
               title={section.title}
               description={section.description}
