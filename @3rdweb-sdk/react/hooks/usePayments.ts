@@ -348,35 +348,37 @@ export type UploadKybFileInput = {
   file: File;
 };
 
-export function usePaymentsUploadKybFile() {
+export function usePaymentsUploadKybFiles() {
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
-    async (input: UploadKybFileInput) => {
+    async (input: { files: File[] }) => {
       invariant(address, "No wallet address found");
-      invariant(input.file, "No file found");
+      invariant(input.files.length > 0, "No files found");
 
-      const url = await fetchFromPaymentsAPI(
-        "POST",
-        "storage/generate-signed-url",
-        { fileName: input.file.name, fileType: input.file.type },
-        { isGenerateSignedUrl: true },
-      );
+      for (const file of input.files) {
+        const url = await fetchFromPaymentsAPI(
+          "POST",
+          "storage/generate-signed-url",
+          { fileName: file.name, fileType: file.type },
+          { isGenerateSignedUrl: true },
+        );
 
-      if (!url) {
-        throw new Error("Unable to generate presigned URL");
-      }
+        if (!url) {
+          throw new Error("Unable to generate presigned URL");
+        }
 
-      const res = await fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": input.file.type },
-        body: input.file,
-      });
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": file.type },
+          body: file,
+        });
 
-      if (res.status !== 200) {
-        throw new Error(`Unexpected status ${res.status}`);
+        if (res.status !== 200) {
+          throw new Error(`Unexpected status ${res.status}`);
+        }
       }
     },
     {

@@ -3,6 +3,7 @@ import {
   Box,
   BoxProps,
   Center,
+  Flex,
   Icon,
   Image,
   LayoutProps,
@@ -26,6 +27,7 @@ interface IFileInputProps extends BoxProps {
   maxContainerWidth?: LayoutProps["maxW"];
   renderPreview?: (fileUrl: string) => React.ReactNode;
   helperText?: string;
+  selectOrUpload?: "Select" | "Upload";
 }
 
 export const FileInput: React.FC<IFileInputProps> = ({
@@ -38,6 +40,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
   maxContainerWidth,
   renderPreview,
   helperText,
+  selectOrUpload = "Select",
   ...restBoxProps
 }) => {
   const onDrop = useCallback<
@@ -103,99 +106,96 @@ export const FileInput: React.FC<IFileInputProps> = ({
 
   return (
     <Stack spacing={4} direction="row" align="center">
-      <AspectRatio w="100%" maxW={maxContainerWidth} ratio={1}>
-        {isDisabled ? (
-          <Center
-            {...restBoxProps}
-            cursor="not-allowed"
-            opacity={0.5}
-            bg="inputBg"
-            _hover={{
-              bg: "inputBgHover",
-              borderColor: "primary.500",
-            }}
-            borderColor="inputBorder"
-            borderWidth="1px"
-          >
-            <Stack align="center" color="gray.600">
-              <Icon boxSize={6} as={FiUpload} />
-              <Text color="gray.500" textAlign="center">
-                Upload Disabled
-              </Text>
-            </Stack>
-          </Center>
-        ) : (
-          <Center
-            {...restBoxProps}
-            cursor="pointer"
-            bg={fileUrl ? "transparent" : "inputBg"}
-            _hover={{
-              bg: "inputBgHover",
-              borderColor: "primary.500",
-            }}
-            borderColor="inputBorder"
-            borderWidth="1px"
-            {...getRootProps()}
-            position="relative"
-            overflow="hidden"
-          >
-            {noDisplay ? (
-              <Stack align="center" color="gray.600">
-                <Icon boxSize={6} as={FiImage} />
-                <Text color="gray.600">{fileType} uploaded</Text>
-              </Stack>
-            ) : fileUrl ? (
-              renderPreview ? (
-                renderPreview(fileUrl)
-              ) : (
-                <Image
-                  alt=""
-                  top={0}
-                  left={0}
-                  position="absolute"
-                  w="100%"
-                  h="100%"
-                  src={fileUrl}
-                  objectFit="contain"
-                />
-              )
-            ) : (
+      {!showUploadButton && (
+        <AspectRatio w="100%" maxW={maxContainerWidth} ratio={1}>
+          {isDisabled ? (
+            <Center
+              {...restBoxProps}
+              cursor="not-allowed"
+              opacity={0.5}
+              bg="inputBg"
+              _hover={{
+                bg: "inputBgHover",
+                borderColor: "primary.500",
+              }}
+              borderColor="inputBorder"
+              borderWidth="1px"
+            >
               <Stack align="center" color="gray.600">
                 <Icon boxSize={6} as={FiUpload} />
-                <Text color="gray.600" textAlign="center">
-                  Upload {helperTextOrFile}
+                <Text color="gray.500" textAlign="center">
+                  Upload Disabled
                 </Text>
               </Stack>
-            )}
-            <input {...getInputProps()} />
-          </Center>
-        )}
-      </AspectRatio>
+            </Center>
+          ) : (
+            <Center
+              {...restBoxProps}
+              cursor="pointer"
+              bg={fileUrl ? "transparent" : "inputBg"}
+              _hover={{
+                bg: "inputBgHover",
+                borderColor: "primary.500",
+              }}
+              borderColor="inputBorder"
+              borderWidth="1px"
+              {...getRootProps()}
+              position="relative"
+              overflow="hidden"
+            >
+              {noDisplay ? (
+                <Stack align="center" color="gray.600">
+                  <Icon boxSize={6} as={FiImage} />
+                  <Text color="gray.600">{fileType} uploaded</Text>
+                </Stack>
+              ) : fileUrl ? (
+                renderPreview ? (
+                  renderPreview(fileUrl)
+                ) : (
+                  <Image
+                    alt=""
+                    top={0}
+                    left={0}
+                    position="absolute"
+                    w="100%"
+                    h="100%"
+                    src={fileUrl}
+                    objectFit="contain"
+                  />
+                )
+              ) : (
+                <Stack align="center" color="gray.600">
+                  <Icon boxSize={6} as={FiUpload} />
+                  <Text color="gray.600" textAlign="center">
+                    Upload {helperTextOrFile}
+                  </Text>
+                </Stack>
+              )}
+              <input {...getInputProps()} />
+            </Center>
+          )}
+        </AspectRatio>
+      )}
       {showUploadButton || noDisplay ? (
-        <Stack direction="column">
+        <Flex direction="column" borderStyle="none">
           {showUploadButton && (
             <Button
               leftIcon={<Icon as={AiOutlineFileAdd} />}
               onClick={open}
-              colorScheme="purple"
               variant="outline"
               isDisabled={isDisabled}
             >
-              Select File
+              {selectOrUpload} {helperTextOrFile}
             </Button>
           )}
           {noDisplay && (
             <Link href={fileUrl} isExternal textDecor="none !important">
-              <Button
-                leftIcon={<Icon as={AiFillEye} />}
-                colorScheme="purple"
-                variant="outline"
-              >
+              <Button leftIcon={<Icon as={AiFillEye} />} variant="outline">
                 View File
               </Button>
             </Link>
           )}
-        </Stack>
+        </Flex>
       ) : null}
     </Stack>
   );

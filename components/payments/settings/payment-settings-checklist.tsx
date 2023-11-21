@@ -18,7 +18,7 @@ export const PaymentsSettingsChecklist: React.FC<
       title: "Personal Identity Verification",
       description: "",
       completed: !!sellerData?.date_personal_documents_verified,
-      /* completed: true, */
+      /*  completed: true, */
       children: sellerData && <PaymentsSettingsKyc sellerId={sellerData.id} />,
     },
     {

@@ -4,6 +4,8 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Alert,
+  AlertIcon,
   Flex,
   ListItem,
   UnorderedList,
@@ -28,7 +30,7 @@ export const PaymentsSettingsKyb: React.FC = () => {
 
       <KybFileUploader />
       {data?.fileNames.length > 0 && (
-        <Flex flexDir="column" gap={4} mt={4}>
+        <Flex flexDir="column" gap={4}>
           <Heading size="title.sm">Submitted files:</Heading>
           <Flex flexDir="column" gap={2}>
             {data.fileNames.map((fileName: string, idx: number) => (
@@ -37,6 +39,19 @@ export const PaymentsSettingsKyb: React.FC = () => {
               </Card>
             ))}
           </Flex>
+          <Alert
+            status="info"
+            borderRadius="xl"
+            alignItems="center"
+            gap={2}
+            variant="left-accent"
+          >
+            <AlertIcon />
+            <Flex direction="column" gap={2}>
+              <Heading size="title.xs">Information is pending review.</Heading>
+              <Text>This typically takes around 2-3 business days.</Text>
+            </Flex>
+          </Alert>
         </Flex>
       )}
       <Text color="faded">
