@@ -36,7 +36,7 @@ export const FactoryContracts: React.FC<FactoryContractsProps> = ({
 }) => {
   return (
     <TWTable
-      title="smart"
+      title="account factories"
       data={contracts}
       columns={columns}
       isLoading={isLoading}
