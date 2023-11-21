@@ -15,6 +15,7 @@ import {
   Switch,
   Icon,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -32,13 +33,13 @@ import {
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useMemo, useState } from "react";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
+import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
 
 const formInputs = [
   {
@@ -549,11 +550,14 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 }
                               />
                             ) : field.type === "image" ? (
-                              <SolidityInput
-                                solidityType="string"
-                                placeholder={field.placeholder}
-                                {...form.register(field.name)}
-                              />
+                              <Box w={32}>
+                                <PaymentsSettingsFileUploader
+                                  value={form.watch(field.name) || ""}
+                                  onUpdate={(value: string) => {
+                                    form.setValue(field.name, value);
+                                  }}
+                                />
+                              </Box>
                             ) : field.type === "clientId" ? (
                               apiKeys.length > 0 ? (
                                 <ApiKeysMenu

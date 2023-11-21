@@ -166,6 +166,7 @@ function usePaymentsApi() {
       isCreateVerificationSession?: boolean;
       isSellerDocumentCount?: boolean;
       isSellerVerificationStatus?: boolean;
+      isGetImageUploadLink?: boolean;
     },
   ) => {
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
@@ -196,6 +197,13 @@ function usePaymentsApi() {
 
     if (options?.isSellerVerificationStatus) {
       return json as { status: { type: string; message: string } };
+    }
+
+    if (options?.isGetImageUploadLink) {
+      return json as {
+        data: { imageId: string; uploadLink: string };
+        success: boolean;
+      };
     }
 
     return json.result;
@@ -421,20 +429,21 @@ export function usePaymentsUploadToCloudflare() {
   const queryClient = useQueryClient();
   const address = useAddress();
 
+  console.log("uploadToCloudflare");
+
   return useMutationWithInvalidate(
     async (dataBase64: string) => {
       invariant(address, "No wallet address found");
       invariant(dataBase64, "No file found");
       const file = await getBlobFromBase64Image(dataBase64);
-
       const res = await fetchFromPaymentsAPI(
-        "POST",
+        "GET",
         "storage/get-image-upload-link",
+        undefined,
+        { isGetImageUploadLink: true },
       );
 
-      const json = await res.json();
-
-      const { uploadLink, imageId } = json.data as UploadLinkResponse;
+      const { uploadLink, imageId } = res.data as UploadLinkResponse;
       if (!uploadLink || uploadLink === "") {
         throw new Error("Unable to get upload link.");
       }
@@ -448,6 +457,7 @@ export function usePaymentsUploadToCloudflare() {
         method: "POST",
         body: uploadForm,
       });
+
       if (response.status !== 200) {
         throw new Error("Failed to upload image.");
       }
@@ -475,11 +485,9 @@ export function usePaymentsUploadToCloudflare() {
 
 export type SellerValueInput = {
   twitter_handle: string;
-  discord_username: string;
   company_name: string;
   company_logo_url: string;
   support_email: string;
-  estimated_launch_date: Date;
   is_sole_proprietor: boolean;
 };
 

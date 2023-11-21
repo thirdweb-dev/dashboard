@@ -14,7 +14,6 @@ import {
   usePaymentsSellerByAccountId,
   usePaymentsUpdateSellerByAccountId,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { toDateTimeLocal } from "utils/date-utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { PaymentsSettingsFileUploader } from "./payment-settings-file-uploader";
 
@@ -31,13 +30,9 @@ export const PaymentsSettingsAccount: React.FC<
   const trackEvent = useTrack();
 
   const values: SellerValueInput = {
-    estimated_launch_date: sellerData?.estimated_launch_date
-      ? new Date(sellerData?.estimated_launch_date)
-      : new Date(),
     company_logo_url: sellerData?.company_logo_url || "",
     company_name: sellerData?.company_name || "",
     support_email: sellerData?.support_email || "",
-    discord_username: sellerData?.discord_username || "",
     twitter_handle: sellerData?.twitter_handle || "",
     is_sole_proprietor: false,
   };
@@ -109,9 +104,20 @@ export const PaymentsSettingsAccount: React.FC<
         })}
       >
         <Flex flexDir="column" gap={6}>
+          <FormControl isInvalid={!!form.formState.errors.company_logo_url}>
+            <FormLabel>Company Logo</FormLabel>
+            <Box w={24}>
+              <PaymentsSettingsFileUploader
+                value={form.watch("company_logo_url")}
+                onUpdate={(value: string) => {
+                  form.setValue("company_logo_url", value);
+                }}
+              />
+            </Box>
+          </FormControl>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
             <FormControl
-              isInvalid={!!form.formState.errors.discord_username}
+              isInvalid={!!form.formState.errors.company_name}
               isRequired
             >
               <FormLabel>Company Name</FormLabel>
@@ -147,56 +153,7 @@ export const PaymentsSettingsAccount: React.FC<
                 {form.formState.errors?.twitter_handle?.message}
               </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={!!form.formState.errors.discord_username}>
-              <FormLabel>Discord Username</FormLabel>
-              <Input
-                placeholder="username#0000"
-                {...form.register("discord_username")}
-              />
-              <FormErrorMessage>
-                {form.formState.errors?.discord_username?.message}
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl
-              isInvalid={!!form.formState.errors.estimated_launch_date}
-              isRequired
-            >
-              <FormLabel>Estimated Launch Date</FormLabel>
-              <Input
-                type="datetime-local"
-                value={toDateTimeLocal(form.getValues().estimated_launch_date)}
-                onChange={(e) => {
-                  form.setValue(
-                    `estimated_launch_date`,
-                    new Date(e.target.value),
-                  );
-                  if (new Date(e.target.value) < new Date()) {
-                    form.setError("estimated_launch_date", {
-                      type: "validate",
-                      message: "Estimated launch date must be in the future.",
-                    });
-                    return;
-                  } else {
-                    form.clearErrors("estimated_launch_date");
-                  }
-                }}
-              />
-              <FormErrorMessage>
-                {form.formState.errors?.estimated_launch_date?.message}
-              </FormErrorMessage>
-            </FormControl>
           </SimpleGrid>
-          <FormControl isInvalid={!!form.formState.errors.company_logo_url}>
-            <FormLabel>Company Logo</FormLabel>
-            <Box w={44}>
-              <PaymentsSettingsFileUploader
-                value={form.watch("company_logo_url")}
-                onUpdate={(value: string) => {
-                  form.setValue("company_logo_url", value);
-                }}
-              />
-            </Box>
-          </FormControl>
         </Flex>
 
         <Flex justifyContent="flex-end">

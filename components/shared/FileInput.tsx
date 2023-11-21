@@ -28,6 +28,7 @@ interface IFileInputProps extends BoxProps {
   renderPreview?: (fileUrl: string) => React.ReactNode;
   helperText?: string;
   selectOrUpload?: "Select" | "Upload";
+  isDisabledText?: string;
 }
 
 export const FileInput: React.FC<IFileInputProps> = ({
@@ -41,6 +42,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
   renderPreview,
   helperText,
   selectOrUpload = "Select",
+  isDisabledText = "Upload Disabled",
   ...restBoxProps
 }) => {
   const onDrop = useCallback<
@@ -124,7 +126,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
               <Stack align="center" color="gray.600">
                 <Icon boxSize={6} as={FiUpload} />
                 <Text color="gray.500" textAlign="center">
-                  Upload Disabled
+                  {isDisabledText}
                 </Text>
               </Stack>
             </Center>
