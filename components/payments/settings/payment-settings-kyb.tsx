@@ -49,7 +49,13 @@ export const PaymentsSettingsKyb: React.FC = () => {
             <AlertIcon />
             <Flex direction="column" gap={2}>
               <Heading size="title.xs">Information is pending review.</Heading>
-              <Text>This typically takes around 2-3 business days.</Text>
+              <Text>
+                This typically takes around 2-3 business days. You can email{" "}
+                <Link href="mailto:compliance@thirdweb.com">
+                  compliance@thirdweb.com
+                </Link>{" "}
+                for any questions.
+              </Text>
             </Flex>
           </Alert>
         </Flex>
