@@ -43,9 +43,14 @@ const ExploreSolutions = () => {
           const lastIndex = sections.length - 1;
           const isLastIndexSelected = lastIndex === selectedIndex;
 
+          // Determine if the current card should be hidden
+          const isHidden =
+            (isLastIndexSelected && idx === 0) ||
+            (idx === selectedIndex + 1 && idx !== 0);
+
           return (
             <AnimatedHoveredCard
-              isHidden={isLastIndexSelected && idx === 0 ? true : false}
+              isHidden={isHidden}
               key={idx}
               title={section.title}
               description={section.description}
@@ -53,9 +58,12 @@ const ExploreSolutions = () => {
               image={section.image}
               content={<Fragment>Hey</Fragment>}
               onMouseEnter={() => {
+                if (selectedIndex === idx) {
+                  return;
+                }
                 setSelectedIndex(idx);
               }}
-              onMouseLeave={() => {}}
+              onMouseLeave={() => setSelectedIndex(-1)}
               isActive={idx === selectedIndex}
             />
           );

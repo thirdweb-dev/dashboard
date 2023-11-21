@@ -27,15 +27,14 @@ const AnimatedHoveredCard = ({
   onMouseEnter,
   onMouseLeave,
 }: AnimatedHoveredCard) => {
-  return isHidden ? (
-    <></>
-  ) : (
+  return isHidden ? null : (
     <Flex
       borderWidth={1}
       borderColor={isActive ? "transparent" : "borderColor"}
       borderRadius={7}
       flexDir="column"
-      transition="250ms ease"
+      transition="150ms ease"
+      maxW={isActive ? "100%" : "380px"}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       bg={!isActive ? "backgroundCardHighlight" : "#3888FF"}
