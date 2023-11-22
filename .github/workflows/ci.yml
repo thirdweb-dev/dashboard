@@ -50,5 +50,5 @@ jobs:
           yarn lint
           yarn test
         env:
-          PAYMENTS_ADMIN_SECRET: ${{ vars.PAYMENTS_ADMIN_SECRET }}
+          PAYMENTS_ADMIN_SECRET: ${{ secrets.PAYMENTS_ADMIN_SECRET }}
           NEXT_PUBLIC_PAYMENTS_API: ${{ vars.NEXT_PUBLIC_PAYMENTS_API }}
