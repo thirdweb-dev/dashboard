@@ -9,14 +9,15 @@ dotenv.config();
 const ADMIN_SECRET = process.env.PAYMENTS_ADMIN_SECRET;
 const API_URL = process.env.NEXT_PUBLIC_PAYMENTS_API;
 async function doit() {
-  if (!ADMIN_SECRET) {
-    console.error("PAYMENTS_ADMIN_SECRET is not defined");
-    process.exit(1);
-  }
   if (!API_URL) {
     console.error("NEXT_PUBLIC_PAYMENTS_API is not defined");
     process.exit(1);
   }
+  if (!ADMIN_SECRET) {
+    console.error("PAYMENTS_ADMIN_SECRET is not defined");
+    process.exit(1);
+  }
+
   const headerValue = `X-Hasura-Admin-Secret: ${ADMIN_SECRET}`;
   const headerArg =
     process.platform === "win32" ? `"${headerValue}"` : headerValue;
