@@ -328,3 +328,75 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     section: "sdks",
   },
 ];
+
+export const metrics = [
+  {
+    title: "Coinbase",
+    description:
+      "Onboard users with wallets, build & deploy smart contracts, accept fiat with payments, and scale apps.",
+    image: require("public/assets/landingpage/case-study.png"),
+    mobileImage: require("public/assets/landingpage/mobile-case-study.png"),
+    items: [
+      {
+        title: "$3.7M+",
+        description: "GMV",
+      },
+      {
+        title: "215K+",
+        description: "Users",
+      },
+      {
+        title: "79K+",
+        description: "Transactions",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
+    hoverBackground: "#0053FF",
+  },
+  {
+    title: "Tally",
+    description:
+      "Onboard users with wallets, build & deploy smart contracts, accept fiat with payments, and scale apps.",
+    image: require("public/assets/landingpage/tally.png"),
+    mobileImage: require("public/assets/landingpage/mobile-tally.png"),
+    items: [
+      {
+        title: "$3.7M+",
+        description: "GMV",
+      },
+      {
+        title: "215K+",
+        description: "Users",
+      },
+      {
+        title: "79K+",
+        description: "Transactions",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/tally-expands-the-decentralized-web-with-dao-tools",
+    hoverBackground: "#765BFF",
+  },
+  {
+    title: "Decent",
+    description:
+      "Onboard users with wallets, build & deploy smart contracts, accept fiat with payments, and scale apps.",
+    image: require("public/assets/landingpage/decent.png"),
+    mobileImage: require("public/assets/landingpage/mobile-decent.png"),
+    items: [
+      {
+        title: "$3.7M+",
+        description: "GMV",
+      },
+      {
+        title: "215K+",
+        description: "Users",
+      },
+      {
+        title: "79K+",
+        description: "Transactions",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/decent-launches-nft-activation-with-uniswap-arbitrum-disco",
+    hoverBackground: "#730FE6",
+  },
+];
