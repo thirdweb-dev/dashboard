@@ -12,26 +12,11 @@ const ColorSchemeRecord: Record<
   { [key: string]: { bgColor: string; color: string } }
 > = {
   light: {
-    gray: {
-      bgColor: "#000",
-      color: "#fff",
-    },
-    red: {
-      bgColor: "#E53E3E",
-      color: "#fff",
-    },
-    orange: {
-      bgColor: "#DD6B20",
-      color: "#fff",
-    },
-    yellow: {
-      bgColor: "#D69E2E",
-      color: "#000",
-    },
-    green: {
-      bgColor: "#38A169",
-      color: "#fff",
-    },
+    gray: { bgColor: "#000", color: "#fff" },
+    red: { bgColor: "#E53E3E", color: "#fff" },
+    orange: { bgColor: "#DD6B20", color: "#fff" },
+    yellow: { bgColor: "#D69E2E", color: "#000" },
+    green: { bgColor: "#38A169", color: "#fff" },
     teal: { bgColor: "#319795", color: "#fff" },
     blue: { bgColor: "#3182CE", color: "#fff" },
     cyan: { bgColor: "#00B5D8", color: "#000" },
