@@ -23,13 +23,6 @@ jobs:
         node_version: [18]
 
     steps:
-      - name: Test show public env var
-        run: |
-          echo $NEXT_PUBLIC_PAYMENTS_API    
-
-        env:
-          NEXT_PUBLIC_PAYMENTS_API: ${{ vars.NEXT_PUBLIC_PAYMENTS_API }}
-
       - name: Checkout repository
         uses: actions/checkout@v2
 
