@@ -38,7 +38,7 @@ jobs:
 
       - name: Run CI
         env:
-          PAYMENTS_ADMIN_SECRET = ${{ vars.PAYMENTS_ADMIN_SECRET }}
+          PAYMENTS_ADMIN_SECRET: ${{ vars.PAYMENTS_ADMIN_SECRET }}
         run: |
           yarn global add node-gyp
           yarn install
