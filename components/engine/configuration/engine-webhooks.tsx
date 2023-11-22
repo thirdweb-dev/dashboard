@@ -23,8 +23,7 @@ export const EngineWebhooks: React.FC<EngineWebhooksProps> = ({ instance }) => {
             color="primary.500"
             isExternal
           >
-            {" "}
-            Learn more
+            Learn more about webhooks
           </Link>
           .
         </Text>

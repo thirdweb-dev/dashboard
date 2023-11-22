@@ -28,10 +28,11 @@ import pluralize from "pluralize";
 import { SetStateAction, useMemo, useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
+import { IconType } from "react-icons/lib";
 import { Button, MenuItem, TableContainer, Text } from "tw-components";
 
 type CtaMenuItem<TRowData> = {
-  icon?: JSX.Element;
+  icon?: IconType;
   text: string;
   onClick: (row: TRowData) => void;
   isDestructive?: boolean;
@@ -216,7 +217,7 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                               <MenuItem
                                 key={text}
                                 onClick={() => onClick(row.original)}
-                                icon={icon}
+                                icon={icon && <Icon as={icon} boxSize={4} />}
                                 color={isDestructive ? "red.500" : undefined}
                               >
                                 {text}

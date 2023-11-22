@@ -213,7 +213,7 @@ export const WebhooksTable: React.FC<WebhooksTableProps> = ({
         isFetched={isFetched}
         onMenuClick={[
           {
-            icon: <FiTrash />,
+            icon: FiTrash,
             text: "Delete",
             onClick: onDelete,
             isDestructive: true,

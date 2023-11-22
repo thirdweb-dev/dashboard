@@ -147,7 +147,7 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
         isFetched={isFetched}
         onMenuClick={[
           {
-            icon: <BiPencil />,
+            icon: BiPencil,
             text: "Edit",
             onClick: (relayer) => {
               setSelectedRelayer(relayer);
@@ -155,7 +155,7 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
             },
           },
           {
-            icon: <FiTrash />,
+            icon: FiTrash,
             text: "Remove",
             onClick: (relayer) => {
               setSelectedRelayer(relayer);

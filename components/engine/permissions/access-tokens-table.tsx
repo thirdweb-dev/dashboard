@@ -99,7 +99,7 @@ export const AccessTokensTable: React.FC<AccessTokensTableProps> = ({
         isFetched={isFetched}
         onMenuClick={[
           {
-            icon: <BiPencil />,
+            icon: BiPencil,
             text: "Edit",
             onClick: (accessToken) => {
               setSelectedAccessToken(accessToken);
@@ -107,7 +107,7 @@ export const AccessTokensTable: React.FC<AccessTokensTableProps> = ({
             },
           },
           {
-            icon: <FiTrash />,
+            icon: FiTrash,
             text: "Delete",
             onClick: (accessToken) => {
               setSelectedAccessToken(accessToken);

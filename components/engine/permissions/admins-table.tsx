@@ -101,7 +101,7 @@ export const AdminsTable: React.FC<AdminsTableProps> = ({
         isFetched={isFetched}
         onMenuClick={[
           {
-            icon: <BiPencil />,
+            icon: BiPencil,
             text: "Edit",
             onClick: (admin) => {
               setSelectedAdmin(admin);
@@ -109,7 +109,7 @@ export const AdminsTable: React.FC<AdminsTableProps> = ({
             },
           },
           {
-            icon: <FiTrash />,
+            icon: FiTrash,
             text: "Remove",
             onClick: (admin) => {
               setSelectedAdmin(admin);

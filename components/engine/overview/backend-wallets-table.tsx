@@ -7,6 +7,7 @@ import {
 import {
   Flex,
   FormControl,
+  Icon,
   Image,
   Input,
   InputGroup,
@@ -31,7 +32,7 @@ import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useState } from "react";
-import { BiPencil } from "react-icons/bi";
+import { BiExport, BiImport, BiPencil } from "react-icons/bi";
 import {
   Badge,
   Button,
@@ -47,6 +48,7 @@ import { useForm } from "react-hook-form";
 import { prettyPrintCurrency } from "../utils";
 import { engineKeys } from "@3rdweb-sdk/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { FiSend } from "react-icons/fi";
 
 interface BackendWalletsTableProps {
   wallets: BackendWallet[];
@@ -179,7 +181,7 @@ export const BackendWalletsTable: React.FC<BackendWalletsTableProps> = ({
         isFetched={isFetched}
         onMenuClick={[
           {
-            icon: <BiPencil />,
+            icon: BiPencil,
             text: "Edit",
             onClick: (wallet) => {
               setSelectedBackendWallet(wallet);
@@ -187,7 +189,7 @@ export const BackendWalletsTable: React.FC<BackendWalletsTableProps> = ({
             },
           },
           {
-            icon: <BiPencil />,
+            icon: BiImport,
             text: "Receive funds",
             onClick: (wallet) => {
               setSelectedBackendWallet(wallet);
@@ -195,7 +197,7 @@ export const BackendWalletsTable: React.FC<BackendWalletsTableProps> = ({
             },
           },
           {
-            icon: <BiPencil />,
+            icon: BiExport,
             text: "Send funds",
             onClick: (wallet) => {
               setSelectedBackendWallet(wallet);
