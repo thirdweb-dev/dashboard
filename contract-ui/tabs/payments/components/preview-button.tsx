@@ -1,5 +1,5 @@
-import { DarkMode, Flex, LightMode } from "@chakra-ui/react";
-import { Button } from "tw-components";
+import { Box, DarkMode, Flex, LightMode } from "@chakra-ui/react";
+import { Button, Text } from "tw-components";
 
 const ButtonShapeRecord: Record<string, string> = {
   rounded: "lg",
@@ -71,26 +71,29 @@ export const PaymentsPreviewButton: React.FC<PaymentsPreviewButtonProps> = ({
     ColorSchemeRecord[isDarkMode ? "dark" : "light"];
 
   return (
-    <Flex
-      bg={isDarkMode ? BG_COLOR_DARK_MODE : "inherit"}
-      direction="column"
-      align="center"
-      py={2}
-      rounded="lg"
-    >
-      <LightOrDarkMode>
-        <Button
-          bgColor={colorSchemeLightOrDark[colorScheme].bgColor}
-          color={colorSchemeLightOrDark[colorScheme].color}
-          _hover={{
-            opacity: 0.8,
-          }}
-          rounded={ButtonShapeRecord[buttonShape]}
-          px={5}
-        >
-          Example
-        </Button>
-      </LightOrDarkMode>
+    <Flex flexDir="column" gap={2}>
+      <Text size="body.md">Preview</Text>
+      <Box
+        bg={isDarkMode ? BG_COLOR_DARK_MODE : "#fff"}
+        p={3}
+        rounded="lg"
+        w="max-content"
+      >
+        <LightOrDarkMode>
+          <Button
+            bgColor={colorSchemeLightOrDark[colorScheme].bgColor}
+            color={colorSchemeLightOrDark[colorScheme].color}
+            _hover={{
+              opacity: 0.8,
+            }}
+            rounded={ButtonShapeRecord[buttonShape]}
+            px={5}
+            pointerEvents="none"
+          >
+            Example
+          </Button>
+        </LightOrDarkMode>
+      </Box>
     </Flex>
   );
 };
