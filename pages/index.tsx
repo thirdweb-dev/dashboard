@@ -1,8 +1,5 @@
 import HomePageCard from "components/homepage/sections/HomePageCard";
 import { AnyEVMSection } from "../components/homepage/sections/AnyEVM";
-import { BuildSection } from "../components/homepage/sections/key-features/BuildSection";
-import { LaunchSection } from "../components/homepage/sections/key-features/LaunchSection";
-import { ManageSection } from "../components/homepage/sections/key-features/ManageSection";
 import { Box, Center, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
@@ -107,10 +104,7 @@ const HomePage: ThirdwebNextPage = () => {
           <WithoutThirdwebSection />
           <ValuesSection />
           <Suspense>
-            <BuildSection />
             <SDKSection />
-            <LaunchSection />
-            <ManageSection />
             <AnyEVMSection />
             <PricingSection TRACKING_CATEGORY={TRACKING_CATEGORY} onHomepage />
             <SolutionsSection />
