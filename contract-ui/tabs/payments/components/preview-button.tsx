@@ -90,7 +90,9 @@ export const PaymentsPreviewButton: React.FC<PaymentsPreviewButtonProps> = ({
             px={5}
             type="button"
           >
-            Example
+            <Box as="span" fontWeight={400}>
+              Example
+            </Box>
           </Button>
         </LightOrDarkMode>
       </Box>
