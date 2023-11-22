@@ -5,6 +5,9 @@ import {
   Flex,
   Icon,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
   Spinner,
   Table,
   Tbody,
@@ -24,8 +27,9 @@ import {
 import pluralize from "pluralize";
 import { SetStateAction, useMemo, useState } from "react";
 import { BiPencil } from "react-icons/bi";
+import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
-import { Button, TableContainer, Text } from "tw-components";
+import { Button, MenuItem, TableContainer, Text } from "tw-components";
 
 type TWTableProps<TRowData> = {
   columns: ColumnDef<TRowData, any>[];
@@ -107,6 +111,15 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
     // getFilteredRowModel: getFilteredRowModel(),
   });
 
+  // Show a different UI based on how many click handlers are provided.
+  // - One button (click, edit, delete): Show an arrow, pencil, or trash icon.
+  // - Multiple buttons: Show a triple dot icon with a menu.
+  const numHandlers = [
+    tableProps.onRowClick,
+    tableProps.onEdit,
+    tableProps.onDelete,
+  ].filter((handler) => !!handler).length;
+
   return (
     <TableContainer>
       <Table>
@@ -133,11 +146,7 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                   )}
                 </Th>
               ))}
-              {/* if the row is clickable we want an arrow to show */}
-              {tableProps.onRowClick && <Th border="none" />}
-              {(tableProps.onEdit || tableProps.onDelete) && (
-                <Th border="none" />
-              )}
+              {numHandlers > 0 && <Th border="none" />}
             </Tr>
           ))}
         </Thead>
@@ -179,38 +188,47 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                     </Td>
                   );
                 })}
-                {/* if the row is clickable we want an arrow to show */}
-                {tableProps.onRowClick && (
+
+                {/* Show a ... menu or individual CTA buttons. */}
+                {numHandlers > 0 && (
                   <Td
                     isNumeric
                     borderBottomWidth="inherit"
                     borderBottomColor="accent.100"
                   >
-                    <Icon as={FiArrowRight} />
-                  </Td>
-                )}
-                {(tableProps.onEdit || tableProps.onDelete) && (
-                  <Td
-                    isNumeric
-                    borderBottomWidth="inherit"
-                    borderBottomColor="accent.100"
-                  >
-                    <ButtonGroup variant="ghost" gap={2}>
-                      {tableProps.onEdit && (
-                        <IconButton
-                          onClick={() => tableProps.onEdit?.(row.original)}
-                          icon={<Icon as={BiPencil} boxSize={4} />}
-                          aria-label="Edit"
+                    {tableProps.onRowClick ? (
+                      <Icon as={FiArrowRight} />
+                    ) : tableProps.onEdit || tableProps.onDelete ? (
+                      <Menu>
+                        <MenuButton
+                          as={IconButton}
+                          variant="outline"
+                          icon={<Icon as={FaEllipsisVertical} boxSize={4} />}
+                          aria-label="Actions"
                         />
-                      )}
-                      {tableProps.onDelete && (
-                        <IconButton
-                          onClick={() => tableProps.onDelete?.(row.original)}
-                          icon={<Icon as={FiTrash} boxSize={4} />}
-                          aria-label="Remove"
-                        />
-                      )}
-                    </ButtonGroup>
+                        <MenuList>
+                          {tableProps.onEdit && (
+                            <MenuItem
+                              onClick={() => tableProps.onEdit?.(row.original)}
+                              icon={<Icon as={BiPencil} boxSize={4} />}
+                            >
+                              Edit
+                            </MenuItem>
+                          )}
+                          {tableProps.onDelete && (
+                            <MenuItem
+                              onClick={() =>
+                                tableProps.onDelete?.(row.original)
+                              }
+                              icon={<Icon as={FiTrash} boxSize={4} />}
+                              color="red.500"
+                            >
+                              Delete
+                            </MenuItem>
+                          )}
+                        </MenuList>
+                      </Menu>
+                    ) : null}
                   </Td>
                 )}
               </Tr>

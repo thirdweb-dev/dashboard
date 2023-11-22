@@ -107,12 +107,7 @@ export const WebhooksTable: React.FC<WebhooksTableProps> = ({
     if (!webhookToRevoke) {
       return;
     }
-    trackEvent({
-      category: "engine",
-      action: "revoke-webhook",
-      label: "attempt",
-      instance,
-    });
+
     revokeWebhook(
       {
         id: webhookToRevoke.id,

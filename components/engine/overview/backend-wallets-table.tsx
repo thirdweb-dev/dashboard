@@ -19,11 +19,13 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { useChainId } from "@thirdweb-dev/react";
 import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
-import { Badge, Button, FormLabel, Text } from "tw-components";
+import { Badge, Button, FormLabel, LinkButton, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface BackendWalletsTableProps {
@@ -97,17 +99,40 @@ const BackendWalletBalanceCell: React.FC<BackendWalletBalanceCellProps> = ({
   instance,
   address,
 }) => {
+  const { chainIdToChainRecord } = useAllChainsData();
+  const chainId = useChainId();
   const { data: backendWalletBalance } = useEngineBackendWalletBalance(
     instance,
     address,
   );
 
-  return (
-    <Text>
-      {parseFloat(backendWalletBalance?.displayValue ?? "0").toFixed(6)}{" "}
-      {backendWalletBalance?.symbol}
-    </Text>
-  );
+  if (chainId) {
+    const balance = parseFloat(
+      backendWalletBalance?.displayValue ?? "0",
+    ).toFixed(6);
+
+    const balanceDisplay = (
+      <Text fontWeight={balance === "0.000000" ? "light" : "bold"}>
+        {balance} {backendWalletBalance?.symbol}
+      </Text>
+    );
+
+    const explorer = chainIdToChainRecord[chainId]?.explorers?.[0];
+    if (!explorer) {
+      return balanceDisplay;
+    }
+
+    return (
+      <LinkButton
+        variant="ghost"
+        isExternal
+        size="xs"
+        href={`${explorer.url}/address/${address}`}
+      >
+        {balanceDisplay}
+      </LinkButton>
+    );
+  }
 };
 
 export const BackendWalletsTable: React.FC<BackendWalletsTableProps> = ({

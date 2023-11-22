@@ -222,7 +222,6 @@ const ModalImportEngine = ({
   const form = useForm({
     defaultValues: {
       name: "My Engine Instance",
-      url: "",
     },
   });
 
