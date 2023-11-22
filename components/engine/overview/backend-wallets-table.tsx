@@ -7,7 +7,6 @@ import {
 import {
   Flex,
   FormControl,
-  Icon,
   Image,
   Input,
   InputGroup,
@@ -20,7 +19,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Spinner,
   Stack,
   UseDisclosureReturn,
   VStack,
@@ -46,9 +44,6 @@ import QRCode from "qrcode";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useForm } from "react-hook-form";
 import { prettyPrintCurrency } from "../utils";
-import { engineKeys } from "@3rdweb-sdk/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { FiSend } from "react-icons/fi";
 
 interface BackendWalletsTableProps {
   wallets: BackendWallet[];
