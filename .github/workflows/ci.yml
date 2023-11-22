@@ -18,7 +18,6 @@ jobs:
     name: Build, Lint & Test
     runs-on: ubuntu-latest
     environment: Preview
-
     strategy:
       matrix:
         node_version: [18]
@@ -38,6 +37,8 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Run CI
+        env:
+          PAYMENTS_ADMIN_SECRET = ${{ vars.PAYMENTS_ADMIN_SECRET }}
         run: |
           yarn global add node-gyp
           yarn install
