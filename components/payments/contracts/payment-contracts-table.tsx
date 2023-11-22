@@ -95,7 +95,7 @@ export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
               w="full"
               href="/dashboard/payments/settings"
             >
-              KYC Required
+              Verification Required
             </LinkButton>
           );
         }

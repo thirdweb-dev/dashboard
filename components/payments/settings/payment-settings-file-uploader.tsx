@@ -18,7 +18,7 @@ export const PaymentsSettingsFileUploader: React.FC<
   const { mutate: uploadToCloudflare, isLoading } =
     usePaymentsUploadToCloudflare();
 
-  const { onSuccess, onError } = useTxNotifications(
+  const { onError } = useTxNotifications(
     "File uploaded successfully.",
     "Failed to upload file.",
   );
@@ -33,7 +33,6 @@ export const PaymentsSettingsFileUploader: React.FC<
     const fileDataUrl = await readFileAsDataURL(file);
     uploadToCloudflare(fileDataUrl, {
       onSuccess: (resImageUrl) => {
-        onSuccess();
         onUpdate(resImageUrl);
         setImageUrl(resImageUrl);
       },
@@ -66,6 +65,7 @@ export const PaymentsSettingsFileUploader: React.FC<
       _hover={{ shadow: "sm" }}
       renderPreview={() => <Image alt="" w="100%" h="100%" src={imageUrl} />}
       helperText="Image"
+      isDisabledText="Uploading..."
     />
   );
 };

@@ -15,24 +15,32 @@ import {
   Switch,
   Icon,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel, LinkButton } from "tw-components";
+import {
+  Button,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  LinkButton,
+} from "tw-components";
 import {
   CreateUpdateCheckoutInput,
   isPaymentsSupported,
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useMemo, useState } from "react";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
+import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
+import { PaymentsPreviewButton } from "./preview-button";
 
 const formInputs = [
   {
@@ -96,12 +104,12 @@ const formInputs = [
     fields: [
       {
         name: "imageUrl",
-        label: "Image",
+        label: "NFT Image Preview",
         type: "image",
         placeholder: "https:// or ipfs://",
         required: false,
         helper: "",
-        sideField: false,
+        sideField: true,
       },
       {
         name: "brandDarkMode",
@@ -235,8 +243,8 @@ const formInputs = [
       {
         name: "successCallbackUrl",
         label: "Post-Purchase URL",
-        type: "text",
-        placeholder: "https://your-website.com/thank-you",
+        type: "url",
+        placeholder: "https://website.com/thank-you",
         required: false,
         helper:
           "A buyer will be navigated to this page after a successful purchase.",
@@ -245,8 +253,8 @@ const formInputs = [
       {
         name: "cancelCallbackUrl",
         label: "Error URL",
-        type: "text",
-        placeholder: "https://your-website.com/something-went-wrong",
+        type: "url",
+        placeholder: "https://website.com/something-went-wrong",
         required: false,
         helper:
           "A buyer will be navigated to this page if they are unable to make a purchase.",
@@ -302,8 +310,8 @@ export const CreateUpdateCheckoutButton: React.FC<
     description: checkout?.collection_description || "",
     successCallbackUrl: checkout?.success_callback_url || "",
     cancelCallbackUrl: checkout?.cancel_callback_url || "",
-    brandButtonShape: (checkout?.brand_button_shape as any) || "gray",
-    brandColorScheme: (checkout?.brand_color_scheme as any) || "rounded",
+    brandButtonShape: (checkout?.brand_button_shape as any) || "rounded",
+    brandColorScheme: (checkout?.brand_color_scheme as any) || "blue",
     brandDarkMode: checkout?.brand_dark_mode || false,
     contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
@@ -475,6 +483,10 @@ export const CreateUpdateCheckoutButton: React.FC<
                         <FormControl
                           key={field.name}
                           isRequired={field.required}
+                          isInvalid={
+                            !!form.getFieldState(field.name, form.formState)
+                              .error
+                          }
                         >
                           <Flex
                             flexDir={field.sideField ? "row" : "column"}
@@ -539,11 +551,14 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 }
                               />
                             ) : field.type === "image" ? (
-                              <SolidityInput
-                                solidityType="string"
-                                placeholder={field.placeholder}
-                                {...form.register(field.name)}
-                              />
+                              <Box w={28}>
+                                <PaymentsSettingsFileUploader
+                                  value={form.watch(field.name) || ""}
+                                  onUpdate={(value: string) => {
+                                    form.setValue(field.name, value);
+                                  }}
+                                />
+                              </Box>
                             ) : field.type === "clientId" ? (
                               apiKeys.length > 0 ? (
                                 <ApiKeysMenu
@@ -561,6 +576,37 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   Create API Key
                                 </LinkButton>
                               )
+                            ) : field.type === "url" ? (
+                              <Input
+                                type={field.type}
+                                placeholder={field.placeholder}
+                                value={form.watch(field.name)}
+                                onBlur={(e) => {
+                                  if (
+                                    !/^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
+                                      e.target.value,
+                                    ) &&
+                                    e.target.value !== ""
+                                  ) {
+                                    form.setError(field.name, {
+                                      type: "validate",
+                                      message:
+                                        "Invalid URL, make sure you include https://",
+                                    });
+                                  }
+                                }}
+                                onChange={(e) => {
+                                  if (
+                                    /^https:\/\/[^\s$.?#].[^\s]*$/gm.test(
+                                      e.target.value,
+                                    ) ||
+                                    e.target.value === ""
+                                  ) {
+                                    form.clearErrors(field.name);
+                                  }
+                                  form.setValue(field.name, e.target.value);
+                                }}
+                              />
                             ) : (
                               <Input
                                 {...form.register(field.name, {
@@ -571,6 +617,9 @@ export const CreateUpdateCheckoutButton: React.FC<
                               />
                             )}
                           </Flex>
+                          <FormErrorMessage>
+                            {form.formState.errors?.[field.name]?.message}
+                          </FormErrorMessage>
                           {field.helper && (
                             <FormHelperText mt={field.sideField ? 0 : 2}>
                               {field.helper}
@@ -579,6 +628,15 @@ export const CreateUpdateCheckoutButton: React.FC<
                         </FormControl>
                       );
                     })}
+                    {input.step === "branding" && (
+                      <PaymentsPreviewButton
+                        isDarkMode={!!form.watch("brandDarkMode")}
+                        buttonShape={
+                          form.watch("brandButtonShape") || "rounded"
+                        }
+                        colorScheme={form.watch("brandColorScheme") || "red"}
+                      />
+                    )}
                   </Flex>
                 );
               })}
@@ -598,9 +656,9 @@ export const CreateUpdateCheckoutButton: React.FC<
               onClick={handleNext}
               isDisabled={
                 apiKeys.length === 0 ||
-                form.watch("thirdwebClientId") === "" ||
-                form.watch("title") === "" ||
-                form.watch("tokenId") === ""
+                !form.watch("thirdwebClientId") ||
+                !form.watch("title") ||
+                !form.watch("tokenId")
               }
               isLoading={form.formState.isSubmitting || isLoading}
             >
