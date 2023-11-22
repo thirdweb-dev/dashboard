@@ -62,6 +62,7 @@
     "prettier": "^3.0.1",
     "prism-react-renderer": "^2.0.6",
     "prismjs": "^1.28.0",
+    "qrcode": "^1.5.3",
     "react": "^18.0.0",
     "react-children-utilities": "^2.9.0",
     "react-dom": "^18.0.0",

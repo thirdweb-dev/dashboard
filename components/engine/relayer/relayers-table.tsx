@@ -22,13 +22,10 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Chain } from "@thirdweb-dev/chains";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
-import { format } from "date-fns";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -42,8 +39,10 @@ import {
   Text,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
-import { fetchChain } from "utils/fetchChain";
 import { AddModalInput, parseAddressListRaw } from "./add-relayer-button";
+import { shortenString } from "@thirdweb-dev/react";
+import { BiPencil } from "react-icons/bi";
+import { FiTrash } from "react-icons/fi";
 
 interface RelayersTableProps {
   instanceUrl: string;
@@ -63,28 +62,14 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
   const editDisclosure = useDisclosure();
   const removeDisclosure = useDisclosure();
   const [selectedRelayer, setSelectedRelayer] = useState<EngineRelayer>();
-
-  // const { mutate: revokeWebhook } = useEngineRevokeWebhook(instanceUrl);
-  // const trackEvent = useTrack();
-  const { onSuccess, onError } = useTxNotifications(
-    "Successfully deleted relayer",
-    "Failed to delete relayer",
-  );
-  const queryClient = useQueryClient();
+  const { chainIdToChainRecord } = useAllChainsData();
 
   const columns = [
     columnHelper.accessor("chainId", {
       header: "Chain",
       cell: (cell) => {
         const { chainId, backendWalletAddress } = cell.row.original;
-        if (!chainId) {
-          return;
-        }
-
-        const chain = queryClient.getQueryData<Chain>([
-          "chainDetails",
-          chainId,
-        ]);
+        const chain = chainIdToChainRecord[parseInt(chainId)];
         if (chain) {
           const chainNameDisplay = (
             <Flex align="center" gap={2}>
@@ -110,10 +95,6 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
             </LinkButton>
           );
         }
-
-        queryClient.prefetchQuery(["chainDetails", chainId], () =>
-          fetchChain(chainId),
-        );
       },
     }),
     columnHelper.accessor("backendWalletAddress", {
@@ -164,14 +145,25 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
         columns={columns}
         isLoading={isLoading}
         isFetched={isFetched}
-        onEdit={(relayer) => {
-          setSelectedRelayer(relayer);
-          editDisclosure.onOpen();
-        }}
-        onDelete={(relayer) => {
-          setSelectedRelayer(relayer);
-          removeDisclosure.onOpen();
-        }}
+        onMenuClick={[
+          {
+            icon: <BiPencil />,
+            text: "Edit",
+            onClick: (relayer) => {
+              setSelectedRelayer(relayer);
+              editDisclosure.onOpen();
+            },
+          },
+          {
+            icon: <FiTrash />,
+            text: "Remove",
+            onClick: (relayer) => {
+              setSelectedRelayer(relayer);
+              removeDisclosure.onOpen();
+            },
+            isDestructive: true,
+          },
+        ]}
       />
 
       {selectedRelayer && editDisclosure.isOpen && (
@@ -275,7 +267,7 @@ const EditModal = ({
               >
                 {backendWallets?.map((wallet) => (
                   <option key={wallet.address} value={wallet.address}>
-                    {wallet.address}
+                    {shortenString(wallet.address, false)}
                     {wallet.label && ` (${wallet.label})`}
                   </option>
                 ))}

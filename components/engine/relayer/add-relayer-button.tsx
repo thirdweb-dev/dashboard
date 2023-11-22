@@ -28,6 +28,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { isAddress } from "ethers/lib/utils";
+import { shortenString } from "@thirdweb-dev/react";
 
 interface AddRelayerButtonProps {
   instanceUrl: string;
@@ -142,9 +143,12 @@ const AddModal = ({
               <Select
                 {...form.register("backendWalletAddress", { required: true })}
               >
+                <option value="" disabled selected hidden>
+                  Select a backend wallet to use as a relayer
+                </option>
                 {backendWallets?.map((wallet) => (
                   <option key={wallet.address} value={wallet.address}>
-                    {wallet.address}
+                    {shortenString(wallet.address, false)}
                     {wallet.label && ` (${wallet.label})`}
                   </option>
                 ))}
@@ -183,7 +187,11 @@ const AddModal = ({
           <Button type="button" onClick={disclosure.onClose} variant="ghost">
             Cancel
           </Button>
-          <Button type="submit" colorScheme="primary">
+          <Button
+            type="submit"
+            colorScheme="primary"
+            isDisabled={!form.formState.isValid}
+          >
             Add
           </Button>
         </ModalFooter>

@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
@@ -938,4 +938,44 @@ export function useEngineRevokeWebhook(instance: string) {
       },
     },
   );
+}
+
+type SendTokensInput = {
+  chainId: number;
+  fromAddress: string;
+  toAddress: string;
+  amount: number;
+  currencyAddress?: string;
+};
+
+export function useEngineSendTokens(instance: string) {
+  const { token } = useApiAuthToken();
+
+  return useMutation(async (input: SendTokensInput) => {
+    invariant(instance, "instance is required");
+
+    const res = await fetch(
+      `${instance}backend-wallet/${input.chainId}/transfer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "x-backend-wallet-address": input.fromAddress,
+        },
+        body: JSON.stringify({
+          to: input.toAddress,
+          amount: input.amount.toString(),
+          currencyAddress: input.currencyAddress,
+        }),
+      },
+    );
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.message);
+    }
+
+    return json.result;
+  });
 }

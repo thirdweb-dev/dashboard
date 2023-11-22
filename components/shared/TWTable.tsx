@@ -26,10 +26,16 @@ import {
 } from "@tanstack/react-table";
 import pluralize from "pluralize";
 import { SetStateAction, useMemo, useState } from "react";
-import { BiPencil } from "react-icons/bi";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import { FiArrowRight, FiTrash } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 import { Button, MenuItem, TableContainer, Text } from "tw-components";
+
+type CtaMenuItem<TRowData> = {
+  icon?: JSX.Element;
+  text: string;
+  onClick: (row: TRowData) => void;
+  isDestructive?: boolean;
+};
 
 type TWTableProps<TRowData> = {
   columns: ColumnDef<TRowData, any>[];
@@ -37,8 +43,7 @@ type TWTableProps<TRowData> = {
   isLoading: boolean;
   isFetched: boolean;
   onRowClick?: (row: TRowData) => void;
-  onEdit?: (row: TRowData) => void;
-  onDelete?: (row: TRowData) => void;
+  onMenuClick?: CtaMenuItem<TRowData>[];
   pagination?: {
     pageSize: number;
   };
@@ -111,15 +116,6 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
     // getFilteredRowModel: getFilteredRowModel(),
   });
 
-  // Show a different UI based on how many click handlers are provided.
-  // - One button (click, edit, delete): Show an arrow, pencil, or trash icon.
-  // - Multiple buttons: Show a triple dot icon with a menu.
-  const numHandlers = [
-    tableProps.onRowClick,
-    tableProps.onEdit,
-    tableProps.onDelete,
-  ].filter((handler) => !!handler).length;
-
   return (
     <TableContainer>
       <Table>
@@ -146,7 +142,9 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                   )}
                 </Th>
               ))}
-              {numHandlers > 0 && <Th border="none" />}
+              {(tableProps.onRowClick || tableProps.onMenuClick) && (
+                <Th border="none" />
+              )}
             </Tr>
           ))}
         </Thead>
@@ -190,47 +188,46 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                 })}
 
                 {/* Show a ... menu or individual CTA buttons. */}
-                {numHandlers > 0 && (
+                {tableProps.onRowClick ? (
                   <Td
                     isNumeric
                     borderBottomWidth="inherit"
                     borderBottomColor="accent.100"
                   >
-                    {tableProps.onRowClick ? (
-                      <Icon as={FiArrowRight} />
-                    ) : tableProps.onEdit || tableProps.onDelete ? (
-                      <Menu>
-                        <MenuButton
-                          as={IconButton}
-                          variant="outline"
-                          icon={<Icon as={FaEllipsisVertical} boxSize={4} />}
-                          aria-label="Actions"
-                        />
-                        <MenuList>
-                          {tableProps.onEdit && (
-                            <MenuItem
-                              onClick={() => tableProps.onEdit?.(row.original)}
-                              icon={<Icon as={BiPencil} boxSize={4} />}
-                            >
-                              Edit
-                            </MenuItem>
-                          )}
-                          {tableProps.onDelete && (
-                            <MenuItem
-                              onClick={() =>
-                                tableProps.onDelete?.(row.original)
-                              }
-                              icon={<Icon as={FiTrash} boxSize={4} />}
-                              color="red.500"
-                            >
-                              Delete
-                            </MenuItem>
-                          )}
-                        </MenuList>
-                      </Menu>
-                    ) : null}
+                    <Icon as={FiArrowRight} />
                   </Td>
-                )}
+                ) : tableProps.onMenuClick ? (
+                  <Td
+                    isNumeric
+                    borderBottomWidth="inherit"
+                    borderBottomColor="accent.100"
+                  >
+                    <Menu>
+                      <MenuButton
+                        as={IconButton}
+                        variant="outline"
+                        icon={<Icon as={FaEllipsisVertical} boxSize={4} />}
+                        aria-label="Actions"
+                      />
+                      <MenuList>
+                        {tableProps.onMenuClick.map(
+                          ({ icon, text, onClick, isDestructive }) => {
+                            return (
+                              <MenuItem
+                                key={text}
+                                onClick={() => onClick(row.original)}
+                                icon={icon}
+                                color={isDestructive ? "red.500" : undefined}
+                              >
+                                {text}
+                              </MenuItem>
+                            );
+                          },
+                        )}
+                      </MenuList>
+                    </Menu>
+                  </Td>
+                ) : null}
               </Tr>
             );
           })}

@@ -23,6 +23,8 @@ import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
+import { BiPencil } from "react-icons/bi";
+import { FiTrash } from "react-icons/fi";
 import { Badge, Button, FormLabel, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
@@ -97,14 +99,25 @@ export const AdminsTable: React.FC<AdminsTableProps> = ({
         columns={columns}
         isLoading={isLoading}
         isFetched={isFetched}
-        onEdit={(admin) => {
-          setSelectedAdmin(admin);
-          editDisclosure.onOpen();
-        }}
-        onDelete={(admin) => {
-          setSelectedAdmin(admin);
-          removeDisclosure.onOpen();
-        }}
+        onMenuClick={[
+          {
+            icon: <BiPencil />,
+            text: "Edit",
+            onClick: (admin) => {
+              setSelectedAdmin(admin);
+              editDisclosure.onOpen();
+            },
+          },
+          {
+            icon: <FiTrash />,
+            text: "Remove",
+            onClick: (admin) => {
+              setSelectedAdmin(admin);
+              removeDisclosure.onOpen();
+            },
+            isDestructive: true,
+          },
+        ]}
       />
 
       {selectedAdmin && editDisclosure.isOpen && (
