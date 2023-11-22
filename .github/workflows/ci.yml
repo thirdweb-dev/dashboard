@@ -44,10 +44,11 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Run CI
-        env:
-          PAYMENTS_ADMIN_SECRET: ${{ vars.PAYMENTS_ADMIN_SECRET }}
         run: |
           yarn global add node-gyp
           yarn install
           yarn lint
           yarn test
+        env:
+          PAYMENTS_ADMIN_SECRET: ${{ vars.PAYMENTS_ADMIN_SECRET }}
+          NEXT_PUBLIC_PAYMENTS_API: ${{ vars.NEXT_PUBLIC_PAYMENTS_API }}
