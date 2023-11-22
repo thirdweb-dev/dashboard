@@ -88,7 +88,7 @@ export const PaymentsPreviewButton: React.FC<PaymentsPreviewButtonProps> = ({
             }}
             rounded={ButtonShapeRecord[buttonShape]}
             px={5}
-            pointerEvents="none"
+            type="button"
           >
             Example
           </Button>
