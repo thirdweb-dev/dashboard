@@ -34,11 +34,6 @@ import {
   useContractsByOwnerIdLazyQuery,
 } from "graphql/queries/__generated__/ContractsByOwnerId.generated";
 import {
-  ContractsByAddressAndChainQuery,
-  ContractsByAddressAndChainQueryVariables,
-  useContractsByAddressAndChainLazyQuery,
-} from "graphql/queries/__generated__/ContractsByAddressAndChain.generated";
-import {
   DetailedAnalyticsQueryVariables,
   useDetailedAnalyticsLazyQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
@@ -66,7 +61,7 @@ export const paymentsExtensions: FeatureName[] = [
   "ERC1155ClaimPhasesV2",
 ];
 
-export const isPaymentsSupported = (
+export const hasPaymentsDetectedExtensions = (
   contract: SmartContract<BaseContract> | undefined,
 ) => {
   return detectFeatures(contract, paymentsExtensions);
@@ -712,43 +707,6 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
     },
     {
       enabled: !!paymentsSellerId && !!address && !!contractAddress,
-    },
-  );
-}
-
-export function usePaymentsContractByAddressAndChain(
-  contractAddress: string | undefined,
-  chainId: number | undefined,
-) {
-  invariant(contractAddress, "contractAddress is required");
-  invariant(chainId, "chainId is required");
-  const address = useAddress();
-  const { paymentsSellerId } = useApiAuthToken();
-  const [getContractsByAddressAndChain] =
-    useContractsByAddressAndChainLazyQuery();
-
-  return useQuery(
-    paymentsKeys.contractByAddressAndChain(contractAddress, chainId),
-    async () => {
-      const { data, error } = await getContractsByAddressAndChain({
-        variables: {
-          ownerId: paymentsSellerId,
-          chain: ChainIdToPaperChain[chainId],
-          contractAddress: contractAddress.toLowerCase(),
-        } as ContractsByAddressAndChainQueryVariables,
-      });
-
-      if (error) {
-        console.error(error);
-      }
-
-      return data && (data?.contract || []).length > 0
-        ? data.contract[0]
-        : ({} as ContractsByAddressAndChainQuery["contract"][number]);
-    },
-    {
-      enabled:
-        !!paymentsSellerId && !!address && !!contractAddress && !!chainId,
     },
   );
 }

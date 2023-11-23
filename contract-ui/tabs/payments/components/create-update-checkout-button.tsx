@@ -30,7 +30,7 @@ import {
 import {
   ChainIdToSupportedCurrencies,
   CreateUpdateCheckoutInput,
-  isPaymentsSupported,
+  hasPaymentsDetectedExtensions,
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useMemo, useState } from "react";
@@ -329,7 +329,7 @@ export const CreateUpdateCheckoutButton: React.FC<
 > = ({ contractId, contractAddress, checkout, checkoutId }) => {
   const { contract } = useContract(contractAddress);
 
-  const isSupportedContract = isPaymentsSupported(contract);
+  const hasDetectedExtensions = hasPaymentsDetectedExtensions(contract);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
   const keysQuery = useApiKeys();
@@ -446,7 +446,7 @@ export const CreateUpdateCheckoutButton: React.FC<
             checkoutId,
             ...data,
             limitPerTransaction: parseInt(String(data.limitPerTransaction)),
-            ...(!isSupportedContract && { mintMethod }),
+            ...(!hasDetectedExtensions && { mintMethod }),
           },
           {
             onSuccess: () => {
@@ -475,10 +475,10 @@ export const CreateUpdateCheckoutButton: React.FC<
       return;
     }
     setStep((prev) => {
-      if (prev === "info" && !isSupportedContract) {
+      if (prev === "info" && !hasDetectedExtensions) {
         return "non-tw";
       }
-      if ((prev === "info" && isSupportedContract) || prev === "non-tw") {
+      if ((prev === "info" && hasDetectedExtensions) || prev === "non-tw") {
         return "branding";
       }
       if (prev === "branding") {
