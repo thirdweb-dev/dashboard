@@ -55,6 +55,7 @@ import {
   useGetSellerByThirdwebAccountIdLazyQuery,
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -143,6 +144,67 @@ export const PaperChainToChainId: Record<string, number> = {
   Base: Base.chainId,
   BaseGoerli: BaseGoerli.chainId,
 };
+
+export const ChainIdToSupportedCurrencies: Record<number, CurrencyMetadata[]> =
+  {
+    [Ethereum.chainId]: CURRENCIES[Ethereum.chainId]?.filter((currency) =>
+      ["ETH", "USDC", "WETH", "MATIC"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Goerli.chainId]: CURRENCIES[Goerli.chainId]?.filter((currency) =>
+      ["ETH", "USDC", "WETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Sepolia.chainId]: CURRENCIES[Sepolia.chainId]?.filter((currency) =>
+      ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Polygon.chainId]: CURRENCIES[Polygon.chainId]?.filter((currency) =>
+      ["MATIC", "WETH", "USDC", "USDC.e"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Mumbai.chainId]: CURRENCIES[Mumbai.chainId]?.filter((currency) =>
+      ["MATIC", "USDC", "USDC.e", "DERC20", "CDOL"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Avalanche.chainId]: CURRENCIES[Avalanche.chainId]?.filter((currency) =>
+      ["AVAX", "USDC", "USDC.e"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [AvalancheFuji.chainId]: CURRENCIES[AvalancheFuji.chainId]?.filter(
+      (currency) => ["AVAX"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Optimism.chainId]: CURRENCIES[Optimism.chainId]?.filter((currency) =>
+      ["ETH", "USDC"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [OptimismGoerli.chainId]: CURRENCIES[OptimismGoerli.chainId]?.filter(
+      (currency) => ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Arbitrum.chainId]: CURRENCIES[Arbitrum.chainId]?.filter((currency) =>
+      ["ETH", "USDC"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [ArbitrumNova.chainId]: CURRENCIES[ArbitrumNova.chainId]?.filter(
+      (currency) => ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [ArbitrumGoerli.chainId]: CURRENCIES[ArbitrumGoerli.chainId]?.filter(
+      (currency) => ["AGOR", "USDC"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [ArbitrumSepolia.chainId]: CURRENCIES[ArbitrumSepolia.chainId]?.filter(
+      (currency) => ["ETH", "DERC20"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Binance.chainId]: CURRENCIES[Binance.chainId]?.filter((currency) =>
+      ["BNB", "USDC", "USDT"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [BinanceTestnet.chainId]: CURRENCIES[BinanceTestnet.chainId]?.filter(
+      (currency) => ["TBNB", "USDT"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Base.chainId]: CURRENCIES[Base.chainId]?.filter((currency) =>
+      ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [BaseGoerli.chainId]: CURRENCIES[BaseGoerli.chainId]?.filter((currency) =>
+      ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [Zora.chainId]: CURRENCIES[Zora.chainId]?.filter((currency) =>
+      ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+    [ZoraTestnet.chainId]: CURRENCIES[ZoraTestnet.chainId]?.filter((currency) =>
+      ["ETH"].includes(currency.symbol),
+    ) as CurrencyMetadata[],
+  };
 
 export type RegisterContractInput = {
   chain: string;

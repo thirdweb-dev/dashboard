@@ -1,3 +1,12 @@
+import {
+  Sepolia as SepoliaChain,
+  ArbitrumNova as ArbitrumNovaChain,
+  ArbitrumSepolia as ArbitrumSepoliaChain,
+  Base as BaseChain,
+  BaseGoerli as BaseGoerliChain,
+  Zora as ZoraChain,
+  ZoraTestnet as ZoraTestnetChain,
+} from "@thirdweb-dev/chains";
 import { ChainId, NATIVE_TOKENS } from "@thirdweb-dev/sdk";
 
 export interface CurrencyMetadata {
@@ -28,7 +37,12 @@ const Ethereum: CurrencyMetadata[] = [
   {
     address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
     name: "Polygon",
-    symbol: "WMATIC",
+    symbol: "MATIC",
+  },
+  {
+    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    name: "Wrapped Ether",
+    symbol: "WETH",
   },
 ];
 
@@ -41,6 +55,11 @@ const Goerli: CurrencyMetadata[] = [
     address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     name: "USD Coin",
     symbol: "USDC",
+  },
+  {
+    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+    name: "Wrapped Ether",
+    symbol: "WETH",
   },
 ];
 
@@ -92,9 +111,24 @@ const Mumbai: CurrencyMetadata[] = [
     symbol: "USDC",
   },
   {
+    address: "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
+    name: "USD Coin (Bridged)",
+    symbol: "USDC.e",
+  },
+  {
     name: "Tether USD",
     address: "0x3813e82e6f7098b9583FC0F33a962D02018B6803",
     symbol: "USDT",
+  },
+  {
+    name: "DERC20",
+    address: "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1",
+    symbol: "DERC20",
+  },
+  {
+    name: "CDOL",
+    address: "0x4E0068513994fD4526AEc7f558Ee572234AeeFB8",
+    symbol: "CDOL",
   },
 ];
 
@@ -143,6 +177,11 @@ const Avalanche: CurrencyMetadata[] = [
     address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
     name: "USD Coin",
     symbol: "USDC",
+  },
+  {
+    address: "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
+    name: "USD Coin (Bridged)",
+    symbol: "USDC.e",
   },
   {
     address: "0x50b7545627a5162F82A992c33b87aDc75187B218",
@@ -226,6 +265,16 @@ const BinanceMainnet: CurrencyMetadata[] = [
     name: "Binance USD",
     symbol: "BUSD",
   },
+  {
+    address: "0x55d398326f99059ff775485246999027b3197955",
+    name: "Tether USD",
+    symbol: "USDT",
+  },
+  {
+    address: "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
 ];
 
 const BinanceTestnet: CurrencyMetadata[] = [
@@ -236,6 +285,58 @@ const BinanceTestnet: CurrencyMetadata[] = [
     address: "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee",
     name: "Binance USD",
     symbol: "BUSD",
+  },
+  {
+    address: "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd",
+    name: "Tether USD",
+    symbol: "USDT",
+  },
+];
+
+const Sepolia: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[SepoliaChain.chainId].wrapped,
+  },
+];
+
+const ArbitrumNova: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[ArbitrumNovaChain.chainId].wrapped,
+  },
+];
+
+const ArbitrumSepolia: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[ArbitrumSepoliaChain.chainId].wrapped,
+  },
+  {
+    address: "0x56c4BE79A46DF3e18A243AEfECBF42e8634a3d53",
+    name: "DERC20",
+    symbol: "DERC20",
+  },
+];
+
+const Base: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[BaseChain.chainId].wrapped,
+  },
+];
+
+const BaseGoerli: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[BaseGoerliChain.chainId].wrapped,
+  },
+];
+
+const Zora: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[ZoraChain.chainId].wrapped,
+  },
+];
+
+const ZoraTestnet: CurrencyMetadata[] = [
+  {
+    ...NATIVE_TOKENS[ZoraTestnetChain.chainId].wrapped,
   },
 ];
 
@@ -254,4 +355,11 @@ export const CURRENCIES: Record<number, CurrencyMetadata[] | undefined> = {
   [ChainId.ArbitrumGoerli]: ArbitrumGoerli,
   [ChainId.BinanceSmartChainMainnet]: BinanceMainnet,
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
+  [SepoliaChain.chainId]: Sepolia,
+  [ArbitrumNovaChain.chainId]: ArbitrumNova,
+  [ArbitrumSepoliaChain.chainId]: ArbitrumSepolia,
+  [BaseChain.chainId]: Base,
+  [BaseGoerliChain.chainId]: BaseGoerli,
+  [ZoraChain.chainId]: Zora,
+  [ZoraTestnetChain.chainId]: ZoraTestnet,
 } as const;
