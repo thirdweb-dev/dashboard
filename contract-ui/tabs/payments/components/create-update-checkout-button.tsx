@@ -33,7 +33,7 @@ import {
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useMemo, useState } from "react";
-import { useContract } from "@thirdweb-dev/react";
+import { Abi, NATIVE_TOKEN_ADDRESS, useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
@@ -41,6 +41,9 @@ import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
 import { PaymentsPreviewButton } from "./preview-button";
+import { CurrencySelector } from "components/shared/CurrencySelector";
+import { PriceInput } from "contract-ui/tabs/claim-conditions/components/price-input";
+import { PaymentsMintMethodInput } from "./mint-method-input";
 
 const formInputs = [
   {
@@ -85,20 +88,30 @@ const formInputs = [
       },
     ],
   },
-  /*   {
+  {
     step: "non-tw",
     fields: [
       {
-        name: "mintMethod",
+        name: "mintFunctionName",
         label: "Mint Method",
-        type: "text",
+        type: "abiSelector",
         placeholder: "",
         required: true,
-        helper: "",
+        helper:
+          "thirdweb's minter wallet calls this method to mint to the buyer's wallet. Note: $WALLET is a required field.",
+        sideField: false,
+      },
+      {
+        name: "priceAndCurrencyAddress",
+        label: "Price per NFT",
+        type: "price",
+        placeholder: "",
+        required: true,
+        helper: "The amount to your Mint Method expects to be paid.",
         sideField: false,
       },
     ],
-  }, */
+  },
   {
     step: "branding",
     fields: [
@@ -274,6 +287,17 @@ const formInputs = [
   },
 ] as const;
 
+type CreateUpdateCheckoutDashboardInput = CreateUpdateCheckoutInput & {
+  priceAndCurrencyAddress: {
+    price: string;
+    currencyAddress: string;
+  };
+  mintFunctionName: string;
+  mintFunctionArgs: {
+    [key: string]: string;
+  };
+};
+
 interface CreateUpdateCheckoutButtonProps {
   contractId: string;
   contractAddress: string;
@@ -298,14 +322,14 @@ export const CreateUpdateCheckoutButton: React.FC<
   }, [keysQuery]);
 
   const [step, setStep] = useState<
-    "info" | /* "non-tw" | */ "branding" | "delivery" | "advanced"
+    "info" | "non-tw" | "branding" | "delivery" | "advanced"
   >("info");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createOrUpdateCheckout, isLoading } =
     usePaymentsCreateUpdateCheckout(contractAddress);
   const trackEvent = useTrack();
 
-  const values: CreateUpdateCheckoutInput = {
+  const values: CreateUpdateCheckoutDashboardInput = {
     title: checkout?.collection_title || "",
     description: checkout?.collection_description || "",
     successCallbackUrl: checkout?.success_callback_url || "",
@@ -316,8 +340,6 @@ export const CreateUpdateCheckoutButton: React.FC<
     contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
     listingId: checkout?.listing_id || "",
-    /* mintMethod: checkout?.mint_abi_function_name || {},
-    eligibilityMethod: "",*/
     tokenId: checkout?.token_id || undefined,
     twitterHandleOverride: checkout?.seller_twitter_handle || "",
     imageUrl: checkout?.image_url || "",
@@ -333,9 +355,18 @@ export const CreateUpdateCheckoutButton: React.FC<
     contractId,
     thirdwebClientId:
       checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.key) || "",
+    /* mintMethod: checkout?.mint_abi_function_name || {},
+    eligibilityMethod: "",*/
+    // dashboard only inputs
+    priceAndCurrencyAddress: {
+      price: "0",
+      currencyAddress: "",
+    },
+    mintFunctionName: "",
+    mintFunctionArgs: {},
   };
 
-  const form = useForm<CreateUpdateCheckoutInput>({
+  const form = useForm<CreateUpdateCheckoutDashboardInput>({
     defaultValues: values,
     values,
     resetOptions: {
@@ -403,10 +434,10 @@ export const CreateUpdateCheckoutButton: React.FC<
       return;
     }
     setStep((prev) => {
-      /*       if (prev === "info" && !isSupportedContract) {
+      if (prev === "info" && !isSupportedContract) {
         return "non-tw";
-      } */
-      if (prev === "info" && isSupportedContract /* || prev === "non-tw" */) {
+      }
+      if ((prev === "info" && isSupportedContract) || prev === "non-tw") {
         return "branding";
       }
       if (prev === "branding") {
@@ -426,9 +457,9 @@ export const CreateUpdateCheckoutButton: React.FC<
   };
   const handleBack = () => {
     setStep((prev) => {
-      /*       if (prev === "non-tw") {
+      if (prev === "non-tw") {
         return "info";
-      } */
+      }
       if (prev === "branding") {
         return "info";
       }
@@ -559,6 +590,49 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   }}
                                 />
                               </Box>
+                            ) : field.type === "abiSelector" ? (
+                              <PaymentsMintMethodInput
+                                form={form}
+                                abi={contract?.abi as Abi}
+                              />
+                            ) : field.type === "price" ? (
+                              <Flex
+                                gap={2}
+                                flexDir={{ base: "column", md: "row" }}
+                              >
+                                <Box
+                                  w={{ base: "100%", md: "50%" }}
+                                  minW="70px"
+                                >
+                                  <PriceInput
+                                    w="full"
+                                    value={form.watch(
+                                      "priceAndCurrencyAddress.price",
+                                    )}
+                                    onChange={(val) =>
+                                      form.setValue(
+                                        `priceAndCurrencyAddress.price`,
+                                        val,
+                                      )
+                                    }
+                                    placeholder="0"
+                                  />
+                                </Box>
+                                <CurrencySelector
+                                  value={
+                                    form.watch(
+                                      "priceAndCurrencyAddress.currencyAddress",
+                                    ) || NATIVE_TOKEN_ADDRESS
+                                  }
+                                  onChange={(e) =>
+                                    form.setValue(
+                                      `priceAndCurrencyAddress.currencyAddress`,
+                                      e.target.value,
+                                    )
+                                  }
+                                  showCustomCurrency={false}
+                                />
+                              </Flex>
                             ) : field.type === "clientId" ? (
                               apiKeys.length > 0 ? (
                                 <ApiKeysMenu
@@ -658,7 +732,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                 apiKeys.length === 0 ||
                 !form.watch("thirdwebClientId") ||
                 !form.watch("title") ||
-                !form.watch("tokenId")
+                (isErc1155 && !form.watch("tokenId"))
               }
               isLoading={form.formState.isSubmitting || isLoading}
             >

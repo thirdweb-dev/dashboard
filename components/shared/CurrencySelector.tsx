@@ -11,6 +11,7 @@ interface CurrencySelectorProps extends SelectProps {
   value: string;
   small?: boolean;
   hideDefaultCurrencies?: boolean;
+  showCustomCurrency?: boolean;
 }
 
 export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
@@ -18,6 +19,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   onChange,
   small,
   hideDefaultCurrencies,
+  showCustomCurrency = true,
   ...props
 }) => {
   const chainId = useSDKChainId();
@@ -148,7 +150,9 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             {customCurrency}
           </option>
         )}
-        {!hideDefaultCurrencies && <option value="custom">Custom ERC20</option>}
+        {!hideDefaultCurrencies && showCustomCurrency && (
+          <option value="custom">Custom ERC20</option>
+        )}
       </Select>
     </Flex>
   );
