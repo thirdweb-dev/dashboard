@@ -36,7 +36,7 @@ export const NoPaymentsEnabled: React.FC<NoPaymentsEnabledProps> = ({
           </Heading>
           <Text>
             {needsVerification
-              ? "You need to KYC first before being able to enable payments on mainnet."
+              ? "You need to KYC and KYB before being able to enable payments on mainnet."
               : isSupportedChain
               ? "You need to enable payments first to be able to create a checkout."
               : "Payments is not currently supported on this chain, you can contact us if you need this chain enabled."}
