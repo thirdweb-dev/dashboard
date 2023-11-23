@@ -90,7 +90,7 @@ const formInputs = [
     ],
   },
   {
-    step: "non-tw",
+    step: "no-detected-extensions",
     fields: [
       {
         name: "mintFunctionName",
@@ -341,7 +341,7 @@ export const CreateUpdateCheckoutButton: React.FC<
   }, [keysQuery]);
 
   const [step, setStep] = useState<
-    "info" | "non-tw" | "branding" | "delivery" | "advanced"
+    "info" | "no-detected-extensions" | "branding" | "delivery" | "advanced"
   >("info");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createOrUpdateCheckout, isLoading } =
@@ -476,9 +476,12 @@ export const CreateUpdateCheckoutButton: React.FC<
     }
     setStep((prev) => {
       if (prev === "info" && !hasDetectedExtensions) {
-        return "non-tw";
+        return "no-detected-extensions";
       }
-      if ((prev === "info" && hasDetectedExtensions) || prev === "non-tw") {
+      if (
+        (prev === "info" && hasDetectedExtensions) ||
+        prev === "no-detected-extensions"
+      ) {
         return "branding";
       }
       if (prev === "branding") {
@@ -498,7 +501,7 @@ export const CreateUpdateCheckoutButton: React.FC<
   };
   const handleBack = () => {
     setStep((prev) => {
-      if (prev === "non-tw") {
+      if (prev === "no-detected-extensions") {
         return "info";
       }
       if (prev === "branding") {
