@@ -12,6 +12,7 @@ interface CurrencySelectorProps extends SelectProps {
   small?: boolean;
   hideDefaultCurrencies?: boolean;
   showCustomCurrency?: boolean;
+  isPaymentsSelector?: boolean;
 }
 
 export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
@@ -20,6 +21,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   small,
   hideDefaultCurrencies,
   showCustomCurrency = true,
+  isPaymentsSelector = false,
   ...props
 }) => {
   const chainId = useSDKChainId();
@@ -115,7 +117,9 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
       <Select
         position="relative"
         value={
-          value?.toLowerCase() === constants.AddressZero.toLowerCase()
+          isPaymentsSelector
+            ? value
+            : value?.toLowerCase() === constants.AddressZero.toLowerCase()
             ? OtherAddressZero.toLowerCase()
             : value?.toLowerCase()
         }
@@ -134,7 +138,11 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
           currencyOptions.map((currency: CurrencyMetadata) => (
             <option
               key={currency.address}
-              value={currency.address.toLowerCase()}
+              value={
+                isPaymentsSelector
+                  ? currency.symbol
+                  : currency.address.toLowerCase()
+              }
             >
               {currency.symbol} ({currency.name})
             </option>

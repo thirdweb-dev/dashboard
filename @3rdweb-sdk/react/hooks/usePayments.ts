@@ -264,7 +264,14 @@ export type CreateUpdateCheckoutInput = {
   successCallbackUrl?: string;
   redirectAfterPayment?: boolean;
   cancelCallbackUrl?: string;
-  mintMethod?: string;
+  mintMethod?: {
+    name: string;
+    args: { [key: string]: string };
+    payment: {
+      currency: string;
+      value: string;
+    };
+  };
   eligibilityMethod?: {
     name: string;
     args: string[];

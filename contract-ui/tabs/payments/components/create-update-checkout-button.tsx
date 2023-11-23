@@ -102,7 +102,7 @@ const formInputs = [
         sideField: false,
       },
       {
-        name: "priceAndCurrencyAddress",
+        name: "priceAndCurrencySymbol",
         label: "Price per NFT",
         type: "price",
         placeholder: "",
@@ -287,14 +287,32 @@ const formInputs = [
   },
 ] as const;
 
-type CreateUpdateCheckoutDashboardInput = CreateUpdateCheckoutInput & {
-  priceAndCurrencyAddress: {
+type MintMethodInputs = {
+  priceAndCurrencySymbol: {
     price: string;
-    currencyAddress: string;
+    currencySymbol: string;
   };
   mintFunctionName: string;
   mintFunctionArgs: {
     [key: string]: string;
+  };
+};
+
+type CreateUpdateCheckoutDashboardInput = CreateUpdateCheckoutInput &
+  MintMethodInputs;
+
+const convertInputsToMintMethod = ({
+  mintFunctionName,
+  mintFunctionArgs,
+  priceAndCurrencySymbol,
+}: MintMethodInputs) => {
+  return {
+    name: mintFunctionName,
+    args: mintFunctionArgs,
+    payment: {
+      currency: priceAndCurrencySymbol.currencySymbol,
+      value: `${priceAndCurrencySymbol.price} * $QUANTITY`,
+    },
   };
 };
 
@@ -358,9 +376,9 @@ export const CreateUpdateCheckoutButton: React.FC<
     /* mintMethod: checkout?.mint_abi_function_name || {},
     eligibilityMethod: "",*/
     // dashboard only inputs
-    priceAndCurrencyAddress: {
+    priceAndCurrencySymbol: {
       price: "0",
-      currencyAddress: "",
+      currencySymbol: "",
     },
     mintFunctionName: "",
     mintFunctionArgs: {},
@@ -401,11 +419,32 @@ export const CreateUpdateCheckoutButton: React.FC<
       });
 
       form.handleSubmit((data) => {
+        // We need to filter in case an input from a different method has been rendered
+        const filteredFunctionArgs = Object.keys(data.mintFunctionArgs)
+          .filter((key) => {
+            return contract?.abi
+              ?.find((fn) => fn.name === data.mintFunctionName)
+              ?.inputs?.some((input) => input.name === key);
+          })
+          .reduce(
+            (obj: Record<string, any>, key) => {
+              obj[key] = data.mintFunctionArgs[key];
+              return obj;
+            },
+            {} as Record<string, any>,
+          );
+
+        const mintMethod = convertInputsToMintMethod({
+          mintFunctionArgs: filteredFunctionArgs,
+          mintFunctionName: data.mintFunctionName,
+          priceAndCurrencySymbol: data.priceAndCurrencySymbol,
+        });
         createOrUpdateCheckout(
           {
             checkoutId,
             ...data,
             limitPerTransaction: parseInt(String(data.limitPerTransaction)),
+            ...(!isSupportedContract && { mintMethod }),
           },
           {
             onSuccess: () => {
@@ -607,11 +646,11 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   <PriceInput
                                     w="full"
                                     value={form.watch(
-                                      "priceAndCurrencyAddress.price",
+                                      "priceAndCurrencySymbol.price",
                                     )}
                                     onChange={(val) =>
                                       form.setValue(
-                                        `priceAndCurrencyAddress.price`,
+                                        `priceAndCurrencySymbol.price`,
                                         val,
                                       )
                                     }
@@ -621,16 +660,17 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 <CurrencySelector
                                   value={
                                     form.watch(
-                                      "priceAndCurrencyAddress.currencyAddress",
+                                      "priceAndCurrencySymbol.currencySymbol",
                                     ) || NATIVE_TOKEN_ADDRESS
                                   }
                                   onChange={(e) =>
                                     form.setValue(
-                                      `priceAndCurrencyAddress.currencyAddress`,
+                                      `priceAndCurrencySymbol.currencySymbol`,
                                       e.target.value,
                                     )
                                   }
                                   showCustomCurrency={false}
+                                            isPaymentsSelector
                                 />
                               </Flex>
                             ) : field.type === "clientId" ? (
