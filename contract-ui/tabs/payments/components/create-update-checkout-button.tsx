@@ -373,15 +373,16 @@ export const CreateUpdateCheckoutButton: React.FC<
     contractId,
     thirdwebClientId:
       checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.key) || "",
-    /* mintMethod: checkout?.mint_abi_function_name || {},
-    eligibilityMethod: "",*/
-    // dashboard only inputs
+    // dashboard only inputs, parsing mintMethod
     priceAndCurrencySymbol: {
-      price: "0",
-      currencySymbol: "",
+      price:
+        parseInt(checkout?.contract_args.mintMethod.payment.value).toString() ||
+        "0",
+      currencySymbol:
+        checkout?.contract_args.mintMethod.payment.currency || "ETH",
     },
-    mintFunctionName: "",
-    mintFunctionArgs: {},
+    mintFunctionName: checkout?.contract_args.mintMethod.name || "",
+    mintFunctionArgs: checkout?.contract_args.mintMethod.args || {},
   };
 
   const form = useForm<CreateUpdateCheckoutDashboardInput>({
@@ -670,7 +671,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                                     )
                                   }
                                   showCustomCurrency={false}
-                                            isPaymentsSelector
+                                  isPaymentsSelector
                                 />
                               </Flex>
                             ) : field.type === "clientId" ? (
