@@ -28,6 +28,7 @@ import {
   LinkButton,
 } from "tw-components";
 import {
+  ChainIdToSupportedCurrencies,
   CreateUpdateCheckoutInput,
   isPaymentsSupported,
   usePaymentsCreateUpdateCheckout,
@@ -375,9 +376,9 @@ export const CreateUpdateCheckoutButton: React.FC<
       checkout?.thirdweb_client_id || (!checkoutId && apiKeys[0]?.key) || "",
     // dashboard only inputs, parsing mintMethod
     priceAndCurrencySymbol: {
-      price:
-        parseInt(checkout?.contract_args.mintMethod.payment.value).toString() ||
-        "0",
+      price: parseInt(
+        checkout?.contract_args.mintMethod.payment.value || 0,
+      ).toString(),
       currencySymbol:
         checkout?.contract_args.mintMethod.payment.currency || "ETH",
     },
@@ -672,6 +673,13 @@ export const CreateUpdateCheckoutButton: React.FC<
                                   }
                                   showCustomCurrency={false}
                                   isPaymentsSelector
+                                  defaultCurrencies={
+                                    contract?.chainId
+                                      ? ChainIdToSupportedCurrencies[
+                                          contract?.chainId
+                                        ]
+                                      : []
+                                  }
                                 />
                               </Flex>
                             ) : field.type === "clientId" ? (

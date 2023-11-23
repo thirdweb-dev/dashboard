@@ -56,6 +56,7 @@ import {
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
+import { OtherAddressZero } from "utils/zeroAddress";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -145,66 +146,71 @@ export const PaperChainToChainId: Record<string, number> = {
   BaseGoerli: BaseGoerli.chainId,
 };
 
+interface SupportedCurrenciesMap {
+  [key: number]: string[];
+}
+
+const supportedCurrenciesMap: SupportedCurrenciesMap = {
+  [Ethereum.chainId]: ["ETH", "USDC", "WETH", "MATIC"],
+  [Goerli.chainId]: ["ETH", "USDC", "WETH"],
+  [Sepolia.chainId]: ["ETH"],
+  [Polygon.chainId]: ["MATIC", "WETH", "USDC", "USDC.e"],
+  [Mumbai.chainId]: ["MATIC", "USDC", "USDC.e", "DERC20", "CDOL"],
+  [Avalanche.chainId]: ["AVAX", "USDC", "USDC.e"],
+  [AvalancheFuji.chainId]: ["AVAX"],
+  [Optimism.chainId]: ["ETH", "USDC"],
+  [OptimismGoerli.chainId]: ["ETH"],
+  [Arbitrum.chainId]: ["ETH", "USDC"],
+  [ArbitrumNova.chainId]: ["ETH"],
+  [ArbitrumGoerli.chainId]: ["AGOR", "USDC"],
+  [ArbitrumSepolia.chainId]: ["ETH", "DERC20"],
+  [Binance.chainId]: ["BNB", "USDC", "USDT"],
+  [BinanceTestnet.chainId]: ["TBNB", "USDT"],
+  [Base.chainId]: ["ETH"],
+  [BaseGoerli.chainId]: ["ETH"],
+  [Zora.chainId]: ["ETH"],
+  [ZoraTestnet.chainId]: ["ETH"],
+};
+
+const ChainSymbolToChainName: Record<string, string> = {
+  ETH: "Ether",
+  MATIC: "Matic",
+  AVAX: "Avalanche",
+  AGOR: "Arbitrum Goerli Ether",
+};
+
 export const ChainIdToSupportedCurrencies: Record<number, CurrencyMetadata[]> =
-  {
-    [Ethereum.chainId]: CURRENCIES[Ethereum.chainId]?.filter((currency) =>
-      ["ETH", "USDC", "WETH", "MATIC"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Goerli.chainId]: CURRENCIES[Goerli.chainId]?.filter((currency) =>
-      ["ETH", "USDC", "WETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Sepolia.chainId]: CURRENCIES[Sepolia.chainId]?.filter((currency) =>
-      ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Polygon.chainId]: CURRENCIES[Polygon.chainId]?.filter((currency) =>
-      ["MATIC", "WETH", "USDC", "USDC.e"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Mumbai.chainId]: CURRENCIES[Mumbai.chainId]?.filter((currency) =>
-      ["MATIC", "USDC", "USDC.e", "DERC20", "CDOL"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Avalanche.chainId]: CURRENCIES[Avalanche.chainId]?.filter((currency) =>
-      ["AVAX", "USDC", "USDC.e"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [AvalancheFuji.chainId]: CURRENCIES[AvalancheFuji.chainId]?.filter(
-      (currency) => ["AVAX"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Optimism.chainId]: CURRENCIES[Optimism.chainId]?.filter((currency) =>
-      ["ETH", "USDC"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [OptimismGoerli.chainId]: CURRENCIES[OptimismGoerli.chainId]?.filter(
-      (currency) => ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Arbitrum.chainId]: CURRENCIES[Arbitrum.chainId]?.filter((currency) =>
-      ["ETH", "USDC"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [ArbitrumNova.chainId]: CURRENCIES[ArbitrumNova.chainId]?.filter(
-      (currency) => ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [ArbitrumGoerli.chainId]: CURRENCIES[ArbitrumGoerli.chainId]?.filter(
-      (currency) => ["AGOR", "USDC"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [ArbitrumSepolia.chainId]: CURRENCIES[ArbitrumSepolia.chainId]?.filter(
-      (currency) => ["ETH", "DERC20"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Binance.chainId]: CURRENCIES[Binance.chainId]?.filter((currency) =>
-      ["BNB", "USDC", "USDT"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [BinanceTestnet.chainId]: CURRENCIES[BinanceTestnet.chainId]?.filter(
-      (currency) => ["TBNB", "USDT"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Base.chainId]: CURRENCIES[Base.chainId]?.filter((currency) =>
-      ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [BaseGoerli.chainId]: CURRENCIES[BaseGoerli.chainId]?.filter((currency) =>
-      ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [Zora.chainId]: CURRENCIES[Zora.chainId]?.filter((currency) =>
-      ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-    [ZoraTestnet.chainId]: CURRENCIES[ZoraTestnet.chainId]?.filter((currency) =>
-      ["ETH"].includes(currency.symbol),
-    ) as CurrencyMetadata[],
-  };
+  Object.keys(supportedCurrenciesMap).reduce<
+    Record<number, CurrencyMetadata[]>
+  >((acc, chainIdStr) => {
+    const chainId = parseInt(chainIdStr, 10);
+
+    if (!isNaN(chainId)) {
+      const chainCurrencies = CURRENCIES[chainId] || [];
+      const supportedCurrencies = supportedCurrenciesMap[chainId] || [];
+
+      if (supportedCurrencies.length > 0) {
+        const firstSupportedCurrencyName = supportedCurrencies[0];
+
+        const defaultCurrency: CurrencyMetadata = {
+          address: OtherAddressZero.toLowerCase(),
+          name: ChainSymbolToChainName[firstSupportedCurrencyName] || "Ether",
+          symbol: firstSupportedCurrencyName,
+        };
+
+        acc[chainId] = [
+          defaultCurrency,
+          ...chainCurrencies.filter(
+            (currency) =>
+              supportedCurrencies.includes(currency.symbol) &&
+              currency.symbol !== firstSupportedCurrencyName,
+          ),
+        ] as CurrencyMetadata[];
+      }
+    }
+
+    return acc;
+  }, {});
 
 export type RegisterContractInput = {
   chain: string;

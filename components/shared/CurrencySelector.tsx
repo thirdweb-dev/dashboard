@@ -13,6 +13,7 @@ interface CurrencySelectorProps extends SelectProps {
   hideDefaultCurrencies?: boolean;
   showCustomCurrency?: boolean;
   isPaymentsSelector?: boolean;
+  defaultCurrencies?: CurrencyMetadata[];
 }
 
 export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
@@ -22,13 +23,19 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   hideDefaultCurrencies,
   showCustomCurrency = true,
   isPaymentsSelector = false,
+  defaultCurrencies = [],
   ...props
 }) => {
   const chainId = useSDKChainId();
   const configuredChainsRecord = useSupportedChainsRecord();
   const chain = chainId ? configuredChainsRecord[chainId] : undefined;
 
-  const helperCurrencies = chainId ? CURRENCIES[chainId] || [] : [];
+  const helperCurrencies =
+    defaultCurrencies.length > 0
+      ? defaultCurrencies
+      : chainId
+      ? CURRENCIES[chainId] || []
+      : [];
 
   const [isAddingCurrency, setIsAddingCurrency] = useState(false);
   const [editCustomCurrency, setEditCustomCurrency] = useState("");
@@ -53,11 +60,15 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
 
   const currencyOptions: CurrencyMetadata[] =
     [
-      {
-        address: OtherAddressZero.toLowerCase(),
-        name: chain?.nativeCurrency.name || "Native Token",
-        symbol: chain?.nativeCurrency.symbol || "",
-      },
+      ...(isPaymentsSelector
+        ? []
+        : [
+            {
+              address: OtherAddressZero.toLowerCase(),
+              name: chain?.nativeCurrency.name || "Native Token",
+              symbol: chain?.nativeCurrency.symbol || "",
+            },
+          ]),
       ...(hideDefaultCurrencies ? [] : helperCurrencies),
     ] || [];
 
@@ -148,6 +159,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             </option>
           ))}
         {isCustomCurrency &&
+          !isPaymentsSelector &&
           initialValue !== OtherAddressZero.toLowerCase() && (
             <option key={initialValue} value={initialValue}>
               {initialValue}

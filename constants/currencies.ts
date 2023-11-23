@@ -1,12 +1,4 @@
-import {
-  Sepolia as SepoliaChain,
-  ArbitrumNova as ArbitrumNovaChain,
-  ArbitrumSepolia as ArbitrumSepoliaChain,
-  Base as BaseChain,
-  BaseGoerli as BaseGoerliChain,
-  Zora as ZoraChain,
-  ZoraTestnet as ZoraTestnetChain,
-} from "@thirdweb-dev/chains";
+import { ArbitrumSepolia as ArbitrumSepoliaChain } from "@thirdweb-dev/chains";
 import { ChainId, NATIVE_TOKENS } from "@thirdweb-dev/sdk";
 
 export interface CurrencyMetadata {
@@ -39,11 +31,6 @@ const Ethereum: CurrencyMetadata[] = [
     name: "Polygon",
     symbol: "MATIC",
   },
-  {
-    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    name: "Wrapped Ether",
-    symbol: "WETH",
-  },
 ];
 
 const Goerli: CurrencyMetadata[] = [
@@ -55,11 +42,6 @@ const Goerli: CurrencyMetadata[] = [
     address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     name: "USD Coin",
     symbol: "USDC",
-  },
-  {
-    address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-    name: "Wrapped Ether",
-    symbol: "WETH",
   },
 ];
 
@@ -293,50 +275,11 @@ const BinanceTestnet: CurrencyMetadata[] = [
   },
 ];
 
-const Sepolia: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[SepoliaChain.chainId].wrapped,
-  },
-];
-
-const ArbitrumNova: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[ArbitrumNovaChain.chainId].wrapped,
-  },
-];
-
 const ArbitrumSepolia: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[ArbitrumSepoliaChain.chainId].wrapped,
-  },
   {
     address: "0x56c4BE79A46DF3e18A243AEfECBF42e8634a3d53",
     name: "DERC20",
     symbol: "DERC20",
-  },
-];
-
-const Base: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[BaseChain.chainId].wrapped,
-  },
-];
-
-const BaseGoerli: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[BaseGoerliChain.chainId].wrapped,
-  },
-];
-
-const Zora: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[ZoraChain.chainId].wrapped,
-  },
-];
-
-const ZoraTestnet: CurrencyMetadata[] = [
-  {
-    ...NATIVE_TOKENS[ZoraTestnetChain.chainId].wrapped,
   },
 ];
 
@@ -355,11 +298,5 @@ export const CURRENCIES: Record<number, CurrencyMetadata[] | undefined> = {
   [ChainId.ArbitrumGoerli]: ArbitrumGoerli,
   [ChainId.BinanceSmartChainMainnet]: BinanceMainnet,
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
-  [SepoliaChain.chainId]: Sepolia,
-  [ArbitrumNovaChain.chainId]: ArbitrumNova,
   [ArbitrumSepoliaChain.chainId]: ArbitrumSepolia,
-  [BaseChain.chainId]: Base,
-  [BaseGoerliChain.chainId]: BaseGoerli,
-  [ZoraChain.chainId]: Zora,
-  [ZoraTestnetChain.chainId]: ZoraTestnet,
 } as const;
