@@ -1,4 +1,4 @@
-import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Container, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 import { StaticImageData } from "next/image";
@@ -7,6 +7,7 @@ import { Heading, Text, TrackedLink } from "tw-components";
 interface MetricItem {
   title: string;
   description: string;
+  colSpan?: number;
 }
 
 interface CardWithMetricsProps {
@@ -68,16 +69,18 @@ const CardWithMetric = ({
           </Text>
         </Flex>
 
-        <SimpleGrid columns={3} alignItems="center" mt={8}>
+        <SimpleGrid columns={4} placeItems="center" mt={8}>
           {items.map((item, index) => (
-            <Flex key={index} flexDir="column" flex={1}>
-              <Heading size="title.xs" color="white">
-                {item.title}
-              </Heading>
-              <Text size="body.sm" mt={1}>
-                {item.description}
-              </Text>
-            </Flex>
+            <GridItem colSpan={item.colSpan ? item.colSpan : 1} key={index}>
+              <Flex flex={1} flexDir="column">
+                <Heading size="title.xs" color="white">
+                  {item.title}
+                </Heading>
+                <Text size="body.sm" mt={1}>
+                  {item.description}
+                </Text>
+              </Flex>
+            </GridItem>
           ))}
         </SimpleGrid>
       </Flex>
