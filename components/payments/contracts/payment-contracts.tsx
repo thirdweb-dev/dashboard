@@ -12,6 +12,7 @@ import {
   validPaymentsChainIds,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useEffect, useState } from "react";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 
 export const PaymentContracts = () => {
   const address = useAddress();
@@ -20,6 +21,7 @@ export const PaymentContracts = () => {
     ContractWithMetadata[]
   >([]);
   const [isFilteringLoading, setIsFilteringLoading] = useState(true);
+  const { data: account } = useAccount();
 
   useEffect(() => {
     const filterContractsAsync = async (contracts: ContractWithMetadata[]) => {
@@ -72,13 +74,14 @@ export const PaymentContracts = () => {
             <Text>Loading contracts</Text>
           </Flex>
         </Center>
-      ) : (
+      ) : account?.id ? (
         <PaymentContractsTable
           paymentContracts={filteredContracts}
+          accountId={account.id}
           isLoading={deployedContracts.isLoading}
           isFetched={deployedContracts.isFetched}
         />
-      )}
+      ) : null}
     </Flex>
   );
 };
