@@ -4,9 +4,10 @@ import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
 import Image from "next/image";
 import { PLANS } from "utils/pricing";
 import { ReactNode } from "react";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 
 interface GatedFeatureProps {
-  hadTrial: boolean;
+  children: ReactNode;
   title: string;
   description: ReactNode;
   imgSrc: string;
@@ -16,7 +17,7 @@ interface GatedFeatureProps {
 }
 
 export const GatedFeature: React.FC<GatedFeatureProps> = ({
-  hadTrial,
+  children,
   title,
   description,
   imgSrc,
@@ -24,7 +25,18 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
   imgHeight,
   trackingLabel,
 }) => {
+  const meQuery = useAccount();
+  const { data: account } = meQuery;
+
   const bg = useColorModeValue("backgroundCardHighlight", "transparent");
+
+  if (!account) {
+    return null;
+  }
+
+  if (account.advancedEnabled) {
+    return children;
+  }
 
   return (
     <Card
@@ -74,7 +86,7 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
               py={6}
               px={6}
             >
-              {hadTrial
+              {account.trialPeriodEndedAt
                 ? "Upgrade"
                 : `Start a Free ${PLANS.growth.trialPeriodDays} Day Trial`}
             </TrackedLinkButton>

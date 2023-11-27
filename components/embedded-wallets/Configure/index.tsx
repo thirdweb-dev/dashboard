@@ -206,22 +206,15 @@ export const Configure: React.FC<ConfigureProps> = ({
               </HStack>
             </FormControl>
 
-            {account &&
-              !account.advancedEnabled &&
-              !!form.watch("customAuthentication") && (
-                <GatedFeature
-                  hadTrial={!!account.trialPeriodEndedAt}
-                  title="Custom auth is an advanced feature."
-                  description="Integrate your custom auth server with our embedded wallets solution."
-                  imgSrc="/assets/dashboard/features/custom_auth.png"
-                  imgWidth={240}
-                  imgHeight={240}
-                  trackingLabel="customAuthEws"
-                />
-              )}
-
-            {account?.advancedEnabled &&
-              !!form.watch("customAuthentication") && (
+            {!!form.watch("customAuthentication") && (
+              <GatedFeature
+                title="Custom auth is an advanced feature."
+                description="Integrate your custom auth server with our embedded wallets solution."
+                imgSrc="/assets/dashboard/features/custom_auth.png"
+                imgWidth={240}
+                imgHeight={240}
+                trackingLabel="customAuthEws"
+              >
                 <Card p={6} bg={bg}>
                   <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
                     <FormControl
@@ -290,7 +283,8 @@ export const Configure: React.FC<ConfigureProps> = ({
                     </FormControl>
                   </Flex>
                 </Card>
-              )}
+              </GatedFeature>
+            )}
 
             <Divider />
 
