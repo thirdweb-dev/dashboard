@@ -352,7 +352,7 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
-    hoverBackground: "#0053FF",
+    hoverBackground: "#622AFF",
   },
   {
     title: "Coinbase",
@@ -373,7 +373,7 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
-    hoverBackground: "#765BFF",
+    hoverBackground: "#0053FF",
   },
   {
     title: "Mirror",
@@ -397,6 +397,6 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/mirror-creators-build-loyal-audiences-with-subscriber-nfts",
-    hoverBackground: "#730FE6",
+    hoverBackground: "#007CFF",
   },
 ];
