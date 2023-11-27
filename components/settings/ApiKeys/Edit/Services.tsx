@@ -99,83 +99,78 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
 
               {service.name === "embeddedWallets" && srv.enabled && (
                 <Flex flexDir="column" gap={6}>
-                  {!account.advancedEnabled ? (
-                    <GatedFeature
-                      hadTrial={!!account.trialPeriodEndedAt}
-                      title="Custom email logo and name is an advanced feature."
-                      description="Pass a custom logo and app name to be used in the emails sent to users."
-                      imgSrc="/assets/dashboard/features/custom_email.png"
-                      imgWidth={240}
-                      imgHeight={240}
-                      trackingLabel="customEmailLogoAndName"
-                    />
-                  ) : (
-                    <>
-                      <FormControl
-                        isInvalid={
-                          !!form.getFieldState(
+                  <GatedFeature
+                    title="Custom email logo and name is an advanced feature."
+                    description="Pass a custom logo and app name to be used in the emails sent to users."
+                    imgSrc="/assets/dashboard/features/custom_email.png"
+                    imgWidth={240}
+                    imgHeight={240}
+                    trackingLabel="customEmailLogoAndName"
+                  >
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
+                          `services.${idx}.applicationName`,
+                          form.formState,
+                        ).error
+                      }
+                    >
+                      <Box>
+                        <FormLabel mt={3}>Application Name</FormLabel>
+                        <Text>
+                          It will show up in the emails sent to users. Defaults
+                          to your API Key&apos;s name
+                        </Text>
+                      </Box>
+                      <Input
+                        disabled={!srv.enabled}
+                        placeholder="Application Name"
+                        type="text"
+                        {...form.register(`services.${idx}.applicationName`)}
+                      />
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
                             `services.${idx}.applicationName`,
                             form.formState,
-                          ).error
+                          ).error?.message
                         }
-                      >
-                        <Box>
-                          <FormLabel mt={3}>Application Name</FormLabel>
-                          <Text>
-                            It will show up in the emails sent to users.
-                            Defaults to your API Key&apos;s name
-                          </Text>
-                        </Box>
-                        <Input
-                          disabled={!srv.enabled}
-                          placeholder="Application Name"
-                          type="text"
-                          {...form.register(`services.${idx}.applicationName`)}
-                        />
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `services.${idx}.applicationName`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
+                      </FormErrorMessage>
+                    </FormControl>
 
-                      <FormControl
-                        isInvalid={
-                          !!form.getFieldState(
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
+                          `services.${idx}.applicationImageUrl`,
+                          form.formState,
+                        ).error
+                      }
+                    >
+                      <Box>
+                        <FormLabel mt={3}>Application Image URL</FormLabel>
+                        <Text>
+                          It will show up in the emails sent to users. The image
+                          must be squared
+                        </Text>
+                      </Box>
+                      <Input
+                        disabled={!srv.enabled}
+                        placeholder="https://"
+                        type="text"
+                        {...form.register(
+                          `services.${idx}.applicationImageUrl`,
+                        )}
+                      />
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
                             `services.${idx}.applicationImageUrl`,
                             form.formState,
-                          ).error
+                          ).error?.message
                         }
-                      >
-                        <Box>
-                          <FormLabel mt={3}>Application Image URL</FormLabel>
-                          <Text>
-                            It will show up in the emails sent to users. The
-                            image must be squared
-                          </Text>
-                        </Box>
-                        <Input
-                          disabled={!srv.enabled}
-                          placeholder="https://"
-                          type="text"
-                          {...form.register(
-                            `services.${idx}.applicationImageUrl`,
-                          )}
-                        />
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `services.${idx}.applicationImageUrl`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
-                    </>
-                  )}
+                      </FormErrorMessage>
+                    </FormControl>
+                  </GatedFeature>
 
                   <FormControl
                     isInvalid={
