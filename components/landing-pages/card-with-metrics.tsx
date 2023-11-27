@@ -54,7 +54,7 @@ const CardWithMetric = ({
         _hover={{
           background: hoverBackground,
         }}
-        rounded="lg"
+        rounded="xl"
         h="full"
       >
         <Flex flex={1}>
