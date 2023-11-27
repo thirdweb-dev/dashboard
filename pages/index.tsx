@@ -88,11 +88,12 @@ const HomePage: ThirdwebNextPage = () => {
             title={
               <Center flexDir="column">
                 <Heading size="display.sm" color="white">
-                  Explore solutions
+                  Trusted by the best
                 </Heading>
 
                 <Text size="body.lg" mt={6}>
-                  thirdweb powers the best web3 projects across verticals
+                  Powering web3 apps across verticals — from onchain games to
+                  creator platforms.
                 </Text>
               </Center>
             }
