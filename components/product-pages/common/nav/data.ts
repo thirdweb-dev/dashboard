@@ -358,8 +358,8 @@ export const metrics = [
     title: "Coinbase",
     description:
       "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management via the Coinbase Wallet app.",
-    image: require("public/assets/landingpage/case-study.png"),
-    mobileImage: require("public/assets/landingpage/mobile-case-study.png"),
+    image: require("public/assets/landingpage/coinbase.png"),
+    mobileImage: require("public/assets/landingpage/mobile-coinbase.png"),
     items: [
       {
         title: "1,000+",
