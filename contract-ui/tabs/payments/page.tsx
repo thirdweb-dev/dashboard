@@ -10,6 +10,7 @@ import { NoWalletConnectedPayments } from "./components/no-wallet-connected-paym
 import { NoPaymentsEnabled } from "./components/no-payments-enabled";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { PaymentsTransactions } from "./components/payments-transactions";
 
 interface ContractPaymentsPageProps {
   contractAddress?: string;
@@ -69,6 +70,7 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
             contractId={paymentContract?.id}
             contractAddress={contractAddress}
           />
+          <PaymentsTransactions contractId={paymentContract?.id} />
           <PaymentsAnalytics contractId={paymentContract?.id} />
         </Flex>
       ) : isError ? (

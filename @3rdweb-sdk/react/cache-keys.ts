@@ -91,6 +91,8 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "checkout", checkoutId] as const,
   settings: (accountId: string) =>
     [...paymentsKeys.all, "settings", accountId] as const,
+  transactions: (checkoutId: string) =>
+    [...paymentsKeys.all, "transactions", checkoutId] as const,
 };
 
 export const contractKeys = {

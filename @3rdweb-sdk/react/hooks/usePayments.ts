@@ -52,6 +52,10 @@ import {
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { OtherAddressZero } from "utils/zeroAddress";
+import {
+  TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
+  useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery,
+} from "graphql/queries/__generated__/TransactionsAndAttemptsPerPageByCheckoutId.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -832,7 +836,7 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
         )[0],
       };
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!paymentsSellerId && !!address && !!checkoutId },
   );
 }
 
@@ -858,6 +862,35 @@ export function usePaymentsSellerByAccountId(accountId: string) {
       return data && data?.seller.length > 0
         ? data.seller[0]
         : ({} as GetSellerByThirdwebAccountIdQuery["seller"][number]);
+    },
+    { enabled: !!paymentsSellerId && !!address && !!accountId },
+  );
+}
+
+export function usePaymentsTransactions(checkoutId: string, accountId: string) {
+  invariant(checkoutId, "checkoutId is required");
+  invariant(accountId, "accountId is required");
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const [getTransactions] =
+    useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery();
+
+  return useQuery(
+    paymentsKeys.transactions(checkoutId),
+    async () => {
+      const { data, error } = await getTransactions({
+        variables: {
+          ownerId: paymentsSellerId,
+          checkoutId,
+          limit: 100,
+          offset: 0,
+        } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
+      });
+
+      if (error) {
+        console.error(error);
+      }
+      return data;
     },
     { enabled: !!paymentsSellerId && !!address },
   );
