@@ -1,14 +1,26 @@
 import { PaymentsWebhooksType, isValidWebhookUrl } from "@3rdweb-sdk/react/hooks/usePayments";
 import {
   ButtonGroup,
+  FormLabel,
   FormControl,
   Icon,
   IconButton,
-  Input
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Flex,
+  useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import React from "react";
+import { format } from "date-fns";
 import { Button, Text } from "tw-components";
 import { BiPencil } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
@@ -78,6 +90,9 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   const editWebhookRef = React.useRef<HTMLInputElement>(null);
   const createWebhookRef = React.useRef<HTMLInputElement>(null);
 
+  const [webhookToRevoke, setWebhookToRevoke] = React.useState<TableWebhookType>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   React.useEffect(() => {
     // When the editId changes, focus on the corresponding input
     if (editId && editWebhookRef.current) {
@@ -97,22 +112,31 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
     setEditId(""); // Reset the editing state
   };
 
-  const onAccept = () => {
+  const onAcceptEdit = () => {
     if (editWebhookRef.current) {
       onUpdate(editId, editWebhookRef.current.value);
       setEditId("");
     }
   };
 
-  const _onDelete = (webhook: TableWebhookType) => {
-    if (webhook.id) {
-      onDelete(webhook.id);
+  const onConfirmDelete = () => {
+    onClose();
+    if (webhookToRevoke && webhookToRevoke.id) {
+      onDelete(webhookToRevoke.id);
     }
   }
 
   const _onCreate = () => {
     if (createWebhookRef.current) {
       onCreate(createWebhookRef.current.value);
+    }
+  }
+
+  const _onDelete = (webhook: TableWebhookType) => {
+    if(webhook.id)
+    {
+      setWebhookToRevoke(webhook);
+      onOpen();
     }
   }
 
@@ -158,7 +182,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
               <>
                 <ButtonGroup variant="ghost" gap={2}>
                   <IconButton
-                    onClick={onAccept}
+                    onClick={onAcceptEdit}
                     icon={<Icon as={FaCheck} boxSize={4} />}
                     aria-label="Accept"
                   />
@@ -211,15 +235,56 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
     data.push({ url: "Enter Webhook Url" });
   }
 
-
   return (
-    <TWTable
-      title="webhooks"
-      data={data}
-      columns={columns}
-      isLoading={isLoading}
-      isFetched={isFetched}
-    />
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete webhook</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {webhookToRevoke && (
+              <Stack gap={4}>
+                <Text>Are you sure you want to delete this webook?</Text>
+                <FormControl>
+                  <FormLabel>Type</FormLabel>
+                  <Text>{webhookToRevoke?.isProduction ? "Production": "Testnet"}</Text>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>URL</FormLabel>
+                  <Text>{webhookToRevoke?.url}</Text>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Created at</FormLabel>
+                  <Text>
+                    {format(
+                      new Date(webhookToRevoke?.createdAt ?? ""),
+                      "PP pp z",
+                    )}
+                  </Text>
+                </FormControl>
+              </Stack>
+            )}
+          </ModalBody>
+
+          <ModalFooter as={Flex} gap={3}>
+            <Button type="button" onClick={onClose} variant="ghost">
+              Cancel
+            </Button>
+            <Button type="submit" colorScheme="red" onClick={onConfirmDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <TWTable
+        title="webhooks"
+        data={data}
+        columns={columns}
+        isLoading={isLoading}
+        isFetched={isFetched}
+      />
+    </>
   );
 
 };
