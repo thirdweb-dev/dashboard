@@ -169,7 +169,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   }, [account, stepsCompleted, saving, onOpen]);
 
   useEffect(() => {
-    if (!stepsCompleted && account) {
+    if (account) {
       const paymentCompleted = validPayment || paymentVerification;
 
       setStepsCompleted({
@@ -182,7 +182,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, stepsCompleted, validPayment, paymentVerification]);
+  }, [account, validPayment, paymentVerification]);
 
   const showSteps = [
     AccountStatus.NoCustomer,
