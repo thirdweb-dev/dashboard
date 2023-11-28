@@ -139,7 +139,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
       // used for alerts
       const _webhook = (isProduction ? productionWebhooks : testnetWebhooks).find(item => item.id === webhookId);
       setIsUpdateDelete(false);
-      setCurrentUpdateWebhook(_webhook);
+      setCurrentUpdateWebhook({ ..._webhook!, url: newUrl! });
 
       // send the request
       updateWebhook({ webhookId, url: newUrl });

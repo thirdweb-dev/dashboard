@@ -45,39 +45,30 @@ type TableWebhookType = PaymentsWebhooksType | AddWebhookType;
 
 const columnHelper = createColumnHelper<TableWebhookType>();
 
-
 interface UrlInputFieldProps {
   webhookUrl: string;
-  onBlur: () => void;
+  onChange: (value: string) => void;
 };
 
-const UrlInputField = React.forwardRef<HTMLInputElement, UrlInputFieldProps>(
-  ({ webhookUrl, onBlur }, ref) => {
-    const [inputValue, setInputValue] = React.useState(webhookUrl);
-    const isValid = isValidWebhookUrl(inputValue);
-
-    const handleOnBlur = () => {
-
-      setTimeout(onBlur, 100);
-    }
-
+const UrlInputField = React.memo(React.forwardRef<HTMLInputElement, UrlInputFieldProps>(
+  ({ webhookUrl, onChange }, ref) => {
+    const isValid = isValidWebhookUrl(webhookUrl);
     return (
-      <FormControl isInvalid={!isValid && !!inputValue}>
+      <FormControl isInvalid={!isValid && !!webhookUrl}>
         <Input
           ref={ref}
           type="url"
           id="webhook-url"
           placeholder="Webhook URL"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onBlur={handleOnBlur}
+          value={webhookUrl}
+          onChange={(e) => onChange(e.target.value)}
         />
       </FormControl>
     );
   }
-);
+));
 
-export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
+export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React.memo(({
   webhooks,
   onUpdate,
   onDelete,
@@ -86,6 +77,9 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   isFetched
 }) => {
   const [editId, setEditId] = React.useState<PaymentsWebhooksType["id"]>("");
+
+  const [editUrl, setEditUrl] = React.useState("");
+  const [createUrl, setCreateUrl] = React.useState("");
 
   const editWebhookRef = React.useRef<HTMLInputElement>(null);
   const createWebhookRef = React.useRef<HTMLInputElement>(null);
@@ -104,18 +98,23 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
 
   const onEdit = (webhook: TableWebhookType) => {
     if (webhook.id) {
+      console.log("setting edit!");
       setEditId(webhook.id);
+      setEditUrl(webhook.url!);
     }
   };
 
-  const onCancelEdit = () => {
+  const onCancelEdit = React.useCallback(() => {
+    console.log("Cancel edit!");
     setEditId(""); // Reset the editing state
-  };
+    setEditUrl("");
+  }, []);
 
   const onAcceptEdit = () => {
     if (editWebhookRef.current) {
-      onUpdate(editId, editWebhookRef.current.value);
+      onUpdate(editId, editUrl);
       setEditId("");
+      setEditUrl("");
     }
   };
 
@@ -127,8 +126,9 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   }
 
   const _onCreate = () => {
-    if (createWebhookRef.current) {
-      onCreate(createWebhookRef.current.value);
+    if (createUrl) {
+      onCreate(createUrl);
+      setCreateUrl("");
     }
   }
 
@@ -151,8 +151,8 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
             return (
               <UrlInputField
                 ref={editWebhookRef}
-                webhookUrl={cell.row.original.url ?? ""}
-                onBlur={onCancelEdit}
+                webhookUrl={editUrl}
+                onChange={setEditUrl}
               />
             );
           }
@@ -164,8 +164,8 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
           return (
             <UrlInputField
               ref={createWebhookRef}
-              webhookUrl=""
-              onBlur={() => { }}
+              webhookUrl={createUrl}
+              onChange={setCreateUrl}
             />
           )
         }
@@ -200,7 +200,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
               <>
                 <ButtonGroup variant="ghost" gap={2}>
                   <IconButton
-                    onClick={() => { onEdit(cell.row.original); }} // set 
+                    onClick={(e) => { onEdit(cell.row.original); }} // set 
                     icon={<Icon as={BiPencil} boxSize={4} />}
                     aria-label="Edit"
                   />
@@ -287,4 +287,4 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
     </>
   );
 
-};
+});
