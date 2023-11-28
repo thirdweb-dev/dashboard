@@ -2,11 +2,14 @@ import {
   Box,
   Flex,
   GridItem,
+  ResponsiveValue,
   SimpleGrid,
+  SimpleGridProps,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
+import { ReactNode } from "react";
 import { Heading, Text } from "tw-components";
 
 interface LandingShowcaseImageProps {
@@ -15,8 +18,10 @@ interface LandingShowcaseImageProps {
   titleWithGradient?: string;
   gradient?: string;
   description: string;
+  customDescription?: ReactNode;
   image: StaticImageData;
   imagePosition?: "left" | "right";
+  placeItems?: SimpleGridProps["placeItems"];
 }
 
 export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
@@ -27,10 +32,12 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
   description,
   image,
   imagePosition = "right",
+  placeItems = "start",
+  customDescription,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <SimpleGrid gap={8} columns={{ base: 1, md: 2 }}>
+    <SimpleGrid gap={8} columns={{ base: 1, md: 2 }} placeItems={placeItems}>
       <GridItem order={imagePosition === "left" && !isMobile ? 2 : 1}>
         <Flex flexDir="column" justifyContent="center">
           {miniTitle && (
@@ -49,6 +56,7 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
             </Box>
             {title}
           </Heading>
+          {customDescription && customDescription}
           {description && <Text size="body.xl">{description}</Text>}
         </Flex>
       </GridItem>
