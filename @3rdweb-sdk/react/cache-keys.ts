@@ -91,6 +91,8 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "checkout", checkoutId] as const,
   settings: (accountId: string) =>
     [...paymentsKeys.all, "settings", accountId] as const,
+  webhooks: (accountId: string) =>
+    [...paymentsKeys.all, "webhooks", accountId] as const,
 };
 
 export const contractKeys = {
