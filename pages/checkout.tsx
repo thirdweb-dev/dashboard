@@ -137,6 +137,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
 
         <LandingGuidesShowcase
           title="The best web3 apps use thirdweb"
+          description=""
           category={TRACKING_CATEGORY}
           guides={CASE_STUDIES}
           caseStudies
