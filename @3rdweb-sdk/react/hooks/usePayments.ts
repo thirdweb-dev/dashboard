@@ -51,6 +51,15 @@ import {
   useGetSellerByThirdwebAccountIdLazyQuery,
 } from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
 import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
+import {
+  WebhooksBySellerIdDocument,
+  WebhooksBySellerIdQuery,
+  WebhooksBySellerIdQueryVariables,
+  useWebhooksBySellerIdLazyQuery
+} from "graphql/queries/__generated__/WebhooksBySellerId.generated";
+import { InsertWebhookMutationVariables, useInsertWebhookMutation } from "graphql/mutations/__generated__/InsertWebhook.generated";
+import { Webhook_Insert_Input, Webhook_Set_Input } from "graphql/generated_types";
+import { UpdateWebhookMutationVariables, useUpdateWebhookMutation } from "graphql/mutations/__generated__/UpdateWebhook.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -807,5 +816,147 @@ export function usePaymentsSellerByAccountId(accountId: string) {
         : ({} as GetSellerByThirdwebAccountIdQuery["seller"][number]);
     },
     { enabled: !!paymentsSellerId && !!address },
+  );
+}
+
+export type PaymentsWebhooksType = {
+  id: string;
+  sellerId: string;
+  url: string;
+  isProduction: string;
+  createdAt: Date;
+};
+
+export function usePaymentsWebhooksByAccountId(accountId: string) {
+  invariant(accountId, "accountId is required");
+
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  const [getWebhooksBySellerId] = useWebhooksBySellerIdLazyQuery();
+  
+  const queryInfo = useQuery(
+    paymentsKeys.webhooks(accountId),
+    async () => {
+      invariant(paymentsSellerId, "no payments seller id found");
+      const { data, error } = await getWebhooksBySellerId({
+        variables: {
+          sellerId: paymentsSellerId
+        } as WebhooksBySellerIdQueryVariables,
+      });
+
+      if(error) {
+        console.error(error);
+      }
+
+      if (data && data.webhook.length > 0) {
+        return data.webhook.map((webhook) => ({
+          id: webhook.id,
+          sellerId: webhook.seller_id,
+          url: webhook.url,
+          isProduction: webhook.is_production.toString(),
+          createdAt: new Date(webhook.created_at),
+        })) as PaymentsWebhooksType[];
+      } else {
+        return [] as PaymentsWebhooksType[];
+      }
+    },
+    { enabled: !!paymentsSellerId && !!address }
+  );
+
+  return {
+    ...queryInfo,
+    webhooks: queryInfo.data
+  };
+}
+
+export const isValidWebhookUrl = (url: string) => {
+  if (!url || !url.startsWith('https://')) {
+    return false;
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+    return !!parsedUrl.href && parsedUrl.protocol === 'https:';
+  } catch (e) {
+    return false;
+  }
+};
+
+export type CreateWebhookInput = {
+  url: string;
+  isProduction: boolean;
+};
+
+export function usePaymentsCreateWebhook(accountId: string) {
+  invariant(accountId, "accountId is required");
+  const queryClient = useQueryClient();
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+
+  const [createWebhookBySellerId] = useInsertWebhookMutation({
+    refetchQueries: [WebhooksBySellerIdDocument]
+  });
+
+  return useMutationWithInvalidate(
+    async(input: CreateWebhookInput) => {
+      invariant(address, "No wallet address found");
+      invariant(paymentsSellerId, "No seller id found")
+      invariant(isValidWebhookUrl(input.url), "Invalid webhook url");
+
+      const webhookInput: Webhook_Insert_Input = {
+        seller_id: paymentsSellerId,
+        url: input.url,
+        is_production: input.isProduction
+      };
+
+      return createWebhookBySellerId({
+        variables: {
+          object: webhookInput
+        } as InsertWebhookMutationVariables
+      });
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
+      },
+    },
+  );
+}
+
+export type UpdateWebhookInput = {
+  webhookId: string;
+  url: string;
+};
+
+export function usePaymentsUpdateWebhook(accountId: string) {
+  invariant(accountId, "accountId is required");
+  const queryClient = useQueryClient();
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+
+  const [updateWebhookBySellerId] = useUpdateWebhookMutation({
+    refetchQueries: [WebhooksBySellerIdDocument]
+  });
+
+  return useMutationWithInvalidate(
+    async(input: UpdateWebhookInput) => {
+      invariant(address, "No wallet address found");
+      invariant(paymentsSellerId, "No seller id found");
+      invariant(isValidWebhookUrl(input.url), "Invalid webhook url");
+      
+      return updateWebhookBySellerId({
+        variables: {
+          id: input.webhookId,
+          webhookValue: {
+            url: input.url
+          } as Webhook_Set_Input
+        } as UpdateWebhookMutationVariables
+      });
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
+      }
+    }
   );
 }
