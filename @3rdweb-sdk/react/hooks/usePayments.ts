@@ -876,7 +876,7 @@ export type PaymentsWebhooksType = {
   id: string;
   sellerId: string;
   url: string;
-  isProduction: string;
+  isProduction: boolean;
   createdAt: Date;
 };
 
@@ -906,7 +906,7 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
           id: webhook.id,
           sellerId: webhook.seller_id,
           url: webhook.url,
-          isProduction: webhook.is_production.toString(),
+          isProduction: webhook.is_production,
           createdAt: new Date(webhook.created_at),
         })) as PaymentsWebhooksType[];
       } else {
@@ -978,7 +978,8 @@ export function usePaymentsCreateWebhook(accountId: string) {
 
 export type UpdateWebhookInput = {
   webhookId: string;
-  url: string;
+  url?: string;
+  deletedAt?: Date;
 };
 
 export function usePaymentsUpdateWebhook(accountId: string) {
@@ -995,13 +996,13 @@ export function usePaymentsUpdateWebhook(accountId: string) {
     async(input: UpdateWebhookInput) => {
       invariant(address, "No wallet address found");
       invariant(paymentsSellerId, "No seller id found");
-      invariant(isValidWebhookUrl(input.url), "Invalid webhook url");
       
       return updateWebhookBySellerId({
         variables: {
           id: input.webhookId,
           webhookValue: {
-            url: input.url
+            url: input.url,
+            deleted_at: input.deletedAt
           } as Webhook_Set_Input
         } as UpdateWebhookMutationVariables
       });

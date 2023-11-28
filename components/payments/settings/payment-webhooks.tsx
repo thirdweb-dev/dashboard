@@ -1,4 +1,10 @@
-import { usePaymentsWebhooksByAccountId } from "@3rdweb-sdk/react/hooks/usePayments";
+import {
+  usePaymentsWebhooksByAccountId,
+  usePaymentsCreateWebhook,
+  usePaymentsUpdateWebhook,
+  type CreateWebhookInput,
+  type UpdateWebhookInput,
+} from "@3rdweb-sdk/react/hooks/usePayments";
 import type { PaymentsWebhooksType } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex, Divider } from "@chakra-ui/react";
 import {
@@ -19,7 +25,11 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   const [productionWebhooks, setProductionWebhooks] = React.useState<PaymentsWebhooksType[]>([]);
   const [testnetWebhooks, setTestnetWebhooks] = React.useState<PaymentsWebhooksType[]>([]);
 
-  const { data: webhooks, isLoading, isFetched, error } = usePaymentsWebhooksByAccountId(accountId);
+  const { data: webhooks, isLoading: isGetLoading, isFetched, error } = usePaymentsWebhooksByAccountId(accountId);
+
+  const { mutate: updateWebhook, isLoading: isUpdateLoading } = usePaymentsUpdateWebhook(accountId);
+  const { mutate: createWebhook, isLoading: isCreateLoading } = usePaymentsCreateWebhook(accountId);
+
 
   React.useEffect(() => {
     if (webhooks) {
@@ -31,19 +41,45 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
     }
   }, [webhooks]);
 
-  const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhookId, newUrl) => {
-    console.log(`editing webhook id: ${webhookId}, new url: ${newUrl}`);
-  };
 
-  const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhookId) => {
-    console.log(`deleting webhook id: ${webhookId}`);
-  };
+  const updateWebhookHandlerFactory = (isProduction: boolean) => {
 
-  const createWebhookHandlerFactory = (isProduction: boolean) => {
-    const onAddWebhook: PaymentsWebhooksTableProps["onCreate"] = (url) => {
-      console.log(`Adding production: ${isProduction} webhook, ${url}`);
+    const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhookId, newUrl) => {
+      console.log(`editing webhook id: ${webhookId}, new url: ${newUrl}`);
+      updateWebhook({ webhookId, url: newUrl });
+      const _setter = isProduction ? setProductionWebhooks : setTestnetWebhooks;
+
+      _setter(_webhooks => _webhooks.map(_webhook => {
+        if (_webhook.id === webhookId) {
+          return { ..._webhook, url: newUrl };
+        }
+        return _webhook;
+      }));
+
     };
 
+    return onUpdateWebhook;
+  }
+
+  const deleteWebhookHandlerFactory = (isProduction: boolean) => {
+    const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhookId) => {
+      console.log(`deleting webhook id: ${webhookId}`);
+      updateWebhook({ webhookId, deletedAt: (new Date()) })
+      const _setter = isProduction ? setProductionWebhooks : setTestnetWebhooks;
+      _setter(_webhooks => _webhooks.filter(_webhook => _webhook.id !== webhookId));
+    };
+
+    return onDeleteWebhook;
+  }
+
+  const createWebhookHandlerFactory = (isProduction: boolean) => {
+    const onAddWebhook: PaymentsWebhooksTableProps["onCreate"] = async (url) => {
+      createWebhook({ url: url, isProduction });
+
+      const _newWebhook: PaymentsWebhooksType = { id: "0", sellerId: accountId, url, isProduction, createdAt: new Date() };
+      const _setter = isProduction ? setProductionWebhooks : setTestnetWebhooks;
+      _setter(_webhooks => [..._webhooks, _newWebhook]);
+    };
     return onAddWebhook;
   };
 
@@ -66,9 +102,9 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
         <PaymentsWebhooksTable
           webhooks={productionWebhooks}
           onCreate={createWebhookHandlerFactory(true)}
-          onUpdate={onUpdateWebhook}
-          onDelete={onDeleteWebhook}
-          isLoading={isLoading}
+          onUpdate={updateWebhookHandlerFactory(true)}
+          onDelete={deleteWebhookHandlerFactory(true)}
+          isLoading={isGetLoading}
           isFetched={isFetched}
         />
       </Flex>
@@ -79,9 +115,9 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
         <PaymentsWebhooksTable
           webhooks={testnetWebhooks}
           onCreate={createWebhookHandlerFactory(false)}
-          onUpdate={onUpdateWebhook}
-          onDelete={onDeleteWebhook}
-          isLoading={isLoading}
+          onUpdate={updateWebhookHandlerFactory(false)}
+          onDelete={deleteWebhookHandlerFactory(false)}
+          isLoading={isGetLoading}
           isFetched={isFetched}
         />
       </Flex>
