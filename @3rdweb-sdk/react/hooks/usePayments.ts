@@ -867,9 +867,8 @@ export function usePaymentsSellerByAccountId(accountId: string) {
   );
 }
 
-export function usePaymentsTransactions(checkoutId: string, accountId: string) {
+export function usePaymentsTransactions(checkoutId: string) {
   invariant(checkoutId, "checkoutId is required");
-  invariant(accountId, "accountId is required");
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
   const [getTransactions] =
@@ -890,7 +889,7 @@ export function usePaymentsTransactions(checkoutId: string, accountId: string) {
       if (error) {
         console.error(error);
       }
-      return data;
+      return data || [];
     },
     { enabled: !!paymentsSellerId && !!address },
   );
