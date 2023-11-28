@@ -209,16 +209,6 @@ const formInputs = [
         helper: "",
         sideField: true,
       },
-      {
-        name: "hidePayWithIdeal",
-        label: "Allow paying with iDEAL",
-        type: "switch",
-        placeholder: "",
-        required: false,
-        helper:
-          "Allow buyers from paying with iDEAL, a common payment method in the Netherlands.",
-        sideField: true,
-      },
     ],
   },
   {
@@ -373,7 +363,7 @@ export const CreateUpdateCheckoutButton: React.FC<
     hideExternalWallet: checkout?.hide_connect_external_wallet || false,
     hidePayWithCard: checkout?.hide_pay_with_card || false,
     hidePayWithCrypto: checkout?.hide_pay_with_crypto || false,
-    hidePayWithIdeal: checkout?.hide_pay_with_ideal || true,
+    hidePayWithIdeal: true,
     limitPerTransaction: checkout?.limit_per_transaction || 5,
     redirectAfterPayment: checkout?.redirect_after_payment || false,
     sendEmailOnTransferSucceeded:
