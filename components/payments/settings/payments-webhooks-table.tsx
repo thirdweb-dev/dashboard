@@ -73,35 +73,16 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   isLoading,
   isFetched
 }) => {
-
-  // on edit: 
-  // set focus on 
-
-  /**
-   * On Edit
-   *  1. set is edit for id
-   *  2. set focus for input field
-   *  3. change edit button to accept for id
-   *  4. validate url field
-   *  5. set edit value
-   *  6. accept -> overwrite with edit value
-   */
-
-  // const [addWebhookUrl, setAddWebhookUrl] = React.useState<PaymentsWebhooksType["url"]>("");
-  // const [editWebhookUrl, setEditWebhookUrl] = React.useState<PaymentsWebhooksType["url"]>("");
   const [editId, setEditId] = React.useState<PaymentsWebhooksType["id"]>("");
 
   const editWebhookRef = React.useRef<HTMLInputElement>(null);
   const createWebhookRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    console.log("Rendering");
-  })
-
-  React.useEffect(() => {
     // When the editId changes, focus on the corresponding input
     if (editId && editWebhookRef.current) {
       editWebhookRef.current.focus();
+      editWebhookRef.current.select();
     }
   }, [editId]);
 
@@ -113,14 +94,11 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   };
 
   const onCancelEdit = () => {
-    console.log(`Cancelling edit!`);
     setEditId(""); // Reset the editing state
   };
 
   const onAccept = () => {
-    console.log(`On Accept!`);
     if (editWebhookRef.current) {
-      console.log(`Accepting the edits!`);
       onUpdate(editId, editWebhookRef.current.value);
       setEditId("");
     }
@@ -163,7 +141,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
             <UrlInputField
               ref={createWebhookRef}
               webhookUrl=""
-              onBlur={() => {}}
+              onBlur={() => { }}
             />
           )
         }
