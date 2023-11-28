@@ -6,13 +6,16 @@ import {
   type UpdateWebhookInput,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import type { PaymentsWebhooksType } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Flex, Divider } from "@chakra-ui/react";
+import { Flex, Divider, useColorModeValue } from "@chakra-ui/react";
 import {
   Card,
-  Heading
+  Heading,
+  CodeBlock
 } from "tw-components";
 import { PaymentsWebhooksTable, PaymentsWebhooksTableProps } from "./payments-webhooks-table";
 import React from "react";
+import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
+import { randomBytes } from "ethers/lib/utils";
 
 interface PaymentsWebhooksProps {
   accountId: string;
@@ -30,6 +33,12 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   const { mutate: updateWebhook, isLoading: isUpdateLoading } = usePaymentsUpdateWebhook(accountId);
   const { mutate: createWebhook, isLoading: isCreateLoading } = usePaymentsCreateWebhook(accountId);
 
+  const [secretKey, setSecretKey] = React.useState<string>("");
+  React.useEffect(() => {
+    setSecretKey([...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join(''));
+  }, []);
+
+  console.log(`Data: ${JSON.stringify(webhooks)}`);
 
   React.useEffect(() => {
     if (webhooks) {
@@ -94,6 +103,11 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
       <Flex flexDir="column" gap={2}>
         <Heading>Webhooks</Heading>
       </Flex>
+      <DetailsRow
+        title="Secret Key"
+        tooltip={`Used for authenticating the webhook request`}
+        content={<CodeBlock code={secretKey} />}
+      />
 
       <Divider />
 
