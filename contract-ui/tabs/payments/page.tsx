@@ -87,7 +87,9 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
           chainId={chainId}
           accountId={account.id}
         />
-      ) : null}
+      ) : (
+        <NoWalletConnectedPayments />
+      )}
     </Flex>
   );
 };
