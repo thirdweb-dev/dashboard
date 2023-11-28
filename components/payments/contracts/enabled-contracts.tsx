@@ -48,7 +48,7 @@ export const EnabledContracts = () => {
               in a contract to begin
             </Text>
           </Center>
-            </Card>
+        </Card>
       )}
     </Flex>
   );
