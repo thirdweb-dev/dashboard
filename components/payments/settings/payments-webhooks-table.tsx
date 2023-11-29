@@ -7,6 +7,12 @@ import {
   IconButton,
   Input,
   Modal,
+  Tr,
+  Td,
+  Th,
+  Thead,
+  Tbody,
+  Table,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -16,41 +22,35 @@ import {
   Flex,
   useDisclosure,
   Stack,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { createColumnHelper } from "@tanstack/react-table";
 import React from "react";
+import pluralize from "pluralize";
 import { format } from "date-fns";
 import { Button, Text } from "tw-components";
 import { BiPencil } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
-import { FiTrash } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { FaXmark } from "react-icons/fa6";
-import { TWTable } from "components/shared/TWTable";
-
+import { TableContainer } from "tw-components";
 
 export interface PaymentsWebhooksTableProps {
   webhooks: PaymentsWebhooksType[];
   onCreate: (url: string) => void;
-  onUpdate: (webhookId: PaymentsWebhooksType["id"], newUrl: string) => void;
-  onDelete: (webhookId: PaymentsWebhooksType["id"]) => void;
+  onUpdate: (webhook: PaymentsWebhooksType, newUrl: string) => void;
+  onDelete: (webhook: PaymentsWebhooksType) => void;
   isLoading: boolean;
   isFetched: boolean;
 };
-
-type AddWebhookType = Partial<PaymentsWebhooksType>;
-
-type TableWebhookType = PaymentsWebhooksType | AddWebhookType;
-
-const columnHelper = createColumnHelper<TableWebhookType>();
 
 interface UrlInputFieldProps {
   webhookUrl: string;
   onChange: (value: string) => void;
 };
 
-const UrlInputField = React.memo(React.forwardRef<HTMLInputElement, UrlInputFieldProps>(
+const UrlInputField = React.forwardRef<HTMLInputElement, UrlInputFieldProps>(
   ({ webhookUrl, onChange }, ref) => {
     const isValid = isValidWebhookUrl(webhookUrl);
     return (
@@ -58,15 +58,155 @@ const UrlInputField = React.memo(React.forwardRef<HTMLInputElement, UrlInputFiel
         <Input
           ref={ref}
           type="url"
-          id="webhook-url"
           placeholder="Webhook URL"
           value={webhookUrl}
           onChange={(e) => onChange(e.target.value)}
+          autoFocus
         />
       </FormControl>
     );
   }
-));
+);
+
+interface EditTableRowProps {
+  webhook: PaymentsWebhooksType;
+  onEdit: (webhook: PaymentsWebhooksType, newUrl: string) => void;
+  onDelete: (webhook: PaymentsWebhooksType) => void;
+};
+
+const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
+
+  const [editUrl, setEditUrl] = React.useState(webhook.url ?? "");
+  const [isEdit, setIsEdit] = React.useState(false);
+
+  const editWebhookRef = React.useRef<HTMLInputElement>(null);
+
+  const startEdit = () => {
+    setIsEdit(true);
+    setEditUrl(webhook.url);
+    if (editWebhookRef.current) {
+      editWebhookRef.current.focus();
+      editWebhookRef.current.select();
+    }
+  }
+
+  const acceptEdit = () => {
+    onEdit(webhook, editUrl);
+    setIsEdit(false);
+  }
+
+  const rejectEdit = () => {
+    setIsEdit(false);
+  }
+
+  const _onDelete = () => {
+    onDelete(webhook);
+  }
+
+  return (
+    <Tr
+      borderBottomWidth={1}
+      _last={{ borderBottomWidth: 0 }}
+    >
+      <Td
+        borderBottomWidth="inherit"
+        borderBottomColor="accent.100"
+      >
+        {
+          isEdit ? (
+            <UrlInputField
+              webhookUrl={editUrl}
+              onChange={setEditUrl}
+              ref={editWebhookRef}
+            />
+          ) :
+            (<Text>{webhook.url}</Text>)
+        }
+      </Td>
+      <Td
+        borderBottomWidth="inherit"
+        borderBottomColor="accent.100"
+      >
+        {isEdit ?
+          (<ButtonGroup variant="ghost" gap={2}>
+            <IconButton
+              onClick={acceptEdit}
+              variant="outline"
+              icon={<Icon as={FaCheck} boxSize={4} />}
+              aria-label="Accept"
+            />
+            <IconButton
+              onClick={rejectEdit}
+              variant="outline"
+              icon={<Icon as={FaXmark} boxSize={4} />}
+              aria-label="Cancel"
+            />
+          </ButtonGroup>
+          ) :
+          (<ButtonGroup variant="ghost" gap={2}>
+            <IconButton
+              onClick={startEdit}
+              variant="outline"
+              icon={<Icon as={BiPencil} boxSize={4} />}
+              aria-label="Edit"
+            />
+            <IconButton
+              onClick={_onDelete}
+              variant="outline"
+              icon={<Icon as={FiTrash2} boxSize={4} />}
+              aria-label="Remove"
+            />
+          </ButtonGroup>
+          )}
+      </Td>
+    </Tr>
+  )
+}
+
+interface CreateTableRowProps {
+  onCreate: (webhookUrl: string) => void;
+};
+
+const CreateTableRow = ({ onCreate }: CreateTableRowProps) => {
+  const [createUrl, setCreateUrl] = React.useState("");
+  const createWebhookRef = React.useRef<HTMLInputElement>(null);
+
+  const _onCreate = () => {
+    onCreate(createUrl);
+    setCreateUrl("");
+  }
+
+  return (
+    <Tr
+      borderBottomWidth={1}
+      _last={{ borderBottomWidth: 0 }}
+    >
+      <Td
+        borderBottomWidth="inherit"
+        borderBottomColor="accent.100"
+      >
+        <UrlInputField
+          webhookUrl={createUrl}
+          onChange={setCreateUrl}
+          ref={createWebhookRef}
+        />
+      </Td>
+      <Td
+        borderBottomWidth="inherit"
+        borderBottomColor="accent.100"
+      >
+        <Button
+          size="sm"
+          leftIcon={<IoMdAdd />}
+          onClick={_onCreate}
+        >
+          Create Webhook
+        </Button>
+      </Td>
+    </Tr>
+  )
+}
+
 
 export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React.memo(({
   webhooks,
@@ -76,164 +216,22 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React
   isLoading,
   isFetched
 }) => {
-  const [editId, setEditId] = React.useState<PaymentsWebhooksType["id"]>("");
-
-  const [editUrl, setEditUrl] = React.useState("");
-  const [createUrl, setCreateUrl] = React.useState("");
-
-  const editWebhookRef = React.useRef<HTMLInputElement>(null);
-  const createWebhookRef = React.useRef<HTMLInputElement>(null);
-
-  const [webhookToRevoke, setWebhookToRevoke] = React.useState<TableWebhookType>();
+  const [webhookToRevoke, setWebhookToRevoke] = React.useState<PaymentsWebhooksType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  React.useEffect(() => {
-    // When the editId changes, focus on the corresponding input
-    if (editId && editWebhookRef.current) {
-      editWebhookRef.current.focus();
-      editWebhookRef.current.select();
-    }
-  }, [editId]);
+  const _onDelete = (webhook: PaymentsWebhooksType) => {
+    setWebhookToRevoke(webhook);
+    onOpen();
+  }
 
-
-  const onEdit = (webhook: TableWebhookType) => {
-    if (webhook.id) {
-      console.log("setting edit!");
-      setEditId(webhook.id);
-      setEditUrl(webhook.url!);
-    }
-  };
-
-  const onCancelEdit = React.useCallback(() => {
-    console.log("Cancel edit!");
-    setEditId(""); // Reset the editing state
-    setEditUrl("");
-  }, []);
-
-  const onAcceptEdit = () => {
-    if (editWebhookRef.current) {
-      onUpdate(editId, editUrl);
-      setEditId("");
-      setEditUrl("");
-    }
-  };
-
-  const onConfirmDelete = () => {
+  const _onConfirmDelete = () => {
     onClose();
-    if (webhookToRevoke && webhookToRevoke.id) {
-      onDelete(webhookToRevoke.id);
-    }
-  }
-
-  const _onCreate = () => {
-    if (createUrl) {
-      onCreate(createUrl);
-      setCreateUrl("");
-    }
-  }
-
-  const _onDelete = (webhook: TableWebhookType) => {
-    if(webhook.id)
-    {
-      setWebhookToRevoke(webhook);
-      onOpen();
+    if (webhookToRevoke) {
+      onDelete(webhookToRevoke);
     }
   }
 
   const canAddNewWebhook = webhooks.length < 3;
-
-  const columns = [
-    columnHelper.accessor("url", {
-      header: "Url",
-      cell: (cell) => {
-        if (cell.row.original.id) { // exists case
-          if (cell.row.original.id === editId) { // edit case
-            return (
-              <UrlInputField
-                ref={editWebhookRef}
-                webhookUrl={editUrl}
-                onChange={setEditUrl}
-              />
-            );
-          }
-          else { // non-edit case
-            return (<Text>{cell.row.original.url}</Text>);
-          }
-        }
-        else { // add case 
-          return (
-            <UrlInputField
-              ref={createWebhookRef}
-              webhookUrl={createUrl}
-              onChange={setCreateUrl}
-            />
-          )
-        }
-      },
-    }),
-    columnHelper.accessor((row) => row, {
-      header: "actions",
-      id: "actions",
-      cell: (cell) => {
-
-        if (cell.row.original.id) { // exists case
-          if (cell.row.original.id === editId) { // edit case
-            return (
-              <>
-                <ButtonGroup variant="ghost" gap={2}>
-                  <IconButton
-                    onClick={onAcceptEdit}
-                    icon={<Icon as={FaCheck} boxSize={4} />}
-                    aria-label="Accept"
-                  />
-                  <IconButton
-                    onClick={onCancelEdit} // call delete
-                    icon={<Icon as={FaXmark} boxSize={4} />}
-                    aria-label="Cancel"
-                  />
-                </ButtonGroup>
-              </>
-            )
-          }
-          else { // non-edit case
-            return (
-              <>
-                <ButtonGroup variant="ghost" gap={2}>
-                  <IconButton
-                    onClick={(e) => { onEdit(cell.row.original); }} // set 
-                    icon={<Icon as={BiPencil} boxSize={4} />}
-                    aria-label="Edit"
-                  />
-                  <IconButton
-                    onClick={() => { _onDelete(cell.row.original); }} // call delete
-                    icon={<Icon as={FiTrash} boxSize={4} />}
-                    aria-label="Remove"
-                  />
-                </ButtonGroup>
-              </>
-            )
-          }
-        }
-        else { // add case
-          return (
-            <Button
-              size="sm"
-              leftIcon={<IoMdAdd />}
-              onClick={_onCreate}
-            >
-              Create Webhook
-            </Button>
-          )
-        }
-      }
-    })
-  ];
-
-  let data: TableWebhookType[] = [...webhooks];
-
-  if (canAddNewWebhook) {
-    data.push({ url: "Enter Webhook Url" });
-  }
 
   return (
     <>
@@ -248,7 +246,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React
                 <Text>Are you sure you want to delete this webook?</Text>
                 <FormControl>
                   <FormLabel>Type</FormLabel>
-                  <Text>{webhookToRevoke?.isProduction ? "Production": "Testnet"}</Text>
+                  <Text>{webhookToRevoke?.isProduction ? "Production" : "Testnet"}</Text>
                 </FormControl>
                 <FormControl>
                   <FormLabel>URL</FormLabel>
@@ -271,19 +269,53 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React
             <Button type="button" onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button type="submit" colorScheme="red" onClick={onConfirmDelete}>
+            <Button type="submit" colorScheme="red" onClick={_onConfirmDelete}>
               Delete
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <TWTable
-        title="webhooks"
-        data={data}
-        columns={columns}
-        isLoading={isLoading}
-        isFetched={isFetched}
-      />
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th border="none">
+                <Flex align="center" gap={2}>
+                  <Text as="label" size="label.sm" color="faded">
+                    Url
+                  </Text>
+                </Flex>
+              </Th>
+              <Th border="none">
+                <Flex align="center" gap={2}>
+                  <Text as="label" size="label.sm" color="faded">
+                    Actions
+                  </Text>
+                </Flex>
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {webhooks.map((webhook, index) => {
+              return <EditTableRow key={index} webhook={webhook}
+                onEdit={onUpdate}
+                onDelete={_onDelete}
+              />
+            })}
+            {
+              canAddNewWebhook ? (<CreateTableRow onCreate={onCreate} />) : null
+            }
+          </Tbody>
+        </Table>
+        {isLoading && (
+          <Center>
+            <Flex py={4} direction="row" gap={4} align="center">
+              <Spinner size="sm" />
+              <Text>Loading {pluralize("Webhooks Table", 0, false)}</Text>
+            </Flex>
+          </Center>
+        )}
+      </TableContainer>
     </>
   );
 
