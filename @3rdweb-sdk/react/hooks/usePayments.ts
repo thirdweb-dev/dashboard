@@ -61,6 +61,7 @@ import { Webhook_Insert_Input, Webhook_Set_Input } from "graphql/generated_types
 import { UpdateWebhookMutationVariables, useUpdateWebhookMutation } from "graphql/mutations/__generated__/UpdateWebhook.generated";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { OtherAddressZero } from "utils/zeroAddress";
+import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -239,8 +240,10 @@ function usePaymentsApi() {
       isSellerDocumentCount?: boolean;
       isSellerVerificationStatus?: boolean;
       isGetImageUploadLink?: boolean;
+      isSellerApiKey?: boolean;
     },
   ) => {
+
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
       method,
       headers: {
@@ -274,6 +277,13 @@ function usePaymentsApi() {
     if (options?.isGetImageUploadLink) {
       return json as {
         data: { imageId: string; uploadLink: string };
+        success: boolean;
+      };
+    }
+
+    if(options?.isSellerApiKey) {
+      return json as {
+        data: { data: any, decrypted_key: string };
         success: boolean;
       };
     }
@@ -1012,5 +1022,40 @@ export function usePaymentsUpdateWebhook(accountId: string) {
         return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
       }
     }
+  );
+}
+
+export type PaymentsWebhookSecretType = {
+  id: string;
+  ownerId: string;
+  createdAt: string;
+  hashedKey: string;
+};
+
+export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
+  invariant(accountId, "accountId is required");
+
+  const fetchFromPaymentsAPI = usePaymentsApi();
+
+  const address = useAddress();
+  const { paymentsSellerId } = useApiAuthToken();
+  
+  return useQuery(
+    paymentsKeys.webhookSecret(accountId),
+    async () => {
+      invariant(address, "No wallet address found");
+      
+      return fetchFromPaymentsAPI(
+        "POST",
+        "api-key/get-decrypted-key",
+        {
+          sellerId: paymentsSellerId
+        },
+        {
+          isSellerApiKey: true
+        }
+      );
+    },
+    { enabled: !!paymentsSellerId && !!address }
   );
 }

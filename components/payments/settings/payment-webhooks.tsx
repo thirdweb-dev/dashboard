@@ -3,8 +3,9 @@ import {
   usePaymentsCreateWebhook,
   usePaymentsUpdateWebhook,
   isValidWebhookUrl,
+  usePaymentsWebhooksSecretKeyByAccountId,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Flex, Divider, useToast } from "@chakra-ui/react";
+import { Flex, Divider, useToast, Spinner } from "@chakra-ui/react";
 import {
   Card,
   Heading,
@@ -21,10 +22,11 @@ interface PaymentsWebhooksProps {
 export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   accountId,
 }) => {
+  const { data: webhookApiKey, isLoading: isLoadingSecretKey } = usePaymentsWebhooksSecretKeyByAccountId(accountId);
   const { data: webhooks, isLoading: isGetLoading, isFetched } = usePaymentsWebhooksByAccountId(accountId);
   const { mutate: updateWebhook, isLoading: isUpdateLoading } = usePaymentsUpdateWebhook(accountId);
   const { mutate: createWebhook, isLoading: isCreateLoading } = usePaymentsCreateWebhook(accountId);
-
+  
   const toast = useToast();
 
   const triggerAlert = (status: "error" | "success", header: string, description: string) => {
@@ -38,13 +40,6 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
       isClosable: true,
     });
   }
-
-  const [secretKey, setSecretKey] = useState<string>("");
-
-  useEffect(() => {
-    setSecretKey([...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join(''));
-  }, []);
-
 
   const { productionWebhooks, testnetWebhooks } = useMemo(() => {
     if (webhooks) {
@@ -85,8 +80,6 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
     });
   };
 
-
-
   const createWebhookHandlerFactory = (isProduction: boolean) => {
     const onAddWebhook: PaymentsWebhooksTableProps["onCreate"] = async (url) => {
 
@@ -125,7 +118,9 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
         <DetailsRow
           title="Secret Key"
           tooltip={`Used for authenticating the webhook request`}
-          content={<CodeBlock code={secretKey} />}
+          content={ isLoadingSecretKey ? (<Spinner size="sm" />)
+              : (  <CodeBlock code={webhookApiKey?.data?.decrypted_key ?? ""} />)
+        }
         />
 
         <Divider />
