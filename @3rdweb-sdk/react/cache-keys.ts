@@ -93,8 +93,8 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "settings", accountId] as const,
   webhooks: (accountId: string) =>
     [...paymentsKeys.all, "webhooks", accountId] as const,
-  webhookSecret: (accountId: string) => 
-  [...paymentsKeys.all, "webhooks", "secretKey", accountId] as const
+  webhookSecret: (accountId: string) =>
+    [...paymentsKeys.all, "webhooks", "secretKey", accountId] as const,
 };
 
 export const contractKeys = {

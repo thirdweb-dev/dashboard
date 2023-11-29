@@ -54,11 +54,20 @@ import {
   WebhooksBySellerIdDocument,
   WebhooksBySellerIdQuery,
   WebhooksBySellerIdQueryVariables,
-  useWebhooksBySellerIdLazyQuery
+  useWebhooksBySellerIdLazyQuery,
 } from "graphql/queries/__generated__/WebhooksBySellerId.generated";
-import { InsertWebhookMutationVariables, useInsertWebhookMutation } from "graphql/mutations/__generated__/InsertWebhook.generated";
-import { Webhook_Insert_Input, Webhook_Set_Input } from "graphql/generated_types";
-import { UpdateWebhookMutationVariables, useUpdateWebhookMutation } from "graphql/mutations/__generated__/UpdateWebhook.generated";
+import {
+  InsertWebhookMutationVariables,
+  useInsertWebhookMutation,
+} from "graphql/mutations/__generated__/InsertWebhook.generated";
+import {
+  Webhook_Insert_Input,
+  Webhook_Set_Input,
+} from "graphql/generated_types";
+import {
+  UpdateWebhookMutationVariables,
+  useUpdateWebhookMutation,
+} from "graphql/mutations/__generated__/UpdateWebhook.generated";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { OtherAddressZero } from "utils/zeroAddress";
 import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
@@ -243,7 +252,6 @@ function usePaymentsApi() {
       isSellerApiKey?: boolean;
     },
   ) => {
-
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
       method,
       headers: {
@@ -281,9 +289,9 @@ function usePaymentsApi() {
       };
     }
 
-    if(options?.isSellerApiKey) {
+    if (options?.isSellerApiKey) {
       return json as {
-        data: { data: any, decrypted_key: string };
+        data: { data: any; decrypted_key: string };
         success: boolean;
       };
     }
@@ -896,18 +904,18 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
   const [getWebhooksBySellerId] = useWebhooksBySellerIdLazyQuery();
-  
+
   const queryInfo = useQuery(
     paymentsKeys.webhooks(accountId),
     async () => {
       invariant(paymentsSellerId, "no payments seller id found");
       const { data, error } = await getWebhooksBySellerId({
         variables: {
-          sellerId: paymentsSellerId
+          sellerId: paymentsSellerId,
         } as WebhooksBySellerIdQueryVariables,
       });
 
-      if(error) {
+      if (error) {
         console.error(error);
       }
 
@@ -923,23 +931,23 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
         return [] as PaymentsWebhooksType[];
       }
     },
-    { enabled: !!paymentsSellerId && !!address }
+    { enabled: !!paymentsSellerId && !!address },
   );
 
   return {
     ...queryInfo,
-    webhooks: queryInfo.data
+    webhooks: queryInfo.data,
   };
 }
 
 export const isValidWebhookUrl = (url: string) => {
-  if (!url || !url.startsWith('https://')) {
+  if (!url || !url.startsWith("https://")) {
     return false;
   }
 
   try {
     const parsedUrl = new URL(url);
-    return !!parsedUrl.href && parsedUrl.protocol === 'https:';
+    return !!parsedUrl.href && parsedUrl.protocol === "https:";
   } catch (e) {
     return false;
   }
@@ -957,25 +965,25 @@ export function usePaymentsCreateWebhook(accountId: string) {
   const { paymentsSellerId } = useApiAuthToken();
 
   const [createWebhookBySellerId] = useInsertWebhookMutation({
-    refetchQueries: [WebhooksBySellerIdDocument]
+    refetchQueries: [WebhooksBySellerIdDocument],
   });
 
   return useMutationWithInvalidate(
-    async(input: CreateWebhookInput) => {
+    async (input: CreateWebhookInput) => {
       invariant(address, "No wallet address found");
-      invariant(paymentsSellerId, "No seller id found")
+      invariant(paymentsSellerId, "No seller id found");
       invariant(isValidWebhookUrl(input.url), "Invalid webhook url");
 
       const webhookInput: Webhook_Insert_Input = {
         seller_id: paymentsSellerId,
         url: input.url,
-        is_production: input.isProduction
+        is_production: input.isProduction,
       };
 
       return createWebhookBySellerId({
         variables: {
-          object: webhookInput
-        } as InsertWebhookMutationVariables
+          object: webhookInput,
+        } as InsertWebhookMutationVariables,
       });
     },
     {
@@ -999,29 +1007,29 @@ export function usePaymentsUpdateWebhook(accountId: string) {
   const { paymentsSellerId } = useApiAuthToken();
 
   const [updateWebhookBySellerId] = useUpdateWebhookMutation({
-    refetchQueries: [WebhooksBySellerIdDocument]
+    refetchQueries: [WebhooksBySellerIdDocument],
   });
 
   return useMutationWithInvalidate(
-    async(input: UpdateWebhookInput) => {
+    async (input: UpdateWebhookInput) => {
       invariant(address, "No wallet address found");
       invariant(paymentsSellerId, "No seller id found");
-      
+
       return updateWebhookBySellerId({
         variables: {
           id: input.webhookId,
           webhookValue: {
             url: input.url,
-            deleted_at: input.deletedAt
-          } as Webhook_Set_Input
-        } as UpdateWebhookMutationVariables
+            deleted_at: input.deletedAt,
+          } as Webhook_Set_Input,
+        } as UpdateWebhookMutationVariables,
       });
     },
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
-      }
-    }
+      },
+    },
   );
 }
 
@@ -1039,23 +1047,23 @@ export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
 
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  
+
   return useQuery(
     paymentsKeys.webhookSecret(accountId),
     async () => {
       invariant(address, "No wallet address found");
-      
+
       return fetchFromPaymentsAPI(
         "POST",
         "api-key/get-decrypted-key",
         {
-          sellerId: paymentsSellerId
+          sellerId: paymentsSellerId,
         },
         {
-          isSellerApiKey: true
-        }
+          isSellerApiKey: true,
+        },
       );
     },
-    { enabled: !!paymentsSellerId && !!address }
+    { enabled: !!paymentsSellerId && !!address },
   );
 }

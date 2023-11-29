@@ -1,4 +1,7 @@
-import { PaymentsWebhooksType, isValidWebhookUrl } from "@3rdweb-sdk/react/hooks/usePayments";
+import {
+  PaymentsWebhooksType,
+  isValidWebhookUrl,
+} from "@3rdweb-sdk/react/hooks/usePayments";
 import {
   ButtonGroup,
   FormLabel,
@@ -25,7 +28,14 @@ import {
   Center,
   Spinner,
 } from "@chakra-ui/react";
-import { ForwardedRef, forwardRef, useRef, useMemo, useEffect, useState } from "react";
+import {
+  ForwardedRef,
+  forwardRef,
+  useRef,
+  useMemo,
+  useEffect,
+  useState,
+} from "react";
 import pluralize from "pluralize";
 import { format } from "date-fns";
 import { Button, Text } from "tw-components";
@@ -43,12 +53,12 @@ export interface PaymentsWebhooksTableProps {
   onDelete: (webhook: PaymentsWebhooksType) => void;
   isLoading: boolean;
   isFetched: boolean;
-};
+}
 
 interface UrlInputFieldProps {
   webhookUrl: string;
   onChange: (value: string) => void;
-};
+}
 
 const UrlInputField = forwardRef<HTMLInputElement, UrlInputFieldProps>(
   ({ webhookUrl, onChange }, ref) => {
@@ -65,17 +75,16 @@ const UrlInputField = forwardRef<HTMLInputElement, UrlInputFieldProps>(
         />
       </FormControl>
     );
-  }
+  },
 );
 
 interface EditTableRowProps {
   webhook: PaymentsWebhooksType;
   onEdit: (webhook: PaymentsWebhooksType, newUrl: string) => void;
   onDelete: (webhook: PaymentsWebhooksType) => void;
-};
+}
 
 const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
-
   const [editUrl, setEditUrl] = useState(webhook.url ?? "");
   const [isEdit, setIsEdit] = useState(false);
 
@@ -88,47 +97,37 @@ const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
       editWebhookRef.current.focus();
       editWebhookRef.current.select();
     }
-  }
+  };
 
   const acceptEdit = () => {
     onEdit(webhook, editUrl);
     setIsEdit(false);
-  }
+  };
 
   const rejectEdit = () => {
     setIsEdit(false);
-  }
+  };
 
   const _onDelete = () => {
     onDelete(webhook);
-  }
+  };
 
   return (
-    <Tr
-      borderBottomWidth={1}
-      _last={{ borderBottomWidth: 0 }}
-    >
-      <Td
-        borderBottomWidth="inherit"
-        borderBottomColor="accent.100"
-      >
-        {
-          isEdit ? (
-            <UrlInputField
-              webhookUrl={editUrl}
-              onChange={setEditUrl}
-              ref={editWebhookRef}
-            />
-          ) :
-            (<Text>{webhook.url}</Text>)
-        }
+    <Tr borderBottomWidth={1} _last={{ borderBottomWidth: 0 }}>
+      <Td borderBottomWidth="inherit" borderBottomColor="accent.100">
+        {isEdit ? (
+          <UrlInputField
+            webhookUrl={editUrl}
+            onChange={setEditUrl}
+            ref={editWebhookRef}
+          />
+        ) : (
+          <Text>{webhook.url}</Text>
+        )}
       </Td>
-      <Td
-        borderBottomWidth="inherit"
-        borderBottomColor="accent.100"
-      >
-        {isEdit ?
-          (<ButtonGroup variant="ghost" gap={2}>
+      <Td borderBottomWidth="inherit" borderBottomColor="accent.100">
+        {isEdit ? (
+          <ButtonGroup variant="ghost" gap={2}>
             <IconButton
               onClick={acceptEdit}
               variant="outline"
@@ -142,8 +141,8 @@ const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
               aria-label="Cancel"
             />
           </ButtonGroup>
-          ) :
-          (<ButtonGroup variant="ghost" gap={2}>
+        ) : (
+          <ButtonGroup variant="ghost" gap={2}>
             <IconButton
               onClick={startEdit}
               variant="outline"
@@ -157,15 +156,15 @@ const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
               aria-label="Remove"
             />
           </ButtonGroup>
-          )}
+        )}
       </Td>
     </Tr>
-  )
-}
+  );
+};
 
 interface CreateTableRowProps {
   onCreate: (webhookUrl: string) => void;
-};
+}
 
 const CreateTableRow = ({ onCreate }: CreateTableRowProps) => {
   const [createUrl, setCreateUrl] = useState("");
@@ -174,39 +173,25 @@ const CreateTableRow = ({ onCreate }: CreateTableRowProps) => {
   const _onCreate = () => {
     onCreate(createUrl);
     setCreateUrl("");
-  }
+  };
 
   return (
-    <Tr
-      borderBottomWidth={1}
-      _last={{ borderBottomWidth: 0 }}
-    >
-      <Td
-        borderBottomWidth="inherit"
-        borderBottomColor="accent.100"
-      >
+    <Tr borderBottomWidth={1} _last={{ borderBottomWidth: 0 }}>
+      <Td borderBottomWidth="inherit" borderBottomColor="accent.100">
         <UrlInputField
           webhookUrl={createUrl}
           onChange={setCreateUrl}
           ref={createWebhookRef}
         />
       </Td>
-      <Td
-        borderBottomWidth="inherit"
-        borderBottomColor="accent.100"
-      >
-        <Button
-          size="sm"
-          leftIcon={<IoMdAdd />}
-          onClick={_onCreate}
-        >
+      <Td borderBottomWidth="inherit" borderBottomColor="accent.100">
+        <Button size="sm" leftIcon={<IoMdAdd />} onClick={_onCreate}>
           Create Webhook
         </Button>
       </Td>
     </Tr>
-  )
-}
-
+  );
+};
 
 export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   webhooks,
@@ -214,22 +199,23 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   onDelete,
   onCreate,
   isLoading,
-  isFetched
+  isFetched,
 }) => {
-  const [webhookToRevoke, setWebhookToRevoke] = useState<PaymentsWebhooksType>();
+  const [webhookToRevoke, setWebhookToRevoke] =
+    useState<PaymentsWebhooksType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const _onDelete = (webhook: PaymentsWebhooksType) => {
     setWebhookToRevoke(webhook);
     onOpen();
-  }
+  };
 
   const _onConfirmDelete = () => {
     onClose();
     if (webhookToRevoke) {
       onDelete(webhookToRevoke);
     }
-  }
+  };
 
   const canAddNewWebhook = webhooks.length < 3;
 
@@ -246,7 +232,9 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
                 <Text>Are you sure you want to delete this webook?</Text>
                 <FormControl>
                   <FormLabel>Type</FormLabel>
-                  <Text>{webhookToRevoke?.isProduction ? "Production" : "Testnet"}</Text>
+                  <Text>
+                    {webhookToRevoke?.isProduction ? "Production" : "Testnet"}
+                  </Text>
                 </FormControl>
                 <FormControl>
                   <FormLabel>URL</FormLabel>
@@ -297,14 +285,16 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
           </Thead>
           <Tbody>
             {webhooks.map((webhook, index) => {
-              return <EditTableRow key={index} webhook={webhook}
-                onEdit={onUpdate}
-                onDelete={_onDelete}
-              />
+              return (
+                <EditTableRow
+                  key={index}
+                  webhook={webhook}
+                  onEdit={onUpdate}
+                  onDelete={_onDelete}
+                />
+              );
             })}
-            {
-              canAddNewWebhook ? (<CreateTableRow onCreate={onCreate} />) : null
-            }
+            {canAddNewWebhook ? <CreateTableRow onCreate={onCreate} /> : null}
           </Tbody>
         </Table>
         {isLoading && (
@@ -318,5 +308,4 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
       </TableContainer>
     </>
   );
-
 };
