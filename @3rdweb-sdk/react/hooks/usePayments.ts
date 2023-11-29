@@ -919,17 +919,13 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
         console.error(error);
       }
 
-      if (data && data.webhook.length > 0) {
-        return data.webhook.map((webhook) => ({
-          id: webhook.id,
-          sellerId: webhook.seller_id,
-          url: webhook.url,
-          isProduction: webhook.is_production,
-          createdAt: new Date(webhook.created_at),
-        })) as PaymentsWebhooksType[];
-      } else {
-        return [] as PaymentsWebhooksType[];
-      }
+      return data && data?.webhook.length > 0 ? data.webhook.map((webhook) => ({
+        id: webhook.id,
+        sellerId: webhook.seller_id,
+        url: webhook.url,
+        isProduction: webhook.is_production,
+        createdAt: new Date(webhook.created_at),
+      })) as PaymentsWebhooksType[] : [] as PaymentsWebhooksType[];
     },
     { enabled: !!paymentsSellerId && !!address },
   );
@@ -1044,14 +1040,12 @@ export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
   invariant(accountId, "accountId is required");
 
   const fetchFromPaymentsAPI = usePaymentsApi();
-
-  const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
 
   return useQuery(
     paymentsKeys.webhookSecret(accountId),
     async () => {
-      invariant(address, "No wallet address found");
+      invariant(paymentsSellerId, "No sellerId found");
 
       return fetchFromPaymentsAPI(
         "POST",
@@ -1064,6 +1058,6 @@ export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
         },
       );
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!paymentsSellerId && !!accountId },
   );
 }

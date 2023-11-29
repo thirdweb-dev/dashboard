@@ -201,7 +201,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
         <Divider />
 
         <Flex flexDir="column" gap={2}>
-          <Heading size={"title.md"}>Production</Heading>
+          <Heading size="title.md">Production</Heading>
           <PaymentsWebhooksTable
             webhooks={productionWebhooks}
             onCreate={createWebhookHandlerFactory(true)}
