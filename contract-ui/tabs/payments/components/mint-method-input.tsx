@@ -41,7 +41,9 @@ export const PaymentsMintMethodInput: React.FC<
                   !!form.formState.errors?.[`mintFunctionArgs.${input.name}`]
                 }
               >
-                <FormLabel minW={36}>{input.name}</FormLabel>
+                <FormLabel minW={36} mx={0} my={3}>
+                  {input.name}
+                </FormLabel>
                 <InputGroup>
                   <SolidityInput
                     {...form.register(`mintFunctionArgs.${input.name}`, {
@@ -50,6 +52,7 @@ export const PaymentsMintMethodInput: React.FC<
                     type="text"
                     solidityType={input.type}
                   />
+
                   {(input.type === "address" || input.type.includes("int")) && (
                     <InputRightElement
                       width={input.type === "address" ? 24 : 28}
