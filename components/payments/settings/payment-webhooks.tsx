@@ -129,7 +129,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 
   const updateWebhookHandlerFactory = (isProduction: boolean) => {
 
-    const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhookId, newUrl) => {
+    const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhook, newUrl) => {
       if(!isValidWebhookUrl(newUrl))
       {
         triggerAlert("error", "Invalid Webhook Url", `${newUrl} is not a valid webhook url, please try a different url`);
@@ -137,26 +137,24 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
       }
 
       // used for alerts
-      const _webhook = (isProduction ? productionWebhooks : testnetWebhooks).find(item => item.id === webhookId);
       setIsUpdateDelete(false);
-      setCurrentUpdateWebhook({ ..._webhook!, url: newUrl! });
+      setCurrentUpdateWebhook({ ...webhook, url: newUrl! });
 
       // send the request
-      updateWebhook({ webhookId, url: newUrl });
+      updateWebhook({ webhookId: webhook.id, url: newUrl });
     };
 
     return onUpdateWebhook;
   }
 
   const deleteWebhookHandlerFactory = (isProduction: boolean) => {
-    const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhookId) => {
+    const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhook) => {
       // used for alerts
-      const _webhook = (isProduction ? productionWebhooks : testnetWebhooks).find(item => item.id === webhookId);
       setIsUpdateDelete(true);
-      setCurrentDeleteWebhook(_webhook);
+      setCurrentDeleteWebhook(webhook);
 
       // mutate
-      updateWebhook({ webhookId, deletedAt: (new Date()) });
+      updateWebhook({ webhookId: webhook.id, deletedAt: (new Date()) });
     };
 
     return onDeleteWebhook;
