@@ -2,12 +2,9 @@ import {
   usePaymentsWebhooksByAccountId,
   usePaymentsCreateWebhook,
   usePaymentsUpdateWebhook,
-  type CreateWebhookInput,
-  type UpdateWebhookInput,
   isValidWebhookUrl,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import type { PaymentsWebhooksType } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Flex, Divider, useColorModeValue, useToast } from "@chakra-ui/react";
+import { Flex, Divider, useToast } from "@chakra-ui/react";
 import {
   Card,
   Heading,
@@ -15,25 +12,11 @@ import {
 } from "tw-components";
 import { PaymentsWebhooksTable, PaymentsWebhooksTableProps } from "./payments-webhooks-table";
 import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
-import { randomBytes } from "ethers/lib/utils";
-import {
-  Alert,
-  AlertTitle,
-  Text,
-  AlertDescription
-} from "@chakra-ui/react";
 import { useState, useMemo, useEffect } from "react";
 
 interface PaymentsWebhooksProps {
   accountId: string;
 }
-
-type PaymentWebhookAlert = {
-  visible: boolean;
-  header: string;
-  description: string;
-  status: "error" | "success";
-};
 
 export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   accountId,
@@ -73,43 +56,36 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
     return { productionWebhooks: [], testnetWebhooks: [] };
   }, [webhooks]);
 
-  const updateWebhookHandlerFactory = (isProduction: boolean) => {
+  const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhook, newUrl) => {
+    if (!isValidWebhookUrl(newUrl)) {
+      triggerAlert("error", "Invalid Webhook Url", `${newUrl} is not a valid webhook url, please try a different url`);
+      return;
+    }
 
-    const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhook, newUrl) => {
-      if (!isValidWebhookUrl(newUrl)) {
-        triggerAlert("error", "Invalid Webhook Url", `${newUrl} is not a valid webhook url, please try a different url`);
-        return;
+    // send the request
+    updateWebhook({ webhookId: webhook.id, url: newUrl }, {
+      onSuccess: () => {
+        triggerAlert("success", "Webhook Created", `Successfully created  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+      },
+      onError: () => {
+        triggerAlert("error", "Failed to Create Webhook", `Failed to create  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
       }
+    });
+  };
 
-      // send the request
-      updateWebhook({ webhookId: webhook.id, url: newUrl }, {
-        onSuccess: () => {
-          triggerAlert("success", "Webhook Created", `Successfully created  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
-        },
-        onError: () => {
-          triggerAlert("error", "Failed to Create Webhook", `Failed to create  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
-        }
-      });
-    };
+  const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhook) => {
+    // mutate
+    updateWebhook({ webhookId: webhook.id, deletedAt: (new Date()) }, {
+      onSuccess: () => {
+        triggerAlert("success", "Webhook Deleted", `Successfully deleted ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+      },
+      onError: () => {
+        triggerAlert("error", "Failed to Delete Webhook", `Failed to delete ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+      }
+    });
+  };
 
-    return onUpdateWebhook;
-  }
 
-  const deleteWebhookHandlerFactory = (isProduction: boolean) => {
-    const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhook) => {
-      // mutate
-      updateWebhook({ webhookId: webhook.id, deletedAt: (new Date()) }, {
-        onSuccess: () => {
-          triggerAlert("success", "Webhook Deleted", `Successfully deleted ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
-        },
-        onError: () => {
-          triggerAlert("error", "Failed to Delete Webhook", `Failed to delete ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
-        }
-      });
-    };
-
-    return onDeleteWebhook;
-  }
 
   const createWebhookHandlerFactory = (isProduction: boolean) => {
     const onAddWebhook: PaymentsWebhooksTableProps["onCreate"] = async (url) => {
@@ -159,8 +135,8 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
           <PaymentsWebhooksTable
             webhooks={productionWebhooks}
             onCreate={createWebhookHandlerFactory(true)}
-            onUpdate={updateWebhookHandlerFactory(true)}
-            onDelete={deleteWebhookHandlerFactory(true)}
+            onUpdate={onUpdateWebhook}
+            onDelete={onDeleteWebhook}
             isLoading={isLoading}
             isFetched={isFetched}
           />
@@ -172,8 +148,8 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
           <PaymentsWebhooksTable
             webhooks={testnetWebhooks}
             onCreate={createWebhookHandlerFactory(false)}
-            onUpdate={updateWebhookHandlerFactory(false)}
-            onDelete={deleteWebhookHandlerFactory(false)}
+            onUpdate={onUpdateWebhook}
+            onDelete={onDeleteWebhook}
             isLoading={isLoading}
             isFetched={isFetched}
           />
