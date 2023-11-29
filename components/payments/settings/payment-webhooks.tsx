@@ -7,141 +7,89 @@ import {
   isValidWebhookUrl,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import type { PaymentsWebhooksType } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Flex, Divider, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Divider, useColorModeValue, useToast } from "@chakra-ui/react";
 import {
   Card,
   Heading,
   CodeBlock
 } from "tw-components";
 import { PaymentsWebhooksTable, PaymentsWebhooksTableProps } from "./payments-webhooks-table";
-import React from "react";
 import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
 import { randomBytes } from "ethers/lib/utils";
 import {
   Alert,
   AlertTitle,
-  AlertIcon,
   Text,
   AlertDescription
 } from "@chakra-ui/react";
+import { useState, useMemo, useEffect } from "react";
 
 interface PaymentsWebhooksProps {
   accountId: string;
 }
 
+type PaymentWebhookAlert = {
+  visible: boolean;
+  header: string;
+  description: string;
+  status: "error" | "success";
+};
 
 export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   accountId,
 }) => {
+  const { data: webhooks, isLoading: isGetLoading, isFetched } = usePaymentsWebhooksByAccountId(accountId);
+  const { mutate: updateWebhook, isLoading: isUpdateLoading } = usePaymentsUpdateWebhook(accountId);
+  const { mutate: createWebhook, isLoading: isCreateLoading } = usePaymentsCreateWebhook(accountId);
 
-  const [productionWebhooks, setProductionWebhooks] = React.useState<PaymentsWebhooksType[]>([]);
-  const [testnetWebhooks, setTestnetWebhooks] = React.useState<PaymentsWebhooksType[]>([]);
+  const toast = useToast();
 
-  const { data: webhooks, isLoading: isGetLoading, isFetched, error } = usePaymentsWebhooksByAccountId(accountId);
-  const { mutate: updateWebhook, isLoading: isUpdateLoading, error: updateError, isSuccess: isUpdateSuccess } = usePaymentsUpdateWebhook(accountId);
-  const { mutate: createWebhook, isLoading: isCreateLoading, error: createError, isSuccess: isCreateSuccess } = usePaymentsCreateWebhook(accountId);
-
-  const [isUpdateDelete, setIsUpdateDelete] = React.useState(false);
-  const [currentDeleteWebhook, setCurrentDeleteWebhook] = React.useState<PaymentsWebhooksType>();
-  const [currentUpdateWebhook, setCurrentUpdateWebhook] = React.useState<PaymentsWebhooksType>();
-
-  const [currentCreateWebhook, setCurrentCreateWebhook] = React.useState<PaymentsWebhooksType>();
-
-  const [showAlert, setShowAlert] = React.useState(false);
-  const [alertHeader, setAlertHeader] = React.useState("");
-  const [alertDescription, setAlertDescription] = React.useState("");
-  const [alertStatus, setAlertStatus] = React.useState<"error" | "success">();
-
-  const setAlertTimeout = () => {
-    setTimeout(() => {
-      setShowAlert(false);
-      setAlertHeader("");
-      setAlertDescription("");
-      setAlertStatus(undefined);
-    }, 3000);
+  const triggerAlert = (status: "error" | "success", header: string, description: string) => {
+    toast({
+      position: "bottom",
+      variant: "solid",
+      title: header,
+      description,
+      status,
+      duration: 9000,
+      isClosable: true,
+    });
   }
 
-  const triggerAlert = (status: "error"|"success", header: string, description: string) => {
-    setAlertStatus(status);
-    setAlertHeader(header);
-    setAlertDescription(description);
-    setShowAlert(true);
-    setAlertTimeout();
-  }
+  const [secretKey, setSecretKey] = useState<string>("");
 
-  React.useEffect(() => {
-    if(error)
-    {
-      console.log(`Failed to fetch webhooks`);
-    }
-    else if(updateError)
-    {
-      if(isUpdateDelete)
-      {
-        triggerAlert("error", "Failed to Delete Webhook", `Failed to delete ${currentDeleteWebhook?.isProduction ? "production" : "testnet"} webhook with url: ${currentDeleteWebhook?.url}`);
-      }
-      else
-      {
-        triggerAlert("error", "Failed to Update Webhook", `Failed to update ${currentUpdateWebhook?.isProduction ? "production" : "testnet"} webhook to url: ${currentUpdateWebhook?.url}`);
-      }
-    }
-    else if(createError)
-    {
-      triggerAlert("error", "Failed to Create Webhook", `Failed to create  ${currentUpdateWebhook?.isProduction ? "production" : "testnet"} webhook with url: ${currentCreateWebhook?.url}`);
-    }
-  }, [error, updateError, createError]);
-
-  React.useEffect(() => {
-
-    if(isUpdateSuccess)
-    {
-      if(isUpdateDelete)
-      {
-        triggerAlert("success", "Webhook Deleted", `Successfully deleted ${currentDeleteWebhook?.isProduction ? "production" : "testnet"} webhook with url: ${currentDeleteWebhook?.url}`)
-      }
-      else {
-        triggerAlert("success", "Webhook Updated", `Successfully updated ${currentDeleteWebhook?.isProduction ? "production" : "testnet"} webhook with url: ${currentUpdateWebhook?.url}`)
-      } 
-    }
-    else if(isCreateSuccess)
-    {
-      triggerAlert("success", "Webhook Created", `Successfully created  ${currentUpdateWebhook?.isProduction ? "production" : "testnet"} webhook with url: ${currentCreateWebhook?.url}`);
-    }
-
-  }, [isUpdateSuccess, isCreateSuccess]);
-
-  const [secretKey, setSecretKey] = React.useState<string>("");
-  React.useEffect(() => {
+  useEffect(() => {
     setSecretKey([...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join(''));
   }, []);
 
 
-  React.useEffect(() => {
+  const { productionWebhooks, testnetWebhooks } = useMemo(() => {
     if (webhooks) {
-      const _productionWebhooks = webhooks.filter(webhook => webhook.isProduction);
-      const _testnetWebhooks = webhooks.filter(webhook => !webhook.isProduction);
+      const productionWebhooks = webhooks.filter(webhook => webhook.isProduction);
+      const testnetWebhooks = webhooks.filter(webhook => !webhook.isProduction);
 
-      setProductionWebhooks(_productionWebhooks);
-      setTestnetWebhooks(_testnetWebhooks);
+      return { productionWebhooks, testnetWebhooks };
     }
+    return { productionWebhooks: [], testnetWebhooks: [] };
   }, [webhooks]);
-
 
   const updateWebhookHandlerFactory = (isProduction: boolean) => {
 
     const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (webhook, newUrl) => {
-      if(!isValidWebhookUrl(newUrl))
-      {
+      if (!isValidWebhookUrl(newUrl)) {
         triggerAlert("error", "Invalid Webhook Url", `${newUrl} is not a valid webhook url, please try a different url`);
         return;
       }
 
-      // used for alerts
-      setIsUpdateDelete(false);
-      setCurrentUpdateWebhook({ ...webhook, url: newUrl! });
-
       // send the request
-      updateWebhook({ webhookId: webhook.id, url: newUrl });
+      updateWebhook({ webhookId: webhook.id, url: newUrl }, {
+        onSuccess: () => {
+          triggerAlert("success", "Webhook Created", `Successfully created  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+        },
+        onError: () => {
+          triggerAlert("error", "Failed to Create Webhook", `Failed to create  ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+        }
+      });
     };
 
     return onUpdateWebhook;
@@ -149,12 +97,15 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 
   const deleteWebhookHandlerFactory = (isProduction: boolean) => {
     const onDeleteWebhook: PaymentsWebhooksTableProps["onDelete"] = (webhook) => {
-      // used for alerts
-      setIsUpdateDelete(true);
-      setCurrentDeleteWebhook(webhook);
-
       // mutate
-      updateWebhook({ webhookId: webhook.id, deletedAt: (new Date()) });
+      updateWebhook({ webhookId: webhook.id, deletedAt: (new Date()) }, {
+        onSuccess: () => {
+          triggerAlert("success", "Webhook Deleted", `Successfully deleted ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+        },
+        onError: () => {
+          triggerAlert("error", "Failed to Delete Webhook", `Failed to delete ${webhook.isProduction ? "production" : "testnet"} webhook: ${webhook.url}`);
+        }
+      });
     };
 
     return onDeleteWebhook;
@@ -163,22 +114,25 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   const createWebhookHandlerFactory = (isProduction: boolean) => {
     const onAddWebhook: PaymentsWebhooksTableProps["onCreate"] = async (url) => {
 
-      if(!isValidWebhookUrl(url))
-      {
+      if (!isValidWebhookUrl(url)) {
         triggerAlert("error", "Invalid Webhook Url", `${url} is not a valid webhook url, please try a different url`);
         return;
       }
-      
-      const _webhook: PaymentsWebhooksType = { id: "0", sellerId: accountId, url, isProduction, createdAt: new Date() };
-
-      // used for alerts
-      setCurrentCreateWebhook(_webhook);
 
       // mutate
-      createWebhook({ url: url, isProduction });
+      createWebhook({ url: url, isProduction }, {
+        onSuccess: () => {
+          triggerAlert("success", "Webhook Updated", `Successfully updated ${isProduction ? "production" : "testnet"} webhook: ${url}`)
+        },
+        onError: () => {
+          triggerAlert("error", "Failed to Update Webhook", `Failed to update ${isProduction ? "production" : "testnet"} webhook to url: ${url}`);
+        }
+      });
     };
     return onAddWebhook;
   };
+
+  const isLoading = isCreateLoading || isGetLoading || isUpdateLoading;
 
   return (
     <>
@@ -207,7 +161,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
             onCreate={createWebhookHandlerFactory(true)}
             onUpdate={updateWebhookHandlerFactory(true)}
             onDelete={deleteWebhookHandlerFactory(true)}
-            isLoading={isGetLoading || isUpdateLoading || isCreateLoading}
+            isLoading={isLoading}
             isFetched={isFetched}
           />
         </Flex>
@@ -220,23 +174,11 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
             onCreate={createWebhookHandlerFactory(false)}
             onUpdate={updateWebhookHandlerFactory(false)}
             onDelete={deleteWebhookHandlerFactory(false)}
-            isLoading={isGetLoading || isUpdateLoading || isCreateLoading}
+            isLoading={isLoading}
             isFetched={isFetched}
           />
         </Flex>
       </Card>
-      {showAlert && (
-        <Alert status={alertStatus} variant="left-accent">
-          <Flex direction="column" gap={2}>
-            <Heading size="label.md" as={AlertTitle}>
-              {alertHeader}
-            </Heading>
-            <Text size="body.sm" as={AlertDescription}>
-              {alertDescription}
-            </Text>
-          </Flex>
-        </Alert>
-      )}
     </>
   )
 };

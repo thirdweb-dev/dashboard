@@ -25,7 +25,7 @@ import {
   Center,
   Spinner,
 } from "@chakra-ui/react";
-import React from "react";
+import { ForwardedRef, forwardRef, useRef, useMemo, useEffect, useState } from "react";
 import pluralize from "pluralize";
 import { format } from "date-fns";
 import { Button, Text } from "tw-components";
@@ -50,7 +50,7 @@ interface UrlInputFieldProps {
   onChange: (value: string) => void;
 };
 
-const UrlInputField = React.forwardRef<HTMLInputElement, UrlInputFieldProps>(
+const UrlInputField = forwardRef<HTMLInputElement, UrlInputFieldProps>(
   ({ webhookUrl, onChange }, ref) => {
     const isValid = isValidWebhookUrl(webhookUrl);
     return (
@@ -76,10 +76,10 @@ interface EditTableRowProps {
 
 const EditTableRow = ({ webhook, onEdit, onDelete }: EditTableRowProps) => {
 
-  const [editUrl, setEditUrl] = React.useState(webhook.url ?? "");
-  const [isEdit, setIsEdit] = React.useState(false);
+  const [editUrl, setEditUrl] = useState(webhook.url ?? "");
+  const [isEdit, setIsEdit] = useState(false);
 
-  const editWebhookRef = React.useRef<HTMLInputElement>(null);
+  const editWebhookRef = useRef<HTMLInputElement>(null);
 
   const startEdit = () => {
     setIsEdit(true);
@@ -168,8 +168,8 @@ interface CreateTableRowProps {
 };
 
 const CreateTableRow = ({ onCreate }: CreateTableRowProps) => {
-  const [createUrl, setCreateUrl] = React.useState("");
-  const createWebhookRef = React.useRef<HTMLInputElement>(null);
+  const [createUrl, setCreateUrl] = useState("");
+  const createWebhookRef = useRef<HTMLInputElement>(null);
 
   const _onCreate = () => {
     onCreate(createUrl);
@@ -208,7 +208,7 @@ const CreateTableRow = ({ onCreate }: CreateTableRowProps) => {
 }
 
 
-export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React.memo(({
+export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   webhooks,
   onUpdate,
   onDelete,
@@ -216,7 +216,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React
   isLoading,
   isFetched
 }) => {
-  const [webhookToRevoke, setWebhookToRevoke] = React.useState<PaymentsWebhooksType>();
+  const [webhookToRevoke, setWebhookToRevoke] = useState<PaymentsWebhooksType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const _onDelete = (webhook: PaymentsWebhooksType) => {
@@ -319,4 +319,4 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = React
     </>
   );
 
-});
+};
