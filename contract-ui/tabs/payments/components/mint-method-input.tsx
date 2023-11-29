@@ -18,14 +18,27 @@ interface PaymentsMintMethodInputProps {
 export const PaymentsMintMethodInput: React.FC<
   PaymentsMintMethodInputProps
 > = ({ abi, form }) => {
+  const filteredAbi = abi.filter((f) =>
+    f.inputs.some((i) => i.type === "address"),
+  );
+
   return (
     <Flex flexDir="column" gap={2} w="full">
-      <AbiSelector
-        defaultValue="initialize"
-        abi={abi}
-        value={form.watch(`mintFunctionName`)}
-        onChange={(selectedFn) => form.setValue(`mintFunctionName`, selectedFn)}
-      />
+      {filteredAbi.length === 0 ? (
+        <Text>
+          This contract doesn&apos;t have any function that can be used as Mint
+          Method. Please use a different contract.
+        </Text>
+      ) : (
+        <AbiSelector
+          defaultValue="initialize"
+          abi={filteredAbi}
+          value={form.watch(`mintFunctionName`)}
+          onChange={(selectedFn) =>
+            form.setValue(`mintFunctionName`, selectedFn)
+          }
+        />
+      )}
       {form.watch(`mintFunctionName`) && (
         <Flex flexDir="column" gap={2} mt={2}>
           {abi
