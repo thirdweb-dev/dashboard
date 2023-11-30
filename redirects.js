@@ -7,7 +7,7 @@ function redirects() {
       permanent: true,
     },
     {
-      source: "/appchain-api",
+      source: "/solutions/appchain-api",
       destination: "/solutions/chains",
       permanent: true,
     },
