@@ -291,7 +291,7 @@ function usePaymentsApi() {
 
     if (options?.isSellerApiKey) {
       return json as {
-        data: { data: any; decrypted_key: string };
+        data: { data: ApiSecretKeysByOwnerIdQuery; decrypted_key: string };
         success: boolean;
       };
     }
