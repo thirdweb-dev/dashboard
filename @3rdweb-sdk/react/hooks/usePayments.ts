@@ -919,13 +919,15 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
         console.error(error);
       }
 
-      return data && data?.webhook.length > 0 ? data.webhook.map((webhook) => ({
-        id: webhook.id,
-        sellerId: webhook.seller_id,
-        url: webhook.url,
-        isProduction: webhook.is_production,
-        createdAt: new Date(webhook.created_at),
-      })) as PaymentsWebhooksType[] : [] as PaymentsWebhooksType[];
+      return data && data?.webhook.length > 0
+        ? (data.webhook.map((webhook) => ({
+            id: webhook.id,
+            sellerId: webhook.seller_id,
+            url: webhook.url,
+            isProduction: webhook.is_production,
+            createdAt: new Date(webhook.created_at),
+          })) as PaymentsWebhooksType[])
+        : ([] as PaymentsWebhooksType[]);
     },
     { enabled: !!paymentsSellerId && !!address },
   );

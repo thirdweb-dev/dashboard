@@ -4,7 +4,6 @@ import {
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import {
   ButtonGroup,
-  FormLabel,
   FormControl,
   Icon,
   IconButton,
@@ -28,23 +27,15 @@ import {
   Center,
   Spinner,
 } from "@chakra-ui/react";
-import {
-  ForwardedRef,
-  forwardRef,
-  useRef,
-  useMemo,
-  useEffect,
-  useState,
-} from "react";
+import { forwardRef, useRef, useState } from "react";
 import pluralize from "pluralize";
 import { format } from "date-fns";
-import { Button, Text } from "tw-components";
+import { Button, Text, TableContainer, FormLabel } from "tw-components";
 import { BiPencil } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { FaXmark } from "react-icons/fa6";
-import { TableContainer } from "tw-components";
 
 export interface PaymentsWebhooksTableProps {
   webhooks: PaymentsWebhooksType[];
@@ -52,7 +43,6 @@ export interface PaymentsWebhooksTableProps {
   onUpdate: (webhook: PaymentsWebhooksType, newUrl: string) => void;
   onDelete: (webhook: PaymentsWebhooksType) => void;
   isLoading: boolean;
-  isFetched: boolean;
 }
 
 interface UrlInputFieldProps {
@@ -77,6 +67,8 @@ const UrlInputField = forwardRef<HTMLInputElement, UrlInputFieldProps>(
     );
   },
 );
+
+UrlInputField.displayName = "UrlInputField";
 
 interface EditTableRowProps {
   webhook: PaymentsWebhooksType;
@@ -199,7 +191,6 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
   onDelete,
   onCreate,
   isLoading,
-  isFetched,
 }) => {
   const [webhookToRevoke, setWebhookToRevoke] =
     useState<PaymentsWebhooksType>();

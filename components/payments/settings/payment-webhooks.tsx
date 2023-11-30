@@ -12,7 +12,7 @@ import {
   PaymentsWebhooksTableProps,
 } from "./payments-webhooks-table";
 import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 
 interface PaymentsWebhooksProps {
   accountId: string;
@@ -23,11 +23,8 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 }) => {
   const { data: webhookApiKey, isLoading: isLoadingSecretKey } =
     usePaymentsWebhooksSecretKeyByAccountId(accountId);
-  const {
-    data: webhooks,
-    isLoading: isGetLoading,
-    isFetched,
-  } = usePaymentsWebhooksByAccountId(accountId);
+  const { data: webhooks, isLoading: isGetLoading } =
+    usePaymentsWebhooksByAccountId(accountId);
   const { mutate: updateWebhook, isLoading: isUpdateLoading } =
     usePaymentsUpdateWebhook(accountId);
   const { mutate: createWebhook, isLoading: isCreateLoading } =
@@ -51,19 +48,15 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
     });
   };
 
-  const { productionWebhooks, testnetWebhooks } = useMemo(() => {
-    if (webhooks) {
-      const productionWebhooks = webhooks.filter(
-        (webhook) => webhook.isProduction,
-      );
-      const testnetWebhooks = webhooks.filter(
-        (webhook) => !webhook.isProduction,
-      );
-
-      return { productionWebhooks, testnetWebhooks };
-    }
-    return { productionWebhooks: [], testnetWebhooks: [] };
-  }, [webhooks]);
+  const { productionWebhooks, testnetWebhooks } = useMemo(
+    () => ({
+      productionWebhooks:
+        webhooks?.filter((webhook) => webhook.isProduction) || [],
+      testnetWebhooks:
+        webhooks?.filter((webhook) => !webhook.isProduction) || [],
+    }),
+    [webhooks],
+  );
 
   const onUpdateWebhook: PaymentsWebhooksTableProps["onUpdate"] = (
     webhook,
@@ -146,7 +139,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 
       // mutate
       createWebhook(
-        { url: url, isProduction },
+        { url, isProduction },
         {
           onSuccess: () => {
             triggerAlert(
@@ -174,6 +167,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 
   const isLoading = isCreateLoading || isGetLoading || isUpdateLoading;
 
+  console.log(`Webhook APi key: ${webhookApiKey}`);
   return (
     <>
       <Card
@@ -191,7 +185,9 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
           tooltip={`Used for authenticating the webhook request`}
           content={
             isLoadingSecretKey ? (
-              <Spinner size="sm" />
+              <Flex justifyContent="center" alignItems="center">
+                <Spinner size="sm" />
+              </Flex>
             ) : (
               <CodeBlock code={webhookApiKey?.data?.decrypted_key ?? ""} />
             )
@@ -208,20 +204,18 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
             onUpdate={onUpdateWebhook}
             onDelete={onDeleteWebhook}
             isLoading={isLoading}
-            isFetched={isFetched}
           />
         </Flex>
 
         <Divider />
         <Flex flexDir="column" gap={2}>
-          <Heading size={"title.md"}>Testnet</Heading>
+          <Heading size="title.md">Testnet</Heading>
           <PaymentsWebhooksTable
             webhooks={testnetWebhooks}
             onCreate={createWebhookHandlerFactory(false)}
             onUpdate={onUpdateWebhook}
             onDelete={onDeleteWebhook}
             isLoading={isLoading}
-            isFetched={isFetched}
           />
         </Flex>
       </Card>
