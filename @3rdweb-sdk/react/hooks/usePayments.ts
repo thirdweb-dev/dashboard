@@ -957,7 +957,6 @@ export type CreateWebhookInput = {
 export function usePaymentsCreateWebhook(accountId: string) {
   invariant(accountId, "accountId is required");
   const queryClient = useQueryClient();
-  const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
 
   const [createWebhookBySellerId] = useInsertWebhookMutation({
@@ -966,7 +965,6 @@ export function usePaymentsCreateWebhook(accountId: string) {
 
   return useMutationWithInvalidate(
     async (input: CreateWebhookInput) => {
-      invariant(address, "No wallet address found");
       invariant(paymentsSellerId, "No seller id found");
       invariant(isValidWebhookUrl(input.url), "Invalid webhook url");
 
@@ -999,7 +997,6 @@ export type UpdateWebhookInput = {
 export function usePaymentsUpdateWebhook(accountId: string) {
   invariant(accountId, "accountId is required");
   const queryClient = useQueryClient();
-  const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
 
   const [updateWebhookBySellerId] = useUpdateWebhookMutation({
@@ -1008,7 +1005,6 @@ export function usePaymentsUpdateWebhook(accountId: string) {
 
   return useMutationWithInvalidate(
     async (input: UpdateWebhookInput) => {
-      invariant(address, "No wallet address found");
       invariant(paymentsSellerId, "No seller id found");
 
       return updateWebhookBySellerId({
