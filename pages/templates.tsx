@@ -334,7 +334,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
 };
 const title = "Web3 Templates for Websites & Apps";
 const description =
-  "Start building with a library of quick-start templates for web3 apps and websites — for NFTs, marketplaces, and more. Get started";
+  "Start building with a library of quick-start templates for web3 apps and websites — for NFTs, marketplaces, and more. Get started.";
 
 const Templates: ThirdwebNextPage = () => {
   return (
