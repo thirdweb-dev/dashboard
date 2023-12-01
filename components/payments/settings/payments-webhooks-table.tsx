@@ -250,7 +250,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
         )}
       </Modal>
       <TWTable
-        title="Webhooks"
+        title="webhooks"
         data={webhooks}
         columns={columns}
         isLoading={isLoading}

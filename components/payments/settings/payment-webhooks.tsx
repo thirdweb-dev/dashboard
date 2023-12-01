@@ -3,7 +3,7 @@ import {
   usePaymentsWebhooksSecretKeyByAccountId,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex, Divider, Spinner } from "@chakra-ui/react";
-import { Card, Heading, CodeBlock } from "tw-components";
+import { Card, Heading, CodeBlock, Text } from "tw-components";
 import { PaymentsWebhooksTable } from "./payments-webhooks-table";
 import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
 import { useMemo } from "react";
@@ -47,6 +47,7 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
       >
         <Flex flexDir="column" gap={2}>
           <Heading>Webhooks</Heading>
+          <Text>Notify your backend when payment and mint events happen.</Text>
         </Flex>
         <DetailsRow
           title="Secret Key"
@@ -66,11 +67,11 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
 
         <Flex flexDir="column" gap={2}>
           <Flex justifyContent="space-between" alignItems="center" gap={2}>
-            <Heading size="title.md">Mainnet</Heading>
+            <Heading size="title.md">Mainnets</Heading>
             <PaymentsWebhooksCreateButton
               accountId={accountId}
-              isMainnet={true}
-              disabled={productionWebhooks.length >= WEBHOOK_LIMIT}
+              isMainnets={true}
+              isDisabled={productionWebhooks.length >= WEBHOOK_LIMIT}
             />
           </Flex>
           <PaymentsWebhooksTable
@@ -84,11 +85,11 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
         <Divider />
         <Flex flexDir="column" gap={2}>
           <Flex justifyContent="space-between" alignItems="center" gap={2}>
-            <Heading size="title.md">Testnet</Heading>
+            <Heading size="title.md">Testnets</Heading>
             <PaymentsWebhooksCreateButton
               accountId={accountId}
-              isMainnet={false}
-              disabled={testnetWebhooks.length >= WEBHOOK_LIMIT}
+              isMainnets={false}
+              isDisabled={testnetWebhooks.length >= WEBHOOK_LIMIT}
             />
           </Flex>
           <PaymentsWebhooksTable

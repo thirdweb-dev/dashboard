@@ -11,21 +11,22 @@ import {
   Icon,
   FormControl,
   Input,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
-import { Button, FormLabel, Text, FormErrorMessage } from "tw-components";
+import { Button, FormLabel, FormErrorMessage, Card, Text } from "tw-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import {
   CreateWebhookInput,
   usePaymentsCreateWebhook,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 
-export interface PaymentsWebhooksModalProps {
+export interface PaymentsWebhooksCreateButtonProps {
   accountId: string;
-  isMainnet: boolean;
-  disabled: boolean;
+  isMainnets: boolean;
+  isDisabled: boolean;
 }
 
 const isValidUrl = (value: string) => {
@@ -33,15 +34,15 @@ const isValidUrl = (value: string) => {
 };
 
 export const PaymentsWebhooksCreateButton: React.FC<
-  PaymentsWebhooksModalProps
-> = ({ isMainnet, accountId, disabled }) => {
+  PaymentsWebhooksCreateButtonProps
+> = ({ isMainnets, accountId, isDisabled }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createWebhook } = usePaymentsCreateWebhook(accountId);
   const trackEvent = useTrack();
 
   const form = useForm<CreateWebhookInput>({
     defaultValues: {
-      isProduction: isMainnet,
+      isProduction: isMainnets,
     },
   });
 
@@ -50,19 +51,39 @@ export const PaymentsWebhooksCreateButton: React.FC<
     "Failed to create webhook.",
   );
 
+  const createTitle = `Create ${isMainnets ? "Mainnets" : "Testnets"} Webhook`;
+
   return (
     <>
-      <Button
-        onClick={onOpen}
-        variant="ghost"
-        size="sm"
-        leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
-        colorScheme="primary"
-        w="fit-content"
-        disabled={disabled}
+      <Tooltip
+        p={0}
+        bg="transparent"
+        boxShadow="none"
+        label={
+          isDisabled ? (
+            <Card py={2} px={4} bgColor="backgroundHighlight">
+              <Text>
+                You have reached the maximum number of webhooks for{" "}
+                {isMainnets ? "Mainnets" : "Testnets"}.
+              </Text>
+            </Card>
+          ) : undefined
+        }
+        borderRadius="lg"
+        placement="auto-end"
       >
-        Create webhook
-      </Button>
+        <Button
+          onClick={onOpen}
+          variant="ghost"
+          size="sm"
+          leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
+          colorScheme="primary"
+          w="fit-content"
+          isDisabled={isDisabled}
+        >
+          {createTitle}
+        </Button>
+      </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
@@ -99,16 +120,10 @@ export const PaymentsWebhooksCreateButton: React.FC<
             });
           })}
         >
-          <ModalHeader>Create Webhook</ModalHeader>
+          <ModalHeader>{createTitle}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir="column" gap={4}>
-              <FormControl isRequired>
-                <FormControl>
-                  <FormLabel>Environment</FormLabel>
-                  <Text>{isMainnet ? "Mainnet" : "Testnet"}</Text>
-                </FormControl>
-              </FormControl>
               <FormControl
                 isRequired
                 isInvalid={!!form.getFieldState("url", form.formState).error}
