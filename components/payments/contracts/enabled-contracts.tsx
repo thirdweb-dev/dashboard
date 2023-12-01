@@ -46,11 +46,13 @@ export const EnabledContracts = () => {
             return null;
           }
 
-          <PaymentEnabledCard
-            key={contract.id}
-            chainId={chainId}
-            contract={contract}
-          />;
+          return (
+            <PaymentEnabledCard
+              key={contract.id}
+              chainId={chainId}
+              contract={contract}
+            />
+          );
         })
       ) : (
         <Card p={8} bgColor="backgroundCardHighlight" my={6}>
