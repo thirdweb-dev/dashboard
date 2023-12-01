@@ -2,7 +2,7 @@ import {
   usePaymentsWebhooksByAccountId,
   usePaymentsWebhooksSecretKeyByAccountId,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Flex, Divider, Spinner } from "@chakra-ui/react";
+import { Flex, Divider, Skeleton } from "@chakra-ui/react";
 import { Card, Heading, CodeBlock, Text } from "tw-components";
 import { PaymentsWebhooksTable } from "./payments-webhooks-table";
 import { DetailsRow } from "components/settings/ApiKeys/DetailsRow";
@@ -18,7 +18,7 @@ interface PaymentsWebhooksProps {
 export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
   accountId,
 }) => {
-  const { data: webhookApiKey, isLoading: isLoadingSecretKey } =
+  const { data: webhookApiKey, isFetched: isSecretKeyFetched } =
     usePaymentsWebhooksSecretKeyByAccountId(accountId);
   const {
     data: webhooks,
@@ -53,13 +53,9 @@ export const PaymentsWebhooks: React.FC<PaymentsWebhooksProps> = ({
           title="Secret Key"
           tooltip={`Used for authenticating the webhook request`}
           content={
-            isLoadingSecretKey ? (
-              <Flex justifyContent="center" alignItems="center">
-                <Spinner size="sm" />
-              </Flex>
-            ) : (
+            <Skeleton isLoaded={isSecretKeyFetched} w="full" borderRadius="md">
               <CodeBlock code={webhookApiKey?.data?.decrypted_key ?? ""} />
-            )
+            </Skeleton>
           }
         />
 
