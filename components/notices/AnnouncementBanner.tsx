@@ -29,7 +29,7 @@ export const AnnouncementBanner = () => {
         <TrackedLink
           href="https://blog.thirdweb.com/security-vulnerability"
           category="announcement"
-          label="engine"
+          label="security"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
