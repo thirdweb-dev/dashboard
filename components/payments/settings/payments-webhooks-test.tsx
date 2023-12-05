@@ -190,11 +190,7 @@ export const PaymentsWebhooksTestButton: React.FC<
                     <StatusTag status={data?.status || 200} />
                   </Skeleton>
                   <Heading size="label.sm">Response Body</Heading>
-                  <Skeleton
-                    isLoaded={!!data?.responseBody}
-                    w="full"
-                    borderRadius="md"
-                  >
+                  <Skeleton isLoaded={!isLoading} w="full" borderRadius="md">
                     <CodeBlock
                       code={beautifyString(data?.responseBody || "")}
                       wrap={true}
