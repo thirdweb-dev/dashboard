@@ -45,6 +45,18 @@ export interface PaymentsWebhooksTestButtonProps {
   isDisabled: boolean;
 }
 
+const beautifyString = (responseBody: string) => {
+  let formattedJson = responseBody || "";
+
+  try {
+    const jsonObject = JSON.parse(responseBody);
+    formattedJson = JSON.stringify(jsonObject, null, 2);
+    return formattedJson;
+  } catch (e) {
+    return responseBody;
+  }
+};
+
 export const StatusTag = ({ status }: { status: number }) => {
   const isSuccess = status >= 200 && status < 300;
   return (
@@ -70,12 +82,7 @@ export const PaymentsWebhooksTestButton: React.FC<
     responseBody: string;
   }>();
 
-  const form = useForm<PaymentsWebhooksTestInput>({
-    defaultValues: {
-      webhookUrl: webhooks[0] ? webhooks[0].url : "",
-      webhookEvent: Object.values(WebhookEvent)[0],
-    },
-  });
+  const form = useForm<PaymentsWebhooksTestInput>();
 
   const testTitle = `Test ${isMainnets ? "Mainnets" : "Testnets"} Webhook`;
 
@@ -89,8 +96,8 @@ export const PaymentsWebhooksTestButton: React.FC<
           isDisabled ? (
             <Card py={2} px={4} bgColor="backgroundHighlight">
               <Text>
-                You need to create a {isMainnets ? "Mainnets" : "Testnets"}{" "}
-                webhook first.
+                No {isMainnets ? "Mainnets" : "Testnets"} webhooks available to
+                test.
               </Text>
             </Card>
           ) : undefined
@@ -144,7 +151,13 @@ export const PaymentsWebhooksTestButton: React.FC<
           })}
         >
           <ModalHeader>{testTitle}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton
+            onClick={() => {
+              form.reset();
+              setData(undefined);
+              onClose();
+            }}
+          />
           <ModalBody pb={4}>
             <Flex flexDir="column" gap={4}>
               <FormControl isRequired>
@@ -161,7 +174,9 @@ export const PaymentsWebhooksTestButton: React.FC<
                 <FormLabel>Webhook Event</FormLabel>
                 <Select {...form.register("webhookEvent", { required: true })}>
                   {Object.values(WebhookEvent).map((event) => (
-                    <option key={event}>{event}</option>
+                    <option key={event} value={event}>
+                      {event}
+                    </option>
                   ))}
                 </Select>
               </FormControl>
@@ -180,7 +195,16 @@ export const PaymentsWebhooksTestButton: React.FC<
                     w="full"
                     borderRadius="md"
                   >
-                    <CodeBlock code={data?.responseBody || ""} />
+                    <CodeBlock
+                      code={beautifyString(data?.responseBody || "")}
+                      wrap={true}
+                      // Add styles for overflow
+                      style={{
+                        overflowX: "auto",
+                        overflowY: "auto",
+                        maxHeight: "300px",
+                      }}
+                    />
                   </Skeleton>
                 </Stack>
               ) : null}
