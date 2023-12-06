@@ -137,6 +137,21 @@ export const Onboarding: React.FC = () => {
     return null;
   }
 
+  // if we somehow get into this state, do not render anything
+  if (
+    state === "onboarding" &&
+    (account.emailConfirmedAt || meQuery.isPreviousData)
+  ) {
+    console.error("Onboarding state is invalid, skipping rendering");
+    trackEvent({
+      category: "account",
+      action: "onboardingStateInvalid",
+      label: "onboarding",
+      data: { state },
+    });
+    return null;
+  }
+
   return (
     <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
       {state === "onboarding" && (
