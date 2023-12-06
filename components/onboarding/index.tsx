@@ -138,10 +138,7 @@ export const Onboarding: React.FC = () => {
   }
 
   // if we somehow get into this state, do not render anything
-  if (
-    state === "onboarding" &&
-    (account.emailConfirmedAt || meQuery.isPreviousData)
-  ) {
+  if (state === "onboarding" && account.emailConfirmedAt) {
     console.error("Onboarding state is invalid, skipping rendering");
     trackEvent({
       category: "account",
