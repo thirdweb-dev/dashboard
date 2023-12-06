@@ -35,7 +35,7 @@ export const Onboarding: React.FC = () => {
   >();
   const [updatedEmail, setUpdatedEmail] = useState<string | undefined>();
 
-  const account = meQuery.data as Account;
+  const account = meQuery.data;
 
   const handleSave = (email?: string) => {
     const tracking = {
@@ -43,7 +43,7 @@ export const Onboarding: React.FC = () => {
       action: "onboardingStep",
       label: "next",
       data: {
-        email: account.unconfirmedEmail || email || updatedEmail,
+        email: account?.unconfirmedEmail || email || updatedEmail,
       },
     };
 
@@ -61,7 +61,14 @@ export const Onboarding: React.FC = () => {
           nextStep: "confirming",
         },
       });
-    } else if (state === "confirming") {
+    }
+
+    // if account is not ready yet we cannot do anything here
+    if (!account) {
+      return;
+    }
+
+    if (state === "confirming") {
       const newState = skipBilling(account) ? "skipped" : "billing";
       setState(newState);
 
