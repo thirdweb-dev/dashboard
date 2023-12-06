@@ -5,7 +5,6 @@ import FAQ from "components/hackathon/FAQ";
 import { HackathonFooter } from "components/hackathon/HackathonFooter";
 import { Judges } from "components/hackathon/Judges";
 import Reason from "components/hackathon/Reason";
-import { ScheduleSection } from "components/hackathon/ScheduleSection";
 import { Sponsors } from "components/hackathon/Sponsors";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -24,9 +23,9 @@ const List = dynamic(
   },
 );
 
-const Timer = dynamic(() => import("components/hackathon/Timer"), {
+/* const Timer = dynamic(() => import("components/hackathon/Timer"), {
   ssr: false,
-});
+}); */
 
 const TRACKING_CATEGORY = "base-thirdweb-hacakthon";
 
@@ -119,10 +118,10 @@ const Hackathon = () => {
               letterSpacing={5}
               textAlign="center"
             >
-              DECEMBER 8 - 10
+              Q1 2024
             </Heading>
 
-            <Timer />
+            {/* <Timer /> */}
 
             <LinkButton
               href="https://docs.google.com/forms/d/1CT8LPG1DrcpTKAW38ScVzTcyBNwS6ANOk6xpfjpXLAs/edit"
@@ -162,9 +161,9 @@ const Hackathon = () => {
         >
           <Reason />
 
-          <HomepageSection>
+          {/*   <HomepageSection>
             <ScheduleSection />
-          </HomepageSection>
+          </HomepageSection> */}
 
           <HomepageSection>
             <Flex flexDir="column" alignItems="center" gap={8}>
@@ -226,8 +225,9 @@ const Hackathon = () => {
                 </Text>
                 <Text size="body.xl" color="white">
                   Participants will be able to submit their project to the form
-                  in the hackathon landing page before the deadline, on{" "}
-                  <b>December 10th at 9:00am PST</b>.
+                  in the hackathon landing page before the deadline
+                  {/* , on{" "}
+                  <b>December 10th at 9:00am PST</b>. */}
                 </Text>
               </Flex>
             </Flex>
