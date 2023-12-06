@@ -156,6 +156,17 @@ export const Onboarding: React.FC = () => {
     return null;
   }
 
+  if (state === "billing" && skipBilling(account)) {
+    console.error("Billing state is invalid, skipping rendering");
+    trackEvent({
+      category: "account",
+      action: "onboardingStateInvalid",
+      label: "billing",
+      data: { state, skipBilling },
+    });
+    return null;
+  }
+
   return (
     <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
       {state === "onboarding" && (
