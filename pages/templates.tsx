@@ -36,6 +36,19 @@ export interface TemplateCardProps {
 
 export const templates: TemplateCardProps[] = [
   {
+    id: "token-bound-account",
+    title: "Token Bound Account",
+    homepage: "https://token-bound-account-app.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/token-bound-account-app",
+    description:
+      "Create a frontend for users to create erc-6551 smart wallets for their NFTs & claim erc-20 tokens!",
+    img: "/assets/templates/token-bound-account.png",
+    hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
+    tags: ["ERC6551", "Smart Wallet"],
+    authorENS: "thirdweb.eth",
+    authorIcon: "/assets/templates/thirdweb-eth.png",
+  },
+  {
     id: "phygital-experience",
     title: "Phygital Experience",
     homepage: "https://engine-phygital.vercel.app/qrs",
