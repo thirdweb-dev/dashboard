@@ -4912,7 +4912,7 @@
     uuid "^9.0.1"
     zod "^3.22.3"
 
-"@thirdweb-dev/chains@0.1.61":
+"@thirdweb-dev/chains@0.1.61", "@thirdweb-dev/chains@^0.1.59-nightly-4bb8f5b1-20231122151949":
   version "0.1.61"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.61.tgz#4798164d1e7f07269c04f821e4d56102b476d3ae"
   integrity sha512-SlFXjqtqZbGqSYKv1HEhGIG03QjnkQPrgLO7WAar7/ZreEqDb3CtUzysSXnblfMqDDwe51dmWBcZ3dXXtTSZxg==
