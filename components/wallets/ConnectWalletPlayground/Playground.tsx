@@ -17,6 +17,7 @@ import {
   ConnectWallet,
   ConnectEmbed,
   useShowConnectEmbed,
+  useAddress,
 } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -1235,6 +1236,12 @@ export const ConnectWalletPlayground: React.FC<{
 };
 
 function WalletConnected(props: { loginOptional?: boolean }) {
+  const address = useAddress();
+
+  console.log({
+    address,
+  });
+
   const showConnectEmbed = useShowConnectEmbed(props.loginOptional);
 
   if (!showConnectEmbed) {
