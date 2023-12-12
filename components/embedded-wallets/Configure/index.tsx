@@ -3,7 +3,6 @@ import {
   ApiKeyService,
   useUpdateApiKey,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Divider,
@@ -15,23 +14,24 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ApiKeyEmbeddedWalletsValidationSchema,
   apiKeyEmbeddedWalletsValidationSchema,
 } from "components/settings/ApiKeys/validations";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import {
+  Button,
   Card,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   Text,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
   TrackedLink,
 } from "tw-components";
-import { useTxNotifications } from "hooks/useTxNotifications";
-import { useTrack } from "hooks/analytics/useTrack";
 
 interface ConfigureProps {
   apiKey: ApiKey;
@@ -62,6 +62,7 @@ export const Configure: React.FC<ConfigureProps> = ({
     resolver: zodResolver(apiKeyEmbeddedWalletsValidationSchema),
     defaultValues: {
       recoveryShareManagement: config.recoveryShareManagement,
+      customAuthEndpoint: config.customAuthEndpoint,
       customAuthentication: config.customAuthentication,
       applicationName: config.applicationName,
       applicationImageUrl: config.applicationImageUrl,

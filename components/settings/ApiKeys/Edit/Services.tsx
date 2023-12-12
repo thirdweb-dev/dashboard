@@ -48,10 +48,6 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
     control: form.control,
     name: `services.${embeddedWalletIndex}.customAuthEndpoint.customHeaders`,
   });
-  console.log(
-    "customAuthEndpointHeaderField.fields",
-    customAuthEndpointHeaderField.fields,
-  );
 
   const handleAction = (
     srvIdx: number,
