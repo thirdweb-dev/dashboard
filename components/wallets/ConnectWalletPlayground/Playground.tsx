@@ -7,13 +7,17 @@ import {
   Grid,
   useBreakpointValue,
   useColorMode,
-  Spacer,
   Switch,
   Icon,
   Select,
   FormControl,
+  Spacer,
 } from "@chakra-ui/react";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  ConnectEmbed,
+  useShowConnectEmbed,
+} from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -556,10 +560,13 @@ export const ConnectWalletPlayground: React.FC<{
 
   const walletIds = supportedWallets.map((x) => x.id) as WalletId[];
   const showInlineModal = useCanShowInlineModal(walletIds);
-
   const previewSection = (
-    <Box>
-      <Text color="faded">Live Preview</Text>
+    <PreviewThirdwebProvider
+      locale={locale}
+      authEnabled={authEnabled}
+      supportedWallets={supportedWallets}
+    >
+      <Text color="faded">ConnectWallet</Text>
       <Spacer height={2} />
       <Box
         border="1px solid"
@@ -574,28 +581,22 @@ export const ConnectWalletPlayground: React.FC<{
         }}
       >
         <Box>
-          <PreviewThirdwebProvider
-            locale={locale}
-            authEnabled={authEnabled}
-            supportedWallets={supportedWallets}
-          >
-            <ConnectWallet
-              modalSize={modalSize}
-              modalTitle={modalTitle}
-              theme={themeObj}
-              btnTitle={btnTitle || undefined}
-              modalTitleIconUrl={
-                modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
-              }
-              auth={{ loginOptional: !authEnabled }}
-              switchToActiveChain={switchToActiveChain}
-              welcomeScreen={welcomeScreen}
-              termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
-              privacyPolicyUrl={
-                privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
-              }
-            />
-          </PreviewThirdwebProvider>
+          <ConnectWallet
+            modalSize={modalSize}
+            modalTitle={modalTitle}
+            theme={themeObj}
+            btnTitle={btnTitle || undefined}
+            modalTitleIconUrl={
+              modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
+            }
+            auth={{ loginOptional: !authEnabled }}
+            switchToActiveChain={switchToActiveChain}
+            welcomeScreen={welcomeScreen}
+            termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
+            privacyPolicyUrl={
+              privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
+            }
+          />
         </Box>
       </Box>
 
@@ -603,13 +604,9 @@ export const ConnectWalletPlayground: React.FC<{
 
       {/* Modal UI */}
       <Box>
-        <Text color="faded">Modal UI</Text>
+        <Text color="faded">ConnectEmbed</Text>
         <Box height={2} />
-        <PreviewThirdwebProvider
-          locale={locale}
-          authEnabled={authEnabled}
-          supportedWallets={supportedWallets}
-        >
+        <Box>
           <ClientOnly
             ssr={null}
             style={{
@@ -619,21 +616,17 @@ export const ConnectWalletPlayground: React.FC<{
             }}
           >
             {showInlineModal && (
-              <ConnectModalInlinePreview
-                modalSize={modalSize}
-                walletIds={supportedWallets.map((x) => x.id) as WalletId[]}
-                modalTitle={modalTitle}
+              <ConnectEmbed
                 theme={themeObj}
-                welcomeScreen={welcomeScreen}
-                modalTitleIconUrl={
-                  modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
-                }
                 termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
                 privacyPolicyUrl={
                   privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
                 }
+                auth={{ loginOptional: !authEnabled }}
               />
             )}
+
+            <WalletConnected loginOptional={!authEnabled} />
 
             {!showInlineModal && (
               <Flex justifyContent="center" p={4}>
@@ -656,9 +649,9 @@ export const ConnectWalletPlayground: React.FC<{
               </Flex>
             )}
           </ClientOnly>
-        </PreviewThirdwebProvider>
+        </Box>
       </Box>
-    </Box>
+    </PreviewThirdwebProvider>
   );
 
   const tab1 = (
@@ -1240,6 +1233,27 @@ export const ConnectWalletPlayground: React.FC<{
     </Box>
   );
 };
+
+function WalletConnected(props: { loginOptional?: boolean }) {
+  const showConnectEmbed = useShowConnectEmbed(props.loginOptional);
+
+  if (!showConnectEmbed) {
+    return (
+      <Flex
+        minH={300}
+        border="1px solid"
+        borderColor="borderColor"
+        borderRadius="md"
+        p={6}
+        w="100%"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        Wallet Connected
+      </Flex>
+    );
+  }
+}
 
 function CustomTab(props: {
   label: string;
