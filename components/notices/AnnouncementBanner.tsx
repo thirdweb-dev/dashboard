@@ -26,11 +26,7 @@ export const AnnouncementBanner = () => {
         px={4}
       >
         <Box display={{ base: "none", md: "block" }} />
-        <TrackedLink
-          href="/engine"
-          category="announcement"
-          label="engine"
-        >
+        <TrackedLink href="/engine" category="announcement" label="engine">
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
               cursor="pointer"
