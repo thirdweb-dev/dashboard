@@ -42,8 +42,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing Engine: The open-source HTTP server
-                for scalable web3 apps. Start building
+                Introducing Engine: The open-source HTTP server for scalable
+                web3 apps. Start building
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
