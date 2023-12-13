@@ -323,12 +323,17 @@ export function usePaymentsRegisterContract() {
       const contract = await sdk.getContract(input.contractAddress);
       invariant(contract?.abi, "No contract ABI found");
 
+      const hasDetectedExtensions = hasPaymentsDetectedExtensions(contract);
+      const contractType = hasDetectedExtensions
+        ? "THIRDWEB"
+        : "CUSTOM_CONTRACT";
+
       const body: RegisterContractInput = {
         ...input,
         contractDefinition: contract.abi,
         contractAddress: input.contractAddress.toLowerCase(),
         chain: ChainIdToPaperChain[parseInt(input.chain)],
-        contractType: input.contractType || "THIRDWEB",
+        contractType,
         displayName: input.displayName,
       };
 
