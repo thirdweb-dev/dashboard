@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="https://blog.thirdweb.com/security-vulnerability"
+          href="/engine"
           category="announcement"
-          label="security"
+          label="engine"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Smart contract security vulnerability - Potential action
-                required
+                Introducing Engine: The open-source HTTP server
+                for scalable web3 apps. Start building
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
