@@ -23,6 +23,7 @@ import {
 } from "components/settings/ApiKeys/validations";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { LuTrash2 } from "react-icons/lu";
 import {
@@ -75,6 +76,15 @@ export const Configure: React.FC<ConfigureProps> = ({
     control: form.control,
     name: "customAuthEndpoint.customHeaders",
   });
+  useEffect(() => {
+    form.reset({
+      recoveryShareManagement: config.recoveryShareManagement,
+      customAuthEndpoint: config.customAuthEndpoint,
+      customAuthentication: config.customAuthentication,
+      applicationName: config.applicationName,
+      applicationImageUrl: config.applicationImageUrl,
+    });
+  }, [config, form]);
 
   const { onSuccess, onError } = useTxNotifications(
     "Embedded Wallet API Key configuration updated",
