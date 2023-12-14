@@ -94,52 +94,55 @@ interface LandingCardWithMetricsProps {
   desktopColumns: number;
   metrics: Omit<CardWithMetricsProps, "TRACKING_CATEGORY">[];
   TRACKING_CATEGORY: string;
+  gridMaxWidth?: string | number;
 }
 
 const LandingCardWithMetrics = ({
   title,
   desktopColumns,
   metrics,
+  gridMaxWidth = "100%",
   TRACKING_CATEGORY,
 }: LandingCardWithMetricsProps) => {
   return (
-    <Container
-      position="relative"
-      maxW="container.page"
-      mt={20}
-      mb={{ base: 12, md: 40 }}
-      zIndex={10}
-    >
+    <Container position="relative" maxW="container.page" p={0}>
       <Flex flexDir="column" gap={58}>
         {title && title}
-        <SimpleGrid columns={{ base: 1, md: desktopColumns }} gap={6}>
-          {metrics.map(
-            (
-              {
-                title: cardTitle,
-                description: cardDescription,
-                href,
-                hoverBackground,
-                items,
-                image,
-                mobileImage,
-              },
-              idx,
-            ) => (
-              <CardWithMetric
-                key={idx}
-                title={cardTitle}
-                description={cardDescription}
-                href={href}
-                TRACKING_CATEGORY={TRACKING_CATEGORY}
-                hoverBackground={hoverBackground}
-                items={items}
-                mobileImage={mobileImage}
-                image={image}
-              />
-            ),
-          )}
-        </SimpleGrid>
+        <Flex justifyContent="center">
+          <SimpleGrid
+            columns={{ base: 1, md: desktopColumns }}
+            gap={6}
+            w="full"
+            maxW={gridMaxWidth}
+          >
+            {metrics.map(
+              (
+                {
+                  title: cardTitle,
+                  description: cardDescription,
+                  href,
+                  hoverBackground,
+                  items,
+                  image,
+                  mobileImage,
+                },
+                idx,
+              ) => (
+                <CardWithMetric
+                  key={idx}
+                  title={cardTitle}
+                  description={cardDescription}
+                  href={href}
+                  TRACKING_CATEGORY={TRACKING_CATEGORY}
+                  hoverBackground={hoverBackground}
+                  items={items}
+                  mobileImage={mobileImage}
+                  image={image}
+                />
+              ),
+            )}
+          </SimpleGrid>
+        </Flex>
       </Flex>
     </Container>
   );
