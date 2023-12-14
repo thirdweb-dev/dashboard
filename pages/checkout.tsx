@@ -210,8 +210,8 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           <LandingCardWithImage
             title="Built for scale"
             description="Engineered to process millions of dollars — with ~3,000 transactions per minute, 90%+ authorization rates, & high limits."
-            image={require("public/assets/landingpage/desktop/worldwide.png")}
-            mobileImage={require("public/assets/landingpage/mobile/worldwide.png")}
+            image={require("public/assets/landingpage/desktop/built-for-scale.png")}
+            mobileImage={require("public/assets/landingpage/mobile/built-for-scale.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="/dashboard/engine"
             colSpan={1}
