@@ -5,12 +5,11 @@ import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "checkout-landing";
