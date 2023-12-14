@@ -539,29 +539,42 @@ export const CreateUpdateCheckoutButton: React.FC<
     claimConditions,
   ]);
 
+  const _thirdwebClientId = form.watch("thirdwebClientId");
+  const _title = form.watch("title");
+  const _tokenId = isErc1155 ? form.watch("tokenId") : null;
+  const _mintFunctionName = form.watch("mintFunctionName");
+  const _currencySymbol = form.watch("priceAndCurrencySymbol.currencySymbol");
+  const _price = form.watch("priceAndCurrencySymbol.price");
+
   const isValid = useMemo(() => {
     if (step === "info") {
       if (
         apiKeys.length === 0 ||
-        !form.watch("thirdwebClientId") ||
-        !form.watch("title") ||
-        (isErc1155 && !form.watch("tokenId"))
+        !_thirdwebClientId ||
+        !_title ||
+        (isErc1155 && !_tokenId)
       ) {
         return false;
       }
     }
 
     if (step === "no-detected-extensions") {
-      if (
-        !form.watch("mintFunctionName") ||
-        (!form.watch("priceAndCurrencySymbol.currencySymbol") &&
-          !form.watch("priceAndCurrencySymbol.price"))
-      ) {
+      if (!_mintFunctionName || (!_currencySymbol && !_price)) {
         return false;
       }
     }
     return true;
-  }, [apiKeys, form, isErc1155, step]);
+  }, [
+    apiKeys,
+    isErc1155,
+    step,
+    _thirdwebClientId,
+    _title,
+    _tokenId,
+    _mintFunctionName,
+    _currencySymbol,
+    _price,
+  ]);
 
   const handleNext = async () => {
     await form.trigger();
