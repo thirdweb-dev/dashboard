@@ -11,29 +11,24 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import checkoutLottie from "../public/assets/product-pages/checkout/checkout.json";
 
 const TRACKING_CATEGORY = "checkout-landing";
 
 const CASE_STUDIES = [
   {
-    title: "Balmain x Space Runners",
-    description:
-      "Pushed the boundaries of fashion and the Metaverse with a collection of limited-edition sneakers linked to a unique Balmain x Space Runners Unicorn NFT.",
+    title: "NFT Checkout: Docs Overview",
     image: require("public/assets/product-pages/checkout/case-study-1.png"),
-    link: "https://blog.withpaper.com/how-space-runners-and-balmain-are-shaping-the-future-of-fashion-with-nfts/",
+    link: "https://blog.withpaper.com/how-space-runners-checkout/case-study-1.pngand-balmain-are-shaping-the-future-of-fashion-with-nfts/",
   },
   {
-    title: "Ostrich",
-    description:
-      "Used NFTs to crowdfund their new fintech startup, raising more money with a fiat checkout solution.",
+    title: "NFT Checkout: Getting Started",
     image: require("public/assets/product-pages/checkout/case-study-2.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
   {
-    title: "Ostrich",
-    description:
-      "Used NFTs to crowdfund their new fintech startup, raising more money with a fiat checkout solution.",
-    image: require("public/assets/product-pages/checkout/case-study-2.png"),
+    title: "NFT Checkout: Embedded Elements",
+    image: require("public/assets/product-pages/checkout/case-study-3.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
 ];
@@ -94,16 +89,16 @@ const CheckoutLanding: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Buy NFTs with Credit Card Checkout",
+        title: "Buy NFTs with Credit Card | Fiat Checkout",
         description:
-          "Let users buy digital assets with a credit card, via a one-click checkout flow. Onboard anyone, even if they've never create a wallet.",
+          "Let users buy digital assets with a credit card via one-click NFT checkouts. Onboard anyone, even if they've never created a wallet. Get started.",
         openGraph: {
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/checkout.png`,
               width: 1200,
               height: 630,
-              alt: "Buy NFTs with Credit Card Checkout",
+              alt: "Buy NFTs with Credit Card | Fiat Checkout",
             },
           ],
         },
@@ -117,16 +112,14 @@ const CheckoutLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Checkout"
-          title="NFT checkout"
+          title="One-click NFT checkout with"
           titleWithGradient="with a credit card"
-          subtitle="Enable users to buy digital assets with a credit card. Onboard everyone, even if they've never created a wallet or bought crypto before."
+          subtitle="Sell digital assets to anyone — with worldwide availability, all major payment methods, and 100% chargeback protection."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://withpaper.com/sign-up"
           contactUsTitle="Book Demo"
           gradient="linear(to-r,  #1DC1AE, #1DC1AE)"
-          image={require("public/assets/product-pages/hero/desktop-hero-checkout.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-checkout.png")}
-          miniImage={require("public/assets/product-icons/payments.png")}
+          lottie={checkoutLottie}
         />
 
         <LandingGridSection
@@ -255,21 +248,21 @@ const CheckoutLanding: ThirdwebNextPage = () => {
         />
 
         <LandingGuidesShowcase
-          title="Get started with Embedded Wallets"
+          title="Get started with NFT Checkout"
           category={TRACKING_CATEGORY}
-          description="Read the docs, see the live demo, and use the quick-start template to build with Embedded Wallets."
+          description="Read the full docs and start building with NFT Checkout."
           guides={CASE_STUDIES}
-          customSolution="See the full Embedded Wallet docs"
+          customSolution="See the full NFT Checkout docs"
           customSolutionHref="https://portal.thirdweb.com/embedded-wallet"
           py={0}
         />
 
         <LandingEndCTA
-          title="Integrate checkouts"
-          titleWithGradient="in a few lines of code."
+          title="Add checkouts to your app"
+          titleWithGradient="in 10 minutes."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://withpaper.com/sign-up"
-          gradient="linear(to-r, #00A876, #75FFD6)"
+          gradient="linear(to-r,  #1DC1AE, #1DC1AE)"
         />
       </Container>
     </LandingLayout>
