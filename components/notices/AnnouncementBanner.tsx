@@ -42,8 +42,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing Checkout: Sell NFTs to anyone with a credit card
-                or crypto. Get started
+                Introducing Checkout: Sell NFTs to anyone with a credit card or
+                crypto. Get started
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
