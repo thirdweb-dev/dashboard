@@ -22,13 +22,13 @@ const CASE_STUDIES = [
     link: "https://blog.withpaper.com/how-space-runners-checkout/case-study-1.pngand-balmain-are-shaping-the-future-of-fashion-with-nfts/",
   },
   {
-    title: "NFT Checkout: Getting Started",
-    image: require("public/assets/product-pages/checkout/case-study-2.png"),
+    title: "NFT Checkout: Embedded Elements",
+    image: require("public/assets/product-pages/checkout/case-study-3.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
   {
-    title: "NFT Checkout: Embedded Elements",
-    image: require("public/assets/product-pages/checkout/case-study-3.png"),
+    title: "NFT Checkout: Getting Started",
+    image: require("public/assets/product-pages/checkout/case-study-2.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
 ];
@@ -112,9 +112,9 @@ const CheckoutLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Checkout"
-          title="One-click NFT checkout with"
-          titleWithGradient="with a credit card"
-          subtitle="Sell digital assets to anyone — with worldwide availability, all major payment methods, and 100% chargeback protection."
+          title="Powerful NFT checkouts,"
+          titleWithGradient="for everyone"
+          subtitle="Sell NFTs to users with a credit card — with worldwide support for major payment methods, seamless buyer & seller flows, and 100% chargeback protection."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://withpaper.com/sign-up"
           contactUsTitle="Book Demo"
@@ -251,7 +251,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
         <LandingGuidesShowcase
           title="Get started with NFT Checkout"
           category={TRACKING_CATEGORY}
-          description="Read the full docs and start building with NFT Checkout."
+          description="Read the full docs and start building with the most powerful web3 payments stack."
           guides={CASE_STUDIES}
           customSolution="See the full NFT Checkout docs"
           customSolutionHref="https://portal.thirdweb.com/embedded-wallet"
