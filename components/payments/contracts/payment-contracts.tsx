@@ -10,7 +10,6 @@ import { useMemo } from "react";
 export const PaymentContracts = () => {
   const address = useAddress();
   const deployedContracts = useAllContractList(address);
-  const { data: account } = useAccount();
   const { paymentsSellerId } = useApiAuthToken();
 
   const filteredByChain = useMemo(() => {
@@ -25,10 +24,10 @@ export const PaymentContracts = () => {
 
   return (
     <Flex flexDir="column" gap={3}>
-      {account?.id ? (
+      {paymentsSellerId ? (
         <PaymentContractsTable
           paymentContracts={filteredByChain || []}
-          paymentsSellerId={paymentsSellerId || ""}
+          paymentsSellerId={paymentsSellerId}
           isLoading={deployedContracts.isLoading}
           isFetched={deployedContracts.isFetched}
         />
