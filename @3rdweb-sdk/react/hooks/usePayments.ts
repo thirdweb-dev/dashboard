@@ -28,16 +28,9 @@ import { PROD_OR_DEV_URL } from "constants/rpc";
 import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
 import { BaseContract } from "ethers";
 import {
-  GetSellerByThirdwebAccountIdDocument,
-  GetSellerByThirdwebAccountIdQuery,
-  GetSellerByThirdwebAccountIdQueryVariables,
-  useGetSellerByThirdwebAccountIdLazyQuery,
-} from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
-import {
   InsertWebhookMutationVariables,
   useInsertWebhookMutation,
 } from "graphql/mutations/__generated__/InsertWebhook.generated";
-import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
 import {
   UpdateWebhookMutationVariables,
   useUpdateWebhookMutation,
@@ -918,13 +911,13 @@ export type PaymentsWebhooksType = {
   createdAt: Date;
 };
 
-export function usePaymentsWebhooksByAccountId(accountId: string) {
-  invariant(accountId, "accountId is required");
-  const { paymentsSellerId } = useApiAuthToken();
+export function usePaymentsWebhooksById(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
+
   const [getWebhooksBySellerId] = useWebhooksBySellerIdLazyQuery();
 
   return useQuery(
-    paymentsKeys.webhooks(accountId),
+    paymentsKeys.webhooks(paymentsSellerId),
     async () => {
       invariant(paymentsSellerId, "no payments seller id found");
       const { data, error } = await getWebhooksBySellerId({
@@ -947,7 +940,7 @@ export function usePaymentsWebhooksByAccountId(accountId: string) {
           })) as PaymentsWebhooksType[])
         : ([] as PaymentsWebhooksType[]);
     },
-    { enabled: !!paymentsSellerId && !!accountId },
+    { enabled: !!paymentsSellerId },
   );
 }
 
@@ -956,10 +949,9 @@ export type CreateWebhookInput = {
   isProduction: boolean;
 };
 
-export function usePaymentsCreateWebhook(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsCreateWebhook(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
   const queryClient = useQueryClient();
-  const { paymentsSellerId } = useApiAuthToken();
 
   const [createWebhookBySellerId] = useInsertWebhookMutation({
     refetchQueries: [WebhooksBySellerIdDocument],
@@ -981,7 +973,9 @@ export function usePaymentsCreateWebhook(accountId: string) {
     },
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
+        return queryClient.invalidateQueries(
+          paymentsKeys.webhooks(paymentsSellerId),
+        );
       },
     },
   );
@@ -993,10 +987,9 @@ export type UpdateWebhookInput = {
   deletedAt?: Date;
 };
 
-export function usePaymentsUpdateWebhook(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsUpdateWebhook(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
   const queryClient = useQueryClient();
-  const { paymentsSellerId } = useApiAuthToken();
 
   const [updateWebhookBySellerId] = useUpdateWebhookMutation({
     refetchQueries: [WebhooksBySellerIdDocument],
@@ -1018,7 +1011,9 @@ export function usePaymentsUpdateWebhook(accountId: string) {
     },
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(paymentsKeys.webhooks(accountId));
+        return queryClient.invalidateQueries(
+          paymentsKeys.webhooks(paymentsSellerId),
+        );
       },
     },
   );
@@ -1031,14 +1026,12 @@ export type PaymentsWebhookSecretType = {
   hashedKey: string;
 };
 
-export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsWebhooksSecretKeyById(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
 
   const fetchFromPaymentsAPI = usePaymentsApi();
-  const { paymentsSellerId } = useApiAuthToken();
-
   return useQuery(
-    paymentsKeys.webhookSecret(accountId),
+    paymentsKeys.webhookSecret(paymentsSellerId),
     async () => {
       invariant(paymentsSellerId, "No sellerId found");
 
@@ -1053,7 +1046,7 @@ export function usePaymentsWebhooksSecretKeyByAccountId(accountId: string) {
         },
       );
     },
-    { enabled: !!paymentsSellerId && !!accountId },
+    { enabled: !!paymentsSellerId },
   );
 }
 
@@ -1096,8 +1089,8 @@ export type PaymentsWebhooksTestInput = {
   webhookUrl: string;
 };
 
-export function usePaymentsTestWebhook(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsTestWebhook(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
 
   const fetchFromPaymentsAPI = usePaymentsApi();
 

@@ -21,7 +21,7 @@ const PaymentsSettings: ThirdwebNextPage = () => {
 
   return (
     <Flex flexDir="column" gap={8}>
-      {account?.id && (
+      {paymentsSellerId && (
         <>
           <PaymentsSettingsChecklist paymentsSellerId={paymentsSellerId} />
           <PaymentsSettingsAccount paymentsSellerId={paymentsSellerId} />
