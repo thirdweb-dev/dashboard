@@ -119,6 +119,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           ctaLink="https://withpaper.com/sign-up"
           contactUsTitle="Book Demo"
           gradient="linear(to-r,  #1DC1AE, #1DC1AE)"
+          miniImage={require("public/assets/product-icons/payments.png")}
           lottie={checkoutLottie}
         />
 
