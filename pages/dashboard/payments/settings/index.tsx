@@ -1,4 +1,4 @@
-import { useAccount, useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
+import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
@@ -11,7 +11,6 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 
 const PaymentsSettings: ThirdwebNextPage = () => {
-  const { data: account } = useAccount();
   const { paymentsSellerId } = useApiAuthToken();
   const { user } = useLoggedInUser();
 
