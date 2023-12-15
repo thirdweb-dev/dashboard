@@ -211,6 +211,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
             icon: FiTrash,
             text: "Delete",
             onClick: onDelete,
+            isDestructive: true,
           },
         ]}
       />
