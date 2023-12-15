@@ -1,4 +1,10 @@
-import { Container, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  Container,
+  Flex,
+  FlexboxProps,
+  GridItem,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 import { StaticImageData } from "next/image";
@@ -17,6 +23,7 @@ interface CardWithMetricsProps {
   TRACKING_CATEGORY: string;
   hoverBackground: string;
   items: MetricItem[];
+  flexImage?: FlexboxProps["flex"];
   image: StaticImageData;
   mobileImage: StaticImageData;
 }
@@ -29,6 +36,7 @@ const CardWithMetric = ({
   image,
   mobileImage,
   items,
+  flexImage = 1,
   hoverBackground,
 }: CardWithMetricsProps) => {
   return (
@@ -57,7 +65,7 @@ const CardWithMetric = ({
         rounded="lg"
         h="full"
       >
-        <Flex flex={1}>
+        <Flex flex={flexImage}>
           <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
         </Flex>
 
@@ -71,18 +79,19 @@ const CardWithMetric = ({
         </Flex>
 
         <SimpleGrid columns={4} placeItems="center" mt={8}>
-          {items.map((item, index) => (
-            <GridItem colSpan={item.colSpan ? item.colSpan : 1} key={index}>
-              <Flex flex={1} flexDir="column">
-                <Heading size="title.xs" color="white">
-                  {item.title}
-                </Heading>
-                <Text size="body.sm" mt={1}>
-                  {item.description}
-                </Text>
-              </Flex>
-            </GridItem>
-          ))}
+          {items.length > 0 &&
+            items.map((item, index) => (
+              <GridItem colSpan={item.colSpan ? item.colSpan : 1} key={index}>
+                <Flex flex={1} flexDir="column">
+                  <Heading size="title.xs" color="white">
+                    {item.title}
+                  </Heading>
+                  <Text size="body.sm" mt={1}>
+                    {item.description}
+                  </Text>
+                </Flex>
+              </GridItem>
+            ))}
         </SimpleGrid>
       </Flex>
     </TrackedLink>
@@ -125,6 +134,7 @@ const LandingCardWithMetrics = ({
                   items,
                   image,
                   mobileImage,
+                  flexImage,
                 },
                 idx,
               ) => (
@@ -138,6 +148,7 @@ const LandingCardWithMetrics = ({
                   items={items}
                   mobileImage={mobileImage}
                   image={image}
+                  flexImage={flexImage}
                 />
               ),
             )}

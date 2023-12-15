@@ -37,48 +37,21 @@ export const metrics = [
   {
     title: "Courtyard",
     description:
-      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with a seamless fiat checkout.",
+      "Bringing the collectibles market onchain — with a tokenization platform, marketplace app, and seamless fiat payments.",
     image: require("public/assets/landingpage/case-study-courtyard.png"),
     mobileImage: require("public/assets/landingpage/case-study-courtyard.png"),
-    items: [
-      {
-        title: "$3.7M+",
-        description: "GMV",
-      },
-      {
-        title: "215K+",
-        description: "Users",
-        colSpan: 2,
-      },
-      {
-        title: "79K+",
-        description: "Transactions",
-      },
-    ],
+    items: [],
     href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
     hoverBackground: "#0053FF",
   },
   {
     title: "Balmain",
     description:
-      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with a seamless fiat checkout.",
+      "Shaping the future of luxury fashion with limited-edition phygital apparel — purchasable with credit card or crypto.",
     image: require("public/assets/landingpage/case-study-balmain.png"),
     mobileImage: require("public/assets/landingpage/case-study-balmain.png"),
-    items: [
-      {
-        title: "$3.7M+",
-        description: "GMV",
-      },
-      {
-        title: "215K+",
-        description: "Users",
-        colSpan: 2,
-      },
-      {
-        title: "79K+",
-        description: "Transactions",
-      },
-    ],
+    flexImage: { base: 1, md: 0.93 },
+    items: [],
     href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
     hoverBackground: "#082E2E",
   },
