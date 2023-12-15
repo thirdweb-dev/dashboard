@@ -22,12 +22,12 @@ const CASE_STUDIES = [
     link: "https://blog.withpaper.com/how-space-runners-checkout/case-study-1.pngand-balmain-are-shaping-the-future-of-fashion-with-nfts/",
   },
   {
-    title: "NFT Checkout: Embedded Elements",
+    title: "NFT Checkout: Getting Started",
     image: require("public/assets/product-pages/checkout/case-study-3.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
   {
-    title: "NFT Checkout: Getting Started",
+    title: "NFT Checkout: Embedded Elements",
     image: require("public/assets/product-pages/checkout/case-study-2.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
