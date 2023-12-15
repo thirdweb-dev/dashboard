@@ -39,8 +39,17 @@ interface TransactionsTableProps {
   instanceUrl: string;
 }
 
+type EngineStatus =
+  | "errored"
+  | "mined"
+  | "cancelled"
+  | "sent"
+  | "retried"
+  | "processed"
+  | "queued"
+  | "user-op-sent";
 const statusDetails: Record<
-  string,
+  EngineStatus,
   {
     name: string;
     colorScheme: string;
@@ -65,6 +74,11 @@ const statusDetails: Record<
   },
   mined: {
     name: "Mined",
+    colorScheme: "green",
+    showTooltipIcon: true,
+  },
+  retried: {
+    name: "Retried",
     colorScheme: "green",
     showTooltipIcon: true,
   },
@@ -125,7 +139,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
       header: "Status",
       cell: (cell) => {
         const transaction = cell.row.original;
-        const { status, errorMessage, minedAt } = transaction;
+        const { errorMessage, minedAt } = transaction;
+        const status = (transaction.status as EngineStatus) ?? null;
         if (!status) {
           return null;
         }
@@ -152,7 +167,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                     <Text>
                       {status === "errored"
                         ? errorMessage
-                        : status === "mined" && minedAt
+                        : (status === "mined" || status === "retried") &&
+                          minedAt
                         ? `Completed ${format(new Date(minedAt), "PP pp")}`
                         : undefined}
                     </Text>

@@ -41,10 +41,8 @@ const NFTS = {
     "thirdweb.eth/Pack",
     "thirdweb.eth/OpenEditionERC721",
     "flairsdk.eth/ERC721CommunityStream",
-    "unlock-protocol.eth/PublicLock",
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/DropERC1155",
-    "thirdweb.eth/SignatureDrop",
     "thirdweb.eth/Multiwrap",
     "kronickatz.eth/ERC721NESDrop",
   ],
@@ -69,7 +67,6 @@ const DROPS = {
   contracts: [
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/DropERC1155",
-    "thirdweb.eth/SignatureDrop",
     "thirdweb.eth/DropERC20",
   ],
 } as const;
@@ -109,7 +106,7 @@ const GAMING = {
   description:
     "A collection of contracts that are popular for building play-to-earn and free-to-own web3 games.",
   contracts: [
-    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/MarketplaceV3",
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/TokenERC20",
     "thirdweb.eth/TokenERC1155",
@@ -128,8 +125,7 @@ const LOYALTY = {
     "A collection of contracts that are popular for building loyalty programs.",
   contracts: [
     "thirdweb.eth/LoyaltyCard",
-    "unlock-protocol.eth/PublicLock",
-    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/MarketplaceV3",
     "thirdweb.eth/TokenERC20",
   ],
   showInExplore: false,
@@ -218,7 +214,7 @@ export function prefetchCategory(
   category: ExploreCategory,
   queryClient: QueryClient,
 ) {
-  return Promise.all(
+  return Promise.allSettled(
     category.contracts.map((contract) =>
       queryClient.fetchQuery(
         publishedContractQuery(`${contract}/latest`, queryClient),
