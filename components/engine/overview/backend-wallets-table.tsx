@@ -444,6 +444,7 @@ const SendFundsModal = ({
                 <Input
                   type="number"
                   placeholder="Enter the amount to send"
+                  step="any"
                   max={backendWalletBalance.displayValue}
                   {...form.register("amount", { required: true })}
                 />
