@@ -19,17 +19,17 @@ const CASE_STUDIES = [
   {
     title: "NFT Checkout: Docs Overview",
     image: require("public/assets/product-pages/checkout/case-study-1.png"),
-    link: "https://blog.withpaper.com/how-space-runners-checkout/case-study-1.pngand-balmain-are-shaping-the-future-of-fashion-with-nfts/",
+    link: "https://portal.thirdweb.com/checkouts",
   },
   {
     title: "NFT Checkout: Getting Started",
     image: require("public/assets/product-pages/checkout/case-study-3.png"),
-    link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
+    link: "https://portal.thirdweb.com/checkouts/getting-started",
   },
   {
     title: "NFT Checkout: Embedded Elements",
     image: require("public/assets/product-pages/checkout/case-study-2.png"),
-    link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
+    link: "https://portal.thirdweb.com/checkouts/elements",
   },
 ];
 
@@ -41,18 +41,18 @@ export const metrics = [
     image: require("public/assets/landingpage/case-study-courtyard.png"),
     mobileImage: require("public/assets/landingpage/case-study-courtyard.png"),
     items: [],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    href: "https://blog.thirdweb.com/case-studies/courtyard-brings-collectors-onchain-with-fiat-payments/",
     hoverBackground: "#0053FF",
   },
   {
     title: "Balmain",
     description:
-      "Shaping the future of luxury fashion with limited-edition phygital apparel — purchasable with credit card or crypto.",
+      "Shaping the future of luxury fashion with limited-edition phygital apparel — enabling customers to purchase with credit card or crypto.",
     image: require("public/assets/landingpage/case-study-balmain.png"),
     mobileImage: require("public/assets/landingpage/case-study-balmain.png"),
     flexImage: { base: 1, md: 0.93 },
     items: [],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    href: "https://blog.thirdweb.com/case-studies/balmain-and-space-runners-shape-the-future-of-fashion/",
     hoverBackground: "#082E2E",
   },
 ];
@@ -89,7 +89,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           titleWithGradient="for everyone"
           subtitle="Sell NFTs to users with a credit card — with worldwide support for major payment methods, seamless buyer & seller flows, and 100% chargeback protection."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://withpaper.com/sign-up"
+          ctaLink="https://portal.thirdweb.com/checkouts"
           contactUsTitle="Book Demo"
           gradient="linear(to-r,  #1DC1AE, #1DC1AE)"
           miniImage={require("public/assets/product-icons/payments.png")}
@@ -119,7 +119,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/payment-methods.png")}
             mobileImage={require("public/assets/landingpage/mobile/payment-methods.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet"
+            href="https://portal.thirdweb.com/checkouts"
             direction="horizontal"
           />
 
@@ -129,7 +129,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/worldwide.png")}
             mobileImage={require("public/assets/landingpage/mobile/worldwide.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/explore"
+            href="https://portal.thirdweb.com/checkouts"
           />
 
           <LandingCardWithImage
@@ -138,7 +138,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/world-class-DX.png")}
             mobileImage={require("public/assets/landingpage/mobile/world-class-DX.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/auth"
+            href="https://portal.thirdweb.com/checkouts/getting-started"
             colSpan={1}
           />
           <LandingCardWithImage
@@ -147,7 +147,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/wallet-no-problem.png")}
             mobileImage={require("public/assets/landingpage/mobile/wallet-no-problem.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/account-abstraction"
+            href="https://portal.thirdweb.com/embedded-wallet"
           />
           <LandingCardWithImage
             title="Built-in analytics"
@@ -155,7 +155,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/built-in-analytics.png")}
             mobileImage={require("public/assets/landingpage/mobile/built-in-analytics.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/sponsored-transactions"
+            href="/dashboard/payments/contracts"
             colSpan={1}
           />
           <LandingCardWithImage
@@ -164,7 +164,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/chargeback-protection.png")}
             mobileImage={require("public/assets/landingpage/mobile/chargeback-protection.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/rpc-edge"
+            href="/dashboard/payments/contracts"
           />
           <LandingCardWithImage
             title="Everything you need to manage payments"
@@ -172,7 +172,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/manage-payments.png")}
             mobileImage={require("public/assets/landingpage/mobile/manage-payments.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="/dashboard/payments/contracts"
           />
           <LandingCardWithImage
             title="Built for scale"
@@ -180,7 +180,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/built-for-scale.png")}
             mobileImage={require("public/assets/landingpage/mobile/built-for-scale.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="/dashboard/payments/contracts"
             colSpan={1}
           />
           <LandingCardWithImage
@@ -189,7 +189,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/seamless-buyer-flows.png")}
             mobileImage={require("public/assets/landingpage/mobile/seamless-buyer-flows.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="https://portal.thirdweb.com/checkouts"
           />
           <LandingCardWithImage
             title="Any EVM chain"
@@ -197,7 +197,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/evm-chain.png")}
             mobileImage={require("public/assets/landingpage/mobile/evm-chain.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="https://portal.thirdweb.com/checkouts"
             colSpan={1}
           />
         </LandingGridSection>
@@ -227,7 +227,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           description="Read the full docs and start building with the most powerful web3 payments stack."
           guides={CASE_STUDIES}
           customSolution="See the full NFT Checkout docs"
-          customSolutionHref="https://portal.thirdweb.com/embedded-wallet"
+          customSolutionHref="https://portal.thirdweb.com/checkouts"
           py={0}
         />
 
@@ -235,7 +235,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           title="Add checkouts to your app"
           titleWithGradient="in 10 minutes."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://withpaper.com/sign-up"
+          ctaLink="/dashboard/payments/contracts"
           gradient="linear(to-r,  #1DC1AE, #1DC1AE)"
         />
       </Container>
