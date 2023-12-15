@@ -66,6 +66,14 @@ import { OtherAddressZero } from "utils/zeroAddress";
 import { paymentsKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useApiAuthToken } from "./useApi";
+import {
+  SellerDocument,
+  SellerQueryVariables,
+  useSellerLazyQuery,
+  useSellerQuery,
+} from "graphql/queries/__generated__/Seller.generated";
+import { SellerFragment } from "graphql/fragments/__generated__/Seller.generated";
+import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -602,35 +610,34 @@ export type SellerValueInput = {
   is_sole_proprietor: boolean;
 };
 
-export type UpdateSellerByAccountIdInput = {
-  thirdwebAccountId: string;
+export type UpdateSellerByIdInput = {
+  id: string;
   sellerValue: SellerValueInput;
 };
 
-export function usePaymentsUpdateSellerByAccountId(accountId: string) {
+export function usePaymentsUpdateSellerById(id: string) {
   const queryClient = useQueryClient();
   const address = useAddress();
 
-  const [updateSellerByThirdwebAccountId] =
-    useUpdateSellerByThirdwebAccountIdMutation({
-      refetchQueries: [GetSellerByThirdwebAccountIdDocument],
-    });
+  const [updateSellerById] = useUpdateSellerMutation({
+    refetchQueries: [SellerDocument],
+  });
 
   return useMutationWithInvalidate(
-    async (input: UpdateSellerByAccountIdInput) => {
+    async (input: UpdateSellerByIdInput) => {
       invariant(address, "No wallet address found");
-      invariant(accountId, "No accountId found");
+      invariant(id, "No id found");
 
-      return updateSellerByThirdwebAccountId({
+      return updateSellerById({
         variables: {
-          thirdwebAccountId: input.thirdwebAccountId,
+          id: input.id,
           sellerValue: input.sellerValue,
-        } as UpdateSellerByAccountIdInput,
+        } as UpdateSellerByIdInput,
       });
     },
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(paymentsKeys.settings(accountId));
+        return queryClient.invalidateQueries(paymentsKeys.settings(id));
       },
     },
   );
@@ -879,28 +886,25 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
   );
 }
 
-export function usePaymentsSellerByAccountId(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsSellerById(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
   const address = useAddress();
-  const { paymentsSellerId } = useApiAuthToken();
-  const [getSellerByAccountId] = useGetSellerByThirdwebAccountIdLazyQuery();
+  const [getSellerById] = useSellerLazyQuery();
 
   return useQuery(
-    paymentsKeys.settings(accountId),
+    paymentsKeys.settings(paymentsSellerId),
     async () => {
-      const { data, error } = await getSellerByAccountId({
+      const { data, error } = await getSellerById({
         variables: {
-          thirdwebAccountId: accountId,
-        } as GetSellerByThirdwebAccountIdQueryVariables,
+          id: paymentsSellerId,
+        } as SellerQueryVariables,
       });
 
       if (error) {
         console.error(error);
       }
 
-      return data && data?.seller.length > 0
-        ? data.seller[0]
-        : ({} as GetSellerByThirdwebAccountIdQuery["seller"][number]);
+      return data?.seller_by_pk;
     },
     { enabled: !!paymentsSellerId && !!address },
   );

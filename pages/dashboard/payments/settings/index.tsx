@@ -1,4 +1,4 @@
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { useAccount, useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
@@ -12,6 +12,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 const PaymentsSettings: ThirdwebNextPage = () => {
   const { data: account } = useAccount();
+  const { paymentsSellerId } = useApiAuthToken();
   const { user } = useLoggedInUser();
 
   if (!user?.address) {
@@ -22,9 +23,9 @@ const PaymentsSettings: ThirdwebNextPage = () => {
     <Flex flexDir="column" gap={8}>
       {account?.id && (
         <>
-          <PaymentsSettingsChecklist accountId={account.id} />
-          <PaymentsSettingsAccount accountId={account.id} />
-          <PaymentsWebhooks accountId={account.id} />
+          <PaymentsSettingsChecklist paymentsSellerId={paymentsSellerId} />
+          <PaymentsSettingsAccount paymentsSellerId={paymentsSellerId} />
+          <PaymentsWebhooks paymentsSellerId={paymentsSellerId} />
         </>
       )}
     </Flex>
