@@ -125,9 +125,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             param.type === "address" ? "string" : param.type
                           }
                           placeholder={
-                            isMobile ||
-                            paramTemplateValues?.[0]?.value ===
-                              "{{trusted_forwarders}}"
+                            isMobile
                               ? "Pre-filled value."
                               : "This value will be pre-filled in the deploy form."
                           }

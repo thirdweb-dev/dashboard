@@ -233,7 +233,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         (paramKey === "_platformFeeBps" ||
           paramKey === "_platformFeeRecipient")) ||
       paramKey === "_defaultAdmin" ||
-      paramKey === "_trustedForwarders" ||
       (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
     ) {
       return true;

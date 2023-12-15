@@ -1,7 +1,4 @@
-import {
-  SUPPORTED_CHAIN_ID,
-  getDefaultTrustedForwarders,
-} from "@thirdweb-dev/sdk";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import type { SolidityType } from "lib/solidity-types";
 
 interface ReplacementProps {
@@ -31,22 +28,7 @@ const ADDRESS_TEMPLATE_VALUES: TemplateValue[] = [
   },
 ];
 
-const ADDRESS_ARRAY_TEMPLATE_VALUES: TemplateValue[] = [
-  {
-    value: "{{trusted_forwarders}}",
-    helperText:
-      "Replaced with the addresses of the trusted (gasless) forwarders for the selected network.",
-    replacerFunction: (searchValue, replacers) => {
-      const trustedForwardersForChain = replacers.chainId
-        ? getDefaultTrustedForwarders(replacers.chainId)
-        : [];
-      return searchValue.replaceAll(
-        "{{trusted_forwarders}}",
-        JSON.stringify(trustedForwardersForChain),
-      );
-    },
-  },
-];
+const ADDRESS_ARRAY_TEMPLATE_VALUES: TemplateValue[] = [];
 
 export function getTemplateValuesForType(type: SolidityType): TemplateValue[] {
   switch (type) {
