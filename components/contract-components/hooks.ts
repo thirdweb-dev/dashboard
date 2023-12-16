@@ -151,7 +151,7 @@ export function useDefaultForwarders() {
     async () => {
       const forwarders = await getTrustedForwarders(provider, StorageSingleton);
       console.log("forwarders -- ", forwarders);
-      return JSON.stringify(forwarders);
+      return forwarders;
     },
     // {
     //   enabled: !!provider,

@@ -42,7 +42,10 @@ export const TrustedForwardersFieldset: React.FC<
           colorScheme="gray"
           borderRadius="md"
           onClick={() =>
-            form.setValue("deployParams._trustedForwarders", forwarders)
+            form.setValue(
+              "deployParams._trustedForwarders",
+              JSON.stringify(forwarders.data),
+            )
           }
         >
           Get default
