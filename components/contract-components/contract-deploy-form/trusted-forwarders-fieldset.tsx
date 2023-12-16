@@ -18,8 +18,10 @@ export const TrustedForwardersFieldset: React.FC<
       <Heading size="label.lg">Trusted Forwarders</Heading>
 
       <Text size="body.md" fontStyle="italic">
-        Trusted forwarder addresses to enable ERC-2771 transactions, i.e.
-        gasless transactions. Leave empty if not needed.
+        Trusted forwarder addresses to enable ERC-2771 transactions (i.e.
+        gasless). You can provide your own forwarder, or click the button below
+        to use default forwarders provided by thirdweb. Leave empty if not
+        needed.
       </Text>
       <Flex gap={4} direction={{ base: "column", md: "row" }}></Flex>
       <FormControl

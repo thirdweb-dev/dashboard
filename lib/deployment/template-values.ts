@@ -7,7 +7,6 @@ import type { SolidityType } from "lib/solidity-types";
 interface ReplacementProps {
   connectedWallet?: string;
   chainId?: SUPPORTED_CHAIN_ID;
-  defaultForwarder?: boolean;
 }
 
 export interface TemplateValue {

@@ -146,17 +146,10 @@ export function useDefaultForwarders() {
 
   const chainId = useSDKChainId();
 
-  return useQuery(
-    ["default-forwarders", chainId],
-    async () => {
-      const forwarders = await getTrustedForwarders(provider, StorageSingleton);
-      console.log("forwarders -- ", forwarders);
-      return forwarders;
-    },
-    // {
-    //   enabled: !!provider,
-    // },
-  );
+  return useQuery(["default-forwarders", chainId], async () => {
+    const forwarders = await getTrustedForwarders(provider, StorageSingleton);
+    return forwarders;
+  });
 }
 
 // metadata PRE publish, only contains the compiler output
