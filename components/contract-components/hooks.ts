@@ -45,6 +45,7 @@ import {
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
+  getTrustedForwarders,
 } from "@thirdweb-dev/sdk";
 import {
   getZkTransactionsForDeploy,
@@ -134,6 +135,22 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
     () => fetchContractPublishMetadataFromURI(contractId),
     {
       enabled: !!contractId,
+    },
+  );
+}
+
+export function useDefaultForwarders() {
+  const sdk = useSDK();
+  const provider = sdk?.getProvider();
+  invariant(provider, "Require provider");
+
+  return useQuery(
+    ["default-forwarders", provider],
+    async () => {
+      return await getTrustedForwarders(provider, StorageSingleton);
+    },
+    {
+      enabled: !!provider,
     },
   );
 }

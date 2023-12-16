@@ -5,6 +5,7 @@ import {
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
   useCustomFactoryAbi,
+  useDefaultForwarders,
   useEns,
   useFunctionParamsFromABI,
   useTransactionsForDeploy,
@@ -51,6 +52,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
+import { TrustedForwardersFieldset } from "./trusted-forwarders-fieldset";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -77,6 +79,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const trackEvent = useTrack();
 
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
+  const defaultForwarders = useDefaultForwarders();
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
@@ -216,6 +219,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "_initialProposalThreshold" in formDeployParams &&
     "_initialVoteQuorumFraction" in formDeployParams &&
     "_token" in formDeployParams;
+  const hasTrustedForwarders = "_trustedForwarders" in formDeployParams;
 
   const shouldHide = (paramKey: string) => {
     if (isAccountFactory) {
@@ -393,6 +397,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
               {isSplit && <SplitFieldset form={form} />}
+              {hasTrustedForwarders && (
+                <TrustedForwardersFieldset
+                  form={form}
+                  forwarders={defaultForwarders}
+                />
+              )}
               {Object.keys(formDeployParams).map((paramKey) => {
                 const deployParam = deployParams.find(
                   (p: any) => p.name === paramKey,
