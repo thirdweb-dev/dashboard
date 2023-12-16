@@ -1,15 +1,8 @@
 import { Flex, FormControl } from "@chakra-ui/react";
-import { getTrustedForwarders } from "@thirdweb-dev/sdk";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 import { UseFormReturn } from "react-hook-form";
-import {
-  Button,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Text,
-} from "tw-components";
+import { Button, FormErrorMessage, Heading, Text } from "tw-components";
 import { useDefaultForwarders } from "../hooks";
 
 interface TrustedForwardersFieldsetProps {
@@ -26,7 +19,7 @@ export const TrustedForwardersFieldset: React.FC<
 
       <Text size="body.md" fontStyle="italic">
         Trusted forwarder addresses to enable ERC-2771 transactions, i.e.
-        gasless settings.
+        gasless transactions. Leave empty if not needed.
       </Text>
       <Flex gap={4} direction={{ base: "column", md: "row" }}></Flex>
       <FormControl
@@ -39,7 +32,7 @@ export const TrustedForwardersFieldset: React.FC<
         }
       >
         <SolidityInput
-          defaultValue={form.watch(`deployParams._trustedForwarders`)}
+          value={form.watch(`deployParams._trustedForwarders`)}
           solidityType="address[]"
           {...form.register(`deployParams._trustedForwarders`)}
         />
