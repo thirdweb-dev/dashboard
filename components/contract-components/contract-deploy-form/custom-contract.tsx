@@ -411,7 +411,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   fullPublishMetadata.data?.constructorParams || {};
                 const extraMetadataParam = contructorParams[paramKey];
 
-                if (shouldHide(paramKey) || extraMetadataParam?.hidden) {
+                if (
+                  shouldHide(paramKey) ||
+                  extraMetadataParam?.hidden ||
+                  paramKey === "_trustedForwarders"
+                ) {
                   return null;
                 }
 
