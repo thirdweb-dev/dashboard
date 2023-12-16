@@ -144,14 +144,18 @@ export function useDefaultForwarders() {
   const provider = sdk?.getProvider();
   invariant(provider, "Require provider");
 
+  const chainId = useSDKChainId();
+
   return useQuery(
-    ["default-forwarders", provider],
+    ["default-forwarders", chainId],
     async () => {
-      return await getTrustedForwarders(provider, StorageSingleton);
+      const forwarders = await getTrustedForwarders(provider, StorageSingleton);
+      console.log("forwarders -- ", forwarders);
+      return JSON.stringify(forwarders);
     },
-    {
-      enabled: !!provider,
-    },
+    // {
+    //   enabled: !!provider,
+    // },
   );
 }
 
