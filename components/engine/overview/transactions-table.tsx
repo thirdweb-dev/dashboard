@@ -469,14 +469,14 @@ const TransactionDetailsDrawer = ({
 }) => {
   const { chainIdToChainRecord } = useAllChainsData();
 
-  if (!transaction.chainId) {
+  if (!transaction.chainId || !transaction.status) {
     return null;
   }
 
   const chain = chainIdToChainRecord[parseInt(transaction.chainId)];
   const explorer = chain.explorers?.[0];
 
-  const status = statusDetails[transaction.status];
+  const status = statusDetails[transaction.status as EngineStatus];
 
   return (
     <Drawer isOpen={disclosure.isOpen} onClose={disclosure.onClose} size="sm">
