@@ -1,4 +1,5 @@
-import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Center, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
@@ -9,7 +10,7 @@ import { LandingOptionSelector } from "components/landing-pages/option-selector"
 import { ImageCard } from "components/product-pages/common/ImageCard";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, TrackedLink } from "tw-components";
+import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "gaming_kit";
@@ -117,6 +118,39 @@ const SELECTOR_ITEMS = [
   },
 ];
 
+export const metrics = [
+  {
+    title: "Pixels",
+    description:
+      "Creating an open-world web3 game with a thriving ecosystem — with in-game tokens, VIP memberships, and digital assets that users own onchain.",
+    image: require("public/assets/landingpage/pixels.png"),
+    mobileImage: require("public/assets/landingpage/mobile-pixels.png"),
+    items: [],
+    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    hoverBackground: "#622AFF",
+  },
+  {
+    title: "ZTX",
+    description:
+      "ZTX empowers players, creators, and communities to forge connections and pursue passions — leveraging ZEPETO's metaverse platform with 400M+ users.",
+    image: require("/public/assets/solutions-pages/gaming/case-study-gala.png"),
+    mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-gala.png"),
+    items: [],
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
+    hoverBackground: "#0053FF",
+  },
+  {
+    title: "Gala Games",
+    description:
+      "Partnering with DreamWorks to integrate their brand IP into the VOXverse — and bringing fans onchain with interoperable digital collectibles.",
+    image: require("/public/assets/solutions-pages/gaming/case-study-ztx.png"),
+    mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-ztx.png"),
+    items: [],
+    href: "https://blog.thirdweb.com/case-studies/mirror-creators-build-loyal-audiences-with-subscriber-nfts",
+    hoverBackground: "#007CFF",
+  },
+];
+
 const SolutionsGaming: ThirdwebNextPage = () => {
   return (
     <LandingLayout
@@ -180,34 +214,90 @@ const SolutionsGaming: ThirdwebNextPage = () => {
             mb={12}
             maxW={800}
           >
+            Build games on any platform
+          </Heading>
+          <SimpleGrid
+            justifyContent="flex-start"
+            columns={{ base: 1, md: 3 }}
+            gap={{ base: 12, md: 6 }}
+          >
+            <ImageCard
+              title="Unity"
+              image={require("/public/assets/solutions-pages/gaming/gaming-unity.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://catattack.thirdweb.com"
+              linkTitle="Read the Unity SDK docs"
+            />
+            <ImageCard
+              title="Unreal Engine"
+              image={require("/public/assets/solutions-pages/gaming/gaming-unreal.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://web3warriors.thirdweb.com"
+              linkTitle="Read the Unreal Engine docs"
+            />
+            <ImageCard
+              title="Mobile"
+              image={require("/public/assets/solutions-pages/gaming/gaming-phone.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              linkTitle="Read the React Native docs"
+              href="https://web3warriors.thirdweb.com"
+            />
+          </SimpleGrid>
+        </Flex>
+
+        <Flex alignItems="center" flexDirection="column">
+          <Heading
+            as="h2"
+            size="display.sm"
+            textAlign="center"
+            mb={12}
+            maxW={800}
+          >
             Create new gaming universes
           </Heading>
           <SimpleGrid
             justifyContent="flex-start"
-            w={{ base: "100%", md: "60%" }}
-            columns={{ base: 1, md: 2 }}
+            columns={{ base: 1, md: 3 }}
             gap={{ base: 12, md: 6 }}
           >
-            <ImageCard
-              title="Cat Attack Mobile"
-              image={require("/public/assets/solutions-pages/gaming/catattack-square.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://catattack.thirdweb.com"
-            >
-              Viral web3 mobile game Cat Attack built in just 2 days using
-              thirdweb.
-            </ImageCard>
             <ImageCard
               title="Web3 Warriors"
               image={require("/public/assets/solutions-pages/gaming/web3warriors.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="https://web3warriors.thirdweb.com"
+              category="Unity"
+              linkTitle="Play Web3 Warriors"
+            >
+              A full-scale action RPG — built in 3 days using thirdweb&apos;s
+              Unity SDK.
+            </ImageCard>
+
+            <ImageCard
+              title="Cat Attack"
+              image={require("/public/assets/solutions-pages/gaming/catattack-square.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://catattack.thirdweb.com"
+              category="Unity"
+              linkTitle="Play Cat Attack"
+            >
+              A simple web3 mobile game — gone viral & built in 2 days using
+              thirdweb.
+            </ImageCard>
+
+            <ImageCard
+              title="Play Speed Racer"
+              image={require("/public/assets/solutions-pages/gaming/gaming-speed-racer.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://web3warriors.thirdweb.com"
+              category="Unreal Engine"
+              linkTitle="Play Speed Racer"
             >
               An Onchain Survival Game. Escape the dungeon by battling
               terrifying bosses.
             </ImageCard>
           </SimpleGrid>
         </Flex>
+
         <LandingOptionSelector
           items={SELECTOR_ITEMS}
           TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -294,6 +384,24 @@ const SolutionsGaming: ThirdwebNextPage = () => {
             />
           </Card>
         </LandingGridSection>
+
+        <LandingCardWithMetrics
+          title={
+            <Center flexDir="column" textAlign="center">
+              <Heading size="display.sm" color="white">
+                Trusted by the best
+              </Heading>
+
+              <Text size="body.lg" mt={6}>
+                Powering web3 apps across verticals — from onchain games to
+                creator platforms.
+              </Text>
+            </Center>
+          }
+          desktopColumns={3}
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+          metrics={metrics}
+        />
 
         <LandingGuidesShowcase
           title="The best web3 apps use thirdweb's smart contract tools"

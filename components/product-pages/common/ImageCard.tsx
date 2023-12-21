@@ -1,4 +1,4 @@
-import { Flex, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon } from "@chakra-ui/react";
 import NextImage, { StaticImageData } from "next/image";
 import { FiArrowRight } from "react-icons/fi";
 import { Card, Heading, TrackedLink } from "tw-components";
@@ -8,6 +8,8 @@ interface ImageCardProps {
   title: string;
   image: StaticImageData;
   TRACKING_CATEGORY?: string;
+  linkTitle?: string;
+  category?: string;
   href?: string;
 }
 
@@ -15,6 +17,8 @@ export const ImageCard: ComponentWithChildren<ImageCardProps> = ({
   title,
   image,
   href,
+  linkTitle,
+  category,
   TRACKING_CATEGORY,
   children,
 }) => {
@@ -28,16 +32,34 @@ export const ImageCard: ComponentWithChildren<ImageCardProps> = ({
         justifyContent="space-between"
         h="full"
       >
-        <Heading size="title.sm">{title}</Heading>
-        <Flex
-          direction="column"
-          fontSize="body.lg"
-          color="paragraph"
-          lineHeight={1.6}
-          h="100%"
-        >
-          {children}
+        <Flex alignItems="center" flexWrap="wrap" gap={4}>
+          <Heading size="title.sm">{title}</Heading>
+
+          {category && (
+            <Box
+              py={1}
+              px={3}
+              borderColor="#383838"
+              borderWidth={1}
+              maxW="fit-content"
+              rounded={8}
+              fontSize="12px"
+            >
+              {category}
+            </Box>
+          )}
         </Flex>
+        {children && (
+          <Flex
+            direction="column"
+            fontSize="body.lg"
+            color="paragraph"
+            lineHeight={1.6}
+            h="100%"
+          >
+            {children}
+          </Flex>
+        )}
         {href && (
           <TrackedLink
             category={TRACKING_CATEGORY || href}
@@ -48,7 +70,7 @@ export const ImageCard: ComponentWithChildren<ImageCardProps> = ({
             _hover={{ textDecor: "underline" }}
             role="group"
           >
-            <span>Visit website</span>{" "}
+            {linkTitle || <span>Visit website</span>}{" "}
             <Icon
               as={FiArrowRight}
               transform="rotate(-45deg)"
