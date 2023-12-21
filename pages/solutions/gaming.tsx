@@ -268,7 +268,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               category="Unity"
               linkTitle="Play Web3 Warriors"
             >
-              A full-scale action RPG — built in 3 days using thirdweb&apos;s
+              A full-scale action RPG — built in 3 weeks using thirdweb&apos;s
               Unity SDK.
             </ImageCard>
 
@@ -277,7 +277,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               image={require("/public/assets/solutions-pages/gaming/catattack-square.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="https://catattack.thirdweb.com"
-              category="Unity"
+              category="Mobile"
               linkTitle="Play Cat Attack"
             >
               A simple web3 mobile game — gone viral & built in 2 days using
