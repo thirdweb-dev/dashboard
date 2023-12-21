@@ -14,13 +14,11 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Chain } from "@thirdweb-dev/chains";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
 import { format, formatDistanceToNowStrict } from "date-fns";
-import { useLocalStorage } from "hooks/useLocalStorage";
+import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRef } from "react";
 import { FiInfo, FiTrash } from "react-icons/fi";
@@ -33,16 +31,25 @@ import {
   Badge,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
-import { fetchChain } from "utils/fetchChain";
 
 interface TransactionsTableProps {
   transactions: Transaction[];
   isLoading: boolean;
   isFetched: boolean;
+  instanceUrl: string;
 }
 
+type EngineStatus =
+  | "errored"
+  | "mined"
+  | "cancelled"
+  | "sent"
+  | "retried"
+  | "processed"
+  | "queued"
+  | "user-op-sent";
 const statusDetails: Record<
-  string,
+  EngineStatus,
   {
     name: string;
     colorScheme: string;
@@ -70,6 +77,11 @@ const statusDetails: Record<
     colorScheme: "green",
     showTooltipIcon: true,
   },
+  retried: {
+    name: "Retried",
+    colorScheme: "green",
+    showTooltipIcon: true,
+  },
   errored: {
     name: "Failed",
     colorScheme: "red",
@@ -87,8 +99,9 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
   transactions,
   isLoading,
   isFetched,
+  instanceUrl,
 }) => {
-  const queryClient = useQueryClient();
+  const { chainIdToChainRecord } = useAllChainsData();
 
   const columns = [
     columnHelper.accessor("chainId", {
@@ -99,10 +112,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           return;
         }
 
-        const chain = queryClient.getQueryData<Chain>([
-          "chainDetails",
-          chainId,
-        ]);
+        const chain = chainIdToChainRecord[parseInt(chainId)];
         if (chain) {
           return (
             <Flex align="center" gap={2}>
@@ -111,10 +121,6 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
             </Flex>
           );
         }
-
-        queryClient.prefetchQuery(["chainDetails", chainId], () =>
-          fetchChain(chainId),
-        );
       },
     }),
     columnHelper.accessor("queueId", {
@@ -133,7 +139,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
       header: "Status",
       cell: (cell) => {
         const transaction = cell.row.original;
-        const { status, errorMessage, minedAt } = transaction;
+        const { errorMessage, minedAt } = transaction;
+        const status = (transaction.status as EngineStatus) ?? null;
         if (!status) {
           return null;
         }
@@ -160,7 +167,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                     <Text>
                       {status === "errored"
                         ? errorMessage
-                        : status === "mined" && minedAt
+                        : (status === "mined" || status === "retried") &&
+                          minedAt
                         ? `Completed ${format(new Date(minedAt), "PP pp")}`
                         : undefined}
                     </Text>
@@ -183,7 +191,10 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
               </Badge>
             </Tooltip>
             {showCancelTransactionButton && (
-              <CancelTransactionButton transaction={transaction} />
+              <CancelTransactionButton
+                transaction={transaction}
+                instanceUrl={instanceUrl}
+              />
             )}
           </Flex>
         );
@@ -229,10 +240,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           return;
         }
 
-        const chain = queryClient.getQueryData<Chain>([
-          "chainDetails",
-          chainId,
-        ]);
+        const chain = chainIdToChainRecord[parseInt(chainId)];
         if (chain) {
           const explorer = chain.explorers?.[0];
           if (!explorer) {
@@ -258,10 +266,6 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
             </LinkButton>
           );
         }
-
-        queryClient.prefetchQuery(["chainDetails", chainId], () =>
-          fetchChain(chainId),
-        );
       },
     }),
     columnHelper.accessor("queuedAt", {
@@ -305,14 +309,15 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
 const CancelTransactionButton = ({
   transaction,
+  instanceUrl,
 }: {
   transaction: Transaction;
+  instanceUrl: string;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const auth = useApiAuthToken();
-  const [instanceUrl] = useLocalStorage("engine-instance", "");
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully sent a request to cancel transaction",
+    "Successfully sent a request to cancel the transaction",
     "Failed to cancel transaction",
   );
   const closeButtonRef = useRef<HTMLButtonElement>(null);

@@ -26,11 +26,7 @@ export const AnnouncementBanner = () => {
         px={4}
       >
         <Box display={{ base: "none", md: "block" }} />
-        <TrackedLink
-          href="/embedded-wallets"
-          category="announcement"
-          label="embedded-wallets"
-        >
+        <TrackedLink href="/checkout" category="announcement" label="checkout">
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
               cursor="pointer"
@@ -46,7 +42,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                {`📧 Embedded wallets — Onboard everyone to web3 with email, Google, and social logins.`}
+                Introducing Checkout: Sell NFTs to anyone with a credit card or
+                crypto. Get started
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

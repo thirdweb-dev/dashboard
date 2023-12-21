@@ -12,6 +12,7 @@ import { GetStartedSection } from "components/homepage/sections/GetStartedSectio
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -42,6 +43,19 @@ export const templates: TemplateCardProps[] = [
     description:
       "Allow users to scan a QR code received with a physical product to mint an NFT using thirdweb engine.",
     img: "/assets/templates/phygital-experience.png",
+    hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
+    tags: ["Engine", "ERC721"],
+    authorENS: "thirdweb.eth",
+    authorIcon: "/assets/templates/thirdweb-eth.png",
+  },
+  {
+    id: "engine-nft-checkout",
+    title: "Fiat NFT checkout",
+    homepage: "https://engine-nft-checkout.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/engine-nft-checkout",
+    description:
+      "Allow users to buy an NFT via a fiat checkout flow using thirdweb engine.",
+    img: "/assets/templates/engine-nft-checkout.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
     tags: ["Engine", "ERC721"],
     authorENS: "thirdweb.eth",
@@ -318,10 +332,21 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     </Flex>
   );
 };
+const title = "Web3 Templates for Websites & Apps";
+const description =
+  "Start building with a library of quick-start templates for web3 apps and websites — for NFTs, marketplaces, and more. Get started.";
 
 const Templates: ThirdwebNextPage = () => {
   return (
     <DarkMode>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+        }}
+      />
       <Flex
         sx={{
           // overwrite the theme colors because the home page is *always* in "dark mode"

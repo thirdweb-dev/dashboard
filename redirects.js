@@ -7,6 +7,11 @@ function redirects() {
       permanent: true,
     },
     {
+      source: "/solutions/appchain-api",
+      destination: "/solutions/chains",
+      permanent: true,
+    },
+    {
       source: "/dashboard/publish/:path*",
       destination: "/contracts/publish/:path*",
       permanent: false,
@@ -14,11 +19,6 @@ function redirects() {
     {
       source: "/dashboard/mumbai/publish/:path*",
       destination: "/contracts/publish/:path*",
-      permanent: false,
-    },
-    {
-      source: "/tos",
-      destination: "/Thirdweb_Terms_of_Service.pdf",
       permanent: false,
     },
     {

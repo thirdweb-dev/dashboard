@@ -1,4 +1,5 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   ButtonGroup,
   Container,
@@ -87,6 +88,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
 
 const AppHeader: React.FC = () => {
   const { pathname, route } = useRouter();
+  const { data: account } = useAccount();
 
   return (
     <GridItem
@@ -237,10 +239,13 @@ const AppHeader: React.FC = () => {
             Contracts
           </LinkButton>
           <LinkButton
-            href="https://withpaper.com/product/checkouts"
+            href="/dashboard/payments/contracts"
             rounded="lg"
-            isExternal
-            noIcon
+            isActive={pathname.startsWith("/dashboard/payments")}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
           >
             Payments
           </LinkButton>

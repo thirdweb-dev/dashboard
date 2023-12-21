@@ -26,11 +26,42 @@ const customAuthValidation = z.union([
   }),
 ]);
 
+const customAuthEndpointValidation = z.union([
+  z.undefined(),
+  z.object({
+    authEndpoint: z.string().url(),
+    customHeaders: z.array(z.object({ key: z.string(), value: z.string() })),
+  }),
+]);
+
 const recoverManagementValidation = z
-  // This should be the same as @paperxyz/embedded-wallet-service-sdk RecoveryShareManagement enum
+  // This should be the same as @thirdweb-dev/wallets RecoveryShareManagement enum
   // Aso needs to be kept in sync with the type in `useApi.ts`
   .enum(["AWS_MANAGED", "USER_MANAGED"])
   .optional();
+
+const applicationNameValidation = z.union([z.undefined(), z.string()]);
+
+const applicationImageUrlValidation = z.union([
+  z.undefined(),
+  z.string().refine(
+    (str) => {
+      if (!str) {
+        return true;
+      }
+
+      try {
+        new URL(str);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    {
+      message: "Please, enter a valid image url.",
+    },
+  ),
+]);
 
 const servicesValidation = z.optional(
   z
@@ -46,6 +77,9 @@ const servicesValidation = z.optional(
         actions: z.array(z.string()),
         recoveryShareManagement: recoverManagementValidation,
         customAuthentication: customAuthValidation,
+        customAuthEndpoint: customAuthEndpointValidation,
+        applicationName: applicationNameValidation,
+        applicationImageUrl: applicationImageUrlValidation,
       }),
     )
     .optional(),
@@ -82,6 +116,9 @@ export const apiKeyValidationSchema = z.object({
 export const apiKeyEmbeddedWalletsValidationSchema = z.object({
   recoveryShareManagement: recoverManagementValidation,
   customAuthentication: customAuthValidation,
+  customAuthEndpoint: customAuthEndpointValidation,
+  applicationName: applicationNameValidation,
+  applicationImageUrl: applicationImageUrlValidation,
 });
 
 export type ApiKeyCreateValidationSchema = z.infer<

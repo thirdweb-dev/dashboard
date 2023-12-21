@@ -56,6 +56,8 @@ export const engineKeys = {
     [...engineKeys.all, instance, "permissions"] as const,
   accessTokens: (instance: string) =>
     [...engineKeys.all, instance, "accessTokens"] as const,
+  relayers: (instance: string) =>
+    [...engineKeys.all, instance, "relayers"] as const,
   webhooks: (instance: string) =>
     [...engineKeys.all, instance, "webhooks"] as const,
   webhookEventTypes: (instance: string) =>
@@ -66,6 +68,35 @@ export const engineKeys = {
     ["backendWallet", address, chainId] as const,
   backendWalletBalance: (address: string, chainId: number) =>
     [...engineKeys.backendWallet(address, chainId), "balance"] as const,
+};
+
+export const paymentsKeys = {
+  all: ["payments"] as const,
+  kybStatus: (walletAddress: string) =>
+    [...paymentsKeys.all, "kybStatus", walletAddress] as const,
+  kycStatus: (walletAddress: string) =>
+    [...paymentsKeys.all, "kycStatus", walletAddress] as const,
+  verificationSession: (walletAddress: string) =>
+    [...paymentsKeys.all, "verificationSession", walletAddress] as const,
+  contracts: (walletAddress: string) =>
+    [...paymentsKeys.all, "contracts", walletAddress] as const,
+  contractByAddressAndChain: (contractAddress: string, chainId: number) =>
+    [
+      ...paymentsKeys.all,
+      "contractByAddressAndChain",
+      contractAddress,
+      chainId,
+    ] as const,
+  checkouts: (contractAddress: string, walletAddress: string) =>
+    [...paymentsKeys.all, "checkouts", contractAddress, walletAddress] as const,
+  detailedAnalytics: (checkoutId: string) =>
+    [...paymentsKeys.all, "checkout", checkoutId] as const,
+  settings: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "settings", paymentsSellerId] as const,
+  webhooks: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "webhooks", paymentsSellerId] as const,
+  webhookSecret: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "webhooks", "secretKey", paymentsSellerId] as const,
 };
 
 export const contractKeys = {

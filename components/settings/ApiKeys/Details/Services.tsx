@@ -3,6 +3,7 @@ import {
   Flex,
   HStack,
   SimpleGrid,
+  Stack,
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -21,7 +22,7 @@ interface ServicesDetailsProps {
 }
 
 export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
-  const { redirectUrls, services } = apiKey;
+  const { name, redirectUrls, services } = apiKey;
   const bg = useColorModeValue("backgroundCardHighlight", "transparent");
 
   const redirectUrlContent = useMemo(() => {
@@ -36,6 +37,24 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
     return <CodeBlock code={redirectUrls.join("\n")} canCopy={false} />;
   }, [redirectUrls]);
 
+  const applicationNameContent = ({ applicationName }: ApiKeyService) => {
+    if (!applicationName) {
+      return name;
+    }
+
+    return <CodeBlock code={applicationName} canCopy={true} />;
+  };
+
+  const applicationImageUrlContent = ({
+    applicationImageUrl,
+  }: ApiKeyService) => {
+    if (!applicationImageUrl) {
+      return "None";
+    }
+
+    return <CodeBlock code={applicationImageUrl} canCopy={true} />;
+  };
+
   const renderCustomAuthContent = ({ customAuthentication }: ApiKeyService) => {
     if (
       customAuthentication &&
@@ -43,9 +62,14 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
       customAuthentication.jwksUri.length
     ) {
       return (
-        <Flex flexDir="column">
+        <Stack w="full">
           <Text isTruncated size="body.sm">
-            <Text display="inline-block" fontWeight="medium" w={12}>
+            <Text
+              display="inline-block"
+              fontWeight="medium"
+              w={"fit-content"}
+              pr={1}
+            >
               JWKS:
             </Text>
             {customAuthentication.jwksUri}
@@ -56,11 +80,44 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
             </Text>
             {customAuthentication.aud}
           </Text>
-        </Flex>
+        </Stack>
       );
     } else {
       return "Not configured";
     }
+  };
+
+  const renderCustomAuthenticationEndpoint = ({
+    customAuthEndpoint,
+  }: ApiKeyService) => {
+    if (!customAuthEndpoint || customAuthEndpoint.authEndpoint.length === 0) {
+      return "Not configured";
+    }
+    return (
+      <Stack w="full">
+        <Text isTruncated size="body.sm">
+          <Text
+            display="inline-block"
+            fontWeight="medium"
+            w="fit-content"
+            pr={1}
+          >
+            Authentication Endpoint:
+          </Text>
+          {customAuthEndpoint.authEndpoint}
+        </Text>
+        <Stack isTruncated fontSize={"body.sm"}>
+          <Text display="inline-block" fontWeight="medium" w="fit-content">
+            Custom Headers:
+          </Text>
+          {customAuthEndpoint.customHeaders.map((header) => (
+            <Text key={header.key}>
+              {header.key}: {header.value}
+            </Text>
+          ))}
+        </Stack>
+      </Stack>
+    );
   };
 
   const renderServicesContent = (service: ApiKeyService) => {
@@ -117,6 +174,16 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
                 {service.name === "embeddedWallets" && (
                   <Flex flexDir="column" gap={4}>
                     <DetailsRow
+                      title="Application Name"
+                      content={applicationNameContent(srv)}
+                    />
+
+                    <DetailsRow
+                      title="Application Image URL"
+                      content={applicationImageUrlContent(srv)}
+                    />
+
+                    <DetailsRow
                       title="Redirect URIs"
                       tooltip={`Prevent phishing attacks restricting redirect URIs to your application deep links. Currently only relevant on Unity and React Native platforms.`}
                       content={redirectUrlContent}
@@ -125,6 +192,11 @@ export const ServicesDetails: React.FC<ServicesDetailsProps> = ({ apiKey }) => {
                     <DetailsRow
                       title="Custom JWT Auth"
                       content={renderCustomAuthContent(srv)}
+                    />
+
+                    <DetailsRow
+                      title="Custom Authentication Endpoint"
+                      content={renderCustomAuthenticationEndpoint(srv)}
                     />
                   </Flex>
                 )}

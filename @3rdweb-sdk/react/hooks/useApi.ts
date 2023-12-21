@@ -4,9 +4,9 @@ import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 
+import type { Chain } from "@thirdweb-dev/chains";
 import invariant from "tiny-invariant";
 import { useLoggedInUser } from "./useLoggedInUser";
-import type { Chain } from "@thirdweb-dev/chains";
 
 export type AuthorizedWallet = {
   id: string;
@@ -60,6 +60,10 @@ export type ApiKeyCustomAuthentication = {
   jwksUri: string;
   aud: string;
 };
+export type ApiKeyCustomAuthEndpoint = {
+  authEndpoint: string;
+  customHeaders: { key: string; value: string }[];
+};
 
 export type ApiKeyService = {
   id: string;
@@ -69,6 +73,9 @@ export type ApiKeyService = {
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
   recoveryShareManagement?: ApiKeyRecoverShareManagement;
   customAuthentication?: ApiKeyCustomAuthentication;
+  customAuthEndpoint?: ApiKeyCustomAuthEndpoint;
+  applicationName?: string;
+  applicationImageUrl?: string;
 };
 
 export type ApiKey = {
@@ -731,19 +738,24 @@ export function useAuthorizedWallets() {
   );
 }
 
-const TOKEN_PROMISE_MAP = new Map<string, Promise<string>>();
+type FetchAuthTokenResponse = {
+  jwt: string;
+  paymentsSellerId?: string;
+};
+
+const TOKEN_PROMISE_MAP = new Map<string, Promise<FetchAuthTokenResponse>>();
 
 async function fetchAuthToken(
   address: string,
   abortController?: AbortController,
-): Promise<string> {
+): Promise<FetchAuthTokenResponse> {
   if (!address) {
     throw new Error("address is required");
   }
   if (TOKEN_PROMISE_MAP.has(address)) {
-    return TOKEN_PROMISE_MAP.get(address) as Promise<string>;
+    return TOKEN_PROMISE_MAP.get(address) as Promise<FetchAuthTokenResponse>;
   }
-  const promise = new Promise<string>((resolve, reject) => {
+  const promise = new Promise<FetchAuthTokenResponse>((resolve, reject) => {
     return fetch(`${THIRDWEB_API_HOST}/v1/auth/token`, {
       method: "GET",
       credentials: "include",
@@ -757,7 +769,10 @@ async function fetchAuthToken(
         if (json.error) {
           throw new Error(json.error.message);
         }
-        return json.data.jwt as string;
+        return {
+          jwt: json.data.jwt as string,
+          paymentsSellerId: json.data.paymentsSellerId,
+        };
       })
       .then(resolve)
       .catch(reject);
@@ -767,10 +782,11 @@ async function fetchAuthToken(
 }
 
 // keep the promise around so we don't fetch it multiple times even if the hook gets called from different places
-let inflightPromise: Promise<string> | null = null;
+let inflightPromise: Promise<FetchAuthTokenResponse> | null = null;
 export function useApiAuthToken() {
   const { user } = useLoggedInUser();
   const [token, setToken] = useState<string | null>(null);
+  const [paymentsSellerId, setPaymentsSellerId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   // not using a query because we don't want to store this in any cache
@@ -793,7 +809,10 @@ export function useApiAuthToken() {
     inflightPromise
       .then((t) => {
         if (mounted) {
-          setToken(t);
+          setToken(t.jwt);
+          if (t.paymentsSellerId) {
+            setPaymentsSellerId(t.paymentsSellerId);
+          }
         }
       })
       .catch((err) => {
@@ -817,7 +836,7 @@ export function useApiAuthToken() {
     };
   }, [user?.address]);
 
-  return { error, isLoading, token };
+  return { error, isLoading, token, paymentsSellerId };
 }
 
 /**
