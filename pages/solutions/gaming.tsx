@@ -108,9 +108,9 @@ export const metrics = [
     hoverBackground: "#622AFF",
   },
   {
-    title: "ZTX",
+    title: "Gala Games",
     description:
-      "ZTX empowers players, creators, and communities to forge connections and pursue passions — leveraging ZEPETO's metaverse platform with 400M+ users.",
+      "Partnering with DreamWorks to integrate their brand IP into the VOXverse — and bringing fans onchain with interoperable digital collectibles.",
     image: require("/public/assets/solutions-pages/gaming/case-study-gala.png"),
     mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-gala.png"),
     items: [],
@@ -125,7 +125,7 @@ export const metrics = [
     mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-ztx.png"),
     items: [],
     href: "https://paimastudios.com",
-    hoverBackground: "#007CFF",
+    hoverBackground: "#00B477",
   },
 ];
 
@@ -192,9 +192,9 @@ const SolutionsGaming: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHero
-          title="The complete stack"
-          titleWithGradient="for scalable web3 games"
-          subtitle="Everything you need to build seamless onchain games with web3-powered features — on any platform."
+          title="The complete stack for"
+          titleWithGradient="scalable web3 games"
+          subtitle="Everything you need to build seamless onchain games with web3-powered features — on Unity, Unreal Engine, & any platform."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/gaming"
           gradient="linear(to-r, #F213A4, #F97CCE)"
@@ -345,8 +345,8 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
-              title="Web3 SDKs"
-              description="Unity and Unreal SDK support."
+              title="SDKs & APIs"
+              description="Integrate web3-powered features into your game with best-in-class SDKs and APIs for any platform — including Unity & Unreal Engine."
             />
           </SolutionsGamingCard>
           <SolutionsGamingCard
@@ -363,7 +363,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="embedded-wallet"
-            href="https://thirdweb.com/connect"
+            href="https://thirdweb.com/embedded-wallets"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-email-signin.svg")}
@@ -420,7 +420,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="web3-wallets"
-            href="https://thirdweb.com/engine"
+            href="https://thirdweb.com/connect"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-verified-user.svg")}
@@ -431,7 +431,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="smart-contract"
-            href="https://thirdweb.com/engine"
+            href="https://thirdweb.com/explore"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
@@ -463,7 +463,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           title="Start building"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/gamingkit"
+          ctaLink="https://portal.thirdweb.com/gaming"
           gradient="linear(to-r, #F213A4, #F97CCE)"
           contactUsTitle="Book Demo"
         />
