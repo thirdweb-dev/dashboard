@@ -10,33 +10,11 @@ import { LandingOptionSelector } from "components/landing-pages/option-selector"
 import { ImageCard } from "components/product-pages/common/ImageCard";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, Text, TrackedLink } from "tw-components";
+import { ReactNode } from "react";
+import { Card, CardProps, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "gaming_kit";
-
-const CASE_STUDIES = [
-  {
-    title:
-      "Heroic Story Uses Dynamic NFTs to Build a Web3, Free-to-Own MMORPG Fantasy Game",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Heroic-Story-thumbnail-2.png",
-    link: "https://blog.thirdweb.com/case-studies/heroic-story-uses-dynamic-nfts-to-build-a-web3-free-to-own-mmorpg-fantasy-game/",
-  },
-  {
-    title: "Pixels Builds an On-Chain Ecosystem for its Open-World Web3 Game",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/04/Pixels-Builds-an-Onchain-Ecosystem-for-its-Web3-Game-thirdweb-Case-Study.png",
-    link: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game/",
-  },
-  {
-    title:
-      "Fractal, web3 Gaming Platform and Marketplace for the Best Blockchain Games, Expands to EVM Chains",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Fractal.png",
-    link: "https://blog.thirdweb.com/case-studies/fractal-web3-gaming-platform-and-marketplace-for-blockchain-games-expands-to-evm-chains/",
-  },
-];
 
 const SELECTOR_ITEMS = [
   {
@@ -136,27 +114,63 @@ export const metrics = [
     image: require("/public/assets/solutions-pages/gaming/case-study-gala.png"),
     mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-gala.png"),
     items: [],
-    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
+    href: "https://blog.thirdweb.com/case-studies/dreamworks-launches-nft-avatars-for-web3-games-with-gala-and-the-sims-creators-voxverse/",
     hoverBackground: "#0053FF",
   },
   {
-    title: "Gala Games",
+    title: "Paima Studios",
     description:
-      "Partnering with DreamWorks to integrate their brand IP into the VOXverse — and bringing fans onchain with interoperable digital collectibles.",
+      "Bringing onchain games to all players — with instant onboarding, an `invisible` wallet experience, and the smoothest gameplay with signless & gasless UX.",
     image: require("/public/assets/solutions-pages/gaming/case-study-ztx.png"),
     mobileImage: require("/public/assets/solutions-pages/gaming/mobile-case-study-ztx.png"),
     items: [],
-    href: "https://blog.thirdweb.com/case-studies/mirror-creators-build-loyal-audiences-with-subscriber-nfts",
+    href: "https://paimastudios.com",
     hoverBackground: "#007CFF",
   },
 ];
+
+const SolutionsGamingCard = ({
+  children,
+  href,
+  label,
+  ...rest
+}: { children: ReactNode; href: string; label: string } & CardProps) => {
+  return (
+    <TrackedLink
+      category={TRACKING_CATEGORY}
+      href={href}
+      label={label}
+      isExternal
+      color="blue.400"
+      _hover={{ textDecor: "none" }}
+      role="group"
+      h="full"
+      textDecoration="none"
+    >
+      <Card
+        p={8}
+        transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
+        _hover={{
+          borderColor: "blue.500",
+          boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
+          transform: "scale(1.01)",
+        }}
+        cursor="pointer"
+        h="full"
+        {...rest}
+      >
+        {children}
+      </Card>
+    </TrackedLink>
+  );
+};
 
 const SolutionsGaming: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Build blockchain games on any platform",
+        title: "The complete stack for scalable web3 games",
         description:
           "Add web3 features to your game on all platforms, including: Native, Mobile, Console, Browser and VR.",
         openGraph: {
@@ -178,11 +192,11 @@ const SolutionsGaming: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHero
-          title="Build blockchain games"
-          titleWithGradient="on any platform"
-          subtitle="Add web3 features to your game on all platforms, including: Native, Mobile, Console, Browser and VR."
+          title="The complete stack"
+          titleWithGradient="for scalable web3 games"
+          subtitle="Everything you need to build seamless onchain games with web3-powered features — on any platform."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/gamingkit"
+          ctaLink="https://portal.thirdweb.com/gaming"
           gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-gaming.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-gaming.png")}
@@ -225,22 +239,25 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               title="Unity"
               image={require("/public/assets/solutions-pages/gaming/gaming-unity.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://catattack.thirdweb.com"
+              href="https://portal.thirdweb.com/unity"
               linkTitle="Read the Unity SDK docs"
+              label="unity"
             />
             <ImageCard
               title="Unreal Engine"
               image={require("/public/assets/solutions-pages/gaming/gaming-unreal.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://web3warriors.thirdweb.com"
+              href="https://portal.thirdweb.com/gaming/unreal-engine"
               linkTitle="Read the Unreal Engine docs"
+              label="unreal"
             />
             <ImageCard
               title="Mobile"
               image={require("/public/assets/solutions-pages/gaming/gaming-phone.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               linkTitle="Read the React Native docs"
-              href="https://web3warriors.thirdweb.com"
+              href="https://portal.thirdweb.com/react-native"
+              label="mobile"
             />
           </SimpleGrid>
         </Flex>
@@ -267,6 +284,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               href="https://web3warriors.thirdweb.com"
               category="Unity"
               linkTitle="Play Web3 Warriors"
+              label="web3warriors"
             >
               A full-scale action RPG — built in 3 weeks using thirdweb&apos;s
               Unity SDK.
@@ -279,6 +297,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               href="https://catattack.thirdweb.com"
               category="Mobile"
               linkTitle="Play Cat Attack"
+              label="cat-attack"
             >
               A simple web3 mobile game — gone viral & built in 2 days using
               thirdweb.
@@ -288,9 +307,10 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               title="Play Speed Racer"
               image={require("/public/assets/solutions-pages/gaming/gaming-speed-racer.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://web3warriors.thirdweb.com"
+              href="https://portal.thirdweb.com/gaming/unreal-engine"
               category="Unreal Engine"
               linkTitle="Play Speed Racer"
+              label="speed-racer"
             >
               An Onchain Survival Game. Escape the dungeon by battling
               terrifying bosses.
@@ -305,84 +325,120 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           title="What You Can Build"
         />
 
-        <LandingGridSection>
-          <Card p={8}>
+        <LandingGridSection
+          title={
+            <Center flexDir="column" textAlign="center">
+              <Heading size="display.sm" color="white">
+                The complete stack for web3 games
+              </Heading>
+
+              <Text size="body.lg" mt={6}>
+                Everything you need to build full-featured onchain games.
+              </Text>
+            </Center>
+          }
+        >
+          <SolutionsGamingCard
+            p={8}
+            label="unreal"
+            href="https://portal.thirdweb.com/gaming"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
-              title="APIs"
+              title="Web3 SDKs"
               description="Unity and Unreal SDK support."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="connect-wallet"
+            href="https://thirdweb.com/connect"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-smart-wallet.svg")}
               title="Connect"
               description="Onboard all of your users with a beautiful Connect Wallet modal, flexible sign-in options for web2 & web3, and powerful hooks for full customizability."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="embedded-wallet"
+            href="https://thirdweb.com/connect"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-email-signin.svg")}
               title="Embedded Wallet"
               description="Give any user the keys to web3 with familiar web2 login flows. Choose from non-custodial or custodial solutions & enable users to sign in with an email, phone number, or social account."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="smart-wallet"
+            href="https://thirdweb.com/account-abstraction"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-verified.svg")}
               title="Smart Wallet"
               description="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="unreal"
+            href="https://thirdweb.com/checkout"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-credit.svg")}
               title="NFT Checkout"
               description="Let users buy digital assets with a credit card, via a one-click checkout flow. Onboard anyone, even if they've never create a wallet or bought crypto before."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="sponsored-transaction"
+            href="https://thirdweb.com/sponsored-transactions"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
               title="Sponsored Transactions"
               description="Create seamless web3 UX by sponsoring users' gas fees — for any & all transactions. No more disruptive transaction popups or bridging & swapping funds."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="api"
+            href="https://thirdweb.com/engine"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-build.svg")}
               title="Engine"
-              description={
-                <>
-                  Power your Web3 app with production-grade APIs, including
-                  auth, smart contracts, backend wallets, gasless transactions,
-                  and managed infrastructure.{" "}
-                  <TrackedLink
-                    category={TRACKING_CATEGORY}
-                    href="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
-                    color="primary.500"
-                  >
-                    Get beta access
-                  </TrackedLink>
-                  .
-                </>
-              }
+              description="Power your Web3 app with production-grade APIs, including
+              auth, smart contracts, backend wallets, gasless transactions,
+              and managed infrastructure."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="web3-wallets"
+            href="https://thirdweb.com/engine"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-verified-user.svg")}
               title="Auth"
               description="Easy auth for the most popular web3 wallets and web2 login flows — so you can verify your users' identities & prove wallet ownership to off-chain systems."
             />
-          </Card>
-          <Card p={8}>
+          </SolutionsGamingCard>
+          <SolutionsGamingCard
+            p={8}
+            label="smart-contract"
+            href="https://thirdweb.com/engine"
+          >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
               title="Interact"
               description="The complete toolkit to add any smart contract into your apps — and call functions for any type of onchain interaction."
             />
-          </Card>
+          </SolutionsGamingCard>
         </LandingGridSection>
 
         <LandingCardWithMetrics
@@ -401,14 +457,6 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           desktopColumns={3}
           TRACKING_CATEGORY={TRACKING_CATEGORY}
           metrics={metrics}
-        />
-
-        <LandingGuidesShowcase
-          title="The best web3 apps use thirdweb's smart contract tools"
-          category={TRACKING_CATEGORY}
-          description="Seamlessly integrate your smart contracts into any app so you can focus on building a great user experience."
-          guides={CASE_STUDIES}
-          caseStudies
         />
 
         <LandingEndCTA
