@@ -643,7 +643,7 @@ const TransactionDetailsDrawer = ({
           size="xs"
         >
           {timeline.map((step, index) => (
-            <Step key={index} w="full">
+            <Step key={index} as={Flex} w="full">
               <StepIndicator>
                 <StepStatus
                   complete={<StepIcon />}
@@ -654,7 +654,9 @@ const TransactionDetailsDrawer = ({
 
               <Flex justify="space-between" w="full">
                 <FormLabel m={0}>{step.title}</FormLabel>
-                <Text fontSize="small">{step.description}</Text>
+                <Text fontSize="small" mt={-1}>
+                  {step.description}
+                </Text>
               </Flex>
 
               <StepSeparator />
