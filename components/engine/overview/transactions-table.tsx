@@ -4,18 +4,26 @@ import {
   Flex,
   FormControl,
   IconButton,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
   Stack,
-  Textarea,
   Tooltip,
   UseDisclosureReturn,
   useDisclosure,
   Divider,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Stepper,
+  Step,
+  StepIndicator,
+  StepStatus,
+  StepIcon,
+  StepNumber,
+  StepSeparator,
+  Collapse,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ChainIcon } from "components/icons/ChainIcon";
@@ -24,7 +32,7 @@ import { format, formatDistanceToNowStrict } from "date-fns";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRef, useState } from "react";
-import { FiInfo, FiTrash } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiInfo, FiTrash } from "react-icons/fi";
 import {
   Card,
   Button,
@@ -33,6 +41,7 @@ import {
   LinkButton,
   Text,
   Badge,
+  Heading,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
@@ -79,17 +88,14 @@ const statusDetails: Record<
   mined: {
     name: "Mined",
     colorScheme: "green",
-    showTooltipIcon: true,
   },
   retried: {
     name: "Retried",
     colorScheme: "green",
-    showTooltipIcon: true,
   },
   errored: {
     name: "Failed",
     colorScheme: "red",
-    showTooltipIcon: true,
   },
   cancelled: {
     name: "Cancelled",
@@ -111,6 +117,18 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
     useState<Transaction | null>(null);
 
   const columns = [
+    columnHelper.accessor("queueId", {
+      header: "Queue ID",
+      cell: (cell) => {
+        return (
+          <AddressCopyButton
+            address={cell.getValue() ?? ""}
+            title="queue ID"
+            size="xs"
+          />
+        );
+      },
+    }),
     columnHelper.accessor("chainId", {
       header: "Chain",
       cell: (cell) => {
@@ -124,22 +142,12 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           return (
             <Flex align="center" gap={2}>
               <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
-              <Text>{chain.name}</Text>
+              <Text maxW={150} isTruncated>
+                {chain.name}
+              </Text>
             </Flex>
           );
         }
-      },
-    }),
-    columnHelper.accessor("queueId", {
-      header: "Queue ID",
-      cell: (cell) => {
-        return (
-          <AddressCopyButton
-            address={cell.getValue() ?? ""}
-            title="queue ID"
-            size="xs"
-          />
-        );
       },
     }),
     columnHelper.accessor("status", {
@@ -158,8 +166,12 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           "sent",
         ].includes(status);
 
-        const shouldShowTooltip =
-          status === "errored" || (status === "mined" && minedAt);
+        const tooltip =
+          status === "errored"
+            ? errorMessage
+            : (status === "mined" || status === "retried") && minedAt
+            ? `Completed ${format(new Date(minedAt), "PP pp")}`
+            : undefined;
 
         return (
           <Flex align="center" gap={1}>
@@ -169,18 +181,11 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
               boxShadow="none"
               maxW={{ md: "450px" }}
               label={
-                shouldShowTooltip ? (
+                tooltip ? (
                   <Card bgColor="backgroundHighlight">
-                    <Text>
-                      {status === "errored"
-                        ? errorMessage
-                        : (status === "mined" || status === "retried") &&
-                          minedAt
-                        ? `Completed ${format(new Date(minedAt), "PP pp")}`
-                        : undefined}
-                    </Text>
+                    <Text>{tooltip}</Text>
                   </Card>
-                ) : null
+                ) : undefined
               }
             >
               <Badge
@@ -208,39 +213,19 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
       },
     }),
     columnHelper.accessor("fromAddress", {
-      header: "Backend Wallet",
+      header: "From",
       cell: (cell) => {
         return <AddressCopyButton size="xs" address={cell.getValue() ?? ""} />;
       },
     }),
-    columnHelper.accessor("functionName", {
-      header: "Function",
-      cell: (cell) => {
-        const { functionName, extension } = cell.row.original;
-        const functionDisplay =
-          extension === "none" ? functionName : `${extension} ${functionName}`;
-
-        return (
-          <Tooltip
-            borderRadius="md"
-            bg="transparent"
-            boxShadow="none"
-            label={
-              <Card bgColor="backgroundHighlight">
-                <Text>{functionDisplay}</Text>
-              </Card>
-            }
-            shouldWrapChildren
-          >
-            <Text fontFamily="mono" isTruncated maxW={150}>
-              {functionDisplay}
-            </Text>
-          </Tooltip>
-        );
-      },
-    }),
+    // columnHelper.accessor("toAddress", {
+    //   header: "To",
+    //   cell: (cell) => {
+    //     return <AddressCopyButton size="xs" address={cell.getValue() ?? ""} />;
+    //   },
+    // }),
     columnHelper.accessor("transactionHash", {
-      header: "Transaction Hash",
+      header: "Tx Hash",
       cell: (cell) => {
         const { chainId, transactionHash } = cell.row.original;
         if (!chainId || !transactionHash) {
@@ -260,17 +245,9 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           }
 
           return (
-            <LinkButton
-              key={explorer.name}
-              variant="ghost"
-              isExternal
-              size="xs"
-              href={`${explorer.url}/tx/${transactionHash}`}
-            >
-              <Text fontFamily="mono" maxW="100px" isTruncated>
-                {transactionHash}
-              </Text>
-            </LinkButton>
+            <Text fontFamily="mono" maxW="100px" isTruncated>
+              {transactionHash}
+            </Text>
           );
         }
       },
@@ -303,6 +280,10 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
     }),
   ];
 
+  const idx = selectedTransaction
+    ? transactions.indexOf(selectedTransaction)
+    : 0;
+
   return (
     <>
       <TWTable
@@ -321,7 +302,16 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
         <TransactionDetailsDrawer
           transaction={selectedTransaction}
           disclosure={transactionDisclosure}
-          instanceUrl={instanceUrl}
+          onClickPrevious={
+            idx > 0
+              ? () => setSelectedTransaction(transactions[idx - 1])
+              : undefined
+          }
+          onClickNext={
+            idx < transactions.length - 1
+              ? () => setSelectedTransaction(transactions[idx + 1])
+              : undefined
+          }
         />
       )}
     </>
@@ -369,16 +359,11 @@ const CancelTransactionButton = ({
 
   return (
     <>
-      <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
-        initialFocusRef={closeButtonRef}
-        size="sm"
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>Cancel Transaction</DrawerHeader>
-          <DrawerBody>
+      <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={closeButtonRef}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Cancel Transaction</ModalHeader>
+          <ModalBody>
             <Stack gap={4}>
               <Text>Are you sure you want to cancel this transaction?</Text>
               <FormControl>
@@ -417,9 +402,9 @@ const CancelTransactionButton = ({
                 the cancellation is submitted.
               </Text>
             </Stack>
-          </DrawerBody>
+          </ModalBody>
 
-          <DrawerFooter as={Flex} gap={3}>
+          <ModalFooter as={Flex} gap={3}>
             <Button
               ref={closeButtonRef}
               type="button"
@@ -431,9 +416,9 @@ const CancelTransactionButton = ({
             <Button type="submit" colorScheme="red" onClick={onClickContinue}>
               Cancel transaction
             </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       <Tooltip
         borderRadius="md"
@@ -461,13 +446,17 @@ const CancelTransactionButton = ({
 const TransactionDetailsDrawer = ({
   transaction,
   disclosure,
-  instanceUrl,
+  onClickPrevious,
+  onClickNext,
 }: {
   transaction: Transaction;
   disclosure: UseDisclosureReturn;
-  instanceUrl: string;
+  onClickPrevious?: () => void;
+  onClickNext?: () => void;
 }) => {
   const { chainIdToChainRecord } = useAllChainsData();
+  const errorMessageDisclosure = useDisclosure();
+  const advancedTxDetailsDisclosure = useDisclosure();
 
   if (!transaction.chainId || !transaction.status) {
     return null;
@@ -477,137 +466,260 @@ const TransactionDetailsDrawer = ({
   const explorer = chain.explorers?.[0];
 
   const status = statusDetails[transaction.status as EngineStatus];
+  const functionCalled =
+    transaction.extension && transaction.extension !== "none"
+      ? `${transaction.extension} ${transaction.functionName}`
+      : transaction.functionName ?? null;
+
+  const prettyPrintTimestamp = (t: string, showDate = false) => {
+    const date = new Date(t);
+    return showDate
+      ? date.toLocaleString(undefined, { timeZoneName: "short" })
+      : date.toLocaleTimeString(undefined, { timeZoneName: "short" });
+  };
+
+  // Build the timeline which should be one of:
+  // - Queued                   - queued
+  // - Queued, Sent             - submitted to mempool
+  // - Queued, Sent, Mined      - mined successfully
+  // - Queued, Sent, Canceled   - canceled
+  // - Queued, Errored          - errored before mempool
+  // - Queued, Sent, Errored    - errored after sending to mempool
+  const timeline = [
+    {
+      title: "Queued",
+      description: transaction.queuedAt
+        ? prettyPrintTimestamp(transaction.queuedAt, true)
+        : undefined,
+    },
+  ];
+  if (transaction.sentAt) {
+    timeline.push({
+      title: "Sent",
+      description: prettyPrintTimestamp(transaction.sentAt),
+    });
+  }
+  if (transaction.minedAt) {
+    timeline.push({
+      title: "Mined",
+      description: prettyPrintTimestamp(transaction.minedAt),
+    });
+  } else if (transaction.cancelledAt) {
+    timeline.push({
+      title: "Canceled",
+      description: prettyPrintTimestamp(transaction.cancelledAt),
+    });
+  } else if (transaction.errorMessage) {
+    timeline.push({
+      title: "Errored",
+      description: undefined,
+    });
+  }
 
   return (
-    <Drawer isOpen={disclosure.isOpen} onClose={disclosure.onClose} size="sm">
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerHeader>Transaction Details</DrawerHeader>
-        <DrawerCloseButton />
-        <DrawerBody>
-          <Stack spacing={4}>
-            <FormControl>
-              <FormLabel>Queue ID</FormLabel>
-              <Text>{transaction.queueId}</Text>
-            </FormControl>
+    <Drawer
+      isOpen={disclosure.isOpen}
+      onClose={disclosure.onClose}
+      size="sm"
+      closeOnOverlayClick
+      header={{
+        children: (
+          <DrawerHeader as={Flex} gap={3}>
+            <Heading size="title.sm">Transaction Details</Heading>
+            <Badge
+              borderRadius="full"
+              size="label.sm"
+              variant="subtle"
+              px={3}
+              py={1.5}
+              colorScheme={status.colorScheme}
+              w="fit-content"
+            >
+              {status.name}
+            </Badge>
+          </DrawerHeader>
+        ),
+      }}
+      footer={{
+        children: (
+          <Flex gap={3}>
+            <Button
+              isDisabled={!onClickPrevious}
+              onClick={onClickPrevious}
+              variant="outline"
+              leftIcon={<FiArrowLeft />}
+            >
+              Previous
+            </Button>
+            <Button
+              isDisabled={!onClickNext}
+              onClick={onClickNext}
+              variant="outline"
+              rightIcon={<FiArrowRight />}
+            >
+              Next
+            </Button>
+          </Flex>
+        ),
+      }}
+    >
+      <Stack spacing={4}>
+        <FormControl>
+          <FormLabel>Queue ID</FormLabel>
+          <Text>{transaction.queueId}</Text>
+        </FormControl>
 
-            <FormControl>
-              <FormLabel>Status</FormLabel>
-              <Badge
-                borderRadius="full"
-                size="label.sm"
-                variant="subtle"
-                px={3}
-                py={1.5}
-                colorScheme={status.colorScheme}
-                w="fit-content"
-              >
-                <Flex gap={1} align="center">
-                  {status.name}
-                </Flex>
-              </Badge>
-            </FormControl>
+        <FormControl>
+          <FormLabel>Chain</FormLabel>
+          <Flex align="center" gap={2}>
+            <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
+            <Text>{chain?.name}</Text>
+          </Flex>
+        </FormControl>
 
-            <FormControl>
-              <FormLabel>Chain</FormLabel>
-              <Flex align="center" gap={2}>
-                <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
-                <Text>{chain?.name}</Text>
+        {functionCalled && (
+          <FormControl>
+            <FormLabel>Function</FormLabel>
+            <Text>{functionCalled}</Text>
+          </FormControl>
+        )}
+
+        <FormControl>
+          <FormLabel>From Address</FormLabel>
+          <LinkButton
+            variant="ghost"
+            isExternal
+            size="xs"
+            href={
+              explorer
+                ? `${explorer.url}/address/${transaction.fromAddress}`
+                : "#"
+            }
+          >
+            <Text fontFamily="mono">{transaction.fromAddress}</Text>
+          </LinkButton>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>To Address</FormLabel>
+          <LinkButton
+            variant="ghost"
+            isExternal
+            size="xs"
+            href={
+              explorer
+                ? `${explorer.url}/address/${transaction.toAddress}`
+                : "#"
+            }
+          >
+            <Text fontFamily="mono">{transaction.toAddress}</Text>
+          </LinkButton>
+        </FormControl>
+
+        {transaction.errorMessage && (
+          <FormControl>
+            <FormLabel>Error</FormLabel>
+            <Text noOfLines={errorMessageDisclosure.isOpen ? undefined : 3}>
+              {transaction.errorMessage}
+            </Text>
+            <Button
+              onClick={errorMessageDisclosure.onToggle}
+              variant="link"
+              size="xs"
+              colorScheme="gray"
+            >
+              {errorMessageDisclosure.isOpen ? "Show less" : "Show more"}
+            </Button>
+          </FormControl>
+        )}
+
+        <Divider />
+
+        <Stepper
+          index={timeline.length + 1}
+          orientation="vertical"
+          height="120px"
+          gap="0"
+          size="xs"
+        >
+          {timeline.map((step, index) => (
+            <Step key={index} w="full">
+              <StepIndicator>
+                <StepStatus
+                  complete={<StepIcon />}
+                  incomplete={<StepNumber />}
+                  active={<StepNumber />}
+                />
+              </StepIndicator>
+
+              <Flex justify="space-between" w="full">
+                <FormLabel m={0}>{step.title}</FormLabel>
+                <Text fontSize="small">{step.description}</Text>
               </Flex>
-            </FormControl>
 
-            {transaction.queuedAt && (
-              <FormControl>
-                <FormLabel>Queued At</FormLabel>
-                <Text>
-                  {new Date(transaction.queuedAt).toLocaleString(undefined, {
-                    timeZoneName: "short",
-                  })}
-                </Text>
-              </FormControl>
-            )}
+              <StepSeparator />
+            </Step>
+          ))}
+        </Stepper>
 
-            {transaction.minedAt && (
-              <FormControl>
-                <FormLabel>Mined At</FormLabel>
-                <Text>
-                  {new Date(transaction.minedAt).toLocaleString(undefined, {
-                    timeZoneName: "short",
-                  })}
-                </Text>
-              </FormControl>
-            )}
+        <Divider />
 
-            <Divider />
+        {/* On-chain details */}
 
+        {transaction.transactionHash && (
+          <>
             <FormControl>
-              <FormLabel>From Address</FormLabel>
+              <FormLabel>Transaction Hash</FormLabel>
               <LinkButton
                 variant="ghost"
                 isExternal
                 size="xs"
                 href={
                   explorer
-                    ? `${explorer.url}/address/${transaction.fromAddress}`
+                    ? `${explorer.url}/tx/${transaction.transactionHash}`
                     : "#"
                 }
+                maxW="100%"
               >
-                <Text fontFamily="mono">{transaction.fromAddress}</Text>
+                <Text fontFamily="mono" isTruncated>
+                  {transaction.transactionHash}
+                </Text>
               </LinkButton>
             </FormControl>
 
-            <FormControl>
-              <FormLabel>To Address</FormLabel>
-              <LinkButton
-                variant="ghost"
-                isExternal
-                size="xs"
-                href={
-                  explorer
-                    ? `${explorer.url}/address/${transaction.toAddress}`
-                    : "#"
-                }
-              >
-                <Text fontFamily="mono">{transaction.toAddress}</Text>
-              </LinkButton>
-            </FormControl>
+            <Collapse in={advancedTxDetailsDisclosure.isOpen}>
+              <Stack spacing={4}>
+                <FormControl>
+                  <FormLabel>Nonce</FormLabel>
+                  <Text>{transaction.nonce ?? "N/A"}</Text>
+                </FormControl>
 
-            {transaction.transactionHash && (
-              <FormControl>
-                <FormLabel>Transaction Hash</FormLabel>
-                <LinkButton
-                  variant="ghost"
-                  isExternal
-                  size="xs"
-                  href={
-                    explorer
-                      ? `${explorer.url}/tx/${transaction.transactionHash}`
-                      : "#"
-                  }
-                  maxW="100%"
-                >
-                  <Text fontFamily="mono" isTruncated>
-                    {transaction.transactionHash}
-                  </Text>
-                </LinkButton>
-              </FormControl>
-            )}
+                <FormControl>
+                  <FormLabel>Gas Units</FormLabel>
+                  <Text>{transaction.gasLimit ?? "N/A"}</Text>
+                </FormControl>
 
-            <FormControl>
-              <FormLabel>Error Message</FormLabel>
-              <Textarea fontFamily="mono" fontSize="x-small" rows={8}>
-                {transaction.errorMessage}
-              </Textarea>
-            </FormControl>
-          </Stack>
-        </DrawerBody>
+                <FormControl>
+                  <FormLabel>Gas Price</FormLabel>
+                  <Text>{transaction.gasPrice ?? "N/A"}</Text>
+                </FormControl>
+              </Stack>
+            </Collapse>
 
-        <DrawerFooter>
-          <Button onClick={disclosure.onClose} colorScheme="blue">
-            Close
-          </Button>
-        </DrawerFooter>
-      </DrawerContent>
+            <Button
+              onClick={advancedTxDetailsDisclosure.onToggle}
+              variant="link"
+              size="xs"
+              colorScheme="gray"
+              w="fit-content"
+            >
+              {advancedTxDetailsDisclosure.isOpen
+                ? "Hide transaction details"
+                : "Show transaction details"}
+            </Button>
+          </>
+        )}
+      </Stack>
     </Drawer>
   );
 };
