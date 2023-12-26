@@ -16,9 +16,8 @@ import {
   IconButton,
   Box,
   Progress,
-  Menu,
-  MenuButton,
-  MenuList,
+  Alert,
+  AlertDescription,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -31,26 +30,32 @@ import {
   Heading,
   LinkButton,
   Text,
-  MenuItem,
+  TrackedLink,
 } from "tw-components";
 import {
   ChainIdToSupportedCurrencies,
   CreateUpdateCheckoutInput,
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { useMemo, useState } from "react";
-import { Abi, NATIVE_TOKEN_ADDRESS, useContract } from "@thirdweb-dev/react";
+import { ReactNode, useMemo, useState } from "react";
+import {
+  Abi,
+  NATIVE_TOKEN_ADDRESS,
+  useClaimConditions,
+  useContract,
+  useNFTs,
+} from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
-import { PaymentsPreviewButton } from "./preview-button";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { PriceInput } from "contract-ui/tabs/claim-conditions/components/price-input";
 import { PaymentsMintMethodInput } from "./mint-method-input";
-import { FiChevronDown } from "react-icons/fi";
+import { BigNumber } from "ethers";
+import { useChainSlug } from "hooks/chains/chainSlug";
 
 const formInputs = [
   {
@@ -65,15 +70,6 @@ const formInputs = [
         required: true,
         helper:
           "A clear title for this checkout that is shown on the checkout UX, credit card statement, and post-purchase email.",
-        sideField: false,
-      },
-      {
-        name: "description",
-        label: "Description",
-        type: "textarea",
-        placeholder: "Checkout Description",
-        required: false,
-        helper: "",
         sideField: false,
       },
       {
@@ -122,9 +118,18 @@ const formInputs = [
     ],
   },
   {
-    step: "branding",
-    label: "Branding",
+    step: "metadata",
+    label: "Metadata",
     fields: [
+      {
+        name: "description",
+        label: "Description",
+        type: "textarea",
+        placeholder: "Checkout Description",
+        required: false,
+        helper: "",
+        sideField: false,
+      },
       {
         name: "imageUrl",
         label: "NFT Image Preview",
@@ -135,43 +140,13 @@ const formInputs = [
         helper: "",
       },
       {
-        name: "brandDarkMode",
-        label: "Dark mode",
-        type: "switch",
-        placeholder: "",
+        name: "twitterHandleOverride",
+        label: "Seller X (Twitter) Username",
+        type: "text",
+        placeholder: "@username",
         required: false,
-        helper: "",
-        sideField: true,
-      },
-      {
-        name: "brandColorScheme",
-        label: "Color",
-        type: "select",
-        options: [
-          { value: "gray" },
-          { value: "red" },
-          { value: "orange" },
-          { value: "yellow" },
-          { value: "green" },
-          { value: "teal" },
-          { value: "blue" },
-          { value: "cyan" },
-          { value: "purple" },
-          { value: "pink" },
-        ],
-        placeholder: "",
-        required: false,
-        helper: "",
-        sideField: false,
-      },
-      {
-        name: "brandButtonShape",
-        label: "Button shape",
-        type: "select",
-        options: [{ value: "rounded" }, { value: "pill" }, { value: "square" }],
-        placeholder: "",
-        required: false,
-        helper: "",
+        helper:
+          "Override your organization's Twitter username for this checkout.",
         sideField: false,
       },
     ],
@@ -271,16 +246,6 @@ const formInputs = [
           "A buyer will be navigated to this page if they are unable to make a purchase.",
         sideField: false,
       },
-      {
-        name: "twitterHandleOverride",
-        label: "Seller X (Twitter) Username",
-        type: "text",
-        placeholder: "@username",
-        required: false,
-        helper:
-          "Override your organization's Twitter username for this checkout.",
-        sideField: false,
-      },
     ],
   },
 ] as const;
@@ -314,6 +279,21 @@ const convertInputsToMintMethod = ({
   };
 };
 
+const tokenIdToNumber = (tokenIdStr: string | undefined) => {
+  let tokenId;
+
+  if (!tokenIdStr) {
+    return undefined;
+  }
+
+  try {
+    tokenId = BigNumber.from(tokenIdStr);
+  } catch (err) {
+    // ignore
+  }
+  return tokenId;
+};
+
 interface CreateUpdateCheckoutButtonProps {
   contractId: string;
   contractAddress: string;
@@ -332,25 +312,32 @@ export const CreateUpdateCheckoutButton: React.FC<
   checkoutId,
 }) => {
   const { contract } = useContract(contractAddress);
+  const chainSlug = useChainSlug(contract?.chainId ?? "");
+  const { data: nfts, isLoading: isNftsLoading } = useNFTs(contract, {
+    count: 1,
+  });
 
   const hasDetectedExtensions = paymentContractType !== "CUSTOM_CONTRACT";
 
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+  const isErc721 = detectFeatures(contract, ["ERC721"]);
 
-  const keysQuery = useApiKeys();
+  const { data: apiKeysData } = useApiKeys();
 
   const apiKeys = useMemo(() => {
-    return (keysQuery?.data || []).filter((key) => {
+    return (apiKeysData || []).filter((key) => {
       return (key.services || []).some((srv) => srv.name === "embeddedWallets");
     });
-  }, [keysQuery]);
+  }, [apiKeysData]);
 
   const [step, setStep] = useState<
-    "info" | "no-detected-extensions" | "branding" | "delivery" | "advanced"
+    "info" | "no-detected-extensions" | "metadata" | "delivery" | "advanced"
   >("info");
+  const [contractError, setContractError] = useState<ReactNode | undefined>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createOrUpdateCheckout, isLoading } =
     usePaymentsCreateUpdateCheckout(contractAddress);
+
   const trackEvent = useTrack();
 
   const currentStep = useMemo(() => {
@@ -382,7 +369,7 @@ export const CreateUpdateCheckoutButton: React.FC<
     cancelCallbackUrl: checkout?.cancel_callback_url || "",
     brandButtonShape: (checkout?.brand_button_shape as any) || "rounded",
     brandColorScheme: (checkout?.brand_color_scheme as any) || "blue",
-    brandDarkMode: checkout?.brand_dark_mode || false,
+    brandDarkMode: checkout?.brand_dark_mode || true,
     contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
     listingId: checkout?.listing_id || "",
@@ -428,6 +415,14 @@ export const CreateUpdateCheckoutButton: React.FC<
       : {}),
   });
 
+  const { data: claimConditions, isLoading: isClaimConditionsLoading } =
+    useClaimConditions(
+      contract,
+      isErc1155 && form.watch("tokenId")
+        ? tokenIdToNumber(form.watch("tokenId"))
+        : undefined,
+    );
+
   const { onSuccess: onCreateSuccess, onError: onCreateError } =
     useTxNotifications(
       "Checkout created successfully.",
@@ -443,8 +438,62 @@ export const CreateUpdateCheckoutButton: React.FC<
   const onSuccess = checkoutId ? onUpdateSuccess : onCreateSuccess;
   const onError = checkoutId ? onUpdateError : onCreateError;
 
-  // FIXME: Use zod validations
-  const isValid = useMemo(() => {
+  const canCreate = useMemo(() => {
+    let errorMessage;
+
+    if (isErc721 || isErc1155) {
+      if (!isNftsLoading && nfts?.length === 0) {
+        errorMessage = (
+          <Text>
+            You don&apos;t have any NFTs yet,{" "}
+            <TrackedLink
+              textDecor="underline"
+              href={`/${chainSlug}/${contractAddress}/nfts`}
+              category="payments"
+              label="no-nfts-alert"
+            >
+              create one here
+            </TrackedLink>
+            .
+          </Text>
+        );
+      } else if (!isClaimConditionsLoading && claimConditions?.length === 0) {
+        errorMessage = (
+          <Text>
+            You don&apos;t have claim conditions,{" "}
+            <TrackedLink
+              textDecor="underline"
+              href={`/${chainSlug}/${contractAddress}/nfts`}
+              category="payments"
+              label="no-claim-conditions-alert"
+            >
+              set them here
+            </TrackedLink>
+            .
+          </Text>
+        );
+      }
+    }
+
+    if (errorMessage) {
+      setContractError(errorMessage);
+      return false;
+    }
+
+    setContractError(undefined);
+    return true;
+  }, [
+    chainSlug,
+    contractAddress,
+    isErc721,
+    isErc1155,
+    isNftsLoading,
+    nfts,
+    isClaimConditionsLoading,
+    claimConditions,
+  ]);
+
+  const isValid = (() => {
     if (step === "info") {
       if (
         apiKeys.length === 0 ||
@@ -466,7 +515,7 @@ export const CreateUpdateCheckoutButton: React.FC<
       }
     }
     return true;
-  }, [apiKeys, form, isErc1155, step]);
+  })();
 
   const handleNext = async () => {
     await form.trigger();
@@ -542,9 +591,9 @@ export const CreateUpdateCheckoutButton: React.FC<
         return "no-detected-extensions";
       }
       if (prev === "info" || prev === "no-detected-extensions") {
-        return "branding";
+        return "metadata";
       }
-      if (prev === "branding") {
+      if (prev === "metadata") {
         return "delivery";
       }
       if (prev === "delivery") {
@@ -566,14 +615,14 @@ export const CreateUpdateCheckoutButton: React.FC<
 
   const handleBack = () => {
     setStep((prev) => {
-      if (prev === "branding" && !hasDetectedExtensions) {
+      if (prev === "metadata" && !hasDetectedExtensions) {
         return "no-detected-extensions";
       }
-      if (prev === "no-detected-extensions" || prev === "branding") {
+      if (prev === "no-detected-extensions" || prev === "metadata") {
         return "info";
       }
       if (prev === "delivery") {
-        return "branding";
+        return "metadata";
       }
       if (prev === "advanced") {
         return "delivery";
@@ -623,6 +672,16 @@ export const CreateUpdateCheckoutButton: React.FC<
           <ModalCloseButton />
           <ModalBody py={4}>
             <Flex flexDir="column" gap={4}>
+              {contractError && (
+                <Alert status="warning" variant="left-accent" borderRadius="sm">
+                  <Flex direction="column" gap={2}>
+                    <Text as={AlertDescription} size="body.md">
+                      {contractError}
+                    </Text>
+                  </Flex>
+                </Alert>
+              )}
+
               {formInputs.map((input) => {
                 if (input.step !== step) {
                   return null;
@@ -662,50 +721,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 })}
                                 placeholder={field.placeholder}
                               />
-                            ) : field.type === "select" ? (
-                              <>
-                                <Menu>
-                                  {({ isOpen: menuIsOpen }) => (
-                                    <>
-                                      <MenuButton
-                                        as={Button}
-                                        isActive={menuIsOpen}
-                                        variant="outline"
-                                        w="full"
-                                        rightIcon={<FiChevronDown />}
-                                      >
-                                        <Text
-                                          textAlign="left"
-                                          textTransform="capitalize"
-                                        >
-                                          {form.watch(field.name) ||
-                                            field.placeholder}
-                                        </Text>
-                                      </MenuButton>
-                                      <MenuList>
-                                        {field.options.map((option) => (
-                                          <MenuItem
-                                            key={option.value}
-                                            value={option.value}
-                                            textTransform="capitalize"
-                                            onClick={() => {
-                                              form.setValue(
-                                                field.name,
-                                                option.value as any,
-                                                {
-                                                  shouldDirty: true,
-                                                },
-                                              );
-                                            }}
-                                          >
-                                            {option.value}
-                                          </MenuItem>
-                                        ))}
-                                      </MenuList>
-                                    </>
-                                  )}
-                                </Menu>
-                              </>
                             ) : field.type === "switch" ? (
                               <Switch
                                 onChange={(e) => {
@@ -855,15 +870,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                         </FormControl>
                       );
                     })}
-                    {input.step === "branding" && (
-                      <PaymentsPreviewButton
-                        isDarkMode={!!form.watch("brandDarkMode")}
-                        buttonShape={
-                          form.watch("brandButtonShape") || "rounded"
-                        }
-                        colorScheme={form.watch("brandColorScheme") || "red"}
-                      />
-                    )}
                   </Flex>
                 );
               })}
@@ -881,7 +887,7 @@ export const CreateUpdateCheckoutButton: React.FC<
               type="button"
               colorScheme="primary"
               onClick={handleNext}
-              isDisabled={!isValid}
+              isDisabled={!canCreate || !isValid}
               isLoading={form.formState.isSubmitting || isLoading}
             >
               {step === "advanced"

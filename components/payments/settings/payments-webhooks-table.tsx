@@ -23,9 +23,11 @@ import { TWTable } from "components/shared/TWTable";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useForm } from "react-hook-form";
+import { FiTrash } from "react-icons/fi";
+import { BiPencil } from "react-icons/bi";
 
 export interface PaymentsWebhooksTableProps {
-  accountId: string;
+  paymentsSellerId: string;
   webhooks: PaymentsWebhooksType[];
   isLoading: boolean;
   isFetched: boolean;
@@ -47,7 +49,7 @@ const columns = [
 ];
 
 export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
-  accountId,
+  paymentsSellerId,
   webhooks,
   isLoading,
   isFetched,
@@ -56,7 +58,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate: updateWebhook } = usePaymentsUpdateWebhook(accountId);
+  const { mutate: updateWebhook } = usePaymentsUpdateWebhook(paymentsSellerId);
   const form = useForm<PaymentsWebhooksType & { isDelete: boolean }>();
 
   const onDelete = (webhook: PaymentsWebhooksType) => {
@@ -103,7 +105,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
               category: "payments",
               action: `${isDelete ? "delete" : "update"}-webhook`,
               label: "attempt",
-              accountId,
+              paymentsSellerId,
             });
 
             updateWebhook(
@@ -122,7 +124,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
                     category: "payments",
                     action: `${isSubmitDelete ? "delete" : "update"}-webhook`,
                     label: "success",
-                    accountId,
+                    paymentsSellerId,
                   });
                 },
                 onError: (error) => {
@@ -131,7 +133,7 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
                     category: "payments",
                     action: `${isSubmitDelete ? "delete" : "update"}-webhook`,
                     label: "error",
-                    accountId,
+                    paymentsSellerId,
                   });
                 },
               },
@@ -199,8 +201,19 @@ export const PaymentsWebhooksTable: React.FC<PaymentsWebhooksTableProps> = ({
         columns={columns}
         isLoading={isLoading}
         isFetched={isFetched}
-        onDelete={onDelete}
-        onEdit={onEdit}
+        onMenuClick={[
+          {
+            icon: BiPencil,
+            text: "Edit",
+            onClick: onEdit,
+          },
+          {
+            icon: FiTrash,
+            text: "Delete",
+            onClick: onDelete,
+            isDestructive: true,
+          },
+        ]}
       />
     </>
   );
