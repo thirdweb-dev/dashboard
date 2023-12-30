@@ -169,7 +169,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           directList.mutate(
             {
               assetContractAddress: formData.selected.contractAddress,
-              tokenId: BigNumber.from(formData.selected.tokenId),
+              tokenId: formData.selected.metadata.id,
               currencyContractAddress: formData.currencyContractAddress,
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
@@ -194,7 +194,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           auctionList.mutate(
             {
               assetContractAddress: formData.selected.contractAddress,
-              tokenId: BigNumber.from(formData.selected.tokenId),
+              tokenId: formData.selected.metadata.id,
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
               currencyContractAddress: formData.currencyContractAddress,
