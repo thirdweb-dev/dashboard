@@ -51,6 +51,7 @@ import {
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { ListLabel } from "./list-label";
 import { isSimpleHashSupported } from "lib/wallet/nfts/simpleHash";
+import { BigNumber } from "ethers";
 
 interface ListForm
   extends Omit<NewDirectListing, "type">,
@@ -168,7 +169,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           directList.mutate(
             {
               assetContractAddress: formData.selected.contractAddress,
-              tokenId: String(formData.selected.tokenId),
+              tokenId: BigNumber.from(formData.selected.tokenId),
               currencyContractAddress: formData.currencyContractAddress,
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
@@ -193,7 +194,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           auctionList.mutate(
             {
               assetContractAddress: formData.selected.contractAddress,
-              tokenId: String(formData.selected.tokenId),
+              tokenId: BigNumber.from(formData.selected.tokenId),
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
               currencyContractAddress: formData.currencyContractAddress,
