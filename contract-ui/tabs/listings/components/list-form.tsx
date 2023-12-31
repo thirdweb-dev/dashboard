@@ -51,7 +51,6 @@ import {
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { ListLabel } from "./list-label";
 import { isSimpleHashSupported } from "lib/wallet/nfts/simpleHash";
-import { BigNumber } from "ethers";
 
 interface ListForm
   extends Omit<NewDirectListing, "type">,
