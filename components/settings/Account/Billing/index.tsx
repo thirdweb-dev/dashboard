@@ -44,7 +44,9 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     "Failed to change your billing plan.",
   );
 
-  const validPayment = account.status === AccountStatus.ValidPayment;
+  const validPayment =
+    account.status === AccountStatus.ValidPayment &&
+    !account.paymentAttemptCount;
   const paymentVerification =
     account.status === AccountStatus.PaymentVerification;
 

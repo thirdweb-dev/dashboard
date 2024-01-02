@@ -132,7 +132,7 @@ export const BillingAlert = () => {
     return null;
   }
 
-  const { status, stripePaymentActionUrl } = meQuery.data;
+  const { status, stripePaymentActionUrl, paymentAttemptCount } = meQuery.data;
 
   if (status === "paymentVerification") {
     const message = !stripePaymentActionUrl?.startsWith(
@@ -151,7 +151,10 @@ export const BillingAlert = () => {
     );
   }
 
-  if (status === AccountStatus.InvalidPayment) {
+  if (
+    status === AccountStatus.InvalidPayment ||
+    (paymentAttemptCount && paymentAttemptCount !== 0)
+  ) {
     return (
       <BillingTypeAlert
         title="Your payment method was declined"
