@@ -119,7 +119,7 @@ export const SECTIONS = [
         pro: "Free",
       },
       {
-        title: "Email Wallet with social logins & custom auth",
+        title: "Email Wallet with social logins",
         starter:
           "Free up to 10,000 Monthly Active Wallets ($0.02 per Wallet after)",
         growth:
@@ -137,6 +137,12 @@ export const SECTIONS = [
         starter: "Free",
         growth: "Free",
         pro: "Free",
+      },
+      {
+        title: "Custom Auth",
+        starter: "--",
+        growth: "checkmark",
+        pro: "checkmark",
       },
       {
         title: "Wallet Analytics",
