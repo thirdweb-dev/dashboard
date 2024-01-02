@@ -113,13 +113,13 @@ export const SECTIONS = [
     icon: require("public/assets/product-icons/wallets.png"),
     items: [
       {
-        title: "Email Wallet (Self-Recovery)",
-        starter: "Unlimited",
-        growth: "Unlimited",
-        pro: "Unlimited",
+        title: "Connect",
+        starter: "Free",
+        growth: "Free",
+        pro: "Free",
       },
       {
-        title: "Email Wallet (Managed Recovery)",
+        title: "Email Wallet with social logins & custom auth",
         starter:
           "Free up to 10,000 Monthly Active Wallets ($0.02 per Wallet after)",
         growth:
@@ -128,24 +128,18 @@ export const SECTIONS = [
       },
       {
         title: "Device Wallet",
-        starter: "Unlimited",
-        growth: "Unlimited",
-        pro: "Unlimited",
+        starter: "Free",
+        growth: "Free",
+        pro: "Free",
       },
       {
         title: "Smart Wallet",
-        starter: "Unlimited",
-        growth: "Unlimited",
-        pro: "Unlimited",
+        starter: "Free",
+        growth: "Free",
+        pro: "Free",
       },
       {
         title: "Wallet Analytics",
-        starter: "--",
-        growth: "checkmark",
-        pro: "checkmark",
-      },
-      {
-        title: "Custom Auth",
         starter: "--",
         growth: "checkmark",
         pro: "checkmark",

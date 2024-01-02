@@ -1,10 +1,8 @@
 import {
-  hasPaymentsDetectedExtensions,
   usePaymentsEnabledContracts,
   usePaymentsRegisterContract,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -23,8 +21,6 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
 }) => {
   const { mutate: registerContract, isLoading } = usePaymentsRegisterContract();
   const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
-  const { contract } = useContract(contractAddress);
-  const hasDetectedExtensions = hasPaymentsDetectedExtensions(contract);
 
   const contractIsEnabled = useMemo(() => {
     return paymentEnabledContracts?.some(
@@ -50,7 +46,7 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
         </Button>
       ) : (
         <Button
-          colorScheme="blackAlpha"
+          variant="inverted"
           size="sm"
           onClick={() => {
             trackEvent({
@@ -62,9 +58,6 @@ export const EnablePaymentsButton: React.FC<EnablePaymentsButtonProps> = ({
               {
                 chain: `${chainId}`,
                 contractAddress,
-                contractType: hasDetectedExtensions
-                  ? "THIRDWEB"
-                  : "CUSTOM_CONTRACT",
               },
               {
                 onSuccess: () => {

@@ -1,39 +1,41 @@
 import {
   ApiKey,
   ApiKeyService,
-  useAccount,
   useUpdateApiKey,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Divider,
   Flex,
   FormControl,
   HStack,
+  IconButton,
   Input,
+  Stack,
   Switch,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ApiKeyEmbeddedWalletsValidationSchema,
   apiKeyEmbeddedWalletsValidationSchema,
 } from "components/settings/ApiKeys/validations";
-import { useForm } from "react-hook-form";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
+import { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { LuTrash2 } from "react-icons/lu";
 import {
+  Button,
   Card,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   Text,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
   TrackedLink,
 } from "tw-components";
-import { useTxNotifications } from "hooks/useTxNotifications";
-import { useTrack } from "hooks/analytics/useTrack";
-import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
 
 interface ConfigureProps {
   apiKey: ApiKey;
@@ -56,8 +58,6 @@ export const Configure: React.FC<ConfigureProps> = ({
   const config = services[serviceIdx];
 
   const mutation = useUpdateApiKey();
-  const meQuery = useAccount();
-  const { data: account } = meQuery;
   const trackEvent = useTrack();
   const toast = useToast();
   const bg = useColorModeValue("backgroundCardHighlight", "transparent");
@@ -66,11 +66,25 @@ export const Configure: React.FC<ConfigureProps> = ({
     resolver: zodResolver(apiKeyEmbeddedWalletsValidationSchema),
     defaultValues: {
       recoveryShareManagement: config.recoveryShareManagement,
+      customAuthEndpoint: config.customAuthEndpoint,
       customAuthentication: config.customAuthentication,
       applicationName: config.applicationName,
       applicationImageUrl: config.applicationImageUrl,
     },
   });
+  const customHeaderFields = useFieldArray({
+    control: form.control,
+    name: "customAuthEndpoint.customHeaders",
+  });
+  useEffect(() => {
+    form.reset({
+      recoveryShareManagement: config.recoveryShareManagement,
+      customAuthEndpoint: config.customAuthEndpoint,
+      customAuthentication: config.customAuthentication,
+      applicationName: config.applicationName,
+      applicationImageUrl: config.applicationImageUrl,
+    });
+  }, [config, form]);
 
   const { onSuccess, onError } = useTxNotifications(
     "Embedded Wallet API Key configuration updated",
@@ -78,18 +92,29 @@ export const Configure: React.FC<ConfigureProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
-    const { customAuthentication, recoveryShareManagement } = values;
-    const hasCustomAuth =
-      account?.advancedEnabled &&
-      recoveryShareManagement === "USER_MANAGED" &&
-      (!customAuthentication?.aud.length ||
-        !customAuthentication?.jwksUri.length);
+    const { customAuthentication, customAuthEndpoint } = values;
 
-    if (hasCustomAuth) {
+    if (
+      customAuthentication &&
+      (!customAuthentication.aud.length || !customAuthentication.jwksUri.length)
+    ) {
       return toast({
         title: "Custom JSON Web Token configuration is invalid",
         description:
           "To use Embedded Wallets with Custom JSON Web Token, provide JWKS URI and AUD.",
+        position: "bottom",
+        variant: "solid",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    if (customAuthEndpoint && !customAuthEndpoint.authEndpoint.length) {
+      return toast({
+        title: "Custom Authentication Endpoint configuration is invalid",
+        description:
+          "To use Embedded Wallets with Custom Authentication Endpoint, provide a valid URL.",
         position: "bottom",
         variant: "solid",
         status: "error",
@@ -111,9 +136,8 @@ export const Configure: React.FC<ConfigureProps> = ({
     const newServices = [...services];
     newServices[serviceIdx] = {
       ...services[serviceIdx],
-      // FIXME: recoveryShareManagement Not yet supported, add when it is
-      // ...values,
       customAuthentication,
+      customAuthEndpoint,
     };
 
     const formattedValues = {
@@ -133,7 +157,8 @@ export const Configure: React.FC<ConfigureProps> = ({
           action: "configuration-update",
           label: "success",
           data: {
-            hasCustomAuth,
+            hasCustomJwt: !!customAuthentication,
+            hasCustomAuthEndpoint: !!customAuthEndpoint,
           },
         });
       },
@@ -170,7 +195,7 @@ export const Configure: React.FC<ConfigureProps> = ({
                     Optionally allow users to authenticate with a custom JWT.{" "}
                     <TrackedLink
                       isExternal
-                      href="https://portal.thirdweb.com/embedded-wallet/custom-auth"
+                      href="https://portal.thirdweb.com/embedded-wallet/custom-jwt-auth-server"
                       label="learn-more"
                       category={TRACKING_CATEGORY}
                       color="primary.500"
@@ -184,13 +209,6 @@ export const Configure: React.FC<ConfigureProps> = ({
                   colorScheme="primary"
                   isChecked={!!form.watch("customAuthentication")}
                   onChange={() => {
-                    form.setValue(
-                      "recoveryShareManagement",
-                      !form.watch("customAuthentication")
-                        ? "USER_MANAGED"
-                        : "AWS_MANAGED",
-                      { shouldDirty: true },
-                    );
                     form.setValue(
                       "customAuthentication",
                       !form.watch("customAuthentication")
@@ -206,86 +224,228 @@ export const Configure: React.FC<ConfigureProps> = ({
               </HStack>
             </FormControl>
 
-            {!!form.watch("customAuthentication") && (
-              <GatedFeature
-                title="Custom auth is an advanced feature."
-                description="Integrate your custom auth server with our embedded wallets solution."
-                imgSrc="/assets/dashboard/features/custom_auth.png"
-                imgWidth={240}
-                imgHeight={240}
-                trackingLabel="customAuthEws"
-              >
-                <Card p={6} bg={bg}>
-                  <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
-                    <FormControl
-                      isInvalid={
-                        !!form.getFieldState(
-                          "customAuthentication.jwksUri",
-                          form.formState,
-                        ).error
-                      }
-                    >
-                      <FormLabel size="label.sm">JWKS URI</FormLabel>
-                      <Input
-                        placeholder="https://example.com/.well-known/jwks.json"
-                        type="text"
-                        {...form.register("customAuthentication.jwksUri")}
-                      />
-                      {!form.getFieldState(
+            {form.watch("customAuthentication") && (
+              <Card p={6} bg={bg}>
+                <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
                         "customAuthentication.jwksUri",
                         form.formState,
-                      ).error ? (
-                        <FormHelperText>
-                          Enter the URI of the JWKS
-                        </FormHelperText>
-                      ) : (
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              "customAuthentication.jwksUri",
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                    <FormControl
-                      isInvalid={
-                        !!form.getFieldState(
-                          `customAuthentication.aud`,
-                          form.formState,
-                        ).error
-                      }
-                    >
-                      <FormLabel size="label.sm">AUD Value</FormLabel>
-                      <Input
-                        placeholder="AUD"
-                        type="text"
-                        {...form.register(`customAuthentication.aud`)}
-                      />
-                      {!form.getFieldState(
+                      ).error
+                    }
+                  >
+                    <FormLabel size="label.sm">JWKS URI</FormLabel>
+                    <Input
+                      placeholder="https://example.com/.well-known/jwks.json"
+                      type="text"
+                      {...form.register("customAuthentication.jwksUri")}
+                    />
+                    {!form.getFieldState(
+                      "customAuthentication.jwksUri",
+                      form.formState,
+                    ).error ? (
+                      <FormHelperText>Enter the URI of the JWKS</FormHelperText>
+                    ) : (
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
+                            "customAuthentication.jwksUri",
+                            form.formState,
+                          ).error?.message
+                        }
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
                         `customAuthentication.aud`,
                         form.formState,
-                      ).error ? (
-                        <FormHelperText>
-                          Enter the audience claim for the JWT
-                        </FormHelperText>
-                      ) : (
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `customAuthentication.aud`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      )}
-                    </FormControl>
-                  </Flex>
-                </Card>
-              </GatedFeature>
+                      ).error
+                    }
+                  >
+                    <FormLabel size="label.sm">AUD Value</FormLabel>
+                    <Input
+                      placeholder="AUD"
+                      type="text"
+                      {...form.register(`customAuthentication.aud`)}
+                    />
+                    {!form.getFieldState(
+                      `customAuthentication.aud`,
+                      form.formState,
+                    ).error ? (
+                      <FormHelperText>
+                        Enter the audience claim for the JWT
+                      </FormHelperText>
+                    ) : (
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
+                            `customAuthentication.aud`,
+                            form.formState,
+                          ).error?.message
+                        }
+                      </FormErrorMessage>
+                    )}
+                  </FormControl>
+                </Flex>
+              </Card>
             )}
 
+            <Divider />
+
+            <FormControl>
+              <HStack justifyContent="space-between" alignItems="flex-start">
+                <Box>
+                  <FormLabel mt={3}>Custom Authentication Endpoint</FormLabel>
+                  <Text>
+                    Optionally allow users to authenticate with any arbitrary
+                    payload that you provide.{" "}
+                    <TrackedLink
+                      isExternal
+                      href="https://portal.thirdweb.com/embedded-wallet/custom-auth-server"
+                      label="learn-more"
+                      category={TRACKING_CATEGORY}
+                      color="primary.500"
+                    >
+                      Learn more
+                    </TrackedLink>
+                  </Text>
+                </Box>
+
+                <Switch
+                  colorScheme="primary"
+                  isChecked={!!form.watch("customAuthEndpoint")}
+                  onChange={() => {
+                    form.setValue(
+                      "customAuthEndpoint",
+                      !form.watch("customAuthEndpoint")
+                        ? {
+                            authEndpoint: "",
+                            customHeaders: [],
+                          }
+                        : undefined,
+                      { shouldDirty: true },
+                    );
+                  }}
+                />
+              </HStack>
+            </FormControl>
+
+            {form.watch("customAuthEndpoint") && (
+              <Card p={6} bg={bg}>
+                <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        "customAuthEndpoint.authEndpoint",
+                        form.formState,
+                      ).error
+                    }
+                  >
+                    <FormLabel size="label.sm">
+                      Authentication Endpoint
+                    </FormLabel>
+                    <Input
+                      placeholder="https://example.com/your-auth-verifier"
+                      type="text"
+                      {...form.register("customAuthEndpoint.authEndpoint")}
+                    />
+                    {!form.getFieldState(
+                      "customAuthEndpoint.authEndpoint",
+                      form.formState,
+                    ).error && (
+                      <FormHelperText>
+                        Enter the URL of your server where we will send the user
+                        payload for verification
+                      </FormHelperText>
+                    )}
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState(
+                          "customAuthEndpoint.authEndpoint",
+                          form.formState,
+                        ).error?.message
+                      }
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        `customAuthEndpoint.customHeaders`,
+                        form.formState,
+                      ).error
+                    }
+                  >
+                    <FormLabel size="label.sm">Custom Headers</FormLabel>
+                    <Stack gap={3} alignItems={"end"}>
+                      {customHeaderFields.fields.map((_, customHeaderIdx) => {
+                        return (
+                          <Flex key={customHeaderIdx} gap={2} w="full">
+                            <Input
+                              placeholder="Key"
+                              type="text"
+                              {...form.register(
+                                `customAuthEndpoint.customHeaders.${customHeaderIdx}.key`,
+                              )}
+                            />
+                            <Input
+                              placeholder="Value"
+                              type="text"
+                              {...form.register(
+                                `customAuthEndpoint.customHeaders.${customHeaderIdx}.value`,
+                              )}
+                            />
+                            <IconButton
+                              aria-label="Remove header"
+                              icon={<LuTrash2 />}
+                              onClick={() => {
+                                customHeaderFields.remove(customHeaderIdx);
+                              }}
+                            />
+                          </Flex>
+                        );
+                      })}
+                      <Button
+                        onClick={() => {
+                          customHeaderFields.append({
+                            key: "",
+                            value: "",
+                          });
+                        }}
+                        w={
+                          customHeaderFields.fields.length === 0
+                            ? "full"
+                            : "fit-content"
+                        }
+                      >
+                        Add header
+                      </Button>
+                    </Stack>
+
+                    {!form.getFieldState(
+                      `customAuthEndpoint.customHeaders`,
+                      form.formState,
+                    ).error && (
+                      <FormHelperText>
+                        Set custom headers to be sent along the request with the
+                        payload to the authentication endpoint above. You can
+                        set values to verify the incoming request here.
+                      </FormHelperText>
+                    )}
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState(
+                          `customAuthEndpoint.customHeaders`,
+                          form.formState,
+                        ).error?.message
+                      }
+                    </FormErrorMessage>
+                  </FormControl>
+                </Flex>
+              </Card>
+            )}
             <Divider />
 
             <Box alignSelf="flex-end">

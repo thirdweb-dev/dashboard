@@ -20,11 +20,14 @@ import { Button, FormLabel, FormErrorMessage, Card, Text } from "tw-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import {
   CreateWebhookInput,
+  PaymentsWebhooksType,
   usePaymentsCreateWebhook,
 } from "@3rdweb-sdk/react/hooks/usePayments";
+import { useMemo } from "react";
 
 export interface PaymentsWebhooksCreateButtonProps {
-  accountId: string;
+  paymentsSellerId: string;
+  existingWebhooks: PaymentsWebhooksType[];
   isMainnets: boolean;
   isDisabled: boolean;
 }
@@ -35,9 +38,9 @@ const isValidUrl = (value: string) => {
 
 export const PaymentsWebhooksCreateButton: React.FC<
   PaymentsWebhooksCreateButtonProps
-> = ({ isMainnets, accountId, isDisabled }) => {
+> = ({ paymentsSellerId, existingWebhooks, isMainnets, isDisabled }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate: createWebhook } = usePaymentsCreateWebhook(accountId);
+  const { mutate: createWebhook } = usePaymentsCreateWebhook(paymentsSellerId);
   const trackEvent = useTrack();
 
   const form = useForm<CreateWebhookInput>({
@@ -50,6 +53,10 @@ export const PaymentsWebhooksCreateButton: React.FC<
     "Webhook created successfully.",
     "Failed to create webhook.",
   );
+
+  const existingUrls = useMemo(() => {
+    return existingWebhooks.map((val) => val.url);
+  }, [existingWebhooks]);
 
   const createTitle = `Create ${isMainnets ? "Mainnets" : "Testnets"} Webhook`;
 
@@ -93,7 +100,7 @@ export const PaymentsWebhooksCreateButton: React.FC<
               category: "payments",
               action: "create-webhook",
               label: "attempt",
-              accountId,
+              paymentsSellerId,
             });
             createWebhook(data, {
               onSuccess: () => {
@@ -104,7 +111,7 @@ export const PaymentsWebhooksCreateButton: React.FC<
                   category: "payments",
                   action: "create-webhook",
                   label: "success",
-                  accountId,
+                  paymentsSellerId,
                 });
               },
               onError: (error) => {
@@ -113,7 +120,7 @@ export const PaymentsWebhooksCreateButton: React.FC<
                   category: "payments",
                   action: "create-webhook",
                   label: "error",
-                  accountId,
+                  paymentsSellerId,
                   error,
                 });
               },
@@ -135,9 +142,12 @@ export const PaymentsWebhooksCreateButton: React.FC<
                   {...form.register("url", {
                     required: "URL is required",
                     validate: {
-                      validUrl: (value) =>
+                      checkUrl: (value) =>
                         isValidUrl(value) ||
                         `Invalid URL, make sure you include https://`,
+                      checkDuplicate: (value) =>
+                        !existingUrls.includes(value) ||
+                        `Invalid URL, webhook already exists`,
                     },
                   })}
                 />

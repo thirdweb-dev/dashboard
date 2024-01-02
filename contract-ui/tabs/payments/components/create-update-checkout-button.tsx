@@ -10,12 +10,14 @@ import {
   useDisclosure,
   FormControl,
   Input,
-  Select,
   Textarea,
   Switch,
   Icon,
   IconButton,
   Box,
+  Progress,
+  Alert,
+  AlertDescription,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -25,29 +27,40 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
   LinkButton,
+  Text,
+  TrackedLink,
 } from "tw-components";
 import {
   ChainIdToSupportedCurrencies,
   CreateUpdateCheckoutInput,
   usePaymentsCreateUpdateCheckout,
 } from "@3rdweb-sdk/react/hooks/usePayments";
-import { useMemo, useState } from "react";
-import { Abi, NATIVE_TOKEN_ADDRESS, useContract } from "@thirdweb-dev/react";
+import { ReactNode, useMemo, useState } from "react";
+import {
+  Abi,
+  NATIVE_TOKEN_ADDRESS,
+  useClaimConditions,
+  useContract,
+  useNFTs,
+} from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
 import { Checkout } from "graphql/generated_types";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
-import { PaymentsPreviewButton } from "./preview-button";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { PriceInput } from "contract-ui/tabs/claim-conditions/components/price-input";
 import { PaymentsMintMethodInput } from "./mint-method-input";
+import { BigNumber } from "ethers";
+import { useChainSlug } from "hooks/chains/chainSlug";
 
 const formInputs = [
   {
     step: "info",
+    label: "General",
     fields: [
       {
         name: "title",
@@ -57,15 +70,6 @@ const formInputs = [
         required: true,
         helper:
           "A clear title for this checkout that is shown on the checkout UX, credit card statement, and post-purchase email.",
-        sideField: false,
-      },
-      {
-        name: "description",
-        label: "Description",
-        type: "textarea",
-        placeholder: "Checkout Description",
-        required: false,
-        helper: "",
         sideField: false,
       },
       {
@@ -90,6 +94,7 @@ const formInputs = [
   },
   {
     step: "no-detected-extensions",
+    label: "Details",
     fields: [
       {
         name: "mintFunctionName",
@@ -113,65 +118,42 @@ const formInputs = [
     ],
   },
   {
-    step: "branding",
+    step: "metadata",
+    label: "Metadata",
     fields: [
+      {
+        name: "description",
+        label: "Description",
+        type: "textarea",
+        placeholder: "Checkout Description",
+        required: false,
+        helper: "",
+        sideField: false,
+      },
       {
         name: "imageUrl",
         label: "NFT Image Preview",
         type: "image",
         placeholder: "https:// or ipfs://",
         required: false,
+        sideField: false,
         helper: "",
-        sideField: true,
       },
       {
-        name: "brandDarkMode",
-        label: "Dark mode",
-        type: "switch",
-        placeholder: "",
+        name: "twitterHandleOverride",
+        label: "Seller X (Twitter) Username",
+        type: "text",
+        placeholder: "@username",
         required: false,
-        helper: "",
-        sideField: true,
-      },
-      {
-        name: "brandColorScheme",
-        label: "Color",
-        type: "select",
-        options: [
-          { label: "Gray", value: "gray" },
-          { label: "Red", value: "red" },
-          { label: "Orange", value: "orange" },
-          { label: "Yellow", value: "yellow" },
-          { label: "Green", value: "green" },
-          { label: "Teal", value: "teal" },
-          { label: "Blue", value: "blue" },
-          { label: "Cyan", value: "cyan" },
-          { label: "Purple", value: "purple" },
-          { label: "Pink", value: "pink" },
-        ],
-        placeholder: "",
-        required: false,
-        helper: "",
-        sideField: true,
-      },
-      {
-        name: "brandButtonShape",
-        label: "Button shape",
-        type: "select",
-        options: [
-          { label: "Rounded", value: "rounded" },
-          { label: "Pill", value: "pill" },
-          { label: "Square", value: "square" },
-        ],
-        placeholder: "",
-        required: false,
-        helper: "",
-        sideField: true,
+        helper:
+          "Override your organization's Twitter username for this checkout.",
+        sideField: false,
       },
     ],
   },
   {
     step: "delivery",
+    label: "Delivery & Payment",
     fields: [
       {
         name: "hidePaperWallet",
@@ -213,6 +195,7 @@ const formInputs = [
   },
   {
     step: "advanced",
+    label: "Advanced options",
     fields: [
       {
         name: "limitPerTransaction",
@@ -263,16 +246,6 @@ const formInputs = [
           "A buyer will be navigated to this page if they are unable to make a purchase.",
         sideField: false,
       },
-      {
-        name: "twitterHandleOverride",
-        label: "Seller Twitter username",
-        type: "text",
-        placeholder: "Enter a Twitter username without the @",
-        required: false,
-        helper:
-          "Override your organization's Twitter username for this checkout.",
-        sideField: false,
-      },
     ],
   },
 ] as const;
@@ -306,6 +279,21 @@ const convertInputsToMintMethod = ({
   };
 };
 
+const tokenIdToNumber = (tokenIdStr: string | undefined) => {
+  let tokenId;
+
+  if (!tokenIdStr) {
+    return undefined;
+  }
+
+  try {
+    tokenId = BigNumber.from(tokenIdStr);
+  } catch (err) {
+    // ignore
+  }
+  return tokenId;
+};
+
 interface CreateUpdateCheckoutButtonProps {
   contractId: string;
   contractAddress: string;
@@ -324,26 +312,55 @@ export const CreateUpdateCheckoutButton: React.FC<
   checkoutId,
 }) => {
   const { contract } = useContract(contractAddress);
+  const chainSlug = useChainSlug(contract?.chainId ?? "");
+  const { data: nfts, isLoading: isNftsLoading } = useNFTs(contract, {
+    count: 1,
+  });
 
   const hasDetectedExtensions = paymentContractType !== "CUSTOM_CONTRACT";
 
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+  const isErc721 = detectFeatures(contract, ["ERC721"]);
 
-  const keysQuery = useApiKeys();
+  const { data: apiKeysData } = useApiKeys();
 
   const apiKeys = useMemo(() => {
-    return (keysQuery?.data || []).filter((key) => {
+    return (apiKeysData || []).filter((key) => {
       return (key.services || []).some((srv) => srv.name === "embeddedWallets");
     });
-  }, [keysQuery]);
+  }, [apiKeysData]);
 
   const [step, setStep] = useState<
-    "info" | "no-detected-extensions" | "branding" | "delivery" | "advanced"
+    "info" | "no-detected-extensions" | "metadata" | "delivery" | "advanced"
   >("info");
+  const [contractError, setContractError] = useState<ReactNode | undefined>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createOrUpdateCheckout, isLoading } =
     usePaymentsCreateUpdateCheckout(contractAddress);
+
   const trackEvent = useTrack();
+
+  const currentStep = useMemo(() => {
+    return formInputs.find((fi) => fi.step === step);
+  }, [step]);
+
+  const progress = useMemo(() => {
+    const idx = formInputs.findIndex((fi) => fi.step === step);
+    return (100 / formInputs.length) * idx || 5;
+  }, [step]);
+
+  const defaultMintFunctionName = useMemo(() => {
+    if (!contract) {
+      return "";
+    }
+    const mintFn = contract.abi.find((f) => {
+      return (
+        (f.name.startsWith("claim") || f.name.startsWith("mint")) &&
+        f.inputs.find((i) => i.type === "address")
+      );
+    });
+    return mintFn?.name || "";
+  }, [contract]);
 
   const values: CreateUpdateCheckoutDashboardInput = {
     title: checkout?.collection_title || "",
@@ -352,7 +369,7 @@ export const CreateUpdateCheckoutButton: React.FC<
     cancelCallbackUrl: checkout?.cancel_callback_url || "",
     brandButtonShape: (checkout?.brand_button_shape as any) || "rounded",
     brandColorScheme: (checkout?.brand_color_scheme as any) || "blue",
-    brandDarkMode: checkout?.brand_dark_mode || false,
+    brandDarkMode: checkout?.brand_dark_mode || true,
     contractArgs: checkout?.contract_args || undefined,
     hideNativeMint: checkout?.hide_native_mint || false,
     listingId: checkout?.listing_id || "",
@@ -387,12 +404,24 @@ export const CreateUpdateCheckoutButton: React.FC<
 
   const form = useForm<CreateUpdateCheckoutDashboardInput>({
     defaultValues: values,
-    values,
-    resetOptions: {
-      keepDirty: true,
-      keepDirtyValues: true,
-    },
+    ...(checkoutId
+      ? {
+          values,
+          resetOptions: {
+            keepDirty: true,
+            keepDirtyValues: true,
+          },
+        }
+      : {}),
   });
+
+  const { data: claimConditions, isLoading: isClaimConditionsLoading } =
+    useClaimConditions(
+      contract,
+      isErc1155 && form.watch("tokenId")
+        ? tokenIdToNumber(form.watch("tokenId"))
+        : undefined,
+    );
 
   const { onSuccess: onCreateSuccess, onError: onCreateError } =
     useTxNotifications(
@@ -409,6 +438,85 @@ export const CreateUpdateCheckoutButton: React.FC<
   const onSuccess = checkoutId ? onUpdateSuccess : onCreateSuccess;
   const onError = checkoutId ? onUpdateError : onCreateError;
 
+  const canCreate = useMemo(() => {
+    let errorMessage;
+
+    if (isErc721 || isErc1155) {
+      if (!isNftsLoading && nfts?.length === 0) {
+        errorMessage = (
+          <Text>
+            You don&apos;t have any NFTs yet,{" "}
+            <TrackedLink
+              textDecor="underline"
+              href={`/${chainSlug}/${contractAddress}/nfts`}
+              category="payments"
+              label="no-nfts-alert"
+            >
+              create one here
+            </TrackedLink>
+            .
+          </Text>
+        );
+      } else if (!isClaimConditionsLoading && claimConditions?.length === 0) {
+        errorMessage = (
+          <Text>
+            You don&apos;t have claim conditions,{" "}
+            <TrackedLink
+              textDecor="underline"
+              href={`/${chainSlug}/${contractAddress}/nfts`}
+              category="payments"
+              label="no-claim-conditions-alert"
+            >
+              set them here
+            </TrackedLink>
+            .
+          </Text>
+        );
+      }
+    }
+
+    if (errorMessage) {
+      setContractError(errorMessage);
+      return false;
+    }
+
+    setContractError(undefined);
+    return true;
+  }, [
+    chainSlug,
+    contractAddress,
+    isErc721,
+    isErc1155,
+    isNftsLoading,
+    nfts,
+    isClaimConditionsLoading,
+    claimConditions,
+  ]);
+
+  const isValid = (() => {
+    if (step === "info") {
+      if (
+        apiKeys.length === 0 ||
+        !form.watch("thirdwebClientId") ||
+        !form.watch("title") ||
+        (isErc1155 && !form.watch("tokenId"))
+      ) {
+        return false;
+      }
+    }
+
+    if (step === "no-detected-extensions") {
+      if (
+        !form.watch("mintFunctionName") ||
+        (!form.watch("priceAndCurrencySymbol.currencySymbol") &&
+          !form.watch("priceAndCurrencySymbol.price"))
+      ) {
+        return false;
+      }
+    }
+    return true;
+  })();
+
   const handleNext = async () => {
     await form.trigger();
 
@@ -420,6 +528,13 @@ export const CreateUpdateCheckoutButton: React.FC<
       });
 
       form.handleSubmit((data) => {
+        if (
+          data.twitterHandleOverride &&
+          data.twitterHandleOverride.startsWith("@")
+        ) {
+          data.twitterHandleOverride = data.twitterHandleOverride.substring(1);
+        }
+
         // We need to filter in case an input from a different method has been rendered
         const filteredFunctionArgs = Object.keys(data.mintFunctionArgs)
           .filter((key) => {
@@ -450,9 +565,7 @@ export const CreateUpdateCheckoutButton: React.FC<
           {
             onSuccess: () => {
               onSuccess();
-              onClose();
-              setStep("info");
-              form.reset();
+              handleClose(true);
               trackEvent({
                 category: "payments",
                 action: checkoutId ? "update-checkout" : "create-checkout",
@@ -478,9 +591,9 @@ export const CreateUpdateCheckoutButton: React.FC<
         return "no-detected-extensions";
       }
       if (prev === "info" || prev === "no-detected-extensions") {
-        return "branding";
+        return "metadata";
       }
-      if (prev === "branding") {
+      if (prev === "metadata") {
         return "delivery";
       }
       if (prev === "delivery") {
@@ -490,21 +603,26 @@ export const CreateUpdateCheckoutButton: React.FC<
     });
   };
 
-  const handleClose = () => {
+  const handleClose = (reset = false) => {
     setStep("info");
     onClose();
-    form.reset();
+
+    if (reset) {
+      // give time for modal animation to finish
+      setTimeout(() => form.reset(), 300);
+    }
   };
+
   const handleBack = () => {
     setStep((prev) => {
-      if (prev === "branding" && !hasDetectedExtensions) {
+      if (prev === "metadata" && !hasDetectedExtensions) {
         return "no-detected-extensions";
       }
-      if (prev === "no-detected-extensions" || prev === "branding") {
+      if (prev === "no-detected-extensions" || prev === "metadata") {
         return "info";
       }
       if (prev === "delivery") {
-        return "branding";
+        return "metadata";
       }
       if (prev === "advanced") {
         return "delivery";
@@ -531,12 +649,39 @@ export const CreateUpdateCheckoutButton: React.FC<
       <Modal isOpen={isOpen} onClose={handleClose} isCentered>
         <ModalOverlay />
         <ModalContent as="form">
-          <ModalHeader>
-            {checkoutId ? "Update" : "Create New"} Checkout
+          <ModalHeader borderBottomWidth={1} borderBottomColor="borderColor">
+            {checkoutId ? (
+              "Update Checkout"
+            ) : (
+              <Flex flexDir="column" gap={1.5}>
+                {currentStep && (
+                  <Text size="label.sm">{currentStep.label}</Text>
+                )}
+                <Heading size="title.sm">Creating Checkout Link</Heading>
+
+                <Progress
+                  value={progress}
+                  rounded="full"
+                  size="sm"
+                  mt={3}
+                  mb={2}
+                />
+              </Flex>
+            )}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody py={4}>
             <Flex flexDir="column" gap={4}>
+              {contractError && (
+                <Alert status="warning" variant="left-accent" borderRadius="sm">
+                  <Flex direction="column" gap={2}>
+                    <Text as={AlertDescription} size="body.md">
+                      {contractError}
+                    </Text>
+                  </Flex>
+                </Alert>
+              )}
+
               {formInputs.map((input) => {
                 if (input.step !== step) {
                   return null;
@@ -576,32 +721,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 })}
                                 placeholder={field.placeholder}
                               />
-                            ) : field.type === "select" ? (
-                              <Select
-                                borderRadius="lg"
-                                w="inherit"
-                                size="sm"
-                                value={form.watch(field.name)}
-                                onChange={(e) => {
-                                  form.setValue(
-                                    field.name,
-                                    e.target.value as any,
-                                    {
-                                      shouldDirty: true,
-                                    },
-                                  );
-                                }}
-                                placeholder={field.placeholder}
-                              >
-                                {field.options.map((option) => (
-                                  <option
-                                    key={option.value}
-                                    value={option.value}
-                                  >
-                                    {option.label}
-                                  </option>
-                                ))}
-                              </Select>
                             ) : field.type === "switch" ? (
                               <Switch
                                 onChange={(e) => {
@@ -632,6 +751,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                               </Box>
                             ) : field.type === "abiSelector" ? (
                               <PaymentsMintMethodInput
+                                defaultValue={defaultMintFunctionName}
                                 form={form}
                                 abi={contract?.abi as Abi}
                               />
@@ -750,15 +870,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                         </FormControl>
                       );
                     })}
-                    {input.step === "branding" && (
-                      <PaymentsPreviewButton
-                        isDarkMode={!!form.watch("brandDarkMode")}
-                        buttonShape={
-                          form.watch("brandButtonShape") || "rounded"
-                        }
-                        colorScheme={form.watch("brandColorScheme") || "red"}
-                      />
-                    )}
                   </Flex>
                 );
               })}
@@ -776,12 +887,7 @@ export const CreateUpdateCheckoutButton: React.FC<
               type="button"
               colorScheme="primary"
               onClick={handleNext}
-              isDisabled={
-                apiKeys.length === 0 ||
-                !form.watch("thirdwebClientId") ||
-                !form.watch("title") ||
-                (isErc1155 && !form.watch("tokenId"))
-              }
+              isDisabled={!canCreate || !isValid}
               isLoading={form.formState.isSubmitting || isLoading}
             >
               {step === "advanced"
