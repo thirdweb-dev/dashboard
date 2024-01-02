@@ -25,7 +25,9 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   const paymentVerification =
     account?.status === AccountStatus.PaymentVerification &&
     account.stripePaymentActionUrl;
-  const validPayment = account?.status === AccountStatus.ValidPayment;
+  const validPayment =
+    account?.status === AccountStatus.ValidPayment &&
+    !account.paymentAttemptCount;
 
   const mutation = useCreateBillingSession();
 
@@ -78,7 +80,7 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       size="sm"
       fontWeight="normal"
     >
-      {validPayment && !account.paymentAttemptCount
+      {validPayment
         ? "Manage billing"
         : paymentVerification
         ? "Verify payment method →"

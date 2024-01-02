@@ -1,8 +1,4 @@
-import {
-  ApiKey,
-  useAccount,
-  useUpdateApiKey,
-} from "@3rdweb-sdk/react/hooks/useApi";
+import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Flex, HStack, useToast } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SERVICES } from "@thirdweb-dev/service-utils";
@@ -23,7 +19,6 @@ interface EditApiKeyProps {
 
 export const EditApiKey: React.FC<EditApiKeyProps> = ({ apiKey, onCancel }) => {
   const { id, name, domains, bundleIds, redirectUrls, services } = apiKey;
-  const meQuery = useAccount();
   const mutation = useUpdateApiKey();
   const trackEvent = useTrack();
   const toast = useToast();
@@ -57,8 +52,6 @@ export const EditApiKey: React.FC<EditApiKeyProps> = ({ apiKey, onCancel }) => {
     },
   });
 
-  const { data: account } = meQuery;
-
   const { onSuccess, onError } = useTxNotifications(
     "API Key updated",
     "Failed to update an API Key",
@@ -79,13 +72,11 @@ export const EditApiKey: React.FC<EditApiKeyProps> = ({ apiKey, onCancel }) => {
         const { customAuthentication, recoveryShareManagement } =
           embeddedWallets;
 
-        const hasCustomAuth =
-          account?.advancedEnabled &&
+        if (
           recoveryShareManagement === "USER_MANAGED" &&
           (!customAuthentication?.aud.length ||
-            !customAuthentication?.jwksUri.length);
-
-        if (hasCustomAuth) {
+            !customAuthentication?.jwksUri.length)
+        ) {
           return toast({
             title: "Custom JSON Web Token configuration is invalid",
             description:
@@ -183,7 +174,7 @@ export const EditApiKey: React.FC<EditApiKeyProps> = ({ apiKey, onCancel }) => {
 
         <Flex flexDir="column" gap={10}>
           <EditGeneral form={form} />
-          {account && <EditServices form={form} />}
+          {<EditServices form={form} />}
 
           <HStack gap={3} alignSelf="flex-end">
             {actions}
