@@ -666,7 +666,7 @@ export function usePaymentsKybStatus() {
         { isSellerDocumentCount: true },
       );
     },
-    { enabled: !!address },
+    { enabled: !!address && !!token },
   );
 }
 
@@ -689,7 +689,7 @@ export function usePaymentsGetVerificationSession(sellerId: string) {
         { isCreateVerificationSession: true },
       );
     },
-    { enabled: !!address && !!sellerId },
+    { enabled: !!address && !!sellerId && !!token },
   );
 }
 
@@ -714,7 +714,7 @@ export function usePaymentsKycStatus(sessionId: string) {
         { isSellerVerificationStatus: true },
       );
     },
-    { enabled: !!address },
+    { enabled: !!address && !!token },
   );
 }
 
@@ -1068,7 +1068,7 @@ export function usePaymentsWebhooksSecretKeyById(paymentsSellerId: string) {
         },
       );
     },
-    { enabled: !!paymentsSellerId },
+    { enabled: !!paymentsSellerId && !!token },
   );
 }
 
