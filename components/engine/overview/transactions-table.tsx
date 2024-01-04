@@ -701,10 +701,18 @@ const TransactionDetailsDrawer = ({
                   <Text>{transaction.gasLimit ?? "N/A"}</Text>
                 </FormControl>
 
-                <FormControl>
-                  <FormLabel>Gas Price</FormLabel>
-                  <Text>{transaction.gasPrice ?? "N/A"}</Text>
-                </FormControl>
+                {transaction.gasPrice && (
+                  <FormControl>
+                    <FormLabel>Gas Price</FormLabel>
+                    <Text>{transaction.gasPrice}</Text>
+                    <Text>
+                      {(
+                        parseFloat(transaction.gasPrice) *
+                        10 ** -chain.nativeCurrency.decimals
+                      ).toFixed(8)}
+                    </Text>
+                  </FormControl>
+                )}
               </Stack>
             </Collapse>
 
