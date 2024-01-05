@@ -4,7 +4,14 @@ import { ConnectWalletPlayground } from "components/wallets/ConnectWalletPlaygro
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Card,
+  ChakraNextLink,
+  Heading,
+  Text,
+  TrackedLink,
+} from "tw-components";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { ChakraNextImage } from "components/Image";
@@ -50,28 +57,45 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
       </Text>
 
       <Spacer height={5} />
-      <Flex alignItems="center" gap={2}>
-        <Text mr={2} display={["none", "block"]} fontSize={12}>
-          Supports
-        </Text>
-        <SupportedPlatformLink
-          trackingCategory={TRACKING_CATEGORY}
-          size="sm"
-          platform="React"
-          href="https://portal.thirdweb.com/react/react.connectwallet"
-        />
-        <SupportedPlatformLink
-          trackingCategory={TRACKING_CATEGORY}
-          size="sm"
-          platform="React Native"
-          href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
-        />
-        <SupportedPlatformLink
-          trackingCategory={TRACKING_CATEGORY}
-          size="sm"
-          platform="Unity"
-          href="https://portal.thirdweb.com/unity/connectwallet"
-        />
+      <Flex
+        flexDir="row"
+        justifyContent={"space-between"}
+        alignContent={"center"}
+        alignItems={"center"}
+      >
+        <Flex alignItems="center" gap={2}>
+          <Text mr={2} display={["none", "block"]} fontSize={12}>
+            Supports
+          </Text>
+          <SupportedPlatformLink
+            trackingCategory={TRACKING_CATEGORY}
+            size="sm"
+            platform="React"
+            href="https://portal.thirdweb.com/react/react.connectwallet"
+          />
+          <SupportedPlatformLink
+            trackingCategory={TRACKING_CATEGORY}
+            size="sm"
+            platform="React Native"
+            href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
+          />
+          <SupportedPlatformLink
+            trackingCategory={TRACKING_CATEGORY}
+            size="sm"
+            platform="Unity"
+            href="https://portal.thirdweb.com/unity/connectwallet"
+          />
+        </Flex>
+        <ChakraNextLink
+          href={
+            "https://play.google.com/store/search?q=thirdweb&c=apps&hl=en_US&gl=US"
+          }
+        >
+          <ChakraNextImage
+            alt=""
+            src={require("public/assets/connect-wallet/google-play-button.svg")}
+          />
+        </ChakraNextLink>
       </Flex>
       <Spacer height={12} />
 
