@@ -1,11 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useApiAuthToken } from "./useApi";
-import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { Abi, FeatureName, SmartContract } from "@thirdweb-dev/sdk";
-import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
-import { paymentsKeys } from "../cache-keys";
-import { useAddress } from "@thirdweb-dev/react";
-import invariant from "tiny-invariant";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Arbitrum,
   ArbitrumGoerli,
@@ -27,8 +20,22 @@ import {
   Zora,
   ZoraTestnet,
 } from "@thirdweb-dev/chains";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { useAddress } from "@thirdweb-dev/react";
+import { Abi, FeatureName, SmartContract } from "@thirdweb-dev/sdk";
+import { detectFeatures } from "components/contract-components/utils";
+import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { PROD_OR_DEV_URL } from "constants/rpc";
+import { THIRDWEB_PAYMENTS_API_HOST } from "constants/urls";
+import { BaseContract } from "ethers";
+import {
+  InsertWebhookMutationVariables,
+  useInsertWebhookMutation,
+} from "graphql/mutations/__generated__/InsertWebhook.generated";
+import {
+  UpdateWebhookMutationVariables,
+  useUpdateWebhookMutation,
+} from "graphql/mutations/__generated__/UpdateWebhook.generated";
+import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
 import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
@@ -38,21 +45,28 @@ import {
   useDetailedAnalyticsLazyQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
-  CheckoutByContractAddressQueryVariables,
-  useCheckoutByContractAddressLazyQuery,
-} from "graphql/queries/__generated__/CheckoutByContractAddress.generated";
-import { BaseContract } from "ethers";
-import { detectFeatures } from "components/contract-components/utils";
-import {
-  GetSellerByThirdwebAccountIdDocument,
-  GetSellerByThirdwebAccountIdQuery,
-  GetSellerByThirdwebAccountIdQueryVariables,
-  useGetSellerByThirdwebAccountIdLazyQuery,
-} from "graphql/mutations/__generated__/GetSellerByThirdwebAccountId.generated";
-import { useUpdateSellerByThirdwebAccountIdMutation } from "graphql/mutations/__generated__/UpdateSellerByThirdwebAccountId.generated";
-import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
+  WebhooksBySellerIdDocument,
+  WebhooksBySellerIdQueryVariables,
+  useWebhooksBySellerIdLazyQuery,
+} from "graphql/queries/__generated__/WebhooksBySellerId.generated";
+import { getEVMThirdwebSDK } from "lib/sdk";
+import invariant from "tiny-invariant";
 import { OtherAddressZero } from "utils/zeroAddress";
+import { paymentsKeys } from "../cache-keys";
+import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
+import { useApiAuthToken } from "./useApi";
 import {
+  SellerDocument,
+  SellerQueryVariables,
+  useSellerLazyQuery,
+} from "graphql/queries/__generated__/Seller.generated";
+import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
+import {
+  CheckoutsByContractAddressQueryVariables,
+  useCheckoutsByContractAddressLazyQuery,
+} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
+import {
+  TransactionsAndAttemptsPerPageByCheckoutIdQuery,
   TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
   useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery,
 } from "graphql/queries/__generated__/TransactionsAndAttemptsPerPageByCheckoutId.generated";
@@ -222,9 +236,8 @@ export type RegisterContractInput = {
 const apiDate = "2022-08-12";
 
 function usePaymentsApi() {
-  const { token } = useApiAuthToken();
-
   const fetchFromApi = async <T>(
+    token: string,
     method: string,
     endpoint: string,
     body?: T,
@@ -234,6 +247,8 @@ function usePaymentsApi() {
       isSellerDocumentCount?: boolean;
       isSellerVerificationStatus?: boolean;
       isGetImageUploadLink?: boolean;
+      isSellerApiKey?: boolean;
+      isWebhookTest?: boolean;
     },
   ) => {
     const res = await fetch(`${THIRDWEB_PAYMENTS_API_HOST}/api/${endpoint}`, {
@@ -273,6 +288,20 @@ function usePaymentsApi() {
       };
     }
 
+    if (options?.isSellerApiKey) {
+      return json as {
+        data: { data: ApiSecretKeysByOwnerIdQuery; decrypted_key: string };
+        success: boolean;
+      };
+    }
+
+    if (options?.isWebhookTest) {
+      return json as {
+        status: number;
+        responseBody: string;
+      };
+    }
+
     return json.result;
   };
 
@@ -280,12 +309,14 @@ function usePaymentsApi() {
 }
 
 export function usePaymentsRegisterContract() {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
     async (input: RegisterContractInput) => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       const sdk = getEVMThirdwebSDK(
         parseInt(input.chain),
@@ -296,16 +327,30 @@ export function usePaymentsRegisterContract() {
       const contract = await sdk.getContract(input.contractAddress);
       invariant(contract?.abi, "No contract ABI found");
 
+      const hasDetectedExtensions = hasPaymentsDetectedExtensions(contract);
+      const contractType = hasDetectedExtensions
+        ? "THIRDWEB"
+        : "CUSTOM_CONTRACT";
+
+      let displayName;
+      try {
+        const metadata = await contract.metadata.get();
+        displayName = metadata.name;
+      } catch (e) {
+        console.error(`Failed to get contract metadata`);
+      }
+
       const body: RegisterContractInput = {
         ...input,
         contractDefinition: contract.abi,
         contractAddress: input.contractAddress.toLowerCase(),
         chain: ChainIdToPaperChain[parseInt(input.chain)],
-        contractType: input.contractType || "THIRDWEB",
-        displayName: input.displayName,
+        contractType,
+        displayName,
       };
 
       return fetchFromPaymentsAPI<RegisterContractInput>(
+        token,
         "POST",
         `${apiDate}/register-contract`,
         body,
@@ -371,15 +416,18 @@ export type CreateUpdateCheckoutInput = {
 };
 
 export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
     async (input: CreateUpdateCheckoutInput) => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
 
       return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
+        token,
         "POST",
         `${apiDate}/shareable-checkout-link${
           input?.checkoutId ? `/${input.checkoutId} ` : ""
@@ -402,16 +450,19 @@ export type RemoveCheckoutInput = {
 };
 
 export function usePaymentsRemoveCheckout(contractAddress: string) {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
     async (input: RemoveCheckoutInput) => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       invariant(input.checkoutId, "No checkoutId found");
 
       return fetchFromPaymentsAPI<RemoveCheckoutInput>(
+        token,
         "DELETE",
         `${apiDate}/shareable-checkout-link/${input.checkoutId}`,
       );
@@ -431,17 +482,20 @@ export type UploadKybFileInput = {
 };
 
 export function usePaymentsUploadKybFiles() {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
     async (input: { files: File[] }) => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       invariant(input.files.length > 0, "No files found");
 
       for (const file of input.files) {
         const url = await fetchFromPaymentsAPI(
+          token,
           "POST",
           "storage/generate-signed-url",
           { fileName: file.name, fileType: file.type },
@@ -499,16 +553,19 @@ interface UploadImageResponse {
 }
 
 export function usePaymentsUploadToCloudflare() {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const queryClient = useQueryClient();
   const address = useAddress();
 
   return useMutationWithInvalidate(
     async (dataBase64: string) => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       invariant(dataBase64, "No file found");
       const file = await getBlobFromBase64Image(dataBase64);
       const res = await fetchFromPaymentsAPI(
+        token,
         "GET",
         "storage/get-image-upload-link",
         undefined,
@@ -563,89 +620,97 @@ export type SellerValueInput = {
   is_sole_proprietor: boolean;
 };
 
-export type UpdateSellerByAccountIdInput = {
-  thirdwebAccountId: string;
+export type UpdateSellerByIdInput = {
+  id: string;
   sellerValue: SellerValueInput;
 };
 
-export function usePaymentsUpdateSellerByAccountId(accountId: string) {
+export function usePaymentsUpdateSellerById(id: string) {
   const queryClient = useQueryClient();
   const address = useAddress();
 
-  const [updateSellerByThirdwebAccountId] =
-    useUpdateSellerByThirdwebAccountIdMutation({
-      refetchQueries: [GetSellerByThirdwebAccountIdDocument],
-    });
+  const [updateSellerById] = useUpdateSellerMutation({
+    refetchQueries: [SellerDocument],
+  });
 
   return useMutationWithInvalidate(
-    async (input: UpdateSellerByAccountIdInput) => {
+    async (input: UpdateSellerByIdInput) => {
       invariant(address, "No wallet address found");
-      invariant(accountId, "No accountId found");
+      invariant(id, "No id found");
 
-      return updateSellerByThirdwebAccountId({
+      return updateSellerById({
         variables: {
-          thirdwebAccountId: input.thirdwebAccountId,
+          id: input.id,
           sellerValue: input.sellerValue,
-        } as UpdateSellerByAccountIdInput,
+        } as UpdateSellerByIdInput,
       });
     },
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(paymentsKeys.settings(accountId));
+        return queryClient.invalidateQueries(paymentsKeys.settings(id));
       },
     },
   );
 }
 
 export function usePaymentsKybStatus() {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const address = useAddress();
 
   return useQuery(
     paymentsKeys.kybStatus(address as string),
     async () => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       return fetchFromPaymentsAPI(
+        token,
         "GET",
         "seller-verification/seller-document-count",
         undefined,
         { isSellerDocumentCount: true },
       );
     },
-    { enabled: !!address },
+    { enabled: !!address && !!token },
   );
 }
 
 export function usePaymentsGetVerificationSession(sellerId: string) {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const address = useAddress();
 
   return useQuery(
     paymentsKeys.verificationSession(address as string),
     async () => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       invariant(sellerId, "No sellerId found");
       return fetchFromPaymentsAPI(
+        token,
         "POST",
         "seller-verification/create-verification-session",
         { sellerId },
         { isCreateVerificationSession: true },
       );
     },
-    { enabled: !!address && !!sellerId },
+    { enabled: !!address && !!sellerId && !!token },
   );
 }
 
 export function usePaymentsKycStatus(sessionId: string) {
+  const { token } = useApiAuthToken();
   const fetchFromPaymentsAPI = usePaymentsApi();
   const address = useAddress();
 
   return useQuery(
     paymentsKeys.kycStatus(address as string),
     async () => {
+      invariant(token, "No token found");
       invariant(address, "No wallet address found");
       invariant(sessionId, "No sessionId found");
       return fetchFromPaymentsAPI(
+        token,
         "POST",
         "seller-verification/status",
         {
@@ -654,7 +719,7 @@ export function usePaymentsKycStatus(sessionId: string) {
         { isSellerVerificationStatus: true },
       );
     },
-    { enabled: !!address },
+    { enabled: !!address && !!token },
   );
 }
 
@@ -686,7 +751,7 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
   const [getCheckoutsByContractAddress] =
-    useCheckoutByContractAddressLazyQuery();
+    useCheckoutsByContractAddressLazyQuery();
 
   return useQuery(
     paymentsKeys.checkouts(contractAddress, address as string),
@@ -694,8 +759,8 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
       const { data, error } = await getCheckoutsByContractAddress({
         variables: {
           ownerId: paymentsSellerId,
-          contractAddress,
-        } as CheckoutByContractAddressQueryVariables,
+          contractAddressQuery: contractAddress,
+        } as CheckoutsByContractAddressQueryVariables,
       });
 
       if (error) {
@@ -836,48 +901,255 @@ export function usePaymentsDetailedAnalytics(checkoutId: string | undefined) {
         )[0],
       };
     },
-    { enabled: !!paymentsSellerId && !!address && !!checkoutId },
+    { enabled: !!paymentsSellerId && !!address },
   );
 }
 
-export function usePaymentsSellerByAccountId(accountId: string) {
-  invariant(accountId, "accountId is required");
+export function usePaymentsSellerById(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
   const address = useAddress();
-  const { paymentsSellerId } = useApiAuthToken();
-  const [getSellerByAccountId] = useGetSellerByThirdwebAccountIdLazyQuery();
+  const [getSellerById] = useSellerLazyQuery();
 
   return useQuery(
-    paymentsKeys.settings(accountId),
+    paymentsKeys.settings(paymentsSellerId),
     async () => {
-      const { data, error } = await getSellerByAccountId({
+      const { data, error } = await getSellerById({
         variables: {
-          thirdwebAccountId: accountId,
-        } as GetSellerByThirdwebAccountIdQueryVariables,
+          id: paymentsSellerId,
+        } as SellerQueryVariables,
       });
 
       if (error) {
         console.error(error);
       }
 
-      return data && data?.seller.length > 0
-        ? data.seller[0]
-        : ({} as GetSellerByThirdwebAccountIdQuery["seller"][number]);
+      return data?.seller_by_pk;
     },
-    { enabled: !!paymentsSellerId && !!address && !!accountId },
+    { enabled: !!paymentsSellerId && !!address },
   );
+}
+
+export type PaymentsWebhooksType = {
+  id: string;
+  sellerId: string;
+  url: string;
+  isProduction: boolean;
+  createdAt: Date;
+};
+
+export function usePaymentsWebhooksById(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
+
+  const [getWebhooksBySellerId] = useWebhooksBySellerIdLazyQuery();
+
+  return useQuery(
+    paymentsKeys.webhooks(paymentsSellerId),
+    async () => {
+      invariant(paymentsSellerId, "no payments seller id found");
+      const { data, error } = await getWebhooksBySellerId({
+        variables: {
+          sellerId: paymentsSellerId,
+        } as WebhooksBySellerIdQueryVariables,
+      });
+
+      if (error) {
+        console.error(error);
+      }
+
+      return data && data?.webhook.length > 0
+        ? (data.webhook.map((webhook) => ({
+            id: webhook.id,
+            sellerId: webhook.seller_id,
+            url: webhook.url,
+            isProduction: webhook.is_production,
+            createdAt: new Date(webhook.created_at),
+          })) as PaymentsWebhooksType[])
+        : ([] as PaymentsWebhooksType[]);
+    },
+    { enabled: !!paymentsSellerId },
+  );
+}
+
+export type CreateWebhookInput = {
+  url: string;
+  isProduction: boolean;
+};
+
+export function usePaymentsCreateWebhook(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
+  const queryClient = useQueryClient();
+
+  const [createWebhookBySellerId] = useInsertWebhookMutation({
+    refetchQueries: [WebhooksBySellerIdDocument],
+  });
+
+  return useMutationWithInvalidate(
+    async (input: CreateWebhookInput) => {
+      invariant(paymentsSellerId, "No seller id found");
+
+      return createWebhookBySellerId({
+        variables: {
+          object: {
+            seller_id: paymentsSellerId,
+            url: input.url,
+            is_production: input.isProduction,
+          },
+        } as InsertWebhookMutationVariables,
+      });
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.webhooks(paymentsSellerId),
+        );
+      },
+    },
+  );
+}
+
+export type UpdateWebhookInput = {
+  webhookId: string;
+  url?: string;
+  deletedAt?: Date;
+};
+
+export function usePaymentsUpdateWebhook(paymentsSellerId: string) {
+  const queryClient = useQueryClient();
+
+  const [updateWebhookBySellerId] = useUpdateWebhookMutation({
+    refetchQueries: [WebhooksBySellerIdDocument],
+  });
+
+  return useMutationWithInvalidate(
+    async (input: UpdateWebhookInput) => {
+      invariant(paymentsSellerId, "No seller id found");
+
+      return updateWebhookBySellerId({
+        variables: {
+          id: input.webhookId,
+          webhookValue: {
+            url: input.url,
+            deleted_at: input.deletedAt,
+          },
+        } as UpdateWebhookMutationVariables,
+      });
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          paymentsKeys.webhooks(paymentsSellerId),
+        );
+      },
+    },
+  );
+}
+
+export type PaymentsWebhookSecretType = {
+  id: string;
+  ownerId: string;
+  createdAt: string;
+  hashedKey: string;
+};
+
+export function usePaymentsWebhooksSecretKeyById(paymentsSellerId: string) {
+  const { token } = useApiAuthToken();
+  const fetchFromPaymentsAPI = usePaymentsApi();
+
+  return useQuery(
+    paymentsKeys.webhookSecret(paymentsSellerId),
+    async () => {
+      invariant(token, "No token found");
+      invariant(paymentsSellerId, "No sellerId found");
+
+      return fetchFromPaymentsAPI(
+        token,
+        "POST",
+        "api-key/get-decrypted-key",
+        {
+          sellerId: paymentsSellerId,
+        },
+        {
+          isSellerApiKey: true,
+        },
+      );
+    },
+    { enabled: !!paymentsSellerId && !!token },
+  );
+}
+
+export enum WebhookEvent {
+  /**
+   * Emitted when the buyer's payment fails.
+   */
+  PAYMENT_FAILED = "payment:failed",
+  /**
+   * Emitted when the buyer's payment is completed.
+   */
+  PAYMENT_SUCCEEDED = "payment:succeeded",
+  /**
+   * Emitted when the buyer's payment method has a hold created.
+   * They are not charged yet.
+   */
+  PAYMENT_HOLD_CREATED = "payment:hold_created",
+  /**
+   * Emitted when the buyer's payment is refunded.
+   */
+  PAYMENT_REFUNDED = "payment:refunded",
+
+  /**
+   * Emitted when the NFT is successfully transferred to the buyer's wallet.
+   */
+  TRANSFER_SUCCEEDED = "transfer:succeeded",
+  /**
+   * Emitted when the NFT failed to transfer to the buyer's wallet.
+   */
+  TRANSFER_FAILED = "transfer:failed",
+
+  /**
+   * Called when the transaction is successfully enqueue on chain
+   */
+  TRANSACTION_ENQUEUED = "transaction:enqueued",
+}
+
+export type PaymentsWebhooksTestInput = {
+  webhookEvent: WebhookEvent;
+  webhookUrl: string;
+};
+
+export function usePaymentsTestWebhook(paymentsSellerId: string) {
+  invariant(paymentsSellerId, "paymentsSellerId is required");
+
+  const { token } = useApiAuthToken();
+  const fetchFromPaymentsAPI = usePaymentsApi();
+
+  return useMutation(async (input: PaymentsWebhooksTestInput) => {
+    invariant(token, "No token found");
+    return fetchFromPaymentsAPI(
+      token,
+      "POST",
+      "checkout/test-webhook-url",
+      {
+        event: input.webhookEvent,
+        webhookUrl: input.webhookUrl,
+      },
+      {
+        isWebhookTest: true,
+      },
+    );
+  });
 }
 
 export function usePaymentsTransactions(checkoutId: string) {
   invariant(checkoutId, "checkoutId is required");
   const address = useAddress();
   const { paymentsSellerId } = useApiAuthToken();
-  const [getTransactions] =
+  const [getPageTransactionsAndAttemptsByCheckoutId] =
     useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery();
 
   return useQuery(
     paymentsKeys.transactions(checkoutId),
     async () => {
-      const { data, error } = await getTransactions({
+      const { data, error } = await getPageTransactionsAndAttemptsByCheckoutId({
         variables: {
           ownerId: paymentsSellerId,
           checkoutId,

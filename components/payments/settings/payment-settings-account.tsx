@@ -11,22 +11,22 @@ import {
 } from "tw-components";
 import {
   SellerValueInput,
-  usePaymentsSellerByAccountId,
-  usePaymentsUpdateSellerByAccountId,
+  usePaymentsSellerById,
+  usePaymentsUpdateSellerById,
 } from "@3rdweb-sdk/react/hooks/usePayments";
 import { useTrack } from "hooks/analytics/useTrack";
 import { PaymentsSettingsFileUploader } from "./payment-settings-file-uploader";
 
 interface PaymentsSettingsAccountProps {
-  accountId: string;
+  paymentsSellerId: string;
 }
 
 export const PaymentsSettingsAccount: React.FC<
   PaymentsSettingsAccountProps
-> = ({ accountId }) => {
-  const { mutate: updateSellerByAccountId, isLoading } =
-    usePaymentsUpdateSellerByAccountId(accountId);
-  const { data: sellerData } = usePaymentsSellerByAccountId(accountId);
+> = ({ paymentsSellerId }) => {
+  const { mutate: updateSellerById, isLoading } =
+    usePaymentsUpdateSellerById(paymentsSellerId);
+  const { data: sellerData } = usePaymentsSellerById(paymentsSellerId);
   const trackEvent = useTrack();
 
   const values: SellerValueInput = {
@@ -69,14 +69,18 @@ export const PaymentsSettingsAccount: React.FC<
         gap={4}
         flexDir="column"
         onSubmit={form.handleSubmit((data) => {
+          if (data.twitter_handle && !data.twitter_handle.startsWith("@")) {
+            data.twitter_handle = `@${data.twitter_handle}`;
+          }
+
           trackEvent({
             category: "payments",
             action: "update-settings",
             label: "attempt",
           });
-          updateSellerByAccountId(
+          updateSellerById(
             {
-              thirdwebAccountId: accountId,
+              id: paymentsSellerId,
               sellerValue: {
                 ...data,
               },
@@ -106,7 +110,7 @@ export const PaymentsSettingsAccount: React.FC<
         <Flex flexDir="column" gap={6}>
           <FormControl isInvalid={!!form.formState.errors.company_logo_url}>
             <FormLabel>Company Logo</FormLabel>
-            <Box w={24}>
+            <Box w={28}>
               <PaymentsSettingsFileUploader
                 value={form.watch("company_logo_url")}
                 onUpdate={(value: string) => {
@@ -146,8 +150,8 @@ export const PaymentsSettingsAccount: React.FC<
             <FormControl isInvalid={!!form.formState.errors.twitter_handle}>
               <FormLabel>X (Twitter) Username</FormLabel>
               <Input
-                placeholder="@handle"
-                {...form.register("twitter_handle", { required: true })}
+                placeholder="@username"
+                {...form.register("twitter_handle")}
               />
               <FormErrorMessage>
                 {form.formState.errors?.twitter_handle?.message}

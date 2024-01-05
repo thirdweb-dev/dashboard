@@ -130,7 +130,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "nft-checkout",
     description: "Credit card checkout for NFTs",
     link: "/checkout",
-    dashboardLink: "https://withpaper.com/product/checkouts",
+    dashboardLink: "/dashboard/payments/contracts",
     icon: require("public/assets/product-icons/payments.png"),
     section: "payments",
     inLandingPage: true,
@@ -197,14 +197,6 @@ export const SOLUTIONS: SectionItemProps[] = [
     description: "All-in-one dev tools for your chain",
     link: "/solutions/chains",
     icon: require("public/assets/solutions-icons/chains.svg"),
-    section: "solutions",
-  },
-  {
-    name: "Appchain API",
-    label: "appchain-api",
-    description: "Instant dev tools for your appchain",
-    link: "/solutions/appchain-api",
-    icon: require("public/assets/solutions-icons/appchain-api.svg"),
     section: "solutions",
   },
   {

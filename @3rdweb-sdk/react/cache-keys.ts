@@ -56,6 +56,8 @@ export const engineKeys = {
     [...engineKeys.all, instance, "permissions"] as const,
   accessTokens: (instance: string) =>
     [...engineKeys.all, instance, "accessTokens"] as const,
+  relayers: (instance: string) =>
+    [...engineKeys.all, instance, "relayers"] as const,
   webhooks: (instance: string) =>
     [...engineKeys.all, instance, "webhooks"] as const,
   webhookEventTypes: (instance: string) =>
@@ -89,8 +91,12 @@ export const paymentsKeys = {
     [...paymentsKeys.all, "checkouts", contractAddress, walletAddress] as const,
   detailedAnalytics: (checkoutId: string) =>
     [...paymentsKeys.all, "checkout", checkoutId] as const,
-  settings: (accountId: string) =>
-    [...paymentsKeys.all, "settings", accountId] as const,
+  settings: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "settings", paymentsSellerId] as const,
+  webhooks: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "webhooks", paymentsSellerId] as const,
+  webhookSecret: (paymentsSellerId: string) =>
+    [...paymentsKeys.all, "webhooks", "secretKey", paymentsSellerId] as const,
   transactions: (checkoutId: string) =>
     [...paymentsKeys.all, "transactions", checkoutId] as const,
 };
