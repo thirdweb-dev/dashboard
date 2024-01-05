@@ -21,6 +21,7 @@ import {
   Input,
   Select,
   Textarea,
+  useClipboard,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
@@ -42,7 +43,8 @@ import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { AddModalInput, parseAddressListRaw } from "./add-relayer-button";
 import { shortenString } from "@thirdweb-dev/react";
 import { BiPencil } from "react-icons/bi";
-import { FiTrash } from "react-icons/fi";
+import { FiCopy, FiTrash } from "react-icons/fi";
+import { CopyButton } from "components/homepage/AnimatedCLICommand/AnimatedCLICommand";
 
 interface RelayersTableProps {
   instanceUrl: string;
@@ -63,6 +65,7 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
   const removeDisclosure = useDisclosure();
   const [selectedRelayer, setSelectedRelayer] = useState<EngineRelayer>();
   const { chainIdToChainRecord } = useAllChainsData();
+  const { onCopy, hasCopied, setValue } = useClipboard("");
 
   const columns = [
     columnHelper.accessor("chainId", {
@@ -133,6 +136,14 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
             ? `${allowedForwarders.length} address`
             : `${allowedForwarders.length} addresses`;
         return <Text>{value}</Text>;
+      },
+    }),
+    columnHelper.accessor("id", {
+      header: "URL",
+      cell: (cell) => {
+        const id = cell.getValue();
+        const url = `${instanceUrl}relayer/${id}`;
+        return <CopyButton text={url} />;
       },
     }),
   ];
