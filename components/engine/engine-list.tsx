@@ -85,7 +85,11 @@ export const EngineInstancesList = ({
           <>
             <Divider />
 
-            <Flex justify="space-between">
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              gap={3}
+              justify="space-between"
+            >
               <Stack>
                 <Heading size="title.sm">Get Started</Heading>
                 <Text>
@@ -93,9 +97,9 @@ export const EngineInstancesList = ({
                   dashboard.
                 </Text>
               </Stack>
-              <Flex gap={3}>
-                <ImportEngineInstanceButton refetch={refetch} />
+              <Flex direction={{ base: "column", md: "row-reverse" }} gap={3}>
                 <CreateEngineInstanceButton refetch={refetch} />
+                <ImportEngineInstanceButton refetch={refetch} />
               </Flex>
             </Flex>
             <EngineOverviewDescription />
@@ -104,11 +108,13 @@ export const EngineInstancesList = ({
           <>
             <Divider />
 
-            <Flex justify="end">
-              <Flex gap={3}>
-                <ImportEngineInstanceButton refetch={refetch} />
-                <CreateEngineInstanceButton refetch={refetch} />
-              </Flex>
+            <Flex
+              direction={{ base: "column", md: "row-reverse" }}
+              justify="end"
+              gap={3}
+            >
+              <CreateEngineInstanceButton refetch={refetch} />
+              <ImportEngineInstanceButton refetch={refetch} />
             </Flex>
             {instances.map((instance) => {
               return (
