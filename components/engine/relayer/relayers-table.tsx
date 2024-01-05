@@ -38,13 +38,13 @@ import {
   FormLabel,
   LinkButton,
   Text,
+  TrackedCopyButton,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { AddModalInput, parseAddressListRaw } from "./add-relayer-button";
 import { shortenString } from "@thirdweb-dev/react";
 import { BiPencil } from "react-icons/bi";
-import { FiCopy, FiTrash } from "react-icons/fi";
-import { CopyButton } from "components/homepage/AnimatedCLICommand/AnimatedCLICommand";
+import { FiTrash } from "react-icons/fi";
 
 interface RelayersTableProps {
   instanceUrl: string;
@@ -143,7 +143,13 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
       cell: (cell) => {
         const id = cell.getValue();
         const url = `${instanceUrl}relayer/${id}`;
-        return <CopyButton text={url} />;
+        return (
+          <TrackedCopyButton
+            value={url}
+            category="engine"
+            aria-label="Copy to clipboard"
+          />
+        );
       },
     }),
   ];
