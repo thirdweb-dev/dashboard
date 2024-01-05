@@ -1,6 +1,7 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { Stack } from "@chakra-ui/react";
-import { Card, Heading, Text, TrackedLink } from "tw-components";
+import { Divider, Flex, Stack } from "@chakra-ui/react";
+import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
+import { EngineOverviewDescription } from "./overview/engine-description";
 
 export const EngineNoConnectedWallet: React.FC = () => {
   return (
@@ -11,7 +12,8 @@ export const EngineNoConnectedWallet: React.FC = () => {
         </Heading>
         <Text>
           Engine is a backend HTTP server that calls smart contracts with your
-          backend wallets.{" "}
+          backend wallets. Reliably send blockchain transactions, manage smart
+          wallets, enable gasless transactions, and more.{" "}
           <TrackedLink
             href="https://portal.thirdweb.com/engine"
             isExternal
@@ -19,47 +21,30 @@ export const EngineNoConnectedWallet: React.FC = () => {
             label="clicked-learn-more"
             color="blue.500"
           >
-            Learn more about Engine
+            Learn more to get started for free
           </TrackedLink>
           .
         </Text>
       </Stack>
 
-      <Card p={8}>
-        <Stack>
-          <Heading size="label.lg">Get Started</Heading>
-          <Text>
-            Sign in with your Engine admin wallet to manage it from this
-            dashboard.
-          </Text>
+      <Divider />
 
-          <CustomConnectWallet />
-        </Stack>
-      </Card>
+      <Stack>
+        <Flex justify="space-between">
+          <Stack>
+            <Heading size="title.sm">Get Started</Heading>
+            <Text>
+              Sign in with your admin wallet to manage Engine instances from
+              this dashboard.
+            </Text>
+          </Stack>
 
-      <Text>
-        Don&apos;t have Engine set up yet?{" "}
-        <TrackedLink
-          href="https://share.hsforms.com/1k5tu00ueS5OYMaxHK6De-gea58c"
-          isExternal
-          category="engine"
-          label="cloud-hosted"
-          color="blue.500"
-        >
-          Get a cloud-hosted Engine
-        </TrackedLink>{" "}
-        or{" "}
-        <TrackedLink
-          href="https://portal.thirdweb.com/engine/getting-started"
-          isExternal
-          category="engine"
-          label="self-hosted"
-          color="blue.500"
-        >
-          learn how to self-host
-        </TrackedLink>
-        .
-      </Text>
+          <Flex h="fit-content">
+            <CustomConnectWallet />
+          </Flex>
+        </Flex>
+        <EngineOverviewDescription />
+      </Stack>
     </Stack>
   );
 };

@@ -1,6 +1,7 @@
 import { EngineInstance } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   ButtonGroup,
+  Divider,
   Flex,
   FormControl,
   IconButton,
@@ -30,10 +31,12 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { AddEngineInstanceButton } from "./add-engine-instance";
+import { CreateEngineInstanceButton } from "./create-engine-instance";
 import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useAddress } from "@thirdweb-dev/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { EngineOverviewDescription } from "./overview/engine-description";
+import { ImportEngineInstanceButton } from "./import-engine-instance";
 
 interface EngineInstancesListProps {
   instances: EngineInstance[];
@@ -62,7 +65,8 @@ export const EngineInstancesList = ({
         </Heading>
         <Text>
           Engine is a backend HTTP server that calls smart contracts with your
-          backend wallets.{" "}
+          backend wallets. Reliably send blockchain transactions, manage smart
+          wallets, enable gasless transactions, and more.{" "}
           <TrackedLink
             href="https://portal.thirdweb.com/engine"
             isExternal
@@ -70,7 +74,7 @@ export const EngineInstancesList = ({
             label="clicked-learn-more"
             color="blue.500"
           >
-            Learn more about Engine
+            Learn more to get started for free
           </TrackedLink>
           .
         </Text>
@@ -78,14 +82,24 @@ export const EngineInstancesList = ({
 
       <Stack spacing={4}>
         {instances.length === 0 ? (
-          <Card p={8}>
-            <Stack>
-              <Heading size="label.lg">Get Started</Heading>
-              <Text>
-                View Engine instances you&apos;ve set up and imported here.
-              </Text>
-            </Stack>
-          </Card>
+          <>
+            <Divider />
+
+            <Flex justify="space-between">
+              <Stack>
+                <Heading size="title.sm">Get Started</Heading>
+                <Text>
+                  Create or import an Engine instance to manage it from this
+                  dashboard.
+                </Text>
+              </Stack>
+              <Flex gap={3}>
+                <ImportEngineInstanceButton refetch={refetch} />
+                <CreateEngineInstanceButton refetch={refetch} />
+              </Flex>
+            </Flex>
+            <EngineOverviewDescription />
+          </>
         ) : (
           instances.map((instance) => {
             return (
@@ -158,8 +172,6 @@ export const EngineInstancesList = ({
           refetch={refetch}
         />
       )}
-
-      <AddEngineInstanceButton refetch={refetch} />
     </Stack>
   );
 };
