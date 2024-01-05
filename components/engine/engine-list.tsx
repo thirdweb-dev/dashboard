@@ -101,60 +101,70 @@ export const EngineInstancesList = ({
             <EngineOverviewDescription />
           </>
         ) : (
-          instances.map((instance) => {
-            return (
-              <Card
-                key={instance.id}
-                as={Flex}
-                justifyContent="space-between"
-                alignContent="flex-start"
-                p={8}
-              >
-                <Stack>
-                  <Heading size="label.lg">{instance.name}</Heading>
-                  <Text fontSize="small">{instance.url}</Text>
-                </Stack>
+          <>
+            <Divider />
 
-                <ButtonGroup variant="ghost" spacing={3}>
-                  <ConnectButton
-                    instance={instance}
-                    setConnectedInstance={setConnectedInstance}
-                  />
+            <Flex justify="end">
+              <Flex gap={3}>
+                <ImportEngineInstanceButton refetch={refetch} />
+                <CreateEngineInstanceButton refetch={refetch} />
+              </Flex>
+            </Flex>
+            {instances.map((instance) => {
+              return (
+                <Card
+                  key={instance.id}
+                  as={Flex}
+                  justifyContent="space-between"
+                  alignContent="flex-start"
+                  p={8}
+                >
+                  <Stack>
+                    <Heading size="label.lg">{instance.name}</Heading>
+                    <Text fontSize="small">{instance.url}</Text>
+                  </Stack>
 
-                  <Tooltip label="Edit">
-                    <IconButton
-                      onClick={() => {
-                        trackEvent({
-                          category: "engine",
-                          action: "edit",
-                          label: "open-modal",
-                        });
-                        setInstanceToUpdate(instance);
-                        editDisclosure.onOpen();
-                      }}
-                      icon={<BiPencil />}
-                      aria-label="Edit"
+                  <ButtonGroup variant="ghost" spacing={3}>
+                    <ConnectButton
+                      instance={instance}
+                      setConnectedInstance={setConnectedInstance}
                     />
-                  </Tooltip>
-                  <Tooltip label="Remove">
-                    <IconButton
-                      onClick={() => {
-                        trackEvent({
-                          category: "engine",
-                          action: "remove",
-                          label: "open-modal",
-                        });
-                        setInstanceToUpdate(instance);
-                        removeDisclosure.onOpen();
-                      }}
-                      icon={<FiTrash />}
-                      aria-label="Remove"
-                    />
-                  </Tooltip>
-                </ButtonGroup>
-              </Card>
-            );
-          })
+
+                    <Tooltip label="Edit">
+                      <IconButton
+                        onClick={() => {
+                          trackEvent({
+                            category: "engine",
+                            action: "edit",
+                            label: "open-modal",
+                          });
+                          setInstanceToUpdate(instance);
+                          editDisclosure.onOpen();
+                        }}
+                        icon={<BiPencil />}
+                        aria-label="Edit"
+                      />
+                    </Tooltip>
+                    <Tooltip label="Remove">
+                      <IconButton
+                        onClick={() => {
+                          trackEvent({
+                            category: "engine",
+                            action: "remove",
+                            label: "open-modal",
+                          });
+                          setInstanceToUpdate(instance);
+                          removeDisclosure.onOpen();
+                        }}
+                        icon={<FiTrash />}
+                        aria-label="Remove"
+                      />
+                    </Tooltip>
+                  </ButtonGroup>
+                </Card>
+              );
+            })}
+          </>
         )}
       </Stack>
 
