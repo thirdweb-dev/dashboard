@@ -93,7 +93,8 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
         >
           <ChakraNextImage
             alt=""
-            src={require("public/assets/connect-wallet/google-play-button.svg")}
+            src={require("../../../public/assets/connect-wallet/google-play-button.svg")}
+            height={40}
           />
         </ChakraNextLink>
       </Flex>
