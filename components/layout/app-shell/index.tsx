@@ -1,5 +1,4 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
   ButtonGroup,
@@ -85,7 +84,6 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
 
 const AppHeader: React.FC = () => {
   const { pathname, route } = useRouter();
-  const { data: account } = useAccount();
   const trackEvent = useTrack();
 
   return (
