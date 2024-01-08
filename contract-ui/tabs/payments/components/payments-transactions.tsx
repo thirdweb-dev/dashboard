@@ -8,7 +8,9 @@ interface PaymentsTransactionsProps {
 export const PaymentsTransactions: React.FC<PaymentsTransactionsProps> = ({
   contractId,
 }) => {
-  const { data: transactions } = usePaymentsTransactions(contractId);
+  const { data: transactions } = usePaymentsTransactions(
+    "ba8b96c8-acad-441f-bcf8-ae6719ed7c3f",
+  );
 
   console.log({ transactions });
   return <Flex flexDir="column" gap={12}></Flex>;

@@ -1142,27 +1142,32 @@ export function usePaymentsTestWebhook(paymentsSellerId: string) {
 export function usePaymentsTransactions(checkoutId: string) {
   invariant(checkoutId, "checkoutId is required");
   const address = useAddress();
-  const { paymentsSellerId } = useApiAuthToken();
   const [getPageTransactionsAndAttemptsByCheckoutId] =
     useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery();
+
+  console.log({ checkoutId });
 
   return useQuery(
     paymentsKeys.transactions(checkoutId),
     async () => {
-      const { data, error } = await getPageTransactionsAndAttemptsByCheckoutId({
-        variables: {
-          ownerId: paymentsSellerId,
-          checkoutId,
-          limit: 100,
-          offset: 0,
-        } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
-      });
+      const { data, error, ...rest } =
+        await getPageTransactionsAndAttemptsByCheckoutId({
+          variables: {
+            checkoutId,
+            limit: 5000,
+            offset: 0,
+            dynamicFilters: [],
+          } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
+        });
 
       if (error) {
         console.error(error);
       }
-      return data || [];
+
+      console.log({ data, rest });
+
+      return data && data.transaction.length > 0 ? data.transaction : [];
     },
-    { enabled: !!paymentsSellerId && !!address },
+    { enabled: !!address && !!checkoutId },
   );
 }
