@@ -40,8 +40,7 @@ export const templates: TemplateCardProps[] = [
     title: "Web3 Warriors",
     homepage: "https://web3warriors.thirdweb.com/",
     repo: "https://blog.thirdweb.com/how-we-built-web3-warriors/",
-    description:
-      "Dungeon crawler demo game built with thirdweb Unity SDK.",
+    description: "Dungeon crawler demo game built with thirdweb Unity SDK.",
     img: "/assets/templates/phygital-experience.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
     tags: ["Unity", "Gaming"],
@@ -53,8 +52,7 @@ export const templates: TemplateCardProps[] = [
     title: "Cat Attack",
     homepage: "https://engine-express.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/catattacknft",
-    description:
-      "Strategy demo game built with thirdweb SDKs.",
+    description: "Strategy demo game built with thirdweb SDKs.",
     img: "/assets/templates/phygital-experience.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
     tags: ["TypeScript", "Gaming"],
@@ -66,8 +64,7 @@ export const templates: TemplateCardProps[] = [
     title: "Speed Racers",
     homepage: "https://engine-express.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/unreal_demo",
-    description:
-      "Racing demo game using Unreal and thirdweb Engine.",
+    description: "Racing demo game using Unreal and thirdweb Engine.",
     img: "/assets/templates/phygital-experience.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
     tags: ["Unreal", "Engine", "Gaming"],
