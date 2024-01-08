@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
 import {
   ApiKeyEmbeddedWalletsValidationSchema,
   apiKeyEmbeddedWalletsValidationSchema,
@@ -334,117 +335,126 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthEndpoint") && (
-              <Card p={6} bg={bg}>
-                <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(
-                        "customAuthEndpoint.authEndpoint",
-                        form.formState,
-                      ).error
-                    }
-                  >
-                    <FormLabel size="label.sm">
-                      Authentication Endpoint
-                    </FormLabel>
-                    <Input
-                      placeholder="https://example.com/your-auth-verifier"
-                      type="text"
-                      {...form.register("customAuthEndpoint.authEndpoint")}
-                    />
-                    {!form.getFieldState(
-                      "customAuthEndpoint.authEndpoint",
-                      form.formState,
-                    ).error && (
-                      <FormHelperText>
-                        Enter the URL of your server where we will send the user
-                        payload for verification
-                      </FormHelperText>
-                    )}
-                    <FormErrorMessage>
-                      {
-                        form.getFieldState(
+              <GatedFeature
+                title="Custom auth is an advanced feature."
+                description="Integrate your custom auth server with our embedded wallets solution."
+                imgSrc="/assets/dashboard/features/custom_auth.png"
+                imgWidth={240}
+                imgHeight={240}
+                trackingLabel="customAuthApiKey"
+              >
+                <Card p={6} bg={bg}>
+                  <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
                           "customAuthEndpoint.authEndpoint",
                           form.formState,
-                        ).error?.message
+                        ).error
                       }
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(
-                        `customAuthEndpoint.customHeaders`,
+                    >
+                      <FormLabel size="label.sm">
+                        Authentication Endpoint
+                      </FormLabel>
+                      <Input
+                        placeholder="https://example.com/your-auth-verifier"
+                        type="text"
+                        {...form.register("customAuthEndpoint.authEndpoint")}
+                      />
+                      {!form.getFieldState(
+                        "customAuthEndpoint.authEndpoint",
                         form.formState,
-                      ).error
-                    }
-                  >
-                    <FormLabel size="label.sm">Custom Headers</FormLabel>
-                    <Stack gap={3} alignItems={"end"}>
-                      {customHeaderFields.fields.map((_, customHeaderIdx) => {
-                        return (
-                          <Flex key={customHeaderIdx} gap={2} w="full">
-                            <Input
-                              placeholder="Key"
-                              type="text"
-                              {...form.register(
-                                `customAuthEndpoint.customHeaders.${customHeaderIdx}.key`,
-                              )}
-                            />
-                            <Input
-                              placeholder="Value"
-                              type="text"
-                              {...form.register(
-                                `customAuthEndpoint.customHeaders.${customHeaderIdx}.value`,
-                              )}
-                            />
-                            <IconButton
-                              aria-label="Remove header"
-                              icon={<LuTrash2 />}
-                              onClick={() => {
-                                customHeaderFields.remove(customHeaderIdx);
-                              }}
-                            />
-                          </Flex>
-                        );
-                      })}
-                      <Button
-                        onClick={() => {
-                          customHeaderFields.append({
-                            key: "",
-                            value: "",
-                          });
-                        }}
-                        w={
-                          customHeaderFields.fields.length === 0
-                            ? "full"
-                            : "fit-content"
+                      ).error && (
+                        <FormHelperText>
+                          Enter the URL of your server where we will send the
+                          user payload for verification
+                        </FormHelperText>
+                      )}
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
+                            "customAuthEndpoint.authEndpoint",
+                            form.formState,
+                          ).error?.message
                         }
-                      >
-                        Add header
-                      </Button>
-                    </Stack>
-
-                    {!form.getFieldState(
-                      `customAuthEndpoint.customHeaders`,
-                      form.formState,
-                    ).error && (
-                      <FormHelperText>
-                        Set custom headers to be sent along the request with the
-                        payload to the authentication endpoint above. You can
-                        set values to verify the incoming request here.
-                      </FormHelperText>
-                    )}
-                    <FormErrorMessage>
-                      {
-                        form.getFieldState(
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
                           `customAuthEndpoint.customHeaders`,
                           form.formState,
-                        ).error?.message
+                        ).error
                       }
-                    </FormErrorMessage>
-                  </FormControl>
-                </Flex>
-              </Card>
+                    >
+                      <FormLabel size="label.sm">Custom Headers</FormLabel>
+                      <Stack gap={3} alignItems={"end"}>
+                        {customHeaderFields.fields.map((_, customHeaderIdx) => {
+                          return (
+                            <Flex key={customHeaderIdx} gap={2} w="full">
+                              <Input
+                                placeholder="Key"
+                                type="text"
+                                {...form.register(
+                                  `customAuthEndpoint.customHeaders.${customHeaderIdx}.key`,
+                                )}
+                              />
+                              <Input
+                                placeholder="Value"
+                                type="text"
+                                {...form.register(
+                                  `customAuthEndpoint.customHeaders.${customHeaderIdx}.value`,
+                                )}
+                              />
+                              <IconButton
+                                aria-label="Remove header"
+                                icon={<LuTrash2 />}
+                                onClick={() => {
+                                  customHeaderFields.remove(customHeaderIdx);
+                                }}
+                              />
+                            </Flex>
+                          );
+                        })}
+                        <Button
+                          onClick={() => {
+                            customHeaderFields.append({
+                              key: "",
+                              value: "",
+                            });
+                          }}
+                          w={
+                            customHeaderFields.fields.length === 0
+                              ? "full"
+                              : "fit-content"
+                          }
+                        >
+                          Add header
+                        </Button>
+                      </Stack>
+
+                      {!form.getFieldState(
+                        `customAuthEndpoint.customHeaders`,
+                        form.formState,
+                      ).error && (
+                        <FormHelperText>
+                          Set custom headers to be sent along the request with
+                          the payload to the authentication endpoint above. You
+                          can set values to verify the incoming request here.
+                        </FormHelperText>
+                      )}
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
+                            `customAuthEndpoint.customHeaders`,
+                            form.formState,
+                          ).error?.message
+                        }
+                      </FormErrorMessage>
+                    </FormControl>
+                  </Flex>
+                </Card>
+              </GatedFeature>
             )}
             <Divider />
 
