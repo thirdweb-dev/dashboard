@@ -1249,9 +1249,9 @@ export const ConnectWalletPlayground: React.FC<{
             >
               <Heading fontSize={20}>Try it out on mobile</Heading>
               <Heading as="label" size="label.sm">
-                (iOS app coming soon)
+                (iOS demo app coming soon)
               </Heading>
-              <Spacer height={5} />
+              <Spacer height={2} />
               <ChakraNextLink
                 href={
                   "https://play.google.com/store/search?q=thirdweb&c=apps&hl=en_US&gl=US"
@@ -1259,8 +1259,7 @@ export const ConnectWalletPlayground: React.FC<{
               >
                 <ChakraNextImage
                   alt=""
-                  src={require("../../../public/assets/connect-wallet/google-play-button.svg")}
-                  height={40}
+                  src={require("public/assets/connect-wallet/google-play-button.svg")}
                 />
               </ChakraNextLink>
             </Box>
