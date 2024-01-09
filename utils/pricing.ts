@@ -35,7 +35,7 @@ export const PLANS: {
       "Ideal for teams who need higher rate limits and advanced features.",
     features: [
       "Production grade infrastructure: 200 rps for RPC & Storage Gateway",
-      "Advanced customization: Custom Auth for Embedded Wallets",
+      "Advanced customization: Custom branding & auth for Embedded Wallets",
       "Higher limits: $2,500 per Checkout transaction",
       "Wallet Analytics",
     ],

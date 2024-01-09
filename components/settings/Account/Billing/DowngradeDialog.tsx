@@ -21,11 +21,11 @@ const DOWNGRADE_OPTIONS = {
   customer_service: "Not happy with customer service",
   low_quality: "Low quality products",
   missing_features: "Missing features",
-  other: "Other",
   switched_service: "Switched to another service",
   too_complex: "Too complex",
   too_expensive: "Too expensive",
   unused: "No longer in use",
+  other: "Other",
 };
 
 interface BillingDowngradeDialogProps {
