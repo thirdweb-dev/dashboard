@@ -11,6 +11,7 @@ import {
   Binance,
   BinanceTestnet,
   Ethereum,
+  FrameTestnet,
   Goerli,
   Mumbai,
   Optimism,
@@ -31,11 +32,16 @@ import {
   InsertWebhookMutationVariables,
   useInsertWebhookMutation,
 } from "graphql/mutations/__generated__/InsertWebhook.generated";
+import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
 import {
   UpdateWebhookMutationVariables,
   useUpdateWebhookMutation,
 } from "graphql/mutations/__generated__/UpdateWebhook.generated";
 import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
+import {
+  CheckoutsByContractAddressQueryVariables,
+  useCheckoutsByContractAddressLazyQuery,
+} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
 import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
@@ -45,6 +51,11 @@ import {
   useDetailedAnalyticsLazyQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
+  SellerDocument,
+  SellerQueryVariables,
+  useSellerLazyQuery,
+} from "graphql/queries/__generated__/Seller.generated";
+import {
   WebhooksBySellerIdDocument,
   WebhooksBySellerIdQueryVariables,
   useWebhooksBySellerIdLazyQuery,
@@ -52,19 +63,10 @@ import {
 import { getEVMThirdwebSDK } from "lib/sdk";
 import invariant from "tiny-invariant";
 import { OtherAddressZero } from "utils/zeroAddress";
+import { boolean, string } from "zod";
 import { paymentsKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useApiAuthToken } from "./useApi";
-import {
-  SellerDocument,
-  SellerQueryVariables,
-  useSellerLazyQuery,
-} from "graphql/queries/__generated__/Seller.generated";
-import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
-import {
-  CheckoutsByContractAddressQueryVariables,
-  useCheckoutsByContractAddressLazyQuery,
-} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -104,6 +106,9 @@ export const validPaymentsChainIdsTestnets: number[] = [
   BaseGoerli.chainId,
   ZoraTestnet.chainId,
   ArbitrumSepolia.chainId,
+  FrameTestnet.chainId,
+  // TODO: add rarichain testnet to Chains and import here.
+  1918988905,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -134,6 +139,9 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [BaseGoerli.chainId]: "BaseGoerli",
   [Zora.chainId]: "Zora",
   [ZoraTestnet.chainId]: "ZoraTestnet",
+  [FrameTestnet.chainId]: "FrameTestnet",
+  // TODO: add rarichain testnet to Chains and import here.
+  1918988905: "RariChainTestnet",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -147,11 +155,18 @@ export const PaperChainToChainId: Record<string, number> = {
   Optimism: Optimism.chainId,
   OptimismGoerli: OptimismGoerli.chainId,
   ArbitrumOne: Arbitrum.chainId,
+  ArbitrumNova: ArbitrumNova.chainId,
   ArbitrumGoerli: ArbitrumGoerli.chainId,
+  ArbitrumSepolia: ArbitrumSepolia.chainId,
   BSC: Binance.chainId,
   BSCTestnet: BinanceTestnet.chainId,
   Base: Base.chainId,
   BaseGoerli: BaseGoerli.chainId,
+  Zora: Zora.chainId,
+  ZoraTestnet: ZoraTestnet.chainId,
+  FrameTestnet: FrameTestnet.chainId,
+  // TODO: add rarichain testnet to Chains and import here.
+  RariChainTestnet: 1918988905,
 };
 
 interface SupportedCurrenciesMap {
@@ -178,6 +193,9 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [BaseGoerli.chainId]: ["ETH"],
   [Zora.chainId]: ["ETH"],
   [ZoraTestnet.chainId]: ["ETH"],
+  [FrameTestnet.chainId]: ["ETH"],
+  // TODO: add rarichain testnet to Chains and import here.
+  1918988905: ["ETH"],
 };
 
 const ChainSymbolToChainName: Record<string, string> = {
