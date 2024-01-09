@@ -72,7 +72,13 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
 
   useEffect(() => {
     // Init PostHog Cloud (Used for surveys)
-    posthogCloud.init("phc_hKK4bo8cHZrKuAVXfXGpfNSLSJuucUnguAgt2j6dgSV", {});
+    posthogCloud.init("phc_oXH0qpLTaotkIQP5MdaWhtoOXvh1Iba7yNSQrLgWbLN", {
+      api_host: "https://app.posthog.com",
+      autocapture: true,
+      debug: false,
+      capture_pageview: false,
+      disable_session_recording: true,
+    });
 
     // Init PostHog
     posthogOpenSource.init(
