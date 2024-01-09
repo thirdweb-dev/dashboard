@@ -226,72 +226,83 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthentication") && (
-              <Card p={6} bg={bg}>
-                <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(
+              <GatedFeature
+                title="Custom auth is an advanced feature."
+                description="Integrate your custom auth server with our embedded wallets solution."
+                imgSrc="/assets/dashboard/features/custom_auth.png"
+                imgWidth={240}
+                imgHeight={240}
+                trackingLabel="customAuthApiKey"
+              >
+                <Card p={6} bg={bg}>
+                  <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
+                          "customAuthentication.jwksUri",
+                          form.formState,
+                        ).error
+                      }
+                    >
+                      <FormLabel size="label.sm">JWKS URI</FormLabel>
+                      <Input
+                        placeholder="https://example.com/.well-known/jwks.json"
+                        type="text"
+                        {...form.register("customAuthentication.jwksUri")}
+                      />
+                      {!form.getFieldState(
                         "customAuthentication.jwksUri",
                         form.formState,
-                      ).error
-                    }
-                  >
-                    <FormLabel size="label.sm">JWKS URI</FormLabel>
-                    <Input
-                      placeholder="https://example.com/.well-known/jwks.json"
-                      type="text"
-                      {...form.register("customAuthentication.jwksUri")}
-                    />
-                    {!form.getFieldState(
-                      "customAuthentication.jwksUri",
-                      form.formState,
-                    ).error ? (
-                      <FormHelperText>Enter the URI of the JWKS</FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
-                            "customAuthentication.jwksUri",
-                            form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(
+                      ).error ? (
+                        <FormHelperText>
+                          Enter the URI of the JWKS
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(
+                              "customAuthentication.jwksUri",
+                              form.formState,
+                            ).error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(
+                          `customAuthentication.aud`,
+                          form.formState,
+                        ).error
+                      }
+                    >
+                      <FormLabel size="label.sm">AUD Value</FormLabel>
+                      <Input
+                        placeholder="AUD"
+                        type="text"
+                        {...form.register(`customAuthentication.aud`)}
+                      />
+                      {!form.getFieldState(
                         `customAuthentication.aud`,
                         form.formState,
-                      ).error
-                    }
-                  >
-                    <FormLabel size="label.sm">AUD Value</FormLabel>
-                    <Input
-                      placeholder="AUD"
-                      type="text"
-                      {...form.register(`customAuthentication.aud`)}
-                    />
-                    {!form.getFieldState(
-                      `customAuthentication.aud`,
-                      form.formState,
-                    ).error ? (
-                      <FormHelperText>
-                        Enter the audience claim for the JWT
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
-                            `customAuthentication.aud`,
-                            form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
-                    )}
-                  </FormControl>
-                </Flex>
-              </Card>
+                      ).error ? (
+                        <FormHelperText>
+                          Enter the audience claim for the JWT
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(
+                              `customAuthentication.aud`,
+                              form.formState,
+                            ).error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+                  </Flex>
+                </Card>
+              </GatedFeature>
             )}
 
             <Divider />

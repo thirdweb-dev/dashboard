@@ -246,76 +246,85 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                   </FormControl>
 
                   {!!srv.customAuthentication && (
-                    <Flex flexDir="column" gap={6}>
-                      <FormControl
-                        isInvalid={
-                          !!form.getFieldState(
+                    <GatedFeature
+                      title="Custom auth is an advanced feature."
+                      description="Integrate your custom auth server with our embedded wallets solution."
+                      imgSrc="/assets/dashboard/features/custom_auth.png"
+                      imgWidth={240}
+                      imgHeight={240}
+                      trackingLabel="customAuthApiKey"
+                    >
+                      <Flex flexDir="column" gap={6}>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.jwksUri`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel size="label.sm">JWKS URI</FormLabel>
+                          <Input
+                            placeholder="https://example.com/.well-known/jwks.json"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.jwksUri`,
+                            )}
+                          />
+                          {!form.getFieldState(
                             `services.${idx}.customAuthentication.jwksUri`,
                             form.formState,
-                          ).error
-                        }
-                      >
-                        <FormLabel size="label.sm">JWKS URI</FormLabel>
-                        <Input
-                          placeholder="https://example.com/.well-known/jwks.json"
-                          type="text"
-                          {...form.register(
-                            `services.${idx}.customAuthentication.jwksUri`,
+                          ).error ? (
+                            <FormHelperText>
+                              Enter the URI of the JWKS
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.customAuthentication.jwksUri`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
                           )}
-                        />
-                        {!form.getFieldState(
-                          `services.${idx}.customAuthentication.jwksUri`,
-                          form.formState,
-                        ).error ? (
-                          <FormHelperText>
-                            Enter the URI of the JWKS
-                          </FormHelperText>
-                        ) : (
-                          <FormErrorMessage>
-                            {
-                              form.getFieldState(
-                                `services.${idx}.customAuthentication.jwksUri`,
-                                form.formState,
-                              ).error?.message
-                            }
-                          </FormErrorMessage>
-                        )}
-                      </FormControl>
-                      <FormControl
-                        isInvalid={
-                          !!form.getFieldState(
+                        </FormControl>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.customAuthentication.aud`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel size="label.sm">AUD Value</FormLabel>
+                          <Input
+                            placeholder="AUD"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.customAuthentication.aud`,
+                            )}
+                          />
+                          {!form.getFieldState(
                             `services.${idx}.customAuthentication.aud`,
                             form.formState,
-                          ).error
-                        }
-                      >
-                        <FormLabel size="label.sm">AUD Value</FormLabel>
-                        <Input
-                          placeholder="AUD"
-                          type="text"
-                          {...form.register(
-                            `services.${idx}.customAuthentication.aud`,
+                          ).error ? (
+                            <FormHelperText>
+                              Enter the audience claim for the JWT
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.customAuthentication.aud`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
                           )}
-                        />
-                        {!form.getFieldState(
-                          `services.${idx}.customAuthentication.aud`,
-                          form.formState,
-                        ).error ? (
-                          <FormHelperText>
-                            Enter the audience claim for the JWT
-                          </FormHelperText>
-                        ) : (
-                          <FormErrorMessage>
-                            {
-                              form.getFieldState(
-                                `services.${idx}.customAuthentication.aud`,
-                                form.formState,
-                              ).error?.message
-                            }
-                          </FormErrorMessage>
-                        )}
-                      </FormControl>
-                    </Flex>
+                        </FormControl>
+                      </Flex>
+                    </GatedFeature>
                   )}
                   <FormControl
                     isInvalid={
