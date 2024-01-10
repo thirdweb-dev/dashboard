@@ -6,7 +6,7 @@ import { AccountPlan, useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { PLANS } from "utils/pricing";
 
 interface OnboardingChoosePlanProps {
-  onSave: (plan: AccountPlan) => void;
+  onSave: () => void;
 }
 
 export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
@@ -34,7 +34,7 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
         },
       });
 
-      onSave(plan);
+      onSave();
       return;
     }
 
@@ -44,7 +44,7 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
       },
       {
         onSuccess: () => {
-          onSave(plan);
+          onSave();
 
           trackEvent({
             category: "account",
