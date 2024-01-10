@@ -33,7 +33,6 @@ type OnboardingState =
   | "confirmLinking"
   | "plan"
   | "billing"
-  | "linked"
   | "skipped"
   | undefined;
 

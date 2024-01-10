@@ -1,4 +1,4 @@
-import { SimpleGrid, useColorMode } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { Account, AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { PLANS } from "utils/pricing";
@@ -17,18 +17,24 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
   validPayment,
   loading,
 }) => {
-  const { colorMode } = useColorMode();
   const isPro = [AccountPlan.Pro, AccountPlan.Enterprise].includes(
     account.plan,
   );
 
   const freeCtaTitle = useMemo(() => {
+    if (!validPayment) {
+      return "Add payment method";
+    }
     if (account.plan !== AccountPlan.Free) {
       return "Downgrade";
     }
-  }, [account]);
+  }, [account, validPayment]);
 
   const growthCtaTitle = useMemo(() => {
+    const defaultTitle = `Start a ${PLANS.growth.trialPeriodDays} day Free Trial`;
+    if (!validPayment) {
+      return defaultTitle;
+    }
     // pro/enterprise cant change plan
     if (isPro) {
       return "Contact Sales";
@@ -40,15 +46,22 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         return "Upgrade";
       } else {
         // never been on paid plan with trial
-        return `Start a ${PLANS.growth.trialPeriodDays} day Free Trial`;
+        return defaultTitle;
       }
     }
-  }, [account, isPro]);
+  }, [account, validPayment, isPro]);
+
+  const proCtaTitle = useMemo(() => {
+    if (!validPayment) {
+      return "Add payment method";
+    }
+
+    if (!isPro) {
+      return "Contact Sales";
+    }
+  }, [isPro, validPayment]);
 
   const handleSelect = (plan: AccountPlan) => {
-    if (!validPayment) {
-      return;
-    }
     onSelect(plan);
   };
 
@@ -65,10 +78,10 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
             handleSelect(AccountPlan.Free);
           },
           isLoading: loading,
-          isDisabled: !validPayment,
+          isDisabled: loading,
           category: "account",
           label: "freePlan",
-          href: "/",
+          href: "/pricing",
         }}
       />
 
@@ -83,27 +96,12 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
             handleSelect(AccountPlan.Growth);
           },
           isLoading: loading,
-          isDisabled: !validPayment,
+          isDisabled: loading,
           category: "account",
           label: "growthPlan",
-          href: "/",
-          ...(colorMode === "dark"
-            ? {
-                bgColor: "white",
-                color: "black",
-                _hover: {
-                  bgColor: "white",
-                  opacity: 0.8,
-                },
-              }
-            : {
-                bgColor: "black",
-                color: "white",
-                _hover: {
-                  bgColor: "black",
-                  opacity: 0.8,
-                },
-              }),
+          href: "/pricing",
+          variant: "solid",
+          colorScheme: "blue",
         }}
       />
 
@@ -111,12 +109,19 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         current={isPro}
         size="sm"
         name={AccountPlan.Pro}
-        ctaTitle={!isPro ? "Contact Sales" : undefined}
+        ctaTitle={proCtaTitle}
         ctaProps={{
-          isExternal: true,
           category: "account",
           label: "growthPlan",
           href: "/contact-us",
+          ...(validPayment
+            ? { isExternal: true }
+            : {
+                onClick: (e) => {
+                  e.preventDefault();
+                  handleSelect(AccountPlan.Pro);
+                },
+              }),
         }}
       />
     </SimpleGrid>

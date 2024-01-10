@@ -1,4 +1,4 @@
-import { SimpleGrid, useColorMode } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { OnboardingTitle } from "./Title";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -14,7 +14,6 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
 }) => {
   const trackEvent = useTrack();
   const mutation = useUpdateAccount();
-  const { colorMode } = useColorMode();
 
   const handleSave = (plan: AccountPlan) => {
     trackEvent({
@@ -101,23 +100,8 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
               handleSave(AccountPlan.Growth);
             },
             href: "/",
-            ...(colorMode === "dark"
-              ? {
-                  bgColor: "white",
-                  color: "black",
-                  _hover: {
-                    bgColor: "white",
-                    opacity: 0.8,
-                  },
-                }
-              : {
-                  bgColor: "black",
-                  color: "white",
-                  _hover: {
-                    bgColor: "black",
-                    opacity: 0.8,
-                  },
-                }),
+            variant: "solid",
+            colorScheme: "blue",
           }}
         />
       </SimpleGrid>

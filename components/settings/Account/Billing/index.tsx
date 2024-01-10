@@ -24,9 +24,14 @@ interface BillingProps {
 }
 
 export const Billing: React.FC<BillingProps> = ({ account }) => {
-  const mutation = useUpdateAccountPlan();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [saving, setSaving] = useState(false);
+  const updatePlanMutation = useUpdateAccountPlan();
+  const {
+    isOpen: isPaymentMethodOpen,
+    onOpen: onPaymentMethodOpen,
+    onClose: onPaymentMethodClose,
+  } = useDisclosure();
+  const [paymentMethodSaving, setPaymentMethodSaving] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<AccountPlan | undefined>();
   const trackEvent = useTrack();
 
   const [stepsCompleted, setStepsCompleted] = useState<
@@ -60,7 +65,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
       label: "attempt",
     });
 
-    mutation.mutate(
+    updatePlanMutation.mutate(
       {
         plan,
         feedback,
@@ -94,6 +99,11 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   };
 
   const handlePlanSelect = (plan: AccountPlan) => {
+    if (!validPayment) {
+      setSelectedPlan(plan);
+      onPaymentMethodOpen();
+      return;
+    }
     // downgrade from Growth to Free
     if (plan === AccountPlan.Free || account.plan === AccountPlan.Growth) {
       setDowngradePlan(plan);
@@ -103,8 +113,8 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   };
 
   const handlePaymentAdded = () => {
-    setSaving(true);
-    onClose();
+    setPaymentMethodSaving(true);
+    onPaymentMethodClose();
   };
 
   const handleDowngradeAlertClose = () => {
@@ -161,14 +171,14 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         children: (
           <ManageBillingButton
             account={account}
-            loading={saving}
+            loading={paymentMethodSaving}
             loadingText="Verifying payment method"
-            onClick={onOpen}
+            onClick={onPaymentMethodOpen}
           />
         ),
       },
     ];
-  }, [account, stepsCompleted, saving, onOpen]);
+  }, [account, stepsCompleted, paymentMethodSaving, onPaymentMethodOpen]);
 
   useEffect(() => {
     if (account) {
@@ -179,8 +189,19 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         payment: paymentCompleted,
       });
 
-      if (paymentCompleted && saving) {
-        setSaving(false);
+      if (paymentCompleted && paymentMethodSaving) {
+        // user chose a growth plan before adding a payment method,
+        // and didn't have it already set, so update it here when payment
+        // method is available.
+        if (
+          account.plan !== AccountPlan.Growth &&
+          selectedPlan === AccountPlan.Growth
+        ) {
+          handleUpdatePlan(selectedPlan);
+          setSelectedPlan(undefined);
+        }
+
+        setPaymentMethodSaving(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -197,8 +218,14 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         <>
           <StepsCard title="Get started with billing" steps={steps} />
 
-          <OnboardingModal isOpen={isOpen} onClose={onClose}>
-            <OnboardingBilling onSave={handlePaymentAdded} onCancel={onClose} />
+          <OnboardingModal
+            isOpen={isPaymentMethodOpen}
+            onClose={onPaymentMethodClose}
+          >
+            <OnboardingBilling
+              onSave={handlePaymentAdded}
+              onCancel={onPaymentMethodClose}
+            />
           </OnboardingModal>
         </>
       ) : (
@@ -215,7 +242,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         account={account}
         onSelect={handlePlanSelect}
         validPayment={validPayment}
-        loading={mutation.isLoading}
+        loading={paymentMethodSaving || updatePlanMutation.isLoading}
       />
 
       {downgradePlan && (
@@ -225,7 +252,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
           oldPlanFeatures={PLANS[account.plan].features}
           onClose={handleDowngradeAlertClose}
           onConfirm={(feedback) => handleUpdatePlan(downgradePlan, feedback)}
-          loading={mutation.isLoading}
+          loading={updatePlanMutation.isLoading}
         />
       )}
     </Flex>
