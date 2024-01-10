@@ -104,7 +104,7 @@ export const Onboarding: React.FC = () => {
         {
           onSuccess: (data) => {
             if (!skipBilling(data as Account)) {
-              setState("billing");
+              setState("plan");
             }
             (window as any)[GLOBAL_EWS_AUTH_TOKEN_KEY] = undefined;
           },
