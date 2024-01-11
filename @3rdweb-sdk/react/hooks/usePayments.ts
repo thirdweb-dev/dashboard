@@ -147,11 +147,15 @@ export const PaperChainToChainId: Record<string, number> = {
   Optimism: Optimism.chainId,
   OptimismGoerli: OptimismGoerli.chainId,
   ArbitrumOne: Arbitrum.chainId,
+  ArbitrumNova: ArbitrumNova.chainId,
   ArbitrumGoerli: ArbitrumGoerli.chainId,
+  ArbitrumSepolia: ArbitrumSepolia.chainId,
   BSC: Binance.chainId,
   BSCTestnet: BinanceTestnet.chainId,
   Base: Base.chainId,
   BaseGoerli: BaseGoerli.chainId,
+  Zora: Zora.chainId,
+  ZoraTestnet: ZoraTestnet.chainId,
 };
 
 interface SupportedCurrenciesMap {
@@ -338,7 +342,7 @@ export function usePaymentsRegisterContract() {
       const body: RegisterContractInput = {
         ...input,
         contractDefinition: contract.abi,
-        contractAddress: input.contractAddress.toLowerCase(),
+        contractAddress: input.contractAddress,
         chain: ChainIdToPaperChain[parseInt(input.chain)],
         contractType,
         displayName,
