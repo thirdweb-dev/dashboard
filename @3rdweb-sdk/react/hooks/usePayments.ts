@@ -17,6 +17,7 @@ import {
   Optimism,
   OptimismGoerli,
   Polygon,
+  RarichainTestnet,
   Sepolia,
   Zora,
   ZoraTestnet,
@@ -107,8 +108,7 @@ export const validPaymentsChainIdsTestnets: number[] = [
   ZoraTestnet.chainId,
   ArbitrumSepolia.chainId,
   FrameTestnet.chainId,
-  // TODO: add rarichain testnet to Chains and import here.
-  1918988905,
+  RarichainTestnet.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -140,8 +140,7 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [Zora.chainId]: "Zora",
   [ZoraTestnet.chainId]: "ZoraTestnet",
   [FrameTestnet.chainId]: "FrameTestnet",
-  // TODO: add rarichain testnet to Chains and import here.
-  1918988905: "RariChainTestnet",
+  [RarichainTestnet.chainId]: "RariChainTestnet",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -165,8 +164,7 @@ export const PaperChainToChainId: Record<string, number> = {
   Zora: Zora.chainId,
   ZoraTestnet: ZoraTestnet.chainId,
   FrameTestnet: FrameTestnet.chainId,
-  // TODO: add rarichain testnet to Chains and import here.
-  RariChainTestnet: 1918988905,
+  RariChainTestnet: RarichainTestnet.chainId,
 };
 
 interface SupportedCurrenciesMap {
@@ -194,8 +192,7 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [Zora.chainId]: ["ETH"],
   [ZoraTestnet.chainId]: ["ETH"],
   [FrameTestnet.chainId]: ["ETH"],
-  // TODO: add rarichain testnet to Chains and import here.
-  1918988905: ["ETH"],
+  [RarichainTestnet.chainId]: ["ETH"],
 };
 
 const ChainSymbolToChainName: Record<string, string> = {
