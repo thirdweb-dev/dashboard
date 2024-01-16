@@ -5,6 +5,7 @@ import {
 import { Flex } from "@chakra-ui/react";
 import { PaymentsTransactionsTable } from "./payments-transactions-table";
 import { Transaction } from "graphql/generated_types";
+import { Heading } from "tw-components";
 
 interface PaymentsTransactionsProps {
   contractId: string;
@@ -26,14 +27,13 @@ export const PaymentsTransactions: React.FC<PaymentsTransactionsProps> = ({
   );
 
   return (
-    <Flex flexDir="column" gap={12}>
-      {transactions && transactions?.length > 0 ? (
-        <PaymentsTransactionsTable
-          transactions={transactions as Transaction[]}
-          isLoading={isLoading}
-          isFetched={isFetched}
-        />
-      ) : null}
+    <Flex flexDir="column" gap={6}>
+      <Heading size="title.md">Transactions</Heading>
+      <PaymentsTransactionsTable
+        transactions={transactions as Transaction[]}
+        isLoading={isLoading}
+        isFetched={isFetched}
+      />
     </Flex>
   );
 };
