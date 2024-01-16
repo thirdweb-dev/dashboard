@@ -22,7 +22,7 @@ export const Judges = ({ TRACKING_CATEGORY }: JudgesProps) => {
     },
     {
       name: "Parker Jou",
-      twitter: "ahnchrisj",
+      twitter: "theappletucker",
       description: "Founder, CTO at Caldera",
       image: "/assets/landingpage/parker.jpg",
     },
