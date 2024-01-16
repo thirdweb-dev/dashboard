@@ -28,26 +28,26 @@ const Timer = dynamic(() => import("components/hackathon/Timer"), {
   ssr: false,
 });
 
-const TRACKING_CATEGORY = "base-thirdweb-hacakthon";
+const TRACKING_CATEGORY = "caldera-thirdweb-hacakthon";
 
 const Hackathon = () => {
   const trackEvent = useTrack();
   return (
     <DarkMode>
       <NextSeo
-        title="Consumer Crypto Hackathon | Presented by Base & thirdweb"
-        description="Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Base & thirdweb. Learn more & sign up here."
+        title="Consumer Crypto Hackathon | Presented by Caldera & thirdweb"
+        description="Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Caldera & thirdweb. Learn more & sign up here."
         openGraph={{
-          title: "Consumer Crypto Hackathon | Presented by Base & thirdweb",
-          url: "https://thirdweb.com/hackathon/base-consumer-crypto",
+          title: "Consumer Crypto Hackathon | Presented by Caldera & thirdweb",
+          url: "https://thirdweb.com/hackathon/caldera-consumer-crypto",
           description:
-            "Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Base & thirdweb. Learn more & sign up here.",
+            "Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Caldera & thirdweb. Learn more & sign up here.",
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/hackathon.png`,
               width: 1200,
               height: 630,
-              alt: "Consumer Crypto Hackathon | Presented by Base & thirdweb",
+              alt: "Consumer Crypto Hackathon | Presented by Caldera & thirdweb",
             },
           ],
         }}
@@ -119,7 +119,7 @@ const Hackathon = () => {
               letterSpacing={5}
               textAlign="center"
             >
-              DECEMBER 8 - 10
+              FEBRUARY 9 - 11
             </Heading>
 
             <Timer />
@@ -186,7 +186,7 @@ const Hackathon = () => {
                     </ListItem>
                     <ListItem>
                       • Amplification to 500k+ followers on thirdweb and
-                      Base&apos;s social channels
+                      Caldera&apos;s social channels
                     </ListItem>
                     <ListItem>
                       • $50 Gas Sponsorship for every hackathon builder
@@ -214,7 +214,7 @@ const Hackathon = () => {
                       Engine, Embedded Wallets, and/or Account Abstraction
                     </ListItem>
                     <ListItem>
-                      • Must be deployed on Base testnet or mainnet
+                      • Must be deployed on Caldera testnet or mainnet
                     </ListItem>
                     <ListItem>• Code must be open-source</ListItem>
                     <ListItem>
@@ -272,7 +272,7 @@ const Hackathon = () => {
                     </ListItem>
                     <ListItem>
                       <b>2. Ecosystem Impact:</b> How impactful and useful is
-                      this app in the Base ecosystem as a whole?
+                      this app in the Caldera ecosystem as a whole?
                     </ListItem>
                     <ListItem>
                       <b>3. Originality, Creativity, and Innovation:</b> How

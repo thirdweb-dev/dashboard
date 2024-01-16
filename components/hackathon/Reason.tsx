@@ -19,7 +19,7 @@ const Reason = () => {
         </Text>
 
         <Text textAlign="left" size="body.xl" color="white">
-          We&apos;re partnering with Base to host the{" "}
+          We&apos;re partnering with Caldera to host the{" "}
           <b>Consumer Crypto Hackathon</b> — bringing the hungriest builders to
           San Francisco to{" "}
           <b>discover the next billion-dollar web3 consumer app.</b>&nbsp;Get
