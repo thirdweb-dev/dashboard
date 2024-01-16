@@ -1,24 +1,14 @@
-import { Flex } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Chain } from "@thirdweb-dev/chains";
-import { ContractWithMetadata } from "@thirdweb-dev/sdk";
-import {
-  AsyncContractNameCell,
-  AsyncContractTypeCell,
-} from "components/contract-components/tables/cells";
-import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
-import { fetchChain } from "utils/fetchChain";
-import { LinkButton, Text } from "tw-components";
-import {
-  usePaymentsSellerByAccountId,
-  validPaymentsChainIdsMainnets,
-} from "@3rdweb-sdk/react/hooks/usePayments";
+import { Card, Text } from "tw-components";
+import { FiatCurrency } from "@3rdweb-sdk/react/hooks/usePayments";
 import { Transaction } from "graphql/generated_types";
+import { baseFiatCurrencyUnitToCurrency, prettyPrintPrice } from "./utils";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import { Tooltip } from "@chakra-ui/react";
+import { format, formatDistanceToNowStrict } from "date-fns";
 
-interface PaymentContractsTableProps {
+interface PaymentsTransactionsTableProps {
   transactions: Transaction[];
   isLoading: boolean;
   isFetched: boolean;
@@ -26,96 +16,86 @@ interface PaymentContractsTableProps {
 
 const columnHelper = createColumnHelper<Transaction>();
 
-export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
-  transactions,
-  isLoading,
-  isFetched,
-}) => {
-  const queryClient = useQueryClient();
-
+export const PaymentsTransactionsTable: React.FC<
+  PaymentsTransactionsTableProps
+> = ({ transactions, isLoading, isFetched }) => {
   const columns = [
     columnHelper.accessor((row) => row, {
       header: "Fiat Value",
       cell: (cell) => {
+        const fiatCurrency =
+          cell.row.original.fiat_currency || FiatCurrency.USD;
         return (
           <Text>
-            {cell.row.original.value_in_currency}{" "}
-            {cell.row.original.fiat_currency}
+            {prettyPrintPrice({
+              price: baseFiatCurrencyUnitToCurrency({
+                value: cell.row.original.total_price_usd_cents || 0,
+                fiatCurrency,
+              }),
+              currency: fiatCurrency,
+            })}
           </Text>
         );
       },
     }),
+
     columnHelper.accessor((row) => row, {
-      header: "Fiat Value",
+      header: "Crypto Value",
       cell: (cell) => {
+        const value = cell.row.original.value_in_currency
+          ? parseFloat(cell.row.original.value_in_currency) *
+            cell.row.original.quantity
+          : 0;
         return (
           <Text>
-            {cell.row.original.}{" "}
-            {cell.row.original.fiat_currency}
+            {value} {cell.row.original.currency || ""}
           </Text>
         );
       },
     }),
-    columnHelper.accessor("chainId", {
-      header: "Chain",
+    columnHelper.accessor("wallet_address", {
+      header: "Created At",
       cell: (cell) => {
-        const chainId = cell.getValue();
-        if (!chainId) {
+        const walletAddress = cell.getValue();
+
+        if (!walletAddress) {
+          return null;
+        }
+
+        return <AddressCopyButton address={walletAddress || ""} />;
+      },
+    }),
+    columnHelper.accessor("payment_method", {
+      header: "Payment Method",
+      cell: (cell) => {
+        return (
+          <Text>{parsePaymentMethod(cell.getValue() as PaymentMethod)}</Text>
+        );
+      },
+    }),
+    columnHelper.accessor("created_at", {
+      header: "Created At",
+      cell: (cell) => {
+        const value = cell.getValue();
+        if (!value) {
           return;
         }
 
-        const chain = queryClient.getQueryData<Chain>([
-          "chainDetails",
-          chainId,
-        ]);
-        if (chain) {
-          return (
-            <Flex align="center" gap={2}>
-              <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
-              <Text>{cleanChainName(chain.name)}</Text>
-            </Flex>
-          );
-        }
-
-        queryClient.prefetchQuery(["chainDetails", chainId], () =>
-          fetchChain(chainId),
-        );
-      },
-    }),
-    columnHelper.accessor("address", {
-      header: "Address",
-      cell: (cell) => {
-        const address = cell.getValue();
-        return <AddressCopyButton address={address} />;
-      },
-    }),
-    columnHelper.accessor((row) => row.address, {
-      header: "",
-      id: "actions",
-      cell: (cell) => {
-        const contractAddress = cell.getValue();
-        const chainId = cell.row.original.chainId;
-
-        const isMainnet = validPaymentsChainIdsMainnets.includes(chainId ?? 0);
-
-        if (isMainnet && !sellerData?.has_production_access) {
-          return (
-            <LinkButton
-              colorScheme="blackAlpha"
-              size="sm"
-              w="full"
-              href="/dashboard/payments/settings"
-            >
-              Verification Required
-            </LinkButton>
-          );
-        }
-
+        const date = new Date(value);
         return (
-          <EnablePaymentsButton
-            contractAddress={contractAddress}
-            chainId={chainId}
-          />
+          <Tooltip
+            borderRadius="md"
+            bg="transparent"
+            boxShadow="none"
+            label={
+              <Card bgColor="backgroundHighlight">
+                <Text>{format(date, "PP pp z")}</Text>
+              </Card>
+            }
+            shouldWrapChildren
+          >
+            <Text>{formatDistanceToNowStrict(date, { addSuffix: true })}</Text>
+          </Tooltip>
         );
       },
     }),
@@ -133,4 +113,35 @@ export const PaymentContractsTable: React.FC<PaymentContractsTableProps> = ({
       }}
     />
   );
+};
+
+export enum PaymentMethod {
+  NATIVE_MINT = "NATIVE_MINT",
+  BUY_WITH_CARD = "BUY_WITH_CARD",
+  BUY_WITH_BANK = "BUY_WITH_BANK",
+  BUY_WITH_CRYPTO = "BUY_WITH_CRYPTO",
+  ENQUEUED_JOB = "ENQUEUED_JOB",
+  FREE_CLAIM_AND_TRANSFER = "FREE_CLAIM_AND_TRANSFER",
+  BUY_WITH_IDEAL = "BUY_WITH_IDEAL",
+}
+
+const parsePaymentMethod = (paymentMethod: PaymentMethod) => {
+  switch (paymentMethod) {
+    case PaymentMethod.NATIVE_MINT:
+      return "Mint";
+    case PaymentMethod.BUY_WITH_CARD:
+      return "Card";
+    case PaymentMethod.BUY_WITH_BANK:
+      return "Bank";
+    case PaymentMethod.BUY_WITH_CRYPTO:
+      return "Crypto";
+    case PaymentMethod.ENQUEUED_JOB:
+      return "Job";
+    case PaymentMethod.FREE_CLAIM_AND_TRANSFER:
+      return "Free Claim";
+    case PaymentMethod.BUY_WITH_IDEAL:
+      return "iDEAL";
+    default:
+      return "Unknown";
+  }
 };

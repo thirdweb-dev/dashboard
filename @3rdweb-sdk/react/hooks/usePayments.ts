@@ -66,7 +66,6 @@ import {
   useCheckoutsByContractAddressLazyQuery,
 } from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
 import {
-  TransactionsAndAttemptsPerPageByCheckoutIdQuery,
   TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
   useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery,
 } from "graphql/queries/__generated__/TransactionsAndAttemptsPerPageByCheckoutId.generated";
@@ -77,6 +76,7 @@ export const paymentsExtensions: FeatureName[] = [
   "ERC721ClaimConditionsV2",
   "ERC1155ClaimPhasesV1",
   "ERC1155ClaimPhasesV2",
+  "DirectListings",
 ];
 
 export const hasPaymentsDetectedExtensions = (
@@ -813,6 +813,24 @@ export enum FiatCurrency {
   NZD = "NZD",
 }
 
+export const FiatCurrencies = Object.values(FiatCurrency) as string[];
+
+const _FiatCurrencyDecimals: Record<FiatCurrency, number> = {
+  [FiatCurrency.USD]: 2,
+  [FiatCurrency.EUR]: 2,
+  [FiatCurrency.JPY]: 0,
+  [FiatCurrency.GBP]: 2,
+  [FiatCurrency.AUD]: 2,
+  [FiatCurrency.CAD]: 2,
+  [FiatCurrency.CHF]: 2,
+  [FiatCurrency.CNH]: 2,
+  [FiatCurrency.HKD]: 2,
+  [FiatCurrency.NZD]: 2,
+} as const;
+export const FiatCurrencyDecimals: Record<string, number> = {
+  ..._FiatCurrencyDecimals,
+};
+
 const WALLET_TYPE = "wallet_type";
 const PAYMENT_METHOD = "payment_method";
 export function parseAnalyticOverviewData(data: any[]): any[] {
@@ -1145,29 +1163,69 @@ export function usePaymentsTransactions(checkoutId: string) {
   const [getPageTransactionsAndAttemptsByCheckoutId] =
     useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery();
 
-  console.log({ checkoutId });
-
   return useQuery(
     paymentsKeys.transactions(checkoutId),
     async () => {
-      const { data, error, ...rest } =
-        await getPageTransactionsAndAttemptsByCheckoutId({
-          variables: {
-            checkoutId,
-            limit: 5000,
-            offset: 0,
-            dynamicFilters: [],
-          } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
-        });
+      const { data, error } = await getPageTransactionsAndAttemptsByCheckoutId({
+        variables: {
+          checkoutId,
+          limit: 100,
+          offset: 0,
+          dynamicFilters: [],
+        } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
+      });
 
       if (error) {
         console.error(error);
       }
 
-      console.log({ data, rest });
-
       return data && data.transaction.length > 0 ? data.transaction : [];
     },
     { enabled: !!address && !!checkoutId },
+  );
+}
+
+export function usePaymentsTransactionsForContract(
+  contractId: string,
+  checkoutIds: string[],
+) {
+  invariant(contractId, "contractId is required");
+  const address = useAddress();
+  const [getPageTransactionsAndAttemptsByCheckoutId] =
+    useTransactionsAndAttemptsPerPageByCheckoutIdLazyQuery();
+
+  return useQuery(
+    paymentsKeys.transactionsForContract(contractId),
+    async () => {
+      const idsToFetch = [contractId, ...checkoutIds];
+
+      const fetchedTxns = (
+        await Promise.all(
+          idsToFetch.map(async (id) => {
+            invariant(id, "id is required");
+
+            const { data } = await getPageTransactionsAndAttemptsByCheckoutId({
+              variables: {
+                checkoutId: id,
+                limit: 100,
+                offset: 0,
+                dynamicFilters: [],
+              } as TransactionsAndAttemptsPerPageByCheckoutIdQueryVariables,
+            });
+
+            return data && data.transaction.length > 0 ? data.transaction : [];
+          }),
+        )
+      ).flat();
+
+      return fetchedTxns.length > 0
+        ? fetchedTxns.sort((a, b) => {
+            const dateA = new Date(a.created_at).getTime();
+            const dateB = new Date(b.created_at).getTime();
+            return dateB - dateA;
+          })
+        : [];
+    },
+    { enabled: !!address && !!contractId && !!checkoutIds.length },
   );
 }

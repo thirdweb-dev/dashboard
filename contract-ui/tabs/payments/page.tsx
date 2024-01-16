@@ -72,7 +72,10 @@ export const ContractPaymentsPage: React.FC<ContractPaymentsPageProps> = ({
             contractAddress={contractAddress}
             paymentContractType={paymentContract?.type}
           />
-          <PaymentsTransactions contractId={paymentContract?.id} />
+          <PaymentsTransactions
+            contractId={paymentContract?.id}
+            contractAddress={contractAddress}
+          />
           <PaymentsAnalytics contractId={paymentContract?.id} />
         </Flex>
       ) : isError ? (
