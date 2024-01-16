@@ -80,9 +80,9 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            The complete web3
+            The full-stack
             <br />
-            development toolkit
+            web3 platform
           </Heading>
           <Heading
             as="h3"
