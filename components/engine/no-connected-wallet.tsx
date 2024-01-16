@@ -1,6 +1,6 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Divider, Flex, Stack } from "@chakra-ui/react";
-import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { EngineOverviewDescription } from "./overview/engine-description";
 
 export const EngineNoConnectedWallet: React.FC = () => {
@@ -15,7 +15,7 @@ export const EngineNoConnectedWallet: React.FC = () => {
           backend wallets. Reliably send blockchain transactions, manage smart
           wallets, enable gasless transactions, and more.{" "}
           <TrackedLink
-            href="https://portal.thirdweb.com/engine"
+            href="https://portal.thirdweb.com/infrastructure/engine/overview"
             isExternal
             category="engine"
             label="clicked-learn-more"

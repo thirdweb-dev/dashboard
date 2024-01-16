@@ -178,11 +178,11 @@ export const YourFilesSection: React.FC = () => {
     pageSize: DEFAULT_PAGE_SIZE,
   });
   const selectData = useCallback(
-    (data?: PinnedFilesResponse) => data?.result.pinnedFiles || [],
+    (data?: PinnedFilesResponse) => data?.result?.pinnedFiles || [],
     [],
   );
   const selectTotalCount = useCallback(
-    (data?: PinnedFilesResponse) => data?.result.count || 0,
+    (data?: PinnedFilesResponse) => data?.result?.count || 0,
     [],
   );
   return (
