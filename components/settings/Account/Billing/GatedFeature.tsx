@@ -86,9 +86,7 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
               py={6}
               px={6}
             >
-              {account.trialPeriodEndedAt
-                ? "Upgrade"
-                : `Start a Free ${PLANS.growth.trialPeriodDays} Day Trial`}
+              Upgrade
             </TrackedLinkButton>
           </Box>
         </Flex>

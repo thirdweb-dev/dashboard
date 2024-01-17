@@ -1,7 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { Account, AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { PricingCard } from "components/homepage/sections/PricingCard";
-import { PLANS } from "utils/pricing";
 import { useMemo } from "react";
 
 interface BillingPricingProps {
@@ -31,23 +30,16 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
   }, [account, validPayment]);
 
   const growthCtaTitle = useMemo(() => {
-    const defaultTitle = `Start a ${PLANS.growth.trialPeriodDays} day Free Trial`;
     if (!validPayment) {
-      return defaultTitle;
+      return "Get started";
     }
     // pro/enterprise cant change plan
     if (isPro) {
-      return "Contact Sales";
+      return "Contact us";
     }
 
     if (account.plan === AccountPlan.Free) {
-      // already had trial
-      if (account.trialPeriodEndedAt) {
-        return "Upgrade";
-      } else {
-        // never been on paid plan with trial
-        return defaultTitle;
-      }
+      return "Upgrade";
     }
   }, [account, validPayment, isPro]);
 
@@ -57,7 +49,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
     }
 
     if (!isPro) {
-      return "Contact Sales";
+      return "Contact us";
     }
   }, [isPro, validPayment]);
 

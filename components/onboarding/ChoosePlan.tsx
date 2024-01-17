@@ -76,7 +76,7 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
         <PricingCard
           size="sm"
           name={AccountPlan.Free}
-          ctaTitle="Get Started"
+          ctaTitle="Get started for free"
           ctaProps={{
             category: "account",
             onClick: (e) => {
@@ -91,7 +91,7 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
         <PricingCard
           size="sm"
           name={AccountPlan.Growth}
-          ctaTitle={`Start ${PLANS.growth.trialPeriodDays} day Free Trial`}
+          ctaTitle={"Get started"}
           ctaProps={{
             category: "account",
             label: "growthPlan",

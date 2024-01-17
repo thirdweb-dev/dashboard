@@ -31,7 +31,7 @@ export const PLANS: {
     price: 99,
     title: "Growth",
     subTitle: "Everything in Starter, plus:",
-    trialPeriodDays: 14,
+    trialPeriodDays: 0,
     description: "Ideal for production-grade applications.",
     features: [
       "10,000 monthly active wallets",
