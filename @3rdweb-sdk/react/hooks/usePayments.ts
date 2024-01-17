@@ -202,6 +202,8 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [ZoraTestnet.chainId]: ["ETH"],
   [FrameTestnet.chainId]: ["ETH"],
   [RarichainTestnet.chainId]: ["ETH"],
+  [Xai.chainId]: ["XAI"],
+  [XaiSepolia.chainId]: ["XAI"],
 };
 
 const ChainSymbolToChainName: Record<string, string> = {
