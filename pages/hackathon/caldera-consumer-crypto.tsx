@@ -102,7 +102,7 @@ const Hackathon = () => {
             />
 
             <ChakraNextImage
-              src={require("public/assets/landingpage/calderaxtw.png")}
+              src={require("public/assets/landingpage/thirdwebw.svg")}
               alt="Hackathon"
               maxW={{ base: "full", md: "xl" }}
             />
