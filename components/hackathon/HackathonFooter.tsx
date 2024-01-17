@@ -26,7 +26,7 @@ export const HackathonFooter = ({
       px={6}
     >
       <ChakraNextImage
-        src={require("public/assets/landingpage/base-tw-logo.svg")}
+        src={require("public/assets/landingpage/calderaxtw.png")}
         alt="hackathon-partner"
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
