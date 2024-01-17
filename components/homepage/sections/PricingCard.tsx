@@ -32,6 +32,8 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   highlighted = false,
   current = false,
 }) => {
+  const isCustomPrice = typeof PLANS[name].price === "string";
+
   const content = (
     <Card
       w="full"
@@ -42,7 +44,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
       h="full"
       zIndex={999}
       background={highlighted ? "black" : "transparent"}
-      borderColor={current ? "blue.500" : undefined}
+      borderColor={current ? "blue.500" : "gray.900"}
       {...cardProps}
     >
       <Flex flexDir="column" gap={6}>
@@ -74,9 +76,10 @@ export const PricingCard: React.FC<PricingCardProps> = ({
             size={size === "lg" ? "title.2xl" : "title.md"}
             lineHeight={1}
           >
-            ${PLANS[name].price}
+            {!isCustomPrice && "$"}
+            {PLANS[name].price}
           </Heading>
-          <Text size="body.lg">/ month</Text>
+          {!isCustomPrice && <Text size="body.lg">/ month</Text>}
         </Flex>
       </Flex>
       <Flex
