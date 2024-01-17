@@ -269,7 +269,7 @@ const Hackathon = () => {
                     </ListItem>
                     <ListItem>
                       <b>2. Ecosystem Impact:</b> How impactful and useful is
-                      this app in the Caldera ecosystem as a whole?
+                      this app in the web3 ecosystem as a whole?
                     </ListItem>
                     <ListItem>
                       <b>3. Originality, Creativity, and Innovation:</b> How

@@ -10,7 +10,7 @@ const faqs = [
   {
     title: "Where is the hackathon held?",
     description:
-      "This will be an in-person event held at the thirdweb offices in San Francisco. Teams will receive invites with a Location following registration.",
+      "This will be an in-person event held at the thirdweb offices in San Francisco. Teams will receive invites with a location following registration.",
   },
   {
     title: "Who is eligible to participate in the hackathon?",
