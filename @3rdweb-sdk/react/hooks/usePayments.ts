@@ -21,6 +21,7 @@ import {
   Sepolia,
   Xai,
   XaiSepolia,
+  ZksyncSepoliaTestnet,
   Zora,
   ZoraTestnet,
 } from "@thirdweb-dev/chains";
@@ -146,7 +147,6 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [FrameTestnet.chainId]: "FrameTestnet",
   [RarichainTestnet.chainId]: "RariChainTestnet",
   [Xai.chainId]: "Xai",
-  // TODO: Update this to use the XaiSepolia when generated.
   [XaiSepolia.chainId]: "XaiSepolia",
 };
 
@@ -173,7 +173,6 @@ export const PaperChainToChainId: Record<string, number> = {
   FrameTestnet: FrameTestnet.chainId,
   RariChainTestnet: RarichainTestnet.chainId,
   Xai: Xai.chainId,
-  // TODO: Update this to use the XaiSepolia when generated.
   XaiSepolia: XaiSepolia.chainId,
 };
 
@@ -421,16 +420,16 @@ export type CreateUpdateCheckoutInput = {
   brandDarkMode?: boolean;
   brandButtonShape?: "full" | "lg" | "none";
   brandColorScheme?:
-    | "gray"
-    | "red"
-    | "orange"
-    | "yellow"
-    | "green"
-    | "teal"
-    | "blue"
-    | "cyan"
-    | "purple"
-    | "pink";
+  | "gray"
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "teal"
+  | "blue"
+  | "cyan"
+  | "purple"
+  | "pink";
   thirdwebClientId: string;
   checkoutId?: string;
 };
@@ -449,8 +448,7 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
       return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
         token,
         "POST",
-        `${apiDate}/shareable-checkout-link${
-          input?.checkoutId ? `/${input.checkoutId} ` : ""
+        `${apiDate}/shareable-checkout-link${input?.checkoutId ? `/${input.checkoutId} ` : ""
         }`,
         input,
       );
@@ -978,12 +976,12 @@ export function usePaymentsWebhooksById(paymentsSellerId: string) {
 
       return data && data?.webhook.length > 0
         ? (data.webhook.map((webhook) => ({
-            id: webhook.id,
-            sellerId: webhook.seller_id,
-            url: webhook.url,
-            isProduction: webhook.is_production,
-            createdAt: new Date(webhook.created_at),
-          })) as PaymentsWebhooksType[])
+          id: webhook.id,
+          sellerId: webhook.seller_id,
+          url: webhook.url,
+          isProduction: webhook.is_production,
+          createdAt: new Date(webhook.created_at),
+        })) as PaymentsWebhooksType[])
         : ([] as PaymentsWebhooksType[]);
     },
     { enabled: !!paymentsSellerId },
