@@ -20,6 +20,7 @@ import {
   RarichainTestnet,
   Sepolia,
   Xai,
+  XaiSepolia,
   Zora,
   ZoraTestnet,
 } from "@thirdweb-dev/chains";
@@ -111,8 +112,7 @@ export const validPaymentsChainIdsTestnets: number[] = [
   FrameTestnet.chainId,
   RarichainTestnet.chainId,
   Xai.chainId,
-  // TODO: Update this to use the XaiSepolia when generated.
-  37714555429,
+  XaiSepolia.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -147,7 +147,7 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [RarichainTestnet.chainId]: "RariChainTestnet",
   [Xai.chainId]: "Xai",
   // TODO: Update this to use the XaiSepolia when generated.
-  37714555429: "XaiSepolia",
+  [XaiSepolia.chainId]: "XaiSepolia",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -174,7 +174,7 @@ export const PaperChainToChainId: Record<string, number> = {
   RariChainTestnet: RarichainTestnet.chainId,
   Xai: Xai.chainId,
   // TODO: Update this to use the XaiSepolia when generated.
-  XaiSepolia: 37714555429,
+  XaiSepolia: XaiSepolia.chainId,
 };
 
 interface SupportedCurrenciesMap {
@@ -421,16 +421,16 @@ export type CreateUpdateCheckoutInput = {
   brandDarkMode?: boolean;
   brandButtonShape?: "full" | "lg" | "none";
   brandColorScheme?:
-  | "gray"
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "teal"
-  | "blue"
-  | "cyan"
-  | "purple"
-  | "pink";
+    | "gray"
+    | "red"
+    | "orange"
+    | "yellow"
+    | "green"
+    | "teal"
+    | "blue"
+    | "cyan"
+    | "purple"
+    | "pink";
   thirdwebClientId: string;
   checkoutId?: string;
 };
@@ -449,7 +449,8 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
       return fetchFromPaymentsAPI<CreateUpdateCheckoutInput>(
         token,
         "POST",
-        `${apiDate}/shareable-checkout-link${input?.checkoutId ? `/${input.checkoutId} ` : ""
+        `${apiDate}/shareable-checkout-link${
+          input?.checkoutId ? `/${input.checkoutId} ` : ""
         }`,
         input,
       );
@@ -977,12 +978,12 @@ export function usePaymentsWebhooksById(paymentsSellerId: string) {
 
       return data && data?.webhook.length > 0
         ? (data.webhook.map((webhook) => ({
-          id: webhook.id,
-          sellerId: webhook.seller_id,
-          url: webhook.url,
-          isProduction: webhook.is_production,
-          createdAt: new Date(webhook.created_at),
-        })) as PaymentsWebhooksType[])
+            id: webhook.id,
+            sellerId: webhook.seller_id,
+            url: webhook.url,
+            isProduction: webhook.is_production,
+            createdAt: new Date(webhook.created_at),
+          })) as PaymentsWebhooksType[])
         : ([] as PaymentsWebhooksType[]);
     },
     { enabled: !!paymentsSellerId },
