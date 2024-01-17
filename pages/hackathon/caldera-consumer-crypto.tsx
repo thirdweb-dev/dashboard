@@ -181,12 +181,12 @@ const Hackathon = () => {
                     <ListItem>• 1 ETH for 1st Place</ListItem>
                     <ListItem>
                       • Meet & present to top industry leaders, operators, and
-                      investors in crypto — from Coinbase, Haun Ventures,
-                      Founders Inc. and Framework Ventures
+                      investors in crypto — from Caldera, Founders Inc. and Haun
+                      Ventures
                     </ListItem>
                     <ListItem>
-                      • Amplification to 500k+ followers on thirdweb and
-                      Caldera&apos;s social channels
+                      • Amplification to 70k+ followers on thirdweb&apos;s
+                      social channels
                     </ListItem>
                     <ListItem>
                       • $50 Gas Sponsorship for every hackathon builder
@@ -213,9 +213,6 @@ const Hackathon = () => {
                       • Built using any of the following thirdweb products:
                       Engine, Embedded Wallets, and/or Account Abstraction
                     </ListItem>
-                    <ListItem>
-                      • Must be deployed on Caldera testnet or mainnet
-                    </ListItem>
                     <ListItem>• Code must be open-source</ListItem>
                     <ListItem>
                       • Project must be submitted through GitHub, with a
@@ -227,7 +224,7 @@ const Hackathon = () => {
                 <Text size="body.xl" color="white">
                   Participants will be able to submit their project to the form
                   in the hackathon landing page before the deadline, on{" "}
-                  <b>December 10th at 9:00am PST</b>.
+                  <b>February 11th at 9:00am PST</b>.
                 </Text>
               </Flex>
             </Flex>
