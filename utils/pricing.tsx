@@ -91,15 +91,15 @@ export const SECTIONS = [
       },
       {
         title: "Engine instance (Basic)",
-        starter: "$99/month",
-        growth: "$99/month",
+        starter: "$99/instance",
+        growth: "$99/instance",
         pro: "Custom",
       },
       {
         title: "Engine instance (Advanced)",
         hint: "Advanced instance has fail-over, auto-scaling & auto back-ups.",
-        starter: "$299/month",
-        growth: "$299/month",
+        starter: "$299/instance",
+        growth: "$299/instance",
         pro: "Custom",
       },
       {
