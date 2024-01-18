@@ -37,6 +37,7 @@ import {
   FormLabel,
   LinkButton,
   Text,
+  TrackedCopyButton,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { AddModalInput, parseAddressListRaw } from "./add-relayer-button";
@@ -133,6 +134,20 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
             ? `${allowedForwarders.length} address`
             : `${allowedForwarders.length} addresses`;
         return <Text>{value}</Text>;
+      },
+    }),
+    columnHelper.accessor("id", {
+      header: "URL",
+      cell: (cell) => {
+        const id = cell.getValue();
+        const url = `${instanceUrl}relayer/${id}`;
+        return (
+          <TrackedCopyButton
+            value={url}
+            category="engine"
+            aria-label="Copy to clipboard"
+          />
+        );
       },
     }),
   ];

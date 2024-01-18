@@ -54,7 +54,16 @@ func main() {
   // And verify the address of the logged in wallet
   address, err := sdk.Auth.Verify(payload)
 }`,
-  unity: ``,
+  unity: `using Thirdweb;
+
+// Reference the SDK
+var sdk = ThirdwebManager.Instance.SDK;
+
+// Generate and sign
+LoginPayload data = await ThirdwebManager.Instance.SDK.wallet.Authenticate("example.com");
+
+// Verify
+string result = await ThirdwebManager.Instance.SDK.wallet.Verify(data);`,
 };
 
 const DashboardWalletsAuth: ThirdwebNextPage = () => {
@@ -76,7 +85,7 @@ const DashboardWalletsAuth: ThirdwebNextPage = () => {
             <TrackedLink
               category={TRACKING_CATEGORY}
               label="learn-more"
-              href="https://portal.thirdweb.com/auth"
+              href="https://portal.thirdweb.com/wallets/auth"
               color="blue.500"
               isExternal
             >
@@ -116,7 +125,7 @@ const DashboardWalletsAuth: ThirdwebNextPage = () => {
                   category={TRACKING_CATEGORY}
                   label="docs"
                   trackingProps={{ breakdown: "full-docs" }}
-                  href="https://portal.thirdweb.com/auth"
+                  href="https://portal.thirdweb.com/wallets/auth"
                   isExternal
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
@@ -146,7 +155,7 @@ const DashboardWalletsAuth: ThirdwebNextPage = () => {
                   category={TRACKING_CATEGORY}
                   label="guides"
                   trackingProps={{ breakdown: "getting-started" }}
-                  href="https://portal.thirdweb.com/auth/getting-started"
+                  href="https://portal.thirdweb.com/wallets/auth/get-started"
                   isExternal
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"

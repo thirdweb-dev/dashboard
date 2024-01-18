@@ -11,12 +11,16 @@ import {
   Binance,
   BinanceTestnet,
   Ethereum,
+  FrameTestnet,
   Goerli,
   Mumbai,
   Optimism,
   OptimismGoerli,
   Polygon,
+  RarichainTestnet,
   Sepolia,
+  Xai,
+  XaiSepolia,
   Zora,
   ZoraTestnet,
 } from "@thirdweb-dev/chains";
@@ -109,6 +113,10 @@ export const validPaymentsChainIdsTestnets: number[] = [
   BaseGoerli.chainId,
   ZoraTestnet.chainId,
   ArbitrumSepolia.chainId,
+  FrameTestnet.chainId,
+  RarichainTestnet.chainId,
+  Xai.chainId,
+  XaiSepolia.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -139,6 +147,10 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [BaseGoerli.chainId]: "BaseGoerli",
   [Zora.chainId]: "Zora",
   [ZoraTestnet.chainId]: "ZoraTestnet",
+  [FrameTestnet.chainId]: "FrameTestnet",
+  [RarichainTestnet.chainId]: "RariChainTestnet",
+  [Xai.chainId]: "Xai",
+  [XaiSepolia.chainId]: "XaiSepolia",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -152,11 +164,19 @@ export const PaperChainToChainId: Record<string, number> = {
   Optimism: Optimism.chainId,
   OptimismGoerli: OptimismGoerli.chainId,
   ArbitrumOne: Arbitrum.chainId,
+  ArbitrumNova: ArbitrumNova.chainId,
   ArbitrumGoerli: ArbitrumGoerli.chainId,
+  ArbitrumSepolia: ArbitrumSepolia.chainId,
   BSC: Binance.chainId,
   BSCTestnet: BinanceTestnet.chainId,
   Base: Base.chainId,
   BaseGoerli: BaseGoerli.chainId,
+  Zora: Zora.chainId,
+  ZoraTestnet: ZoraTestnet.chainId,
+  FrameTestnet: FrameTestnet.chainId,
+  RariChainTestnet: RarichainTestnet.chainId,
+  Xai: Xai.chainId,
+  XaiSepolia: XaiSepolia.chainId,
 };
 
 interface SupportedCurrenciesMap {
@@ -183,6 +203,10 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [BaseGoerli.chainId]: ["ETH"],
   [Zora.chainId]: ["ETH"],
   [ZoraTestnet.chainId]: ["ETH"],
+  [FrameTestnet.chainId]: ["ETH"],
+  [RarichainTestnet.chainId]: ["ETH"],
+  [Xai.chainId]: ["XAI"],
+  [XaiSepolia.chainId]: ["XAI"],
 };
 
 const ChainSymbolToChainName: Record<string, string> = {
@@ -343,7 +367,7 @@ export function usePaymentsRegisterContract() {
       const body: RegisterContractInput = {
         ...input,
         contractDefinition: contract.abi,
-        contractAddress: input.contractAddress.toLowerCase(),
+        contractAddress: input.contractAddress,
         chain: ChainIdToPaperChain[parseInt(input.chain)],
         contractType,
         displayName,

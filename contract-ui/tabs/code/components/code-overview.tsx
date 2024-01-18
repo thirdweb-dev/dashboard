@@ -93,8 +93,8 @@ import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 function App() {
   return (
-    <ThirdwebProvider 
-      activeChain={{chainName}} 
+    <ThirdwebProvider
+      activeChain={{chainName}}
       clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
     >
       <Component />
@@ -110,7 +110,7 @@ import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
 
 function App() {
   return (
-    <ThirdwebProvider 
+    <ThirdwebProvider
       activeChain={{chainName}}
       clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
     >
@@ -136,12 +136,11 @@ contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
 
-private void Start() {
-    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}", chainId, new ThirdwebSDK.Options() { 
-      clientId = myClientId // you can get client id from dashboard settings
-    });
-    Contract myContract = SDK.GetContract("{{contract_address}}");
-}`,
+// Reference the SDK
+var sdk = ThirdwebManager.Instance.SDK;
+
+// Get your contract
+var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
     javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
@@ -433,7 +432,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                   the{" "}
                   <TrackedLink
                     isExternal
-                    href="https://portal.thirdweb.com/wallet/smart-wallet"
+                    href="https://portal.thirdweb.com/references/wallets/latest/SmartWallet"
                     category="accounts-page"
                     label="wallet-sdk"
                     color="primary.500"
