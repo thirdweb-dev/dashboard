@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
-import { ImportModal } from "components/contract-components/import-contract/modal";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { StepsCard } from "components/dashboard/StepsCard";
 import { ContractsSidebar } from "core-ui/sidebar/contracts";
@@ -103,8 +102,6 @@ const DeployOptions = () => {
 
   return (
     <>
-      <ImportModal isOpen={modalState.isOpen} onClose={modalState.onClose} />
-
       <Tabs isFitted>
         <TabList>
           {Object.entries(content).map(([key, value]) => (
