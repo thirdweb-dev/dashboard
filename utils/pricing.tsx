@@ -222,6 +222,31 @@ export const FAQ_GENERAL = [
       </Text>
     ),
   },
+  {
+    title: "How is pricing calculated for embedded wallets?",
+    description: (
+      <Text>
+        Embedded wallets are billed based on &quot;Monthly active wallets&quot;.
+      </Text>
+    ),
+  },
+  {
+    title: "What is a Monthly Active Wallet?",
+    description: (
+      <Text>
+        A Monthly Active Wallet is defined as a wallet where a user logs in
+        during the billing period.
+      </Text>
+    ),
+  },
+  {
+    title: "Do you have an implementation fee?",
+    description: (
+      <Text>
+        No, we do not have any implementation fees for any of our plans.
+      </Text>
+    ),
+  },
 ];
 
 export const FAQ_PRICING = [
