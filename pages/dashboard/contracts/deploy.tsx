@@ -78,12 +78,6 @@ const DeployOptions = () => {
           "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
         href: "/explore",
       },
-      import: {
-        title: "Import",
-        description:
-          "Import an already deployed contract to build apps on top of contract using thirdweb tools..",
-        onClick: modalState.onOpen,
-      },
       build: {
         title: "Build your own",
         description:
@@ -196,7 +190,7 @@ const Contracts: ThirdwebNextPage = () => {
       },
 
       {
-        title: "Build, deploy or import a contract",
+        title: "Build or deploy a contract",
         description:
           "Choose between deploying your own contract or import an existing one.",
         children: <DeployOptions />,
