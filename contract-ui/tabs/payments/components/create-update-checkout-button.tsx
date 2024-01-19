@@ -463,7 +463,7 @@ export const CreateUpdateCheckoutButton: React.FC<
             You don&apos;t have claim conditions,{" "}
             <TrackedLink
               textDecor="underline"
-              href={`/${chainSlug}/${contractAddress}/nfts`}
+              href={`/${chainSlug}/${contractAddress}/claim-conditions`}
               category="payments"
               label="no-claim-conditions-alert"
             >
