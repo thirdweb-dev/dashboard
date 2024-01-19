@@ -184,7 +184,7 @@ export const FAQ_GENERAL = [
         thirdweb Starter plan is completely usage based. Simply connect your
         wallet to start using thirdweb platform. You only need to create an
         account with your email address and add payment method when you&apos;re
-        approaching your monthly free usage limits (so that we can send you
+        approaching your monthly free usage credits (so that we can send you
         billing updates if you go over).
       </Text>
     ),

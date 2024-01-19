@@ -71,7 +71,7 @@ export const OnboardingBilling: React.FC<OnboardingBillingProps> = ({
     <Flex flexDir="column" gap={8}>
       <OnboardingTitle
         heading="Add a payment method"
-        description="thirdweb is free to get started with monthly usage limits. Add a payment method to ensure you experience no interruptions after exceeding limits."
+        description="thirdweb is free to get started with monthly usage credits. Add a payment method to ensure you experience no interruptions after exceeding credits."
       />
       <Flex flexDir="column" gap={8}>
         {stripePromise && (
