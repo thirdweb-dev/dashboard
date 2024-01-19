@@ -36,6 +36,7 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
+import { CONTACT_US_URL } from "utils/pricing";
 
 const RADIAN = Math.PI / 180;
 const TRACKING_CATEGORY = "wallet-analytics";
@@ -264,7 +265,7 @@ const DashboardWalletsAnalytics: ThirdwebNextPage = () => {
               <Text size="body.md">
                 Showing data for the <b>last 7 days</b>. Need more insights?{" "}
                 <TrackedLink
-                  href="https://thirdweb.com/contact-us"
+                  href={CONTACT_US_URL}
                   category={TRACKING_CATEGORY}
                   label="contact-us"
                   color="blue.500"

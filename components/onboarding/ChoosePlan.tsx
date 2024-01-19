@@ -3,7 +3,6 @@ import { OnboardingTitle } from "./Title";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useTrack } from "hooks/analytics/useTrack";
 import { AccountPlan, useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { PLANS } from "utils/pricing";
 
 interface OnboardingChoosePlanProps {
   onSave: () => void;

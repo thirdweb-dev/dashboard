@@ -1,4 +1,4 @@
-import { Box, CardProps, Center, Flex, Icon } from "@chakra-ui/react";
+import { Box, CardProps, Center, Flex, Icon, Tooltip } from "@chakra-ui/react";
 import {
   TrackedLinkButton,
   Heading,
@@ -11,6 +11,7 @@ import {
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { PLANS } from "utils/pricing";
 import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 
 interface PricingCardProps {
   name: AccountPlan;
@@ -32,7 +33,8 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   highlighted = false,
   current = false,
 }) => {
-  const isCustomPrice = typeof PLANS[name].price === "string";
+  const plan = PLANS[name];
+  const isCustomPrice = typeof plan.price === "string";
 
   const content = (
     <Card
@@ -55,7 +57,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
               size={size === "lg" ? "title.lg" : "title.sm"}
               textTransform="capitalize"
             >
-              {PLANS[name].title}
+              {plan.title}
             </Heading>
             {current && (
               <Badge
@@ -69,7 +71,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
               </Badge>
             )}
           </Flex>
-          <Text maxW={320}>{PLANS[name].description}</Text>
+          <Text maxW={320}>{plan.description}</Text>
         </Flex>
         <Flex alignItems="flex-end" gap={2}>
           <Heading
@@ -77,7 +79,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
             lineHeight={1}
           >
             {!isCustomPrice && "$"}
-            {PLANS[name].price}
+            {plan.price}
           </Heading>
           {!isCustomPrice && <Text size="body.lg">/ month</Text>}
         </Flex>
@@ -89,14 +91,14 @@ export const PricingCard: React.FC<PricingCardProps> = ({
         alignItems="flex-start"
         color="accent.900"
       >
-        {PLANS[name].subTitle && (
+        {plan.subTitle && (
           <Text color="accent.900" fontWeight="medium">
-            {PLANS[name].subTitle}
+            {plan.subTitle}
           </Text>
         )}
 
-        {PLANS[name].features.map((f) => (
-          <CheckmarkItem key={f} text={f} />
+        {plan.features.map((f) => (
+          <FeatureItem key={f} text={f} />
         ))}
       </Flex>
       {ctaTitle && (
@@ -135,12 +137,51 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   return content;
 };
 
-interface CheckmarkItemProps {
-  text: string;
+interface FeatureItemProps {
+  text: string | string[];
 }
 
-const CheckmarkItem: React.FC<CheckmarkItemProps> = ({ text }) => (
-  <Flex gap={2} alignItems="flex-start">
-    <Icon as={IoCheckmarkCircle} boxSize={5} mt={0.5} /> <Text>{text}</Text>
-  </Flex>
-);
+const FeatureItem: React.FC<FeatureItemProps> = ({ text }) => {
+  const titleStr = Array.isArray(text) ? text[0] : text;
+
+  return (
+    <Flex gap={2} alignItems="flex-start">
+      <Icon as={IoCheckmarkCircle} boxSize={5} mt={0.5} />{" "}
+      {Array.isArray(text) ? (
+        <Flex alignItems="center" justifyItems="center" gap={2}>
+          <Text>{titleStr}</Text>
+          <Tooltip
+            label={
+              <Card
+                py={2}
+                px={4}
+                bgColor="backgroundHighlight"
+                borderRadius="lg"
+              >
+                <Text size="label.sm" lineHeight={1.5}>
+                  {text[1]}
+                </Text>
+              </Card>
+            }
+            p={0}
+            bg="transparent"
+            boxShadow="none"
+          >
+            <Box pt={1} display={{ base: "none", md: "block" }}>
+              <Icon as={AiOutlineDollarCircle} boxSize={4} color="blue.500" />
+            </Box>
+          </Tooltip>
+          <Text
+            color="gray.700"
+            minW="max-content"
+            display={{ base: "block", md: "none" }}
+          >
+            {text[1]}
+          </Text>
+        </Flex>
+      ) : (
+        <Text>{titleStr}</Text>
+      )}
+    </Flex>
+  );
+};

@@ -2,6 +2,7 @@ import { Container, Flex, SimpleGrid, Box } from "@chakra-ui/react";
 import { Heading, Text, TrackedLink } from "tw-components";
 import { PricingCard } from "./PricingCard";
 import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
+import { CONTACT_US_URL } from "utils/pricing";
 
 interface PricingSectionProps {
   trackingCategory: string;
@@ -74,7 +75,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
             ctaTitle="Contact us"
             ctaProps={{
               category: trackingCategory,
-              href: "/contact-us",
+              href: CONTACT_US_URL,
+              isExternal: true,
             }}
           />
         </SimpleGrid>

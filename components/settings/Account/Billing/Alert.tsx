@@ -171,7 +171,7 @@ export const BillingAlert = () => {
   ) {
     return (
       <BillingTypeAlert
-        title="You are approaching your free monthly limits"
+        title="You are approaching your free monthly credits"
         status="warning"
         onDismiss={() => handleDismiss(DismissedStorageType.Usage_50)}
       />
@@ -185,7 +185,7 @@ export const BillingAlert = () => {
   ) {
     return (
       <BillingTypeAlert
-        title="You have used all of your free monthly limits"
+        title="You have used all of your free monthly credits"
         status="error"
         onDismiss={() => handleDismiss(DismissedStorageType.Usage_100)}
       />

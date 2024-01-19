@@ -1,6 +1,9 @@
 import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { Link, Text } from "tw-components";
 
+export const CONTACT_US_URL =
+  "https://meetings.hubspot.com/sales-thirdweb/thirdweb-pro";
+
 export const PLANS: {
   [T in AccountPlan]: {
     title: string;
@@ -8,7 +11,7 @@ export const PLANS: {
     subTitle: string | null;
     trialPeriodDays: number;
     description: string;
-    features: string[];
+    features: any[];
   };
 } = {
   [AccountPlan.Free]: {
@@ -18,7 +21,7 @@ export const PLANS: {
     trialPeriodDays: 0,
     description: "Ideal for hobbyists who require basic features.",
     features: [
-      "1,000 monthly active wallets",
+      ["1,000 monthly active wallets", "then $0.02/wallet"],
       "Web, Mobile & Gaming SDKs",
       "Credit card & crypto onramp",
       "Contract & Wallet APIs",
@@ -34,7 +37,7 @@ export const PLANS: {
     trialPeriodDays: 0,
     description: "Ideal for production-grade applications.",
     features: [
-      "10,000 monthly active wallets",
+      ["10,000 monthly active wallets", "then $0.02/wallet"],
       "Production grade infrastructure",
       "Prioritized support",
       "Custom branding",

@@ -2,7 +2,6 @@ import { Box, Flex, HStack, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FiLock } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
 import Image from "next/image";
-import { PLANS } from "utils/pricing";
 import { ReactNode } from "react";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 

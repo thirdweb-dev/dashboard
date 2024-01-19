@@ -2,6 +2,7 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { Account, AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useMemo } from "react";
+import { CONTACT_US_URL } from "utils/pricing";
 
 interface BillingPricingProps {
   account: Account;
@@ -105,7 +106,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         ctaProps={{
           category: "account",
           label: "growthPlan",
-          href: "/contact-us",
+          href: CONTACT_US_URL,
           ...(validPayment
             ? { isExternal: true }
             : {
