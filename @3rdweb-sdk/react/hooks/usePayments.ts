@@ -211,6 +211,7 @@ const ChainSymbolToChainName: Record<string, string> = {
   MATIC: "Matic",
   AVAX: "Avalanche",
   AGOR: "Arbitrum Goerli Ether",
+  XAI: "XAI"
 };
 
 export const ChainIdToSupportedCurrencies: Record<number, CurrencyMetadata[]> =
