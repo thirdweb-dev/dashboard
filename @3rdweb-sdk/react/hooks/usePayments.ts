@@ -187,7 +187,7 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [Polygon.chainId]: ["MATIC", "WETH", "USDC", "USDC.e"],
   [Mumbai.chainId]: ["MATIC", "USDC", "USDC.e", "DERC20", "CDOL"],
   [Avalanche.chainId]: ["AVAX", "USDC", "USDC.e"],
-  [AvalancheFuji.chainId]: ["AVAX"],
+  [AvalancheFuji.chainId]: ["AVAX", "USDC"],
   [Optimism.chainId]: ["ETH", "USDC"],
   [OptimismGoerli.chainId]: ["ETH"],
   [Arbitrum.chainId]: ["ETH", "USDC"],
