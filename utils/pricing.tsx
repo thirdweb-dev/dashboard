@@ -98,13 +98,14 @@ export const SECTIONS = [
         growth: "$99/instance",
         pro: "Custom",
       },
-      {
-        title: "Engine instance (Advanced)",
-        hint: "Advanced instance has fail-over, auto-scaling & auto back-ups.",
-        starter: "$299/instance",
-        growth: "$299/instance",
-        pro: "Custom",
-      },
+      // FIXME: Enable when advanced engine is out
+      // {
+      //   title: "Engine instance (Advanced)",
+      //   hint: "Advanced instance has fail-over, auto-scaling & auto back-ups.",
+      //   starter: "$299/instance",
+      //   growth: "$299/instance",
+      //   pro: "Custom",
+      // },
       {
         title: "Account abstraction infrastructure",
         hint: "Premium on top of gas sent through relayer and paymaster.",
