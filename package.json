@@ -36,7 +36,7 @@
     "@tanstack/react-table": "^8.10.7",
     "@thirdweb-dev/auth": "4.1.24",
     "@thirdweb-dev/chains": "0.1.64",
-    "@thirdweb-dev/react": "0.0.0-dev-b947f4d-20240118180614",
+    "@thirdweb-dev/react": "0.0.0-dev-b247643-20240119152839",
     "@thirdweb-dev/sdk": "4.0.27",
     "@thirdweb-dev/service-utils": "0.4.12",
     "@trytrench/sdk": "^0.0.5",
