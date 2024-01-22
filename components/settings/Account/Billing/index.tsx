@@ -1,4 +1,4 @@
-import { Flex, HStack, useDisclosure } from "@chakra-ui/react";
+import { Flex, HStack, Icon, useDisclosure } from "@chakra-ui/react";
 import { Button, Heading, TrackedLink, Text } from "tw-components";
 import { AccountForm } from "components/settings/Account/AccountForm";
 import {
@@ -18,6 +18,7 @@ import { BillingHeader } from "./Header";
 import { BillingPricing } from "./Pricing";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
+import { FiExternalLink } from "react-icons/fi";
 
 interface BillingProps {
   account: Account;
@@ -253,7 +254,10 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         color="blue.500"
         isExternal
       >
-        <Text color="blue.500">Learn more about thirdweb&apos;s pricing</Text>
+        <HStack alignItems="center" gap={2}>
+          <Text color="blue.500">Learn more about thirdweb&apos;s pricing</Text>
+          <Icon as={FiExternalLink} />
+        </HStack>
       </TrackedLink>
 
       {downgradePlan && (
