@@ -107,7 +107,7 @@ export const SECTIONS = [
       //   pro: "Custom",
       // },
       {
-        title: "Account abstraction infrastructure",
+        title: "Smart wallet infrastructure",
         hint: "Premium on top of gas sent through relayer and paymaster.",
         starter: "10% ",
         growth: "10%",

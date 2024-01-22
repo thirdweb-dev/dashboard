@@ -66,7 +66,7 @@ export const BillingDowngradeDialog: React.FC<BillingDowngradeDialogProps> = ({
                   {oldPlanFeatures.map((feat) => (
                     <HStack key={feat}>
                       <Icon as={FiX} boxSize={4} color="red.500" />
-                      <Text>{feat}</Text>
+                      <Text>{Array.isArray(feat) ? feat[0] : feat}</Text>
                     </HStack>
                   ))}
                 </Flex>

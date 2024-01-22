@@ -19,7 +19,7 @@ export const UpgradeButton = () => {
 
   const { plan } = meQuery.data;
 
-  return [AccountPlan.Pro, AccountPlan.Enterprise].includes(plan) ? null : (
+  return plan === AccountPlan.Free ? (
     <TrackedLinkButton
       category="header"
       label="upgrade"
@@ -30,5 +30,5 @@ export const UpgradeButton = () => {
     >
       Upgrade
     </TrackedLinkButton>
-  );
+  ) : null;
 };

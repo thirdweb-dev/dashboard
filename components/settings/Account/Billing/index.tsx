@@ -1,5 +1,5 @@
 import { Flex, HStack, useDisclosure } from "@chakra-ui/react";
-import { Button, Heading } from "tw-components";
+import { Button, Heading, TrackedLink, Text } from "tw-components";
 import { AccountForm } from "components/settings/Account/AccountForm";
 import {
   Account,
@@ -244,6 +244,17 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         validPayment={validPayment}
         loading={paymentMethodSaving || updatePlanMutation.isLoading}
       />
+
+      <TrackedLink
+        textAlign="center"
+        category="account"
+        href="/pricing"
+        label="pricing-plans"
+        color="blue.500"
+        isExternal
+      >
+        <Text color="blue.500">Learn more about thirdweb&apos;s pricing</Text>
+      </TrackedLink>
 
       {downgradePlan && (
         <BillingDowngradeDialog
