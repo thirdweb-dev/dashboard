@@ -91,7 +91,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
         </Text>
       </Flex>
 
-      {!hasApiKeys && <NoApiKeys />}
+      {!hasApiKeys && <NoApiKeys service="embedded wallets" />}
 
       {hasApiKeys && selectedKey && (
         <EmbeddedWallets
