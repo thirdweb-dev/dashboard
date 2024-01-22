@@ -181,7 +181,8 @@ const Hackathon = () => {
                     <ListItem>• 1 ETH for 1st Place</ListItem>
                     <ListItem>
                       • Meet & present to builders, operators, & investors in
-                      crypto — from Caldera, Founders Inc. and Haun Ventures
+                      crypto — from Caldera, Pantera Capital,
+                      Founders Inc, and Haun Ventures
                     </ListItem>
                     <ListItem>
                       • Amplification to 70k+ followers on thirdweb&apos;s
