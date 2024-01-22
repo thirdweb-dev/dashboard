@@ -167,6 +167,7 @@ export const BillingAlert = () => {
   if (
     status !== AccountStatus.ValidPayment &&
     exceededUsage_50 &&
+    !exceededUsage_100 &&
     !dismissedForThePeriod(DismissedStorageType.Usage_50)
   ) {
     return (
