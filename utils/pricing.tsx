@@ -139,7 +139,7 @@ export const SECTIONS = [
       {
         title: "Rate Limits on RPC & IPFS gateway",
         starter: "100 requests/sec",
-        growth: "300 requests/sec",
+        growth: "500 requests/sec",
         pro: "Custom",
       },
       {
