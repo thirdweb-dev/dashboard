@@ -4927,10 +4927,10 @@
   dependencies:
     ethers "^5.7.2"
 
-"@thirdweb-dev/react-core@0.0.0-dev-b247643-20240119152839":
-  version "0.0.0-dev-b247643-20240119152839"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-b247643-20240119152839.tgz#d67911d9f7899f3f37cfae94afa47f7ca3bdd763"
-  integrity sha512-9NVmT0ixuNKwFGT9TxBsmshdHfbHeqxlv6GPApHur6KwkzsXtgCBXxvihIwZyweqC4+rVLmSyFelhhAO/2gpJw==
+"@thirdweb-dev/react-core@0.0.0-dev-0a50e7f-20240122170426":
+  version "0.0.0-dev-0a50e7f-20240122170426"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-0a50e7f-20240122170426.tgz#5d9a8770706a304a1d2686869a910bae8bb7d4b4"
+  integrity sha512-GKIHl1MdAT2ya1T5V0vq8L/kEqK6SVCJMLhA/96T+yZJR2lyk/qlXGM5HTPVHxCOeYiKarixEa+ZXNmz+/RLYA==
   dependencies:
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/auth" "4.1.24"
@@ -4942,10 +4942,10 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-b247643-20240119152839":
-  version "0.0.0-dev-b247643-20240119152839"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-b247643-20240119152839.tgz#51c58dacc6d2963b97b3dc875fbfa9bfc26de7a5"
-  integrity sha512-p6rVrJMD+Ikn8zgpmrJd+s68/0nIXDwJftXnOPhfnKabdbO/HYIBCJGGxeSt6drJ6FXFBK90SNRNT3qwp3WclA==
+"@thirdweb-dev/react@0.0.0-dev-0a50e7f-20240122170426":
+  version "0.0.0-dev-0a50e7f-20240122170426"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-0a50e7f-20240122170426.tgz#7bc64cc009aa025b2212071506baa5e2a777ec61"
+  integrity sha512-FSsn1M2eZ5lEt3IVL9ubXrBmILxy5Ckz01qBnv8/s50/RW6qUEBn0eu9LH/kpHHqbZFTfpe/HXsbkZOaFjUpLA==
   dependencies:
     "@emotion/css" "11.10.5"
     "@emotion/react" "^11.11.1"
@@ -4962,7 +4962,7 @@
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/chains" "0.1.64"
     "@thirdweb-dev/payments" "1.0.2"
-    "@thirdweb-dev/react-core" "0.0.0-dev-b247643-20240119152839"
+    "@thirdweb-dev/react-core" "0.0.0-dev-0a50e7f-20240122170426"
     "@thirdweb-dev/sdk" "4.0.27"
     "@thirdweb-dev/wallets" "2.4.2"
     buffer "^6.0.3"
