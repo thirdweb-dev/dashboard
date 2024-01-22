@@ -105,9 +105,6 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                   <GatedFeature
                     title="Custom email logo and name is an advanced feature."
                     description="Pass a custom logo and app name to be used in the emails sent to users."
-                    imgSrc="/assets/dashboard/features/custom_email.png"
-                    imgWidth={240}
-                    imgHeight={240}
                     trackingLabel="customEmailLogoAndName"
                   >
                     <FormControl

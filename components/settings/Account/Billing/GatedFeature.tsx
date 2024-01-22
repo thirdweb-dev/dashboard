@@ -9,9 +9,9 @@ interface GatedFeatureProps {
   children: ReactNode;
   title: string;
   description: ReactNode;
-  imgSrc: string;
-  imgWidth: number;
-  imgHeight: number;
+  imgSrc?: string;
+  imgWidth?: number;
+  imgHeight?: number;
   trackingLabel: string;
 }
 
@@ -89,14 +89,16 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
             </TrackedLinkButton>
           </Box>
         </Flex>
-        <Box overflow="hidden">
-          <Image
-            src={imgSrc}
-            width={imgWidth}
-            height={imgHeight}
-            alt={trackingLabel}
-          />
-        </Box>
+        {imgSrc && (
+          <Box overflow="hidden">
+            <Image
+              src={imgSrc}
+              width={imgWidth}
+              height={imgHeight}
+              alt={trackingLabel}
+            />
+          </Box>
+        )}
       </Flex>
     </Card>
   );
