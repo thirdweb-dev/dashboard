@@ -31,12 +31,17 @@ import {
 import { NoTargetAddressesAlert } from "../Alerts";
 import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "../validations";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
+import { GatedSwitch } from "components/settings/Account/Billing/GatedSwitch";
 
 interface EditServicesProps {
   form: UseFormReturn<ApiKeyValidationSchema, any>;
+  apiKeyName: string;
 }
 
-export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
+export const EditServices: React.FC<EditServicesProps> = ({
+  form,
+  apiKeyName,
+}) => {
   const bg = useColorModeValue("backgroundCardHighlight", "transparent");
   const { fields, update } = useFieldArray({
     control: form.control,
@@ -68,6 +73,8 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
       <Flex flexDir="column" gap={6}>
         {fields.map((srv, idx) => {
           const service = getServiceByName(srv.name as ServiceName);
+          const customBrandingEnabled =
+            !!srv.applicationImageUrl?.length || !!srv.applicationName?.length;
 
           return service ? (
             <Card
@@ -102,84 +109,138 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
 
               {service.name === "embeddedWallets" && srv.enabled && (
                 <Flex flexDir="column" gap={6}>
-                  <GatedFeature
-                    title="Custom email logo and name is an advanced feature."
-                    description="Pass a custom logo and app name to be used in the emails sent to users."
-                    trackingLabel="customEmailLogoAndName"
-                  >
-                    <FormControl
-                      isInvalid={
-                        !!form.getFieldState(
-                          `services.${idx}.applicationName`,
-                          form.formState,
-                        ).error
-                      }
+                  <FormControl>
+                    <HStack
+                      justifyContent="space-between"
+                      alignItems="flex-start"
                     >
                       <Box>
-                        <FormLabel mt={3}>Application Name</FormLabel>
+                        <FormLabel mt={3}>Custom email logo and name</FormLabel>
                         <Text>
-                          It will show up in the emails sent to users. Defaults
-                          to your API Key&apos;s name
+                          Pass a custom logo and app name to be used in the
+                          emails sent to users.
                         </Text>
                       </Box>
-                      <Input
-                        disabled={!srv.enabled}
-                        placeholder="Application Name"
-                        type="text"
-                        {...form.register(`services.${idx}.applicationName`)}
+
+                      <GatedSwitch
+                        colorScheme="primary"
+                        isChecked={customBrandingEnabled}
+                        onChange={() =>
+                          update(idx, {
+                            ...srv,
+                            ...(customBrandingEnabled
+                              ? {
+                                  applicationImageUrl: "",
+                                  applicationName: "",
+                                }
+                              : {
+                                  applicationName: apiKeyName,
+                                }),
+                          })
+                        }
                       />
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
+                    </HStack>
+                  </FormControl>
+
+                  {customBrandingEnabled && (
+                    <GatedFeature trackingLabel="customEmailLogoAndName">
+                      <Flex flexDir="column" gap={6}>
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.applicationName`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel size="label.sm">
+                            Application Name
+                          </FormLabel>
+                          <Input
+                            disabled={!srv.enabled}
+                            placeholder="Application Name"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.applicationName`,
+                            )}
+                          />
+                          {!form.getFieldState(
                             `services.${idx}.applicationName`,
                             form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
-                    </FormControl>
+                          ).error ? (
+                            <FormHelperText>
+                              It will show up in the emails sent to users.
+                              Defaults to your API Key&apos;s name.
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.applicationName`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          )}
+                        </FormControl>
 
-                    <FormControl
-                      isInvalid={
-                        !!form.getFieldState(
-                          `services.${idx}.applicationImageUrl`,
-                          form.formState,
-                        ).error
-                      }
-                    >
-                      <Box>
-                        <FormLabel mt={3}>Application Image URL</FormLabel>
-                        <Text>
-                          It will show up in the emails sent to users. The image
-                          must be squared
-                        </Text>
-                      </Box>
-                      <Input
-                        disabled={!srv.enabled}
-                        placeholder="https://"
-                        type="text"
-                        {...form.register(
-                          `services.${idx}.applicationImageUrl`,
-                        )}
-                      />
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
+                              `services.${idx}.applicationImageUrl`,
+                              form.formState,
+                            ).error
+                          }
+                        >
+                          <FormLabel size="label.sm">
+                            Application Image URL
+                          </FormLabel>
+                          <Input
+                            disabled={!srv.enabled}
+                            placeholder="https://"
+                            type="text"
+                            {...form.register(
+                              `services.${idx}.applicationImageUrl`,
+                            )}
+                          />
+                          {!form.getFieldState(
                             `services.${idx}.applicationImageUrl`,
                             form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
-                    </FormControl>
-                  </GatedFeature>
+                          ).error ? (
+                            <FormHelperText>
+                              It will show up in the emails sent to users. The
+                              image must be squared with recommended size of
+                              72x72 px.
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.applicationImageUrl`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          )}
+                        </FormControl>
+                      </Flex>
+                    </GatedFeature>
+                  )}
 
                   <FormControl
                     isInvalid={
                       !!form.getFieldState(`redirectUrls`, form.formState).error
                     }
                   >
-                    <FormLabel size="label.sm">
-                      Allowed redirect URIs (native apps only)
-                    </FormLabel>
+                    <Box my={3}>
+                      <FormLabel>
+                        Allowed redirect URIs (native apps only)
+                      </FormLabel>
+                      <Text>
+                        Enter redirect URIs separated by commas or new lines.
+                        This is often your application&apos;s deep link.
+                      </Text>
+                    </Box>
 
                     <Textarea
                       disabled={!srv.enabled}
@@ -189,8 +250,6 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                     {!form.getFieldState(`redirectUrls`, form.formState)
                       .error ? (
                       <FormHelperText>
-                        Enter redirect URIs separated by commas or new lines.
-                        This is often your application&apos;s deep link.
                         Currently only used in Unity and React Native platform
                         when users authenticate through social logins.
                       </FormHelperText>
@@ -224,7 +283,7 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                         </Text>
                       </Box>
 
-                      <Switch
+                      <GatedSwitch
                         colorScheme="primary"
                         isChecked={!!srv.customAuthentication}
                         onChange={() =>
@@ -243,14 +302,7 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                   </FormControl>
 
                   {!!srv.customAuthentication && (
-                    <GatedFeature
-                      title="Custom auth is an advanced feature."
-                      description="Integrate your custom auth server with our embedded wallets solution."
-                      imgSrc="/assets/dashboard/features/custom_auth.png"
-                      imgWidth={240}
-                      imgHeight={240}
-                      trackingLabel="customAuthApiKey"
-                    >
+                    <GatedFeature trackingLabel="customAuthApiKey">
                       <Flex flexDir="column" gap={6}>
                         <FormControl
                           isInvalid={
@@ -345,7 +397,7 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                         </Text>
                       </Box>
 
-                      <Switch
+                      <GatedSwitch
                         colorScheme="primary"
                         isChecked={!!srv.customAuthEndpoint}
                         onChange={() =>
@@ -363,14 +415,7 @@ export const EditServices: React.FC<EditServicesProps> = ({ form }) => {
                     </HStack>
                   </FormControl>
                   {!!srv.customAuthEndpoint && (
-                    <GatedFeature
-                      title="Custom auth is an advanced feature."
-                      description="Integrate your custom auth server with our embedded wallets solution."
-                      imgSrc="/assets/dashboard/features/custom_auth.png"
-                      imgWidth={240}
-                      imgHeight={240}
-                      trackingLabel="customAuthApiKey"
-                    >
+                    <GatedFeature trackingLabel="customAuthApiKey">
                       <FormControl
                         isInvalid={
                           !!form.getFieldState(

@@ -7,8 +7,8 @@ import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 
 interface GatedFeatureProps {
   children: ReactNode;
-  title: string;
-  description: ReactNode;
+  title?: string;
+  description?: ReactNode;
   imgSrc?: string;
   imgWidth?: number;
   imgHeight?: number;
@@ -35,6 +35,10 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
 
   if (account.advancedEnabled) {
     return children;
+  }
+
+  if (!title) {
+    return null;
   }
 
   return (
@@ -77,7 +81,7 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
 
           <Box>
             <TrackedLinkButton
-              variant="outline"
+              colorScheme="primary"
               category="advancedFeature"
               label={trackingLabel}
               href="/dashboard/settings/billing"
@@ -85,7 +89,7 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
               py={6}
               px={6}
             >
-              Upgrade
+              Upgrade to Growth
             </TrackedLinkButton>
           </Box>
         </Flex>

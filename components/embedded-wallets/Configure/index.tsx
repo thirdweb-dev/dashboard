@@ -12,12 +12,12 @@ import {
   IconButton,
   Input,
   Stack,
-  Switch,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
+import { GatedSwitch } from "components/settings/Account/Billing/GatedSwitch";
 import {
   ApiKeyEmbeddedWalletsValidationSchema,
   apiKeyEmbeddedWalletsValidationSchema,
@@ -206,7 +206,7 @@ export const Configure: React.FC<ConfigureProps> = ({
                   </Text>
                 </Box>
 
-                <Switch
+                <GatedSwitch
                   colorScheme="primary"
                   isChecked={!!form.watch("customAuthentication")}
                   onChange={() => {
@@ -226,14 +226,7 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthentication") && (
-              <GatedFeature
-                title="Custom auth is an advanced feature."
-                description="Integrate your custom auth server with our embedded wallets solution."
-                imgSrc="/assets/dashboard/features/custom_auth.png"
-                imgWidth={240}
-                imgHeight={240}
-                trackingLabel="customAuthApiKey"
-              >
+              <GatedFeature trackingLabel="customAuthApiKey">
                 <Card p={6} bg={bg}>
                   <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
                     <FormControl
@@ -326,7 +319,7 @@ export const Configure: React.FC<ConfigureProps> = ({
                   </Text>
                 </Box>
 
-                <Switch
+                <GatedSwitch
                   colorScheme="primary"
                   isChecked={!!form.watch("customAuthEndpoint")}
                   onChange={() => {
@@ -346,14 +339,7 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthEndpoint") && (
-              <GatedFeature
-                title="Custom auth is an advanced feature."
-                description="Integrate your custom auth server with our embedded wallets solution."
-                imgSrc="/assets/dashboard/features/custom_auth.png"
-                imgWidth={240}
-                imgHeight={240}
-                trackingLabel="customAuthApiKey"
-              >
+              <GatedFeature trackingLabel="customAuthApiKey">
                 <Card p={6} bg={bg}>
                   <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
                     <FormControl
