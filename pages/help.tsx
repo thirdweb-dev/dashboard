@@ -4,7 +4,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { Card, Heading, Link } from "tw-components";
+import { Button, Card, Heading, Link } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const helpProducts = [
@@ -44,7 +44,21 @@ const HelpPage: ThirdwebNextPage = () => {
   const title = "Help Page";
   const description = "thirdweb help page.";
 
-  console.log(PRODUCTS.find((p) => p.label === "wallets")?.icon);
+  const handleSubmit = async () => {
+    /*     setIsSubmitting(true); */
+
+    try {
+      await fetch("/api/create-ticket", {
+        method: "POST",
+        body: JSON.stringify({ markdown: "hi" }),
+      });
+      /*     setEmail(""); */
+    } catch (err) {
+      console.error(err);
+    }
+
+    /*     setIsSubmitting(false); */
+  };
 
   return (
     <>
@@ -64,16 +78,17 @@ const HelpPage: ThirdwebNextPage = () => {
           ], */
         }}
       />
+      <Button onClick={handleSubmit}>Create ticket</Button>
       <Flex
         direction="column"
         mx="auto"
         pb={8}
         overflowX="hidden"
-        px={24}
-        gap={8}
+        px={{ base: 8, md: 24 }}
+        gap={{ base: 4, md: 8 }}
       >
         <Heading size="title.md">Popular links by products</Heading>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={8}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 8 }}>
           {helpProducts.map((product) => (
             <Card key={product.title} as={Flex} flexDir="column" gap={4}>
               <Flex gap={2} alignItems="center">
