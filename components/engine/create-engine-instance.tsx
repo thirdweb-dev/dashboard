@@ -1,5 +1,6 @@
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Divider,
   Flex,
   Icon,
   Modal,
@@ -16,7 +17,15 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction, useState } from "react";
 import { BsCloudCheck, BsGear } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
-import { Text, Heading, Button, Badge } from "tw-components";
+import { IoCheckmarkCircle } from "react-icons/io5";
+import {
+  Text,
+  Heading,
+  Button,
+  Badge,
+  Card,
+  TrackedLinkButton,
+} from "tw-components";
 
 interface CreateEngineInstanceButtonProps {
   refetch: () => void;
@@ -33,11 +42,6 @@ export const CreateEngineInstanceButton = ({
   const [modalState, setModalState] = useState<ModalState>(
     "selectHostingOption",
   );
-
-  const content =
-    modalState === "selectHostingOption" ? (
-      <ModalSelectHostingOption setModalState={setModalState} />
-    ) : null;
 
   return (
     <>
@@ -56,11 +60,11 @@ export const CreateEngineInstanceButton = ({
         Create Instance
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          {content}
+          <ModalSelectHostingOption setModalState={setModalState} />
         </ModalContent>
       </Modal>
     </>
@@ -73,103 +77,70 @@ const ModalSelectHostingOption = ({
   setModalState: Dispatch<SetStateAction<ModalState>>;
 }) => {
   const trackEvent = useTrack();
-  const meQuery = useAccount();
 
-  const onClickCloudHosted = () => {
+  const onClickSubscribe = () => {
     trackEvent({
       category: "engine",
       action: "click",
-      label: "clicked-request-early-access",
+      label: "clicked-cloud-hosted",
     });
-
-    const url = `https://share.hsforms.com/1k5tu00ueS5OYMaxHK6De-gea58c?email=${
-      meQuery.data?.email || ""
-    }&thirdweb_account_id=${meQuery.data?.id || ""}`;
-    window.open(url);
-  };
-
-  const onClickSelfHosted = () => {
-    trackEvent({
-      category: "engine",
-      action: "click",
-      label: "clicked-self-host-instructions",
-    });
-    window.open(
-      "https://portal.thirdweb.com/infrastructure/engine/get-started",
-    );
   };
 
   return (
     <>
       <ModalHeader>Create Engine Instance</ModalHeader>
       <ModalBody>
-        <Stack spacing={4}>
-          {/* Cloud-hosted */}
-          <Button
-            onClick={onClickCloudHosted}
-            variant="outline"
-            px={8}
-            py={16}
-            rounded="xl"
-            _hover={{
-              borderColor: "blue.500",
-            }}
-            transitionDuration="200ms"
-            justifyContent="flex-start"
-          >
-            <Stack spacing={4}>
-              <Flex gap={2} align="center">
-                <Icon as={BsCloudCheck} />
-                <Heading size="title.xs">Cloud-host</Heading>
-                <Badge
-                  variant="outline"
-                  w="fit-content"
-                  colorScheme="gray"
-                  rounded="md"
-                  size="label.sm"
-                >
-                  $99 / month
-                </Badge>
+        <Card
+          w="full"
+          as={Flex}
+          gap={10}
+          flexDir="column"
+          p={{ base: 6, md: 10 }}
+          h="full"
+          borderColor="gray.800"
+        >
+          <Flex flexDir="column" gap={6}>
+            <Flex flexDir="column" gap={3}>
+              <Flex gap={2}>
+                <Heading as="h3" size="title.md" textTransform="capitalize">
+                  Cloud-Hosted Engine
+                </Heading>
               </Flex>
-              <Text textAlign="left">
-                Host Engine on thirdweb with no setup.
-              </Text>
-            </Stack>
-          </Button>
+              <Text maxW={320}>Host Engine on thirdweb with no setup.</Text>
+            </Flex>
+            <Flex alignItems="flex-end" gap={2}>
+              <Heading size="title.md" lineHeight={1}>
+                $99
+              </Heading>
+              <Text size="body.lg">/ month</Text>
+            </Flex>
+          </Flex>
+          <Flex
+            flexDir="column"
+            gap={3}
+            grow={1}
+            alignItems="flex-start"
+            color="accent.900"
+          >
+            <Text color="accent.900" fontWeight="medium">
+              Includes:
+            </Text>
 
-          {/* Self-hosted */}
-          <Button
-            onClick={onClickSelfHosted}
-            variant="outline"
-            px={8}
-            py={16}
-            rounded="xl"
-            _hover={{
-              borderColor: "blue.500",
-            }}
-            transitionDuration="200ms"
-            justifyContent="flex-start"
-          >
-            <Stack spacing={4}>
-              <Flex gap={2} align="center">
-                <Icon as={BsGear} />
-                <Heading size="title.xs">Self-host</Heading>
-                <Badge
-                  variant="outline"
-                  w="fit-content"
-                  colorScheme="gray"
-                  rounded="md"
-                  size="label.sm"
-                >
-                  Free
-                </Badge>
+            {[
+              "Isolated server & database",
+              "On-call monitoring from thirdweb",
+              "No long-term commitment",
+            ].map((f) => (
+              <Flex key={f} gap={2}>
+                <Icon as={IoCheckmarkCircle} boxSize={5} mt={0.5} />
+                <Text>{f}</Text>
               </Flex>
-              <Text textAlign="left">
-                Host Engine on your infrastructure with minimal setup.
-              </Text>
-            </Stack>
+            ))}
+          </Flex>
+          <Button onClick={onClickSubscribe} colorScheme="blue" py={6}>
+            Subscribe
           </Button>
-        </Stack>
+        </Card>
       </ModalBody>
       <ModalFooter></ModalFooter>
     </>
