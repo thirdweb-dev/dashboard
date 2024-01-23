@@ -123,6 +123,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                       </Box>
 
                       <GatedSwitch
+                        trackingLabel="customEmailLogoAndName"
                         colorScheme="primary"
                         isChecked={customBrandingEnabled}
                         onChange={() =>
@@ -143,7 +144,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                   </FormControl>
 
                   {customBrandingEnabled && (
-                    <GatedFeature trackingLabel="customEmailLogoAndName">
+                    <GatedFeature>
                       <Flex flexDir="column" gap={6}>
                         <FormControl
                           isInvalid={
@@ -284,6 +285,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                       </Box>
 
                       <GatedSwitch
+                        trackingLabel="customAuthJWT"
                         colorScheme="primary"
                         isChecked={!!srv.customAuthentication}
                         onChange={() =>
@@ -302,7 +304,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                   </FormControl>
 
                   {!!srv.customAuthentication && (
-                    <GatedFeature trackingLabel="customAuthApiKey">
+                    <GatedFeature>
                       <Flex flexDir="column" gap={6}>
                         <FormControl
                           isInvalid={
@@ -398,6 +400,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                       </Box>
 
                       <GatedSwitch
+                        trackingLabel="customAuthEndpoint"
                         colorScheme="primary"
                         isChecked={!!srv.customAuthEndpoint}
                         onChange={() =>
@@ -415,7 +418,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                     </HStack>
                   </FormControl>
                   {!!srv.customAuthEndpoint && (
-                    <GatedFeature trackingLabel="customAuthApiKey">
+                    <GatedFeature>
                       <FormControl
                         isInvalid={
                           !!form.getFieldState(

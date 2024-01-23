@@ -207,6 +207,7 @@ export const Configure: React.FC<ConfigureProps> = ({
                 </Box>
 
                 <GatedSwitch
+                  trackingLabel="customAuthJWT"
                   colorScheme="primary"
                   isChecked={!!form.watch("customAuthentication")}
                   onChange={() => {
@@ -226,7 +227,7 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthentication") && (
-              <GatedFeature trackingLabel="customAuthApiKey">
+              <GatedFeature>
                 <Card p={6} bg={bg}>
                   <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
                     <FormControl
@@ -320,6 +321,7 @@ export const Configure: React.FC<ConfigureProps> = ({
                 </Box>
 
                 <GatedSwitch
+                  trackingLabel="customAuthEndpoint"
                   colorScheme="primary"
                   isChecked={!!form.watch("customAuthEndpoint")}
                   onChange={() => {
@@ -339,7 +341,7 @@ export const Configure: React.FC<ConfigureProps> = ({
             </FormControl>
 
             {form.watch("customAuthEndpoint") && (
-              <GatedFeature trackingLabel="customAuthApiKey">
+              <GatedFeature>
                 <Card p={6} bg={bg}>
                   <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
                     <FormControl

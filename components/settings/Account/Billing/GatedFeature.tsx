@@ -12,7 +12,7 @@ interface GatedFeatureProps {
   imgSrc?: string;
   imgWidth?: number;
   imgHeight?: number;
-  trackingLabel: string;
+  trackingLabel?: string;
 }
 
 export const GatedFeature: React.FC<GatedFeatureProps> = ({
@@ -99,7 +99,7 @@ export const GatedFeature: React.FC<GatedFeatureProps> = ({
               src={imgSrc}
               width={imgWidth}
               height={imgHeight}
-              alt={trackingLabel}
+              alt={trackingLabel ?? ""}
             />
           </Box>
         )}
