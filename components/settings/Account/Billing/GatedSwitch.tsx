@@ -4,12 +4,14 @@ import { Card, Text, Badge, TrackedLink } from "tw-components";
 
 interface GatedSwitchProps extends SwitchProps {
   trackingLabel?: string;
+  togglable?: boolean;
 }
 
 export const GatedSwitch: React.FC<GatedSwitchProps> = ({
   isChecked,
   isDisabled,
   trackingLabel,
+  togglable = false,
   ...props
 }: GatedSwitchProps) => {
   const meQuery = useAccount();
@@ -46,7 +48,7 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
         </Card>
       }
     >
-      <Flex flexDir="row" gap={2}>
+      <Flex flexDir="row" gap={2} alignItems="center">
         {!account.advancedEnabled && (
           <Badge
             textTransform="capitalize"
@@ -58,8 +60,10 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
           </Badge>
         )}
         <Switch
-          isChecked={!account.advancedEnabled ? false : isChecked}
-          isDisabled={!account.advancedEnabled ? true : isDisabled}
+          isChecked={!account.advancedEnabled && !togglable ? false : isChecked}
+          isDisabled={
+            !account.advancedEnabled && !togglable ? true : isDisabled
+          }
           {...props}
         />
       </Flex>
