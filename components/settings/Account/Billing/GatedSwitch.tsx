@@ -17,14 +17,14 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
   const meQuery = useAccount();
   const { data: account } = meQuery;
 
-  if (!account) {
+  if (!account && !togglable) {
     return null;
   }
 
   return (
     <Tooltip
       closeDelay={1000}
-      isDisabled={!!account.advancedEnabled}
+      isDisabled={!!account?.advancedEnabled}
       p={0}
       bg="transparent"
       boxShadow="none"
@@ -35,7 +35,7 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
             To access this feature, you need to upgrade to the{" "}
             <TrackedLink
               textAlign="center"
-              href="/settings/billing"
+              href="/dashboard/settings/billing"
               category="advancedFeature"
               label={trackingLabel}
               color="blue.500"
@@ -49,7 +49,7 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
       }
     >
       <Flex flexDir="row" gap={2} alignItems="center">
-        {!account.advancedEnabled && (
+        {!account?.advancedEnabled && (
           <Badge
             textTransform="capitalize"
             px={2}
@@ -60,9 +60,11 @@ export const GatedSwitch: React.FC<GatedSwitchProps> = ({
           </Badge>
         )}
         <Switch
-          isChecked={!account.advancedEnabled && !togglable ? false : isChecked}
+          isChecked={
+            !account?.advancedEnabled && !togglable ? false : isChecked
+          }
           isDisabled={
-            !account.advancedEnabled && !togglable ? true : isDisabled
+            !account?.advancedEnabled && !togglable ? true : isDisabled
           }
           {...props}
         />
