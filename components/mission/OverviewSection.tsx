@@ -4,30 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Text } from "tw-components";
 
 const OverviewSection = () => {
-  const [offsetY, setOffsetY] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = () => {
-    if (containerRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const relativeOffset = window.pageYOffset - containerRect.top;
-      setOffsetY(relativeOffset);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <Flex
       justifyContent="center"
       alignItems="center"
       position="relative"
       mt={40}
-      ref={containerRef}
       flexDir={{ base: "column", "2xl": "row" }}
       gap={{ base: "80px", "2xl": 0 }}
     >
