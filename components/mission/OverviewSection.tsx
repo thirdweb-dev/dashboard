@@ -10,13 +10,8 @@ const OverviewSection = () => {
   const handleScroll = () => {
     if (containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect();
-      const isVisible =
-        containerRect.top >= 0 && containerRect.bottom <= window.innerHeight;
-
-      if (isVisible) {
-        const relativeOffset = window.pageYOffset - containerRect.top;
-        setOffsetY(relativeOffset);
-      }
+      const relativeOffset = window.pageYOffset - containerRect.top;
+      setOffsetY(relativeOffset);
     }
   };
 
