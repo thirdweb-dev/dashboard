@@ -6,7 +6,7 @@ import { Text } from "tw-components";
 const OverviewSection = () => {
   const [offsetY, setOffsetY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-
+  console.log("howmuch?!");
   const handleScroll = () => {
     if (containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect();
@@ -37,8 +37,8 @@ const OverviewSection = () => {
         alt="parallax-one"
         maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
-        left={0}
-        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        marginTop={{ base: 0, "2xl": `${0.2 * offsetY}px` }}
+        right={0}
         transition="transform 0.2 ease-out'"
       />
 
@@ -66,8 +66,8 @@ const OverviewSection = () => {
         alt="parallax-two"
         maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
-        right={0}
-        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        marginTop={{ base: 0, "2xl": `${0.2 * offsetY}px` }}
+        left={0}
         transition="transform 0.2 ease-out'"
       />
     </Flex>
