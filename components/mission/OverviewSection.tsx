@@ -38,8 +38,8 @@ const OverviewSection = () => {
     >
       <Box
         position={{ base: "relative", "2xl": "absolute" }}
-        left="0 !important"
-        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        left={0}
+        marginTop={{ base: "0", "2xl": `${0.2 * offsetY}px` }}
         transition="transform 50ms ease-out'"
       >
         <LandingDesktopMobileImage
@@ -70,8 +70,8 @@ const OverviewSection = () => {
 
       <Box
         position={{ base: "relative", "2xl": "absolute" }}
-        right="0 !important"
-        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        right={0}
+        marginTop={{ base: "0", "2xl": `${0.2 * offsetY}px` }}
         transition="transform 50ms ease-out'"
       >
         <LandingDesktopMobileImage
