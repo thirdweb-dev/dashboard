@@ -43,7 +43,7 @@ const OverviewSection = () => {
         maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
         left={0}
-        transform={{ base: "auto", "2xl": `translate(0, ${0.15 * offsetY}px)` }}
+        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
         transition="transform 50ms ease-out'"
       />
 
@@ -72,7 +72,7 @@ const OverviewSection = () => {
         maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
         right={0}
-        transform={{ base: "auto", "2xl": `translate(0, ${0.15 * offsetY}px)` }}
+        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
         transition="transform 50ms ease-out'"
       />
     </Flex>
