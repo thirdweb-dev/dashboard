@@ -10,13 +10,8 @@ const OverviewSection = () => {
   const handleScroll = () => {
     if (containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect();
-      const isVisible =
-        containerRect.top >= 0 && containerRect.bottom <= window.innerHeight;
-
-      if (isVisible) {
-        const relativeOffset = window.pageYOffset - containerRect.top;
-        setOffsetY(relativeOffset);
-      }
+      const relativeOffset = window.pageYOffset - containerRect.top;
+      setOffsetY(relativeOffset);
     }
   };
 
@@ -44,7 +39,7 @@ const OverviewSection = () => {
         position={{ base: "relative", "2xl": "absolute" }}
         left={0}
         transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
-        transition="transform 50ms ease-out'"
+        transition="transform 0.2 ease-out'"
       />
 
       <Container
@@ -73,7 +68,7 @@ const OverviewSection = () => {
         position={{ base: "relative", "2xl": "absolute" }}
         right={0}
         transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
-        transition="transform 50ms ease-out'"
+        transition="transform 0.2 ease-out'"
       />
     </Flex>
   );
