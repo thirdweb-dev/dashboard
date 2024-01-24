@@ -17,14 +17,14 @@ const links: Route[] = [
     name: "analytics",
   },
   {
-    path: "/dashboard/wallets/smart-wallet",
-    title: "Smart Wallets",
-    name: "smart-wallet",
-  },
-  {
     path: "/dashboard/wallets/embedded",
     title: "Embedded Wallets",
     name: "embedded",
+  },
+  {
+    path: "/dashboard/wallets/smart-wallet",
+    title: "Account Abstraction",
+    name: "smart-wallet",
   },
 ];
 

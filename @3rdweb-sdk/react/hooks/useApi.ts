@@ -68,6 +68,18 @@ export type ApiKeyCustomAuthEndpoint = {
   customHeaders: { key: string; value: string }[];
 };
 
+export type ApiKeyServicePolicy = {
+  allowedChainIds: number[] | null;
+  allowedContractAddresses: string[] | null;
+  serverVerifier: {
+    url: string;
+    headers: { key: string; value: string }[] | null;
+  } | null;
+  globalLimit: {
+    maxSpendUsd: number;
+  } | null;
+};
+
 export type ApiKeyService = {
   id: string;
   name: string;

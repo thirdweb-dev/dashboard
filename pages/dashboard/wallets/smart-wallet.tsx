@@ -110,7 +110,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         <Flex flexDir="column" gap={4}>
           <Flex gap={8} alignItems={"center"}>
             <Heading size="title.lg" as="h1">
-              Smart Wallet
+              Account Abstraction
             </Heading>
             <TrackedLinkButton
               category={TRACKING_CATEGORY}
