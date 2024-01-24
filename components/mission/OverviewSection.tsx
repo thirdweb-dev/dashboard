@@ -1,4 +1,4 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import React, { useEffect, useRef, useState } from "react";
 import { Text } from "tw-components";
@@ -6,12 +6,17 @@ import { Text } from "tw-components";
 const OverviewSection = () => {
   const [offsetY, setOffsetY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  console.log("howmuch?!");
+
   const handleScroll = () => {
     if (containerRef.current) {
       const containerRect = containerRef.current.getBoundingClientRect();
-      const relativeOffset = window.pageYOffset - containerRect.top;
-      setOffsetY(relativeOffset);
+      const isVisible =
+        containerRect.top >= 0 && containerRect.bottom <= window.innerHeight;
+
+      if (isVisible) {
+        const relativeOffset = window.pageYOffset - containerRect.top;
+        setOffsetY(relativeOffset);
+      }
     }
   };
 
@@ -31,16 +36,19 @@ const OverviewSection = () => {
       flexDir={{ base: "column", "2xl": "row" }}
       gap={{ base: "80px", "2xl": 0 }}
     >
-      <LandingDesktopMobileImage
-        image={require("public/assets/landingpage/desktop/parallax-left.png")}
-        mobileImage={require("public/assets/landingpage/mobile/parallax-left.png")}
-        alt="parallax-one"
-        maxW={{ base: "100%", "2xl": "512px" }}
+      <Box
         position={{ base: "relative", "2xl": "absolute" }}
-        marginTop={{ base: 0, "2xl": `${0.2 * offsetY}px` }}
-        right={0}
-        transition="transform 0.2 ease-out'"
-      />
+        left="0 !important"
+        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        transition="transform 50ms ease-out'"
+      >
+        <LandingDesktopMobileImage
+          image={require("public/assets/landingpage/desktop/parallax-left.png")}
+          mobileImage={require("public/assets/landingpage/mobile/parallax-left.png")}
+          alt="parallax-one"
+          maxW={{ base: "100%", "2xl": "512px" }}
+        />
+      </Box>
 
       <Container
         as={Flex}
@@ -60,16 +68,19 @@ const OverviewSection = () => {
         </Text>
       </Container>
 
-      <LandingDesktopMobileImage
-        image={require("public/assets/landingpage/desktop/parallax-right.png")}
-        mobileImage={require("public/assets/landingpage/mobile/parallax-right.png")}
-        alt="parallax-two"
-        maxW={{ base: "100%", "2xl": "512px" }}
+      <Box
         position={{ base: "relative", "2xl": "absolute" }}
-        marginTop={{ base: 0, "2xl": `${0.2 * offsetY}px` }}
-        left={0}
-        transition="transform 0.2 ease-out'"
-      />
+        right="0 !important"
+        transform={{ base: "auto", "2xl": `translateY(${0.15 * offsetY}px)` }}
+        transition="transform 50ms ease-out'"
+      >
+        <LandingDesktopMobileImage
+          image={require("public/assets/landingpage/desktop/parallax-right.png")}
+          mobileImage={require("public/assets/landingpage/mobile/parallax-right.png")}
+          alt="parallax-two"
+          maxW={{ base: "100%", "2xl": "512px" }}
+        />
+      </Box>
     </Flex>
   );
 };
