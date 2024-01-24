@@ -40,12 +40,11 @@ const OverviewSection = () => {
         image={require("public/assets/landingpage/desktop/parallax-left.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-left.png")}
         alt="parallax-one"
-        maxW="512px"
+        maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
         left={0}
         transform={{ base: "auto", "2xl": `translate(0, ${0.15 * offsetY}px)` }}
         transition="transform 50ms ease-out'"
-        w="full"
       />
 
       <Container
@@ -70,12 +69,11 @@ const OverviewSection = () => {
         image={require("public/assets/landingpage/desktop/parallax-right.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-right.png")}
         alt="parallax-two"
-        maxW="512px"
+        maxW={{ base: "100%", "2xl": "512px" }}
         position={{ base: "relative", "2xl": "absolute" }}
         right={0}
         transform={{ base: "auto", "2xl": `translate(0, ${0.15 * offsetY}px)` }}
         transition="transform 50ms ease-out'"
-        w="full"
       />
     </Flex>
   );
