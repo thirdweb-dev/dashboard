@@ -1,10 +1,15 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
+import {
+  ContextAIBotButton,
+  ContextAIBotScript,
+} from "components/help/context-ai-button";
+import { CreateTicketModal } from "components/help/create-ticket-modal";
 import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { Button, Card, Heading, Link } from "tw-components";
+import { Card, Heading, Link } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const helpProducts = [
@@ -44,24 +49,9 @@ const HelpPage: ThirdwebNextPage = () => {
   const title = "Help Page";
   const description = "thirdweb help page.";
 
-  const handleSubmit = async () => {
-    /*     setIsSubmitting(true); */
-
-    try {
-      await fetch("/api/create-ticket", {
-        method: "POST",
-        body: JSON.stringify({ markdown: "hi" }),
-      });
-      /*     setEmail(""); */
-    } catch (err) {
-      console.error(err);
-    }
-
-    /*     setIsSubmitting(false); */
-  };
-
   return (
     <>
+      <ContextAIBotScript />
       <NextSeo
         title={title}
         description={description}
@@ -78,7 +68,7 @@ const HelpPage: ThirdwebNextPage = () => {
           ], */
         }}
       />
-      <Button onClick={handleSubmit}>Create ticket</Button>
+
       <Flex
         direction="column"
         mx="auto"
@@ -87,6 +77,8 @@ const HelpPage: ThirdwebNextPage = () => {
         px={{ base: 8, md: 24 }}
         gap={{ base: 4, md: 8 }}
       >
+        <ContextAIBotButton />
+        <CreateTicketModal />
         <Heading size="title.md">Popular links by products</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 8 }}>
           {helpProducts.map((product) => (
