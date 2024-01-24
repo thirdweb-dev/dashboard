@@ -56,7 +56,7 @@ const Mission: ThirdwebNextPage = () => {
             flexDir="column"
             maxW="container.page"
             gap={{ base: "120px", md: "180px" }}
-            mt={{ base: "100px", "2xl": "500px" }}
+            mt={{ base: "100px", "2xl": "200px" }}
           >
             <ReasonSection />
             <ReasonWeb3Section />
