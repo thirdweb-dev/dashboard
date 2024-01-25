@@ -78,19 +78,20 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
       alignItems="center"
       position="relative"
       mt={40}
-      flexDir={{ base: "column", "2xl": "row" }}
-      gap={{ base: "80px", "2xl": 0 }}
+      flexDir={{ base: "column", xl: "row" }}
+      gap={{ base: "80px", xl: 0 }}
       ref={ref}
     >
       <LandingDesktopMobileImage
         image={require("public/assets/landingpage/mobile/parallax-left-v2.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-left-v2.png")}
         alt="parallax-one"
-        maxW={{ base: "100%", "2xl": "512px" }}
+        maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
         transform={{
           base: "auto",
-          "2xl": `translateY(${offsetY}px)`,
+          xl: `translateY(${offsetY}px)`,
         }}
+        transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
 
       <Container
@@ -122,11 +123,12 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         image={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
         alt="parallax-one"
-        maxW={{ base: "100%", "2xl": "512px" }}
+        maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
         transform={{
           base: "auto",
-          "2xl": `translateY(${offsetY}px)`,
+          xl: `translateY(${offsetY}px)`,
         }}
+        transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
     </Flex>
   );

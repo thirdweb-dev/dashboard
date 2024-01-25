@@ -14,18 +14,20 @@ const OverviewSection = () => {
       alignItems="center"
       position="relative"
       mt={40}
-      flexDir={{ base: "column", "2xl": "row" }}
-      gap={{ base: "80px", "2xl": 0 }}
+      flexDir={{ base: "column", xl: "row" }}
+      gap={{ base: "80px", xl: 0 }}
     >
       <LandingDesktopMobileImage
         image={require("public/assets/landingpage/desktop/parallax-left.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-left.png")}
         alt="parallax-one"
-        maxW={{ base: "100%", "2xl": "512px" }}
+        maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
+        w="full"
         transform={{
           base: "auto",
-          "2xl": `translateY(${parallaxOffset - 300}px)`,
+          xl: `translateY(${parallaxOffset - 300}px)`,
         }}
+        transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
 
       <Container
@@ -35,6 +37,7 @@ const OverviewSection = () => {
         alignItems="center"
         position="relative"
         zIndex={5}
+        mx={5}
       >
         <Text size="body.xl" textAlign="center" maxW={540} color="#fff">
           <Text as="span" size="body.xl" fontWeight="bold" color="#fff">
@@ -50,11 +53,14 @@ const OverviewSection = () => {
         image={require("public/assets/landingpage/desktop/parallax-right.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-right.png")}
         alt="parallax-one"
-        maxW={{ base: "100%", "2xl": "512px" }}
+        maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
+        w="100%"
+        flex="1"
         transform={{
           base: "auto",
-          "2xl": `translateY(${parallaxOffset - 300}px)`,
+          xl: `translateY(${parallaxOffset - 300}px)`,
         }}
+        transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
     </Flex>
   );
