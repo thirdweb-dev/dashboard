@@ -17,6 +17,7 @@ import {
   FormLabel,
   Button,
   FormErrorMessage,
+  TrackedLink,
 } from "tw-components";
 import {
   ApiKey,
@@ -143,6 +144,76 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
         autoComplete="off"
       >
         <Flex flexDir="column" gap={6}>
+          <FormControl>
+            <Flex flexDir="column" gap={4}>
+              <HStack justifyContent="space-between" alignItems="center">
+                <Box>
+                  <FormLabel mt={3}>Global spend limits</FormLabel>
+                  <Text>
+                    Maximum gas cost (in USD) that you want to sponsor. This
+                    applies for the duration of the billing period (monthly).
+                    Once this limit is reached, your users will have to fund
+                    their own gas costs.
+                  </Text>
+                </Box>
+
+                <Switch
+                  colorScheme="primary"
+                  isChecked={!!form.watch("globalLimit")}
+                  onChange={() => {
+                    form.setValue(
+                      "globalLimit",
+                      !form.watch("globalLimit")
+                        ? {
+                            maxSpendUsd: 0,
+                          }
+                        : null,
+                      { shouldDirty: true },
+                    );
+                  }}
+                />
+              </HStack>
+              {form.watch("globalLimit") && (
+                <VStack>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        "globalLimit.maxSpendUsd",
+                        form.formState,
+                      ).error
+                    }
+                  >
+                    <FormLabel>Spend limit</FormLabel>
+                    <HStack alignItems="center">
+                      <Input
+                        w={"xs"}
+                        placeholder="Enter an amount"
+                        value={form.watch("globalLimit.maxSpendUsd") ?? ""}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (isNaN(value)) {
+                            form.setValue("globalLimit.maxSpendUsd", 0);
+                          } else {
+                            form.setValue("globalLimit.maxSpendUsd", value);
+                          }
+                        }}
+                      />
+                      <Text>USD per month</Text>
+                    </HStack>
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState(
+                          "globalLimit.maxSpendUsd",
+                          form.formState,
+                        ).error?.message
+                      }
+                    </FormErrorMessage>
+                  </FormControl>
+                </VStack>
+              )}
+            </Flex>
+          </FormControl>
+          <Divider />
           <FormControl
             isInvalid={
               !!form.getFieldState("allowedChainIds", form.formState).error
@@ -153,7 +224,16 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                 <Box>
                   <FormLabel mt={3}>Restrict to specific chains</FormLabel>
                   <Text>
-                    Only sponsor transactions on the specified chains.{" "}
+                    Only sponsor transactions on the specified chains. By
+                    default, transactions can be sponsored on any of the{" "}
+                    <TrackedLink
+                      color="primary.500"
+                      isExternal
+                      category={trackingCategory}
+                      href="https://portal.thirdweb.com/wallets/smart-wallet/infrastructure#supported-chains"
+                    >
+                      supported chains.{" "}
+                    </TrackedLink>
                   </Text>
                 </Box>
 
@@ -237,76 +317,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
               )}
             </Flex>
           </FormControl>
-          <Divider />
-          <FormControl>
-            <Flex flexDir="column" gap={4}>
-              <HStack justifyContent="space-between" alignItems="center">
-                <Box>
-                  <FormLabel mt={3}>Global spend limits</FormLabel>
-                  <Text>
-                    Maximum gas cost (in USD) that you want to sponsor. This
-                    applies for the duration of the billing period (monthly).
-                    Once this limit is reached, your users will have to fund
-                    their own gas costs.
-                  </Text>
-                </Box>
 
-                <Switch
-                  colorScheme="primary"
-                  isChecked={!!form.watch("globalLimit")}
-                  onChange={() => {
-                    form.setValue(
-                      "globalLimit",
-                      !form.watch("globalLimit")
-                        ? {
-                            maxSpendUsd: 0,
-                          }
-                        : null,
-                      { shouldDirty: true },
-                    );
-                  }}
-                />
-              </HStack>
-              {form.watch("globalLimit") && (
-                <VStack>
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(
-                        "globalLimit.maxSpendUsd",
-                        form.formState,
-                      ).error
-                    }
-                  >
-                    <FormLabel>Spend limit</FormLabel>
-                    <HStack alignItems="center">
-                      <Input
-                        w={"xs"}
-                        placeholder="Enter an amount"
-                        value={form.watch("globalLimit.maxSpendUsd") ?? ""}
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value);
-                          if (isNaN(value)) {
-                            form.setValue("globalLimit.maxSpendUsd", 0);
-                          } else {
-                            form.setValue("globalLimit.maxSpendUsd", value);
-                          }
-                        }}
-                      />
-                      <Text>USD per month</Text>
-                    </HStack>
-                    <FormErrorMessage>
-                      {
-                        form.getFieldState(
-                          "globalLimit.maxSpendUsd",
-                          form.formState,
-                        ).error?.message
-                      }
-                    </FormErrorMessage>
-                  </FormControl>
-                </VStack>
-              )}
-            </Flex>
-          </FormControl>
           <Divider />
           <FormControl>
             <Flex flexDir="column" gap={4}>
