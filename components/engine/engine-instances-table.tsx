@@ -1,5 +1,8 @@
 import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
-import { EngineInstance } from "@3rdweb-sdk/react/hooks/useEngine";
+import {
+  EngineInstance,
+  useEngineInstances,
+} from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
   FormControl,
@@ -14,6 +17,8 @@ import {
   ModalBody,
   useToast,
   Input,
+  HStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useAddress } from "@thirdweb-dev/react";
@@ -24,21 +29,21 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
-import { Card, Button, FormLabel, Text } from "tw-components";
+import { Card, Button, FormLabel, Text, Badge } from "tw-components";
 
 interface EngineInstancesTableProps {
   instances: EngineInstance[];
   isLoading: boolean;
   isFetched: boolean;
+  refetch: ReturnType<typeof useEngineInstances>["refetch"];
   setConnectedInstance: Dispatch<SetStateAction<EngineInstance | undefined>>;
 }
-
-const columnHelper = createColumnHelper<EngineInstance>();
 
 export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
   instances,
   isLoading,
   isFetched,
+  refetch,
   setConnectedInstance,
 }) => {
   const editDisclosure = useDisclosure();
@@ -117,27 +122,52 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
     }
   };
 
+  const columnHelper = createColumnHelper<EngineInstance>();
   const columns = [
     columnHelper.accessor("id", {
       header: "Engine Instances",
       cell: (cell) => {
-        const { id, name, url } = cell.row.original;
+        const { id, name, url, status } = cell.row.original;
+
+        const isRequested = status === "requested";
 
         return (
           <Stack py={2}>
-            <Button
-              onClick={() => onClickConnect(id)}
-              variant="link"
-              colorScheme="blue"
-              w="fit-content"
-              rightIcon={<FiArrowRight />}
-              justifyContent="flex-start"
-            >
-              {name}
-            </Button>
-            <Text size="body.sm" color="gray.700">
-              {url}
-            </Text>
+            {isRequested ? (
+              <HStack spacing={4}>
+                <Text fontWeight="600" size="body.lg">
+                  {name}
+                </Text>
+                <Tooltip label="We will reach out within 1 business day.">
+                  <Badge
+                    borderRadius="full"
+                    size="label.sm"
+                    variant="subtle"
+                    px={3}
+                    py={1.5}
+                    colorScheme="black"
+                  >
+                    pending
+                  </Badge>
+                </Tooltip>
+              </HStack>
+            ) : (
+              <Button
+                onClick={() => onClickConnect(id)}
+                variant="link"
+                colorScheme="blue"
+                w="fit-content"
+                rightIcon={<FiArrowRight />}
+                justifyContent="flex-start"
+              >
+                {name}
+              </Button>
+            )}
+            {!isRequested && (
+              <Text size="body.sm" color="gray.700">
+                {url}
+              </Text>
+            )}
           </Stack>
         );
       },
@@ -152,7 +182,6 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
         columns={columns}
         isFetched={isFetched}
         isConnecting={isLoading}
-        // onRowClick={onClickConnect}
         onMenuClick={[
           {
             icon: BiPencil,
@@ -187,14 +216,14 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
         <EditModal
           instance={instanceToUpdate}
           disclosure={editDisclosure}
-          refetch={instancesQuery.refetch}
+          refetch={refetch}
         />
       )}
       {removeDisclosure.isOpen && instanceToUpdate && (
         <RemoveModal
           instance={instanceToUpdate}
           disclosure={removeDisclosure}
-          refetch={instancesQuery.refetch}
+          refetch={refetch}
         />
       )}
     </>

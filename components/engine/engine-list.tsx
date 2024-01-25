@@ -85,7 +85,7 @@ export const EngineInstancesList = ({
               instances={instancesQuery.data ?? ([] as EngineInstance[])}
               isFetched={instancesQuery.isFetched}
               isLoading={instancesQuery.isLoading}
-              // refetch={instancesQuery.refetch}
+              refetch={instancesQuery.refetch}
               setConnectedInstance={setConnectedInstance}
             />
           </>
