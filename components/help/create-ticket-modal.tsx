@@ -12,10 +12,15 @@ import {
 import { CreateConversationRequest } from "pages/api/create-ticket";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel } from "tw-components";
+import { useTxNotifications } from "hooks/useTxNotifications";
 
 export const CreateTicketModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateConversationRequest>();
+  const { onSuccess, onError } = useTxNotifications(
+    "Successfully sent ticket. Our team will be in touch shortly.",
+    "Failed to send ticket. Please try again.",
+  );
 
   return (
     <>
@@ -34,7 +39,6 @@ export const CreateTicketModal = () => {
         <ModalContent
           as="form"
           onSubmit={form.handleSubmit(async (data) => {
-            console.log({ data });
             try {
               await fetch("/api/create-ticket", {
                 method: "POST",
@@ -43,8 +47,11 @@ export const CreateTicketModal = () => {
                   status: "open",
                 }),
               });
+              onClose();
+              onSuccess();
             } catch (err) {
               console.error(err);
+              onError(err);
             }
           })}
         >

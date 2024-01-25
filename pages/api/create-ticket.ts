@@ -27,11 +27,17 @@ const handler = async (req: NextRequest) => {
   const { markdown = "test" } = requestBody;
   invariant(process.env.UNTHREAD_API_KEY, "missing UNTHREAD_API_KEY");
 
+  const message = `
+  # Tier: 
+  ${markdown}
+  `;
+
   try {
     const response = await fetch("https://api.unthread.io/api/conversations", {
       method: "POST",
       headers: {
         "X-Api-Key": process.env.UNTHREAD_API_KEY as string,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         markdown,
@@ -40,18 +46,12 @@ const handler = async (req: NextRequest) => {
       }),
     });
 
-    console.log({ statusText: response.statusText, status: response.status });
-
     if (!response.ok) {
       return NextResponse.json(
-        { message: "Error creating ticket" },
+        { message: "Error creating ticket", response },
         { status: 500 },
       );
     }
-
-    const data = await response.json();
-
-    console.log({ data, response });
 
     return NextResponse.json(
       { statusText: "Ticket created" },
