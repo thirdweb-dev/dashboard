@@ -6,19 +6,19 @@ import {
 import {
   Flex,
   FormControl,
+  HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
+  Tooltip,
   UseDisclosureReturn,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
   useToast,
-  Input,
-  HStack,
-  Tooltip,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useAddress } from "@thirdweb-dev/react";
@@ -29,7 +29,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
-import { Card, Button, FormLabel, Text, Badge } from "tw-components";
+import { Badge, Button, Card, FormLabel, Text } from "tw-components";
 
 interface EngineInstancesTableProps {
   instances: EngineInstance[];
@@ -181,7 +181,7 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
         data={instances}
         columns={columns}
         isFetched={isFetched}
-        isConnecting={isLoading}
+        isLoading={isLoading}
         onMenuClick={[
           {
             icon: BiPencil,
