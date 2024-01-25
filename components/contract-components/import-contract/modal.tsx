@@ -74,6 +74,7 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
                 message:
                   "This contract cannot be imported since it's not verified on any block explorers.",
               });
+              return;
             }
 
             const isOnRegistry =
