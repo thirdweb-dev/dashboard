@@ -9717,7 +9717,6 @@ export type Seller = {
   id: Scalars['String']['output'];
   implementation_status: Scalars['String']['output'];
   is_archived: Scalars['Boolean']['output'];
-  is_branding_disabled?: Maybe<Scalars['Boolean']['output']>;
   is_enterprise: Scalars['Boolean']['output'];
   is_sole_proprietor?: Maybe<Scalars['Boolean']['output']>;
   is_trusted?: Maybe<Scalars['Boolean']['output']>;
@@ -10069,7 +10068,6 @@ export type Seller_Bool_Exp = {
   id?: InputMaybe<String_Comparison_Exp>;
   implementation_status?: InputMaybe<String_Comparison_Exp>;
   is_archived?: InputMaybe<Boolean_Comparison_Exp>;
-  is_branding_disabled?: InputMaybe<Boolean_Comparison_Exp>;
   is_enterprise?: InputMaybe<Boolean_Comparison_Exp>;
   is_sole_proprietor?: InputMaybe<Boolean_Comparison_Exp>;
   is_trusted?: InputMaybe<Boolean_Comparison_Exp>;
@@ -10141,7 +10139,6 @@ export type Seller_Insert_Input = {
   id?: InputMaybe<Scalars['String']['input']>;
   implementation_status?: InputMaybe<Scalars['String']['input']>;
   is_archived?: InputMaybe<Scalars['Boolean']['input']>;
-  is_branding_disabled?: InputMaybe<Scalars['Boolean']['input']>;
   is_enterprise?: InputMaybe<Scalars['Boolean']['input']>;
   is_sole_proprietor?: InputMaybe<Scalars['Boolean']['input']>;
   is_trusted?: InputMaybe<Scalars['Boolean']['input']>;
@@ -10273,7 +10270,6 @@ export type Seller_Order_By = {
   id?: InputMaybe<Order_By>;
   implementation_status?: InputMaybe<Order_By>;
   is_archived?: InputMaybe<Order_By>;
-  is_branding_disabled?: InputMaybe<Order_By>;
   is_enterprise?: InputMaybe<Order_By>;
   is_sole_proprietor?: InputMaybe<Order_By>;
   is_trusted?: InputMaybe<Order_By>;
@@ -10343,8 +10339,6 @@ export enum Seller_Select_Column {
   /** column name */
   IsArchived = 'is_archived',
   /** column name */
-  IsBrandingDisabled = 'is_branding_disabled',
-  /** column name */
   IsEnterprise = 'is_enterprise',
   /** column name */
   IsSoleProprietor = 'is_sole_proprietor',
@@ -10399,7 +10393,6 @@ export type Seller_Set_Input = {
   id?: InputMaybe<Scalars['String']['input']>;
   implementation_status?: InputMaybe<Scalars['String']['input']>;
   is_archived?: InputMaybe<Scalars['Boolean']['input']>;
-  is_branding_disabled?: InputMaybe<Scalars['Boolean']['input']>;
   is_enterprise?: InputMaybe<Scalars['Boolean']['input']>;
   is_sole_proprietor?: InputMaybe<Scalars['Boolean']['input']>;
   is_trusted?: InputMaybe<Scalars['Boolean']['input']>;
@@ -10477,7 +10470,6 @@ export type Seller_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['String']['input']>;
   implementation_status?: InputMaybe<Scalars['String']['input']>;
   is_archived?: InputMaybe<Scalars['Boolean']['input']>;
-  is_branding_disabled?: InputMaybe<Scalars['Boolean']['input']>;
   is_enterprise?: InputMaybe<Scalars['Boolean']['input']>;
   is_sole_proprietor?: InputMaybe<Scalars['Boolean']['input']>;
   is_trusted?: InputMaybe<Scalars['Boolean']['input']>;
@@ -10546,8 +10538,6 @@ export enum Seller_Update_Column {
   ImplementationStatus = 'implementation_status',
   /** column name */
   IsArchived = 'is_archived',
-  /** column name */
-  IsBrandingDisabled = 'is_branding_disabled',
   /** column name */
   IsEnterprise = 'is_enterprise',
   /** column name */
