@@ -130,6 +130,15 @@ const RequestCloudHostedEngineModal = ({
     }
   };
 
+  const onClickAddPaymentMethod = () => {
+    trackEvent({
+      category: "engine",
+      action: "click",
+      label: "clicked-add-payment-method",
+    });
+    onAddPaymentMethod();
+  };
+
   return (
     <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
       <ModalOverlay />
@@ -204,7 +213,7 @@ const RequestCloudHostedEngineModal = ({
                 </>
               ) : (
                 <Button
-                  onClick={onAddPaymentMethod}
+                  onClick={onClickAddPaymentMethod}
                   colorScheme="blue"
                   py={6}
                   w="full"
