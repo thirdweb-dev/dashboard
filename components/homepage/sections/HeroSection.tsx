@@ -80,7 +80,7 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            Build scalable web3 apps,
+            Build web3 apps fast,
             <br />
             on any EVM chain.
           </Heading>
