@@ -81,10 +81,10 @@ export const ImportContract: React.FC<ImportContractProps> = ({
                 {importContract.isLoading
                   ? "Importing contract"
                   : importContract.error
-                  ? "Contract could not be imported."
-                  : importContract.isSuccess
-                  ? "Import successful!"
-                  : "Contract requires import."}
+                    ? "Contract could not be imported."
+                    : importContract.isSuccess
+                      ? "Import successful!"
+                      : "Contract requires import."}
               </Heading>
               {importContract.isLoading && (
                 <Spinner
