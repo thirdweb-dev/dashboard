@@ -1,6 +1,8 @@
-import { Flex } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
+import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { LandingFAQ } from "components/landing-pages/faq";
-import React from "react";
+import { useParallaxEffect } from "hooks/effect/useParallexEffect";
+import React, { useEffect, useRef, useState } from "react";
 import { Heading, Text } from "tw-components";
 
 interface HowSectionProps {
@@ -41,22 +43,90 @@ const faqs = [
 ];
 
 const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
-  return (
-    <Flex flexDir="column" alignItems="center">
-      <Heading textAlign="center" size="title.2xl">
-        But how?
-      </Heading>
-      <Text mt={6} maxW="490px" textAlign="center">
-        Web3 enables developers to build internet products with public backends.
-        This unlocks some powerful new digital experiences:
-      </Text>
+  const [offsetY, setOffsetY] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
 
-      <LandingFAQ
-        hideMarginTop
-        TRACKING_CATEGORY={TRACKING_CATEGORY}
-        title=""
-        faqs={faqs}
-        titleSize="title.2xl"
+  const handleScroll = () => {
+    if (ref.current) {
+      const elementTop =
+        ref.current.getBoundingClientRect().top + window.pageYOffset;
+
+      const startOffset = window.innerHeight / 2;
+      const scrollPosition = window.pageYOffset;
+
+      if (scrollPosition > elementTop - startOffset) {
+        const newOffset = Math.min(
+          (scrollPosition - elementTop + startOffset) * 0.2,
+          150,
+        );
+        setOffsetY(newOffset);
+      } else {
+        setOffsetY(0);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      position="relative"
+      mt={40}
+      flexDir={{ base: "column", "2xl": "row" }}
+      gap={{ base: "80px", "2xl": 0 }}
+      ref={ref}
+    >
+      <LandingDesktopMobileImage
+        image={require("public/assets/landingpage/mobile/parallax-left-v2.png")}
+        mobileImage={require("public/assets/landingpage/mobile/parallax-left-v2.png")}
+        alt="parallax-one"
+        maxW={{ base: "100%", "2xl": "512px" }}
+        transform={{
+          base: "auto",
+          "2xl": `translateY(${offsetY}px)`,
+        }}
+      />
+
+      <Container
+        as={Flex}
+        flexDir="column"
+        maxW="container.page"
+        alignItems="center"
+        position="relative"
+        zIndex={5}
+      >
+        <Heading textAlign="center" size="title.2xl">
+          But how?
+        </Heading>
+        <Text mt={6} maxW="490px" textAlign="center">
+          Web3 enables developers to build internet products with public
+          backends. This unlocks some powerful new digital experiences:
+        </Text>
+
+        <LandingFAQ
+          hideMarginTop
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+          title=""
+          faqs={faqs}
+          titleSize="title.2xl"
+        />
+      </Container>
+
+      <LandingDesktopMobileImage
+        image={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
+        mobileImage={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
+        alt="parallax-one"
+        maxW={{ base: "100%", "2xl": "512px" }}
+        transform={{
+          base: "auto",
+          "2xl": `translateY(${offsetY}px)`,
+        }}
       />
     </Flex>
   );

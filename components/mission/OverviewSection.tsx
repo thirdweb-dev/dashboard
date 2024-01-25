@@ -1,9 +1,13 @@
 import { Box, Container, Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
+import { useParallaxEffect } from "hooks/effect/useParallexEffect";
 import React, { useEffect, useRef, useState } from "react";
 import { Text } from "tw-components";
 
 const OverviewSection = () => {
+  const parallaxOffset = useParallaxEffect(0.2);
+
   return (
     <Flex
       justifyContent="center"
@@ -18,6 +22,10 @@ const OverviewSection = () => {
         mobileImage={require("public/assets/landingpage/mobile/parallax-left.png")}
         alt="parallax-one"
         maxW={{ base: "100%", "2xl": "512px" }}
+        transform={{
+          base: "auto",
+          "2xl": `translateY(${parallaxOffset - 300}px)`,
+        }}
       />
 
       <Container
@@ -41,8 +49,12 @@ const OverviewSection = () => {
       <LandingDesktopMobileImage
         image={require("public/assets/landingpage/desktop/parallax-right.png")}
         mobileImage={require("public/assets/landingpage/mobile/parallax-right.png")}
-        alt="parallax-two"
+        alt="parallax-one"
         maxW={{ base: "100%", "2xl": "512px" }}
+        transform={{
+          base: "auto",
+          "2xl": `translateY(${parallaxOffset - 300}px)`,
+        }}
       />
     </Flex>
   );

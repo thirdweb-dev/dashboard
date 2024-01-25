@@ -75,6 +75,7 @@ const ReasonWeb3Section = () => {
       <SimpleGrid
         columns={{ base: 1, lg: 5 }}
         mt={14}
+        alignItems="flex-start"
         gap={{ base: "60px", lg: 0 }}
       >
         {reasons.map((reason, idx) => {

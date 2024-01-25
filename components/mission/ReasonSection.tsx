@@ -166,7 +166,7 @@ const ReasonSection = () => {
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
       alignItems="center"
-      gap="48px"
+      gap={{ base: "48px", "2xl": "0" }}
       placeItems="center"
       position="relative"
     >
@@ -175,7 +175,7 @@ const ReasonSection = () => {
           Who is thirdweb for?
         </Heading>
 
-        <Text mt={4} size="body.md" color="#fff">
+        <Text mt={4} size="body.xl" color="#fff" opacity={0.7}>
           We believe that the most compelling use cases of blockchain technology
           will be found by crypto-native builders and startups who are building
           with web3 at the heart of their app. thirdweb is built by web3 native

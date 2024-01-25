@@ -13,12 +13,12 @@ const MissionSection = () => {
       position="relative"
     >
       <Flex flexDir="column" maxW={500}>
-        <Heading size="title.lg" maxW="xl" mt={46}>
+        <Heading size="title.lg" maxW="xl" fontWeight="semibold" mt={46}>
           thirdweb provides a full stack platform for web3 with tools that work
           on any EVM chain.
         </Heading>
 
-        <Text mt={4} size="body.md" color="#fff">
+        <Text mt={4} size="body.xl" color="#fff" opacity={0.7}>
           It&apos;s a simple and cohesive developer experience.
         </Text>
       </Flex>
