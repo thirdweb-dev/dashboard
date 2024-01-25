@@ -89,7 +89,7 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
         transform={{
           base: "auto",
-          xl: `translateY(${offsetY}px)`,
+          xl: `translateY(${-offsetY + 200}px)`,
         }}
         transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
@@ -126,7 +126,7 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
         transform={{
           base: "auto",
-          xl: `translateY(${offsetY}px)`,
+          xl: `translateY(${-offsetY + 200}px)`,
         }}
         transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />

@@ -11,6 +11,7 @@ import ReasonSection from "components/mission/ReasonSection";
 import ReasonWeb3Section from "components/mission/ReasonWeb3Section";
 import HowSection from "components/mission/HowSection";
 import MajorSection from "components/mission/MajorSection";
+import DesireSection from "components/mission/DesireSection";
 
 const TRACKING_CATEGORY = "mission";
 
@@ -66,6 +67,7 @@ const Mission: ThirdwebNextPage = () => {
             gap={{ base: "120px", md: "180px" }}
             mt={{ base: "100px", "2xl": "200px" }}
           >
+            <DesireSection />
             <ReasonSection />
             <ReasonWeb3Section />
           </Container>

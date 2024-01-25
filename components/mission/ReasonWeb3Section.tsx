@@ -67,7 +67,7 @@ const ReasonWeb3Section = () => {
       <Heading textAlign="center" size="title.lg">
         Why web3?
       </Heading>
-      <Text mt={6} maxW="528px" textAlign="center">
+      <Text mt={6} maxW="648px" size="body.xl" textAlign="center">
         Web3 will unlock the true potential of the internet by enabling digital
         ownership for users and generating more revenue for builders.
       </Text>

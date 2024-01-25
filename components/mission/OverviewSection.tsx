@@ -25,7 +25,7 @@ const OverviewSection = () => {
         w="full"
         transform={{
           base: "auto",
-          xl: `translateY(${parallaxOffset - 300}px)`,
+          xl: `translateY(${-parallaxOffset + 200}px)`,
         }}
         transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
@@ -58,7 +58,7 @@ const OverviewSection = () => {
         flex="1"
         transform={{
           base: "auto",
-          xl: `translateY(${parallaxOffset - 300}px)`,
+          xl: `translateY(${-parallaxOffset + 200}px)`,
         }}
         transition="transform 0.8s cubic-bezier(0.33, 1, 0.68, 1)"
       />
