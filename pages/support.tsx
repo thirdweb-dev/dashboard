@@ -1,17 +1,24 @@
-import { Container, Flex, GridItem, Icon, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  GridItem,
+  Icon,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { ContactSupportModal } from "components/help/contact-support-modal";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
-import { Card, Heading, Link, Text } from "tw-components";
+import { Card, Heading, Link, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const helpProducts = [
   {
     title: "Wallets",
-    icon: require("public/assets/support/wallets.png"),
+    icon: require("public/assets/support/wallets.svg"),
     viewAllUrl: "https://support.thirdweb.com/wallets/dwWCB7ZD5sNcHEAj4rFFui",
     helpArticles: [
       {
@@ -26,7 +33,7 @@ const helpProducts = [
   },
   {
     title: "Contracts",
-    icon: require("public/assets/support/contracts.png"),
+    icon: require("public/assets/support/contracts.svg"),
     viewAllUrl:
       "https://support.thirdweb.com/smart-contracts/rtHYyzspnPaHmmANmJQz1k/",
     helpArticles: [
@@ -46,7 +53,7 @@ const helpProducts = [
   },
   {
     title: "Engine",
-    icon: require("public/assets/support/engine.png"),
+    icon: require("public/assets/support/engine.svg"),
     viewAllUrl: "https://portal.thirdweb.com/infrastructure/engine/overview",
     helpArticles: [
       {
@@ -57,7 +64,7 @@ const helpProducts = [
   },
   {
     title: "Payments",
-    icon: require("public/assets/support/payments.png"),
+    icon: require("public/assets/support/payments.svg"),
     viewAllUrl: "https://support.thirdweb.com/payments/dsjpUFZYNivScVEb3PZGrj/",
     helpArticles: [
       {
@@ -72,7 +79,7 @@ const helpProducts = [
   },
   {
     title: "Account",
-    icon: require("public/assets/support/account.png"),
+    icon: require("public/assets/support/account.svg"),
     viewAllUrl: "https://portal.thirdweb.com/account",
     helpArticles: [
       {
@@ -91,7 +98,7 @@ const helpProducts = [
   },
   {
     title: "MISC",
-    icon: require("public/assets/support/misc.png"),
+    icon: require("public/assets/support/misc.svg"),
     viewAllUrl: "https://support.thirdweb.com/",
     helpArticles: [
       {
@@ -201,6 +208,52 @@ const SuppportPage: ThirdwebNextPage = () => {
                   </Card>
                 ))}
               </SimpleGrid>
+              <Card
+                as={Flex}
+                flexDir="column"
+                p={6}
+                bgColor="rgba(166, 82, 231, 0.18)"
+                gap={{ base: 4, md: 0 }}
+              >
+                <Flex justifyContent="space-between">
+                  <Flex flexDir="column" gap={4}>
+                    <Heading size="title.sm">
+                      The thirdweb Discord community
+                    </Heading>
+                    <Text>
+                      Join our Discord community for thirdweb developers!
+                    </Text>
+                    <Box>
+                      <LinkButton
+                        href="https://discord.gg/thirdweb"
+                        isExternal
+                        colorScheme="primary"
+                        variant="outline"
+                        noIcon
+                      >
+                        Join Discord
+                      </LinkButton>
+                    </Box>
+                  </Flex>
+                  <ChakraNextImage
+                    display={{
+                      base: "none",
+                      md: "block",
+                    }}
+                    boxSize={48}
+                    src={require("public/assets/support/discord-illustration.png")}
+                    alt="icon"
+                  />
+                </Flex>
+                <Text>
+                  Please note that this Discord is not for official support!
+                  Please{" "}
+                  <Link href="/contact-us" isExternal color="primary.500">
+                    contact us
+                  </Link>{" "}
+                  if you need help building web3 projects with thirdweb.
+                </Text>
+              </Card>
             </Flex>
           </GridItem>
           <GridItem colSpan={{ base: 1, md: 4 }}>
