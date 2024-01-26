@@ -10,12 +10,15 @@ export function ContextAIBotButton() {
   };
 
   return (
-    <div context-launcher="true" context-bot-id={contextBotId}>
-      <Button onClick={handleClick} variant="outline">
-        <StarsIcon />
-        Ask AI
-      </Button>
-    </div>
+    <>
+      <ContextAIBotScript />
+      <div context-launcher="true" context-bot-id={contextBotId}>
+        <Button onClick={handleClick} variant="outline">
+          <StarsIcon />
+          Ask AI
+        </Button>
+      </div>
+    </>
   );
 }
 

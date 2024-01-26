@@ -1,10 +1,6 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import {
-  ContextAIBotButton,
-  ContextAIBotScript,
-} from "components/help/context-ai-button";
 import { CreateTicketModal } from "components/help/create-ticket-modal";
 import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { NextSeo } from "next-seo";
@@ -51,7 +47,6 @@ const SuppportPage: ThirdwebNextPage = () => {
 
   return (
     <>
-      <ContextAIBotScript />
       <NextSeo
         title={title}
         description={description}
@@ -77,7 +72,7 @@ const SuppportPage: ThirdwebNextPage = () => {
         px={{ base: 8, md: 24 }}
         gap={{ base: 4, md: 8 }}
       >
-        <ContextAIBotButton />
+        {/*         <ContextAIBotButton /> */}
         <CreateTicketModal />
         <Heading size="title.md">Popular links by products</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 8 }}>

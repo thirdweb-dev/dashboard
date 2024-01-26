@@ -5,6 +5,7 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
+  ModalHeader,
   ModalOverlay,
   Select,
   Textarea,
@@ -12,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { CreateConversationRequest } from "pages/api/create-ticket";
 import { useForm } from "react-hook-form";
-import { Button, FormLabel } from "tw-components";
+import { Button, FormLabel, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useAddress } from "@thirdweb-dev/react";
@@ -74,6 +75,11 @@ export const CreateTicketModal = () => {
             }
           })}
         >
+          <ModalHeader>
+            <Heading size="title.md" mt={2}>
+              Get in touch with us
+            </Heading>
+          </ModalHeader>
           <ModalBody p={6} as={Flex} gap={4} flexDir="column">
             <FormControl>
               <FormLabel>What do you need help with?</FormLabel>
