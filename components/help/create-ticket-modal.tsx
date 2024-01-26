@@ -6,6 +6,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalOverlay,
+  Select,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -13,6 +14,18 @@ import { CreateConversationRequest } from "pages/api/create-ticket";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { useAddress } from "@thirdweb-dev/react";
+
+const productOptions = [
+  "Wallets",
+  "Contracts",
+  "Payments",
+  "Infrastructure",
+  "Account",
+  "Billing",
+  "Other",
+];
 
 export const CreateTicketModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,6 +34,8 @@ export const CreateTicketModal = () => {
     "Successfully sent ticket. Our team will be in touch shortly.",
     "Failed to send ticket. Please try again.",
   );
+  const { data: account } = useAccount();
+  const address = useAddress();
 
   return (
     <>
@@ -45,6 +60,10 @@ export const CreateTicketModal = () => {
                 body: JSON.stringify({
                   markdown: data.markdown,
                   status: "open",
+                  plan: account && account.plan,
+                  email: account && account.email,
+                  product: data.product,
+                  address,
                 }),
               });
               onClose();
@@ -56,8 +75,18 @@ export const CreateTicketModal = () => {
           })}
         >
           <ModalBody p={6} as={Flex} gap={4} flexDir="column">
+            <FormControl>
+              <FormLabel>What do you need help with?</FormLabel>
+              <Select {...form.register("product", { required: true })}>
+                {productOptions?.map((product) => (
+                  <option key={product} value={product}>
+                    {product}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl isRequired>
-              <FormLabel>Subject</FormLabel>
+              <FormLabel>Description</FormLabel>
               <Textarea
                 autoComplete="off"
                 {...form.register("markdown", { required: true })}

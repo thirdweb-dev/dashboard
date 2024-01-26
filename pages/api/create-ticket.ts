@@ -1,3 +1,4 @@
+import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { NextRequest, NextResponse } from "next/server";
 import invariant from "tiny-invariant";
 
@@ -13,6 +14,11 @@ export interface CreateConversationRequest {
   customerId?: string;
   priority?: number;
   notes?: string;
+  // tw extra types
+  plan?: AccountPlan;
+  email?: string;
+  address?: string;
+  product?: string;
 }
 
 const handler = async (req: NextRequest) => {
@@ -22,14 +28,21 @@ const handler = async (req: NextRequest) => {
 
   const requestBody = (await req.json()) as CreateConversationRequest;
 
-  console.log({ requestBody });
-
-  const { markdown = "test" } = requestBody;
+  const {
+    markdown = "test",
+    plan = "free",
+    email,
+    product,
+    address,
+  } = requestBody;
   invariant(process.env.UNTHREAD_API_KEY, "missing UNTHREAD_API_KEY");
 
   const message = `
-  # Tier: 
-  ${markdown}
+  # Plan: ${plan}
+  # Email: ${email}
+  # Address: ${address}
+  # Product: ${product}
+  # Message: ${markdown}
   `;
 
   try {
@@ -40,7 +53,7 @@ const handler = async (req: NextRequest) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        markdown,
+        markdown: message,
         status: "open",
         triageChannelId: "C05CE35U0A0",
       }),
