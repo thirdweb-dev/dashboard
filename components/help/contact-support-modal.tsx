@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   FormControl,
   Modal,
@@ -16,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { Button, FormLabel, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 
 const productOptions = [
   "Wallets",
@@ -28,7 +29,7 @@ const productOptions = [
   "Other",
 ];
 
-export const CreateTicketModal = () => {
+export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateConversationRequest>();
   const { onSuccess, onError } = useTxNotifications(
@@ -40,16 +41,16 @@ export const CreateTicketModal = () => {
 
   return (
     <>
-      <Button
-        onClick={onOpen}
-        colorScheme="primary"
-        position="fixed"
-        bottom={4}
-        right={4}
-        zIndex="popover"
+      <Box
+        position={{ base: "fixed", md: "relative" }}
+        bottom={{ base: 4, md: "auto" }}
+        right={{ base: 4, md: "auto" }}
+        zIndex={{ base: "popover", md: "auto" }}
       >
-        Create ticket
-      </Button>
+        <Button onClick={onOpen} colorScheme="primary">
+          Contact Support
+        </Button>
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
@@ -103,9 +104,13 @@ export const CreateTicketModal = () => {
             <Button onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button type="submit" colorScheme="primary">
-              Submit
-            </Button>
+            {account?.id ? (
+              <Button type="submit" colorScheme="primary">
+                Submit
+              </Button>
+            ) : (
+              <ConnectWallet />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

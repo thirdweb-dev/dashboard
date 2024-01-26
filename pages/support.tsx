@@ -1,41 +1,110 @@
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Container, Flex, GridItem, Icon, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { CreateTicketModal } from "components/help/create-ticket-modal";
-import { PRODUCTS } from "components/product-pages/common/nav/data";
+import { ContactSupportModal } from "components/help/contact-support-modal";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { Card, Heading, Link } from "tw-components";
+import { FiArrowRight } from "react-icons/fi";
+import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const helpProducts = [
   {
     title: "Wallets",
-    icon: PRODUCTS.find((p) => p.label === "connect")?.icon,
-    viewAllUrl: "https://portal.thirdweb.com",
+    icon: require("public/assets/support/wallets.png"),
+    viewAllUrl: "https://support.thirdweb.com/wallets/dwWCB7ZD5sNcHEAj4rFFui",
     helpArticles: [
       {
-        title: "How to create a wallet",
-        url: "https://portal.thirdweb.com",
+        title: "Smart Wallet FAQ",
+        url: "https://support.thirdweb.com/wallets/dwWCB7ZD5sNcHEAj4rFFui/smart-wallet-faqs/64y68nzTQkUZw6r6FryFgK",
       },
       {
-        title: "How to create a wallet 2",
-        url: "https://portal.thirdweb.com",
+        title: "Embedded Wallet FAQ",
+        url: "https://support.thirdweb.com/wallets/dwWCB7ZD5sNcHEAj4rFFui/embedded-wallet-faqs/rhkKeknMUEdyDbRPnLFz1s",
       },
     ],
   },
   {
     title: "Contracts",
-    icon: PRODUCTS.find((p) => p.label === "smart-wallet")?.icon,
-    viewAllUrl: "https://portal.thirdweb.com",
+    icon: require("public/assets/support/contracts.png"),
+    viewAllUrl:
+      "https://support.thirdweb.com/smart-contracts/rtHYyzspnPaHmmANmJQz1k/",
     helpArticles: [
       {
-        title: "How to create a wallet 3",
-        url: "https://portal.thirdweb.com",
+        title: "Contract Verification",
+        url: "https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-verify-thirdweb-prebuilt-contracts/4VGyYhzjaSJ9JjmVQ6WNL6",
       },
       {
-        title: "How to create a wallet 4",
-        url: "https://portal.thirdweb.com",
+        title: "Batch Upload troubleshooting",
+        url: "https://support.thirdweb.com/smart-contracts/rtHYyzspnPaHmmANmJQz1k/batch-upload-troubleshooting/5WMQFqfaUTU1C8NM8FtJ2X",
+      },
+      {
+        title: "Contract Verification with Blockscout API",
+        url: "https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/blockscout-api-contract-verification/qpa9r79QkgH31HFsvGissC",
+      },
+    ],
+  },
+  {
+    title: "Engine",
+    icon: require("public/assets/support/engine.png"),
+    viewAllUrl: "https://portal.thirdweb.com/infrastructure/engine/overview",
+    helpArticles: [
+      {
+        title: "Engine FAQ",
+        url: "https://portal.thirdweb.com/infrastructure/engine/faq",
+      },
+    ],
+  },
+  {
+    title: "Payments",
+    icon: require("public/assets/support/payments.png"),
+    viewAllUrl: "https://support.thirdweb.com/payments/dsjpUFZYNivScVEb3PZGrj/",
+    helpArticles: [
+      {
+        title: "Checkout buyer FAQ",
+        url: "https://support.thirdweb.com/payments/dsjpUFZYNivScVEb3PZGrj/paper-buyer-faq/dejjmXeDPPAEJsA6n35pCi",
+      },
+      {
+        title: "NFT Checkout Buyer FAQ",
+        url: "https://support.thirdweb.com/payments/dsjpUFZYNivScVEb3PZGrj/nft-checkout-faqs/pC2JvfwLpXdeH9Dncv5dUm",
+      },
+    ],
+  },
+  {
+    title: "Account",
+    icon: require("public/assets/support/account.png"),
+    viewAllUrl: "https://portal.thirdweb.com/account",
+    helpArticles: [
+      {
+        title: "Manage billing",
+        url: "https://portal.thirdweb.com/account/billing/manage-billing",
+      },
+      {
+        title: "Upgrade plans",
+        url: "https://portal.thirdweb.com/account/billing/upgrade-plan",
+      },
+      {
+        title: "Account Info",
+        url: "https://portal.thirdweb.com/account/billing/account-info",
+      },
+    ],
+  },
+  {
+    title: "MISC",
+    icon: require("public/assets/support/misc.png"),
+    viewAllUrl: "https://support.thirdweb.com/",
+    helpArticles: [
+      {
+        title: "Troubleshooting error messages",
+        url: "https://support.thirdweb.com/troubleshooting-errors/7Y1BqKNvtLdBv5fZkRZZB3",
+      },
+      {
+        title: "Add EVM to thirdweb chainlist",
+        url: "https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-add-your-evm-chain-to-thirdweb%E2%80%99s-chainlist-/3HMqrwyxXUFxQYaudDJffT",
+      },
+      {
+        title: "API Keys",
+        url: "https://portal.thirdweb.com/account/api-keys",
       },
     ],
   },
@@ -63,49 +132,147 @@ const SuppportPage: ThirdwebNextPage = () => {
           ], */
         }}
       />
+      <Container maxW="container.page" mb={{ base: 12, md: 40 }}>
+        <SimpleGrid columns={{ base: 1, md: 12 }} gap={{ base: 4, md: 12 }}>
+          <GridItem colSpan={{ base: 1, md: 8 }}>
+            <Flex
+              direction="column"
+              mx="auto"
+              pb={8}
+              overflowX="hidden"
+              gap={{ base: 4, md: 8 }}
+            >
+              {/*         <ContextAIBotButton /> */}
 
-      <Flex
-        direction="column"
-        mx="auto"
-        pb={8}
-        overflowX="hidden"
-        px={{ base: 8, md: 24 }}
-        gap={{ base: 4, md: 8 }}
-      >
-        {/*         <ContextAIBotButton /> */}
-        <CreateTicketModal />
-        <Heading size="title.md">Popular links by products</Heading>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 8 }}>
-          {helpProducts.map((product) => (
-            <Card key={product.title} as={Flex} flexDir="column" gap={4}>
-              <Flex gap={2} alignItems="center">
-                {product.icon && (
-                  <ChakraNextImage
-                    boxSize={6}
-                    mb="-4px"
-                    src={product.icon}
-                    alt="icon"
-                  />
-                )}
-                <Heading size="title.sm">{product.title}</Heading>
-              </Flex>
-              <Flex flexDir="column" gap={2}>
-                {product.helpArticles.map((article) => (
-                  <Link key={article.title} href={article.url}>
-                    <Heading
-                      size="label.md"
-                      color="blue.500"
-                      fontWeight="normal"
-                    >
-                      {article.title}
-                    </Heading>
-                  </Link>
+              <Heading size="title.md">Popular links by products</Heading>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 6 }}>
+                {helpProducts.map((product) => (
+                  <Card key={product.title} as={Flex} flexDir="column" gap={4}>
+                    <Flex justifyContent="space-between">
+                      <Flex gap={2} alignItems="center">
+                        {product.icon && (
+                          <ChakraNextImage
+                            boxSize={6}
+                            src={product.icon}
+                            alt="icon"
+                          />
+                        )}
+                        <Heading size="label.lg">{product.title}</Heading>
+                      </Flex>
+                      <Link
+                        href={product.viewAllUrl}
+                        _hover={{
+                          textDecoration: "none",
+                          opacity: 0.8,
+                        }}
+                      >
+                        <Flex alignItems="center" gap={1}>
+                          <Text color="blue.500" size="body.md">
+                            View all
+                          </Text>
+                          <Icon
+                            as={FiArrowRight}
+                            color="blue.500"
+                            boxSize={3}
+                          />
+                        </Flex>
+                      </Link>
+                    </Flex>
+                    <Flex flexDir="column" gap={2}>
+                      {product.helpArticles.map((article) => (
+                        <Link
+                          key={article.title}
+                          href={article.url}
+                          _hover={{
+                            textDecoration: "none",
+                            opacity: 0.8,
+                          }}
+                        >
+                          <Heading
+                            size="label.md"
+                            color="blue.500"
+                            fontWeight="normal"
+                          >
+                            {article.title}
+                          </Heading>
+                        </Link>
+                      ))}
+                    </Flex>
+                  </Card>
                 ))}
+              </SimpleGrid>
+            </Flex>
+          </GridItem>
+          <GridItem colSpan={{ base: 1, md: 4 }}>
+            <Flex flexDir="column" gap={8}>
+              <Flex
+                flexDir="column"
+                gap={4}
+                display={{
+                  base: "none",
+                  md: "flex",
+                }}
+              >
+                <Heading size="title.sm">Contact support</Heading>
+                <Text>
+                  We are here to help. Ask product questions, report problems,
+                  or leave feedback.
+                </Text>
+                <ContactSupportModal />
               </Flex>
-            </Card>
-          ))}
+              <Flex flexDir="column" gap={6}>
+                <Flex flexDir="column" gap={2}>
+                  <Text>
+                    Questions about our plans, pricing, or request a demo?
+                  </Text>
+                  <Link
+                    href="/contact-us"
+                    _hover={{
+                      textDecoration: "none",
+                      opacity: 0.8,
+                    }}
+                  >
+                    <Flex alignItems="center" gap={1}>
+                      <Text color="primary.500" size="body.md">
+                        Talk to sales
+                      </Text>
+                      <Icon as={FiArrowRight} color="primary.500" boxSize={3} />
+                    </Flex>
+                  </Link>
+                </Flex>
+                <Flex flexDir="column" gap={2}>
+                  <Text>
+                    Get an overview of thirdweb products, features, and how to
+                    use them.
+                  </Text>
+                  <Link
+                    href="https://portal.thirdweb.com"
+                    _hover={{
+                      textDecoration: "none",
+                      opacity: 0.8,
+                    }}
+                  >
+                    <Flex alignItems="center" gap={1}>
+                      <Text color="primary.500" size="body.md">
+                        Visit Docs
+                      </Text>
+                      <Icon as={FiArrowRight} color="primary.500" boxSize={3} />
+                    </Flex>
+                  </Link>
+                </Flex>
+              </Flex>
+              <Flex
+                display={{
+                  base: "flex",
+                  md: "none",
+                }}
+              >
+                <ContactSupportModal />
+              </Flex>
+            </Flex>
+          </GridItem>
         </SimpleGrid>
-      </Flex>
+      </Container>
     </>
   );
 };
