@@ -6,6 +6,7 @@ import {
   HStack,
   IconButton,
   Input,
+  Select,
   Stack,
   Switch,
   Textarea,
@@ -23,6 +24,7 @@ import {
   ApiKey,
   ApiKeyService,
   ApiKeyServicePolicy,
+  ApiKeyServicePolicyLimits,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -60,9 +62,10 @@ export const sponsorshipPoliciesValidationSchema = z.object({
     .nullable(),
   globalLimit: z
     .object({
-      maxSpendUsd: z.number().refine((n) => n > 0, {
+      maxSpend: z.string().refine((n) => parseInt(n) > 0, {
         message: "Must be a positive number",
       }),
+      maxSpendUnit: z.enum(["usd", "native"]),
     })
     .nullable(),
 });
@@ -107,14 +110,25 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
+    const limits: ApiKeyServicePolicyLimits | null = values.globalLimit
+      ? {
+          global: {
+            maxSpend: values.globalLimit.maxSpend,
+            maxSpendUnit: values.globalLimit.maxSpendUnit,
+          },
+        }
+      : null;
     const parsedValues: ApiKeyServicePolicy = {
-      ...values,
       allowedContractAddresses:
         values.allowedContractAddresses !== null
           ? toArrFromList(values.allowedContractAddresses)
           : null,
+      allowedChainIds: values.allowedChainIds,
+      serverVerifier: values.serverVerifier,
+      limits,
     };
     console.log("submitted", parsedValues);
+    // TODO send to api server
     onSuccess();
   });
 
@@ -165,7 +179,8 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                       "globalLimit",
                       !form.watch("globalLimit")
                         ? {
-                            maxSpendUsd: 0,
+                            maxSpend: "0",
+                            maxSpendUnit: "usd",
                           }
                         : null,
                       { shouldDirty: true },
@@ -178,7 +193,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                   <FormControl
                     isInvalid={
                       !!form.getFieldState(
-                        "globalLimit.maxSpendUsd",
+                        "globalLimit.maxSpend",
                         form.formState,
                       ).error
                     }
@@ -188,22 +203,24 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                       <Input
                         w={"xs"}
                         placeholder="Enter an amount"
-                        value={form.watch("globalLimit.maxSpendUsd") ?? ""}
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value);
-                          if (isNaN(value)) {
-                            form.setValue("globalLimit.maxSpendUsd", 0);
-                          } else {
-                            form.setValue("globalLimit.maxSpendUsd", value);
-                          }
-                        }}
+                        {...form.register("globalLimit.maxSpend")}
                       />
-                      <Text>USD per month</Text>
+                      {/** TODO currency selector usd/native **/}
+                      <Select
+                        w={"xs"}
+                        {...form.register("globalLimit.maxSpendUnit")}
+                      >
+                        <option value={"usd"}>USD</option>
+                        <option value={"native"}>
+                          Native Currency (ie. ETH)
+                        </option>
+                      </Select>
+                      <Text>per month</Text>
                     </HStack>
                     <FormErrorMessage>
                       {
                         form.getFieldState(
-                          "globalLimit.maxSpendUsd",
+                          "globalLimit.maxSpend",
                           form.formState,
                         ).error?.message
                       }

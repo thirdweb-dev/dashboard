@@ -68,15 +68,34 @@ export type ApiKeyCustomAuthEndpoint = {
   customHeaders: { key: string; value: string }[];
 };
 
+// MAP to api-server types in PolicyService.ts
 export type ApiKeyServicePolicy = {
-  allowedChainIds: number[] | null;
-  allowedContractAddresses: string[] | null;
-  serverVerifier: {
+  allowedChainIds?: number[] | null;
+  allowedContractAddresses?: string[] | null;
+  serverVerifier?: {
     url: string;
     headers: { key: string; value: string }[] | null;
   } | null;
-  globalLimit: {
-    maxSpendUsd: number;
+  limits?: ApiKeyServicePolicyLimits | null;
+};
+
+export type ApiKeyServicePolicyLimits = {
+  global?: {
+    // in dollars or ETH
+    maxSpend: string;
+    maxSpendUnit: "usd" | "native";
+  } | null;
+  // ----------------------
+  // TODO implement perUser limits
+  perUserSpend?: {
+    // in dollars or ETH
+    maxSpend: string | null;
+    maxSpendUnit: "usd" | "native";
+    maxSpendPeriod: "day" | "week" | "month";
+  } | null;
+  perUserTransactions?: {
+    maxTransactions: number;
+    maxTransactionsPeriod: "day" | "week" | "month";
   } | null;
 };
 
