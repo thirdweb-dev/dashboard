@@ -22,9 +22,10 @@ import {
 } from "tw-components";
 import {
   ApiKey,
-  ApiKeyService,
   ApiKeyServicePolicy,
   ApiKeyServicePolicyLimits,
+  usePolicies,
+  useUpdatePolicies,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -32,7 +33,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { LuTrash2 } from "react-icons/lu";
-import { toArrFromList } from "utils/string";
+import { fromArrayToList, toArrFromList } from "utils/string";
 import { validStrList } from "utils/validations";
 import { isAddress } from "ethers/lib/utils";
 import { useEffect } from "react";
@@ -42,7 +43,7 @@ interface SponsorshipPoliciesProps {
   trackingCategory: string;
 }
 
-export const sponsorshipPoliciesValidationSchema = z.object({
+const sponsorshipPoliciesValidationSchema = z.object({
   allowedChainIds: z.array(z.number()).nullable(),
   allowedContractAddresses: z
     .string()
@@ -74,19 +75,23 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   apiKey,
   trackingCategory,
 }) => {
-  const services = apiKey.services as ApiKeyService[];
-  const serviceIdx = services.findIndex((srv) => srv.name === "bundler");
-  // TODO prob fetch policies from the API instead of getting it from API key
-  const config = services[serviceIdx];
+  const { data: policy } = usePolicies("bundler", apiKey.key);
+  const { mutate: updatePolicy } = useUpdatePolicies("bundler", apiKey.key);
 
   const form = useForm<z.infer<typeof sponsorshipPoliciesValidationSchema>>({
     resolver: zodResolver(sponsorshipPoliciesValidationSchema),
     defaultValues: {
-      // TODO default values
-      allowedChainIds: null,
-      allowedContractAddresses: null,
-      serverVerifier: null,
-      globalLimit: null,
+      allowedChainIds:
+        policy?.allowedChainIds && policy?.allowedChainIds?.length > 0
+          ? policy?.allowedChainIds
+          : null,
+      allowedContractAddresses:
+        policy?.allowedContractAddresses &&
+        policy?.allowedContractAddresses?.length > 0
+          ? fromArrayToList(policy?.allowedContractAddresses)
+          : null,
+      serverVerifier: policy?.serverVerifier ?? null,
+      globalLimit: policy?.limits?.global ?? null,
     },
   });
 
@@ -96,13 +101,19 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   });
   useEffect(() => {
     form.reset({
-      // TODO default values
-      allowedChainIds: null,
-      allowedContractAddresses: null,
-      serverVerifier: null,
-      globalLimit: null,
+      allowedChainIds:
+        policy?.allowedChainIds && policy?.allowedChainIds?.length > 0
+          ? policy?.allowedChainIds
+          : null,
+      allowedContractAddresses:
+        policy?.allowedContractAddresses &&
+        policy?.allowedContractAddresses?.length > 0
+          ? fromArrayToList(policy?.allowedContractAddresses)
+          : null,
+      serverVerifier: policy?.serverVerifier ?? null,
+      globalLimit: policy?.limits?.global ?? null,
     });
-  }, [config, form]);
+  }, [policy, form]);
 
   const { onSuccess, onError } = useTxNotifications(
     "Sponsoship policies updated",
@@ -128,8 +139,10 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
       limits,
     };
     console.log("submitted", parsedValues);
-    // TODO send to api server
-    onSuccess();
+    updatePolicy(parsedValues, {
+      onSuccess,
+      onError,
+    });
   });
 
   return (

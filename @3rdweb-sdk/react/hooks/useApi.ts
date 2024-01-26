@@ -690,6 +690,60 @@ export function useGenerateApiKey() {
   );
 }
 
+export const usePolicies = (service: string, clientId: string) => {
+  return useQuery({
+    queryKey: ["policies", clientId, service],
+    queryFn: async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/policies?clientId=${clientId}&service=${service}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+  });
+};
+
+export const useUpdatePolicies = (service: string, clientId: string) => {
+  const queryClient = useQueryClient();
+  return useMutationWithInvalidate(
+    async (input: ApiKeyServicePolicy) => {
+      console.log("input", input);
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/policies`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientId,
+          service,
+          data: input,
+        }),
+      });
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(["policies", clientId, service]);
+      },
+    },
+  );
+};
+
 export function useAuthorizeWalletWithAccount() {
   const { user } = useLoggedInUser();
 
