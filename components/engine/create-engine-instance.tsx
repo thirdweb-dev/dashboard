@@ -60,6 +60,7 @@ export const CreateEngineInstanceButton = ({
           onConfirm={() => {
             // Refetch the Engine list to include the new pending one.
             refetch();
+            cloudHostedModalDisclosure.onClose();
           }}
           onAddPaymentMethod={() => {
             // Switch the Cloud-hosted Engine modal with the Add Payment modal.

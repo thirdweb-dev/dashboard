@@ -129,11 +129,9 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
       cell: (cell) => {
         const { id, name, url, status } = cell.row.original;
 
-        const isRequested = status === "requested";
-
         return (
           <Stack py={2}>
-            {isRequested ? (
+            {status === "requested" ? (
               <HStack spacing={4}>
                 <Text fontWeight="600" size="body.lg">
                   {name}
@@ -152,21 +150,21 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
                 </Tooltip>
               </HStack>
             ) : (
-              <Button
-                onClick={() => onClickConnect(id)}
-                variant="link"
-                colorScheme="blue"
-                w="fit-content"
-                rightIcon={<FiArrowRight />}
-                justifyContent="flex-start"
-              >
-                {name}
-              </Button>
-            )}
-            {!isRequested && (
-              <Text size="body.sm" color="gray.700">
-                {url}
-              </Text>
+              <>
+                <Button
+                  onClick={() => onClickConnect(id)}
+                  variant="link"
+                  colorScheme="blue"
+                  w="fit-content"
+                  rightIcon={<FiArrowRight />}
+                  justifyContent="flex-start"
+                >
+                  {name}
+                </Button>
+                <Text size="body.sm" color="gray.700">
+                  {url}
+                </Text>
+              </>
             )}
           </Stack>
         );
@@ -376,7 +374,7 @@ const RemoveModal = ({
             <Card>
               <Text>
                 This action will not modify your Engine infrastructure, and you
-                can re-add this Engine URL in the future.
+                can import this Engine URL again later.
               </Text>
             </Card>
           </Stack>
