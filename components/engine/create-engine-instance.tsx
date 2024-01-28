@@ -53,6 +53,9 @@ export const CreateEngineInstanceButton = ({
 
       {cloudHostedModalDisclosure.isOpen && (
         <RequestCloudHostedEngineModal
+          hasValidPayment={
+            accountQuery.data?.status === AccountStatus.ValidPayment
+          }
           disclosure={cloudHostedModalDisclosure}
           onConfirm={() => {
             // Refetch the Engine list to include the new pending one.
@@ -93,20 +96,18 @@ export const CreateEngineInstanceButton = ({
 };
 
 const RequestCloudHostedEngineModal = ({
+  hasValidPayment,
   disclosure,
   onConfirm,
   onAddPaymentMethod,
 }: {
+  hasValidPayment: boolean;
   disclosure: UseDisclosureReturn;
   onConfirm: () => void;
   onAddPaymentMethod: () => void;
 }) => {
   const trackEvent = useTrack();
   const toast = useToast();
-  const accountQuery = useAccount();
-
-  const hasValidPayment =
-    accountQuery.data?.status === AccountStatus.ValidPayment;
 
   const onClickConfirm = async () => {
     trackEvent({
