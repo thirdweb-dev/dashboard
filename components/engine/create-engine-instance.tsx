@@ -31,6 +31,8 @@ export const CreateEngineInstanceButton = ({
   const cloudHostedModalDisclosure = useDisclosure();
   const paymentDisclosure = useDisclosure();
   const trackEvent = useTrack();
+  const toast = useToast();
+  const accountQuery = useAccount();
 
   return (
     <>
@@ -52,8 +54,12 @@ export const CreateEngineInstanceButton = ({
       {cloudHostedModalDisclosure.isOpen && (
         <RequestCloudHostedEngineModal
           disclosure={cloudHostedModalDisclosure}
-          onConfirm={refetch}
+          onConfirm={() => {
+            // Refetch the Engine list to include the new pending one.
+            refetch();
+          }}
           onAddPaymentMethod={() => {
+            // Switch the Cloud-hosted Engine modal with the Add Payment modal.
             cloudHostedModalDisclosure.onClose();
             paymentDisclosure.onOpen();
           }}
@@ -65,7 +71,20 @@ export const CreateEngineInstanceButton = ({
         onClose={paymentDisclosure.onClose}
       >
         <OnboardingBilling
-          onSave={paymentDisclosure.onClose}
+          onSave={() => {
+            // Invalidate the query and re-open the Cloud-hosted Engine modal in 5 seconds.
+            // Why? account.status is updated from a Stripe webhook which can take a few seconds to receive.
+            toast({
+              status: "success",
+              description:
+                "Thank you for adding your payment details. Please wait...",
+            });
+            paymentDisclosure.onClose();
+            setTimeout(() => {
+              accountQuery.refetch();
+              cloudHostedModalDisclosure.onOpen();
+            }, 5_000);
+          }}
           onCancel={paymentDisclosure.onClose}
         />
       </OnboardingModal>
