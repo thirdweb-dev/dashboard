@@ -37,6 +37,7 @@ import { fromArrayToList, toArrFromList } from "utils/string";
 import { validStrList } from "utils/validations";
 import { isAddress } from "ethers/lib/utils";
 import { useEffect } from "react";
+import { errorCodes } from "@apollo/client/invariantErrorCodes";
 
 interface SponsorshipPoliciesProps {
   apiKey: ApiKey;
@@ -75,8 +76,10 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   apiKey,
   trackingCategory,
 }) => {
-  const { data: policy } = usePolicies("bundler", apiKey.key);
-  const { mutate: updatePolicy } = useUpdatePolicies("bundler", apiKey.key);
+  const bundlerServiceId = apiKey.services?.find((s) => s.name === "bundler")
+    ?.id;
+  const { data: policy } = usePolicies(bundlerServiceId);
+  const { mutate: updatePolicy } = useUpdatePolicies();
 
   const form = useForm<z.infer<typeof sponsorshipPoliciesValidationSchema>>({
     resolver: zodResolver(sponsorshipPoliciesValidationSchema),
@@ -121,6 +124,10 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
+    if (!bundlerServiceId) {
+      onError("No smart wallet service found for this API key");
+      return;
+    }
     const limits: ApiKeyServicePolicyLimits | null = values.globalLimit
       ? {
           global: {
@@ -138,11 +145,16 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
       serverVerifier: values.serverVerifier,
       limits,
     };
-    console.log("submitted", parsedValues);
-    updatePolicy(parsedValues, {
-      onSuccess,
-      onError,
-    });
+    updatePolicy(
+      {
+        serviceId: bundlerServiceId,
+        data: parsedValues,
+      },
+      {
+        onSuccess,
+        onError,
+      },
+    );
   });
 
   return (

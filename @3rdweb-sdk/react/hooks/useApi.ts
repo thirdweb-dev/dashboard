@@ -690,12 +690,12 @@ export function useGenerateApiKey() {
   );
 }
 
-export const usePolicies = (service: string, clientId: string) => {
+export const usePolicies = (serviceId?: string) => {
   return useQuery({
-    queryKey: ["policies", clientId, service],
+    queryKey: ["policies", serviceId],
     queryFn: async () => {
       const res = await fetch(
-        `${THIRDWEB_API_HOST}/v1/policies?clientId=${clientId}&service=${service}`,
+        `${THIRDWEB_API_HOST}/v1/policies?serviceId=${serviceId}`,
         {
           method: "GET",
           credentials: "include",
@@ -710,14 +710,14 @@ export const usePolicies = (service: string, clientId: string) => {
       }
       return json.data as ApiKeyServicePolicy;
     },
+    enabled: !!serviceId,
   });
 };
 
-export const useUpdatePolicies = (service: string, clientId: string) => {
+export const useUpdatePolicies = () => {
   const queryClient = useQueryClient();
   return useMutationWithInvalidate(
-    async (input: ApiKeyServicePolicy) => {
-      console.log("input", input);
+    async (input: { serviceId: string; data: ApiKeyServicePolicy }) => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/policies`, {
         method: "POST",
         credentials: "include",
@@ -725,9 +725,8 @@ export const useUpdatePolicies = (service: string, clientId: string) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          clientId,
-          service,
-          data: input,
+          serviceId: input.serviceId,
+          data: input.data,
         }),
       });
       const json = await res.json();
@@ -737,8 +736,8 @@ export const useUpdatePolicies = (service: string, clientId: string) => {
       return json.data as ApiKeyServicePolicy;
     },
     {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(["policies", clientId, service]);
+      onSuccess: (_, variables) => {
+        return queryClient.invalidateQueries(["policies", variables.serviceId]);
       },
     },
   );
