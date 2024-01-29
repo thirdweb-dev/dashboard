@@ -9,6 +9,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { ContactSupportModal } from "components/help/contact-support-modal";
+import { NeedSomeHelp } from "components/help/need-some-help";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
@@ -139,7 +140,8 @@ const SuppportPage: ThirdwebNextPage = () => {
           ], */
         }}
       />
-      <Container maxW="container.page" mb={{ base: 12, md: 40 }}>
+      <NeedSomeHelp />
+      <Container maxW="container.page" mb={{ base: 12, md: 40 }} mt={12}>
         <SimpleGrid columns={{ base: 1, md: 12 }} gap={{ base: 4, md: 12 }}>
           <GridItem colSpan={{ base: 1, md: 8 }}>
             <Flex
@@ -149,8 +151,6 @@ const SuppportPage: ThirdwebNextPage = () => {
               overflowX="hidden"
               gap={{ base: 4, md: 8 }}
             >
-              {/*         <ContextAIBotButton /> */}
-
               <Heading size="title.md">Popular links by products</Heading>
               <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 6 }}>
                 {helpProducts.map((product) => (
