@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import React from "react";
-import { Heading } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 const MajorSection = () => {
   return (
@@ -22,17 +23,35 @@ const MajorSection = () => {
       </Heading>
       <Flex maxW="2xl">
         <LandingGridSection desktopColumns={2}>
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages/mission/icon-key.svg")}
-            title="Digital Asset Ownership"
-            description="To build a web3 app, developers need to piece together 10+ different tools that don't natively talk to each other — creating a messy, fragmented DX that stifles innovation."
-          />
+          <Flex flexDir="column" gap={6}>
+            <ChakraNextImage
+              src={require("public/assets/landingpage/mobile/web3.png")}
+              alt="img-one"
+            />
+            <Flex flexDir="column" gap={4}>
+              <Text size="body.xl" color="white" fontWeight="bold">
+                Developer complexity
+              </Text>
+              To build a web3 app, developers need to piece together 10+
+              different tools that don&apos;t natively talk to each other —
+              creating a messy, fragmented DX that stifles innovation.
+            </Flex>
+          </Flex>
 
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages/mission/icon-simple-click.svg")}
-            title="User Experience"
-            description="For new users to interact with the blockchain, they need to create a wallet, store their private keys, purchase & transfer crypto, pay gas fees, and sign every action they take on a dApp — creating a daunting onboarding process that stifles adoption."
-          />
+          <Flex flexDir="column" gap={6}>
+            <ChakraNextImage
+              src={require("public/assets/landingpage/mobile/web3.png")}
+              alt="img-one"
+            />
+            <Flex flexDir="column" gap={4}>
+              <Text size="body.xl" color="white" fontWeight="bold">
+                Developer complexity
+              </Text>
+              To build a web3 app, developers need to piece together 10+
+              different tools that don&apos;t natively talk to each other —
+              creating a messy, fragmented DX that stifles innovation.
+            </Flex>
+          </Flex>
         </LandingGridSection>
       </Flex>
     </Flex>

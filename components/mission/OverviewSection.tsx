@@ -13,7 +13,7 @@ const OverviewSection = () => {
       justifyContent="center"
       alignItems="center"
       position="relative"
-      mt={40}
+      mt={{ base: "0", md: 40 }}
       flexDir={{ base: "column", xl: "row" }}
       gap={{ base: "80px", xl: 0 }}
     >

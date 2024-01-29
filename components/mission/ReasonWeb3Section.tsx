@@ -11,7 +11,7 @@ const reasons = [
       "Read only",
       "Collection of protocols anyone can build",
       "Open-source",
-      "Persmissionless",
+      "Permissionless",
     ],
   },
   // arrow
@@ -35,7 +35,7 @@ const reasons = [
       "Read-Write-Own",
       "Collection of protocols anyone can build",
       "Open-source",
-      "Persmissionless",
+      "Permissionless",
       "Decentralized",
     ],
   },
@@ -86,7 +86,12 @@ const ReasonWeb3Section = () => {
 
           return (
             <Flex key={idx} flexDir="column">
-              <ChakraNextImage w="full" src={reason.src} alt="web-generation" />
+              <ChakraNextImage
+                w="full"
+                src={reason.src}
+                maxH="205px"
+                alt="web-generation"
+              />
 
               <Heading size="title.sm" mt={14}>
                 {reason.title}

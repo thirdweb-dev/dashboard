@@ -12,6 +12,7 @@ import ReasonWeb3Section from "components/mission/ReasonWeb3Section";
 import HowSection from "components/mission/HowSection";
 import MajorSection from "components/mission/MajorSection";
 import DesireSection from "components/mission/DesireSection";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 
 const TRACKING_CATEGORY = "mission";
 
@@ -22,6 +23,16 @@ const Mission: ThirdwebNextPage = () => {
         title: "thirdweb's Privacy Policy",
         description:
           "The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/mission.png`,
+              width: 1200,
+              height: 630,
+              alt: "thirdweb's Privacy Policy",
+            },
+          ],
+        },
       }}
     >
       <Flex flexDir="column" position="relative" overflowX="hidden">

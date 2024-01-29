@@ -77,7 +77,7 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
       justifyContent="center"
       alignItems="center"
       position="relative"
-      mt={40}
+      mt={{ base: "0", md: 40 }}
       flexDir={{ base: "column", xl: "row" }}
       gap={{ base: "80px", xl: 0 }}
       ref={ref}
@@ -102,10 +102,10 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         position="relative"
         zIndex={5}
       >
-        <Heading textAlign="center" size="title.2xl">
+        <Heading textAlign="center" size="title.sm">
           But how?
         </Heading>
-        <Text mt={6} maxW="490px" textAlign="center">
+        <Text mt={3} maxW="490px" textAlign="center">
           Web3 enables developers to build internet products with public
           backends. This unlocks some powerful new digital experiences:
         </Text>
@@ -120,8 +120,8 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
       </Container>
 
       <LandingDesktopMobileImage
-        image={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
-        mobileImage={require("public/assets/landingpage/mobile/parallax-right-v2.png")}
+        image={require("public/assets/landingpage/desktop/parallax-right-v2.png")}
+        mobileImage={require("public/assets/landingpage/desktop/parallax-right-v2.png")}
         alt="parallax-one"
         maxW={{ base: "100%", xl: "412px", "2xl": "512px" }}
         transform={{
