@@ -48,7 +48,7 @@ export const ContactSupportModal = () => {
         zIndex={{ base: "popover", md: "auto" }}
       >
         <Button onClick={onOpen} colorScheme="primary">
-          Contact Support
+          Submit a ticket
         </Button>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -97,6 +97,7 @@ export const ContactSupportModal = () => {
               <Textarea
                 autoComplete="off"
                 {...form.register("markdown", { required: true })}
+                rows={7}
               />
             </FormControl>
           </ModalBody>

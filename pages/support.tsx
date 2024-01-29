@@ -118,8 +118,8 @@ const helpProducts = [
 ];
 
 const SuppportPage: ThirdwebNextPage = () => {
-  const title = "Help Page";
-  const description = "thirdweb help page.";
+  const title = "Support Page";
+  const description = "thirdweb support page.";
 
   return (
     <>
@@ -194,6 +194,8 @@ const SuppportPage: ThirdwebNextPage = () => {
                             textDecoration: "none",
                             opacity: 0.8,
                           }}
+                          isExternal
+                          noIcon
                         >
                           <Heading
                             size="label.md"
@@ -230,6 +232,7 @@ const SuppportPage: ThirdwebNextPage = () => {
                         colorScheme="primary"
                         variant="outline"
                         noIcon
+                        borderColor="#3E3E44"
                       >
                         Join Discord
                       </LinkButton>
@@ -246,12 +249,8 @@ const SuppportPage: ThirdwebNextPage = () => {
                   />
                 </Flex>
                 <Text>
-                  Please note that this Discord is not for official support!
-                  Please{" "}
-                  <Link href="/contact-us" isExternal color="primary.500">
-                    contact us
-                  </Link>{" "}
-                  if you need help building web3 projects with thirdweb.
+                  Please note that our Discord server is managed by our
+                  community moderators and does not offer official support.
                 </Text>
               </Card>
             </Flex>
@@ -266,7 +265,7 @@ const SuppportPage: ThirdwebNextPage = () => {
                   md: "flex",
                 }}
               >
-                <Heading size="title.sm">Contact support</Heading>
+                <Heading size="title.sm">Contact Support</Heading>
                 <Text>
                   We are here to help. Ask product questions, report problems,
                   or leave feedback.
@@ -287,7 +286,7 @@ const SuppportPage: ThirdwebNextPage = () => {
                   >
                     <Flex alignItems="center" gap={1}>
                       <Text color="primary.500" size="body.md">
-                        Talk to sales
+                        Talk to Sales
                       </Text>
                       <Icon as={FiArrowRight} color="primary.500" boxSize={3} />
                     </Flex>
@@ -304,6 +303,8 @@ const SuppportPage: ThirdwebNextPage = () => {
                       textDecoration: "none",
                       opacity: 0.8,
                     }}
+                    isExternal
+                    noIcon
                   >
                     <Flex alignItems="center" gap={1}>
                       <Text color="primary.500" size="body.md">
