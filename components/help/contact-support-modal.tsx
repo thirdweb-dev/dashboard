@@ -12,12 +12,15 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { CreateConversationRequest } from "pages/api/create-ticket";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import {
+  CreateTicketInput,
+  useAccount,
+  useCreateTicket,
+} from "@3rdweb-sdk/react/hooks/useApi";
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 const productOptions = [
   "Wallets",
@@ -31,13 +34,13 @@ const productOptions = [
 
 export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const form = useForm<CreateConversationRequest>();
+  const form = useForm<CreateTicketInput>();
   const { onSuccess, onError } = useTxNotifications(
     "Successfully sent ticket. Our team will be in touch shortly.",
     "Failed to send ticket. Please try again.",
   );
   const { data: account } = useAccount();
-  const address = useAddress();
+  const { mutate: createTicket } = useCreateTicket();
 
   return (
     <>
@@ -55,21 +58,12 @@ export const ContactSupportModal = () => {
         <ModalOverlay />
         <ModalContent
           as="form"
-          onSubmit={form.handleSubmit(async (data) => {
+          onSubmit={form.handleSubmit((data) => {
             try {
-              await fetch("/api/create-ticket", {
-                method: "POST",
-                body: JSON.stringify({
-                  markdown: data.markdown,
-                  status: "open",
-                  plan: account && account.plan,
-                  email: account && account.email,
-                  product: data.product,
-                  address,
-                }),
-              });
+              createTicket(data);
               onClose();
               onSuccess();
+              form.reset();
             } catch (err) {
               console.error(err);
               onError(err);
