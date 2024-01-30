@@ -16,8 +16,12 @@ import {
   TrackedLink,
   TrackedLinkButton,
 } from "tw-components";
-import { ApiKey, useAccount, useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
-import React, { useEffect, useMemo, useState } from "react";
+import {
+  AccountStatus,
+  useAccount,
+  useApiKeys,
+} from "@3rdweb-sdk/react/hooks/useApi";
+import React, { useMemo } from "react";
 import { SmartWalletsBillingAlert } from "components/settings/ApiKeys/Alerts";
 import { NextSeo } from "next-seo";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -68,7 +72,9 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
     return apiKeys.find(
       (k) =>
         k.services?.find(
-          (s) => account.status !== "validPayment" && s.name === "bundler",
+          (s) =>
+            account.status !== AccountStatus.ValidPayment &&
+            s.name === "bundler",
         ),
     );
   }, [apiKeys, account]);

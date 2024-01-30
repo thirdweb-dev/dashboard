@@ -29,7 +29,6 @@ import {
   Icon,
   Tooltip,
 } from "@chakra-ui/react";
-import { LineaTestnet } from "@thirdweb-dev/chains";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
@@ -38,7 +37,6 @@ import { useSupportedChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FiHelpCircle } from "react-icons/fi";
 import invariant from "tiny-invariant";
@@ -134,8 +132,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             ? fullPublishMetadata.data?.constructorParams?.[param.name]
                 ?.defaultValue || ""
             : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-            ? "0"
-            : "",
+              ? "0"
+              : "",
           param.type,
           {
             connectedWallet,
@@ -147,11 +145,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       {} as Record<string, string>,
     ),
   };
-
-  // FIXME - temporaryly disabling add to dashboard by default on linea
-  const shouldDefaulCheckAddToDashboard = selectedChain
-    ? selectedChain !== LineaTestnet.chainId
-    : true;
 
   const form = useForm<{
     addToDashboard: boolean;
@@ -168,14 +161,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     recipients?: Recipient[];
   }>({
     defaultValues: {
-      addToDashboard: shouldDefaulCheckAddToDashboard,
+      addToDashboard: true,
       deployDeterministic: isAccountFactory,
       saltForCreate2: "",
       signerAsSalt: true,
       deployParams: parseDeployParams,
     },
     values: {
-      addToDashboard: shouldDefaulCheckAddToDashboard,
+      addToDashboard: true,
       deployDeterministic: isAccountFactory,
       saltForCreate2: "",
       signerAsSalt: true,
@@ -186,12 +179,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       keepDirtyValues: true,
     },
   });
-
-  useEffect(() => {
-    if (selectedChain) {
-      form.setValue("addToDashboard", selectedChain !== LineaTestnet.chainId);
-    }
-  }, [form, selectedChain]);
 
   const formDeployParams = form.watch("deployParams");
 
@@ -490,7 +477,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           isChecked={form.watch("addToDashboard")}
         >
           <Text>
-            Add to dashboard so I can find it in the list of my contracts at{" "}
+            Import so I can find it in the list of my contracts at{" "}
             <TrackedLink
               href="https://thirdweb.com/dashboard"
               isExternal
