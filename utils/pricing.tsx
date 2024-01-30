@@ -272,8 +272,4 @@ export const FAQ_PRICING = [
       </Text>
     ),
   },
-  {
-    title: "Checkout Transaction Limit",
-    description: <Text>This is the max USD per credit card transaction.</Text>,
-  },
 ];
