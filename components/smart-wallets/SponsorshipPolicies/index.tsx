@@ -37,7 +37,6 @@ import { fromArrayToList, toArrFromList } from "utils/string";
 import { validStrList } from "utils/validations";
 import { isAddress } from "ethers/lib/utils";
 import { useEffect } from "react";
-import { errorCodes } from "@apollo/client/invariantErrorCodes";
 
 interface SponsorshipPoliciesProps {
   apiKey: ApiKey;

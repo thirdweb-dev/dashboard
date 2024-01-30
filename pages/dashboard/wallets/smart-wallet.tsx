@@ -18,10 +18,11 @@ import {
 } from "tw-components";
 import {
   AccountStatus,
+  ApiKey,
   useAccount,
   useApiKeys,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SmartWalletsBillingAlert } from "components/settings/ApiKeys/Alerts";
 import { NextSeo } from "next-seo";
 import { getAbsoluteUrl } from "lib/vercel-utils";

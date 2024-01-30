@@ -16,7 +16,7 @@ export const SmartWallets: React.FC<SmartWalletsProps> = ({
     <Tabs>
       <TabList px={0} borderBottomColor="borderColor" borderBottomWidth="1px">
         <Tab>Account Factories</Tab>
-        <Tab>Sponsorship Policies</Tab>
+        <Tab>Configuration</Tab>
       </TabList>
 
       <TabPanels pt={6}>
