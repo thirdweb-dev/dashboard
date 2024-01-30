@@ -75,8 +75,9 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   apiKey,
   trackingCategory,
 }) => {
-  const bundlerServiceId = apiKey.services?.find((s) => s.name === "bundler")
-    ?.id;
+  const bundlerServiceId = apiKey.services?.find(
+    (s) => s.name === "bundler",
+  )?.id;
   const { data: policy } = usePolicies(bundlerServiceId);
   const { mutate: updatePolicy } = useUpdatePolicies();
 
