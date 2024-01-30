@@ -145,6 +145,7 @@ export const BillingAlert = () => {
         title="Your payment method is not verified"
         description={message}
         status="warning"
+        label="verifyPaymentAlert"
         ctaHref={stripePaymentActionUrl}
         ctaText="Verify your payment method"
       />
@@ -197,6 +198,7 @@ export const BillingAlert = () => {
         description={`You have exceeded your RPC rate limit (${usageQuery.data.rateLimits.rpc} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Growth by visiting your Billing settings.`}
         ctaText="Go to Billing"
         status="warning"
+        label="exceededRpcLimitAlert"
         onDismiss={() => handleDismiss(DismissedStorageType.RateRpc)}
       />
     );
@@ -212,6 +214,7 @@ export const BillingAlert = () => {
         description={`You have exceeded your Storage Gateway rate limit (${usageQuery.data.rateLimits.storage} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Growth by visiting your Billing settings.`}
         ctaText="Go to Billing"
         status="warning"
+        label="exceededGatewayLimitAlert"
         onDismiss={() => handleDismiss(DismissedStorageType.RateStorage)}
       />
     );
@@ -227,6 +230,7 @@ type BillingTypeAlertProps = {
   description?: string;
   ctaText?: string;
   ctaHref?: string;
+  label?: string;
 };
 
 const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
@@ -236,6 +240,7 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
   description = "To ensure there are no future interruptions to your services, please add your payment method.",
   ctaText = "Add a payment method",
   ctaHref = "/dashboard/settings/billing",
+  label = "addPaymentAlert",
 }) => {
   return (
     <Alert
@@ -261,7 +266,7 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
             <TrackedLinkButton
               href={ctaHref}
               category="billing"
-              label="limit_exceeded"
+              label={label}
               fontWeight="medium"
               colorScheme="blue"
               size="sm"
