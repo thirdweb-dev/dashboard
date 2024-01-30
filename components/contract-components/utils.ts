@@ -39,10 +39,10 @@ export function getGaslessPolygonSDK(signer?: Signer) {
     getDashboardChainRpc(Polygon),
     {
       gasless: {
-        openzeppelin: {
+        engine: {
           relayerUrl:
-            "https://api.defender.openzeppelin.com/autotasks/dad61716-3624-46c9-874f-0e73f15f04d5/runs/webhook/7d6a1834-dd33-4b7b-8af4-b6b4719a0b97/FdHMqyF3p6MGHw6K2nkLsv",
-          relayerForwarderAddress: "0x409D530A6961297ECE29121dbEE2c917c3398659",
+            "http://localhost:3005/relayer/813ec596-2187-41fc-93b9-d8deeeb946b3", // replace with engine relayer before merge
+          relayerForwarderAddress: "0x409d530a6961297ece29121dbee2c917c3398659",
         },
         experimentalChainlessSupport: true,
       },
@@ -58,6 +58,7 @@ export async function addContractToMultiChainRegistry(
   contractData: AddContractInput,
   signer?: Signer,
 ) {
+  console.log(contractData);
   const gaslessPolygonSDK = getGaslessPolygonSDK(signer);
   await gaslessPolygonSDK.multiChainRegistry.addContract(contractData);
 }
