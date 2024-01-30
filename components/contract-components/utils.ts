@@ -58,7 +58,6 @@ export async function addContractToMultiChainRegistry(
   contractData: AddContractInput,
   signer?: Signer,
 ) {
-  console.log(contractData);
   const gaslessPolygonSDK = getGaslessPolygonSDK(signer);
   await gaslessPolygonSDK.multiChainRegistry.addContract(contractData);
 }
