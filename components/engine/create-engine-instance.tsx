@@ -22,16 +22,18 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import { Button, Card, Heading, Text } from "tw-components";
 
 interface CreateEngineInstanceButtonProps {
-  showModal: boolean;
   refetch: () => void;
 }
 
 export const CreateEngineInstanceButton = ({
-  showModal,
   refetch,
 }: CreateEngineInstanceButtonProps) => {
+  const showModalOnLoad =
+    window &&
+    new URLSearchParams(window.location.search).has("requestCloudHosted");
+
   const cloudHostedModalDisclosure = useDisclosure({
-    defaultIsOpen: showModal,
+    defaultIsOpen: showModalOnLoad,
   });
   const paymentDisclosure = useDisclosure();
   const trackEvent = useTrack();

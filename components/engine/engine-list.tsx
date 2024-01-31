@@ -19,10 +19,6 @@ export const EngineInstancesList = ({
 }: EngineInstancesListProps) => {
   const instancesQuery = useEngineInstances();
 
-  const showCreateInstanceModal = window
-    ? new URLSearchParams(window.location.search).has("requestCloudHosted")
-    : false;
-
   return (
     <Stack spacing={8}>
       <Stack>
@@ -65,10 +61,7 @@ export const EngineInstancesList = ({
               </Stack>
               <Flex direction={{ base: "column-reverse", md: "row" }} gap={3}>
                 <ImportEngineInstanceButton refetch={instancesQuery.refetch} />
-                <CreateEngineInstanceButton
-                  showModal={showCreateInstanceModal}
-                  refetch={instancesQuery.refetch}
-                />
+                <CreateEngineInstanceButton refetch={instancesQuery.refetch} />
               </Flex>
             </Flex>
             <EngineOverviewDescription />
@@ -84,10 +77,7 @@ export const EngineInstancesList = ({
             >
               <Flex direction={{ base: "column-reverse", md: "row" }} gap={3}>
                 <ImportEngineInstanceButton refetch={instancesQuery.refetch} />
-                <CreateEngineInstanceButton
-                  refetch={instancesQuery.refetch}
-                  showModal={showCreateInstanceModal}
-                />
+                <CreateEngineInstanceButton refetch={instancesQuery.refetch} />
               </Flex>
             </Flex>
 
