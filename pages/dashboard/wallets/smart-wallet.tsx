@@ -31,6 +31,7 @@ import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { SmartWallets } from "components/smart-wallets";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
+import { useRouter } from "next/router";
 
 const TRACKING_CATEGORY = "smart-wallet";
 
@@ -40,6 +41,9 @@ export type SmartWalletFormData = {
 };
 
 const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
+  const router = useRouter();
+  const defaultTabIndex = parseInt(router.query.tab?.toString() || "0");
+  const defaultClientId = router.query.clientId?.toString();
   const { isLoggedIn } = useLoggedInUser();
   const keysQuery = useApiKeys();
   const [selectedKey, setSelectedKey] = useState<undefined | ApiKey>();
@@ -59,11 +63,16 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
       return;
     }
     if (apiKeys.length > 0) {
-      setSelectedKey(apiKeys[0]);
+      if (defaultClientId) {
+        const key = apiKeys.find((k) => k.key === defaultClientId);
+        setSelectedKey(key);
+      } else {
+        setSelectedKey(apiKeys[0]);
+      }
     } else {
       setSelectedKey(undefined);
     }
-  }, [apiKeys, selectedKey]);
+  }, [apiKeys, selectedKey, defaultClientId]);
 
   const hasSmartWalletsWithoutBilling = useMemo(() => {
     if (!account || !apiKeys) {
@@ -155,6 +164,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         <SmartWallets
           apiKey={selectedKey}
           trackingCategory={TRACKING_CATEGORY}
+          defaultTabIndex={defaultTabIndex}
         />
       )}
 

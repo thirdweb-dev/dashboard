@@ -26,22 +26,21 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  LinkButton,
   Text,
 } from "tw-components";
 import { NoTargetAddressesAlert } from "../Alerts";
 import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "../validations";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
 import { GatedSwitch } from "components/settings/Account/Billing/GatedSwitch";
+import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 
 interface EditServicesProps {
   form: UseFormReturn<ApiKeyValidationSchema, any>;
-  apiKeyName: string;
+  apiKey: ApiKey;
 }
 
-export const EditServices: React.FC<EditServicesProps> = ({
-  form,
-  apiKeyName,
-}) => {
+export const EditServices: React.FC<EditServicesProps> = ({ form, apiKey }) => {
   const bg = useColorModeValue("backgroundCardHighlight", "transparent");
   const { fields, update } = useFieldArray({
     control: form.control,
@@ -135,7 +134,7 @@ export const EditServices: React.FC<EditServicesProps> = ({
                                   applicationName: "",
                                 }
                               : {
-                                  applicationName: apiKeyName,
+                                  applicationName: apiKey.name,
                                 }),
                           })
                         }
@@ -470,54 +469,12 @@ export const EditServices: React.FC<EditServicesProps> = ({
                         .error
                     }
                   >
-                    <HStack
-                      alignItems="center"
-                      justifyContent="space-between"
-                      pb={2}
+                    <LinkButton
+                      colorScheme="primary"
+                      href={`/dashboard/wallets/smart-wallet?tab=1&clientId=${apiKey.key}`}
                     >
-                      <FormLabel size="label.sm" mb={0}>
-                        Allowed Contract addresses
-                      </FormLabel>
-
-                      <Checkbox
-                        isChecked={
-                          form.watch(`services.${idx}.targetAddresses`) === "*"
-                        }
-                        onChange={(e) => {
-                          form.setValue(
-                            `services.${idx}.targetAddresses`,
-                            e.target.checked ? "*" : "",
-                            { shouldDirty: true },
-                          );
-                        }}
-                      >
-                        <Text>Unrestricted access</Text>
-                      </Checkbox>
-                    </HStack>
-
-                    <Textarea
-                      disabled={!srv.enabled}
-                      placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
-                      {...form.register(`services.${idx}.targetAddresses`)}
-                    />
-                    {!form.getFieldState(
-                      `services.${idx}.targetAddresses`,
-                      form.formState,
-                    ).error ? (
-                      <FormHelperText>
-                        Enter contract addresses separated by commas or new
-                        lines.
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
-                            `services.${idx}.targetAddresses`,
-                            form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
-                    )}
+                      Go to configuration
+                    </LinkButton>
                   </FormControl>
 
                   {!form.watch(`services.${idx}.targetAddresses`) && (

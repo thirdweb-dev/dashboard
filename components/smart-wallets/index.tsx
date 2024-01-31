@@ -6,14 +6,16 @@ import { SponsorshipPolicies } from "./SponsorshipPolicies";
 interface SmartWalletsProps {
   apiKey: ApiKey;
   trackingCategory: string;
+  defaultTabIndex?: number;
 }
 
 export const SmartWallets: React.FC<SmartWalletsProps> = ({
   apiKey,
   trackingCategory,
+  defaultTabIndex,
 }) => {
   return (
-    <Tabs>
+    <Tabs defaultIndex={defaultTabIndex || 0}>
       <TabList px={0} borderBottomColor="borderColor" borderBottomWidth="1px">
         <Tab>Account Factories</Tab>
         <Tab>Configuration</Tab>
