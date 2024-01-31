@@ -208,7 +208,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                             maxSpendUnit: "usd",
                           }
                         : null,
-                      { shouldDirty: true },
                     );
                   }}
                 />
@@ -230,7 +229,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                         placeholder="Enter an amount"
                         {...form.register("globalLimit.maxSpend")}
                       />
-                      {/** TODO currency selector usd/native **/}
                       <Select
                         w={"xs"}
                         {...form.register("globalLimit.maxSpendUnit")}
@@ -286,7 +284,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                     form.setValue(
                       "allowedChainIds",
                       !form.watch("allowedChainIds") ? [] : null,
-                      { shouldDirty: true },
                     );
                   }}
                 />
@@ -336,7 +333,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                       form.watch("allowedContractAddresses") === null
                         ? ""
                         : null,
-                      { shouldDirty: true },
                     );
                   }}
                 />
@@ -386,7 +382,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                             headers: [],
                           }
                         : null,
-                      { shouldDirty: true },
                     );
                   }}
                 />

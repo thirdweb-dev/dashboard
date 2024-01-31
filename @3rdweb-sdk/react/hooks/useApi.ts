@@ -176,7 +176,7 @@ export interface UpdateKeyInput {
 
 export interface UsageBundler {
   chainId: number;
-  sumTransactionFee: number;
+  sumTransactionFee: string;
 }
 
 export interface UsageStorage {
