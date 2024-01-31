@@ -4,13 +4,13 @@ import {
   useEngineWalletConfig,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import { Flex, FormControl, Switch, Tooltip } from "@chakra-ui/react";
-import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
-import { useState } from "react";
-import { Badge, Card, FormLabel, Heading, Link, Text } from "tw-components";
 import { BackendWalletsTable } from "./backend-wallets-table";
+import { TransactionsTable } from "./transactions-table";
+import { Badge, Card, FormLabel, Heading, Link, Text } from "tw-components";
 import { CreateBackendWalletButton } from "./create-backend-wallet-button";
 import { ImportBackendWalletButton } from "./import-backend-wallet-button";
-import { TransactionsTable } from "./transactions-table";
+import { useState } from "react";
+import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 
 interface EngineOverviewProps {
   instance: string;
@@ -45,8 +45,8 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
                           {walletConfig.type === "aws-kms"
                             ? "backend wallets secured by AWS KMS"
                             : walletConfig.type === "gcp-kms"
-                            ? "backend wallets secured by GCP KMS"
-                            : "local backend wallets"}
+                              ? "backend wallets secured by GCP KMS"
+                              : "local backend wallets"}
                           . You can change this in the Configuration tab.
                         </Text>
                       </Card>
