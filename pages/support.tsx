@@ -43,7 +43,7 @@ const helpProducts = [
         url: "https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-verify-thirdweb-prebuilt-contracts/4VGyYhzjaSJ9JjmVQ6WNL6",
       },
       {
-        title: "Batch Upload troubleshooting",
+        title: "Batch Upload Troubleshooting",
         url: "https://support.thirdweb.com/smart-contracts/rtHYyzspnPaHmmANmJQz1k/batch-upload-troubleshooting/5WMQFqfaUTU1C8NM8FtJ2X",
       },
       {
@@ -53,13 +53,22 @@ const helpProducts = [
     ],
   },
   {
-    title: "Engine",
+    title: "Infrastructure",
     icon: require("public/assets/support/engine.svg"),
-    viewAllUrl: "https://portal.thirdweb.com/infrastructure/engine/overview",
+    viewAllUrl:
+      "https://support.thirdweb.com/infrastructure/eRgkLPBdL1WJJLzAbuWrPZ",
     helpArticles: [
       {
-        title: "Engine FAQ",
-        url: "https://portal.thirdweb.com/infrastructure/engine/faq",
+        title: "Storage FAQ",
+        url: "https://support.thirdweb.com/infrastructure/eRgkLPBdL1WJJLzAbuWrPZ/storage-faqs/6AX8F9vCWuiAhVGqttRo8E",
+      },
+      {
+        title: "RPC Edge FAQ",
+        url: "https://support.thirdweb.com/infrastructure/eRgkLPBdL1WJJLzAbuWrPZ/rpc-edge-faqs/tfYpb77UP8c4qw83qGsjFY",
+      },
+      {
+        title: "Add Custom RPC to your app",
+        url: "https://support.thirdweb.com/infrastructure/eRgkLPBdL1WJJLzAbuWrPZ/adding-a-custom-rpc-to-your-app/aQSJ8nDisLwUe49zY2KqrF",
       },
     ],
   },
