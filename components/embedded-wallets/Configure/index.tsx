@@ -39,7 +39,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { fromArrayToList, toArrFromList } from "utils/string";
+import { toArrFromList } from "utils/string";
 
 interface ConfigureProps {
   apiKey: ApiKey;
