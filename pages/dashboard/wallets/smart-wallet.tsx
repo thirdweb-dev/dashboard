@@ -65,7 +65,11 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
     if (apiKeys.length > 0) {
       if (defaultClientId) {
         const key = apiKeys.find((k) => k.key === defaultClientId);
-        setSelectedKey(key);
+        if (key) {
+          setSelectedKey(key);
+        } else {
+          setSelectedKey(apiKeys[0]);
+        }
       } else {
         setSelectedKey(apiKeys[0]);
       }

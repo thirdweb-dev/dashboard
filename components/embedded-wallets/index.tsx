@@ -10,6 +10,7 @@ interface EmbeddedWalletsProps {
   isLoading: boolean;
   isFetched: boolean;
   trackingCategory: string;
+  defaultTabIndex?: number;
 }
 
 export const EmbeddedWallets: React.FC<EmbeddedWalletsProps> = ({
@@ -18,9 +19,10 @@ export const EmbeddedWallets: React.FC<EmbeddedWalletsProps> = ({
   isLoading,
   isFetched,
   trackingCategory,
+  defaultTabIndex,
 }) => {
   return (
-    <Tabs>
+    <Tabs defaultIndex={defaultTabIndex || 0}>
       <TabList px={0} borderBottomColor="borderColor" borderBottomWidth="1px">
         <Tab>Users</Tab>
         {/* <Tab>Integrate</Tab> */}

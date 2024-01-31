@@ -310,6 +310,7 @@ export const Configure: React.FC<ConfigureProps> = ({
               </GatedFeature>
             )}
           </Flex>
+          <Spacer />
           <Divider />
           <Spacer />
           <Heading size="title.sm">Authentication</Heading>
@@ -578,6 +579,7 @@ export const Configure: React.FC<ConfigureProps> = ({
               </GatedFeature>
             )}
           </Flex>
+          <Spacer />
           <Divider />
           <Spacer />
           <Heading size="title.sm">Native Apps</Heading>
@@ -614,6 +616,7 @@ export const Configure: React.FC<ConfigureProps> = ({
               )}
             </FormControl>
           </Flex>
+          <Spacer />
           <Divider />
 
           <Box alignSelf="flex-end">
