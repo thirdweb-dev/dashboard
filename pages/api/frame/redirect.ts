@@ -1,5 +1,13 @@
+import { Warpcast } from "classes/Warpcast";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextCors from "nextjs-cors";
+import { z } from "zod";
+
+interface RequestBody {
+  trustedData: {
+    messageBytes: string;
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,5 +23,11 @@ export default async function handler(
     return res.status(400).json({ error: "invalid method" });
   }
 
-  res.status(302).redirect("https://thirdweb.com/thirdweb.eth/DropERC721");
+  const body = req.body as RequestBody;
+  const trustedMessageByte = z.string().parse(body.trustedData?.messageBytes);
+
+  const frameUrl =
+    await Warpcast.validateMessageWithReturnedFrameUrl(trustedMessageByte);
+
+  res.status(302).redirect(frameUrl);
 }
