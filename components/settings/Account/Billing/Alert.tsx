@@ -14,9 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { useRouter } from "next/router";
 import React, { useCallback, useMemo } from "react";
 import { FiX } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 import { TrackedLink, Text } from "tw-components";
 
