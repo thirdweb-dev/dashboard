@@ -35,6 +35,7 @@ import { format } from "date-fns";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
 import { NextSeo } from "next-seo";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { PublishedContractOG } from "og-lib/url-utils";
 import { useMemo } from "react";
@@ -271,6 +272,16 @@ Deploy it in one click`,
           ],
         }}
       />
+
+      <Head>
+        <meta property="fc:frame" content="vNext" />
+        <meta property="fc:frame:image" content={ogImageUrl.toString()} />
+        <meta
+          property="fc:frame:button:1:post_redirect"
+          content={currentRoute}
+        />
+      </Head>
+
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
           {address === contract.publisher && (
