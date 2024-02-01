@@ -210,7 +210,9 @@ export const Configure: React.FC<ConfigureProps> = ({
             <FormControl>
               <HStack justifyContent="space-between" alignItems="flex-start">
                 <Box>
-                  <FormLabel mt={3}>Custom email logo and name</FormLabel>
+                  <FormLabel pointerEvents={"none"}>
+                    Custom email logo and name
+                  </FormLabel>
                   <Text>
                     Pass a custom logo and app name to be used in the emails
                     sent to users.
@@ -318,7 +320,9 @@ export const Configure: React.FC<ConfigureProps> = ({
             <FormControl>
               <HStack justifyContent="space-between" alignItems="flex-start">
                 <Box>
-                  <FormLabel mt={3}>Custom JSON Web Token</FormLabel>
+                  <FormLabel pointerEvents={"none"}>
+                    Custom JSON Web Token
+                  </FormLabel>
                   <Text>
                     Optionally allow users to authenticate with a custom JWT.{" "}
                     <TrackedLink
@@ -428,7 +432,9 @@ export const Configure: React.FC<ConfigureProps> = ({
             <FormControl>
               <HStack justifyContent="space-between" alignItems="flex-start">
                 <Box>
-                  <FormLabel mt={3}>Custom Authentication Endpoint</FormLabel>
+                  <FormLabel pointerEvents={"none"}>
+                    Custom Authentication Endpoint
+                  </FormLabel>
                   <Text>
                     Optionally allow users to authenticate with any arbitrary
                     payload that you provide.{" "}

@@ -25,7 +25,6 @@ export const EmbeddedWallets: React.FC<EmbeddedWalletsProps> = ({
     <Tabs defaultIndex={defaultTabIndex || 0}>
       <TabList px={0} borderBottomColor="borderColor" borderBottomWidth="1px">
         <Tab>Users</Tab>
-        {/* <Tab>Integrate</Tab> */}
         <Tab>Configuration</Tab>
       </TabList>
 
@@ -38,7 +37,6 @@ export const EmbeddedWallets: React.FC<EmbeddedWalletsProps> = ({
             trackingCategory={trackingCategory}
           />
         </TabPanel>
-        {/* <TabPanel px={0}></TabPanel> */}
         <TabPanel px={0}>
           <Configure apiKey={apiKey} trackingCategory={trackingCategory} />
         </TabPanel>

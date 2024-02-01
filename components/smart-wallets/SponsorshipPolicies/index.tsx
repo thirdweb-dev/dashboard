@@ -63,7 +63,7 @@ const sponsorshipPoliciesValidationSchema = z.object({
     .nullable(),
   globalLimit: z
     .object({
-      maxSpend: z.string().refine((n) => parseInt(n) > 0, {
+      maxSpend: z.string().refine((n) => parseFloat(n) > 0, {
         message: "Must be a positive number",
       }),
       maxSpendUnit: z.enum(["usd", "native"]),
@@ -187,7 +187,9 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             <Flex flexDir="column" gap={4}>
               <HStack justifyContent="space-between" alignItems="center">
                 <Box>
-                  <FormLabel mt={3}>Global spend limits</FormLabel>
+                  <FormLabel pointerEvents={"none"}>
+                    Global spend limits
+                  </FormLabel>
                   <Text>
                     Maximum gas cost (in USD) that you want to sponsor. This
                     applies for the duration of the billing period (monthly).
@@ -262,7 +264,9 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             <Flex flexDir="column" gap={4}>
               <HStack justifyContent="space-between" alignItems="center">
                 <Box>
-                  <FormLabel mt={3}>Restrict to specific chains</FormLabel>
+                  <FormLabel pointerEvents={"none"}>
+                    Restrict to specific chains
+                  </FormLabel>
                   <Text>
                     Only sponsor transactions on the specified chains. By
                     default, transactions can be sponsored on any of the{" "}
@@ -316,7 +320,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             <Flex flexDir="column" gap={4}>
               <HStack justifyContent="space-between" alignItems="center">
                 <Box>
-                  <FormLabel mt={3}>
+                  <FormLabel pointerEvents={"none"}>
                     Restrict to specific contract addresses
                   </FormLabel>
                   <Text>
@@ -361,7 +365,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             <Flex flexDir="column" gap={4}>
               <HStack justifyContent="space-between" alignItems="center">
                 <Box>
-                  <FormLabel mt={3}>Server verifier</FormLabel>
+                  <FormLabel pointerEvents={"none"}>Server verifier</FormLabel>
                   <Text>
                     Specify your own endpoint that will verify each transaction
                     and decide wether it should be sponsored or not. This gives
