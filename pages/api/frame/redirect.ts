@@ -34,11 +34,10 @@ export default async function handler(
 
     const trustedMessageByte = z.string().parse(body.trustedData?.messageBytes);
 
-    const frameUrl =
-      await Warpcast.validateMessageWithReturnedFrameUrl(trustedMessageByte);
+    await Warpcast.validateMessageWithReturnedFrameUrl(trustedMessageByte);
 
     Sentry.captureException(
-      `Redirecting to ${frameUrl} when preview is ${process.env.NEXT_PUBLIC_VERCEL_URL}`,
+      `Redirecting to ${metadata.url} when preview is ${process.env.NEXT_PUBLIC_VERCEL_URL}`,
     );
 
     return res.status(302).redirect(metadata.url);

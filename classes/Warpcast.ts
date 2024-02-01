@@ -6,13 +6,6 @@ const apiKey = process.env.NEYNAR_API_KEY as string;
 
 const validateMessageSchema = z.object({
   valid: z.literal(true),
-  action: z.object({
-    interactor: z.object({
-      cast: z.object({
-        embeds: z.array(z.object({ url: z.string().startsWith("https://") })),
-      }),
-    }),
-  }),
 });
 
 export const untrustedMetaData = z.object({
@@ -22,7 +15,7 @@ export const untrustedMetaData = z.object({
 export class Warpcast {
   public static async validateMessageWithReturnedFrameUrl(
     messageBytes: string,
-  ): Promise<string> {
+  ) {
     const url = `${apiUrl}/v2/farcaster/frame/validate`;
 
     const response = await fetch(url, {
@@ -36,18 +29,9 @@ export class Warpcast {
       }),
     });
 
-    const result = await response
+    const res = await response
       .json()
       .then((res) => res)
-      .then(validateMessageSchema.safeParse);
-
-    if (result.success) {
-      return (
-        result.data.action.interactor.cast.embeds[0]?.url ??
-        "https://thirdweb.com/thirdweb.eth/DropERC721"
-      );
-    }
-
-    return "https://thirdweb.com/thirdweb.eth/DropERC721";
+      .then(validateMessageSchema.parse);
   }
 }
