@@ -225,7 +225,10 @@ const SuppportPage: ThirdwebNextPage = () => {
                 as={Flex}
                 flexDir="column"
                 p={6}
-                bgColor="rgba(166, 82, 231, 0.18)"
+                bgColor="#291a37"
+                _light={{
+                  bgColor: "#d4bbeb",
+                }}
                 gap={{ base: 4, md: 0 }}
               >
                 <Flex justifyContent="space-between">
@@ -243,7 +246,10 @@ const SuppportPage: ThirdwebNextPage = () => {
                         colorScheme="primary"
                         variant="outline"
                         noIcon
-                        borderColor="#3E3E44"
+                        borderColor="#3e3344"
+                        _light={{
+                          borderColor: "#7e7d86",
+                        }}
                       >
                         Join Discord
                       </LinkButton>
