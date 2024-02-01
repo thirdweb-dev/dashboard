@@ -57,8 +57,8 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
         paymentVerification || invalidPayment
           ? "addAnotherPayment"
           : onClick
-            ? "addPayment"
-            : "manage"
+          ? "addPayment"
+          : "manage"
       }
       loadingText={loadingText}
       onClick={handleClick}
@@ -68,8 +68,8 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       {validPayment
         ? "Manage billing"
         : paymentVerification || invalidPayment
-          ? "Add another payment method →"
-          : "Add payment method →"}
+        ? "Add another payment method →"
+        : "Add payment method →"}
     </TrackedLinkButton>
   );
 };
