@@ -43,6 +43,24 @@ const HomePage: ThirdwebNextPage = () => {
         as="main"
         bg="#000"
       >
+        <button
+          onClick={() => {
+            fetch(
+              "https://thirdweb-3vkx12zef.thirdweb-preview.com/api/frame/redirect",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  trustedData: {
+                    messageBytes:
+                      "0a50080d10aa970f1895dab12e20018201400a2068747470733a2f2f6672616d65732e74686972647765622e636f6d2f6d696e7410011a1a08ce920e121421620f9e36e8223425a762fbdd8ae632f8216a7512144df52e9e3cea5abf29b27d47d1d875b8e8c98adb18012240585a2a20a2e94a602ecab72d454407832f82613ff52dd4224859f8e7f02e5630d1e85d2202ebed80236b2256d26dd967b800320e1dc47696e63cc97dfa8d640528013220b0f7a4ff8e5264eef90a822199dc84966fa7474b673faf935b0ceb86a0f5ca3c",
+                  },
+                }),
+              },
+            );
+          }}
+        >
+          Hey
+        </button>
         <HomepageTopNav />
         <Box mt="-80px" pt="100px" overflowX="hidden">
           <HeroSection />

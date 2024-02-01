@@ -1,4 +1,4 @@
-import { Warpcast } from "classes/Warpcast";
+import { Warpcast, untrustedMetaData } from "classes/Warpcast";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextCors from "nextjs-cors";
 import { z } from "zod";
@@ -7,6 +7,9 @@ import * as Sentry from "@sentry/nextjs";
 interface RequestBody {
   trustedData: {
     messageBytes: string;
+  };
+  untrustedData: {
+    url: string;
   };
 }
 
@@ -26,6 +29,9 @@ export default async function handler(
 
   try {
     const body = req.body as RequestBody;
+
+    const metadata = untrustedMetaData.parse(req.body.untrustedData);
+
     const trustedMessageByte = z.string().parse(body.trustedData?.messageBytes);
 
     const frameUrl =
@@ -35,12 +41,15 @@ export default async function handler(
       `Redirecting to ${frameUrl} when preview is ${process.env.NEXT_PUBLIC_VERCEL_URL}`,
     );
 
-    res.status(302).redirect(frameUrl);
+    return res.status(302).redirect(metadata.url);
   } catch (error) {
     Sentry.captureException(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       `Error when redirecting.... Error: ${error.message}`,
     );
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return res.status(500).send({ error: "something went wrong" });
   }
 }

@@ -15,6 +15,10 @@ const validateMessageSchema = z.object({
   }),
 });
 
+export const untrustedMetaData = z.object({
+  url: z.string().startsWith("https://"),
+});
+
 export class Warpcast {
   public static async validateMessageWithReturnedFrameUrl(
     messageBytes: string,
