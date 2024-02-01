@@ -34,6 +34,7 @@ import { Extensions } from "contract-ui/tabs/overview/components/Extensions";
 import { format } from "date-fns";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -277,9 +278,11 @@ Deploy it in one click`,
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content={ogImageUrl.toString()} />
         <meta
-          property="fc:frame:button:1:post_redirect"
-          content={currentRoute}
+          property="fc:frame:post_url"
+          content={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/frame/redirect`}
         />
+        <meta property="fc:frame:button:1" content="Deploy now" />
+        <meta name="fc:frame:button:1:action" content="post_redirect"></meta>
       </Head>
 
       <GridItem colSpan={{ base: 12, md: 9 }}>
