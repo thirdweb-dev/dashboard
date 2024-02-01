@@ -9,7 +9,7 @@ const validateMessageSchema = z.object({
   valid: z.literal(true),
 });
 
-export const untrustedMetaData = z.object({
+export const untrustedMetaDataSchema = z.object({
   url: z.string().startsWith("https://"),
 });
 

@@ -1,4 +1,4 @@
-import { Warpcast, untrustedMetaData } from "classes/Warpcast";
+import { Warpcast, untrustedMetaDataSchema } from "classes/Warpcast";
 import { z } from "zod";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -24,7 +24,7 @@ export default async function handler(req: NextRequest) {
 
   const body = (await req.json()) as RequestBody;
 
-  const metadata = untrustedMetaData.parse(body.untrustedData);
+  const metadata = untrustedMetaDataSchema.parse(body.untrustedData);
 
   const trustedMessageByte = z.string().parse(body.trustedData?.messageBytes);
 
