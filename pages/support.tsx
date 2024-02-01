@@ -161,7 +161,7 @@ const SuppportPage: ThirdwebNextPage = () => {
               gap={{ base: 4, md: 8 }}
             >
               <Heading size="title.md">Popular links by products</Heading>
-              <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 4, md: 6 }}>
+              <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 4, md: 6 }}>
                 {helpProducts.map((product) => (
                   <Card key={product.title} as={Flex} flexDir="column" gap={4}>
                     <Flex justifyContent="space-between">
@@ -181,6 +181,8 @@ const SuppportPage: ThirdwebNextPage = () => {
                           textDecoration: "none",
                           opacity: 0.8,
                         }}
+                        isExternal
+                        noIcon
                       >
                         <Flex alignItems="center" gap={1}>
                           <Text color="blue.500" size="body.md">
@@ -292,6 +294,8 @@ const SuppportPage: ThirdwebNextPage = () => {
                       textDecoration: "none",
                       opacity: 0.8,
                     }}
+                    isExternal
+                    noIcon
                   >
                     <Flex alignItems="center" gap={1}>
                       <Text color="primary.500" size="body.md">

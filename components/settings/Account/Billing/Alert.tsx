@@ -34,6 +34,7 @@ export const BillingAlert = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
   const meQuery = useAccount();
+  const router = useRouter();
 
   const [dismissedAlert, setDismissedAlert] = useLocalStorage<
     DismissedStorage | undefined
@@ -127,7 +128,8 @@ export const BillingAlert = () => {
     meQuery.isLoading ||
     !meQuery.data ||
     usageQuery.isLoading ||
-    !usageQuery.data
+    !usageQuery.data ||
+    router.pathname.includes("support")
   ) {
     return null;
   }

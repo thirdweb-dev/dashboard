@@ -11,15 +11,15 @@ export const NeedSomeHelp = () => {
       mt={{ base: -6, md: -12 }}
     >
       <Container maxW={{ base: "auto", md: "600px" }}>
-        <DarkMode>
-          <Flex flexDir="column" gap={6}>
+        <Flex flexDir="column" gap={6}>
+          <DarkMode>
             <Heading size="title.lg" textAlign="center">
               Hi there, need some help?
             </Heading>
+          </DarkMode>
 
-            <ContextAIBotButton />
-          </Flex>
-        </DarkMode>
+          <ContextAIBotButton />
+        </Flex>
       </Container>
     </Flex>
   );

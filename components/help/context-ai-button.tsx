@@ -1,25 +1,38 @@
-import { Input } from "@chakra-ui/react";
+import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import Script from "next/script";
-import posthog from "posthog-js";
+import { FiSearch } from "react-icons/fi";
 
 const contextBotId = "SV3HwtSN0";
 
 export function ContextAIBotButton() {
-  const handleClick = () => {
-    posthog.capture("ai-bot.click");
-  };
+  const trackEvent = useTrack();
 
   return (
     <>
       <ContextAIBotScript />
-      <div context-launcher="true" context-bot-id={contextBotId}>
-        <Input
-          bgColor="backgroundBody"
-          _hover={{
-            bgColor: "backgroundBody",
-          }}
-          onClick={handleClick}
-        />
+      <div
+        context-launcher="true"
+        context-bot-id={contextBotId}
+        onClick={() => {
+          trackEvent({
+            category: "context-ai",
+            action: "click",
+            label: "open-modal",
+          });
+        }}
+      >
+        <InputGroup>
+          <InputLeftElement>
+            <Icon as={FiSearch} opacity={0.5} />
+          </InputLeftElement>
+          <Input
+            bgColor="backgroundBody"
+            _hover={{
+              bgColor: "backgroundBody",
+            }}
+          />
+        </InputGroup>
       </div>
     </>
   );

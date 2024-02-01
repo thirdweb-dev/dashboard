@@ -92,6 +92,7 @@ export const ContactSupportModal = () => {
                 autoComplete="off"
                 {...form.register("markdown", { required: true })}
                 rows={7}
+                maxLength={10000}
               />
             </FormControl>
           </ModalBody>
@@ -100,7 +101,11 @@ export const ContactSupportModal = () => {
               Cancel
             </Button>
             {account?.id ? (
-              <Button type="submit" colorScheme="primary">
+              <Button
+                type="submit"
+                colorScheme="primary"
+                isDisabled={form.watch("markdown")?.length === 0}
+              >
                 Submit
               </Button>
             ) : (
