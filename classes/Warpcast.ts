@@ -5,6 +5,7 @@ const apiUrl = "https://api.neynar.com";
 const apiKey = process.env.NEYNAR_API_KEY as string;
 
 const validateMessageSchema = z.object({
+  // has to be true
   valid: z.literal(true),
 });
 
@@ -29,7 +30,8 @@ export class Warpcast {
       }),
     });
 
-    const res = await response
+    // Will throw if parse failed e.g if valid is not true
+    await response
       .json()
       .then((res) => res)
       .then(validateMessageSchema.parse);

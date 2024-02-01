@@ -274,12 +274,13 @@ Deploy it in one click`,
         }}
       />
 
+      {/* Farcaster frames headers */}
       <Head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content={ogImageUrl.toString()} />
         <meta
           property="fc:frame:post_url"
-          content={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/frame/redirect`}
+          content={`${getAbsoluteUrl()}/api/frame/redirect`}
         />
         <meta property="fc:frame:button:1" content="Deploy now" />
         <meta name="fc:frame:button:1:action" content="post_redirect"></meta>
