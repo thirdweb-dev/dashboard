@@ -42,7 +42,7 @@ export default async function handler(
 
     res.setHeader("Location", metadata.url);
 
-    return res.status(200).send(metadata.url);
+    return res.status(302).redirect(metadata.url);
   } catch (error) {
     Sentry.captureException(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
