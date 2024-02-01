@@ -14,9 +14,7 @@ export const untrustedMetaData = z.object({
 });
 
 export class Warpcast {
-  public static async validateMessageWithReturnedFrameUrl(
-    messageBytes: string,
-  ) {
+  public static async validateMessage(messageBytes: string) {
     const url = `${apiUrl}/v2/farcaster/frame/validate`;
 
     const response = await fetch(url, {

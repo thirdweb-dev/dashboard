@@ -29,7 +29,7 @@ export default async function handler(req: NextRequest) {
   const trustedMessageByte = z.string().parse(body.trustedData?.messageBytes);
 
   // This will throw an exception if neynar's API doesn't validate the message
-  await Warpcast.validateMessageWithReturnedFrameUrl(trustedMessageByte);
+  await Warpcast.validateMessage(trustedMessageByte);
 
   return NextResponse.redirect(metadata.url, {
     status: 302,
