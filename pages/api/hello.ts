@@ -14,8 +14,6 @@ interface RequestBody {
   };
 }
 
- 
-
 export default async function handler(req: NextRequest) {
   if (req.method !== "POST") {
     return NextResponse.json({ error: "invalid method" }, { status: 400 });
