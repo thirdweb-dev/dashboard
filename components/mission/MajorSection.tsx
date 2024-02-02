@@ -25,7 +25,7 @@ const MajorSection = () => {
         <LandingGridSection desktopColumns={2}>
           <Flex flexDir="column" gap={6}>
             <ChakraNextImage
-              src={require("public/assets/landingpage/mobile/web3.png")}
+              src={require("public/assets/landingpage/mobile/complexity.png")}
               alt="img-one"
             />
             <Flex flexDir="column" gap={4}>
@@ -40,7 +40,7 @@ const MajorSection = () => {
 
           <Flex flexDir="column" gap={6}>
             <ChakraNextImage
-              src={require("public/assets/landingpage/mobile/web3.png")}
+              src={require("public/assets/landingpage/mobile/user-experience.png")}
               alt="img-one"
             />
             <Flex flexDir="column" gap={4}>

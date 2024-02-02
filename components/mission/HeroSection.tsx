@@ -3,7 +3,7 @@ import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobi
 import React, { Fragment } from "react";
 import { Heading } from "tw-components";
 
-const HeroSection = () => {
+const HeroSection = ({ text }: { text: string }) => {
   return (
     <Flex flexDir="column" alignItems="center" mt={{ base: 20, md: 140 }}>
       <LandingDesktopMobileImage
@@ -19,7 +19,7 @@ const HeroSection = () => {
         textAlign="center"
         mt={46}
       >
-        Making the internet more open and valuable for builders and users.
+        {text}
       </Heading>
     </Flex>
   );

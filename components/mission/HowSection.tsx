@@ -77,7 +77,6 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
       justifyContent="center"
       alignItems="center"
       position="relative"
-      mt={{ base: "0", md: 40 }}
       flexDir={{ base: "column", xl: "row" }}
       gap={{ base: "80px", xl: 0 }}
       ref={ref}
@@ -102,10 +101,10 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         position="relative"
         zIndex={5}
       >
-        <Heading textAlign="center" size="title.sm">
+        <Heading textAlign="center" size="title.2xl">
           But how?
         </Heading>
-        <Text mt={3} maxW="490px" textAlign="center">
+        <Text mt={3} maxW="640px" size="body.xl" textAlign="center">
           Web3 enables developers to build internet products with public
           backends. This unlocks some powerful new digital experiences:
         </Text>

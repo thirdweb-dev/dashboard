@@ -170,7 +170,11 @@ const ReasonSection = () => {
       placeItems="center"
       position="relative"
     >
-      <Flex flexDir="column" maxW={"400px"}>
+      <Flex
+        flexDir="column"
+        maxW={{ base: "100%", md: "400px" }}
+        mr={{ base: "0", md: "auto" }}
+      >
         <Heading size="title.lg" mt={46}>
           Who is thirdweb for?
         </Heading>
