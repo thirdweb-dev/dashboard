@@ -106,7 +106,7 @@ const HowSection = ({ TRACKING_CATEGORY }: HowSectionProps) => {
         position="relative"
         zIndex={5}
       >
-        <Heading textAlign="center" size="title.2xl">
+        <Heading textAlign="center" size="title.lg">
           But how?
         </Heading>
         <Text mt={3} maxW="640px" size="body.xl" textAlign="center">

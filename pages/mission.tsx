@@ -112,7 +112,7 @@ const Mission: ThirdwebNextPage = () => {
                 size="body.xl"
                 fontWeight={600}
                 textAlign="center"
-                mt={{ base: "32px", md: "52px" }}
+                mt={{ base: "28px", md: "32px" }}
                 color="#fff"
                 fontSize={{ base: "20px", md: "32px" }}
               >

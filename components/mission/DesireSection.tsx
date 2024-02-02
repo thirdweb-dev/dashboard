@@ -13,7 +13,7 @@ const DesireSection = () => {
       gap="60px"
     >
       <Heading
-        size="title.2xl"
+        size="title.lg"
         fontWeight="semibold"
         flex="1"
         textAlign={{ base: "center", xl: "left" }}
