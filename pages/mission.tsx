@@ -2,7 +2,6 @@ import { Box, Container, Flex } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { MarkdownRenderer } from "../components/contract-components/published-contract/markdown-renderer";
 import HeroSection from "components/mission/HeroSection";
 import MissionSection from "components/mission/MissionSection";
 import { Aurora } from "components/homepage/Aurora";
@@ -13,8 +12,7 @@ import HowSection from "components/mission/HowSection";
 import MajorSection from "components/mission/MajorSection";
 import DesireSection from "components/mission/DesireSection";
 import { getAbsoluteUrl } from "lib/vercel-utils";
-import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
-import { Heading, Text } from "tw-components";
+import { Text } from "tw-components";
 import { ChakraNextImage } from "components/Image";
 
 const TRACKING_CATEGORY = "mission";

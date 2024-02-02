@@ -1,8 +1,7 @@
-import { Box, Container, Flex } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
+import { Container, Flex } from "@chakra-ui/react";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { useParallaxEffect } from "hooks/effect/useParallexEffect";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Text } from "tw-components";
 
 const OverviewSection = () => {

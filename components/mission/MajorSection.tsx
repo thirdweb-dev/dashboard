@@ -1,7 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import React from "react";
 import { Heading, Text } from "tw-components";
 

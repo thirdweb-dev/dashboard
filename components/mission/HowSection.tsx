@@ -1,7 +1,6 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { LandingFAQ } from "components/landing-pages/faq";
-import { useParallaxEffect } from "hooks/effect/useParallexEffect";
 import React, { useEffect, useRef, useState } from "react";
 import { Heading, Text } from "tw-components";
 

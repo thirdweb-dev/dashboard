@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
-import React, { Fragment } from "react";
+import React from "react";
 import { Heading } from "tw-components";
 
 const HeroSection = ({ text }: { text: string }) => {
