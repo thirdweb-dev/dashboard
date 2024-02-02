@@ -11,34 +11,40 @@ interface HowSectionProps {
 
 const faqs = [
   {
-    title: "How do I get started?",
+    title: "Digital Asset Ownership",
     description: (
       <Text>
-        thirdweb Starter plan is open and completely self-serve. We&apos;ve made
-        it easy for you to get started — simply connect your wallet to start
-        using thirdweb platform. You only need to create an account with your
-        email address and add payment method when you&apos;re approaching your
-        monthly free usage limits (so that we can send you billing updates if
-        you go over).
+        From digital assets like skins and weapons in games to the tokenization
+        of real world assets like watches and Pokemon cards, blockchain enables
+        owners to truly own their digital assets in the same way they would own
+        physical assets.
       </Text>
     ),
   },
   {
-    title: "How do I sign up for thirdweb pro plan?",
+    title: "A better social media",
     description: (
       <Text>
-        To sign for a thirdweb pro plan, team to learn about thirdweb pro
-        features and get a quote for monthly subscription fee.
+        Web3 inverts the ownership model of content from being owned by
+        platforms in walled gardens to being owned by the users who create them.
+        Any content published onto the blockchain can be displayed on any
+        client, and all social graphs are preserved across apps.
       </Text>
     ),
   },
   {
-    title: "How do I update my payment method?",
-    description: <Text>Go to thirdweb Settings &gt; Billing in </Text>,
-  },
-  {
-    title: "Where can I see my usage history?",
-    description: <Text>Go to thirdweb Settings &gt; Billing in </Text>,
+    title: "An open internet",
+    description: (
+      <Text>
+        Building partnerships with validation is frequently a painful business
+        and technical problem. The blockchain solves this by enabling
+        permission-less integration. Let&apos;s look at AMEX. They frequently
+        need to onboard new partners into their network to provide additional
+        benefits to their members. This is a large value prop of their product,
+        and only by doing this well, can they encourage re-subscription (paying
+        the annual card fee).
+      </Text>
+    ),
   },
 ];
 

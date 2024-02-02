@@ -24,16 +24,16 @@ const Mission: ThirdwebNextPage = () => {
     <LandingLayout
       py={{ base: "85px", md: "80px" }}
       seo={{
-        title: "thirdweb's Privacy Policy",
+        title: "Why Web3? | Our Mission",
         description:
-          "The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
+          "Making the internet more open & valuable for builders & users — with a full-stack platform for building web3 apps. Learn more about thirdweb.",
         openGraph: {
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/mission.png`,
               width: 1200,
               height: 630,
-              alt: "thirdweb's Privacy Policy",
+              alt: "Why Web3? | Our Mission",
             },
           ],
         },
