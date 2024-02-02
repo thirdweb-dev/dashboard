@@ -1,5 +1,6 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
+  Box,
   ButtonGroup,
   Container,
   Flex,
@@ -10,16 +11,17 @@ import {
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
-import { BillingAlert } from "components/settings/Account/BillingAlert";
+import { BillingAlert } from "components/settings/Account/Billing/Alert";
+import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
 import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
 import { useRouter } from "next/router";
-import { FiFile, FiGlobe, FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle } from "react-icons/fi";
 import {
   Button,
-  Heading,
   Link,
   LinkButton,
   Text,
+  TrackedIconButton,
   TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -110,37 +112,10 @@ const AppHeader: React.FC = () => {
           </Link>
           <CmdKSearch />
         </Flex>
-        <Flex
-          align="center"
-          gap={3}
-          marginLeft="auto"
-          minH={{
-            base: "auto",
-            md: "60px",
-          }}
-        >
-          <Button
-            as={TrackedLink}
-            variant="link"
-            href="/pricing"
-            category="header"
-            label="pricing"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
-            isExternal
-          >
-            <Icon as={FiGlobe} />
-            <Heading
-              display={{ base: "none", md: "inline-flex" }}
-              as="h4"
-              size="label.md"
-            >
-              Pricing
-            </Heading>
-          </Button>
+        <Flex align="center" gap={4} marginLeft="auto">
+          <Box display={{ base: "none", md: "block" }}>
+            <UpgradeButton />
+          </Box>
           <Button
             as={TrackedLink}
             variant="link"
@@ -148,43 +123,24 @@ const AppHeader: React.FC = () => {
             isExternal
             category="header"
             label="docs"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
+            color="bgBlack"
+            display={{ base: "none", md: "block" }}
+            size="sm"
+            mx={1.5}
           >
-            <Icon as={FiFile} />
-            <Heading
-              as="h4"
-              size="label.md"
-              display={{ base: "none", md: "inline-flex" }}
-            >
-              Docs
-            </Heading>
+            Docs
           </Button>
-          <Button
-            as={TrackedLink}
-            variant="link"
-            href="https://support.thirdweb.com"
-            isExternal
+
+          <TrackedIconButton
+            bg="transparent"
+            size="sm"
+            aria-label="get-help"
+            icon={<Icon as={FiHelpCircle} />}
             category="header"
             label="support"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
-          >
-            <Icon as={FiHelpCircle} />
-            <Heading
-              as="h4"
-              size="label.md"
-              display={{ base: "none", md: "inline-flex" }}
-            >
-              Support
-            </Heading>
-          </Button>
+            as={LinkButton}
+            href="/support"
+          />
 
           <ColorModeToggle />
 

@@ -26,7 +26,11 @@ export const AnnouncementBanner = () => {
         px={4}
       >
         <Box display={{ base: "none", md: "block" }} />
-        <TrackedLink href="/checkout" category="announcement" label="checkout">
+        <TrackedLink
+          href="/dashboard/settings/billing?claimGrowth"
+          category="announcement"
+          label="growthTrialBanner"
+        >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
               cursor="pointer"
@@ -42,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing Checkout: Sell NFTs to anyone with a credit card or
-                crypto. Get started
+                Introducing Growth: 1-month free trial. Offer expires Feb 16,
+                2024
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
