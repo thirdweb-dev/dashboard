@@ -10,14 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import {
-  Card,
-  Heading,
-  Link,
-  Text,
-  TrackedIconButton,
-  TrackedLink,
-} from "tw-components";
+import { Card, Heading, Link, Text, TrackedIconButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
@@ -136,7 +129,7 @@ const Pricing: ThirdwebNextPage = () => {
                             <Text color="white" size="body.md" noOfLines={1}>
                               {item.title}
                             </Text>
-                            {(item as any)?.learnMore && (
+                            {item?.learnMore && (
                               <TrackedIconButton
                                 as={Link}
                                 href={item.learnMore}
@@ -149,11 +142,12 @@ const Pricing: ThirdwebNextPage = () => {
                                 }}
                                 icon={<Icon as={FiExternalLink} />}
                                 variant="ghost"
+                                aria-label="Learn More"
                               >
                                 Learn More
                               </TrackedIconButton>
                             )}
-                            {(item as any)?.hint && (
+                            {item?.hint && (
                               <>
                                 {isMobile ? (
                                   <Text color="gray.700">{item.hint}</Text>
@@ -185,11 +179,6 @@ const Pricing: ThirdwebNextPage = () => {
                                   </Tooltip>
                                 )}
                               </>
-                            )}
-                            {(item as any)?.comingSoon && (
-                              <Text color="gray.800" size="body.md">
-                                Coming Soon
-                              </Text>
                             )}
                           </Flex>
                         </Card>

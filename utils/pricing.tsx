@@ -69,7 +69,20 @@ export const PLANS: {
   },
 };
 
-export const PRICING_SECTIONS = [
+interface PricingItem {
+  title: string;
+  starter: string | string[];
+  growth: string | string[];
+  pro: string | string[];
+  hint?: string;
+  learnMore?: string;
+}
+interface PricingSection {
+  title: string;
+  items: PricingItem[];
+}
+
+export const PRICING_SECTIONS: PricingSection[] = [
   {
     title: "Usage based pricing:",
     items: [
@@ -82,7 +95,7 @@ export const PRICING_SECTIONS = [
       {
         title: "Smart wallet infrastructure",
         hint: "Premium on top of gas sent through relayer and paymaster.",
-        starter: "10% ",
+        starter: "10%",
         growth: "10%",
         pro: "Custom",
       },
