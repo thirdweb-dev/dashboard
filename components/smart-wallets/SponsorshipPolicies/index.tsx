@@ -380,7 +380,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                     you fine grained control and lets you build your own rules.{" "}
                     <TrackedLink
                       category={trackingCategory}
-                      href="https://portal.thirdweb.com/wallets/smart-wallet/sponsorship-rules#server-verifier"
+                      href="https://portal.thirdweb.com/wallets/smart-wallet/sponsorship-rules#setting-up-a-server-verifier"
                       color={"primary.500"}
                     >
                       View server verifier documentation
