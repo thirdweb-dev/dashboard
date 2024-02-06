@@ -170,7 +170,15 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             Sponsorship rules
           </Heading>
           <Text>
-            Configure the rules and rules for your sponsored transactions.
+            Configure the rules and rules for your sponsored transactions.{" "}
+            <TrackedLink
+              category={trackingCategory}
+              href="https://portal.thirdweb.com/wallets/smart-wallet/sponsorship-rules"
+              color={"primary.500"}
+            >
+              View documentation
+            </TrackedLink>
+            .
           </Text>
         </Flex>
       </Flex>
@@ -369,7 +377,15 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                   <Text>
                     Specify your own endpoint that will verify each transaction
                     and decide wether it should be sponsored or not. This gives
-                    you fine grained control and lets you build your own rules.
+                    you fine grained control and lets you build your own rules.{" "}
+                    <TrackedLink
+                      category={trackingCategory}
+                      href="https://portal.thirdweb.com/wallets/smart-wallet/sponsorship-rules#server-verifier"
+                      color={"primary.500"}
+                    >
+                      View server verifier documentation
+                    </TrackedLink>
+                    .
                   </Text>
                 </Box>
 
