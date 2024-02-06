@@ -119,8 +119,8 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   }, [policy, form]);
 
   const { onSuccess, onError } = useTxNotifications(
-    "Sponsoship policies updated",
-    "Failed to update sponsorship policies",
+    "Sponsoship rules updated",
+    "Failed to update sponsorship rules",
   );
 
   const handleSubmit = form.handleSubmit((values) => {
@@ -167,10 +167,10 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
       >
         <Flex flexDir={"column"} gap={2}>
           <Heading size="title.md" as="h1">
-            Sponsorship policies
+            Sponsorship rules
           </Heading>
           <Text>
-            Configure the rules and policies for your sponsored transactions.
+            Configure the rules and rules for your sponsored transactions.
           </Text>
         </Flex>
       </Flex>
@@ -369,8 +369,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                   <Text>
                     Specify your own endpoint that will verify each transaction
                     and decide wether it should be sponsored or not. This gives
-                    you fine grained control and lets you build your own
-                    policies.
+                    you fine grained control and lets you build your own rules.
                   </Text>
                 </Box>
 
