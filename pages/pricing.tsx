@@ -10,18 +10,26 @@ import {
 } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import { Card, Heading, Text } from "tw-components";
+import {
+  Card,
+  Heading,
+  Link,
+  Text,
+  TrackedIconButton,
+  TrackedLink,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LandingFAQ } from "components/landing-pages/faq";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PricingSection } from "components/homepage/sections/PricingSection";
-import { FAQ_GENERAL, FAQ_PRICING, SECTIONS } from "utils/pricing";
+import { FAQ_GENERAL, FAQ_PRICING, PRICING_SECTIONS } from "utils/pricing";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { FiExternalLink } from "react-icons/fi";
 
 const TRACKING_CATEGORY = "pricing-page";
 
@@ -75,24 +83,24 @@ const Pricing: ThirdwebNextPage = () => {
         />
 
         <Flex flexDir="column" gap={20}>
-          {SECTIONS.map((section) => (
+          {PRICING_SECTIONS.map((section) => (
             <Flex flexDir="column" key={section.title} gap={4}>
               <SimpleGrid columns={isMobile ? 2 : 4}>
                 <Flex gap={2} alignItems="center" pl={4}>
-                  <Text color="white" size="body.lg">
+                  <Text color="white" size="body.xl">
                     {section.title}
                   </Text>
                 </Flex>
 
                 {!isMobile && (
                   <>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Starter
                     </Text>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Growth
                     </Text>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Pro
                     </Text>
                   </>
@@ -123,10 +131,28 @@ const Pricing: ThirdwebNextPage = () => {
                             gap={2}
                             h={isMobile ? "auto" : 6}
                             flexDir={isMobile ? "column" : "row"}
+                            alignItems="center"
                           >
                             <Text color="white" size="body.md" noOfLines={1}>
                               {item.title}
                             </Text>
+                            {(item as any)?.learnMore && (
+                              <TrackedIconButton
+                                as={Link}
+                                href={item.learnMore}
+                                isExternal
+                                color="primary.500"
+                                category="pricing-page"
+                                label="learn-more"
+                                trackingProps={{
+                                  title: item.title,
+                                }}
+                                icon={<Icon as={FiExternalLink} />}
+                                variant="ghost"
+                              >
+                                Learn More
+                              </TrackedIconButton>
+                            )}
                             {(item as any)?.hint && (
                               <>
                                 {isMobile ? (
