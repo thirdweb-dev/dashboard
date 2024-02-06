@@ -244,9 +244,9 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                         {...form.register("globalLimit.maxSpendUnit")}
                       >
                         <option value={"usd"}>USD</option>
-                        <option value={"native"}>
+                        {/* TODO native currency <option value={"native"}>
                           Native Currency (ie. ETH)
-                        </option>
+                        </option> */}
                       </Select>
                       <Text>per month</Text>
                     </HStack>
