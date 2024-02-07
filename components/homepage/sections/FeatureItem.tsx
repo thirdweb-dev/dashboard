@@ -1,4 +1,4 @@
-import { Flex, Icon, Box, Tooltip } from "@chakra-ui/react";
+import { Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Card, Text } from "tw-components";
