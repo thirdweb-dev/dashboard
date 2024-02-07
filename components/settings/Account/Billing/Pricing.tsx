@@ -102,7 +102,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         name={AccountPlan.Growth}
         ctaTitle={growthCtaTitle}
         ctaHint={trialPeriodDays}
-        striked={canTrialGrowth}
+        canTrialGrowth={canTrialGrowth}
         ctaProps={{
           onClick: (e) => {
             e.preventDefault();
