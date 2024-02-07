@@ -18,7 +18,7 @@ interface PricingCardProps {
   ctaProps: TrackedLinkButtonProps;
   ctaTitle?: string;
   ctaHint?: string;
-  onHomepage?: boolean;
+  onDashboard?: boolean;
   cardProps?: CardProps;
   highlighted?: boolean;
   current?: boolean;
@@ -32,6 +32,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   ctaHint,
   ctaProps,
   cardProps,
+  onDashboard,
   size = "lg",
   highlighted = false,
   current = false,
@@ -108,7 +109,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
           <FeatureItem key={f} text={f} />
         ))}
       </Flex>
-      {name === AccountPlan.Growth ? (
+      {name === AccountPlan.Growth && onDashboard ? (
         <UpgradeModal
           name={name}
           ctaProps={ctaProps}

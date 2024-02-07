@@ -94,6 +94,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
           label: "freePlan",
           href: "/pricing",
         }}
+        onDashboard
       />
 
       <PricingCard
@@ -116,6 +117,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
           variant: "solid",
           colorScheme: "blue",
         }}
+        onDashboard
       />
 
       <PricingCard
@@ -129,6 +131,7 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
           href: CONTACT_US_URL,
           isExternal: true,
         }}
+        onDashboard
       />
     </SimpleGrid>
   );
