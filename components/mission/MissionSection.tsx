@@ -1,6 +1,5 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
-import React from "react";
 import { Heading, Text } from "tw-components";
 
 const MissionSection = () => {
