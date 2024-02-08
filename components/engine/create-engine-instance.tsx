@@ -175,7 +175,7 @@ const RequestCloudHostedEngineModal = ({
                 <Tag colorScheme="green" w="fit-content">
                   Add-on
                 </Tag>
-                <Heading as="h3" size="title.md" textTransform="capitalize">
+                <Heading as="h3" size="title.md">
                   Cloud-Hosted Engine
                 </Heading>
                 <Text maxW={320}>Host Engine on thirdweb with no setup.</Text>
