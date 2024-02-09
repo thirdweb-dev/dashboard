@@ -42,6 +42,7 @@ export const PLANS: {
       "Custom branding",
       "User analytics",
       "Third party auth support",
+      "Advanced paymaster rules",
     ],
   },
   [AccountPlan.Pro]: {
@@ -113,7 +114,7 @@ export const PRICING_SECTIONS: PricingSection[] = [
       {
         title: "Support Channel",
         starter: "Community + AI",
-        growth: "Ticketing",
+        growth: "Prioritized support",
         pro: "Dedicated",
       },
       {
@@ -142,6 +143,18 @@ export const PRICING_SECTIONS: PricingSection[] = [
       },
       {
         title: "User analytics",
+        starter: "N/A",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
+        title: "Global paymaster sponsorship rules",
+        starter: "checkmark",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
+        title: "Server based sponsorship rules",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
