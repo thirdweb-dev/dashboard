@@ -8,6 +8,23 @@ import type { Chain } from "@thirdweb-dev/chains";
 import invariant from "tiny-invariant";
 import { useLoggedInUser } from "./useLoggedInUser";
 
+// FIXME: We keep repeating types, API server should provide them
+
+export enum AccountStatus {
+  NoCustomer = "noCustomer",
+  NoPayment = "noPayment",
+  PaymentVerification = "paymentVerification",
+  ValidPayment = "validPayment",
+  InvalidPayment = "invalidPayment",
+}
+
+export enum AccountPlan {
+  Free = "free",
+  Growth = "growth",
+  Pro = "pro",
+  Enterprise = "enterprise",
+}
+
 export type AuthorizedWallet = {
   id: string;
   accountId: string;
@@ -23,14 +40,16 @@ export type Account = {
   id: string;
   isStaff: boolean;
   creatorWalletAddress: string;
-  status: string;
-  plan: string;
+  status: AccountStatus;
+  plan: AccountPlan;
   name?: string;
   email?: string;
+  advancedEnabled: boolean;
   currentBillingPeriodStartsAt: string;
   currentBillingPeriodEndsAt: string;
   emailConfirmedAt?: string;
   unconfirmedEmail?: string;
+  trialPeriodEndedAt?: string;
   emailConfirmationWalletAddress?: string;
   stripePaymentActionUrl?: string;
   onboardSkipped?: boolean;
@@ -44,6 +63,7 @@ export type Account = {
 export interface UpdateAccountInput {
   name?: string;
   email?: string;
+  plan?: AccountPlan;
   linkWallet?: boolean;
   subscribeToUpdates?: boolean;
   onboardSkipped?: boolean;
@@ -66,6 +86,37 @@ export type ApiKeyCustomAuthentication = {
 export type ApiKeyCustomAuthEndpoint = {
   authEndpoint: string;
   customHeaders: { key: string; value: string }[];
+};
+
+// MAP to api-server types in PolicyService.ts
+export type ApiKeyServicePolicy = {
+  allowedChainIds?: number[] | null;
+  allowedContractAddresses?: string[] | null;
+  serverVerifier?: {
+    url: string;
+    headers: { key: string; value: string }[] | null;
+  } | null;
+  limits?: ApiKeyServicePolicyLimits | null;
+};
+
+export type ApiKeyServicePolicyLimits = {
+  global?: {
+    // in dollars or ETH
+    maxSpend: string;
+    maxSpendUnit: "usd" | "native";
+  } | null;
+  // ----------------------
+  // TODO implement perUser limits
+  perUserSpend?: {
+    // in dollars or ETH
+    maxSpend: string | null;
+    maxSpendUnit: "usd" | "native";
+    maxSpendPeriod: "day" | "week" | "month";
+  } | null;
+  perUserTransactions?: {
+    maxTransactions: number;
+    maxTransactionsPeriod: "day" | "week" | "month";
+  } | null;
 };
 
 export type ApiKeyService = {
@@ -123,10 +174,9 @@ export interface UpdateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
-// FIXME: We keep repeating types, API server should provide them
 export interface UsageBundler {
   chainId: number;
-  sumTransactionFee: number;
+  sumTransactionFee: string;
 }
 
 export interface UsageStorage {
@@ -137,20 +187,27 @@ export interface UsageEmbeddedWallets {
   countWalletAddresses: number;
 }
 
+export interface UsageCheckout {
+  sumTransactionFeeUsd: number;
+}
+
 export interface UsageBillableByService {
   usage: {
     bundler: UsageBundler[];
     storage: UsageStorage;
     embeddedWallets: UsageEmbeddedWallets;
+    checkout: UsageCheckout;
   };
   billableUsd: {
     bundler: number;
     storage: number;
     embeddedWallets: number;
+    checkout: number;
   };
   limits: {
     storage: number;
     embeddedWallets: number;
+    checkout: number;
   };
   rateLimits: {
     storage: number;
@@ -285,6 +342,44 @@ export function useUpdateAccount() {
   );
 }
 
+export function useUpdateAccountPlan() {
+  const { user } = useLoggedInUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: { plan: string; feedback?: string; useTrial?: boolean }) => {
+      invariant(user?.address, "walletAddress is required");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/plan`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        // invalidate usage data as limits are different
+        queryClient.invalidateQueries(accountKeys.me(user?.address as string));
+
+        return queryClient.invalidateQueries(
+          accountKeys.usage(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
 export function useUpdateNotifications() {
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
@@ -380,6 +475,35 @@ export function useConfirmEmail() {
       },
     },
   );
+}
+
+export interface CreateTicketInput {
+  markdown: string;
+  product: string;
+}
+
+export function useCreateTicket() {
+  const { user } = useLoggedInUser();
+
+  return useMutationWithInvalidate(async (input: CreateTicketInput) => {
+    invariant(user?.address, "walletAddress is required");
+
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(input),
+    });
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
+
+    return json.data;
+  });
 }
 
 export function useConfirmEmbeddedWallet() {
@@ -659,6 +783,59 @@ export function useGenerateApiKey() {
   );
 }
 
+export const usePolicies = (serviceId?: string) => {
+  return useQuery({
+    queryKey: ["policies", serviceId],
+    queryFn: async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/policies?serviceId=${serviceId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+    enabled: !!serviceId,
+  });
+};
+
+export const useUpdatePolicies = () => {
+  const queryClient = useQueryClient();
+  return useMutationWithInvalidate(
+    async (input: { serviceId: string; data: ApiKeyServicePolicy }) => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/policies`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          serviceId: input.serviceId,
+          data: input.data,
+        }),
+      });
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+    {
+      onSuccess: (_, variables) => {
+        return queryClient.invalidateQueries(["policies", variables.serviceId]);
+      },
+    },
+  );
+};
+
 export function useAuthorizeWalletWithAccount() {
   const { user } = useLoggedInUser();
 
@@ -880,9 +1057,12 @@ export async function fetchApiKeyAvailability(name: string) {
  *
  */
 export async function fetchChainsFromApi() {
-  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains`, {
+  // always fetch from prod for chains for now
+  // TODO: re-visit this
+  const res = await fetch(`https://api.thirdweb.com/v1/chains`, {
     method: "GET",
-    credentials: "include",
+    // do not inclue credentials for chains endpoint
+    // credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

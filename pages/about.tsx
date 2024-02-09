@@ -10,14 +10,6 @@ import { ThirdwebNextPage } from "utils/types";
 
 const employees = [
   {
-    name: "Abbas Khan",
-    twitter: "KhanAbbas201",
-  },
-  {
-    name: "Adam Majmudar",
-    twitter: "MajmudarAdam",
-  },
-  {
     name: "Andrew Begafria",
     twitter: "akbmotion",
   },
@@ -73,6 +65,10 @@ const employees = [
     name: "Firekeeper",
   },
   {
+    name: "Ian Mukherjee",
+    twitter: "roomakdoteth",
+  },
+  {
     name: "Isaac Dubuque",
     twitter: "isaac_dubuque",
   },
@@ -117,19 +113,12 @@ const employees = [
     twitter: "MonkeyMeaning",
   },
   {
-    name: "Lakshay Garg",
-    twitter: "lakshayg18",
-  },
-  {
     name: "Mago Khamidov",
-    twitter: "KosmosDeveloper",
+    twitter: "thirdwebmago",
   },
   {
     name: "Manan Tank",
     twitter: "MananTank_",
-  },
-  {
-    name: "Matt Cheong",
   },
   {
     name: "Mike Shin",
@@ -162,10 +151,6 @@ const employees = [
   {
     name: "Sian Morton",
     twitter: "Sian_Morton",
-  },
-  {
-    name: "Tair Asim",
-    twitter: "tair",
   },
   {
     name: "Waren Gonzaga",
@@ -307,7 +292,7 @@ const About: ThirdwebNextPage = () => {
                     Steven Bartlett
                   </Heading>
                   <TrackedLink
-                    href="https://twitter.com/SteveBartlettSC"
+                    href="https://twitter.com/StevenBartlett"
                     isExternal
                     category="team"
                     label="Steven Bartlett"

@@ -49,21 +49,27 @@ export const LandingFAQ: React.FC<LandingFAQProps> = ({
         lg: "container.md",
       }}
     >
-      <Heading size={titleSize || "title.md"} alignSelf="center">
-        {title}
-      </Heading>
+      {title && (
+        <Heading size={titleSize || "title.md"} alignSelf="center">
+          {title}
+        </Heading>
+      )}
       <Accordion mt={8} allowMultiple rounded="xl">
         {faqs.map((faq) => (
-          <AccordionItem key={faq.title}>
+          <AccordionItem key={faq.title} borderColor="borderColor">
             <Text fontSize="1rem">
-              <AccordionButton p={6} onClick={() => trackToggleFAQ(faq.title)}>
+              <AccordionButton
+                p={4}
+                onClick={() => trackToggleFAQ(faq.title)}
+                fontWeight="medium"
+              >
                 <Box as="span" flex="1" textAlign="left">
                   {faq.title}
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
             </Text>
-            <AccordionPanel pb={4}>
+            <AccordionPanel pb={6}>
               <Flex direction="column" gap={4}>
                 {faq.description}
               </Flex>
