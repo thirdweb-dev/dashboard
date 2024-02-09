@@ -11,12 +11,17 @@ import {
   Binance,
   BinanceTestnet,
   Ethereum,
+  FrameTestnet,
   Goerli,
   Mumbai,
   Optimism,
   OptimismGoerli,
   Polygon,
+  RarichainTestnet,
   Sepolia,
+  Xai,
+  XaiSepolia,
+  ZksyncSepoliaTestnet,
   Zora,
   ZoraTestnet,
 } from "@thirdweb-dev/chains";
@@ -31,11 +36,16 @@ import {
   InsertWebhookMutationVariables,
   useInsertWebhookMutation,
 } from "graphql/mutations/__generated__/InsertWebhook.generated";
+import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
 import {
   UpdateWebhookMutationVariables,
   useUpdateWebhookMutation,
 } from "graphql/mutations/__generated__/UpdateWebhook.generated";
 import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
+import {
+  CheckoutsByContractAddressQueryVariables,
+  useCheckoutsByContractAddressLazyQuery,
+} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
 import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
@@ -45,6 +55,11 @@ import {
   useDetailedAnalyticsLazyQuery,
 } from "graphql/queries/__generated__/DetailedAnalytics.generated";
 import {
+  SellerDocument,
+  SellerQueryVariables,
+  useSellerLazyQuery,
+} from "graphql/queries/__generated__/Seller.generated";
+import {
   WebhooksBySellerIdDocument,
   WebhooksBySellerIdQueryVariables,
   useWebhooksBySellerIdLazyQuery,
@@ -52,19 +67,10 @@ import {
 import { getEVMThirdwebSDK } from "lib/sdk";
 import invariant from "tiny-invariant";
 import { OtherAddressZero } from "utils/zeroAddress";
+import { boolean, string } from "zod";
 import { paymentsKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useApiAuthToken } from "./useApi";
-import {
-  SellerDocument,
-  SellerQueryVariables,
-  useSellerLazyQuery,
-} from "graphql/queries/__generated__/Seller.generated";
-import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
-import {
-  CheckoutsByContractAddressQueryVariables,
-  useCheckoutsByContractAddressLazyQuery,
-} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
 
 export const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
@@ -104,6 +110,10 @@ export const validPaymentsChainIdsTestnets: number[] = [
   BaseGoerli.chainId,
   ZoraTestnet.chainId,
   ArbitrumSepolia.chainId,
+  FrameTestnet.chainId,
+  RarichainTestnet.chainId,
+  Xai.chainId,
+  XaiSepolia.chainId,
 ];
 
 export const validPaymentsChainIds: number[] = [
@@ -134,6 +144,10 @@ const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [BaseGoerli.chainId]: "BaseGoerli",
   [Zora.chainId]: "Zora",
   [ZoraTestnet.chainId]: "ZoraTestnet",
+  [FrameTestnet.chainId]: "FrameTestnet",
+  [RarichainTestnet.chainId]: "RariChainTestnet",
+  [Xai.chainId]: "Xai",
+  [XaiSepolia.chainId]: "XaiSepolia",
 };
 
 export const PaperChainToChainId: Record<string, number> = {
@@ -156,6 +170,10 @@ export const PaperChainToChainId: Record<string, number> = {
   BaseGoerli: BaseGoerli.chainId,
   Zora: Zora.chainId,
   ZoraTestnet: ZoraTestnet.chainId,
+  FrameTestnet: FrameTestnet.chainId,
+  RariChainTestnet: RarichainTestnet.chainId,
+  Xai: Xai.chainId,
+  XaiSepolia: XaiSepolia.chainId,
 };
 
 interface SupportedCurrenciesMap {
@@ -169,7 +187,7 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [Polygon.chainId]: ["MATIC", "WETH", "USDC", "USDC.e"],
   [Mumbai.chainId]: ["MATIC", "USDC", "USDC.e", "DERC20", "CDOL"],
   [Avalanche.chainId]: ["AVAX", "USDC", "USDC.e"],
-  [AvalancheFuji.chainId]: ["AVAX"],
+  [AvalancheFuji.chainId]: ["AVAX", "USDC"],
   [Optimism.chainId]: ["ETH", "USDC"],
   [OptimismGoerli.chainId]: ["ETH"],
   [Arbitrum.chainId]: ["ETH", "USDC"],
@@ -182,6 +200,10 @@ const supportedCurrenciesMap: SupportedCurrenciesMap = {
   [BaseGoerli.chainId]: ["ETH"],
   [Zora.chainId]: ["ETH"],
   [ZoraTestnet.chainId]: ["ETH"],
+  [FrameTestnet.chainId]: ["ETH"],
+  [RarichainTestnet.chainId]: ["ETH"],
+  [Xai.chainId]: ["XAI"],
+  [XaiSepolia.chainId]: ["XAI"],
 };
 
 const ChainSymbolToChainName: Record<string, string> = {
@@ -189,6 +211,7 @@ const ChainSymbolToChainName: Record<string, string> = {
   MATIC: "Matic",
   AVAX: "Avalanche",
   AGOR: "Arbitrum Goerli Ether",
+  XAI: "XAI",
 };
 
 export const ChainIdToSupportedCurrencies: Record<number, CurrencyMetadata[]> =
@@ -342,7 +365,7 @@ export function usePaymentsRegisterContract() {
       const body: RegisterContractInput = {
         ...input,
         contractDefinition: contract.abi,
-        contractAddress: input.contractAddress.toLowerCase(),
+        contractAddress: input.contractAddress,
         chain: ChainIdToPaperChain[parseInt(input.chain)],
         contractType,
         displayName,

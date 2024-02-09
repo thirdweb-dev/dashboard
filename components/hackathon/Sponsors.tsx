@@ -4,8 +4,8 @@ import { Text, TrackedLink } from "tw-components";
 
 const sponsors = [
   {
-    name: "Base",
-    logo: require("public/assets/landingpage/base.svg"),
+    name: "Caldera",
+    logo: require("public/assets/landingpage/caldera.png"),
     link: "https://base.org/",
   },
   {
@@ -19,9 +19,9 @@ const sponsors = [
     link: "https://www.haun.co/",
   },
   {
-    name: "Framework Ventures",
-    logo: require("public/assets/landingpage/framework.svg"),
-    link: "https://framework.ventures/",
+    name: "Pantera",
+    logo: require("public/assets/landingpage/pantera.png"),
+    link: "https://panteracapital.com",
   },
 ];
 

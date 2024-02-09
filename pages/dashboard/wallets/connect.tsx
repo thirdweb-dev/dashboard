@@ -58,19 +58,19 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           size="sm"
           platform="React"
-          href="https://portal.thirdweb.com/react/react.connectwallet"
+          href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           size="sm"
           platform="React Native"
-          href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
+          href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           size="sm"
           platform="Unity"
-          href="https://portal.thirdweb.com/unity/connectwallet"
+          href="https://portal.thirdweb.com/unity/wallets/prefab"
         />
       </Flex>
       <Spacer height={12} />
@@ -89,10 +89,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
 function FooterSection() {
   return (
     <Grid templateColumns={["1fr", "1fr 1fr"]} gap={5}>
-      <Grid templateColumns="1fr" gap={5}>
-        <ViewDocs />
-        <ShareYourFeedback />
-      </Grid>
+      <ViewDocs />
       <RelevantGuides />
     </Grid>
   );
@@ -116,7 +113,7 @@ function ViewDocs() {
           size="md"
           noBorder
           platform="React"
-          href="https://portal.thirdweb.com/react/react.connectwallet"
+          href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
         />
 
         <SupportedPlatformLink
@@ -124,21 +121,21 @@ function ViewDocs() {
           noBorder
           size="md"
           platform="Unity"
-          href="https://portal.thirdweb.com/unity/connectwallet"
+          href="https://portal.thirdweb.com/unity/wallets/prefab"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="React Native"
-          href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
+          href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="TypeScript"
-          href="https://portal.thirdweb.com/wallet/usage-with-typescript-sdk"
+          href="https://portal.thirdweb.com/wallet-sdk/latest/usage"
         />
       </Grid>
     </Card>
@@ -166,7 +163,7 @@ function RelevantGuides() {
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/connect/usage-with-react-sdk"
+          href="https://portal.thirdweb.com/wallet-sdk/latest/usage"
           label="react-sdk-get-started"
         >
           Get started with React SDK
@@ -180,7 +177,7 @@ function RelevantGuides() {
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/embedded-wallet/smart-wallet-and-embedded-wallet"
+          href="https://portal.thirdweb.com/wallets/embedded-wallet/how-to/enable-gasless"
           label="gasless-tx"
         >
           Enable Gasless Transactions
@@ -210,39 +207,6 @@ function GuideLink(props: {
       }}
     >
       {props.children}
-    </TrackedLink>
-  );
-}
-
-function ShareYourFeedback() {
-  return (
-    <TrackedLink
-      category={TRACKING_CATEGORY}
-      label="feedback"
-      href="https://docs.google.com/forms/d/e/1FAIpQLSdL6H8rscuWpKkwlRvwxsCN0u4sSSL4qh6KiBFmZwn19PGGIw/viewform"
-      isExternal
-      _hover={{
-        textDecor: "none",
-        color: "blue.500",
-      }}
-    >
-      <Card
-        p={5}
-        _hover={{
-          borderColor: "blue.500",
-        }}
-      >
-        <Flex gap={2} alignItems="center">
-          <Heading fontSize={16} as="h3" color="inherit">
-            Share your feedback
-          </Heading>
-          <Icon as={AiOutlineArrowRight} width={5} height={5} />
-        </Flex>
-        <Spacer height={3} />
-        <Text color="paragraph">
-          Report bugs, echo your thoughts, and suggest improvements.
-        </Text>
-      </Card>
     </TrackedLink>
   );
 }
@@ -306,25 +270,25 @@ function BuildCustomBanner() {
               trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React"
-              href="https://portal.thirdweb.com/react/react.connectwallet"
+              href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
             />
             <SupportedPlatformLink
               trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React Native"
-              href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
+              href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
             />
             <SupportedPlatformLink
               trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="Unity"
-              href="https://portal.thirdweb.com/unity/connectwallet"
+              href="https://portal.thirdweb.com/unity/wallets/prefab"
             />
             <SupportedPlatformLink
               trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="TypeScript"
-              href="https://portal.thirdweb.com/wallet/usage-with-typescript-sdk"
+              href="https://portal.thirdweb.com/wallet-sdk/latest/usage"
             />
           </Flex>
 
@@ -336,7 +300,7 @@ function BuildCustomBanner() {
               isExternal
               category={TRACKING_CATEGORY}
               label="custom-ui-cta"
-              href="https://portal.thirdweb.com/react/connecting-wallets"
+              href="https://portal.thirdweb.com/react/latest/connecting-wallets"
               bg="bgBlack"
               color="bgWhite"
               minW="180px"

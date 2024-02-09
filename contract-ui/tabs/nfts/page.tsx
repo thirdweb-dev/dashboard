@@ -24,7 +24,8 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   const contractQuery = useContract(contractAddress);
   const router = useRouter();
 
-  const tokenId = router.query?.paths?.[3];
+  const tokenId = router.query?.paths?.[2];
+
   const { data: nft } = useNFT(contractQuery.contract, tokenId);
   const tabs = useNFTDrawerTabs(
     contractQuery.contract as NFTContract,
@@ -90,7 +91,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
           <Box>
             <LinkButton
               isExternal
-              href="https://portal.thirdweb.com/solidity/extensions/erc721supply"
+              href="https://portal.thirdweb.com/contracts/build/extensions/erc-721/ERC721Supply"
               colorScheme="purple"
             >
               Learn more

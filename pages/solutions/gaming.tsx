@@ -246,7 +246,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               title="Unreal Engine"
               image={require("/public/assets/solutions-pages/gaming/gaming-unreal.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/gaming/unreal-engine"
+              href="https://portal.thirdweb.com/solutions/gaming/unreal-engine/quickstart"
               linkTitle="Read the Unreal Engine docs"
               label="unreal"
             />
@@ -255,7 +255,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               image={require("/public/assets/solutions-pages/gaming/gaming-phone.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               linkTitle="Read the React Native docs"
-              href="https://portal.thirdweb.com/react-native"
+              href="https://portal.thirdweb.com/react-native/latest"
               label="mobile"
             />
           </SimpleGrid>
@@ -306,7 +306,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               title="Play Speed Racer"
               image={require("/public/assets/solutions-pages/gaming/gaming-speed-racer.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/gaming/unreal-engine"
+              href="https://portal.thirdweb.com/solutions/gaming/unreal-engine/quickstart"
               category="Unreal Engine"
               linkTitle="Play Speed Racer"
               label="speed-racer"

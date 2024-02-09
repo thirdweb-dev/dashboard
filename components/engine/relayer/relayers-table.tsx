@@ -21,7 +21,6 @@ import {
   Input,
   Select,
   Textarea,
-  useClipboard,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
@@ -65,7 +64,6 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
   const removeDisclosure = useDisclosure();
   const [selectedRelayer, setSelectedRelayer] = useState<EngineRelayer>();
   const { chainIdToChainRecord } = useAllChainsData();
-  const { onCopy, hasCopied, setValue } = useClipboard("");
 
   const columns = [
     columnHelper.accessor("chainId", {
@@ -120,8 +118,8 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
           allowedContracts.length === 0
             ? "*"
             : allowedContracts.length === 1
-            ? `${allowedContracts.length} address`
-            : `${allowedContracts.length} addresses`;
+              ? `${allowedContracts.length} address`
+              : `${allowedContracts.length} addresses`;
         return <Text>{value}</Text>;
       },
     }),
@@ -133,8 +131,8 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
           allowedForwarders.length === 0
             ? "*"
             : allowedForwarders.length === 1
-            ? `${allowedForwarders.length} address`
-            : `${allowedForwarders.length} addresses`;
+              ? `${allowedForwarders.length} address`
+              : `${allowedForwarders.length} addresses`;
         return <Text>{value}</Text>;
       },
     }),

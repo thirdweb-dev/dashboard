@@ -45,8 +45,8 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
                           {walletConfig.type === "aws-kms"
                             ? "backend wallets secured by AWS KMS"
                             : walletConfig.type === "gcp-kms"
-                            ? "backend wallets secured by GCP KMS"
-                            : "local backend wallets"}
+                              ? "backend wallets secured by GCP KMS"
+                              : "local backend wallets"}
                           . You can change this in the Configuration tab.
                         </Text>
                       </Card>
@@ -69,7 +69,7 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
                 Engine performs blockchain actions using backend wallets you own
                 and manage.{" "}
                 <Link
-                  href="https://portal.thirdweb.com/engine/backend-wallets"
+                  href="https://portal.thirdweb.com/infrastructure/engine/features/backend-wallets"
                   color="primary.500"
                   isExternal
                 >

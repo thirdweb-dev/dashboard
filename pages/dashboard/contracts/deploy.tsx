@@ -82,7 +82,7 @@ const DeployOptions = () => {
       import: {
         title: "Import",
         description:
-          "Import an already deployed contract to build apps on top of contract using thirdweb tools..",
+          "Import an already deployed contract to build apps on top of contract using thirdweb tools.",
         onClick: modalState.onOpen,
       },
       build: {

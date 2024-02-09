@@ -1,5 +1,6 @@
 import {
   Account,
+  AccountStatus,
   useAccount,
   useConfirmEmbeddedWallet,
 } from "@3rdweb-sdk/react/hooks/useApi";
@@ -14,13 +15,27 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { useWallet } from "@thirdweb-dev/react";
 import { GLOBAL_EWS_AUTH_TOKEN_KEY } from "constants/app";
 import { walletIds } from "@thirdweb-dev/wallets";
+import { OnboardingChoosePlan } from "./ChoosePlan";
+import { OnboardingLinkWallet } from "./LinkWallet";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 const skipBilling = (account: Account) => {
   return (
-    ["validPayment", "paymentVerification"].includes(account.status) ||
-    account.onboardSkipped
+    [AccountStatus.ValidPayment, AccountStatus.PaymentVerification].includes(
+      account.status,
+    ) || account.onboardSkipped
   );
 };
+
+type OnboardingState =
+  | "onboarding"
+  | "linking"
+  | "confirming"
+  | "confirmLinking"
+  | "plan"
+  | "billing"
+  | "skipped"
+  | undefined;
 
 export const Onboarding: React.FC = () => {
   const meQuery = useAccount();
@@ -29,69 +44,77 @@ export const Onboarding: React.FC = () => {
   const trackEvent = useTrack();
   const wallet = useWallet();
   const ewsConfirmMutation = useConfirmEmbeddedWallet();
+  const [claimGrowth] = useLocalStorage("claim-growth-trial", false, true);
 
-  const [state, setState] = useState<
-    "onboarding" | "confirming" | "billing" | "skipped" | undefined
-  >();
+  const [state, setState] = useState<OnboardingState>();
+  const [account, setAccount] = useState<Account>();
   const [updatedEmail, setUpdatedEmail] = useState<string | undefined>();
 
-  const account = meQuery.data;
+  const isEmbeddedWallet = wallet?.walletId === walletIds.embeddedWallet;
 
   const handleSave = (email?: string) => {
-    const tracking = {
-      category: "account",
-      action: "onboardingStep",
-      label: "next",
-      data: {
-        email: account?.unconfirmedEmail || email || updatedEmail,
-      },
-    };
-
-    if (state === "onboarding") {
-      if (email) {
-        setUpdatedEmail(email);
-      }
-      setState("confirming");
-
-      trackEvent({
-        ...tracking,
-        data: {
-          ...tracking.data,
-          currentStep: "onboarding",
-          nextStep: "confirming",
-        },
-      });
-    }
-
     // if account is not ready yet we cannot do anything here
     if (!account) {
       return;
     }
 
-    if (state === "confirming") {
-      const newState = skipBilling(account) ? "skipped" : "billing";
-      setState(newState);
+    let nextStep: OnboardingState = undefined;
 
-      trackEvent({
-        ...tracking,
-        data: {
-          ...tracking.data,
-          currentStep: "confirming",
-          nextStep: newState,
-        },
-      });
-    } else if (state === "billing") {
-      setState("skipped");
-
-      trackEvent({
-        ...tracking,
-        data: {
-          ...tracking.data,
-          currentStep: "billing",
-          nextStep: "skipped",
-        },
-      });
+    switch (state) {
+      case "onboarding":
+        nextStep = "confirming";
+        break;
+      case "linking":
+        nextStep = "confirmLinking";
+        break;
+      case "confirming":
+        nextStep = skipBilling(account) || claimGrowth ? "skipped" : "plan";
+        break;
+      case "confirmLinking":
+        nextStep = "skipped";
+        break;
+      case "plan":
+        nextStep = "billing";
+        break;
+      case "billing":
+        nextStep = "skipped";
+        break;
+      default:
+      // ignore, already undefined
     }
+
+    trackEvent({
+      category: "account",
+      action: "onboardingStep",
+      label: "next",
+      data: {
+        email: email || account.unconfirmedEmail || updatedEmail,
+        currentStep: state,
+        nextStep,
+      },
+    });
+
+    setState(nextStep);
+  };
+
+  const handleDuplicateEmail = (email: string) => {
+    // if account is not ready yet we cannot do anything here
+    if (!account) {
+      return;
+    }
+
+    trackEvent({
+      category: "account",
+      action: "onboardingStep",
+      label: "next",
+      data: {
+        email,
+        currentStep: state,
+        nextStep: "linking",
+      },
+    });
+
+    setState("linking");
   };
 
   const handleEmbeddedWalletConfirmation = () => {
@@ -103,7 +126,7 @@ export const Onboarding: React.FC = () => {
         {
           onSuccess: (data) => {
             if (!skipBilling(data as Account)) {
-              setState("billing");
+              setState(claimGrowth ? "skipped" : "plan");
             }
             (window as any)[GLOBAL_EWS_AUTH_TOKEN_KEY] = undefined;
           },
@@ -113,13 +136,30 @@ export const Onboarding: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!isLoggedIn || !account || state || !wallet) {
+    if (!isLoggedIn || meQuery.isLoading) {
+      return;
+    }
+    const loadedAccount = meQuery.data;
+
+    if (
+      account?.id &&
+      loadedAccount?.id !== account?.id &&
+      state === "skipped"
+    ) {
+      setState(undefined);
+    }
+    setAccount(loadedAccount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, meQuery]);
+
+  useEffect(() => {
+    if (!account || state || !wallet) {
       return;
     }
     // user hasn't confirmed email
     if (!account.emailConfirmedAt && !account.unconfirmedEmail) {
       // if its an embedded wallet, try to auto-confirm it
-      if (wallet.walletId === walletIds.embeddedWallet) {
+      if (isEmbeddedWallet) {
         handleEmbeddedWalletConfirmation();
       } else {
         setState("onboarding");
@@ -127,18 +167,27 @@ export const Onboarding: React.FC = () => {
     }
     // user has changed email and needs to confirm
     else if (account.unconfirmedEmail) {
-      setState("confirming");
+      setState(
+        account.emailConfirmationWalletAddress
+          ? "confirmLinking"
+          : "confirming",
+      );
+    }
+    // skip when going thru claiming trial growth
+    else if (claimGrowth) {
+      setState("skipped");
     }
     // user hasn't skipped onboarding, has valid email and no valid payment yet
     else if (!skipBilling(account)) {
-      setState("billing");
+      setState("plan");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, account, router, state, wallet]);
+  }, [account, router, state, wallet]);
 
   if (!isLoggedIn || !account || state === "skipped" || !state) {
     return null;
   }
+
   if (state === "billing" && !process.env.NEXT_PUBLIC_STRIPE_KEY) {
     // can't do billing without stripe key
     return null;
@@ -168,17 +217,43 @@ export const Onboarding: React.FC = () => {
   }
 
   return (
-    <OnboardingModal isOpen={!!state} onClose={() => setState("skipped")}>
+    <OnboardingModal
+      isOpen={!!state}
+      onClose={() => setState("skipped")}
+      wide={state === "plan"}
+    >
       {state === "onboarding" && (
-        <OnboardingGeneral account={account} onSave={handleSave} />
+        <OnboardingGeneral
+          account={account}
+          onSave={(email) => {
+            setUpdatedEmail(email);
+            handleSave(email);
+          }}
+          onDuplicate={(email) => {
+            setUpdatedEmail(email);
+            handleDuplicateEmail(email);
+          }}
+        />
       )}
-      {state === "confirming" && (
+      {state === "linking" && (
+        <OnboardingLinkWallet
+          onSave={handleSave}
+          onBack={() => {
+            setUpdatedEmail(undefined);
+            setState("onboarding");
+          }}
+          email={updatedEmail as string}
+        />
+      )}
+      {(state === "confirming" || state === "confirmLinking") && (
         <OnboardingConfirmEmail
+          linking={state === "confirmLinking"}
           onSave={handleSave}
           onBack={() => setState("onboarding")}
           email={(account.unconfirmedEmail || updatedEmail) as string}
         />
       )}
+      {state === "plan" && <OnboardingChoosePlan onSave={handleSave} />}
       {state === "billing" && (
         <OnboardingBilling
           onSave={handleSave}

@@ -31,22 +31,22 @@ export const SDKs: FooterLinkInfo[] = [
   {
     label: "javascript",
     name: "JavaScript",
-    link: "https://portal.thirdweb.com/typescript",
+    link: "https://portal.thirdweb.com/typescript/latest",
   },
   {
     label: "react",
     name: "React",
-    link: "https://portal.thirdweb.com/react",
+    link: "https://portal.thirdweb.com/react/latest",
   },
-  {
-    label: "python",
-    name: "Python",
-    link: "https://portal.thirdweb.com/python",
-  },
+  // {
+  //   label: "python",
+  //   name: "Python",
+  //   link: "https://portal.thirdweb.com/python",
+  // },
   {
     label: "contracts",
     name: "Contracts",
-    link: "https://portal.thirdweb.com/solidity",
+    link: "https://portal.thirdweb.com/contracts/build/overview",
   },
 ];
 
@@ -63,6 +63,11 @@ export const COMPANY: FooterLinkInfo[] = [
     label: "about",
     name: "About us",
     link: "/about",
+  },
+  {
+    name: "Mission",
+    label: "mission",
+    link: "/mission",
   },
   {
     label: "blog",

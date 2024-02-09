@@ -15,10 +15,14 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { SupportedPlatformLink } from "../../../components/wallets/SupportedPlatformLink";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
+import { useRouter } from "next/router";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
 const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
+  const router = useRouter();
+  const defaultTabIndex = parseInt(router.query.tab?.toString() || "0");
+  const defaultClientId = router.query.clientId?.toString();
   const { isLoggedIn } = useLoggedInUser();
   const keysQuery = useApiKeys();
 
@@ -41,11 +45,20 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
       return;
     }
     if (apiKeys.length > 0) {
-      setSelectedKey(apiKeys[0]);
+      if (defaultClientId) {
+        const key = apiKeys.find((k) => k.key === defaultClientId);
+        if (key) {
+          setSelectedKey(key);
+        } else {
+          setSelectedKey(apiKeys[0]);
+        }
+      } else {
+        setSelectedKey(apiKeys[0]);
+      }
     } else {
       setSelectedKey(undefined);
     }
-  }, [apiKeys, selectedKey]);
+  }, [apiKeys, selectedKey, defaultClientId]);
 
   if (!isLoggedIn) {
     return <ConnectWalletPrompt description="manage embedded wallets" />;
@@ -81,7 +94,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
           bring-your-own auth supported.{" "}
           <TrackedLink
             isExternal
-            href="https://portal.thirdweb.com/embedded-wallet"
+            href="https://portal.thirdweb.com/wallets/embedded-wallet/overview"
             label="learn-more"
             category={TRACKING_CATEGORY}
             color="primary.500"
@@ -91,7 +104,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
         </Text>
       </Flex>
 
-      {!hasApiKeys && <NoApiKeys />}
+      {!hasApiKeys && <NoApiKeys service="embedded wallets" />}
 
       {hasApiKeys && selectedKey && (
         <EmbeddedWallets
@@ -100,6 +113,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
           isLoading={walletsQuery.isLoading}
           isFetched={walletsQuery.isFetched}
           trackingCategory={TRACKING_CATEGORY}
+          defaultTabIndex={defaultTabIndex}
         />
       )}
 
@@ -139,7 +153,7 @@ function ViewDocs() {
           size="md"
           noBorder
           platform="React"
-          href="https://portal.thirdweb.com/react/react.embeddedwallet"
+          href="https://portal.thirdweb.com/references/react/latest/embeddedWallet"
         />
 
         <SupportedPlatformLink
@@ -147,21 +161,21 @@ function ViewDocs() {
           noBorder
           size="md"
           platform="Unity"
-          href="https://portal.thirdweb.com/unity/wallet/embeddedwallet"
+          href="https://portal.thirdweb.com/unity/wallets/providers/embedded-wallet"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="React Native"
-          href="https://portal.thirdweb.com/react-native/react-native.embeddedwallet"
+          href="https://portal.thirdweb.com/react-native/latest/wallets/embedded-wallet"
         />
         <SupportedPlatformLink
           trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="TypeScript"
-          href="https://portal.thirdweb.com/wallet/embedded-wallet"
+          href="https://portal.thirdweb.com/references/wallets/latest/EmbeddedWallet"
         />
       </Grid>
 
@@ -185,28 +199,28 @@ function ViewDocs() {
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/embedded-wallet/getting-started"
+          href="https://portal.thirdweb.com/wallets/embedded-wallet/get-started"
           label="sdks-get-started"
         >
           Get started with Embedded Wallets
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/embedded-wallet/connect"
+          href="https://portal.thirdweb.com/wallets/embedded-wallet/how-to/connect-users"
           label="how-to-connect-your-users"
         >
           Using Embedded Wallets with Connect
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/embedded-wallet/custom"
+          href="https://portal.thirdweb.com/wallets/embedded-wallet/how-to/build-your-own-ui"
           label="how-to-build-your-own-ui"
         >
           How to Build Your Own UI
         </GuideLink>
 
         <GuideLink
-          href="https://portal.thirdweb.com/embedded-wallet/custom-auth-server"
+          href="https://portal.thirdweb.com/wallets/embedded-wallet/custom-auth/custom-auth-server"
           label="how-to-custom-auth-server"
         >
           Create a custom auth server
