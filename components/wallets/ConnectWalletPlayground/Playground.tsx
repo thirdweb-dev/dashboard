@@ -86,6 +86,9 @@ export const ConnectWalletPlayground: React.FC<{
     useState<OptionalUrl>(defaultOptionalUrl);
   const [modalTitleIconUrl, setModalTitleIconUrl] =
     useState<OptionalUrl>(defaultOptionalUrl);
+  const [showThirdwebBranding, setShowThirdwebBranding] =
+    useState<boolean>(true);
+
   const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -214,6 +217,8 @@ export const ConnectWalletPlayground: React.FC<{
         privacyPolicyUrl: privacyPolicyUrl.enabled
           ? `"${privacyPolicyUrl.url}"`
           : undefined,
+        showThirdwebBranding:
+          showThirdwebBranding === false ? "false" : undefined,
       },
     });
 
@@ -240,6 +245,7 @@ export const ConnectWalletPlayground: React.FC<{
     privacyPolicyUrl,
     locale,
     socialOptions,
+    showThirdwebBranding,
   ]);
 
   const welcomeScreenContent = (
@@ -598,6 +604,7 @@ export const ConnectWalletPlayground: React.FC<{
               privacyPolicyUrl={
                 privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
               }
+              showThirdwebBranding={showThirdwebBranding}
             />
           </PreviewThirdwebProvider>
         </Box>
@@ -636,6 +643,7 @@ export const ConnectWalletPlayground: React.FC<{
                 privacyPolicyUrl={
                   privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
                 }
+                showThirdwebBranding={showThirdwebBranding}
               />
             )}
 
@@ -897,6 +905,29 @@ export const ConnectWalletPlayground: React.FC<{
                 }}
               />
             )}
+          </FormItem>
+
+          {/* Show Thirdweb Branding */}
+          <FormItem
+            label="thirdweb Branding"
+            description="Hide/Show 'Powered by thirdweb' branding at the bottom of the modal"
+            addOn={
+              <GatedSwitch
+                togglable
+                trackingLabel="customConnect"
+                size="lg"
+                isChecked={showThirdwebBranding === true}
+                onChange={() => {
+                  if (showThirdwebBranding) {
+                    trackCustomize("modal-tw-branding-switch");
+                  }
+
+                  setShowThirdwebBranding((c) => !c);
+                }}
+              />
+            }
+          >
+            {null}
           </FormItem>
         </Flex>
 
@@ -1298,13 +1329,12 @@ function CustomTab(props: {
       fontWeight={600}
       fontSize={14}
       onClick={props.onClick}
-      border="2px solid"
+      border="none"
       borderRadius="lg"
-      borderColor={props.isActive ? "blue.500" : "borderColor"}
-      bg="none"
-      color={props.isActive ? "heading" : "faded"}
+      bg={props.isActive ? "blue.500" : "bgBlack"}
+      color="bgWhite"
       _hover={{
-        bg: "inputBg",
+        bg: "blue.200",
         borderColor: "heading",
       }}
     >
