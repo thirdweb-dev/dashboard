@@ -21,7 +21,6 @@ import {
   LinkButton,
   Text,
 } from "tw-components";
-import { DetailsRow } from "../DetailsRow";
 import { HIDDEN_SERVICES } from "../validations";
 
 interface ServicesDetailsProps {

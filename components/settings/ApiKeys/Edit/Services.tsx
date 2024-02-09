@@ -7,7 +7,6 @@ import {
   Input,
   Stack,
   Switch,
-  Textarea,
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -29,10 +28,7 @@ import {
   LinkButton,
   Text,
 } from "tw-components";
-import { NoTargetAddressesAlert } from "../Alerts";
 import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "../validations";
-import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
-import { GatedSwitch } from "components/settings/Account/Billing/GatedSwitch";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 
 interface EditServicesProps {
