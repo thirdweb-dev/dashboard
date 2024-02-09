@@ -89,7 +89,21 @@ export const ConnectWalletPlayground: React.FC<{
   const [showThirdwebBranding, setShowThirdwebBranding] =
     useState<boolean>(true);
 
-  const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
+  const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    if (welcomeScreen) {
+      if (
+        !welcomeScreen.img &&
+        !welcomeScreen.title &&
+        !welcomeScreen.subtitle
+      ) {
+        setWelcomeScreen(undefined);
+      }
+    }
+  }, [welcomeScreen]);
 
   const { colorMode, toggleColorMode } = useColorMode();
   const selectedTheme = colorMode === "light" ? "light" : "dark";
@@ -206,10 +220,11 @@ export const ConnectWalletPlayground: React.FC<{
         auth: authEnabled ? "{ loginOptional: false }" : undefined,
         switchToActiveChain: switchToActiveChain ? "true" : undefined,
         modalSize: `"${modalSize}"`,
-        welcomeScreen:
-          Object.keys(welcomeScreen).length > 0
+        welcomeScreen: welcomeScreen
+          ? Object.keys(welcomeScreen).length > 0
             ? JSON.stringify(welcomeScreen)
-            : undefined,
+            : undefined
+          : undefined,
         modalTitleIconUrl: modalTitleIconUrl.enabled
           ? `"${modalTitleIconUrl.url}"`
           : undefined,
@@ -261,7 +276,7 @@ export const ConnectWalletPlayground: React.FC<{
             trackCustomize("welcome-screen-title");
           }}
           placeholder="Your gateway to the decentralized world"
-          value={welcomeScreen.title}
+          value={welcomeScreen?.title}
           onChange={(e) => {
             setWelcomeScreen({
               ...welcomeScreen,
@@ -278,7 +293,7 @@ export const ConnectWalletPlayground: React.FC<{
             trackCustomize("welcome-screen-subtitle");
           }}
           placeholder="Connect a wallet to get started"
-          value={welcomeScreen.subtitle}
+          value={welcomeScreen?.subtitle}
           onChange={(e) => {
             setWelcomeScreen({
               ...welcomeScreen,
@@ -293,15 +308,15 @@ export const ConnectWalletPlayground: React.FC<{
         label="Splash Image"
         addOn={
           <Flex gap={3} alignItems="center">
-            <Text>{welcomeScreen.img ? "Custom" : "Default"}</Text>
+            <Text>{welcomeScreen?.img ? "Custom" : "Default"}</Text>
             <Switch
               size="lg"
-              isChecked={!!welcomeScreen.img}
+              isChecked={!!welcomeScreen?.img}
               onChange={() => {
                 trackCustomize("splash-image-switch");
                 setWelcomeScreen({
                   ...welcomeScreen,
-                  img: welcomeScreen.img
+                  img: welcomeScreen?.img
                     ? undefined
                     : {
                         src: "",
@@ -314,7 +329,7 @@ export const ConnectWalletPlayground: React.FC<{
           </Flex>
         }
       >
-        {welcomeScreen.img && (
+        {welcomeScreen?.img && (
           <Flex flexDir="column" gap={3}>
             <Box>
               <FormLabel m={0} mb={2}>
