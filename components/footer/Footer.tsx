@@ -1,12 +1,9 @@
 import {
   COMMUNITY,
-  FAUCETS,
+  COMPANY,
   FooterLinkInfo,
-  LEGAL,
   NETWORKS,
-  RESOURCES,
   SDKs,
-  SOLUTIONS,
 } from "./footerLinks";
 import { SOCIALS } from "./socialLinks";
 import {
@@ -17,7 +14,11 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
-import { PRODUCTS } from "components/product-pages/common/nav/DesktopMenu";
+import {
+  DEVELOPER_RESOURCES,
+  PRODUCTS,
+  SOLUTIONS,
+} from "components/product-pages/common/nav/data";
 import {
   Heading,
   LinkButton,
@@ -63,16 +64,15 @@ const FooterLinksGrid: React.FC = () => {
   return (
     <SimpleGrid columns={{ base: 2, lg: 4 }} spacing={8}>
       <FooterLinkGroup heading="Products" links={PRODUCTS} />
-      <FooterLinkGroup heading="Resources" links={RESOURCES} />
+      <FooterLinkGroup heading="Developer" links={DEVELOPER_RESOURCES} />
       <div>
         <FooterLinkGroup heading="SDKs" links={SDKs} />
         <FooterLinkGroup heading="Solutions" links={SOLUTIONS} />
-        <FooterLinkGroup heading="Community" links={COMMUNITY} />
+        <FooterLinkGroup heading="Networks" links={NETWORKS} />
       </div>
       <div>
-        <FooterLinkGroup heading="Networks" links={NETWORKS} />
-        <FooterLinkGroup heading="Faucets" links={FAUCETS} />
-        <FooterLinkGroup heading="Legal" links={LEGAL} />
+        <FooterLinkGroup heading="Community" links={COMMUNITY} />
+        <FooterLinkGroup heading="Company" links={COMPANY} />
       </div>
     </SimpleGrid>
   );

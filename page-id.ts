@@ -10,8 +10,11 @@ export enum PageId {
   // thirdweb.com
   Homepage = "homepage-landing",
 
-  // thirdweb.com
+  // thirdweb.com/about
   About = "about-page",
+
+  // thirdweb.com/contact-us
+  ContactUs = "contact-us-page",
 
   // thirdweb.com/templates
   Templates = "templates-page",
@@ -22,8 +25,50 @@ export enum PageId {
   // thirdweb.com
   OSS = "oss-page",
 
+  // thirdweb..com/pricing
+  Pricing = "pricing-page",
+
+  // thirdweb..com/privacy
+  Privacy = "privacy-page",
+
+  // thirdweb..com/tos
+  ToS = "tos-page",
+
+  // thirdweb.com/cli/login
+  CliLoginPage = "cli-login-page",
+
+  // thirdweb.com/contract-extensions
+  ContractExtensionsLanding = "contract-extensions-landing",
+
+  // thirdweb.com/web3-sdk
+  Web3SDKLanding = "web3-sdk-landing",
+
+  // thirdweb.com/account-abstraction
+  SmartWalletLanding = "smart-wallet-landing",
+
+  // thirdweb.com/build
+  BuildLanding = "build-landing",
+
+  // thirdweb.com/explore
+  ExploreLanding = "explore-landing",
+
+  // thirdweb.com/embedded-wallets
+  EmbeddedWalletsLanding = "embedded-wallets-landing",
+
+  // thirdweb.com/connec
+  ConnectLanding = "connect-landing",
+
+  // thirdweb.com/interact
+  InteractLanding = "interact-landing",
+
+  // thirdweb.com/checkout
+  CheckoutLanding = "checkout-landing",
+
+  // thirdweb.com/sponsored-transactions
+  SponsoredTransactionsLanding = "sponsored-transactions-landing",
+
   // thirdweb.com/auth
-  AuthenticationLanding = "auth-landing",
+  AuthLanding = "auth-landing",
 
   // thirdweb.com/publish
   PublishLanding = "publish-landing",
@@ -31,11 +76,11 @@ export enum PageId {
   // thirdweb.com/deploy
   DeployLanding = "deploy-landing",
 
-  // thirdweb.com/contract-extensions
-  ContractExtensionsLanding = "contract-extensions-landing",
+  // thirdweb.com/rpc-edge
+  RPCEdgeLanding = "rpc-edge-landing",
 
-  // thirdweb.com/web3-sdk
-  Web3SDKLanding = "web3-sdk-landing",
+  // thirdweb.com/engine
+  EngineLanding = "engine-landing",
 
   // thirdweb.com/pre-built-contracts
   PreBuiltContractsLanding = "pre-built-contracts-landing",
@@ -58,8 +103,8 @@ export enum PageId {
   // thirdweb.com/chainlist
   ChainsLanding = "chains-landing",
 
-  // thirdweb.com/hackathon/solanathon
-  SolanaHackathonLanding = "solanathon",
+  // thirdweb.com/hackathon
+  HackathonLanding = "base-thirdweb-hacakthon",
   ReadyPlayer3Landing = "readyplayer3",
 
   // thirdweb.com/404
@@ -74,14 +119,32 @@ export enum PageId {
   // thirdweb.com/dashboard
   Dashboard = "dashboard",
 
-  // thirdweb.com/dashboard/storage
+  // thirdweb.com/dashboard/infrastructure
+  DashboardInfrastructure = "dashboard-infrastructure",
+  // thirdweb.com/dashboard/infrastructure/storage
   DashboardStorage = "dashboard-storage",
-
-  // thirdweb.com/dashboard/rpc
+  // thirdweb.com/dashboard/infastucture/rpc-edge
   DashboardRPC = "dashboard-rpc",
 
   // thirdweb.com/dashboard/wallets
   DashboardWallets = "dashboard-wallets",
+  // thirdweb.com/dashboard/wallets/wallet-sdk
+  DashboardWalletsWalletSDK = "dashboard-wallets-wallet-sdk",
+  // thirdweb.com/dashboard/wallets/connect
+  DashboardWalletsConnect = "dashboard-wallets-connect",
+  // thirdweb.com/dashboard/wallets/smart-wallet
+  DashboardWalletsSmartWallet = "dashboard-wallets-smart-wallet",
+  // thirdweb.com/dashboard/wallets/embedded
+  DashboardWalletsEmbedded = "dashboard-wallets-embedded",
+  // thirdweb.com/dashboard/wallets/local
+  DashboardWalletsLocal = "dashboard-wallets-local",
+  // thirdweb.com/dashboard/wallets/auth
+  DashboardWalletsAuth = "dashboard-wallets-auth",
+  // thirdweb.com/dashboard/wallets/analytics
+  DashboardWalletsAnalytics = "dashboard-wallets-analytics",
+
+  // thirdweb.com/dashboard/contracts/build
+  DashboardContractsBuild = "dashboard-contracts-build",
 
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
@@ -94,17 +157,42 @@ export enum PageId {
   // thirdweb.com/events
   Events = "events",
 
+  // thirdweb..com/mission
+  Mission = "mission",
+
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
 
   // ---------------------------------------------------------------------------
+  //  engine pages
+  // ---------------------------------------------------------------------------
+
+  // thirdweb.com/dashboard/engine
+  EngineManage = "engine-manage",
+
+  // ---------------------------------------------------------------------------
   //  settings pages
   // ---------------------------------------------------------------------------
-  // thirdweb.com/settings
+  // thirdweb.com/dashboard/settings
   Settings = "settings",
 
-  // thirdweb.com/settings/api-keys
+  // thirdweb.com/dashboard/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
+
+  // thirdweb.com/dashboard/settings/api-keys/:id
+  SettingsApiKey = "settings-api-key",
+
+  // thirdweb.com/dashboard/settings/devices
+  SettingsDevices = "settings-devices",
+
+  // thirdweb.com/dashboard/settings/billing
+  SettingsBilling = "settings-billing",
+
+  // thirdweb.com/dashboard/settings/usage
+  SettingsUsage = "settings-usage",
+
+  // thirdweb.com/dashboard/settings/notifications
+  SettingsNotifications = "settings-notifications",
 
   // ---------------------------------------------------------------------------
   //  solutions pages
@@ -112,16 +200,21 @@ export enum PageId {
   SolutionsCommerce = "solutions-commerce",
   SolutionsGaming = "solutions-gaming",
   SolutionsMinting = "solutions-minting",
+  SolutionsLoyalty = "solutions-loyalty",
+  SolutionsMarketplace = "solutions-marketplace",
+  SolutionsChains = "solutions-chains",
+  SolutionsAppChainApi = "solutions-appchain-api",
+  SolutionsWeb2Onboarding = "solutions-web2-onboarding",
 
   // ---------------------------------------------------------------------------
   //  network pages
   // ---------------------------------------------------------------------------
-  NetworkSolana = "network-solana",
+  // NetworkSolana = "network-solana",
 
   // ---------------------------------------------------------------------------
   //  faucets pages
   // ---------------------------------------------------------------------------
-  FaucetSolana = "faucet-solana",
+  // FaucetSolana = "faucet-solana",
 
   // ---------------------------------------------------------------------------
   //  "publish" product pages
@@ -172,7 +265,7 @@ export enum PageId {
 
   // thirdweb.com/:network/:contractAddress (solana)
   // example: thirdweb.com/solana/5GYspMpsfw3Vrf7FQ37Jbhpg4PeVZHEPrfPcXY9sGQzy
-  DeployedProgram = "deployed-program",
+  // DeployedProgram = "deployed-program",
 
   // thirdweb.com/:network
   // example: thirdweb.com/ethereum
@@ -181,9 +274,23 @@ export enum PageId {
   // thirdweb.com/bear-market-airdrop
   BearMarketAirdrop = "bear-market-airdrop",
 
+  // drops
+  DropsOptimism = "drops-optimism",
+
+  // ---------------------------------------------------------------------------
+  // "payments" product pages
+  // ---------------------------------------------------------------------------
+
+  PaymentsPurchases = "payments-purchases",
+  PaymentsPurchasesDetail = "payments-purchases-detail",
+  PaymentsContracts = "payments-contracts",
+  PaymentsSettings = "payments-settings",
+
   // ---------------------------------------------------------------------------
   //  community pages
   // ---------------------------------------------------------------------------
   Learn = "learn",
   Ambassadors = "ambassadors",
+  Community = "community",
+  Support = "support",
 }

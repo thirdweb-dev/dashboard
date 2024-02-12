@@ -323,7 +323,7 @@ const Base: ThirdwebNextPage = () => {
                 width="225"
                 height="36"
                 src="/assets/build/base/thirdweb.png"
-                alt="thirweb"
+                alt="thirdweb"
               />
               <Text size="body.2xl" color="#595959" transform="rotate(45deg)">
                 +
@@ -475,7 +475,7 @@ const Base: ThirdwebNextPage = () => {
                       links: [
                         {
                           text: "Browse docs",
-                          href: "https://portal.thirdweb.com/deploy",
+                          href: "https://portal.thirdweb.com/contracts/deploy/overview",
                         },
                       ],
                       children: (
@@ -503,11 +503,11 @@ const Base: ThirdwebNextPage = () => {
                       links: [
                         {
                           text: "Browse docs",
-                          href: "https://portal.thirdweb.com/react-native",
+                          href: "https://portal.thirdweb.com/react-native/latest",
                         },
                         {
                           text: "Browse templates",
-                          href: "https://portal.thirdweb.com/templates",
+                          href: "https://thirdweb.com/templates",
                         },
                       ],
                     },
@@ -529,11 +529,11 @@ const Base: ThirdwebNextPage = () => {
                       links: [
                         {
                           text: "Browse docs",
-                          href: "https://portal.thirdweb.com/react",
+                          href: "https://portal.thirdweb.com/react/latest",
                         },
                         {
                           text: "Browse templates",
-                          href: "https://portal.thirdweb.com/templates",
+                          href: "https://thirdweb.com/templates",
                         },
                       ],
                     },
@@ -551,7 +551,7 @@ const Base: ThirdwebNextPage = () => {
                         },
                         {
                           text: "Browse templates",
-                          href: "https://portal.thirdweb.com/templates",
+                          href: "https://thirdweb.com/templates",
                         },
                       ],
                     },

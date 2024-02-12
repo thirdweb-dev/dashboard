@@ -1,7 +1,7 @@
 import { PermissionEditor } from "./permissions-editor";
 import { useIsAdmin } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { Flex, Icon, Select, Spinner, Stack } from "@chakra-ui/react";
-import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
+import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { constants } from "ethers";
 import { useFormContext } from "react-hook-form";
 import { FiInfo } from "react-icons/fi";
@@ -47,7 +47,7 @@ export const ContractPermission: React.FC<ContractPermissionProps> = ({
               <Text>{description}</Text>
             </Stack>
 
-            {role === "transfer" && isPrebuilt && (
+            {role === "transfer" && (
               <Flex align="center" justify="center" flexGrow={0} flexShrink={0}>
                 {isLoading || isSubmitting ? (
                   <Flex align="center" gap={2} px={2}>
@@ -165,7 +165,7 @@ export const ContractPermission: React.FC<ContractPermissionProps> = ({
             )}
           </Flex>
 
-          {role === "transfer" && isPrebuilt && (
+          {role === "transfer" && (
             <Flex
               direction="row"
               borderRadius="md"

@@ -12,13 +12,8 @@ import {
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { Chain, configureChain, minimizeChain } from "@thirdweb-dev/chains";
 import { DropContract } from "@thirdweb-dev/react";
-import {
-  DASHBOARD_THIRDWEB_API_KEY,
-  EMBED_THIRDWEB_API_KEY,
-} from "constants/rpc";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
-import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
@@ -29,17 +24,23 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  Text,
 } from "tw-components";
+import { useApiKeys, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { useTxNotifications } from "hooks/useTxNotifications";
 
 interface EmbedSetupProps {
   contract: DropContract;
   ercOrMarketplace: string;
 }
 
-const IPFS_URI = "ipfs://QmUe6MdTHr4it2k7rMkLZZ44TGWVKZSFEcYCbrCzuD7LP4";
-const ERC721_IPFS_URI = `ipfs://QmZG9dPDYCpTuzM3mVvdtmpjqwCbhErPipNvT945QqzWHk`;
+// MAKE SURE THIS IS v1 embed hashes!!
+const IPFS_URI = "bafybeigdie2yyiazou7grjowoevmuip6akk33nqb55vrpezqdwfssrxyfy";
+const ERC721_IPFS_URI =
+  "bafybeicd3qfzelz4su7ng6n523virdsgobrc5pcbarhwqv3dj3drh645pi";
 
 interface IframeSrcOptions {
+  clientId: string;
   chain: string;
   tokenId?: string;
   listingId?: string;
@@ -83,16 +84,17 @@ const buildIframeSrc = (
   ercOrMarketplace?: string,
   options?: IframeSrcOptions,
 ): string => {
+  const contractPath =
+    ercOrMarketplace === "erc721" ? "" : `${ercOrMarketplace}.html`;
   const contractEmbedHash =
-    ercOrMarketplace === "erc721"
-      ? ERC721_IPFS_URI
-      : `${IPFS_URI}/${ercOrMarketplace}.html`;
+    ercOrMarketplace === "erc721" ? ERC721_IPFS_URI : IPFS_URI;
 
   if (!contract || !options || !contractEmbedHash) {
     return "";
   }
 
   const {
+    clientId,
     chain,
     tokenId,
     listingId,
@@ -107,10 +109,13 @@ const buildIframeSrc = (
     biconomyApiId,
   } = options;
 
-  const url = new URL(replaceIpfsUrl(contractEmbedHash));
+  const url = new URL(
+    `https://embed.ipfscdn.io/ipfs/${contractEmbedHash}/${contractPath}`,
+  );
 
   url.searchParams.append("contract", contract.getAddress());
   url.searchParams.append("chain", chain);
+  url.searchParams.append("clientId", clientId);
 
   if (tokenId !== undefined && ercOrMarketplace === "erc1155") {
     url.searchParams.append("tokenId", tokenId.toString());
@@ -141,7 +146,7 @@ const buildIframeSrc = (
   if (biconomyApiId) {
     url.searchParams.append("biconomyApiId", biconomyApiId);
   }
-  if (theme && theme !== "light") {
+  if (theme) {
     url.searchParams.append("theme", theme);
   }
   if (primaryColor && primaryColor !== "default") {
@@ -159,34 +164,28 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
 }) => {
   const trackEvent = useTrack();
 
+  const apiKeys = useApiKeys();
+  const createKeyMutation = useCreateApiKey();
+  const { onSuccess, onError } = useTxNotifications(
+    "API key created",
+    "Failed to create API key",
+  );
+
+  const validApiKey = (apiKeys.data || []).find(
+    (apiKey) =>
+      (apiKey.domains.includes("*") ||
+        apiKey.domains.includes("embed.ipfscdn.io") ||
+        apiKey.domains.includes("*.ipfscdn.io")) &&
+      (apiKey.services || [])
+        .find((service) => service.name === "storage")
+        ?.actions.includes("read") &&
+      !!(apiKey.services || []).find((service) => service.name === "rpc"),
+  );
+
   const chainId = useDashboardEVMChainId();
   const configuredChains = useSupportedChainsRecord();
 
-  const chain = useMemo(() => {
-    if (!chainId) {
-      return undefined;
-    }
-
-    const configuredChain = configuredChains[chainId];
-
-    const rpc = configuredChain.rpc[0];
-
-    if (rpc.includes(DASHBOARD_THIRDWEB_API_KEY)) {
-      return configureChain(configuredChain, {
-        rpc: rpc.replace(DASHBOARD_THIRDWEB_API_KEY, EMBED_THIRDWEB_API_KEY),
-      });
-    }
-
-    // eslint-disable-next-line no-template-curly-in-string
-    if (rpc.includes("${THIRDWEB_API_KEY}")) {
-      return configureChain(configuredChain, {
-        // eslint-disable-next-line no-template-curly-in-string
-        rpc: rpc.replace("${THIRDWEB_API_KEY}", EMBED_THIRDWEB_API_KEY),
-      });
-    }
-
-    return configuredChain;
-  }, [chainId, configuredChains]);
+  const chain = configuredChains[chainId as number];
 
   const { register, watch } = useForm<{
     rpcUrl: string;
@@ -225,6 +224,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
 
   const iframeSrc = buildIframeSrc(contract, ercOrMarketplace, {
     chain: JSON.stringify(minimizedChain),
+    clientId: validApiKey?.key || "",
     ...watch(),
   });
 
@@ -236,7 +236,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
     height="600px"
     style="max-width:100%;"
     frameborder="0"
-    ></iframe>`,
+></iframe>`,
     [iframeSrc],
   );
 
@@ -305,6 +305,86 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
               </FormHelperText>
             </FormControl>
           ) : null}
+          <FormControl>
+            <FormLabel>Client ID</FormLabel>
+            {validApiKey ? (
+              <Input
+                readOnly
+                disabled
+                value={`${validApiKey?.name} - ${validApiKey?.key}`}
+              />
+            ) : (
+              <Button
+                bgColor="bgBlack"
+                color="bgWhite"
+                _hover={{
+                  opacity: 0.8,
+                }}
+                onClick={() => {
+                  trackEvent({
+                    category: "api-keys",
+                    action: "create",
+                    label: "attempt",
+                    fromEmbed: true,
+                  });
+
+                  createKeyMutation.mutate(
+                    {
+                      name: "Embed API key",
+                      domains: ["embed.ipfscdn.io"],
+                      services: [
+                        {
+                          name: "rpc",
+                          targetAddresses: ["*"],
+                        },
+                        {
+                          name: "storage",
+                          targetAddresses: ["*"],
+                          actions: ["read"],
+                        },
+                      ],
+                    },
+                    {
+                      onSuccess: () => {
+                        onSuccess();
+                        trackEvent({
+                          category: "api-keys",
+                          action: "create",
+                          label: "success",
+                          fromEmbed: true,
+                        });
+                      },
+                      onError: (err) => {
+                        onError(err);
+                        trackEvent({
+                          category: "api-keys",
+                          action: "create",
+                          label: "error",
+                          error: err,
+                          fromEmbed: true,
+                        });
+                      },
+                    },
+                  );
+                }}
+                disabled={createKeyMutation.isLoading}
+              >
+                Create Client ID
+              </Button>
+            )}
+
+            <FormHelperText>
+              You need a client ID to use embeds.{" "}
+              <Link
+                href="https://portal.thirdweb.com/account/api-keys"
+                color="primary.500"
+                isExternal
+              >
+                Learn more
+              </Link>
+              .
+            </FormHelperText>
+          </FormControl>
           <FormControl>
             <FormLabel>RPC Url</FormLabel>
             <Input type="url" {...register("rpcUrl")} />
@@ -436,7 +516,9 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
 
       <Stack align="center" gap={2}>
         <Heading size="title.sm">Preview</Heading>
-        {iframeSrc ? (
+        {!validApiKey ? (
+          <Text>You need to create a client ID to use embeds</Text>
+        ) : iframeSrc ? (
           <iframe
             src={iframeSrc}
             width={isMobile ? "100%" : "600px"}

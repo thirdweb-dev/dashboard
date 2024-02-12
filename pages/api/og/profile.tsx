@@ -96,6 +96,21 @@ function descriptionShortener(description: string) {
   return `${words.join(" ")} ...`;
 }
 
+const IPFS_GATEWAY = process.env.API_ROUTES_CLIENT_ID
+  ? `https://${process.env.API_ROUTES_CLIENT_ID}.ipfscdn.io/ipfs/`
+  : "https://ipfs.io/ipfs/";
+
+function replaceAnyIpfsUrlWithGateway(url: string) {
+  if (url.startsWith("ipfs://")) {
+    return `${IPFS_GATEWAY}${url.slice(7)}`;
+  }
+  if (url.includes("/ipfs/")) {
+    const [, after] = url.split("/ipfs/");
+    return `${IPFS_GATEWAY}${after}`;
+  }
+  return url;
+}
+
 export default async function handler(req: NextRequest) {
   if (req.method !== "GET") {
     return new Response("Method not allowed", { status: 405 });
@@ -137,19 +152,20 @@ export default async function handler(req: NextRequest) {
           src={imageData}
           width="1200px"
           height="630px"
-          tw="absolute object-cover"
+          tw="absolute"
         />
         {/* the actual component starts here */}
 
         <div tw="w-full h-full flex flex-col justify-between">
-          {/* title descritpion and profile image */}
+          {/* title description and profile image */}
           <div tw="flex flex-col w-full">
             <img
               alt=""
               tw="w-32 h-32 rounded-full"
               src={
-                profileData.avatar ||
-                `https://source.boringavatars.com/marble/120/${profileData.displayName}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51&square=true`
+                profileData.avatar
+                  ? replaceAnyIpfsUrlWithGateway(profileData.avatar)
+                  : `https://source.boringavatars.com/marble/120/${profileData.displayName}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51&square=true`
               }
             />
             <h1 tw="text-7xl text-white font-bold my-3">

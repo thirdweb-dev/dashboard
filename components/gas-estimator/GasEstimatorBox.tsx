@@ -1,7 +1,7 @@
 import { GasEstimate } from "@3rdweb-sdk/react/hooks/useGas";
 import { Box, BoxProps, Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { AiOutlineInfoCircle } from "@react-icons/all-files/ai/AiOutlineInfoCircle";
-import { ContractType } from "@thirdweb-dev/sdk/evm";
+import { ContractType } from "@thirdweb-dev/sdk";
 import {
   CONTRACT_TYPE_NAME_MAP,
   GasEstimatorMap,
@@ -88,7 +88,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   return (
     <Box p={6} border="1px solid" borderColor="borderColor" {...props}>
       <Link
-        href={`https://portal.thirdweb.com/pre-built-contracts/${contractType}`}
+        href={`https://portal.thirdweb.com/contracts/explore/pre-built-contracts//${contractType}`}
         onClick={() =>
           trackEvent({
             category: "gas-estimator",

@@ -18,9 +18,8 @@ import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import { NFT } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
-import { NFTDrawer } from "core-ui/nft-drawer/nft-drawer";
-import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { BigNumber } from "ethers";
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
@@ -41,6 +40,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
 }) => {
   const isErc721 = detectFeatures(contract, ["ERC721"]);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+  const router = useRouter();
 
   const tableColumns = useMemo(() => {
     const cols: Column<NFT>[] = [
@@ -64,7 +64,9 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         Header: "Name",
         accessor: (row) => row.metadata.name,
         Cell: (cell: CellProps<NFT, string>) => (
-          <Text size="label.md">{cell.value}</Text>
+          <Text noOfLines={1} size="label.md">
+            {cell.value}
+          </Text>
         ),
       },
       {
@@ -108,6 +110,12 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   const getAllQueryResult = useNFTs(contract, queryParams);
   const totalCountQuery = useTotalCount(contract);
 
+  // any higher and the useTable breaks
+  let safeTotalCount = BigNumber.from(totalCountQuery.data || 0);
+  if (safeTotalCount.gte(1_000_000)) {
+    safeTotalCount = BigNumber.from(1_000_000);
+  }
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -133,10 +141,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       },
       manualPagination: true,
       pageCount: Math.max(
-        Math.ceil(
-          BigNumber.from(totalCountQuery.data || 0).toNumber() /
-            queryParams.count,
-        ),
+        Math.ceil(safeTotalCount.toNumber() / (queryParams.count || 1)),
         1,
       ),
     },
@@ -146,9 +151,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   useEffect(() => {
     setQueryParams({ start: pageIndex * pageSize, count: pageSize });
   }, [pageIndex, pageSize]);
-  const [tokenRow, setTokenRow] = useState<NFT | null>(null);
-
-  const drawerTabs = useNFTDrawerTabs("evm", contract, tokenRow);
 
   return (
     <Flex gap={4} direction="column">
@@ -162,12 +164,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
             right={4}
           />
         )}
-        <NFTDrawer
-          data={tokenRow}
-          isOpen={!!tokenRow}
-          onClose={() => setTokenRow(null)}
-          tabs={drawerTabs}
-        />
         <Table {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
@@ -198,7 +194,15 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   _hover={{ bg: "accent.100" }}
                   // this is a hack to get around the fact that safari does not handle position: relative on table rows
                   style={{ cursor: "pointer" }}
-                  onClick={() => setTokenRow(row.original)}
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/${row.original.metadata.id}`,
+                      undefined,
+                      {
+                        scroll: true,
+                      },
+                    );
+                  }}
                   // end hack
                   borderBottomWidth={1}
                   _last={{ borderBottomWidth: 0 }}
@@ -213,6 +217,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                       {...cell.getCellProps()}
                       borderBottomWidth="inherit"
                       borderColor="borderColor"
+                      maxW="sm"
                     >
                       {cell.render("Cell")}
                     </Td>

@@ -5,6 +5,10 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Divider,
   Flex,
@@ -40,9 +44,11 @@ import {
   CodeEnvironment,
   SnippetApiResponse,
 } from "components/contract-tabs/code/types";
-import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
+import { useSingleQueryParam } from "hooks/useQueryParam";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
@@ -68,16 +74,28 @@ const COMMANDS = {
   },
   setup: {
     javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK({{chainName}});
+// If used on the FRONTEND pass your 'clientId'
+const sdk = new ThirdwebSDK({{chainName}}, {
+  clientId: "YOUR_CLIENT_ID",
+});
+// --- OR ---
+// If used on the BACKEND pass your 'secretKey'
+const sdk = new ThirdwebSDK({{chainName}}, {
+  secretKey: "YOUR_SECRET_KEY",
+});
+
 const contract = await sdk.getContract("{{contract_address}}");`,
     react: `import {{chainName}} from "@thirdweb-dev/chains";
 import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 function App() {
   return (
-    <ThirdwebProvider activeChain={{chainName}}>
+    <ThirdwebProvider
+      activeChain={{chainName}}
+      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+    >
       <Component />
     </ThirdwebProvider>
   )
@@ -91,7 +109,10 @@ import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
 
 function App() {
   return (
-    <ThirdwebProvider activeChain={{chainName}}>
+    <ThirdwebProvider
+      activeChain={{chainName}}
+      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+    >
       <Component />
     </ThirdwebProvider>
   )
@@ -103,19 +124,22 @@ function Component() {
     web3button: ``,
     python: `from thirdweb import ThirdwebSDK
 
-sdk = ThirdwebSDK("{{chainNameOrRpc}}")
+sdk = ThirdwebSDK("{{chainNameOrRpc}}", options=SDKOptions(secret_key="YOUR_SECRET_KEY"))
 contract = sdk.get_contract("{{contract_address}}")`,
     go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
 
-sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
+sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}", &thirdweb.SDKOptions{
+  SecretKey: "YOUR_SECRET_KEY",
+})
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
 
-private void Start() {
-    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}");
-    Contract myContract = SDK.GetContract("{{contract_address}}");
-}`,
+// Reference the SDK
+var sdk = ThirdwebManager.Instance.SDK;
+
+// Get your contract
+var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
     javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
@@ -217,6 +241,99 @@ export default function Component() {
   },
 };
 
+const WALLETS_SNIPPETS = [
+  {
+    id: "smart-wallet",
+    name: "Smart Wallet",
+    description: "Deploy smart contract wallets for your users",
+    iconUrl:
+      "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/smart-wallet.svg",
+    link: "https://portal.thirdweb.com/references/wallets/latest/SmartWallet",
+    supportedLanguages: {
+      javascript: `import {{chainName}} from "@thirdweb-dev/chains";
+import { LocalWallet, SmartWallet } from "@thirdweb-dev/wallets";
+
+// First, connect the personal wallet, which can be any wallet (metamask, walletconnect, etc.)
+// Here we're just generating a new local wallet which can be saved later
+const personalWallet = new LocalWallet();
+await personalWallet.generate();
+
+// Setup the Smart Wallet configuration
+const config = {
+  chain: {{chainName}}, // the chain where your smart wallet will be or is deployed
+  factoryAddress: "{{factory_address}}", // your own deployed account factory address
+  clientId: "YOUR_CLIENT_ID", // or use secretKey for backend/node scripts
+  gasless: true, // enable or disable gasless transactions
+};
+
+// Then, connect the Smart wallet
+const wallet = new SmartWallet(config);
+await wallet.connect({
+  personalWallet,
+});`,
+      react: `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react";
+
+export default function App() {
+return (
+    <ThirdwebProvider
+      clientId="YOUR_CLIENT_ID"
+      activeChain={{chainName}}
+      supportedWallets={[
+        smartWallet({
+          factoryAddress: "{{factory_address}}",
+          gasless: true,
+          personalWallets={[...]}
+        })
+      ]}
+    >
+      <ConnectWallet />
+    </ThirdwebProvider>
+  );
+}`,
+      "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react-native";
+
+export default function App() {
+return (
+    <ThirdwebProvider
+      clientId="YOUR_CLIENT_ID"
+      activeChain={{chainName}}
+      supportedWallets={[
+        smartWallet({
+          factoryAddress: "{{factory_address}}",
+          gasless: true,
+          personalWallets={[...]}
+        })
+      ]}
+    >
+      <ConnectWallet />
+    </ThirdwebProvider>
+  );
+}`,
+      unity: `using Thirdweb;
+
+public async void ConnectWallet()
+{
+    // Reference to your Thirdweb SDK
+    var sdk = ThirdwebManager.Instance.SDK;
+
+    // Configure the connection
+    var connection = new WalletConnection(
+      provider: WalletProvider.SmartWallet,        // The wallet provider you want to connect to (Required)
+      chainId: 1,                                  // The chain you want to connect to (Required)
+      password: "myEpicPassword",                  // If using a local wallet as personal wallet (Optional)
+      email: "email@email.com",                    // If using an email wallet as personal wallet (Optional)
+      personalWallet: WalletProvider.LocalWallet   // The personal wallet you want to use with your Smart Wallet (Optional)
+    );
+
+    // Connect the wallet
+    string address = await sdk.wallet.Connect(connection);
+}`,
+    },
+  },
+];
+
 function getExportName(slug: string) {
   let exportName = slug
     .split("-")
@@ -237,11 +354,20 @@ interface SnippetOptions {
   chainName?: string;
   rpcUrl?: string;
   address?: string;
+  clientId?: string;
 }
 
-function formatSnippet(
+export function formatSnippet(
   snippet: Record<CodeEnvironment, any>,
-  { contractAddress, fn, args, chainName, rpcUrl, address }: SnippetOptions,
+  {
+    contractAddress,
+    fn,
+    args,
+    chainName,
+    rpcUrl,
+    address,
+    clientId,
+  }: SnippetOptions,
 ) {
   const code = { ...snippet };
   const preSupportedSlugs = defaultChains.map((chain) => chain.slug);
@@ -249,8 +375,10 @@ function formatSnippet(
     const env = key as CodeEnvironment;
 
     code[env] = code[env]
-      ?.replace(/{{contract_address}}/gm, contractAddress)
+      ?.replace(/{{contract_address}}/gm, contractAddress || "0x...")
+      ?.replace(/{{factory_address}}/gm, contractAddress || "0x...")
       ?.replace(/{{wallet_address}}/gm, address)
+      ?.replace("YOUR_CLIENT_ID", clientId || "YOUR_CLIENT_ID")
 
       ?.replace(
         'import {{chainName}} from "@thirdweb-dev/chains";',
@@ -265,10 +393,10 @@ function formatSnippet(
         !chainName || chainName?.startsWith("0x") || chainName?.endsWith(".eth")
           ? '"ethereum"'
           : preSupportedSlugs.includes(chainName as any)
-          ? `"${chainName}"`
-          : env === "javascript"
-          ? getExportName(chainName)
-          : `{ ${getExportName(chainName)} }`,
+            ? `"${chainName}"`
+            : env === "javascript"
+              ? getExportName(chainName)
+              : `{ ${getExportName(chainName)} }`,
       )
       ?.replace(/{{function}}/gm, fn || "")
       ?.replace(
@@ -278,7 +406,7 @@ function formatSnippet(
           : rpcUrl?.replace(
               // eslint-disable-next-line no-template-curly-in-string
               "${THIRDWEB_API_KEY}",
-              DASHBOARD_THIRDWEB_API_KEY,
+              DASHBOARD_THIRDWEB_CLIENT_ID,
             ) || "",
       );
 
@@ -301,12 +429,23 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   chain,
   noSidebar = false,
 }) => {
-  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
+  const defaultEnvironment = useSingleQueryParam(
+    "environment",
+  ) as CodeEnvironment;
+  const [environment, setEnvironment] = useState<CodeEnvironment>(
+    defaultEnvironment || "javascript",
+  );
+  const router = useRouter();
+
   const [tab, setTab] = useState("write");
   const { data } = useFeatureContractCodeSnippetQuery(environment);
   const enabledExtensions = useContractEnabledExtensions(abi);
   const address = useAddress();
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const isAccountFactory = enabledExtensions.some(
+    (extension) => extension.name === "AccountFactory",
+  );
 
   const filteredData = useMemo(() => {
     if (!data) {
@@ -362,10 +501,67 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         flexDir="column"
         gap={12}
       >
+        {isAccountFactory && (
+          <Flex flexDirection="column" gap={4}>
+            <Flex flexDir="column" gap={6} id="integrate-smart-wallet">
+              <Heading size="title.md">
+                Integrate your smart wallet factory
+              </Heading>
+              <Alert
+                status="info"
+                borderRadius="md"
+                as={Flex}
+                flexDir="column"
+                alignItems="start"
+                gap={2}
+              >
+                <Flex justifyContent="start">
+                  <AlertIcon />
+                  <AlertTitle>Smart Wallet Factory</AlertTitle>
+                </Flex>
+                <AlertDescription>
+                  The recommended way to use account factories is to integrate
+                  the{" "}
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com/references/wallets/latest/SmartWallet"
+                    category="accounts-page"
+                    label="wallet-sdk"
+                    color="primary.500"
+                  >
+                    Wallet SDK
+                  </TrackedLink>{" "}
+                  in your applications. This will ensure account contracts are
+                  deployed for your users only when they need it.
+                </AlertDescription>
+              </Alert>
+              <Flex flexDir="column" gap={2}>
+                <CodeSegment
+                  environment={environment}
+                  setEnvironment={setEnvironment}
+                  snippet={formatSnippet(
+                    (WALLETS_SNIPPETS.find((w) => w.id === "smart-wallet")
+                      ?.supportedLanguages || {}) as any,
+                    {
+                      contractAddress,
+                      chainName,
+                      address,
+                    },
+                  )}
+                  hideTabs
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+        )}
         <Flex flexDirection="column" gap={4}>
           <Flex flexDir="column" gap={2} id="getting-started">
             <Heading size="title.md">
-              Getting Started {chain ? `with ${chain.name}` : null}
+              {isAccountFactory
+                ? "Direct contract interaction (advanced)"
+                : chain
+                  ? `Getting Started with ${chain.name}`
+                  : "Getting Started"}
             </Heading>
           </Flex>
           {(noSidebar || isMobile) && (
@@ -421,6 +617,15 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               })}
               hideTabs
             />
+            <Text>
+              You will need to pass a client ID/secret key to use
+              thirdweb&apos;s infrastructure services. If you don&apos;t have
+              any API keys yet you can create one for free from the{" "}
+              <Link href="/dashboard/settings/api-keys" color="primary.500">
+                dashboard settings
+              </Link>
+              .
+            </Text>
           </Flex>
         </Flex>
         {!onlyInstall ? (
@@ -675,13 +880,13 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                           tab === "read"
                             ? read?.name
                             : tab === "write"
-                            ? write?.name
-                            : event?.name,
+                              ? write?.name
+                              : event?.name,
                         args: (tab === "read"
                           ? readFunctions
                           : tab === "write"
-                          ? writeFunctions
-                          : events
+                            ? writeFunctions
+                            : events
                         )
                           ?.find(
                             (f) =>
@@ -689,8 +894,8 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                               (tab === "read"
                                 ? read?.name
                                 : tab === "write"
-                                ? write?.name
-                                : event?.name),
+                                  ? write?.name
+                                  : event?.name),
                           )
                           ?.inputs?.map((i) => i.name),
                         chainName,
@@ -713,9 +918,13 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           <Flex flexDir="column" gap={2}>
             <Text>Choose a language:</Text>
             <Select
-              onChange={(e) =>
-                setEnvironment(e.target.value as CodeEnvironment)
-              }
+              onChange={(e) => {
+                router.push(
+                  `/${chainName}/${contractAddress}/code?environment=${e.target.value}`,
+                );
+                setEnvironment(e.target.value as CodeEnvironment);
+              }}
+              value={environment}
             >
               <option value="javascript">JavaScript</option>
               <option value="react">React</option>

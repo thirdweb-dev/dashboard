@@ -63,10 +63,18 @@ const OgBrandIcon: React.FC = () => (
 const MAX_LENGTH = 50;
 
 function textShortener(text: string) {
-  let words = [];
+  const words = [];
   let currentLength = 0;
   let shortened = false;
-  for (const word of text.split(" ")) {
+
+  const allWords = text.split(" ");
+
+  // no shorting for one word
+  if (allWords.length === 1) {
+    return text;
+  }
+
+  for (const word of allWords) {
     // +1 for the space
     if (currentLength + word.length + 1 > MAX_LENGTH) {
       shortened = true;
@@ -75,9 +83,7 @@ function textShortener(text: string) {
     words.push(word);
     currentLength += word.length + 1;
   }
-  if (words[words.length - 1].length < 4) {
-    words = words.slice(0, -1);
-  }
+
   if (words[words.length - 1]?.endsWith(".")) {
     return words.join(" ");
   }
@@ -85,6 +91,21 @@ function textShortener(text: string) {
     return words.join(" ");
   }
   return `${words.join(" ")} ...`;
+}
+
+const IPFS_GATEWAY = process.env.API_ROUTES_CLIENT_ID
+  ? `https://${process.env.API_ROUTES_CLIENT_ID}.ipfscdn.io/ipfs/`
+  : "https://ipfs.io/ipfs/";
+
+function replaceAnyIpfsUrlWithGateway(url: string) {
+  if (url.startsWith("ipfs://")) {
+    return `${IPFS_GATEWAY}${url.slice(7)}`;
+  }
+  if (url.includes("/ipfs/")) {
+    const [, after] = url.split("/ipfs/");
+    return `${IPFS_GATEWAY}${after}`;
+  }
+  return url;
 }
 
 export default async function handler(req: NextRequest) {
@@ -118,7 +139,7 @@ export default async function handler(req: NextRequest) {
             <img
               alt=""
               tw="w-50 h-50 rounded-lg mb-8 flex mx-auto"
-              src={contractData.logo}
+              src={replaceAnyIpfsUrlWithGateway(contractData.logo)}
             />
           )}
 

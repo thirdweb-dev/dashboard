@@ -140,18 +140,18 @@ export const CodeSegment: React.FC<CodeSegmentProps> = ({
                   ? "jsx"
                   : "bash"
                 : activeEnvironment === "react" ||
-                  activeEnvironment === "react-native" ||
-                  activeEnvironment === "web3button"
-                ? "jsx"
-                : activeEnvironment === "unity"
-                ? "cpp"
-                : activeEnvironment
+                    activeEnvironment === "react-native" ||
+                    activeEnvironment === "web3button"
+                  ? "jsx"
+                  : activeEnvironment === "unity"
+                    ? "cpp"
+                    : activeEnvironment
             }
           />
           {activeEnvironment === "web3button" && (
             <Text>
               <TrackedLink
-                href="https://portal.thirdweb.com/ui-components/web3button"
+                href="https://portal.thirdweb.com/react/latest/components/Web3Button"
                 isExternal
                 category="code-tab"
                 label="web3button"
@@ -167,7 +167,7 @@ export const CodeSegment: React.FC<CodeSegmentProps> = ({
   );
 };
 
-interface ISupportedEnvironment {
+interface SupportedEnvironmentButtonProps {
   active: boolean;
   icon?: JSX.Element;
   isDisabled?: boolean;
@@ -175,14 +175,14 @@ interface ISupportedEnvironment {
 }
 
 const SupportedEnvironmentButton: ComponentWithChildren<
-  ISupportedEnvironment
+  SupportedEnvironmentButtonProps
 > = ({ active, icon, onClick, children, isDisabled }) => {
   return (
     <Button
       variant={active ? "solid" : "outline"}
       onClick={onClick}
       leftIcon={icon}
-      fill={"red"}
+      fill="red"
       isDisabled={isDisabled}
     >
       {children}

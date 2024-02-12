@@ -14,13 +14,11 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Chain, defaultChains } from "@thirdweb-dev/chains";
 import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { useRouter } from "next/router";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { useMemo } from "react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
@@ -129,12 +127,12 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
 
   const blockExplorerName =
     getBlockExplorerName(chainId) ||
-    (chainInfo && chainInfo.explorers?.[0].name) ||
+    (chainInfo && chainInfo.explorers?.[0]?.name) ||
     "";
 
   const blockExplorerUrl =
     getBlockExplorerUrl(chainId, contractAddress) ||
-    (chainInfo && chainInfo.explorers?.[0].url) ||
+    (chainInfo && chainInfo.explorers?.[0]?.url) ||
     "";
 
   return (
@@ -205,16 +203,6 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
     </Modal>
   );
 };
-
-function useDefaultChainsRecord() {
-  return useMemo(() => {
-    const record: Record<number, Chain> = {};
-    for (const chain of defaultChains) {
-      record[chain.chainId] = chain;
-    }
-    return record;
-  }, []);
-}
 
 export const CustomContractSourcesPage: React.FC<
   CustomContractSourcesPageProps

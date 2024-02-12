@@ -1,8 +1,8 @@
+import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Flex,
   GridItem,
   Icon,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -11,22 +11,22 @@ import {
   LinkOverlay,
   SimpleGrid,
   Spinner,
-  Tooltip,
+  useColorMode,
 } from "@chakra-ui/react";
-import { Chain, allChains } from "@thirdweb-dev/chains";
-import { ClientOnly } from "components/ClientOnly/ClientOnly";
+import type { Chain } from "@thirdweb-dev/chains";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
+
 import Fuse from "fuse.js";
-import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { memo, useDeferredValue, useMemo, useState } from "react";
-import { FiArrowUpRight, FiCheckCircle, FiSearch } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import {
   Card,
   Heading,
+  LinkButton,
   Text,
   TrackedCopyButton,
   TrackedLink,
@@ -38,20 +38,10 @@ const TRACKING_CATEGORY = "chains";
 export const ChainsLanding: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) => {
-  const configuredChainsRecord = useSupportedChainsRecord();
-
-  const chainsWithDashboardStatus: MinimalRPCChainWithDashboardStatus[] =
-    useMemo(() => {
-      return props.chains.map((c) => ({
-        ...c,
-        isAddedToDashboard: c.chainId in configuredChainsRecord,
-      }));
-    }, [props.chains, configuredChainsRecord]);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const fuse = useMemo(() => {
-    return new Fuse(chainsWithDashboardStatus, {
+    return new Fuse(props.chains, {
       keys: [
         {
           name: "name",
@@ -62,25 +52,30 @@ export const ChainsLanding: ThirdwebNextPage = (
           weight: 1,
         },
       ],
+      threshold: 0.2,
     });
-  }, [chainsWithDashboardStatus]);
+  }, [props.chains]);
 
   const deferredSearchTerm = useDeferredValue(searchTerm);
 
   const filteredChains = useMemo(() => {
-    if (!deferredSearchTerm || !allChains.length) {
-      return chainsWithDashboardStatus || [];
+    if (!deferredSearchTerm) {
+      return props.chains || [];
     }
 
-    return fuse.search(deferredSearchTerm).map((e) => e.item);
-  }, [chainsWithDashboardStatus, deferredSearchTerm, fuse]);
+    return fuse
+      .search(deferredSearchTerm, {
+        limit: 10,
+      })
+      .map((e) => e.item);
+  }, [props.chains, deferredSearchTerm, fuse]);
 
   const title = "Chainlist: RPCs, Block Explorers, Faucets";
   const description =
     "A list of EVM networks with RPCs, smart contracts, block explorers & faucets. Deploy smart contracts to all EVM chains with thirdweb.";
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+    <Flex flexDir="column" gap={8}>
       <NextSeo
         title={title}
         description={description}
@@ -89,6 +84,7 @@ export const ChainsLanding: ThirdwebNextPage = (
           description,
         }}
       />
+      <PublishUpsellCard />
       <Flex direction="row" align="center" justify="space-between" gap={4}>
         <Heading size="title.lg" as="h1" flexShrink={0}>
           Chainlist
@@ -133,8 +129,69 @@ export const ChainsLanding: ThirdwebNextPage = (
   );
 };
 
+export const PublishUpsellCard: React.FC = () => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <Flex
+      borderRadius="3xl"
+      border="1px solid rgba(255, 255, 255, 0.1);"
+      p={{ base: 8, md: 10 }}
+      gap={12}
+      bg="linear-gradient(158.84deg, rgba(255, 255, 255, 0.05) 13.95%, rgba(255, 255, 255, 0) 38.68%)"
+      bgColor={colorMode === "dark" ? "transparent" : "backgroundHighlight"}
+    >
+      <Flex flexDir="column" gap={6}>
+        <Heading>Accelerate your chain&apos;s growth</Heading>
+        <Text>
+          Add your EVM chain to this list and make it easy for developers to
+          build on your network.
+        </Text>
+
+        <Flex gap={{ base: 3, sm: 4 }} flexDir={{ base: "column", sm: "row" }}>
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: TRACKING_CATEGORY,
+              label: "add_chain",
+            }}
+            bg="accent.900"
+            color="accent.100"
+            borderColor="accent.900"
+            borderWidth="1px"
+            href="https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-add-your-evm-chain-to-thirdweb%E2%80%99s-chainlist-/3HMqrwyxXUFxQYaudDJffT"
+            noIcon
+            _hover={{
+              bg: "transparent",
+              color: "accent.900",
+            }}
+          >
+            Add your chain
+          </LinkButton>
+
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: TRACKING_CATEGORY,
+              label: "get_in_touch",
+            }}
+            variant="ghost"
+            href="/contact-us"
+            isExternal
+            noIcon
+            borderColor="borderColor"
+            borderWidth="1px"
+          >
+            Get In Touch
+          </LinkButton>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+};
+
 export const SearchResults: React.FC<{
-  chains: MinimalRPCChainWithDashboardStatus[];
+  chains: MinimalRPCChain[];
 }> = memo(function SearchResults(props) {
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
@@ -146,10 +203,17 @@ export const SearchResults: React.FC<{
 });
 
 const SearchResult: React.FC<{
-  chain: MinimalRPCChainWithDashboardStatus;
+  chain: MinimalRPCChain;
 }> = memo(function SearchResult({ chain }) {
   return (
-    <LinkBox position="relative" role="group" key={`chain_${chain.chainId}`}>
+    <LinkBox
+      position="relative"
+      role="group"
+      sx={{
+        contentVisibility: "auto",
+        containIntrinsicSize: "1px 195px",
+      }}
+    >
       <Card
         role="group"
         display="flex"
@@ -170,30 +234,6 @@ const SearchResult: React.FC<{
         position="relative"
         h="full"
       >
-        <IconButton
-          variant="solid"
-          icon={<Icon as={FiArrowUpRight} />}
-          size="sm"
-          p={0}
-          borderRadius="full"
-          position="absolute"
-          top={0}
-          right={0}
-          transform="translate(33%, -33%)"
-          aria-label="Open published contract"
-          opacity={0}
-          _dark={{
-            bg: "white",
-            color: "black",
-          }}
-          _light={{
-            bg: "black",
-            color: "white",
-          }}
-          _groupHover={{
-            opacity: 1,
-          }}
-        />
         <Flex justifyContent="space-between" align="center">
           <Flex align="center" gap={2}>
             <ChainIcon size={20} ipfsSrc={chain.iconUrl} />
@@ -207,25 +247,6 @@ const SearchResult: React.FC<{
               </Heading>
             </LinkOverlay>
           </Flex>
-          {/* we don't know this state until we're on the client so have to wrap in client only */}
-          <ClientOnly ssr={null}>
-            {chain.isAddedToDashboard ? (
-              <Tooltip
-                p={0}
-                bg="transparent"
-                boxShadow="none"
-                label={
-                  <Card py={2} px={4} bgColor="backgroundHighlight">
-                    <Text size="label.sm">Added to dashboard</Text>
-                  </Card>
-                }
-                borderRadius="lg"
-                shouldWrapChildren
-              >
-                <Icon as={FiCheckCircle} color="green.500" />
-              </Tooltip>
-            ) : null}
-          </ClientOnly>
         </Flex>
 
         <Flex flexDir="column" gap={1}>
@@ -281,32 +302,42 @@ type MinimalRPCChain = Pick<Chain, "slug" | "name" | "chainId"> & {
   hasRpc: boolean;
 };
 
-type MinimalRPCChainWithDashboardStatus = MinimalRPCChain & {
-  isAddedToDashboard: boolean;
-};
-
 interface DashboardRPCProps {
   chains: Array<MinimalRPCChain>;
 }
 
 // server side ----------------
-
 export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
-  const chains = allChains
+  const chains = await fetchChainsFromApi();
+
+  const minimalChains = chains
     .filter((c) => c.chainId !== 1337)
-    .map((chain) => ({
-      slug: chain.slug,
-      name: chain.name,
-      chainId: chain.chainId,
-      iconUrl: chain?.icon?.url || "",
-      symbol: chain.nativeCurrency.symbol,
-      hasRpc:
-        "rpc" in chain &&
-        chain.rpc.findIndex((c) => c.indexOf("thirdweb.com") > -1) > -1,
-    }));
+    .map((chain) => {
+      let hasRpc = chain.rpc.length > 0;
+      if (hasRpc) {
+        try {
+          const firstRpcUrl = new URL(chain.rpc[0]);
+          // check if the rpc url specifically is thirdweb rpc
+          hasRpc = firstRpcUrl.hostname.endsWith(".thirdweb.com");
+        } catch {
+          // ignore the failure, probably failed to parse the url
+          hasRpc = false;
+        }
+      }
+
+      return {
+        slug: chain.slug,
+        name: chain.name,
+        chainId: chain.chainId,
+        iconUrl: chain?.icon?.url || "",
+        symbol: chain.nativeCurrency.symbol,
+        hasRpc,
+      };
+    });
   return {
+    revalidate: 60,
     props: {
-      chains,
+      chains: minimalChains,
     },
   };
 };

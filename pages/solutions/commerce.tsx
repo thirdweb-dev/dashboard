@@ -38,9 +38,9 @@ const Commerce: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Commerce | Solutions",
+        title: "CommerceKit: The #1 Shopify SDK for Web3 eCommerce",
         description:
-          "Create web3 e-commerce apps, build token-gated websites, and sell NFTs to your audience—all with thirdweb's Shopify integration. Start here.",
+          "Build web3 eCommerce apps with token-gated websites, NFT loyalty programs, & digital collectibles on the blockchain. Try CommerceKit — it's free.",
         openGraph: {
           images: [
             {
@@ -84,7 +84,7 @@ const Commerce: ThirdwebNextPage = () => {
         }
         secondaryButton={{
           text: "Get In Touch",
-          link: "https://thirdweb.typeform.com/to/fMIj602T#hubspot_utk=xxxxx&hubspot_page_name=xxxxx&hubspot_page_url=xxxxx",
+          link: "/contact-us",
         }}
       >
         <SimpleGrid
@@ -145,7 +145,7 @@ const Commerce: ThirdwebNextPage = () => {
             to users' wallets. Easily bootstrap projects with a single
             command."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-            href="https://portal.thirdweb.com/sdk"
+            href="https://portal.thirdweb.com/contracts/interact/overview"
           />
           <ProductLearnMoreCard
             title="Manage"
@@ -154,7 +154,7 @@ const Commerce: ThirdwebNextPage = () => {
             directly from a user interface, e.g. view all the NFTs that have
             been minted to your most loyal customers."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-            href="https://portal.thirdweb.com/dashboard"
+            href="https://thirdweb.com/dashboard"
           />
         </SimpleGrid>
       </ProductSection>
@@ -175,7 +175,7 @@ const Commerce: ThirdwebNextPage = () => {
                   category={TRACKING_CATEGORY}
                   color="white"
                   fontWeight="medium"
-                  href={"/explore"}
+                  href="/explore"
                   label="use-case-explore"
                 >
                   Explore
@@ -186,7 +186,7 @@ const Commerce: ThirdwebNextPage = () => {
                   isExternal
                   color="white"
                   fontWeight="medium"
-                  href={"https://portal.thirdweb.com/solidity"}
+                  href={"https://portal.thirdweb.com/contracts/build/overview"}
                   label="use-case-contractkit"
                 >
                   Solidity SDK

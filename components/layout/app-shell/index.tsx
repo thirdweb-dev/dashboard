@@ -1,5 +1,6 @@
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
+  Box,
   ButtonGroup,
   Container,
   Flex,
@@ -7,33 +8,36 @@ import {
   GridItem,
   Icon,
 } from "@chakra-ui/react";
-import { Ethereum, Solana } from "@thirdweb-dev/chain-icons";
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
-import { SIDEBAR_TUNNEL_ID } from "core-ui/sidebar/tunnel";
+import { BillingAlert } from "components/settings/Account/Billing/Alert";
+import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
+import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
 import { useRouter } from "next/router";
-import { FiFile, FiGlobe, FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle } from "react-icons/fi";
 import {
   Button,
-  Heading,
   Link,
   LinkButton,
   Text,
+  TrackedIconButton,
   TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export interface AppShellProps {
   layout?: "custom-contract";
-  ecosystem?: "evm" | "solana" | "either";
   noSEOOverride?: boolean;
+  hasSidebar?: boolean;
+  noOverflowX?: boolean;
 }
 
 export const AppShell: ComponentWithChildren<AppShellProps> = ({
   children,
   layout,
-  ecosystem,
+  hasSidebar,
+  noOverflowX,
 }) => {
   return (
     <Grid
@@ -42,7 +46,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
       templateRows={{ base: "auto auto 1fr auto", md: "auto 1fr auto" }}
       backgroundColor="backgroundBody"
     >
-      <AppHeader ecosystem={ecosystem} />
+      <AppHeader />
 
       <GridItem
         id={SIDEBAR_TUNNEL_ID}
@@ -53,16 +57,24 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         position="sticky"
         top={0}
         zIndex="sticky"
-        boxShadow="md"
-      />
+        boxShadow="sm"
+        w={{ md: hasSidebar ? SIDEBAR_WIDTH : "auto" }}
+      >
+        {" "}
+      </GridItem>
       <GridItem
         minH={{ base: "100vh", md: "unset" }}
-        py={8}
+        pt={{ base: 6, md: 10 }}
+        pb={{ base: 6, md: 20 }}
         as="main"
         colSpan={{ base: 2, md: 1 }}
         rowSpan={1}
-        overflowX="auto"
+        overflowX={noOverflowX ? undefined : "auto"}
       >
+        <Container maxW="container.page">
+          <BillingAlert />
+        </Container>
+
         {layout === "custom-contract" ? (
           children
         ) : (
@@ -75,9 +87,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
   );
 };
 
-const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
-  ecosystem,
-}) => {
+const AppHeader: React.FC = () => {
   const { pathname, route } = useRouter();
 
   return (
@@ -86,7 +96,8 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
       rowSpan={1}
       background="backgroundHighlight"
       zIndex="sticky"
-      boxShadow="md"
+      boxShadow="sm"
+      pb={2}
     >
       <Container
         maxW="100%"
@@ -101,36 +112,10 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
           </Link>
           <CmdKSearch />
         </Flex>
-        <Flex
-          align="center"
-          gap={3}
-          marginLeft="auto"
-          minH={{
-            base: "auto",
-            md: "60px",
-          }}
-        >
-          <Button
-            as={TrackedLink}
-            variant="link"
-            href="/explore"
-            category="header"
-            label="docs"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
-          >
-            <Icon as={FiGlobe} />
-            <Heading
-              display={{ base: "none", md: "inline-flex" }}
-              as="h4"
-              size="label.md"
-            >
-              Explore
-            </Heading>
-          </Button>
+        <Flex align="center" gap={4} marginLeft="auto">
+          <Box display={{ base: "none", md: "block" }}>
+            <UpgradeButton />
+          </Box>
           <Button
             as={TrackedLink}
             variant="link"
@@ -138,51 +123,43 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             isExternal
             category="header"
             label="docs"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
+            color="bgBlack"
+            display={{ base: "none", md: "block" }}
+            size="sm"
+            mx={1.5}
           >
-            <Icon as={FiFile} />
-            <Heading
-              as="h4"
-              size="label.md"
-              display={{ base: "none", md: "inline-flex" }}
-            >
-              Docs
-            </Heading>
+            Docs
           </Button>
           <Button
             as={TrackedLink}
             variant="link"
-            href="https://support.thirdweb.com"
-            isExternal
+            href="/support"
             category="header"
-            label="support"
-            flexDir="row"
-            gap={1.5}
-            mx={1}
-            alignItems="center"
-            display={{ base: "none", md: "flex" }}
+            label="docs"
+            color="bgBlack"
+            display={{ base: "none", md: "block" }}
+            size="sm"
+            mx={1.5}
           >
-            <Icon as={FiHelpCircle} />
-            <Heading
-              as="h4"
-              size="label.md"
-              display={{ base: "none", md: "inline-flex" }}
-            >
-              Support
-            </Heading>
+            Support
           </Button>
+
+          <Flex display={{ base: "flex", md: "none" }}>
+            <TrackedIconButton
+              bg="transparent"
+              size="sm"
+              aria-label="get-help"
+              icon={<Icon as={FiHelpCircle} />}
+              category="header"
+              label="support"
+              as={LinkButton}
+              href="/support"
+            />
+          </Flex>
 
           <ColorModeToggle />
 
-          <ConnectWallet
-            ml={{ base: 0, md: 2 }}
-            colorScheme="blue"
-            ecosystem={ecosystem}
-          />
+          <CustomConnectWallet ml={{ base: 0, md: 2 }} colorScheme="blue" />
         </Flex>
       </Container>
       <Container
@@ -206,8 +183,18 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Home
           </LinkButton>
           <LinkButton
-            leftIcon={<Icon as={Ethereum} />}
-            href="/dashboard/contracts"
+            href="/dashboard/wallets/connect"
+            isActive={pathname.startsWith("/dashboard/wallets")}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+          >
+            Wallets
+          </LinkButton>
+          <LinkButton
+            href="/dashboard/contracts/deploy"
             isActive={
               pathname.startsWith("/dashboard/contracts") ||
               route === "/[networkOrAddress]/[...catchAll]"
@@ -221,56 +208,41 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Contracts
           </LinkButton>
           <LinkButton
-            leftIcon={<Icon as={Solana} />}
-            href="/dashboard/programs"
-            isActive={
-              pathname === "/dashboard/programs" ||
-              route === "/[networkOrAddress]/[...catchAll]"
-            }
+            href="/dashboard/payments/contracts"
+            rounded="lg"
+            isActive={pathname.startsWith("/dashboard/payments")}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+          >
+            Payments
+          </LinkButton>
+          <LinkButton
+            href="/dashboard/infrastructure/storage"
+            isActive={pathname.startsWith("/dashboard/infrastructure")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
             }}
             rounded="lg"
           >
-            Programs
+            Infrastructure
           </LinkButton>
           <LinkButton
-            href="/dashboard/storage"
-            isActive={pathname === "/dashboard/storage"}
+            href="/dashboard/engine"
+            isActive={pathname.startsWith("/dashboard/engine")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
             }}
             rounded="lg"
           >
-            Storage
+            Engine
           </LinkButton>
           <LinkButton
-            href="/dashboard/rpc"
-            isActive={pathname === "/dashboard/rpc"}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
-            rounded="lg"
-          >
-            RPC
-          </LinkButton>
-          <LinkButton
-            href="/dashboard/wallet"
-            isActive={pathname === "/dashboard/wallet"}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
-            rounded="lg"
-          >
-            Wallet
-          </LinkButton>
-          <LinkButton
-            href="/settings"
-            isActive={pathname.startsWith("/settings")}
+            href="/dashboard/settings"
+            isActive={pathname.startsWith("/dashboard/settings")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
@@ -307,13 +279,13 @@ const AppFooter: React.FC = () => {
         category="footer"
         label="feedback"
       >
-        Feedback
+        <Text>Feedback</Text>
       </TrackedLink>
       <TrackedLink isExternal href="/privacy" category="footer" label="privacy">
-        Privacy Policy
+        <Text>Privacy Policy</Text>
       </TrackedLink>
       <TrackedLink isExternal href="/tos" category="footer" label="terms">
-        Terms of Service
+        <Text>Terms of Service</Text>
       </TrackedLink>
 
       <TrackedLink
@@ -323,7 +295,7 @@ const AppFooter: React.FC = () => {
         display={{ base: "none", md: "flex" }}
         label="gas-estimator"
       >
-        Gas Estimator
+        <Text>Gas Estimator</Text>
       </TrackedLink>
       <TrackedLink
         href="/chainlist"
@@ -332,9 +304,9 @@ const AppFooter: React.FC = () => {
         display={{ base: "none", md: "flex" }}
         label="chains"
       >
-        Chainlist
+        <Text>Chainlist</Text>
       </TrackedLink>
-      <Text alignSelf="center" order={{ base: 2, md: 0 }}>
+      <Text alignSelf="center" order={{ base: 2, md: 0 }} opacity={0.5}>
         thirdweb &copy; {new Date().getFullYear()}
       </Text>
     </GridItem>

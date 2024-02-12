@@ -1,6 +1,7 @@
 import {
   getStepAddToRegistry,
   getStepDeploy,
+  getStepSetNFTMetadata,
   useDeployContextModal,
 } from "./contract-deploy-form/deploy-context-modal";
 import { uploadContractMetadata } from "./contract-deploy-form/deploy-form-utils";
@@ -17,8 +18,9 @@ import {
 } from "@tanstack/react-query";
 import {
   Polygon,
-  ZksyncEra,
-  ZksyncEraTestnet,
+  Zksync,
+  ZksyncEraGoerliTestnetDeprecated,
+  ZksyncSepoliaTestnet,
   getChainByChainId,
 } from "@thirdweb-dev/chains";
 import {
@@ -45,7 +47,7 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
   getTrustedForwarders,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import {
   getZkTransactionsForDeploy,
   zkDeployContractFromUri,
@@ -63,11 +65,11 @@ import invariant from "tiny-invariant";
 import { Web3Provider } from "zksync-web3";
 import { z } from "zod";
 
-const HEADLESS_WALLET_IDS = [
+const HEADLESS_WALLET_IDS: string[] = [
   walletIds.localWallet,
   walletIds.magicLink,
   walletIds.paper,
-];
+] as string[];
 
 export interface ContractPublishMetadata {
   image: string | StaticImageData;
@@ -136,6 +138,19 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
       enabled: !!contractId,
     },
   );
+}
+
+export function useDefaultForwarders() {
+  const sdk = useSDK();
+  const provider = sdk?.getProvider();
+  invariant(provider, "Require provider");
+
+  const chainId = useSDKChainId();
+
+  return useQuery(["default-forwarders", chainId], async () => {
+    const forwarders = await getTrustedForwarders(provider, StorageSingleton);
+    return forwarders;
+  });
 }
 
 // metadata PRE publish, only contains the compiler output
@@ -238,6 +253,7 @@ export async function fetchAllVersions(
   invariant(publisherAddress, "address is not defined");
   invariant(contractName, "contract name is not defined");
   invariant(sdk, "sdk not provided");
+
   const allVersions = await sdk
     .getPublisher()
     .getAllVersions(publisherAddress, contractName);
@@ -315,6 +331,7 @@ export function usePublishedContractsFromDeploy(
     },
     {
       enabled: !!contractAddress && !!cId && !!chainInfo,
+      retry: false,
     },
   );
 }
@@ -347,7 +364,17 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
+  ) {
     return extractFunctionsFromAbi(compositeAbi);
   }
 
@@ -364,7 +391,17 @@ export function usePublishedContractEvents(contract: PublishedContract) {
     contract.metadataUri,
   );
 
-  if (compositeAbi) {
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+  if (
+    compositeAbi &&
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
+  ) {
     return extractEventsFromAbi(compositeAbi);
   }
 
@@ -467,12 +504,27 @@ interface ContractDeployMutationParams {
   };
   address?: string;
   addToDashboard?: boolean;
+  deployDeterministic?: boolean;
+  saltForCreate2?: string;
+  signerAsSalt?: boolean;
 }
 
 export function useCustomContractDeployMutation(
   ipfsHash: string,
   forceDirectDeploy?: boolean,
-  { hasContractURI, hasRoyalty, isSplit }: Record<string, boolean> = {},
+  {
+    hasContractURI,
+    hasRoyalty,
+    isSplit,
+    isVote,
+    isErc721SharedMetadadata,
+  }: {
+    hasContractURI?: boolean;
+    hasRoyalty?: boolean;
+    isSplit?: boolean;
+    isVote?: boolean;
+    isErc721SharedMetadadata?: boolean;
+  } = {},
 ) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
@@ -481,7 +533,7 @@ export function useCustomContractDeployMutation(
   const signer = useSigner();
   const deployContext = useDeployContextModal();
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
-  const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
+  const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
 
   const walletConfig = useWalletConfig();
 
@@ -502,10 +554,20 @@ export function useCustomContractDeployMutation(
 
       const stepAddToRegistry = getStepAddToRegistry(requiresSignature);
 
+      const stepSetNFTMetadata = getStepSetNFTMetadata(requiresSignature);
+
+      const steps = [stepDeploy];
+
+      if (isErc721SharedMetadadata) {
+        steps.push(stepSetNFTMetadata);
+      }
+
+      if (data.addToDashboard) {
+        steps.push(stepAddToRegistry);
+      }
+
       // open the modal with the appropriate steps
-      deployContext.open(
-        data.addToDashboard ? [stepDeploy, stepAddToRegistry] : [stepDeploy],
-      );
+      deployContext.open(steps);
 
       let contractAddress: string;
       try {
@@ -520,6 +582,23 @@ export function useCustomContractDeployMutation(
             }),
             ...(hasRoyalty && {
               fee_recipient: data.deployParams._royaltyRecipient,
+            }),
+            ...(isSplit && {
+              recipients: data.recipients,
+            }),
+            ...(isVote && {
+              voting_delay_in_blocks: Number(
+                data.deployParams._initialVotingDelay,
+              ),
+              voting_period_in_blocks: Number(
+                data.deployParams._initialVotingPeriod,
+              ),
+              voting_token_address: data.deployParams._token,
+              voting_quorum_fraction: Number(
+                data.deployParams._initialVoteQuorumFraction,
+              ),
+              proposal_token_threshold:
+                data.deployParams._initialProposalThreshold,
             }),
           });
           if ("_name" in data.deployParams) {
@@ -543,24 +622,13 @@ export function useCustomContractDeployMutation(
           data.deployParams._defaultAdmin = data.address || "";
         }
 
-        if (
-          data.deployParams?._trustedForwarders?.length === 0 ||
-          data.deployParams?._trustedForwarders === "[]"
-        ) {
-          const trustedForwarders = await getTrustedForwarders(
-            sdk.getProvider(),
-            sdk.storage,
-            compilerMetadata.data?.name,
-          );
-
-          data.deployParams._trustedForwarders =
-            JSON.stringify(trustedForwarders);
-        }
-
-        // deploy contract
         // Handle ZkSync deployments separately
         const isZkSync =
-          chainId === ZksyncEraTestnet.chainId || chainId === ZksyncEra.chainId;
+          chainId === Zksync.chainId ||
+          chainId === ZksyncSepoliaTestnet.chainId ||
+          chainId === ZksyncEraGoerliTestnetDeprecated.chainId;
+
+        // deploy contract
         if (isZkSync) {
           // Get metamask signer using zksync-web3 library -- for custom fields in signature
           const zkSigner = new Web3Provider(
@@ -575,13 +643,27 @@ export function useCustomContractDeployMutation(
             chainId,
           );
         } else {
-          contractAddress = await sdk.deployer.deployContractFromUri(
-            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-            Object.values(data.deployParams),
-            {
-              forceDirectDeploy,
-            },
-          );
+          if (data.deployDeterministic) {
+            const salt = data.signerAsSalt
+              ? (await signer?.getAddress())?.concat(data.saltForCreate2 || "")
+              : data.saltForCreate2;
+            contractAddress =
+              await sdk.deployer.deployPublishedContractDeterministic(
+                fullPublishMetadata.data?.name as string,
+                Object.values(data.deployParams),
+                fullPublishMetadata.data?.publisher as string,
+                "latest",
+                salt,
+              );
+          } else {
+            contractAddress = await sdk.deployer.deployContractFromUri(
+              ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+              Object.values(data.deployParams),
+              {
+                forceDirectDeploy,
+              },
+            );
+          }
         }
 
         deployContext.nextStep();
@@ -591,6 +673,25 @@ export function useCustomContractDeployMutation(
         // re-throw error
         throw e;
       }
+
+      const contract = await sdk.getContract(contractAddress);
+
+      if (isErc721SharedMetadadata) {
+        try {
+          await contract.erc721.sharedMetadata.set({
+            name: data.contractMetadata?.name || "",
+            description: data.contractMetadata?.description || "",
+            image: data.contractMetadata?.image || "",
+          });
+
+          deployContext.nextStep();
+        } catch (e) {
+          // failed to set metadata - for now just close the modal
+          deployContext.close();
+          // not re-throwing the error, this is not technically a failure to deploy, just to set metadata - the contract is deployed already at this stage
+        }
+      }
+
       try {
         // let user decide if they want this or not
         if (data.addToDashboard) {
@@ -639,8 +740,9 @@ export function useTransactionsForDeploy(publishMetadataOrUri: string) {
 
       // Handle separately for ZkSync
       if (
-        chainId === ZksyncEraTestnet.chainId ||
-        chainId === ZksyncEra.chainId
+        chainId === Zksync.chainId ||
+        chainId === ZksyncSepoliaTestnet.chainId ||
+        chainId === ZksyncEraGoerliTestnetDeprecated.chainId
       ) {
         return await getZkTransactionsForDeploy();
       }

@@ -1,33 +1,51 @@
 import { getAbsoluteUrl } from "./vercel-utils";
-import {
-  ThirdwebSDK as EVMThirdwebSDK,
-  SDKOptions,
-} from "@thirdweb-dev/sdk/evm";
-import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
+import { ThirdwebSDK as EVMThirdwebSDK, SDKOptions } from "@thirdweb-dev/sdk";
 import {
   IStorageDownloader,
-  IpfsUploader,
+  StorageDownloader,
   ThirdwebStorage,
+  GatewayUrls,
+  SingleDownloadOptions,
 } from "@thirdweb-dev/storage";
-import { DASHBOARD_THIRDWEB_API_KEY, getSOLRPC } from "constants/rpc";
+import {
+  DASHBOARD_THIRDWEB_CLIENT_ID,
+  DASHBOARD_THIRDWEB_SECRET_KEY,
+} from "constants/rpc";
 import type { Signer } from "ethers";
-import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 // use env var to set IPFS gateway or fallback to ipfscdn.io
-const IPFS_GATEWAY_URL =
+export const IPFS_GATEWAY_URL =
   (process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string) ||
-  "https://ipfs-2.thirdwebcdn.com/ipfs";
+  "https://{clientId}.ipfscdn.io/ipfs/{cid}/{path}";
 
 export function replaceIpfsUrl(url: string) {
-  return StorageSingleton.resolveScheme(url);
+  try {
+    return StorageSingleton.resolveScheme(url);
+  } catch (err) {
+    console.error("error resolving ipfs url", url, err);
+    return url;
+  }
 }
 
 const ProxyHostNames = new Set<string>();
 
+const defaultDownloader = new StorageDownloader({
+  clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+  secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+});
+
 class SpecialDownloader implements IStorageDownloader {
-  async download(url: string): Promise<Response> {
+  async download(
+    url: string,
+    gatewayUrls?: GatewayUrls,
+    options?: SingleDownloadOptions,
+  ): Promise<Response> {
     if (url.startsWith("ipfs://")) {
-      return fetch(replaceIpfsUrl(url));
+      return defaultDownloader.download(
+        url,
+        { "ipfs://": [IPFS_GATEWAY_URL] },
+        options,
+      );
     }
 
     // data urls we always want to just fetch directly
@@ -63,10 +81,15 @@ class SpecialDownloader implements IStorageDownloader {
   }
 }
 
+export const DASHBOARD_STORAGE_URL =
+  process.env.NEXT_PUBLIC_DASHBOARD_UPLOAD_SERVER ||
+  "https://storage.thirdweb.com";
+
 export const StorageSingleton = new ThirdwebStorage({
-  gatewayUrls: {
-    "ipfs://": [IPFS_GATEWAY_URL],
-  },
+  gatewayUrls: [IPFS_GATEWAY_URL],
+  clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+  secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+  uploadServerUrl: DASHBOARD_STORAGE_URL,
   downloader: new SpecialDownloader(),
 });
 
@@ -94,8 +117,9 @@ export function getEVMThirdwebSDK(
           rpcUrl,
           chainId,
         },
-        thirdwebApiKey: DASHBOARD_THIRDWEB_API_KEY,
         ...sdkOptions,
+        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
       },
       StorageSingleton,
     );
@@ -107,25 +131,5 @@ export function getEVMThirdwebSDK(
     sdk.updateSignerOrProvider(signer);
   }
 
-  return sdk;
-}
-
-// SOLANA SDK
-const SOL_SDK_MAP = new Map<DashboardSolanaNetwork, SOLThirdwebSDK>();
-
-export function getSOLThirdwebSDK(
-  network: DashboardSolanaNetwork,
-): SOLThirdwebSDK {
-  if (SOL_SDK_MAP.has(network)) {
-    return SOL_SDK_MAP.get(network) as SOLThirdwebSDK;
-  }
-  const rpcUrl = getSOLRPC(network);
-  const sdk = SOLThirdwebSDK.fromNetwork(
-    rpcUrl,
-    new ThirdwebStorage({
-      uploader: new IpfsUploader({ uploadWithGatewayUrl: true }),
-    }),
-  );
-  SOL_SDK_MAP.set(network, sdk);
   return sdk;
 }

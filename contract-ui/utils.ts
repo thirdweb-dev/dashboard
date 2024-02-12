@@ -5,7 +5,7 @@ import {
   EditionDrop,
   NFTDrop,
   ValidContractInstance,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
 export function isPrebuiltContract(
@@ -49,7 +49,7 @@ export function useTabHref(
     | "direct-listings"
     | "english-auctions"
     | "app"
-    | "wallet-factory",
+    | "accounts",
 ) {
   const contractInfo = useEVMContractInfo();
   invariant(contractInfo, "can not use useTabHref() without a contractInfo");

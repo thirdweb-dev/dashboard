@@ -29,7 +29,7 @@ export const PublishUpsellCard: React.FC = () => {
 
           <Text>
             <Text fontWeight="bold" as="span">
-              Save development time.
+              Save development time.{" "}
             </Text>
             Focus on protocol development and save time by not having to build
             middleware layer yourself.
@@ -43,7 +43,7 @@ export const PublishUpsellCard: React.FC = () => {
           />
           <Text>
             <Text fontWeight="bold" as="span">
-              Shareable landing page.
+              Shareable landing page.{" "}
             </Text>
             By publishing your contract, your contracts become easily shareable
             with a landing page for your contract.
@@ -60,8 +60,7 @@ export const PublishUpsellCard: React.FC = () => {
             color="accent.100"
             borderColor="accent.900"
             borderWidth="1px"
-            href="https://thirdweb.typeform.com/to/rVvsAoqn#hubspot_utk=xxxxx&hubspot_page_name=xxxxx&hubspot_page_url=xxxxx"
-            isExternal
+            href="/contact-us"
             noIcon
             _hover={{
               bg: "transparent",
@@ -77,7 +76,7 @@ export const PublishUpsellCard: React.FC = () => {
               label: "learn_more",
             }}
             variant="ghost"
-            href="https://portal.thirdweb.com/publish"
+            href="https://portal.thirdweb.com/contracts/publish/overview"
             isExternal
             noIcon
             borderColor="borderColor"

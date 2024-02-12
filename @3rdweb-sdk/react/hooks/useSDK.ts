@@ -15,16 +15,15 @@ import {
   OptimismGoerli,
   Polygon,
 } from "@thirdweb-dev/chains";
-import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
+import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk";
 import {
   useSupportedChains,
   useSupportedChainsRecord,
 } from "hooks/chains/configureChains";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
+import { getEVMThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 export function useContractList(
   chainId: number,
@@ -52,15 +51,11 @@ export function useMultiChainRegContractList(walletAddress?: string) {
   return useQuery(
     ["dashboard-registry", walletAddress, "multichain-contract-list"],
     async () => {
-      if (!walletAddress) {
-        return [];
-      }
-
+      invariant(walletAddress, "walletAddress is required");
       const polygonSDK = getEVMThirdwebSDK(
         Polygon.chainId,
         getDashboardChainRpc(Polygon),
       );
-
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
         configuredChains,
@@ -344,38 +339,5 @@ export function useAllContractList(walletAddress: string | undefined) {
     data: allList,
     isLoading: mainnetQuery.isLoading || testnetQuery.isLoading,
     isFetched: mainnetQuery.isFetched && testnetQuery.isFetched,
-  };
-}
-
-function useProgramList(
-  address: string | undefined,
-  network: DashboardSolanaNetwork,
-) {
-  return useQuery(
-    ["sol", network, address, "program-list"],
-    async () => {
-      invariant(address, "address is required");
-      const sdk = getSOLThirdwebSDK(network);
-      // TODO remove this sorting when we have a stable return array from the SDK
-      return (await sdk.registry.getDeployedPrograms(address))
-        .sort((a, b) => (a.programName > b.programName ? 1 : -1))
-        .map((p) => ({ ...p, network }));
-    },
-    { enabled: !!address && !!network },
-  );
-}
-
-export function useAllProgramsList(address: string | undefined) {
-  const mainnetQuery = useProgramList(address, "mainnet-beta");
-  const devnetQuery = useProgramList(address, "devnet");
-
-  const allList = useMemo(() => {
-    return (mainnetQuery.data || []).concat(devnetQuery.data || []);
-  }, [mainnetQuery.data, devnetQuery.data]);
-
-  return {
-    data: allList,
-    isLoading: mainnetQuery.isLoading || devnetQuery.isLoading,
-    isFetched: mainnetQuery.isFetched && devnetQuery.isFetched,
   };
 }

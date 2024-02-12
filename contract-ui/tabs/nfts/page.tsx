@@ -1,14 +1,18 @@
+import { useRouter } from "next/router";
 import { BatchLazyMintButton } from "./components/batch-lazy-mint-button";
 import { NFTClaimButton } from "./components/claim-button";
 import { NFTLazyMintButton } from "./components/lazy-mint-button";
 import { NFTMintButton } from "./components/mint-button";
 import { NFTRevealButton } from "./components/reveal-button";
+import { NFTSharedMetadataButton } from "./components/shared-metadata-button";
 import { SupplyCards } from "./components/supply-cards";
 import { NFTGetAllTable } from "./components/table";
 import { Box, Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { NFTContract, useContract, useNFT } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
+import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
+import { TokenIdPage } from "./components/token-id";
 
 interface NftOverviewPageProps {
   contractAddress?: string;
@@ -18,6 +22,15 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   contractAddress,
 }) => {
   const contractQuery = useContract(contractAddress);
+  const router = useRouter();
+
+  const tokenId = router.query?.paths?.[2];
+
+  const { data: nft } = useNFT(contractQuery.contract, tokenId);
+  const tabs = useNFTDrawerTabs(
+    contractQuery.contract as NFTContract,
+    nft || null,
+  );
 
   const detectedState = detectFeatures(contractQuery?.contract, [
     "ERC721Enumerable",
@@ -44,6 +57,12 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     return null;
   }
 
+  if (tokenId) {
+    return (
+      <TokenIdPage nft={nft} tabs={tabs} contractAddress={contractAddress} />
+    );
+  }
+
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
@@ -52,6 +71,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
           <NFTRevealButton contractQuery={contractQuery} />
           <NFTClaimButton contractQuery={contractQuery} />
           <NFTMintButton contractQuery={contractQuery} />
+          <NFTSharedMetadataButton contractQuery={contractQuery} />
           <NFTLazyMintButton contractQuery={contractQuery} />
           <BatchLazyMintButton contractQuery={contractQuery} />
         </Flex>
@@ -63,15 +83,15 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
             No Supply/Enumerable extension enabled
           </Heading>
           <Text>
-            To being able to see the list of the NFTs minted on your contract,
-            you will have to extend the{" "}
+            To be able to see the list of the NFTs minted on your contract, you
+            will have to extend the{" "}
             {isErc721 ? "ERC721Supply" : "ERC1155Enumerable"} extension in your
             contract.
           </Text>
           <Box>
             <LinkButton
               isExternal
-              href="https://portal.thirdweb.com/solidity/extensions/erc721supply"
+              href="https://portal.thirdweb.com/contracts/build/extensions/erc-721/ERC721Supply"
               colorScheme="purple"
             >
               Learn more

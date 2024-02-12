@@ -16,7 +16,7 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
-import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
+import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { DelayedDisplay } from "components/delayed-display/delayed-display";
 import { constants, utils } from "ethers";
 import { useState } from "react";
@@ -153,8 +153,8 @@ export const PermissionEditor: React.FC<PermissionEditorProps> = ({
             {members.includes(address)
               ? "Address already has this role"
               : !utils.isAddress(address)
-              ? "Not a valid address"
-              : ""}
+                ? "Not a valid address"
+                : ""}
           </FormErrorMessage>
         </FormControl>
       </AdminOnly>

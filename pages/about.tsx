@@ -10,20 +10,8 @@ import { ThirdwebNextPage } from "utils/types";
 
 const employees = [
   {
-    name: "Adam Lee",
-    twitter: "AdamLeeBG",
-  },
-  {
-    name: "Adam Majmudar",
-    twitter: "MajmudarAdam",
-  },
-  {
-    name: "Anshu Tukol",
-    twitter: "AnshuTukol",
-  },
-  {
-    name: "Atharva Deosthale",
-    twitter: "athudeosthale",
+    name: "Andrew Begafria",
+    twitter: "akbmotion",
   },
   {
     name: "Atif Khan",
@@ -34,27 +22,28 @@ const employees = [
     twitter: "avneesh0612",
   },
   {
-    name: "Beverly Rivas",
-    twitter: "BevRivas",
-  },
-  {
     name: "Bobby Wang",
     twitter: "PartTimePlug",
   },
   {
+    name: "Carmen Li",
+    twitter: "someorsalt",
+  },
+  {
     name: "Catty Berragan",
-  },
-  {
-    name: "Ciara Nightingale",
-    twitter: "ciaranightingal",
-  },
-  {
-    name: "Danny Friday",
-    twitter: "dannibles",
+    twitter: "cattybk",
   },
   {
     name: "Devin Rattray",
     twitter: "dvnsctt",
+  },
+  {
+    name: "Dustin Turska",
+    twitter: "DustinTurska",
+  },
+  {
+    name: "Edward Sun",
+    twitter: "eedwardsun",
   },
   {
     name: "Eiman Abdelmoneim",
@@ -65,16 +54,31 @@ const employees = [
     twitter: "heyerikakhanna",
   },
   {
+    name: "Gerry Saporito",
+    twitter: "saporito_eth",
+  },
+  {
     name: "Farhan Khwaja",
     twitter: "farhan_khwaja",
+  },
+  {
+    name: "Firekeeper",
+  },
+  {
+    name: "Ian Mukherjee",
+    twitter: "roomakdoteth",
+  },
+  {
+    name: "Isaac Dubuque",
+    twitter: "isaac_dubuque",
   },
   {
     name: "Jake Loo",
     twitter: "jake_loo",
   },
   {
-    name: "Jarrod Watts",
-    twitter: "jarrodwattsdev",
+    name: "James Sun",
+    twitter: "JamesZmSun",
   },
   {
     name: "Jason Hitchcock",
@@ -101,16 +105,20 @@ const employees = [
     twitter: "juandoleal",
   },
   {
+    name: "Kien Ngo",
+    twitter: "kienngo_",
+  },
+  {
     name: "Krishang Nadgauda",
-    twitter: "monkeymeaning",
+    twitter: "MonkeyMeaning",
+  },
+  {
+    name: "Mago Khamidov",
+    twitter: "thirdwebmago",
   },
   {
     name: "Manan Tank",
     twitter: "MananTank_",
-  },
-  {
-    name: "Mariano Fuentes",
-    twitter: "Marfuenn",
   },
   {
     name: "Mike Shin",
@@ -125,16 +133,12 @@ const employees = [
     twitter: "nachoiacovino",
   },
   {
-    name: "Patrick Kearney",
-    twitter: "theyoungpatrice",
+    name: "Phillip Ho",
+    twitter: "arcoraven",
   },
   {
     name: "Rahul Menon",
     twitter: "rahulphenomenon",
-  },
-  {
-    name: "Rohit Ramesh",
-    twitter: "Rohit7101",
   },
   {
     name: "Samina Kabir",
@@ -149,16 +153,12 @@ const employees = [
     twitter: "Sian_Morton",
   },
   {
-    name: "Tair Asim",
-    twitter: "tair",
-  },
-  {
     name: "Waren Gonzaga",
     twitter: "warengonzaga",
   },
   {
-    name: "Yan Giet",
-    twitter: "yangiet_",
+    name: "Winston Yeo",
+    twitter: "winston_yeo",
   },
   {
     name: "Yash Kumar",
@@ -292,7 +292,7 @@ const About: ThirdwebNextPage = () => {
                     Steven Bartlett
                   </Heading>
                   <TrackedLink
-                    href="https://twitter.com/SteveBartlettSC"
+                    href="https://twitter.com/StevenBartlett"
                     isExternal
                     category="team"
                     label="Steven Bartlett"

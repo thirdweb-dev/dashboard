@@ -21,7 +21,9 @@ export interface DrawerProps extends Omit<ChakraDrawerProps, "placement"> {
   drawerBodyProps?: ModalBodyProps;
   closeButtonProps?: CloseButtonProps;
   footer?: ModalFooterProps;
-  hideCloseButton?: true;
+  customPlacement?: "bottom" | "right" | "top" | "left";
+  closeOnOverlayClick?: boolean;
+  noTopBorderRadius?: boolean;
 }
 
 export const Drawer: ComponentWithChildren<DrawerProps> = ({
@@ -29,8 +31,10 @@ export const Drawer: ComponentWithChildren<DrawerProps> = ({
   header,
   drawerBodyProps,
   footer,
-  hideCloseButton,
+  customPlacement,
   closeButtonProps,
+  closeOnOverlayClick,
+  noTopBorderRadius,
   ...restDrawerProps
 }) => {
   const isMobile = useBreakpointValue(
@@ -42,15 +46,22 @@ export const Drawer: ComponentWithChildren<DrawerProps> = ({
       {...restDrawerProps}
       allowPinchZoom
       preserveScrollBarGap
-      placement={isMobile ? "bottom" : "right"}
+      placement={
+        customPlacement ? customPlacement : isMobile ? "bottom" : "right"
+      }
+      closeOnOverlayClick={closeOnOverlayClick ?? false}
+      trapFocus={false}
     >
       <DrawerOverlay zIndex="modal" />
       <DrawerContent
         maxH="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
         overflow="hidden"
-        borderTopRadius={{ base: "2xl", md: "none" }}
+        borderTopRadius={{
+          base: noTopBorderRadius ? "none" : "2xl",
+          md: "none",
+        }}
       >
-        {!hideCloseButton && <DrawerCloseButton {...closeButtonProps} />}
+        <DrawerCloseButton {...closeButtonProps} />
         {header && (
           <>
             <DrawerHeader {...header} />

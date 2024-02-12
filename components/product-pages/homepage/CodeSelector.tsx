@@ -81,23 +81,20 @@ func main() {
   b, _ := json.MarshalIndent(nfts, "", "  ")
   fmt.Printf(string(b))
 }`,
-  unity: `using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Thirdweb;
+  unity: `using Thirdweb;
 
-public class Example : MonoBehaviour {
-  void Start() {
-    ThirdwebSDK sdk = new ThirdwebSDK("goerli");
-    string address = "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e";
-    NFTCollection nft = sdk.GetContract(address);
-    List<NFT> nfts = await contract.ERC721.GetAll()
-  }
-}`,
+// Reference the SDK
+var sdk = ThirdwebManager.Instance.SDK;
+
+// Get any contract
+Contract contract = sdk.GetContract("0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e");
+
+// Get all NFTs
+List<NFT> nfts = await contract.ERC721.GetAll()`,
 };
 
 const authSnippets = {
-  javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+  javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const sdk = new ThirdwebSDK("goerli");
 
@@ -140,7 +137,16 @@ func main() {
   // And verify the address of the logged in wallet
   address, err := sdk.Auth.Verify(payload)
 }`,
-  unity: ``,
+  unity: `using Thirdweb;
+
+// Reference the SDK
+var sdk = ThirdwebManager.Instance.SDK;
+
+// Generate and sign
+LoginPayload data = await ThirdwebManager.Instance.SDK.wallet.Authenticate("example.com");
+
+// Verify
+string result = await ThirdwebManager.Instance.SDK.wallet.Verify(data);`,
 };
 
 export interface CodeSelectorProps {
@@ -189,8 +195,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               {key === "javascript"
                 ? "JavaScript"
                 : key === "react-native"
-                ? "React Native"
-                : key}
+                  ? "React Native"
+                  : key}
             </CodeOptionButton>
           ) : null,
         )}
@@ -217,8 +223,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
             activeLanguage === "react" || activeLanguage === "react-native"
               ? "jsx"
               : activeLanguage === "unity"
-              ? "cpp"
-              : activeLanguage
+                ? "cpp"
+                : activeLanguage
           }
           backgroundColor="transparent"
           mt={4}

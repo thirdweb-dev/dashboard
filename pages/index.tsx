@@ -1,9 +1,6 @@
+import HomePageCard from "components/homepage/sections/HomePageCard";
 import { AnyEVMSection } from "../components/homepage/sections/AnyEVM";
-import { BuildSection } from "../components/homepage/sections/key-features/BuildSection";
-import { HowItWorksSection } from "../components/homepage/sections/key-features/HowItWorksSection";
-import { LaunchSection } from "../components/homepage/sections/key-features/LaunchSection";
-import { ManageSection } from "../components/homepage/sections/key-features/ManageSection";
-import { Box, DarkMode, Flex } from "@chakra-ui/react";
+import { Box, Center, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
@@ -19,8 +16,19 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { PageId } from "page-id";
 import { Suspense } from "react";
 import { ThirdwebNextPage } from "utils/types";
+import { PRODUCTS, metrics } from "components/product-pages/common/nav/data";
+import { Heading, Text } from "tw-components";
+import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
+
+const TRACKING_CATEGORY = "homepage";
 
 const HomePage: ThirdwebNextPage = () => {
+  const filterProducts = (section: string) => {
+    return PRODUCTS.filter(
+      (p) => p.section === section && !!p.inLandingPage && !!p.link,
+    );
+  };
+
   return (
     <DarkMode>
       <Flex
@@ -40,16 +48,69 @@ const HomePage: ThirdwebNextPage = () => {
           <HeroSection />
           <PartnerCarousel />
           <StatsSection />
-          <HowItWorksSection />
+          <HomePageCard
+            title="Onboard everyone to web3, instantly"
+            description="The complete web3 wallet stack — with a customizable Connect Wallet modal, embedded wallets for flexible sign-in options, and account abstraction for the smoothest user experiences."
+            introductionTitle="WALLET PRODUCTS"
+            image={require("public/assets/bear-market-airdrop/desktop-wallets.png")}
+            mobileImage={require("public/assets/bear-market-airdrop/mobile-wallets.png")}
+            products={filterProducts("wallets")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
+          <HomePageCard
+            title="Build smart contracts, deploy on any EVM"
+            description="The smart contract development toolkit — with a powerful Solidity SDK to build custom contracts, a library of pre-built & audited contracts, and a 1-click deployment flow to any EVM-compatible blockchains."
+            introductionTitle="CONTRACT PRODUCTS"
+            image={require("public/assets/bear-market-airdrop/desktop-contracts.png")}
+            mobileImage={require("public/assets/bear-market-airdrop/mobile-contracts.png")}
+            products={filterProducts("contracts")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
+          <HomePageCard
+            title="Scale with enterprise-grade infrastructure"
+            description="The production-grade server for scalable web3 apps — with backend wallet creation, nonce management, smart contract interactions, account abstraction support, gasless transactions, and managed infrastructure."
+            introductionTitle="INFRASTRUCTURE PRODUCT"
+            image={require("public/assets/bear-market-airdrop/desktop-engine.png")}
+            mobileImage={require("public/assets/bear-market-airdrop/mobile-engine.png")}
+            products={filterProducts("infrastructure")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
+          <HomePageCard
+            title="Simplify NFT purchases with fiat checkouts"
+            description="The most powerful NFT checkout — with worldwide availability, support for major payment methods, and full compliance for enterprise-grade apps. Built to onboard everyone, even if they've never created a web3 wallet or bought crypto."
+            introductionTitle="CHECKOUT PRODUCT"
+            image={require("public/assets/bear-market-airdrop/desktop-checkout.png")}
+            mobileImage={require("public/assets/bear-market-airdrop/mobile-checkout.png")}
+            products={filterProducts("payments")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
+
+          <Box px={4}>
+            <LandingCardWithMetrics
+              title={
+                <Center flexDir="column" textAlign="center">
+                  <Heading size="display.sm" color="white">
+                    Trusted by the best
+                  </Heading>
+
+                  <Text size="body.lg" mt={6}>
+                    Powering web3 apps across verticals — from onchain games to
+                    creator platforms.
+                  </Text>
+                </Center>
+              }
+              desktopColumns={3}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              metrics={metrics}
+            />
+          </Box>
+
           <WithoutThirdwebSection />
           <ValuesSection />
           <Suspense>
-            <BuildSection />
             <SDKSection />
-            <LaunchSection />
-            <ManageSection />
             <AnyEVMSection />
-            <PricingSection />
+            <PricingSection trackingCategory={TRACKING_CATEGORY} onHomepage />
             <SolutionsSection />
             <GetStartedSection />
             <NewsletterSection />

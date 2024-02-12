@@ -1,10 +1,12 @@
-import { format, isValid } from "date-fns";
+import { differenceInDays, format, isValid, parseISO } from "date-fns";
 
-const DATE_TIME_LOCAL_FORMAT = "yyyy-MM-dd'T'HH:mm";
+const DATE_TIME_LOCAL_FORMAT = "yyyy-MM-dd HH:mm";
 
-export function toDateTimeLocal(date?: Date | number) {
+export function toDateTimeLocal(date?: Date | number | string) {
   if (typeof date === "number") {
     date = new Date(date * 1000);
+  } else if (typeof date === "string") {
+    date = new Date(date);
   }
 
   return date && isValid(date)
@@ -14,4 +16,24 @@ export function toDateTimeLocal(date?: Date | number) {
 
 export function toDateString(date: Date | string | number) {
   return new Date(date).toISOString().split("T")[0];
+}
+
+export function withinDays(dateISO: string, days: number) {
+  const date = parseISO(dateISO);
+  const today = new Date();
+  return differenceInDays(today, date) <= days;
+}
+
+export function remainingDays(isoDate: string) {
+  const currentDate = new Date();
+  const targetDate = new Date(isoDate);
+
+  if (targetDate < currentDate) {
+    return undefined;
+  }
+
+  const timeDifference = targetDate.getTime() - currentDate.getTime();
+  const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysRemaining;
 }

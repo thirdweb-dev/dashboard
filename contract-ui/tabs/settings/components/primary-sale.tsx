@@ -10,7 +10,7 @@ import {
 import {
   CommonPrimarySaleSchema,
   ValidContractInstance,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
@@ -68,7 +68,7 @@ export const SettingsPrimarySale = <
             label: "attempt",
           });
           // if we switch back to mutateAsync then *need* to catch errors
-          mutation.mutate(d.primary_sale_recipient, {
+          mutation.mutate(d.primary_sale_recipient as string, {
             onSuccess: (_data, variables) => {
               trackEvent({
                 category: "settings",

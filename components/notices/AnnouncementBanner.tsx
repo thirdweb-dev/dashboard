@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-open-source", false, true);
+    useLocalStorage("dismissed-smart-w-allet", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -16,7 +16,7 @@ export const AnnouncementBanner = () => {
       position="sticky"
       zIndex="10"
       py={3}
-      bgImage="linear-gradient(145.96deg, #410AB6 5.07%, #5BFF40 100%)"
+      bgImage="linear-gradient(145.96deg, #410AB6 5.07%, #7bdefe 100%)"
     >
       <Flex
         w="full"
@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/wallet-sdk"
+          href="/dashboard/settings/billing?claimGrowth"
           category="announcement"
-          label="open-source"
+          label="growthTrialBanner"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                <strong>LAUNCH:</strong> Introducing <strong>Wallet SDK</strong>
-                ! Connect any wallets to your apps. Learn more
+                Introducing Growth: 1-month free trial. Offer expires Feb 16,
+                2024
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

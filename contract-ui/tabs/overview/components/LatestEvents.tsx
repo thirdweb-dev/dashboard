@@ -13,7 +13,7 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
-import type { ContractEvent } from "@thirdweb-dev/sdk/evm";
+import type { ContractEvent } from "@thirdweb-dev/sdk";
 import { useTabHref } from "contract-ui/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -99,9 +99,11 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
               </Center>
             ) : null}
             <AnimatePresence initial={false}>
-              {allEvents?.slice(0, 3).map((e) => (
-                <EventsFeedItem key={e.transactionHash} transaction={e} />
-              ))}
+              {allEvents
+                ?.slice(0, 3)
+                .map((e) => (
+                  <EventsFeedItem key={e.transactionHash} transaction={e} />
+                ))}
             </AnimatePresence>
           </List>
         </Card>

@@ -120,13 +120,40 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, LinkButtonProps>(
 
 LinkButton.displayName = "LinkButton";
 
-export interface TrackedIconButtonProps extends IconButtonProps {
+export interface TrackedLinkButtonProps extends LinkButtonProps {
   category: string;
   label?: string;
 }
 
-export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
+export const TrackedLinkButton = forwardRef<TrackedLinkButtonProps, "button">(
   ({ category, label, ...restButtonProps }, ref) => {
+    const trackEvent = useTrack();
+    return (
+      <LinkButton
+        ref={ref}
+        onClick={() =>
+          trackEvent({
+            category,
+            action: "click",
+            label,
+          })
+        }
+        {...restButtonProps}
+      />
+    );
+  },
+);
+
+TrackedLinkButton.displayName = "TrackedLinkButton";
+
+export interface TrackedIconButtonProps extends IconButtonProps {
+  category: string;
+  label?: string;
+  trackingProps?: Record<string, string>;
+}
+
+export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
+  ({ category, label, trackingProps, ...restButtonProps }, ref) => {
     const trackEvent = useTrack();
     return (
       <IconButton
@@ -139,6 +166,7 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
             category,
             action: "click",
             label,
+            ...trackingProps,
           })
         }
         {...restButtonProps}

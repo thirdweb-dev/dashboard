@@ -53,6 +53,11 @@ const chakraTheme: Theme = extendTheme({
         borderColor: "borderColor",
       },
     },
+    Badge: {
+      baseStyle: {
+        backgroundColor: "badgeBg",
+      },
+    },
     Button: {
       baseStyle: {
         borderRadius: "md",
@@ -100,6 +105,26 @@ const chakraTheme: Theme = extendTheme({
           size: "lg",
           borderRadius: props.fullCircle ? "full" : "12px",
         }),
+        inverted: {
+          bg: "bgBlack",
+          color: "bgWhite",
+          _hover: {
+            opacity: 0.8,
+          },
+          _disabled: {
+            _hover: {
+              bg: "bgBlack !important",
+            },
+          },
+        },
+        outline: {
+          borderWidth: "1px",
+          borderColor: "inputBorder",
+          _hover: {
+            bg: "transparent",
+            borderColor: "inputBorderHover",
+          },
+        },
       },
     },
     Modal: {
@@ -130,7 +155,7 @@ const chakraTheme: Theme = extendTheme({
         filled: {
           field: {
             borderWidth: "1px",
-            borderColor: "inputBorder",
+            borderColor: "borderColor",
             background: "inputBg",
             _hover: {
               background: "inputBgHover",
@@ -149,9 +174,12 @@ const chakraTheme: Theme = extendTheme({
           field: {
             borderWidth: "1px",
             borderColor: "inputBorder",
-            background: "inputBg",
+            background: "transparent",
             _hover: {
-              background: "inputBgHover",
+              borderColor: "inputBorderHover",
+              background: "transparent",
+            },
+            _focus: {
               borderColor: "blue.500",
             },
           },
@@ -188,6 +216,9 @@ const chakraTheme: Theme = extendTheme({
               background: "inputBgHover",
               borderColor: "blue.500",
             },
+            _invalid: {
+              borderColor: "inputBorder",
+            },
           },
         },
       },
@@ -216,9 +247,12 @@ const chakraTheme: Theme = extendTheme({
         filled: {
           borderWidth: "1px",
           borderColor: "inputBorder",
-          background: "inputBg",
+          background: "transparent",
           _hover: {
-            background: "inputBgHover",
+            borderColor: "inputBorderHover",
+            background: "transparent",
+          },
+          _focus: {
             borderColor: "blue.500",
           },
         },
@@ -246,6 +280,11 @@ const chakraTheme: Theme = extendTheme({
     Table: {
       baseStyle: {
         thead: {
+          background: "backgroundHighlight",
+          borderBottomColor: "accent.100",
+          borderBottomWidth: 1,
+        },
+        tbody: {
           background: "backgroundHighlight",
         },
         cell: {
@@ -279,6 +318,7 @@ const chakraTheme: Theme = extendTheme({
   sizes: {
     container: {
       page: "1170px",
+      hero: "1440px",
     },
   },
   semanticTokens: {
@@ -324,8 +364,11 @@ const chakraTheme: Theme = extendTheme({
       // inputs
       inputBg: { default: "gray.50", _dark: "whiteAlpha.50" },
       inputBgHover: { default: "gray.100", _dark: "whiteAlpha.100" },
-      inputBorder: { default: "gray.200", _dark: "transparent" },
+      inputBorder: { default: "gray.200", _dark: "#272B30" },
+      inputBorderHover: { default: "gray.300", _dark: "whiteAlpha.50" },
+
       // other
+      badgeBg: { default: "blackAlpha.50", _dark: "whiteAlpha.50" },
 
       // backgroundBody: "accent.100",
       // backgroundHighlight: { default: "white", _dark: "accent.200" },
@@ -337,10 +380,10 @@ const chakraTheme: Theme = extendTheme({
 
       // borderColor: { default: "accent.200", _dark: "accent.300" },
       bgBlack: { default: "black", _dark: "white" },
-      bgWhite: { default: "white", _dark: "black" },
+      bgWhite: { default: "#fff", _dark: "black" },
       backgroundBody: { default: "backgroundLight", _dark: "backgroundDark" },
       backgroundHighlight: { default: "white", _dark: "#131417" },
-      backgroundCardHighlight: { default: "white", _dark: "#232429" },
+      backgroundCardHighlight: { default: "white", _dark: "#131417" },
       wordmark: { default: "#262A36", _dark: "whiteAlpha.900" },
       heading: { default: "#262A36", _dark: "#ECECEC" },
       paragraph: { default: "rgba(39, 46, 54, 0.9)", _dark: "#b2b2b2" },
@@ -350,7 +393,7 @@ const chakraTheme: Theme = extendTheme({
         default: "rgba(242, 251, 255, 0.8)",
         _dark: "rgba(39, 46, 54, 0.9)",
       },
-      borderColor: { default: "gray.200", _dark: "#272B30" },
+      borderColor: { default: "gray.200", _dark: "#2B2B2B" },
       opaqueBg: {
         default: "whiteAlpha.500",
         _dark: "blackAlpha.600",

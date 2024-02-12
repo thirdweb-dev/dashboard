@@ -1,5 +1,23 @@
 import { THIRDWEB_ANALYTICS_API_HOSTNAME } from "./constants";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Arbitrum,
+  ArbitrumGoerli,
+  Avalanche,
+  AvalancheFuji,
+  Base,
+  BaseGoerli,
+  BinanceTestnet,
+  Ethereum,
+  Fantom,
+  Goerli,
+  Mumbai,
+  Optimism,
+  Polygon,
+  PolygonZkevmTestnet,
+  ScrollAlphaTestnet,
+  Sepolia,
+} from "@thirdweb-dev/chains";
 import { ethers } from "ethers";
 
 export type AnalyticsQueryParams = {
@@ -9,6 +27,26 @@ export type AnalyticsQueryParams = {
   endDate?: Date;
   interval?: "minute" | "hour" | "day" | "week" | "month";
 };
+
+// TODO: Keep updated with actual ClickHouse data
+export const SUPPORTED_ANALYTICS_CHAINS: number[] = [
+  Ethereum.chainId,
+  Goerli.chainId,
+  Optimism.chainId,
+  BinanceTestnet.chainId,
+  Polygon.chainId,
+  Fantom.chainId,
+  PolygonZkevmTestnet.chainId,
+  Base.chainId,
+  Arbitrum.chainId,
+  AvalancheFuji.chainId,
+  Avalanche.chainId,
+  Mumbai.chainId,
+  BaseGoerli.chainId,
+  ArbitrumGoerli.chainId,
+  ScrollAlphaTestnet.chainId,
+  Sepolia.chainId,
+];
 
 async function makeQuery(
   path: string,
@@ -58,11 +96,10 @@ export function useTransactionAnalytics(params: AnalyticsQueryParams) {
         endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
-    queryFn: () => {
-      return getTransactionAnalytics(params);
+    queryFn: async () => {
+      return await getTransactionAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -95,11 +132,10 @@ export function useTotalTransactionAnalytics(params: AnalyticsQueryParams) {
         currentDate: new Date().toISOString().split("T")[0],
       },
     ] as const,
-    queryFn: () => {
-      return getTotalTransactionAnalytics(params);
+    queryFn: async () => {
+      return await getTotalTransactionAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -133,11 +169,10 @@ export function useLogsAnalytics(params: AnalyticsQueryParams) {
         endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
-    queryFn: () => {
-      return getLogsAnalytics(params);
+    queryFn: async () => {
+      return await getLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -166,11 +201,10 @@ export function useTotalLogsAnalytics(params: AnalyticsQueryParams) {
         currentDate: new Date().toISOString().split("T")[0],
       },
     ] as const,
-    queryFn: () => {
-      return getTotalLogsAnalytics(params);
+    queryFn: async () => {
+      return await getTotalLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -233,7 +267,6 @@ export function useFunctionsAnalytics(params: AnalyticsQueryParams) {
       return getFunctionsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -260,17 +293,20 @@ async function getEventsAnalytics(
   });
 
   const { results } = await res.json();
-  const callsByTime = (results as EventsQueryResponse[]).reduce((acc, item) => {
-    const time = new Date(item.time).getTime();
-    if (!acc[time]) {
-      acc[time] = {
-        [item.event_name]: parseInt(item.cnt),
-      };
-    } else {
-      acc[time][item.event_name] = parseInt(item.cnt);
-    }
-    return acc;
-  }, {} as Record<string, any>);
+  const callsByTime = (results as EventsQueryResponse[]).reduce(
+    (acc, item) => {
+      const time = new Date(item.time).getTime();
+      if (!acc[time]) {
+        acc[time] = {
+          [item.event_name]: parseInt(item.cnt),
+        };
+      } else {
+        acc[time][item.event_name] = parseInt(item.cnt);
+      }
+      return acc;
+    },
+    {} as Record<string, any>,
+  );
 
   return Object.keys(callsByTime).map((time) => {
     return { time: parseInt(time), ...callsByTime[time] };
@@ -293,7 +329,6 @@ export function useEventsAnalytics(params: AnalyticsQueryParams) {
       return getEventsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -336,7 +371,6 @@ export function useValueAnalytics(params: AnalyticsQueryParams) {
       return getValueAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -379,7 +413,6 @@ export function useUniqueWalletsAnalytics(params: AnalyticsQueryParams) {
       return getUniqueWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -417,7 +450,6 @@ export function useCumulativeWalletsAnalytics(params: AnalyticsQueryParams) {
       return getCumulativeWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -450,6 +482,5 @@ export function useTotalWalletsAnalytics(params: AnalyticsQueryParams) {
       return getTotalWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }

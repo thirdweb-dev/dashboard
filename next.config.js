@@ -6,7 +6,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   font-src 'self';
   frame-src * data:;
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' 'wasm-unsafe-eval' 'inline-speculation-rules' *.thirdweb.com *.thirdweb-dev.com vercel.live js.stripe.com pg.paper.xyz portal.usecontext.io;
   connect-src * data: blob:;
   worker-src 'self' blob:;
   block-all-mixed-content;
@@ -37,6 +37,50 @@ const securityHeaders = [
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const redirects = require("./redirects");
+
+/**
+ * @returns {import('next').RemotePattern[]}
+ */
+function determineIpfsGateways() {
+  // add the clientId ipfs gateways
+  const remotePatterns = [];
+  if (process.env.API_ROUTES_CLIENT_ID) {
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.API_ROUTES_CLIENT_ID}.ipfscdn.io`,
+    });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.API_ROUTES_CLIENT_ID}.thirdwebstorage-staging.com`,
+    });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.API_ROUTES_CLIENT_ID}.thirdwebstorage-dev.com`,
+    });
+  } else {
+    // this should only happen in development
+    remotePatterns.push({
+      protocol: "https",
+      hostname: "ipfs.io",
+    });
+  }
+  // also add the dashboard clientId ipfs gateway if it is set
+  if (process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID) {
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID}.ipfscdn.io`,
+    });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID}.thirdwebstorage-staging.com`,
+    });
+    remotePatterns.push({
+      protocol: "https",
+      hostname: `${process.env.NEXT_PUBLIC_DASHBOARD_CLIENT_ID}.thirdwebstorage-dev.com`,
+    });
+  }
+  return remotePatterns;
+}
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
@@ -72,6 +116,7 @@ const moduleExports = {
         protocol: "https",
         hostname: "**.thirdweb.com",
       },
+      ...determineIpfsGateways(),
     ],
   },
   reactStrictMode: true,
@@ -82,6 +127,7 @@ const moduleExports = {
   compiler: {
     emotion: true,
   },
+  productionBrowserSourceMaps: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -95,7 +141,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withPlausibleProxy } = require("next-plausible");
 
-// we only want sentry on production enviroments
+// we only want sentry on production environments
 const wSentry =
   process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
@@ -107,7 +153,7 @@ module.exports = withPlausibleProxy({
     wSentry(
       moduleExports,
       { silent: true, debug: false },
-      { hideSourceMaps: true, widenClientFileUpload: true },
+      { hideSourceMaps: false, widenClientFileUpload: true },
     ),
   ),
 );

@@ -13,12 +13,14 @@ import {
   Tooltip,
   chakra,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   MediaRenderer,
   useAddress,
   useStorageUpload,
 } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
+import { PINNED_FILES_QUERY_KEY_ROOT } from "components/storage/your-files";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
 import { replaceIpfsUrl } from "lib/sdk";
@@ -146,6 +148,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
       uploadedFrom: "thirdweb-dashboard",
     },
   });
+  const queryClient = useQueryClient();
   const [ipfsHashes, setIpfsHashes] = useState<string[]>([]);
   const { onError } = useErrorHandler();
 
@@ -159,7 +162,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
       return replaceIpfsUrl(ipfsHashes[0]);
     }
     // get the folder
-    return replaceIpfsUrl(ipfsHashes[0].split("/").slice(0, -1).join("/"));
+    // return replaceIpfsUrl(ipfsHashes[0].split("/").slice(0, -1).join("/"));
+    return `https://ipfs.io/ipfs/${ipfsHashes[0].split("ipfs://")[1]}`;
   }, [ipfsHashes]);
 
   return (
@@ -439,8 +443,17 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                           category: TRACKING_CATEGORY,
                           action: "upload",
                           label: "success",
+                          address,
+                          uri:
+                            uris.length === 1
+                              ? uris[0]
+                              : uris[0].split("/").slice(0, -1).join("/"),
                         });
                         setIpfsHashes(uris);
+                        // also refetch the files list
+                        queryClient.invalidateQueries([
+                          PINNED_FILES_QUERY_KEY_ROOT,
+                        ]);
                       },
                       onSettled: () => {
                         setProgress({

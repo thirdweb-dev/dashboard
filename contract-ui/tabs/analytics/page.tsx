@@ -5,7 +5,6 @@ import {
   AlertIcon,
   AlertTitle,
   Flex,
-  Input,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -23,6 +22,7 @@ import { BarChart } from "components/analytics/bar-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
   AnalyticsQueryParams,
+  SUPPORTED_ANALYTICS_CHAINS,
   TotalQueryResult,
   useEventsAnalytics,
   useFunctionsAnalytics,
@@ -34,9 +34,7 @@ import {
   useUniqueWalletsAnalytics,
 } from "data/analytics/hooks";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button, Card, Heading, Text } from "tw-components";
-import { toDateString } from "utils/date-utils";
+import { Card, Heading, Text } from "tw-components";
 
 interface ContractAnalyticsPageProps {
   contractAddress?: string;
@@ -45,24 +43,14 @@ interface ContractAnalyticsPageProps {
 export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   contractAddress,
 }) => {
-  const [startDate, setStartDate] = useState(
+  const [startDate] = useState(
     (() => {
       const date = new Date();
       date.setDate(date.getDate() - 30);
       return date;
     })(),
   );
-  const [endDate, setEndDate] = useState(new Date());
-  const { handleSubmit, watch, setValue } = useForm({
-    defaultValues: {
-      startDate: (() => {
-        const date = new Date();
-        date.setDate(date.getDate() - 30);
-        return date;
-      })(),
-      endDate: new Date(),
-    },
-  });
+  const [endDate] = useState(new Date());
 
   useEffect(() => {
     window?.scrollTo({ top: 0, behavior: "smooth" });
@@ -112,45 +100,6 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 />
               </Flex>
             </Flex>
-            {/* <form
-              onSubmit={handleSubmit((data) => {
-                setStartDate(data.startDate);
-                setEndDate(data.endDate);
-              })}
-            >
-              <Flex gap={4}>
-                <Flex flexDirection="column" gap={1}>
-                  <Text size="body.sm">Start Date</Text>
-                  <Input
-                    size="sm"
-                    type="date"
-                    max={toDateString(watch("endDate"))}
-                    value={toDateString(watch("startDate"))}
-                    onChange={(e) =>
-                      setValue("startDate", new Date(e.target.value))
-                    }
-                    isDisabled
-                  />
-                </Flex>
-                <Flex flexDirection="column" gap={1}>
-                  <Text size="body.sm">End Date</Text>
-                  <Input
-                    size="sm"
-                    type="date"
-                    min={toDateString(watch("startDate"))}
-                    max={toDateString(new Date())}
-                    value={toDateString(watch("endDate"))}
-                    onChange={(e) =>
-                      setValue("endDate", new Date(e.target.value))
-                    }
-                    isDisabled
-                  />
-                </Flex>
-                <Button alignSelf="flex-end" type="submit" size="sm">
-                  Apply
-                </Button>
-              </Flex>
-            </form> */}
           </Flex>
           <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
@@ -278,9 +227,11 @@ interface AnalyticsChartProps<
   index: string;
   categories: AreaChartProps<TAnalytics, "time">["categories"] | "auto";
   useAnalytics: (params: AnalyticsQueryParams) => UseQueryResult<TAnalytics[]>;
+  showXAxis?: boolean;
+  showYAxis?: boolean;
 }
 
-const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
+export const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
@@ -288,6 +239,8 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
   index,
   categories,
   useAnalytics,
+  showXAxis,
+  showYAxis,
 }) => {
   const analyticsQuery = useAnalytics({
     contractAddress,
@@ -308,9 +261,13 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
     return (
       <Alert status="info" borderRadius="md" mb={4}>
         <AlertIcon />
-        <AlertDescription>
-          Data for this chart is unavailable for this contract
-        </AlertDescription>
+        {SUPPORTED_ANALYTICS_CHAINS.includes(chainId) ? (
+          <AlertDescription>No recent activity.</AlertDescription>
+        ) : (
+          <AlertDescription>
+            Analytics for this chain not currently supported.
+          </AlertDescription>
+        )}
       </Alert>
     );
   }
@@ -322,7 +279,7 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
         index={{ id: index }}
         showXAxis
         showYAxis
-        startEndOnly
+        stacked
       />
     );
   }
@@ -332,9 +289,8 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
       data={data}
       index={{ id: index }}
       categories={categories}
-      showXAxis
-      showYAxis
-      startEndOnly
+      showXAxis={showXAxis !== undefined ? showXAxis : true}
+      showYAxis={showYAxis !== undefined ? showYAxis : true}
     />
   );
 };

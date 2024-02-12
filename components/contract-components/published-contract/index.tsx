@@ -26,7 +26,7 @@ import {
   PublishedContract as PublishedContractType,
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
@@ -34,7 +34,9 @@ import { Extensions } from "contract-ui/tabs/overview/components/Extensions";
 import { format } from "date-fns";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { PublishedContractOG } from "og-lib/url-utils";
 import { useMemo } from "react";
@@ -80,12 +82,25 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const contractPublishMetadata = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
+
+  const dynamicContractType =
+    publishedContractInfo.data?.publishedMetadata.routerType;
+
   const compositeAbi =
     publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
-  const enabledExtensions = useContractEnabledExtensions(
-    compositeAbi || contractPublishMetadata.data?.abi,
-  );
+  const abi =
+    compositeAbi &&
+    (dynamicContractType === "plugin" ||
+      dynamicContractType === "dynamic" ||
+      !publishedContractInfo.data?.publishedMetadata.deployType ||
+      publishedContractInfo.data?.publishedMetadata.name.includes(
+        "MarketplaceV3",
+      ))
+      ? compositeAbi
+      : contractPublishMetadata.data?.abi;
+
+  const enabledExtensions = useContractEnabledExtensions(abi);
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
@@ -156,7 +171,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
     url.searchParams.append(
       "text",
       `Check out this ${publishedContractName} contract on @thirdweb
-      
+
 Deploy it in one click`,
     );
     url.searchParams.append("url", currentRoute);
@@ -258,6 +273,19 @@ Deploy it in one click`,
           ],
         }}
       />
+
+      {/* Farcaster frames headers */}
+      <Head>
+        <meta property="fc:frame" content="vNext" />
+        <meta property="fc:frame:image" content={ogImageUrl.toString()} />
+        <meta
+          property="fc:frame:post_url"
+          content={`${getAbsoluteUrl()}/api/frame/redirect`}
+        />
+        <meta property="fc:frame:button:1" content="Deploy now" />
+        <meta name="fc:frame:button:1:action" content="post_redirect"></meta>
+      </Head>
+
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
           {address === contract.publisher && (
@@ -428,7 +456,17 @@ Deploy it in one click`,
           <Divider />
           {contractPublishMetadata.data?.abi && (
             <Extensions
-              abi={compositeAbi || contractPublishMetadata.data?.abi}
+              abi={
+                compositeAbi &&
+                (dynamicContractType === "plugin" ||
+                  dynamicContractType === "dynamic" ||
+                  !publishedContractInfo.data?.publishedMetadata.deployType ||
+                  publishedContractInfo.data?.publishedMetadata.name.includes(
+                    "MarketplaceV3",
+                  ))
+                  ? compositeAbi
+                  : contractPublishMetadata.data?.abi
+              }
             />
           )}
           <Divider />
@@ -464,7 +502,7 @@ Deploy it in one click`,
             <Flex gap={2} alignItems="center">
               <LinkButton
                 colorScheme="blue"
-                href="https://portal.thirdweb.com/publish"
+                href="https://portal.thirdweb.com/contracts/publish/overview"
                 w="full"
                 variant="ghost"
                 isExternal

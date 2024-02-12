@@ -1,4 +1,5 @@
 import { Chain, defaultChains } from "@thirdweb-dev/chains";
+import { isProd } from "constants/rpc";
 import { useAllChainsData } from "hooks/chains/allChains";
 import React, { createContext, useCallback, useEffect, useState } from "react";
 
@@ -7,6 +8,7 @@ import React, { createContext, useCallback, useEffect, useState } from "react";
 export interface StoredChain extends Chain {
   isModified?: boolean;
   isCustom?: boolean;
+  isOverwritten?: boolean;
 }
 
 const MODIFIED_CHAINS_KEY = "tw-modified-chains";
@@ -28,6 +30,13 @@ export const ModifiedChainsContext = createContext<StoredChain[] | undefined>(
 );
 
 /**
+ * holds the "modified chains" array
+ */
+export const RemoveChainModification = createContext<
+  ((chainId: number) => void) | undefined
+>(undefined);
+
+/**
  * holds the "recently used chain ids" array
  */
 export const RecentlyUsedChainIdsContext = createContext<number[] | undefined>(
@@ -46,7 +55,7 @@ export const AddRecentlyUsedChainIdsContext = createContext<
  * and handles the logic of updating the "supported chains" and "modified chains" and "recently used chains"
  */
 export const ModifyChainContext = createContext<
-  ((chain: Chain) => void) | undefined
+  ((chain: Chain, remove?: boolean) => void) | undefined
 >(undefined);
 
 /**
@@ -88,9 +97,9 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
     useState(false);
   const [editChain, setEditChain] = useState<Chain | undefined>(undefined);
 
-  const addRecentlyUsedChainId = useCallback(
-    (chainId: number) => {
-      const newRecentlyUsedChains = recentlyUsedChainIds.filter(
+  const addRecentlyUsedChainId = useCallback((chainId: number) => {
+    setRecentlyUsedChainIds((_recentlyUsedChainIds) => {
+      const newRecentlyUsedChains = _recentlyUsedChainIds.filter(
         (c) => c !== chainId,
       );
 
@@ -99,23 +108,26 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
 
       // only keep the first 5
       newRecentlyUsedChains.splice(5);
-      setRecentlyUsedChainIds(newRecentlyUsedChains);
 
-      try {
-        localStorage.setItem(
-          RECENTLY_USED_CHAIN_IDS_KEY,
-          JSON.stringify(newRecentlyUsedChains),
-        );
-      } catch (e) {
-        localStorage.clear();
-        localStorage.setItem(
-          RECENTLY_USED_CHAIN_IDS_KEY,
-          JSON.stringify(newRecentlyUsedChains),
-        );
-      }
-    },
-    [recentlyUsedChainIds],
-  );
+      return newRecentlyUsedChains;
+    });
+  }, []);
+
+  // save recently used chains to storage
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        RECENTLY_USED_CHAIN_IDS_KEY,
+        JSON.stringify(recentlyUsedChainIds),
+      );
+    } catch (e) {
+      localStorage.clear();
+      localStorage.setItem(
+        RECENTLY_USED_CHAIN_IDS_KEY,
+        JSON.stringify(recentlyUsedChainIds),
+      );
+    }
+  }, [recentlyUsedChainIds]);
 
   const { allChains, chainIdToIndexRecord, chainIdToChainRecord } =
     useAllChainsData();
@@ -154,10 +166,10 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
           if (!result[i]) {
             throw new Error("invalid attempt to overide");
           }
-          result[i] = { ...modifiedChain, isModified: true };
+
+          result[i] = modifiedChain;
         } else {
-          // append the modified chain to the end of the supported chains
-          result.push({ ...modifiedChain, isCustom: true });
+          result.push(modifiedChain);
         }
       });
 
@@ -175,6 +187,21 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
     [applyOverrides],
   );
 
+  const replaceRpcsWithDevUrl = useCallback((chains: Chain[]) => {
+    if (isProd) {
+      return chains;
+    }
+
+    return chains.map((chn) => {
+      return {
+        ...chn,
+        rpc: chn.rpc.map((rpc) =>
+          rpc.replace("rpc.thirdweb.com", "rpc.thirdweb-dev.com"),
+        ),
+      };
+    });
+  }, []);
+
   // create supported chains and modified chains on mount
   useEffect(() => {
     if (allChains.length === 0) {
@@ -185,15 +212,20 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
       return;
     }
 
+    const allChainsReplaced = replaceRpcsWithDevUrl(allChains);
+
     const _modifiedChains = chainStorage.get(MODIFIED_CHAINS_KEY);
 
     if (_modifiedChains.length === 0) {
-      setSupportedChains(allChains);
+      setSupportedChains(allChainsReplaced);
       setIsSupportedChainsReady(true);
       return;
     }
 
-    const newSupportedChains = applyOverrides(allChains, _modifiedChains);
+    const newSupportedChains = applyOverrides(
+      allChainsReplaced,
+      _modifiedChains,
+    );
     setSupportedChains(newSupportedChains);
     setModifiedChains(_modifiedChains);
     setIsSupportedChainsReady(true);
@@ -204,26 +236,50 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
     applyModificationsToSupportedChains,
     applyOverrides,
     supportedChains,
+    replaceRpcsWithDevUrl,
   ]);
 
   const modifyChain = useCallback(
-    (chain: Chain) => {
-      const i = modifiedChains.findIndex((c) => c.chainId === chain.chainId);
-      let newModifiedChains: StoredChain[];
-      if (i !== -1) {
-        // if this chain is already in the modified chains, update it
-        newModifiedChains = [...modifiedChains];
-        newModifiedChains[i] = chain as StoredChain;
-      } else {
-        // else add it to the modified chains
-        newModifiedChains = [...modifiedChains, chain as StoredChain];
-      }
+    (chain: StoredChain) => {
+      setModifiedChains((_modifiedChains) => {
+        const i = _modifiedChains.findIndex((c) => c.chainId === chain.chainId);
+        let newModifiedChains: StoredChain[];
+        if (i !== -1) {
+          // if this chain is already in the modified chains, update it
+          newModifiedChains = [..._modifiedChains];
+          newModifiedChains[i] = chain as StoredChain;
+        } else {
+          // else add it to the modified chains
+          newModifiedChains = [..._modifiedChains, chain as StoredChain];
+        }
 
-      setModifiedChains(newModifiedChains);
-      applyModificationsToSupportedChains(newModifiedChains);
-      chainStorage.set(MODIFIED_CHAINS_KEY, newModifiedChains);
+        applyModificationsToSupportedChains(newModifiedChains);
+        chainStorage.set(MODIFIED_CHAINS_KEY, newModifiedChains);
+
+        return newModifiedChains;
+      });
     },
-    [applyModificationsToSupportedChains, modifiedChains],
+    [applyModificationsToSupportedChains],
+  );
+
+  const removeChainModification = useCallback(
+    (chainId: number) => {
+      setModifiedChains((_modifiedChains) => {
+        const newModifiedChains = _modifiedChains.filter(
+          (c) => c.chainId !== chainId,
+        );
+
+        applyModificationsToSupportedChains(newModifiedChains);
+        chainStorage.set(MODIFIED_CHAINS_KEY, newModifiedChains);
+
+        // also remove from recently used chains
+        setRecentlyUsedChainIds((prevIds) => {
+          return prevIds.filter((id) => id !== chainId);
+        });
+        return newModifiedChains;
+      });
+    },
+    [applyModificationsToSupportedChains, setRecentlyUsedChainIds],
   );
 
   return (
@@ -231,25 +287,29 @@ export function ChainsProvider(props: { children: React.ReactNode }) {
       <SupportedChainsReadyContext.Provider value={isSupportedChainsReady}>
         <ModifiedChainsContext.Provider value={modifiedChains}>
           <ModifyChainContext.Provider value={modifyChain}>
-            <RecentlyUsedChainIdsContext.Provider value={recentlyUsedChainIds}>
-              <AddRecentlyUsedChainIdsContext.Provider
-                value={addRecentlyUsedChainId}
+            <RemoveChainModification.Provider value={removeChainModification}>
+              <RecentlyUsedChainIdsContext.Provider
+                value={recentlyUsedChainIds}
               >
-                <EditChainContext.Provider value={editChain}>
-                  <SetEditChainContext.Provider value={setEditChain}>
-                    <isNetworkConfigModalOpenCtx.Provider
-                      value={isNetworkConfigModalOpen}
-                    >
-                      <SetIsNetworkConfigModalOpenCtx.Provider
-                        value={setIsNetworkConfigModalOpen}
+                <AddRecentlyUsedChainIdsContext.Provider
+                  value={addRecentlyUsedChainId}
+                >
+                  <EditChainContext.Provider value={editChain}>
+                    <SetEditChainContext.Provider value={setEditChain}>
+                      <isNetworkConfigModalOpenCtx.Provider
+                        value={isNetworkConfigModalOpen}
                       >
-                        {props.children}
-                      </SetIsNetworkConfigModalOpenCtx.Provider>
-                    </isNetworkConfigModalOpenCtx.Provider>
-                  </SetEditChainContext.Provider>
-                </EditChainContext.Provider>
-              </AddRecentlyUsedChainIdsContext.Provider>
-            </RecentlyUsedChainIdsContext.Provider>
+                        <SetIsNetworkConfigModalOpenCtx.Provider
+                          value={setIsNetworkConfigModalOpen}
+                        >
+                          {props.children}
+                        </SetIsNetworkConfigModalOpenCtx.Provider>
+                      </isNetworkConfigModalOpenCtx.Provider>
+                    </SetEditChainContext.Provider>
+                  </EditChainContext.Provider>
+                </AddRecentlyUsedChainIdsContext.Provider>
+              </RecentlyUsedChainIdsContext.Provider>
+            </RemoveChainModification.Provider>
           </ModifyChainContext.Provider>
         </ModifiedChainsContext.Provider>
       </SupportedChainsReadyContext.Provider>

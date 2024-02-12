@@ -4,6 +4,10 @@ import {
   Divider,
   Flex,
   Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
   Spinner,
   Table,
   Tbody,
@@ -22,8 +26,17 @@ import {
 } from "@tanstack/react-table";
 import pluralize from "pluralize";
 import { SetStateAction, useMemo, useState } from "react";
+import { FaEllipsisVertical } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
-import { Button, TableContainer, Text } from "tw-components";
+import { IconType } from "react-icons/lib";
+import { Button, MenuItem, TableContainer, Text } from "tw-components";
+
+type CtaMenuItem<TRowData> = {
+  icon?: IconType;
+  text: string;
+  onClick: (row: TRowData) => void;
+  isDestructive?: boolean;
+};
 
 type TWTableProps<TRowData> = {
   columns: ColumnDef<TRowData, any>[];
@@ -31,6 +44,7 @@ type TWTableProps<TRowData> = {
   isLoading: boolean;
   isFetched: boolean;
   onRowClick?: (row: TRowData) => void;
+  onMenuClick?: CtaMenuItem<TRowData>[];
   pagination?: {
     pageSize: number;
   };
@@ -129,8 +143,9 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                   )}
                 </Th>
               ))}
-              {/* if the row is clickable we want an arrow to show */}
-              {tableProps.onRowClick && <Th border="none" />}
+              {(tableProps.onRowClick || tableProps.onMenuClick) && (
+                <Th border="none" />
+              )}
             </Tr>
           ))}
         </Thead>
@@ -172,8 +187,9 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                     </Td>
                   );
                 })}
-                {/* if the row is clickable we want an arrow to show */}
-                {tableProps.onRowClick && (
+
+                {/* Show a ... menu or individual CTA buttons. */}
+                {tableProps.onRowClick ? (
                   <Td
                     isNumeric
                     borderBottomWidth="inherit"
@@ -181,7 +197,38 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
                   >
                     <Icon as={FiArrowRight} />
                   </Td>
-                )}
+                ) : tableProps.onMenuClick ? (
+                  <Td
+                    isNumeric
+                    borderBottomWidth="inherit"
+                    borderBottomColor="accent.100"
+                  >
+                    <Menu>
+                      <MenuButton
+                        as={IconButton}
+                        variant="outline"
+                        icon={<Icon as={FaEllipsisVertical} boxSize={4} />}
+                        aria-label="Actions"
+                      />
+                      <MenuList>
+                        {tableProps.onMenuClick.map(
+                          ({ icon, text, onClick, isDestructive }) => {
+                            return (
+                              <MenuItem
+                                key={text}
+                                onClick={() => onClick(row.original)}
+                                icon={icon && <Icon as={icon} boxSize={4} />}
+                                color={isDestructive ? "red.500" : undefined}
+                              >
+                                {text}
+                              </MenuItem>
+                            );
+                          },
+                        )}
+                      </MenuList>
+                    </Menu>
+                  </Td>
+                ) : null}
               </Tr>
             );
           })}
@@ -195,13 +242,15 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
           </Flex>
         </Center>
       )}
-      {tableProps.data.length === 0 && tableProps.isFetched && (
-        <Center>
-          <Flex py={4} direction="column" gap={4} align="center">
-            <Text>No {pluralize(tableProps.title, 0, false)} found.</Text>
-          </Flex>
-        </Center>
-      )}
+      {!tableProps.isLoading &&
+        tableProps.data.length === 0 &&
+        tableProps.isFetched && (
+          <Center>
+            <Flex py={4} direction="column" gap={4} align="center">
+              <Text>No {pluralize(tableProps.title, 0, false)} found.</Text>
+            </Flex>
+          </Center>
+        )}
       <ShowMoreButton
         shouldShowMore={slicedData.length < tableProps.data.length}
         shouldShowLess={

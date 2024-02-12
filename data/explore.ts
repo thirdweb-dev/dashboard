@@ -20,10 +20,11 @@ const POPULAR = {
   contracts: [
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/MarketplaceV3",
-    "unlock-protocol.eth/PublicLock",
+    "thirdweb.eth/AccountFactory",
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/TokenERC20",
     "thirdweb.eth/NFTStake",
+    "unlock-protocol.eth/PublicLock",
   ],
 } as const;
 const NFTS = {
@@ -33,17 +34,17 @@ const NFTS = {
   description:
     "NFT Collections, Editions, Drops and everything else NFT-related.",
   contracts: [
-    "thirdweb.eth/Multiwrap",
+    "thirdweb.eth/LoyaltyCard",
     "doubledev.eth/ERC4907",
     "thirdweb.eth/TokenERC721",
     "thirdweb.eth/TokenERC1155",
-    "flairsdk.eth/ERC721CommunityStream",
     "thirdweb.eth/Pack",
-    "unlock-protocol.eth/PublicLock",
+    "thirdweb.eth/OpenEditionERC721",
+    "flairsdk.eth/ERC721CommunityStream",
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/DropERC1155",
-    "thirdweb.eth/SignatureDrop",
-    "nach.eth/DynamicFreeMint",
+    "thirdweb.eth/Multiwrap",
+    "kronickatz.eth/ERC721NESDrop",
   ],
 } as const;
 
@@ -66,7 +67,6 @@ const DROPS = {
   contracts: [
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/DropERC1155",
-    "thirdweb.eth/SignatureDrop",
     "thirdweb.eth/DropERC20",
   ],
 } as const;
@@ -93,6 +93,9 @@ const AIRDROP = {
     "thirdweb.eth/AirdropERC20",
     "thirdweb.eth/AirdropERC721",
     "thirdweb.eth/AirdropERC1155",
+    "thirdweb.eth/AirdropERC20Claimable",
+    "thirdweb.eth/AirdropERC721Claimable",
+    "thirdweb.eth/AirdropERC1155Claimable",
   ],
 } as const;
 
@@ -103,13 +106,27 @@ const GAMING = {
   description:
     "A collection of contracts that are popular for building play-to-earn and free-to-own web3 games.",
   contracts: [
-    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/MarketplaceV3",
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/TokenERC20",
     "thirdweb.eth/TokenERC1155",
     "thirdweb.eth/Multiwrap",
     "thirdweb.eth/Pack",
     "thirdweb.eth/NFTStake",
+  ],
+  showInExplore: false,
+} as const;
+
+const LOYALTY = {
+  id: "loyalty",
+  name: "Loyalty",
+  displayName: "Loyalty",
+  description:
+    "A collection of contracts that are popular for building loyalty programs.",
+  contracts: [
+    "thirdweb.eth/LoyaltyCard",
+    "thirdweb.eth/MarketplaceV3",
+    "thirdweb.eth/TokenERC20",
   ],
   showInExplore: false,
 } as const;
@@ -145,9 +162,11 @@ const STAKING = {
 const SMART_WALLET = {
   id: "smart-wallet",
   name: "Smart Wallet",
-  displayName: "Smart Wallet (Beta)",
+  displayName: "Smart Wallet",
   description:
-    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users.",
+    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users. Not sure which factory is right for you?",
+  learnMore:
+    "https://portal.thirdweb.com/wallets/smart-wallet/get-started#1-deploy-a-smart-wallet-factory-contract",
   contracts: [
     "thirdweb.eth/AccountFactory",
     "thirdweb.eth/DynamicAccountFactory",
@@ -164,6 +183,7 @@ const CATEGORIES = {
   [SMART_WALLET.id]: SMART_WALLET,
   [AIRDROP.id]: AIRDROP,
   [GAMING.id]: GAMING,
+  [LOYALTY.id]: LOYALTY,
   [COMMERCE.id]: COMMERCE,
   [STAKING.id]: STAKING,
   [GOVERNANCE.id]: GOVERNANCE,
@@ -194,7 +214,7 @@ export function prefetchCategory(
   category: ExploreCategory,
   queryClient: QueryClient,
 ) {
-  return Promise.all(
+  return Promise.allSettled(
     category.contracts.map((contract) =>
       queryClient.fetchQuery(
         publishedContractQuery(`${contract}/latest`, queryClient),

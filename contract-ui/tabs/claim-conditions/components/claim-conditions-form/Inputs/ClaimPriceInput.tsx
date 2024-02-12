@@ -9,8 +9,16 @@ import { CurrencySelector } from "components/shared/CurrencySelector";
  * Allows the user to select how much they want to charge to claim each NFT
  */
 export const ClaimPriceInput = () => {
-  const { formDisabled, isErc20, form, phaseIndex, field, isColumn, claimConditionType, isClaimPhaseV1 } =
-    useClaimConditionsFormContext();
+  const {
+    formDisabled,
+    isErc20,
+    form,
+    phaseIndex,
+    field,
+    isColumn,
+    claimConditionType,
+    isClaimPhaseV1,
+  } = useClaimConditionsFormContext();
 
   if (!isClaimPhaseV1 && claimConditionType === "creator") {
     return null;
@@ -27,7 +35,7 @@ export const ClaimPriceInput = () => {
       }
     >
       <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
-        <Box w={{ base: "100%", md: "20%" }} minW="70px">
+        <Box w={{ base: "100%", md: "50%" }} minW="70px">
           <PriceInput
             w="full"
             value={field.price?.toString() || ""}
@@ -35,7 +43,7 @@ export const ClaimPriceInput = () => {
             placeholder="0"
           />
         </Box>
-        <Box w={{ base: "100%", md: isColumn ? "80%" : "100%" }}>
+        <Box w={{ base: "100%", md: isColumn ? "50%" : "100%" }}>
           <CurrencySelector
             isDisabled={formDisabled}
             value={field?.currencyAddress || NATIVE_TOKEN_ADDRESS}

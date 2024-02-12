@@ -32,6 +32,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.local.*
 
 # vercel
 .vercel
@@ -72,3 +73,6 @@ public/sitemap*.xml
 
 # future_app dir
 future_app/
+
+# generated files
+graphql/**/__generated__/

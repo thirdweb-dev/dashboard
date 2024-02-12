@@ -2,7 +2,6 @@ import { SidebarNav } from "./nav";
 import { NavLink } from "./nav-link";
 import { Box, Flex, Image, Skeleton, useDisclosure } from "@chakra-ui/react";
 import type { useContractMetadata } from "@thirdweb-dev/react/evm";
-import type { useProgramMetadata } from "@thirdweb-dev/react/solana";
 import type { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { EnhancedRoute } from "contract-ui/types/types";
 import { useRouter } from "next/router";
@@ -13,9 +12,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 type ContractSidebarProps = {
   address: string;
-  metadataQuery:
-    | ReturnType<typeof useContractMetadata>
-    | ReturnType<typeof useProgramMetadata>;
+  metadataQuery: ReturnType<typeof useContractMetadata>;
   routes: EnhancedRoute[];
   activeRoute?: EnhancedRoute;
 };
@@ -115,7 +112,6 @@ const NavLinkSection: React.FC<NavLinkSectionProps> = ({
   if (filteredLinks.length === 0) {
     return null;
   }
-
   return (
     <Flex direction="column" mb={4}>
       <Flex mb={2} gap={2} align="center">
@@ -157,11 +153,15 @@ const DetailNavLink: ComponentWithChildren<DetailNavLinkProps> = ({
   const { query } = useRouter();
   const [computedBasePath, tabHref] = useMemo(() => {
     const [network, address, tab = ""] = [
-      ...new Set(((query.paths as string[]) || []).filter((c) => c !== "evm")),
+      ...new Set(
+        ([query.chainSlug, ...(query.paths as string[])] || []).filter(
+          (c) => c !== "evm",
+        ),
+      ),
     ];
 
     return [`/${network}/${address}`, tab] as const;
-  }, [query.paths]);
+  }, [query.chainSlug, query.paths]);
 
   if (extensionDetectedState === "disabled") {
     return null;

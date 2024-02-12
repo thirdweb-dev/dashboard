@@ -1,6 +1,6 @@
 import { Flex, Icon, Stack, useDisclosure } from "@chakra-ui/react";
 import { useAddress, useAirdropNFT } from "@thirdweb-dev/react";
-import { Erc1155 } from "@thirdweb-dev/sdk/evm";
+import { Erc1155 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
   AirdropAddressInput,
@@ -39,7 +39,7 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
   const addresses = watch("addresses");
 
   return (
-    <Stack pt={3}>
+    <Stack w="full">
       <form
         onSubmit={handleSubmit((data) => {
           trackEvent({

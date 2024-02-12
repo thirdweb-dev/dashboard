@@ -3,16 +3,19 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
+import { ProgressBar } from "components/shared/ProgressBar";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import posthog from "posthog-js";
+import posthogOpenSource from "posthog-js-opensource";
+import posthogCloud from "posthog-js";
 import { memo, useEffect, useMemo, useRef } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import type { ThirdwebNextPage } from "utils/types";
+import "../css/swagger-ui.css";
 
 // eslint-disable-next-line new-cap
 const inter = Inter({
@@ -68,21 +71,38 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
   }, []);
 
   useEffect(() => {
+    // Init PostHog Cloud (Used for surveys)
+    posthogCloud.init(
+      process.env.NEXT_PUBLIC_POSTHOG_CLOUD_API_KEY ||
+        "phc_oXH0qpLTaotkIQP5MdaWhtoOXvh1Iba7yNSQrLgWbLN",
+      {
+        api_host: "https://pg.paper.xyz",
+        autocapture: true,
+        debug: false,
+        capture_pageview: false,
+        disable_session_recording: true,
+      },
+    );
+
     // Init PostHog
-    posthog.init("phc_hKK4bo8cHZrKuAVXfXGpfNSLSJuucUnguAgt2j6dgSV", {
-      api_host: "https://a.thirdweb.com",
-      autocapture: true,
-      debug: false,
-      capture_pageview: false,
-      disable_session_recording: true,
-    });
+    posthogOpenSource.init(
+      process.env.NEXT_PUBLIC_POSTHOG_API_KEY ||
+        "phc_hKK4bo8cHZrKuAVXfXGpfNSLSJuucUnguAgt2j6dgSV",
+      {
+        api_host: "https://a.thirdweb.com",
+        autocapture: true,
+        debug: false,
+        capture_pageview: false,
+        disable_session_recording: true,
+      },
+    );
     // register the git commit sha on all subsequent events
-    posthog.register({
+    posthogOpenSource.register({
       tw_dashboard_version: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA,
     });
-    // defere session recording start by 2 seconds because it synchronously loads JS
+    // defer session recording start by 2 seconds because it synchronously loads JS
     const t = setTimeout(() => {
-      posthog.startSessionRecording();
+      posthogOpenSource.startSessionRecording();
     }, 2_000);
     return () => {
       clearTimeout(t);
@@ -101,11 +121,11 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     if (pageId === prevPageId.current) {
       return;
     }
-    posthog.register({
+    posthogOpenSource.register({
       page_id: pageId,
       previous_page_id: prevPageId.current,
     });
-    posthog.capture("$pageview");
+    posthogOpenSource.capture("$pageview");
     return () => {
       prevPageId.current = pageId;
     };
@@ -116,7 +136,6 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     // replace all re-written middleware paths
     const path = router.asPath
       .replace("/evm/", "/")
-      .replace("/solana/", "/")
       .replace("/chain/", "/")
       .replace("/publish/", "/");
     return `${base}${path}`;
@@ -171,12 +190,18 @@ const ConsoleApp = memo(function ConsoleApp({
             vertical-align: -0.1em;
             display: inline;
           }
+          body {
+            font-variant-ligatures: none !important;
+          }
+          .chakra-checkbox__control > div > svg {
+            font-size: 10px !important;
+          }
         `}
       />
       <DefaultSeo
-        defaultTitle="thirdweb: The complete web3 development framework"
+        defaultTitle="thirdweb: The complete web3 development platform"
         titleTemplate="%s | thirdweb"
-        description="Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now."
+        description="Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum & 700+ EVM chains. Try now."
         additionalLinkTags={[
           {
             rel: "icon",
@@ -184,9 +209,9 @@ const ConsoleApp = memo(function ConsoleApp({
           },
         ]}
         openGraph={{
-          title: "thirdweb: The complete web3 development framework",
+          title: "thirdweb: The complete web3 development platform",
           description:
-            "Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now.",
+            "Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum & 700+ EVM chains. Try now.",
           type: "website",
           locale: "en_US",
           url: "https://thirdweb.com",
@@ -206,6 +231,14 @@ const ConsoleApp = memo(function ConsoleApp({
           cardType: "summary_large_image",
         }}
         canonical={isFallback ? undefined : seoCanonical}
+      />
+
+      <ProgressBar
+        color="#4a92fe"
+        incrementInterval={100}
+        incrementAmount={10}
+        transitionDuration={500}
+        transitionTimingFunction="ease"
       />
 
       <ChakraProvider theme={chakraThemeWithFonts}>

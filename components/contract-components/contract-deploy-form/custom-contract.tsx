@@ -1,9 +1,11 @@
 import {
   useConstructorParamsFromABI,
+  useContractEnabledExtensions,
   useContractFullPublishMetadata,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
   useCustomFactoryAbi,
+  useDefaultForwarders,
   useEns,
   useFunctionParamsFromABI,
   useTransactionsForDeploy,
@@ -22,20 +24,32 @@ import {
   AccordionPanel,
   Divider,
   Flex,
+  FormControl,
+  HStack,
+  Icon,
+  Tooltip,
 } from "@chakra-ui/react";
-import { LineaTestnet } from "@thirdweb-dev/chains";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
-import { verifyContract } from "contract-ui/tabs/sources/page";
+import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { FiHelpCircle } from "react-icons/fi";
 import invariant from "tiny-invariant";
-import { Checkbox, Heading, Text, TrackedLink } from "tw-components";
+import {
+  Card,
+  Checkbox,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Text,
+  TrackedLink,
+} from "tw-components";
+import { TrustedForwardersFieldset } from "./trusted-forwarders-fieldset";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -62,6 +76,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const trackEvent = useTrack();
 
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
+  const defaultForwarders = useDefaultForwarders();
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
@@ -100,32 +115,42 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const parseDeployParams = {
-    ...deployParams.reduce((acc, param) => {
-      acc[param.name] = replaceTemplateValues(
-        fullPublishMetadata.data?.constructorParams?.[param.name]?.defaultValue
-          ? fullPublishMetadata.data?.constructorParams?.[param.name]
-              ?.defaultValue || ""
-          : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-          ? "0"
-          : "",
-        param.type,
-        {
-          connectedWallet,
-          chainId: selectedChain,
-        },
-      );
-      return acc;
-    }, {} as Record<string, string>),
-  };
+  const isAccountFactory =
+    !isFactoryDeployment &&
+    (fullPublishMetadata.data?.name.includes("AccountFactory") || false);
 
-  // FIXME - temporaryly disabling add to dashboard by default on linea
-  const shouldDefaulCheckAddToDashboard = selectedChain
-    ? selectedChain !== LineaTestnet.chainId
-    : true;
+  const parseDeployParams = {
+    ...deployParams.reduce(
+      (acc, param) => {
+        if (!param.name) {
+          param.name = "*";
+        }
+
+        acc[param.name] = replaceTemplateValues(
+          fullPublishMetadata.data?.constructorParams?.[param.name]
+            ?.defaultValue
+            ? fullPublishMetadata.data?.constructorParams?.[param.name]
+                ?.defaultValue || ""
+            : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+              ? "0"
+              : "",
+          param.type,
+          {
+            connectedWallet,
+            chainId: selectedChain,
+          },
+        );
+        return acc;
+      },
+      {} as Record<string, string>,
+    ),
+  };
 
   const form = useForm<{
     addToDashboard: boolean;
+    deployDeterministic: boolean;
+    saltForCreate2: string;
+    signerAsSalt: boolean;
     deployParams: Record<string, string>;
     contractMetadata?: {
       name: string;
@@ -136,11 +161,17 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     recipients?: Recipient[];
   }>({
     defaultValues: {
-      addToDashboard: shouldDefaulCheckAddToDashboard,
+      addToDashboard: true,
+      deployDeterministic: isAccountFactory,
+      saltForCreate2: "",
+      signerAsSalt: true,
       deployParams: parseDeployParams,
     },
     values: {
-      addToDashboard: shouldDefaulCheckAddToDashboard,
+      addToDashboard: true,
+      deployDeterministic: isAccountFactory,
+      saltForCreate2: "",
+      signerAsSalt: true,
       deployParams: parseDeployParams,
     },
     resetOptions: {
@@ -148,12 +179,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       keepDirtyValues: true,
     },
   });
-
-  useEffect(() => {
-    if (selectedChain) {
-      form.setValue("addToDashboard", selectedChain !== LineaTestnet.chainId);
-    }
-  }, [form, selectedChain]);
 
   const formDeployParams = form.watch("deployParams");
 
@@ -174,8 +199,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "_platformFeeRecipient" in formDeployParams;
   const isSplit =
     "_payees" in formDeployParams && "_shares" in formDeployParams;
+  const isVote =
+    "_initialVotingDelay" in formDeployParams &&
+    "_initialVotingPeriod" in formDeployParams &&
+    "_initialProposalThreshold" in formDeployParams &&
+    "_initialVoteQuorumFraction" in formDeployParams &&
+    "_token" in formDeployParams;
+  const hasTrustedForwarders = "_trustedForwarders" in formDeployParams;
 
   const shouldHide = (paramKey: string) => {
+    if (isAccountFactory) {
+      return false;
+    }
     if (
       (hasContractURI &&
         (paramKey === "_contractURI" ||
@@ -188,7 +223,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         (paramKey === "_platformFeeBps" ||
           paramKey === "_platformFeeRecipient")) ||
       paramKey === "_defaultAdmin" ||
-      paramKey === "_trustedForwarders" ||
       (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
     ) {
       return true;
@@ -197,10 +231,21 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     return false;
   };
 
+  const extensions = useContractEnabledExtensions(compilerMetadata.data?.abi);
+  const isErc721SharedMetadadata = extensions.some(
+    (extension) => extension.name === "ERC721SharedMetadata",
+  );
+
   const deploy = useCustomContractDeployMutation(
     ipfsHash,
     isImplementationDeploy,
-    { hasContractURI, hasRoyalty, hasPrimarySale, hasPlatformFee, isSplit },
+    {
+      hasContractURI,
+      hasRoyalty,
+      isSplit,
+      isVote,
+      isErc721SharedMetadadata,
+    },
   );
 
   const router = useRouter();
@@ -208,6 +253,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Successfully deployed contract",
     "Failed to deploy contract",
   );
+
+  const transactionCount =
+    (transactions?.length || 0) +
+    (form.watch("addToDashboard") ? 1 : 0) +
+    (isErc721SharedMetadadata ? 1 : 0);
+
+  const isCreate2Deployment = form.watch("deployDeterministic");
 
   return (
     <FormProvider {...form}>
@@ -252,17 +304,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   chainId: selectedChain,
                   address: deployedContractAddress,
                 });
-
-                // try verifying the contract, might as well
-                try {
-                  // we don't await this, just kick it off and be done with it
-                  verifyContract({
-                    contractAddress: deployedContractAddress,
-                    chainId: selectedChain,
-                  });
-                } catch (e) {
-                  // ignore
-                }
 
                 trackEvent({
                   category: "custom-contract",
@@ -331,6 +372,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
               {isSplit && <SplitFieldset form={form} />}
+              {hasTrustedForwarders && (
+                <TrustedForwardersFieldset
+                  form={form}
+                  forwarders={defaultForwarders}
+                />
+              )}
               {Object.keys(formDeployParams).map((paramKey) => {
                 const deployParam = deployParams.find(
                   (p: any) => p.name === paramKey,
@@ -339,7 +386,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   fullPublishMetadata.data?.constructorParams || {};
                 const extraMetadataParam = contructorParams[paramKey];
 
-                if (shouldHide(paramKey) || extraMetadataParam?.hidden) {
+                if (
+                  shouldHide(paramKey) ||
+                  extraMetadataParam?.hidden ||
+                  paramKey === "_trustedForwarders"
+                ) {
                   return null;
                 }
 
@@ -421,14 +472,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </Text>
         </Flex>
 
-        <Flex alignItems="center" gap={3}>
-          <Checkbox
-            {...form.register("addToDashboard")}
-            isChecked={form.watch("addToDashboard")}
-          />
-
-          <Text mt={1}>
-            Add to dashboard so I can find it in the list of my contracts at{" "}
+        <Checkbox
+          {...form.register("addToDashboard")}
+          isChecked={form.watch("addToDashboard")}
+        >
+          <Text>
+            Import so I can find it in the list of my contracts at{" "}
             <TrackedLink
               href="https://thirdweb.com/dashboard"
               isExternal
@@ -440,7 +489,68 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             </TrackedLink>
             .
           </Text>
-        </Flex>
+        </Checkbox>
+
+        {fullPublishMetadata.data?.deployType === "standard" && (
+          <Flex gap={4} flexDir="column">
+            <Checkbox
+              {...form.register("deployDeterministic")}
+              isChecked={form.watch("deployDeterministic")}
+            >
+              <Tooltip
+                label={
+                  <Card py={2} px={4} bgColor="backgroundHighlight">
+                    <Text fontSize="small" lineHeight={6}>
+                      Allows having the same contract address on multiple
+                      chains. You can control the address by specifying a salt
+                      for create2 deployment below.
+                    </Text>
+                  </Card>
+                }
+                isDisabled={false}
+                p={0}
+                bg="transparent"
+                boxShadow="none"
+              >
+                <HStack>
+                  <Heading as="label" size="label.md">
+                    Deploy at a deterministic address
+                  </Heading>
+                  <Icon as={FiHelpCircle} />
+                </HStack>
+              </Tooltip>
+            </Checkbox>
+
+            {isCreate2Deployment && (
+              <FormControl>
+                <Flex alignItems="center" my={1}>
+                  <FormLabel mb={0} flex="1" display="flex">
+                    <Flex alignItems="baseline" gap={1}>
+                      Optional Salt Input
+                      <Text size="label.sm">(saltForCreate2)</Text>
+                    </Flex>
+                  </FormLabel>
+                  <FormHelperText mt={0}>string</FormHelperText>
+                </Flex>
+                <SolidityInput
+                  defaultValue={""}
+                  solidityType={"string"}
+                  {...form.register(`saltForCreate2`)}
+                />
+                <Flex alignItems="center" gap={3}>
+                  <Checkbox
+                    {...form.register("signerAsSalt")}
+                    isChecked={form.watch("signerAsSalt")}
+                  />
+
+                  <Text mt={1}>
+                    Include deployer wallet address in salt (recommended)
+                  </Text>
+                </Flex>
+              </FormControl>
+            )}
+          </Flex>
+        )}
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <NetworkSelectorButton
@@ -453,6 +563,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               onChainSelect(chain.chainId);
             }}
             networksEnabled={
+              fullPublishMetadata.data?.name === "AccountFactory" ||
               fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
               !fullPublishMetadata.data?.networksForDeployment
                 ? undefined
@@ -470,13 +581,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             isLoading={deploy.isLoading}
             isDisabled={!compilerMetadata.isSuccess || !selectedChain}
             colorScheme="blue"
-            transactionCount={
-              form.watch("addToDashboard")
-                ? transactions?.length
-                  ? transactions.length + 1
-                  : 2
-                : transactions?.length || 1
-            }
+            transactionCount={transactionCount}
           >
             Deploy Now
           </TransactionButton>

@@ -14,10 +14,13 @@ import {
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { UseMutationResult } from "@tanstack/react-query";
-import { NFTContract, useAddress, useMintNFT } from "@thirdweb-dev/react";
-import type { useMintNFT as useMintNFTSolana } from "@thirdweb-dev/react/solana";
+import {
+  NFTContract,
+  useAddress,
+  useMintNFT,
+  useSetSharedMetadata,
+} from "@thirdweb-dev/react";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -43,11 +46,10 @@ const MINT_FORM_ID = "nft-mint-form";
 type NFTMintForm =
   | {
       contract?: NFTContract;
-      mintMutation:
-        | ReturnType<typeof useMintNFT>
-        | ReturnType<typeof useMintNFTSolana>;
+      mintMutation: ReturnType<typeof useMintNFT>;
+
       lazyMintMutation?: undefined;
-      ecosystem: "evm" | "solana";
+      sharedMetadataMutation?: undefined;
     }
   | {
       contract?: NFTContract;
@@ -57,22 +59,25 @@ type NFTMintForm =
         { metadatas: NFTMetadataInput[] }
       >;
       mintMutation?: undefined;
-      ecosystem: "evm" | "solana";
+      sharedMetadataMutation?: undefined;
+    }
+  | {
+      contract?: NFTContract;
+      sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
+      mintMutation?: undefined;
+      lazyMintMutation?: undefined;
     };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
   contract,
   lazyMintMutation,
   mintMutation,
-  ecosystem,
+  sharedMetadataMutation,
 }) => {
   const trackEvent = useTrack();
-  const evmAddress = useAddress();
-  // eslint-disable-next-line line-comment-position
-  const wallet = useWallet(); // TODO (SOL) as single address hook?
-  const address =
-    ecosystem === "evm" ? evmAddress : wallet?.publicKey?.toBase58();
-  const mutation = mintMutation || lazyMintMutation;
+  const address = useAddress();
+
+  const mutation = mintMutation || lazyMintMutation || sharedMetadataMutation;
 
   const {
     setValue,
@@ -81,13 +86,23 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<NFTMetadataInputLimited & { supply: number }>();
+  } = useForm<
+    NFTMetadataInputLimited & {
+      supply: number;
+      customImage: string;
+      customAnimationUrl: string;
+    }
+  >();
 
   const modalContext = useModalContext();
 
   const { onSuccess, onError } = useTxNotifications(
-    "NFT minted successfully",
-    "Failed to mint NFT",
+    sharedMetadataMutation
+      ? "NFT Metadata set successfully"
+      : "NFT minted successfully",
+    sharedMetadataMutation
+      ? "Failed to set NFT Metadata"
+      : "Failed to mint NFT",
   );
 
   const setFile = (file: File) => {
@@ -131,19 +146,19 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch("animation_url") instanceof File
       ? watch("animation_url")
       : watch("external_url") instanceof File
-      ? watch("external_url")
-      : watch("image") instanceof File
-      ? imageUrl
-      : undefined;
+        ? watch("external_url")
+        : watch("image") instanceof File
+          ? imageUrl
+          : undefined;
 
   const mediaFileError =
     watch("animation_url") instanceof File
       ? errors?.animation_url
       : watch("external_url") instanceof File
-      ? errors?.external_url
-      : watch("image") instanceof File
-      ? errors?.image
-      : undefined;
+        ? errors?.external_url
+        : watch("image") instanceof File
+          ? errors?.image
+          : undefined;
 
   const externalUrl = watch("external_url");
   const externalIsTextFile =
@@ -159,7 +174,9 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
   return (
     <>
       <DrawerHeader>
-        <Heading>Mint NFT</Heading>
+        <Heading>
+          {sharedMetadataMutation ? "Set NFT Metadata" : "Mint NFT"}
+        </Heading>
       </DrawerHeader>
       <DrawerBody>
         <Stack
@@ -172,6 +189,16 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               return;
             }
 
+            const dataWithCustom = {
+              ...data,
+              ...(data.customImage && {
+                image: data.customImage,
+              }),
+              ...(data.customAnimationUrl && {
+                animation_url: data.customAnimationUrl,
+              }),
+            };
+
             if (lazyMintMutation) {
               trackEvent({
                 category: "nft",
@@ -180,7 +207,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               });
               lazyMintMutation.mutate(
                 {
-                  metadatas: [parseAttributes(data)],
+                  metadatas: [parseAttributes(dataWithCustom)],
                 },
                 {
                   onSuccess: () => {
@@ -214,7 +241,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               mintMutation.mutate(
                 {
                   to: address,
-                  metadata: parseAttributes(data),
+                  metadata: parseAttributes(dataWithCustom),
                   supply: data.supply,
                 },
                 {
@@ -238,6 +265,34 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                   },
                 },
               );
+            }
+
+            if (sharedMetadataMutation) {
+              trackEvent({
+                category: "nft",
+                action: "set-shared-metadata",
+                label: "attempt",
+              });
+              sharedMetadataMutation.mutate(parseAttributes(dataWithCustom), {
+                onSuccess: () => {
+                  trackEvent({
+                    category: "nft",
+                    action: "set-shared-metadata",
+                    label: "success",
+                  });
+                  onSuccess();
+                  modalContext.onClose();
+                },
+                onError: (error: any) => {
+                  trackEvent({
+                    category: "nft",
+                    action: "set-shared-metadata",
+                    label: "error",
+                    error,
+                  });
+                  onError(error);
+                },
+              });
             }
           })}
         >
@@ -303,25 +358,29 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               <>{errors?.description?.message}</>
             </FormErrorMessage>
           </FormControl>
-          {isErc1155 && mintMutation && (
-            <FormControl isRequired isInvalid={!!errors.supply}>
-              <FormLabel>Initial Supply</FormLabel>
-              <Input
-                type="number"
-                step="1"
-                pattern="[0-9]"
-                {...register("supply")}
+          {!sharedMetadataMutation && (
+            <>
+              {isErc1155 && mintMutation && (
+                <FormControl isRequired isInvalid={!!errors.supply}>
+                  <FormLabel>Initial Supply</FormLabel>
+                  <Input
+                    type="number"
+                    step="1"
+                    pattern="[0-9]"
+                    {...register("supply")}
+                  />
+                  <FormErrorMessage>{errors?.supply?.message}</FormErrorMessage>
+                </FormControl>
+              )}
+              <PropertiesFormControl
+                watch={watch}
+                errors={errors as any}
+                control={control}
+                register={register}
+                setValue={setValue}
               />
-              <FormErrorMessage>{errors?.supply?.message}</FormErrorMessage>
-            </FormControl>
+            </>
           )}
-          <PropertiesFormControl
-            watch={watch}
-            errors={errors as any}
-            control={control}
-            register={register}
-            setValue={setValue}
-          />
           <Accordion
             allowToggle={!(errors.background_color || errors.external_url)}
             index={
@@ -330,38 +389,64 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           >
             <AccordionItem>
               <AccordionButton px={0} justifyContent="space-between">
-                <Heading size="subtitle.md">Advanced Metadata</Heading>
+                <Heading size="subtitle.md">Advanced Options</Heading>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel px={0} as={Stack} spacing={6}>
-                <FormControl isInvalid={!!errors.background_color}>
-                  <FormLabel>
-                    Background Color <OpenSeaPropertyBadge />
-                  </FormLabel>
-                  <Input max="6" {...register("background_color")} />
+                {!sharedMetadataMutation && (
+                  <>
+                    <FormControl isInvalid={!!errors.background_color}>
+                      <FormLabel>
+                        Background Color <OpenSeaPropertyBadge />
+                      </FormLabel>
+                      <Input max="6" {...register("background_color")} />
+                      <FormHelperText>
+                        Must be a six-character hexadecimal with a pre-pended #.
+                      </FormHelperText>
+                      <FormErrorMessage>
+                        <>{errors?.background_color?.message}</>
+                      </FormErrorMessage>
+                    </FormControl>
+                    {!externalIsTextFile && (
+                      <FormControl isInvalid={!!errors.external_url}>
+                        <FormLabel>
+                          External URL <OpenSeaPropertyBadge />
+                        </FormLabel>
+                        <Input {...register("external_url")} />
+                        <FormHelperText>
+                          This is the URL that will appear below the
+                          asset&apos;s image on OpenSea and will allow users to
+                          leave OpenSea and view the item on your site.
+                        </FormHelperText>
+                        <FormErrorMessage>
+                          {errors?.external_url?.message as unknown as string}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </>
+                )}
+                <FormControl isInvalid={!!errors.customImage}>
+                  <FormLabel>Image URL</FormLabel>
+                  <Input max="6" {...register("customImage")} />
                   <FormHelperText>
-                    Must be a six-character hexadecimal with a pre-pended #.
+                    If you already have your NFT image preuploaded, you can set
+                    the URL or URI here.
                   </FormHelperText>
                   <FormErrorMessage>
-                    <>{errors?.background_color?.message}</>
+                    <>{errors?.customImage?.message}</>
                   </FormErrorMessage>
                 </FormControl>
-                {!externalIsTextFile && (
-                  <FormControl isInvalid={!!errors.external_url}>
-                    <FormLabel>
-                      External URL <OpenSeaPropertyBadge />
-                    </FormLabel>
-                    <Input {...register("external_url")} />
-                    <FormHelperText>
-                      This is the URL that will appear below the asset&apos;s
-                      image on OpenSea and will allow users to leave OpenSea and
-                      view the item on your site.
-                    </FormHelperText>
-                    <FormErrorMessage>
-                      {errors?.external_url?.message as unknown as string}
-                    </FormErrorMessage>
-                  </FormControl>
-                )}
+                <FormControl isInvalid={!!errors.customAnimationUrl}>
+                  <FormLabel>Animation URL</FormLabel>
+                  <Input max="6" {...register("customAnimationUrl")} />
+                  <FormHelperText>
+                    If you already have your NFT Animation URL preuploaded, you
+                    can set the URL or URI here.
+                  </FormHelperText>
+                  <FormErrorMessage>
+                    <>{errors?.customAnimationUrl?.message}</>
+                  </FormErrorMessage>
+                </FormControl>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
@@ -377,7 +462,6 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           Cancel
         </Button>
         <TransactionButton
-          ecosystem={ecosystem}
           transactionCount={1}
           isLoading={mutation?.isLoading || false}
           form={MINT_FORM_ID}
@@ -385,7 +469,11 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           colorScheme="primary"
           isDisabled={!isDirty}
         >
-          {lazyMintMutation && "Lazy "} Mint NFT
+          {sharedMetadataMutation
+            ? "Set NFT Metadata"
+            : lazyMintMutation
+              ? "Lazy Mint NFT"
+              : "Mint NFT"}
         </TransactionButton>
       </DrawerFooter>
     </>

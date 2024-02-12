@@ -1,3 +1,4 @@
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { useEns } from "components/contract-components/hooks";
@@ -19,6 +20,11 @@ const LazyContractEventsPage = dynamic(() =>
 const LazyContractAnalyticsPage = dynamic(() =>
   import("../tabs/analytics/page").then(
     ({ ContractAnalyticsPage }) => ContractAnalyticsPage,
+  ),
+);
+const LazyContractPaymentsPage = dynamic(() =>
+  import("../tabs/payments/page").then(
+    ({ ContractPaymentsPage }) => ContractPaymentsPage,
   ),
 );
 const LazyContractNFTPage = dynamic(() =>
@@ -59,9 +65,15 @@ const LazyContractClaimConditionsPage = dynamic(() =>
     ({ ContractClaimConditionsPage }) => ContractClaimConditionsPage,
   ),
 );
-const LazyContractSmartWalletFactoryPage = dynamic(() =>
-  import("../tabs/wallet-factory/page").then(
-    ({ SmartWalletFactoryPage }) => SmartWalletFactoryPage,
+const LazyContractAccountsPage = dynamic(() =>
+  import("../tabs/accounts/page").then(({ AccountsPage }) => AccountsPage),
+);
+const LazyContractAccountPage = dynamic(() =>
+  import("../tabs/account/page").then(({ AccountPage }) => AccountPage),
+);
+const LazyContractAccountPermissionsPage = dynamic(() =>
+  import("../tabs/account-permissions/page").then(
+    ({ AccountPermissionsPage }) => AccountPermissionsPage,
   ),
 );
 const LazyContractPermissionsPage = dynamic(() =>
@@ -94,6 +106,7 @@ export function useContractRouteConfig(
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
   const contractTypeQuery = contractType.useQuery(contractAddress);
+  const { data: account } = useAccount();
 
   const claimconditionExtensionDetection = extensionDetectedState({
     contractQuery,
@@ -120,7 +133,7 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
-      title: "Build",
+      title: "Code Snippets",
       path: "code",
       component: LazyContractCodePage,
       isDefault: true,
@@ -143,6 +156,12 @@ export function useContractRouteConfig(
       component: LazyContractAnalyticsPage,
       isDefault: true,
       isBeta: true,
+    },
+    {
+      title: "Payments",
+      path: "payments",
+      component: LazyContractPaymentsPage,
+      isDefault: true,
     },
     {
       title: "NFTs",
@@ -183,8 +202,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "marketplace"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractListingsPage,
     },
     {
@@ -193,8 +212,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "split"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractSplitPage,
     },
     {
@@ -203,8 +222,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "vote"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractProposalsPage,
     },
     {
@@ -214,13 +233,31 @@ export function useContractRouteConfig(
       component: LazyContractClaimConditionsPage,
     },
     {
-      title: "Wallet Factory",
-      path: "wallet-factory",
+      title: "Accounts",
+      path: "accounts",
       isEnabled: extensionDetectedState({
         contractQuery,
-        feature: ["SmartWalletFactory"],
+        feature: ["AccountFactory"],
       }),
-      component: LazyContractSmartWalletFactoryPage,
+      component: LazyContractAccountsPage,
+    },
+    {
+      title: "Balance",
+      path: "account",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: ["Account"],
+      }),
+      component: LazyContractAccountPage,
+    },
+    {
+      title: "Account Permissions",
+      path: "account-permissions",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: ["AccountPermissions", "AccountPermissionsV1"],
+      }),
+      component: LazyContractAccountPermissionsPage,
     },
     {
       title: "Permissions",
@@ -239,34 +276,34 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "marketplace"
-        ? "enabled"
-        : extensionDetectedState({
-            contractQuery,
-            matchStrategy: "any",
-            feature: [
-              // erc 721
-              "ERC721ClaimPhasesV1",
-              "ERC721ClaimPhasesV2",
-              "ERC721ClaimConditionsV1",
-              "ERC721ClaimConditionsV2",
+          ? "enabled"
+          : extensionDetectedState({
+              contractQuery,
+              matchStrategy: "any",
+              feature: [
+                // erc 721
+                "ERC721ClaimPhasesV1",
+                "ERC721ClaimPhasesV2",
+                "ERC721ClaimConditionsV1",
+                "ERC721ClaimConditionsV2",
 
-              // erc 1155
-              "ERC1155ClaimPhasesV1",
-              "ERC1155ClaimPhasesV2",
-              "ERC1155ClaimConditionsV1",
-              "ERC1155ClaimConditionsV2",
+                // erc 1155
+                "ERC1155ClaimPhasesV1",
+                "ERC1155ClaimPhasesV2",
+                "ERC1155ClaimConditionsV1",
+                "ERC1155ClaimConditionsV2",
 
-              // erc 20
-              "ERC20ClaimConditionsV1",
-              "ERC20ClaimConditionsV2",
-              "ERC20ClaimPhasesV1",
-              "ERC20ClaimPhasesV2",
+                // erc 20
+                "ERC20ClaimConditionsV1",
+                "ERC20ClaimConditionsV2",
+                "ERC20ClaimPhasesV1",
+                "ERC20ClaimPhasesV2",
 
-              // marketplace v3
-              "DirectListings",
-              "EnglishAuctions",
-            ],
-          }),
+                // marketplace v3
+                "DirectListings",
+                "EnglishAuctions",
+              ],
+            }),
     },
     {
       title: "Settings",

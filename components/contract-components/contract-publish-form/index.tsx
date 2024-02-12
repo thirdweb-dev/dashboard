@@ -12,7 +12,7 @@ import { ContractParamsFieldset } from "./contract-params-fieldset";
 import { FactoryFieldset } from "./factory-fieldset";
 import { LandingFieldset } from "./landing-fieldset";
 import { NetworksFieldset } from "./networks-fieldset";
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
@@ -20,7 +20,9 @@ import {
   Abi,
   CONTRACT_ADDRESSES,
   ExtraPublishMetadataSchemaInput,
-} from "@thirdweb-dev/sdk/evm";
+  detectFeatures,
+  isExtensionEnabled,
+} from "@thirdweb-dev/sdk";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
@@ -142,6 +144,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
           ?.customFactoryAddresses || {},
       ).map(([key, value]) => ({ key: Number(key), value })),
+      defaultExtensions:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata?.defaultExtensions || [],
     };
   }, [
     configuredChainsIds,
@@ -222,6 +227,41 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     form.watch("deployType") === "standard"
       ? constructorParams
       : initializerParams;
+
+  const extensions = detectFeatures(publishMetadata.data?.abi as Abi);
+
+  const isPluginRouter = useMemo(
+    () =>
+      isExtensionEnabled(
+        publishMetadata.data?.abi as Abi,
+        "PluginRouter",
+        extensions,
+      ),
+    [publishMetadata.data?.abi, extensions],
+  );
+
+  const isDynamicContract = useMemo(
+    () =>
+      isExtensionEnabled(
+        publishMetadata.data?.abi as Abi,
+        "DynamicContract",
+        extensions,
+      ),
+    [publishMetadata.data?.abi, extensions],
+  );
+
+  const hasExtensionsParam = useMemo(
+    () =>
+      constructorParams.some(
+        (param) => param.name === "_extensions" || "_marketplaceV3Params",
+      ),
+    [constructorParams],
+  );
+
+  const shouldShowDynamicFactoryInput = useMemo(
+    () => isPluginRouter || (isDynamicContract && hasExtensionsParam),
+    [isPluginRouter, isDynamicContract, hasExtensionsParam],
+  );
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
@@ -344,9 +384,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                     form.watch("deployType") === "customFactory")
                     ? setFieldsetToShow("factory")
                     : fieldsetToShow === "contractParams" &&
-                      form.watch("deployType") === "standard"
-                    ? setFieldsetToShow("networks")
-                    : setFieldsetToShow("landing")
+                        form.watch("deployType") === "standard"
+                      ? setFieldsetToShow("networks")
+                      : setFieldsetToShow("landing")
                 }
                 aria-label="Back"
                 icon={<Icon as={IoChevronBack} boxSize={6} />}
@@ -369,6 +409,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
               <FactoryFieldset
                 abi={publishMetadata.data?.abi || []}
                 setCustomFactoryAbi={setCustomFactoryAbi}
+                shouldShowDynamicFactoryInput={shouldShowDynamicFactoryInput}
               />
             </Flex>
           )}
@@ -388,7 +429,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
               {!address ? (
                 <>
                   <Box />
-                  <ConnectWallet />
+                  <CustomConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
                 form.watch("deployType") === "standard" ? (

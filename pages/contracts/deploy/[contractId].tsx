@@ -10,7 +10,7 @@ import {
   LinkOverlay,
   Skeleton,
 } from "@chakra-ui/react";
-import type { FeatureWithEnabled } from "@thirdweb-dev/sdk/evm";
+import type { FeatureWithEnabled } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import {
@@ -90,7 +90,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
                       <Box>
                         <Heading size="subtitle.md">
                           <TrackedLink
-                            href="https://portal.thirdweb.com/solidity"
+                            href="https://portal.thirdweb.com/contracts/build/overview"
                             category="extensions-deploy"
                             label="header"
                             isExternal
@@ -125,7 +125,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
             <LinkButton
               variant="outline"
               isExternal
-              href="https://portal.thirdweb.com/solidity"
+              href="https://portal.thirdweb.com/contracts/build/overview"
             >
               Learn about thirdweb extensions
             </LinkButton>

@@ -15,7 +15,7 @@ import type {
   AuctionListing,
   DirectListing,
   Marketplace,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
 import { Badge, Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
@@ -58,7 +58,11 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
                   <Heading size="label.md">Token ID</Heading>
                 </GridItem>
                 <GridItem colSpan={9}>
-                  <AddressCopyButton size="xs" address={tokenId} tokenId />
+                  <AddressCopyButton
+                    size="xs"
+                    address={tokenId}
+                    title="Token ID"
+                  />
                 </GridItem>
                 <GridItem colSpan={3}>
                   <Heading size="label.md">Seller</Heading>

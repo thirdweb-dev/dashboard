@@ -1,5 +1,5 @@
-import flat from "flat";
-import posthog from "posthog-js";
+import { flatten } from "flat";
+import posthog from "posthog-js-opensource";
 import { useCallback } from "react";
 
 type TExtendedTrackParams = {
@@ -15,7 +15,7 @@ export function useTrack() {
     const catActLab = label
       ? `${category}.${action}.${label}`
       : `${category}.${action}`;
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV !== "production") {
       console.debug(`[PH.capture]:${catActLab}`, restData);
     }
 
@@ -32,7 +32,7 @@ export function useTrack() {
     );
 
     try {
-      posthog.capture(catActLab, flat(restDataSafe));
+      posthog.capture(catActLab, flatten(restDataSafe));
     } catch (e) {
       // ignore - we just don't want to trigger an error in the app if posthog fails
     }

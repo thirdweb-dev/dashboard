@@ -7,6 +7,11 @@ function redirects() {
       permanent: true,
     },
     {
+      source: "/solutions/appchain-api",
+      destination: "/solutions/chains",
+      permanent: true,
+    },
+    {
       source: "/dashboard/publish/:path*",
       destination: "/contracts/publish/:path*",
       permanent: false,
@@ -14,16 +19,6 @@ function redirects() {
     {
       source: "/dashboard/mumbai/publish/:path*",
       destination: "/contracts/publish/:path*",
-      permanent: false,
-    },
-    {
-      source: "/privacy",
-      destination: "/thirdweb_Privacy_Policy_May_2022.pdf",
-      permanent: false,
-    },
-    {
-      source: "/tos",
-      destination: "/Thirdweb_Terms_of_Service.pdf",
       permanent: false,
     },
     {
@@ -53,12 +48,12 @@ function redirects() {
     },
     {
       source: "/extensions",
-      destination: "/solidity-sdk",
+      destination: "/build",
       permanent: false,
     },
     {
       source: "/contractkit",
-      destination: "/solidity-sdk",
+      destination: "/build",
       permanent: true,
     },
     //  old (deprecated) routes
@@ -105,14 +100,105 @@ function redirects() {
     // temp until we have settings overview
     {
       source: "/settings",
-      destination: "/settings/api-keys",
+      destination: "/dashboard/settings",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/settings",
+      destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
     // backwards compat: page moved to pages/settings/api-key
     {
       source: "/dashboard/api-keys",
-      destination: "/settings/api-keys",
-      permanent: true,
+      destination: "/dashboard/settings/api-keys",
+      permanent: false,
+    },
+    // backwards compat: page moved to pages/settings/devices
+    {
+      source: "/dashboard/settings/account",
+      destination: "/dashboard/settings/devices",
+      permanent: false,
+    },
+    {
+      source: "/template/nft-drop",
+      destination: "/template/erc721",
+      permanent: false,
+    },
+    {
+      source: "/abuse",
+      destination: "https://forms.gle/v9UJtHbVw8fXypcd7",
+      permanent: false,
+    },
+    {
+      source: "/create-api-key",
+      destination: "/dashboard/settings/api-keys",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallet",
+      destination: "/dashboard/wallets",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/rpc",
+      destination: "/dashboard/infrastructure/rpc-edge",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/storage",
+      destination: "/dashboard/infrastructure/storage",
+      permanent: false,
+    },
+    {
+      source: "/smart-wallet",
+      destination: "/account-abstraction",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/published",
+      destination: "/dashboard/publish",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets",
+      destination: "/dashboard/wallets/connect",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure",
+      destination: "/dashboard/infrastructure/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/contracts",
+      destination: "/dashboard/contracts/deploy",
+      permanent: false,
+    },
+    {
+      source: "/solidity-sdk",
+      destination: "/build",
+      permanent: false,
+    },
+    {
+      source: "/connect-wallet",
+      destination: "/connect",
+      permanent: false,
+    },
+    {
+      source: "/wallet-sdk",
+      destination: "https://portal.thirdweb.com/wallet-sdk/latest",
+      permanent: false,
+    },
+    {
+      source: "/solutions/commerce",
+      destination: "/solutions/loyalty",
+      permanent: false,
+    },
+    {
+      source: "/hackathon/base-consumer-crypto",
+      destination: "/hackathon/consumer-crypto",
+      permanent: false,
     },
   ];
 }
