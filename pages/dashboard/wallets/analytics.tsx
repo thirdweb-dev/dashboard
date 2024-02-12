@@ -37,7 +37,6 @@ import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
 import { CONTACT_US_URL } from "utils/pricing";
-import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const RADIAN = Math.PI / 180;
 const TRACKING_CATEGORY = "wallet-analytics";
@@ -417,7 +416,7 @@ const WalletStatCard: React.FC<{ label: string; value?: number }> = ({
 DashboardWalletsAnalytics.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="analytics" />
-    <ClientOnly ssr={null}>{page}</ClientOnly>
+    {page}
   </AppLayout>
 );
 

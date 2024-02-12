@@ -11,7 +11,6 @@ import { PageId } from "page-id";
 import { useMemo } from "react";
 import { TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const TRACKING_CATEGORY = "published_contracts";
 
@@ -82,7 +81,7 @@ const Published: ThirdwebNextPage = () => {
 Published.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <ContractsSidebar activePage="publish" />
-    <ClientOnly ssr={null}>{page}</ClientOnly>
+    {page}
   </AppLayout>
 );
 Published.pageId = PageId.Contracts;

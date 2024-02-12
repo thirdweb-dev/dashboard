@@ -11,7 +11,6 @@ import { ChakraNextImage } from "components/Image";
 import { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
 import { getAbsoluteUrl } from "lib/vercel-utils";
-import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const TRACKING_CATEGORY = "connect-playground";
 
@@ -362,10 +361,8 @@ function BuildCustomBanner() {
 
 DashboardWalletsConnect.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true} noOverflowX={true}>
-    <ClientOnly ssr={null}>
-      <WalletsSidebar activePage="connect" />
-      {page}
-    </ClientOnly>
+    <WalletsSidebar activePage="connect" />
+    {page}
   </AppLayout>
 );
 
