@@ -27,6 +27,7 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
     <Input
       placeholder={solidityType}
       {...restOfInputProps}
+      value={form.watch(inputName)}
       onChange={handleChange}
     />
   );

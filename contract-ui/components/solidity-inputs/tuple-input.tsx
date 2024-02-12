@@ -54,6 +54,7 @@ export const SolidityTupleInput: React.FC<SolidityInputWithTypeProps> = ({
         fontFamily="mono"
         placeholder={solidityType}
         {...(restOfInputProps as TextareaProps)}
+        value={form.watch(inputName)}
         onChange={handleChange}
       />
       <FormHelperText>

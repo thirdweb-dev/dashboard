@@ -34,10 +34,10 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
       <Input
         placeholder="string"
         isDisabled={storageUpload.isLoading}
-        value={form.watch(inputName)}
-        {...restOfInputProps}
-        onChange={handleChange}
         pr={{ base: "90px", md: "160px" }}
+        {...restOfInputProps}
+        value={form.watch(inputName)}
+        onChange={handleChange}
       />
       {showButton && (
         <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>

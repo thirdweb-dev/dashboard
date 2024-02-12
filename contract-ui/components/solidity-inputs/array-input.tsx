@@ -22,11 +22,6 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
     control: localForm.control,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    form.setValue(inputName, val);
-  };
-
   const typeWithoutArray = solidityType.replace("[]", "");
 
   if (showRawInput) {
@@ -36,7 +31,7 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
           formContext={form}
           solidityType={solidityType}
           {...restOfInputProps}
-          onChange={handleChange}
+          name={inputName}
         />
         <Text
           size="label.sm"
