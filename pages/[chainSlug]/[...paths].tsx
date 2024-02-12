@@ -38,6 +38,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { fetchChain } from "utils/fetchChain";
 import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
+import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -323,7 +324,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
             url,
           }}
         />
-        {page}
+        <ClientOnly ssr={null}>{page}</ClientOnly>
       </>
     </AppLayout>
   );
