@@ -16,6 +16,7 @@ import { SupportedPlatformLink } from "../../../components/wallets/SupportedPlat
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
+import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
@@ -302,7 +303,7 @@ function Templates() {
 DashboardWalletsEmbedded.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="embedded" />
-    {page}
+    <ClientOnly ssr={null}>{page}</ClientOnly>
   </AppLayout>
 );
 

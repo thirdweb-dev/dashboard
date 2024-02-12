@@ -25,6 +25,7 @@ import { useMemo } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 type ContentItem = {
   title: string;
@@ -237,8 +238,7 @@ const Contracts: ThirdwebNextPage = () => {
 Contracts.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <ContractsSidebar activePage="deploy" />
-
-    {page}
+    <ClientOnly ssr={null}>{page}</ClientOnly>
   </AppLayout>
 );
 Contracts.pageId = PageId.Contracts;

@@ -10,6 +10,7 @@ import {
   TrackedLinkButton,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const TRACKING_CATEGORY = "dashboard-contract-build";
 
@@ -85,7 +86,7 @@ const DashboardContractsBuild: ThirdwebNextPage = () => {
 DashboardContractsBuild.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <ContractsSidebar activePage="build" />
-    {page}
+    <ClientOnly ssr={null}>{page}</ClientOnly>
   </AppLayout>
 );
 DashboardContractsBuild.pageId = PageId.DashboardContractsBuild;

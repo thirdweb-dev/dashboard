@@ -32,6 +32,7 @@ import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { SmartWallets } from "components/smart-wallets";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
 import { useRouter } from "next/router";
+import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 
 const TRACKING_CATEGORY = "smart-wallet";
 
@@ -327,7 +328,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
 DashboardWalletsSmartWallet.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="smart-wallet" />
-    {page}
+    <ClientOnly ssr={null}>{page}</ClientOnly>
   </AppLayout>
 );
 
