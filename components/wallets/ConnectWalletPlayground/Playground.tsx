@@ -1344,12 +1344,13 @@ function CustomTab(props: {
       fontWeight={600}
       fontSize={14}
       onClick={props.onClick}
-      border="none"
+      border="2px solid"
       borderRadius="lg"
-      bg={props.isActive ? "blue.500" : "bgBlack"}
-      color="bgWhite"
+      borderColor={props.isActive ? "blue.500" : "borderColor"}
+      bg="none"
+      color={props.isActive ? "heading" : "faded"}
       _hover={{
-        bg: "blue.200",
+        bg: "inputBg",
         borderColor: "heading",
       }}
     >
