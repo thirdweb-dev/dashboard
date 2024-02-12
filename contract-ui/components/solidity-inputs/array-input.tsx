@@ -13,7 +13,8 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
   solidityType,
   ...inputProps
 }) => {
-  const inputName = inputProps.name as string;
+  const { name, ...restOfInputProps } = inputProps;
+  const inputName = name as string;
   const [showRawInput, setShowRawInput] = useState(false);
   const localForm = useForm({ defaultValues: { array: [{ value: "" }] } });
   const { fields, append, remove } = useFieldArray({
@@ -34,7 +35,7 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
         <SolidityRawInput
           formContext={form}
           solidityType={solidityType}
-          {...inputProps}
+          {...restOfInputProps}
           onChange={handleChange}
         />
         <Text

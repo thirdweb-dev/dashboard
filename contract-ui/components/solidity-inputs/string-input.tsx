@@ -13,7 +13,8 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
 }) => {
   const storageUpload = useStorageUpload();
   const queryClient = useQueryClient();
-  const inputName = inputProps.name as string;
+  const { name, ...restOfInputProps } = inputProps;
+  const inputName = name as string;
   const nameOrInput = (solidityName as string) || inputName;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,7 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
         placeholder="string"
         isDisabled={storageUpload.isLoading}
         value={form.watch(inputName)}
-        {...inputProps}
+        {...restOfInputProps}
         onChange={handleChange}
         pr={{ base: "90px", md: "160px" }}
       />
