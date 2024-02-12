@@ -324,18 +324,24 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
             url,
           }}
         />
-        <ClientOnly ssr={null}>{page}</ClientOnly>
+        <ClientOnly ssr={<PageSkeleton />}>{page}</ClientOnly>
       </>
     </AppLayout>
   );
 };
 
-// app layout has to come first in both getLayout and fallback
-EVMContractPage.fallback = (
-  <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
+function PageSkeleton() {
+  return (
     <Flex h="100%" justifyContent="center" alignItems="center">
       <Spinner size="xl" />
     </Flex>
+  );
+}
+
+// app layout has to come first in both getLayout and fallback
+EVMContractPage.fallback = (
+  <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
+    <PageSkeleton />
   </AppLayout>
 );
 
