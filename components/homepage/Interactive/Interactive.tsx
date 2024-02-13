@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Box, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
 import CustomIcon from "./CustomIcon";
-import { Heading, LinkButton, TrackedLink } from "tw-components";
-import { BsLightningCharge } from "react-icons/bs";
+import { Heading, TrackedLink } from "tw-components";
 import { ChakraNextImage } from "components/Image";
-import { Aurora } from "../Aurora";
 
 interface InteractiveProps {
   TRACKING_CATEGORY: string;

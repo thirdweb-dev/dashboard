@@ -1,19 +1,6 @@
 import { Aurora } from "../Aurora";
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Icon,
-  LightMode,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { useTrack } from "hooks/analytics/useTrack";
-import { BsLightningCharge } from "react-icons/bs";
-import { ChakraNextLink, Heading, LinkButton } from "tw-components";
 
 interface HeroSectionProps {
   TRACKING_CATEGORY: string;
