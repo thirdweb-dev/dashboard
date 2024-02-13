@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 import { Box, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import CustomIcon from "./CustomIcon";
-import { Heading, LinkButton } from "tw-components";
+import { Heading, LinkButton, TrackedLink } from "tw-components";
 import { BsLightningCharge } from "react-icons/bs";
 import { ChakraNextImage } from "components/Image";
 import { Aurora } from "../Aurora";
 
+interface InteractiveProps {
+  TRACKING_CATEGORY: string;
+}
+
 const interactives = [
   {
     title: "Connect",
+    href: "/connect",
+    label: "connect",
     description: "Wallets UI Components Client-side SDKs",
     src: require("public/assets/product-icons/wallet-sdk.png"),
     marginTopIcon: "6px",
   },
   {
     title: "Contracts",
+    href: "https://portal.thirdweb.com/contracts/build/overview",
+    label: "contracts",
     description:
       "Back-end wallets Deploy, read & write contracts Gasless transactions",
     src: require("public/assets/product-icons/contracts-v2.png"),
@@ -22,6 +30,8 @@ const interactives = [
   },
   {
     title: "Engine",
+    href: "/engine",
+    label: "engine",
     description: "Build custom contracts Deploy to any EVM Publish contracts",
     src: require("public/assets/product-icons/engine.png"),
     marginTopIcon: "6px",
@@ -31,22 +41,28 @@ const interactives = [
 const interactivePart: Record<string, any> = {
   0: {
     image: require("public/assets/landingpage/desktop/connect-view.png"),
+    mobileImage: require("public/assets/landingpage/mobile/connect-view.png"),
     maxWidth: "37%",
+    responsiveMaxWidth: "242px",
     right: "-70px",
   },
   1: {
     image: require("public/assets/landingpage/desktop/contracts-view.png"),
+    mobileImage: require("public/assets/landingpage/mobile/contracts-view.png"),
     maxWidth: "50%",
+    responsiveMaxWidth: "276px",
     right: "-50px",
   },
   2: {
     image: require("public/assets/landingpage/desktop/engine-view.png"),
+    mobileImage: require("public/assets/landingpage/mobile/engine-view.png"),
     maxWidth: "73%",
+    responsiveMaxWidth: "335px",
     right: "-60px",
   },
 };
 
-const Interactive = () => {
+const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
   const [currentSelectedState, setCurrentSelectedState] = useState(0);
 
   const interactivePartImage = interactivePart[currentSelectedState];
@@ -56,19 +72,18 @@ const Interactive = () => {
       w="full"
       flexDir="column"
       alignItems="center"
-      mt="90px"
+      mt={{ base: "0", lg: "90px" }}
       position="relative"
       as="section"
       zIndex={2}
     >
-      {/* left */}
-      <Aurora
-        pos={{ left: "50%", top: "0" }}
-        size={{ width: "2050px", height: "1200px" }}
-        color="hsl(290deg 92% 54% / 20%)"
-      />
-
-      <Flex w="full" maxW="892px" alignItems="center" flexDir="column">
+      <Flex
+        w="full"
+        maxW="892px"
+        alignItems="center"
+        flexDir="column"
+        display={{ base: "none", lg: "flex" }}
+      >
         <Heading
           as="h2"
           letterSpacing="-0.04em"
@@ -77,84 +92,59 @@ const Interactive = () => {
           fontSize={{ base: "36px", md: "52px", lg: "64px" }}
           textAlign="center"
         >
-          Build scalable web3 apps,
-          <br />
-          on any EVM chain.
+          The full stack web3 development platform
         </Heading>
-        <Heading
-          as="h3"
-          size="subtitle.md"
-          textAlign="center"
-          maxW="487px"
-          mt="24px"
-        >
-          Onboard users with wallets, build & deploy smart contracts, accept
-          fiat with payments, and scale apps with infrastructure — on any EVM
-          chain.
-        </Heading>
-
-        <LinkButton
-          href="/dashboard"
-          onClick={() => /*   trackEvent({
-              category: "cta-button",
-              action: "click",
-              label: "start",
-              title: "Start building",
-              experiment: "open_dashboard",
-            }) */ {}}
-          px={4}
-          py={7}
-          w="full"
-          maxW="215px"
-          mt="40px"
-          // h={{ base: "48px", md: "68px" }}
-          fontSize="20px"
-          leftIcon={<Icon as={BsLightningCharge} color="black" />}
-          color="black"
-          flexShrink={0}
-          background="rgba(255,255,255,1)"
-          _hover={{
-            background: "rgba(255,255,255,0.9)!important",
-          }}
-        >
-          Get Started
-        </LinkButton>
       </Flex>
 
       <Flex
         w="full"
-        maxW="1100px"
-        px="70px"
+        maxW={{ base: "100%", lg: "1100px" }}
+        px={{ base: "20px", lg: "70px" }}
         justifyContent="center"
-        marginTop="76px"
-        marginBlock="124px"
+        marginTop={{ base: "0", lg: "47px" }}
+        flexDirection={{ base: "column", lg: "row" }}
       >
-        <Flex
-          flexDir="column"
-          alignItems="flex-start"
-          maxW="195px"
+        <SimpleGrid
+          column={1}
           w="full"
-          mr="17px"
+          mr={{ base: "0", lg: "17px" }}
           gap="20px"
+          flexDirection={{ base: "row", lg: "column" }}
+          maxW={{ base: "100%", lg: "195px" }}
         >
           {interactives.map(
-            ({ title, description, src, marginTopIcon }, idx) => (
-              <CustomIcon
+            ({ title, description, src, marginTopIcon, label, href }, idx) => (
+              <TrackedLink
                 key={idx}
-                title={title}
-                description={description}
-                image={src}
-                isActive={idx === currentSelectedState}
-                marginTopIcon={marginTopIcon}
-                onClick={() => {
-                  setCurrentSelectedState(idx);
-                }}
-              />
+                href={href}
+                target="_blank"
+                category={TRACKING_CATEGORY}
+                label={label}
+                _hover={{ textDecoration: "none" }}
+              >
+                <CustomIcon
+                  title={title}
+                  description={description}
+                  image={src}
+                  isActive={idx === currentSelectedState}
+                  marginTopIcon={{ base: "0", lg: marginTopIcon }}
+                  onMouseOver={() => {
+                    setCurrentSelectedState(idx);
+                  }}
+                  onClick={() => {}}
+                />
+              </TrackedLink>
             ),
           )}
-        </Flex>
+        </SimpleGrid>
 
-        <Flex flex="1" justifyContent="center" position="relative">
+        {/* Desktop */}
+        <Flex
+          flex="1"
+          justifyContent="center"
+          position="relative"
+          display={{ base: "none", lg: "flex" }}
+        >
           <ChakraNextImage
             position="absolute"
             zIndex={2}
@@ -174,6 +164,27 @@ const Interactive = () => {
             maxW="668px"
             w="full"
             borderRadius="4px"
+          />
+        </Flex>
+
+        {/* mobile */}
+        <Flex
+          flex="1"
+          justifyContent="center"
+          position="relative"
+          display={{ base: "flex", lg: "none" }}
+          bg="#131418"
+          borderColor="#26282F"
+          borderRadius="12px"
+          borderWidth={1}
+          mt="17px"
+          padding={{ base: "22px", md: "32px 51px" }}
+        >
+          <ChakraNextImage
+            src={interactivePartImage.mobileImage}
+            alt=""
+            maxWidth={interactivePartImage.responsiveMaxWidth}
+            w="full"
           />
         </Flex>
       </Flex>

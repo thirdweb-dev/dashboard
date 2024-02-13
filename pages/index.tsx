@@ -19,6 +19,7 @@ import { PRODUCTS, metrics } from "components/product-pages/common/nav/data";
 import { Heading, Text } from "tw-components";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import Interactive from "components/homepage/Interactive/Interactive";
+import { HeroSection } from "components/homepage/sections/HeroSection";
 
 const TRACKING_CATEGORY = "homepage";
 
@@ -45,8 +46,9 @@ const HomePage: ThirdwebNextPage = () => {
       >
         <HomepageTopNav />
         <Box mt="-80px" pt="100px" overflowX="hidden">
-          <Interactive />
+          <HeroSection TRACKING_CATEGORY={TRACKING_CATEGORY} />
           <PartnerCarousel />
+          <Interactive TRACKING_CATEGORY={TRACKING_CATEGORY} />
           <StatsSection />
           <HomePageCard
             title="Onboard everyone to web3, instantly"
