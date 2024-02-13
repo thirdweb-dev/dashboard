@@ -6,6 +6,7 @@ import { Text } from "tw-components";
 
 interface CustomIconProps {
   title: string;
+  category: string;
   description: string;
   isActive: boolean;
   subTextMaxWidth?: number | string;
@@ -17,6 +18,7 @@ interface CustomIconProps {
 
 const CustomIcon = ({
   title,
+  category,
   description,
   isActive,
   onClick,
@@ -29,7 +31,7 @@ const CustomIcon = ({
     <Box
       background="#131418"
       border={isActive ? "1.62px solid #2A64F6" : "1.62px solid #333333"}
-      padding={{ base: "12px 16px", lg: "20px 26px" }}
+      padding={{ base: "12px 16px", lg: "16px" }}
       borderRadius="12px"
       cursor="pointer"
       onClick={onClick}
@@ -46,10 +48,7 @@ const CustomIcon = ({
       h="full"
       minHeight={{ base: "full", lg: 28 }}
     >
-      <Flex
-        flexDir={{ base: "row", lg: "column" }}
-        alignItems={{ base: "center", lg: "flex-start" }}
-      >
+      <Flex alignItems="center">
         <ChakraNextImage
           userSelect="none"
           draggable={false}
@@ -58,23 +57,30 @@ const CustomIcon = ({
           marginTop={marginTopIcon}
           alt=""
           src={image}
+          mr="8px"
         />
 
-        <Text
-          fontWeight={600}
-          fontSize="17px"
-          userSelect="none"
-          color="#fff"
-          marginTop={{ base: "0", lg: "11px" }}
-          marginLeft={{ base: "7px", lg: "0" }}
-        >
-          {title}
-        </Text>
+        <Box>
+          <Text fontWeight={600} fontSize="18px" userSelect="none" color="#fff">
+            {title}
+          </Text>
+
+          <Text
+            fontWeight={700}
+            fontSize="12px"
+            lineHeight="16px"
+            userSelect="none"
+            color="#fff"
+            opacity={0.7}
+          >
+            {category}
+          </Text>
+        </Box>
       </Flex>
 
       <Text
         fontWeight={400}
-        marginTop="5px"
+        marginTop="12px"
         fontSize="11px"
         userSelect="none"
         maxW={subTextMaxWidth ?? "100%"}

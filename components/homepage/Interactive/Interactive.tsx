@@ -10,29 +10,32 @@ interface InteractiveProps {
 
 const interactives = [
   {
-    title: "Connect",
+    title: "Front-end",
     href: "/connect",
     label: "connect",
+    category: "CONNECT",
     description: "Wallets UI Components Client-side SDKs",
     src: require("public/assets/product-icons/wallet-sdk.png"),
-    marginTopIcon: "6px",
+    marginTopIcon: "0",
   },
   {
-    title: "Contracts",
-    href: "https://portal.thirdweb.com/contracts/build/overview",
-    label: "contracts",
-    description:
-      "Back-end wallets Deploy, read & write contracts Gasless transactions",
-    src: require("public/assets/product-icons/contracts-v2.png"),
-    marginTopIcon: "10px",
-  },
-  {
-    title: "Engine",
+    title: "Back-end",
     href: "/engine",
     label: "engine",
-    description: "Build custom contracts Deploy to any EVM Publish contracts",
+    category: "ENGINE",
+    description:
+      "Back-end wallets Deploy, read & write contracts Gasless transactions",
     src: require("public/assets/product-icons/engine.png"),
-    marginTopIcon: "6px",
+    marginTopIcon: "0",
+  },
+  {
+    title: "Onchain",
+    href: "https://portal.thirdweb.com/contracts/build/overview",
+    label: "contracts",
+    category: "CONTRACTS",
+    description: "Build custom contracts Deploy to any EVM Publish contracts",
+    src: require("public/assets/product-icons/contracts-v2.png"),
+    marginTopIcon: "0",
   },
 ];
 
@@ -119,7 +122,10 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
           maxW={{ base: "100%", lg: "195px" }}
         >
           {interactives.map(
-            ({ title, description, src, marginTopIcon, label, href }, idx) => (
+            (
+              { title, description, src, marginTopIcon, label, category, href },
+              idx,
+            ) => (
               <TrackedLink
                 key={idx}
                 href={href}
@@ -130,6 +136,7 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
               >
                 <CustomIcon
                   title={title}
+                  category={category}
                   description={description}
                   image={src}
                   isActive={idx === currentSelectedState}

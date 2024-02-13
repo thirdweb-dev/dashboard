@@ -18,7 +18,7 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
 
       <LandingHeroWithSideImage
         titleWithGradient=""
-        title="Build web3 apps fast, on any EVM chain."
+        title="Build web3 apps fast, on any EVM"
         subtitle="The full stack web3 development platform. Onboard users with wallets, build & deploy smart contracts, accept fiat with payments, and scale apps with infrastructure."
         trackingCategory={TRACKING_CATEGORY}
         ctaLink="/dashboard/engine"
@@ -28,6 +28,7 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
         image={require("public/assets/landingpage/desktop/hero.png")}
         mobileImage={require("public/assets/landingpage/mobile/hero.png")}
         noContactUs
+        mt={{ base: 4, md: 20 }}
       />
     </HomepageSection>
   );
