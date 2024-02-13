@@ -76,14 +76,12 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
       zIndex={2}
     >
       {/* Preload images invisibly */}
-      <Box style={{ display: "none" }}>
-        {Object.values(interactivePart).map((part, index) => (
-          <Box key={index}>
-            <ChakraNextImage src={part.image} alt="" priority />
-            <ChakraNextImage src={part.mobileImage} alt="" priority />
-          </Box>
-        ))}
-      </Box>
+      {Object.values(interactivePart).map((part, index) => (
+        <Box key={index} style={{ display: "none" }}>
+          <ChakraNextImage src={part.image} alt="" priority />
+          <ChakraNextImage src={part.mobileImage} alt="" priority />
+        </Box>
+      ))}
 
       <Flex
         w="full"
