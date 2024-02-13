@@ -105,7 +105,7 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   const publishedContract =
     allVersions.find((v) => v.version === version) || allVersions[0];
 
-  const ensQueries = [queryClient.prefetchQuery(ensQuery(address))];
+  const ensQueries = [queryClient.prefetchQuery(ensQuery(checksummedAdress))];
   if (ensName) {
     ensQueries.push(queryClient.prefetchQuery(ensQuery(ensName)));
   }
