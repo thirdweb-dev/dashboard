@@ -255,7 +255,9 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   }
 
   const lowercaseAddress = address.toLowerCase();
-  const checksummedAdress = getAddress(lowercaseAddress);
+  const checksummedAdress = lowercaseAddress.endsWith("eth")
+    ? lowercaseAddress
+    : getAddress(lowercaseAddress);
 
   const ensQueries = [queryClient.prefetchQuery(ensQuery(checksummedAdress))];
   if (ensName) {

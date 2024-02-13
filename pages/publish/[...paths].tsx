@@ -70,7 +70,9 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   );
 
   const lowercaseAddress = authorAddress.toLowerCase();
-  const checksummedAdress = getAddress(lowercaseAddress);
+  const checksummedAdress = lowercaseAddress.endsWith("eth")
+    ? lowercaseAddress
+    : getAddress(lowercaseAddress);
 
   const queryClient = new QueryClient();
   const { address, ensName } = await queryClient.fetchQuery(

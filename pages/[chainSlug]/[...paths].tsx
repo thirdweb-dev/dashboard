@@ -357,7 +357,9 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const queryClient = new QueryClient();
 
   const lowercaseAddress = contractAddress.toLowerCase();
-  const checksummedAdress = getAddress(lowercaseAddress);
+  const checksummedAdress = lowercaseAddress.endsWith("eth")
+    ? lowercaseAddress
+    : getAddress(lowercaseAddress);
 
   try {
     const queryResult = await queryClient.fetchQuery(
