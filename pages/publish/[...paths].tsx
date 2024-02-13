@@ -15,6 +15,7 @@ import {
 } from "components/pages/publish";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishedContracts } from "data/explore";
+import { getAddress } from "ethers/lib/utils";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -68,9 +69,12 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
     getDashboardChainRpc(Polygon),
   );
 
+  const lowercaseAddress = authorAddress.toLowerCase();
+  const checksummedAdress = getAddress(lowercaseAddress);
+
   const queryClient = new QueryClient();
   const { address, ensName } = await queryClient.fetchQuery(
-    ensQuery(authorAddress),
+    ensQuery(checksummedAdress),
   );
 
   if (!address) {
@@ -121,7 +125,7 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
 
   const props: PublishPageProps = {
     dehydratedState: dehydrate(queryClient),
-    author: authorAddress,
+    author: checksummedAdress,
     contractName,
     version,
   };
