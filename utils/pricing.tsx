@@ -42,6 +42,7 @@ export const PLANS: {
       "Custom branding",
       "User analytics",
       "Third party auth support",
+      "Advanced paymaster rules",
     ],
   },
   [AccountPlan.Pro]: {
@@ -69,7 +70,20 @@ export const PLANS: {
   },
 };
 
-export const SECTIONS = [
+interface PricingItem {
+  title: string;
+  starter: string | string[];
+  growth: string | string[];
+  pro: string | string[];
+  hint?: string;
+  learnMore?: string;
+}
+interface PricingSection {
+  title: string;
+  items: PricingItem[];
+}
+
+export const PRICING_SECTIONS: PricingSection[] = [
   {
     title: "Usage based pricing:",
     items: [
@@ -80,23 +94,9 @@ export const SECTIONS = [
         pro: "Custom",
       },
       {
-        title: "Engine (Basic)",
-        starter: "$99/instance",
-        growth: "$99/instance",
-        pro: "Custom",
-      },
-      // FIXME: Enable when advanced engine is out
-      // {
-      //   title: "Engine (Advanced)",
-      //   hint: "Advanced instance has fail-over, auto-scaling & auto back-ups.",
-      //   starter: "$299/instance",
-      //   growth: "$299/instance",
-      //   pro: "Custom",
-      // },
-      {
         title: "Smart wallet infrastructure",
         hint: "Premium on top of gas sent through relayer and paymaster.",
-        starter: "10% ",
+        starter: "10%",
         growth: "10%",
         pro: "Custom",
       },
@@ -114,7 +114,7 @@ export const SECTIONS = [
       {
         title: "Support Channel",
         starter: "Community + AI",
-        growth: "Ticketing",
+        growth: "Prioritized support",
         pro: "Dedicated",
       },
       {
@@ -130,13 +130,13 @@ export const SECTIONS = [
         pro: "Custom",
       },
       {
-        title: "Custom branding on UI Elements",
+        title: "Custom branding for emails",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
       },
       {
-        title: "Custom auth for Connect",
+        title: "Custom auth for embedded wallets",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
@@ -148,10 +148,34 @@ export const SECTIONS = [
         pro: "checkmark",
       },
       {
+        title: "Global paymaster sponsorship rules",
+        starter: "checkmark",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
+        title: "Server based sponsorship rules",
+        starter: "N/A",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
         title: "SLAs",
         starter: "N/A",
         growth: "N/A",
         pro: "checkmark",
+      },
+    ],
+  },
+  {
+    title: "Add-ons:",
+    items: [
+      {
+        title: "Engine: Cloud-hosted instance",
+        learnMore: "/engine",
+        starter: "$99/month",
+        growth: "$99/month",
+        pro: "Custom",
       },
     ],
   },
