@@ -154,6 +154,7 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             right={interactivePartImage.right}
             transform="translateY(-50%)"
             transition="250ms ease"
+            priority={true}
           />
 
           <ChakraNextImage
@@ -162,6 +163,7 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             maxW="668px"
             w="full"
             borderRadius="4px"
+            priority={true}
           />
         </Flex>
 
@@ -183,6 +185,7 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             alt=""
             maxWidth={interactivePartImage.responsiveMaxWidth}
             w="full"
+            priority={true}
           />
         </Flex>
       </Flex>
