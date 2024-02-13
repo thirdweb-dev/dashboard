@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import CustomIcon from "./CustomIcon";
 import { Heading, TrackedLink } from "tw-components";
 import { ChakraNextImage } from "components/Image";
@@ -75,6 +75,16 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
       as="section"
       zIndex={2}
     >
+      {/* Preload images invisibly */}
+      <Box style={{ display: "none" }}>
+        {Object.values(interactivePart).map((part, index) => (
+          <Box key={index}>
+            <ChakraNextImage src={part.image} alt="" priority />
+            <ChakraNextImage src={part.mobileImage} alt="" priority />
+          </Box>
+        ))}
+      </Box>
+
       <Flex
         w="full"
         maxW="892px"
@@ -154,7 +164,6 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             right={interactivePartImage.right}
             transform="translateY(-50%)"
             transition="250ms ease"
-            priority={true}
           />
 
           <ChakraNextImage
@@ -163,7 +172,6 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             maxW="668px"
             w="full"
             borderRadius="4px"
-            priority={true}
           />
         </Flex>
 
@@ -185,7 +193,6 @@ const Interactive = ({ TRACKING_CATEGORY }: InteractiveProps) => {
             alt=""
             maxWidth={interactivePartImage.responsiveMaxWidth}
             w="full"
-            priority={true}
           />
         </Flex>
       </Flex>
