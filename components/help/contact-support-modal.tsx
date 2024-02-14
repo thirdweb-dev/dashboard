@@ -17,10 +17,10 @@ import { Button, FormLabel, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
   CreateTicketInput,
-  useAccount,
   useCreateTicket,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { ConnectWallet } from "@thirdweb-dev/react";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 const productOptions = [
   "Wallets",
@@ -39,7 +39,7 @@ export const ContactSupportModal = () => {
     "Successfully sent ticket. Our team will be in touch shortly.",
     "Failed to send ticket. Please try again.",
   );
-  const { data: account } = useAccount();
+  const { isLoggedIn } = useLoggedInUser();
   const { mutate: createTicket } = useCreateTicket();
 
   return (
@@ -100,7 +100,7 @@ export const ContactSupportModal = () => {
             <Button onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            {account?.id ? (
+            {isLoggedIn ? (
               <Button
                 type="submit"
                 colorScheme="primary"

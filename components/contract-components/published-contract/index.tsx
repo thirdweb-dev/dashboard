@@ -30,8 +30,9 @@ import {
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
+import { THIRDWEB_DOMAIN } from "constants/urls";
 import { Extensions } from "contract-ui/tabs/overview/components/Extensions";
-import { format } from "date-fns";
+import { format } from "date-fns/format";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -104,7 +105,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
-  const currentRoute = `https://thirdweb.com${router.asPath.replace(
+  const currentRoute = `${THIRDWEB_DOMAIN}${router.asPath.replace(
     "/publish",
     "",
   )}`.replace("deployer.thirdweb.eth", "thirdweb.eth");

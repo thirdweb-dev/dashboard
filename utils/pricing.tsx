@@ -114,7 +114,7 @@ export const PRICING_SECTIONS: PricingSection[] = [
       {
         title: "Support Channel",
         starter: "Community + AI",
-        growth: "Ticketing",
+        growth: "Prioritized support",
         pro: "Dedicated",
       },
       {
@@ -130,19 +130,31 @@ export const PRICING_SECTIONS: PricingSection[] = [
         pro: "Custom",
       },
       {
-        title: "Custom branding on UI Elements",
+        title: "Custom branding for emails",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
       },
       {
-        title: "Custom auth for Connect",
+        title: "Custom auth for embedded wallets",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
       },
       {
         title: "User analytics",
+        starter: "N/A",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
+        title: "Global paymaster sponsorship rules",
+        starter: "checkmark",
+        growth: "checkmark",
+        pro: "checkmark",
+      },
+      {
+        title: "Server based sponsorship rules",
         starter: "N/A",
         growth: "checkmark",
         pro: "checkmark",
