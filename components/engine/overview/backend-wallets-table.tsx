@@ -412,12 +412,7 @@ const SendFundsModal = ({
   }
 
   return (
-    <Modal
-      isOpen={disclosure.isOpen}
-      onClose={disclosure.onClose}
-      isCentered
-      size="lg"
-    >
+    <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={form.handleSubmit(onSubmit)}>
         <ModalHeader>Send Funds</ModalHeader>
