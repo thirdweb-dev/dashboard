@@ -105,7 +105,7 @@ export const ChainsLanding: ThirdwebNextPage = (
               spellCheck="false"
               autoComplete="off"
               bg="transparent"
-              placeholder="Chain name or chain id"
+              placeholder="Chain name or chain ID"
               borderColor="borderColor"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
