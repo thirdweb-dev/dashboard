@@ -52,6 +52,24 @@ const sponsorshipPoliciesValidationSchema = z.object({
       message: "Some of the addresses are invalid",
     })
     .nullable(),
+  allowedWallets: z
+    .string()
+    .refine((str) => validStrList(str, isAddress), {
+      message: "Some of the addresses are invalid",
+    })
+    .nullable(),
+  blockedWallets: z
+    .string()
+    .refine((str) => validStrList(str, isAddress), {
+      message: "Some of the addresses are invalid",
+    })
+    .nullable(),
+  bypassWallets: z
+    .string()
+    .refine((str) => validStrList(str, isAddress), {
+      message: "Some of the addresses are invalid",
+    })
+    .nullable(),
   serverVerifier: z
     .object({
       url: z.string().refine((str) => str.startsWith("https://"), {
@@ -70,6 +88,7 @@ const sponsorshipPoliciesValidationSchema = z.object({
       maxSpendUnit: z.enum(["usd", "native"]),
     })
     .nullable(),
+  allowedOrBlockedWallets: z.enum(["allowed", "blocked"]).nullable(),
 });
 
 export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
@@ -94,8 +113,26 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
         policy?.allowedContractAddresses?.length > 0
           ? fromArrayToList(policy?.allowedContractAddresses)
           : null,
+      allowedWallets:
+        policy?.allowedWallets && policy?.allowedWallets?.length > 0
+          ? fromArrayToList(policy?.allowedWallets)
+          : null,
+      blockedWallets:
+        policy?.blockedWallets && policy?.blockedWallets?.length > 0
+          ? fromArrayToList(policy?.blockedWallets)
+          : null,
+      bypassWallets:
+        policy?.bypassWallets && policy?.bypassWallets?.length > 0
+          ? fromArrayToList(policy?.bypassWallets)
+          : null,
       serverVerifier: policy?.serverVerifier ?? null,
       globalLimit: policy?.limits?.global ?? null,
+      allowedOrBlockedWallets:
+        policy?.allowedWallets && policy?.allowedWallets?.length > 0
+          ? "allowed"
+          : policy?.blockedWallets && policy?.blockedWallets?.length > 0
+            ? "blocked"
+            : null,
     },
   });
 
@@ -125,6 +162,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
+    console.log({ values, bundlerServiceId });
     if (!bundlerServiceId) {
       onError("No smart wallet service found for this API key");
       return;
@@ -143,6 +181,18 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
           ? toArrFromList(values.allowedContractAddresses)
           : null,
       allowedChainIds: values.allowedChainIds,
+      allowedWallets:
+        values.allowedWallets !== null
+          ? toArrFromList(values.allowedWallets)
+          : null,
+      blockedWallets:
+        values.blockedWallets !== null
+          ? toArrFromList(values.blockedWallets)
+          : null,
+      bypassWallets:
+        values.bypassWallets !== null
+          ? toArrFromList(values.bypassWallets)
+          : null,
       serverVerifier: values.serverVerifier,
       limits,
     };
@@ -362,6 +412,123 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                         "allowedContractAddresses",
                         form.formState,
                       ).error?.message
+                    }
+                  </FormErrorMessage>
+                </Flex>
+              )}
+            </Flex>
+          </FormControl>
+
+          <Divider />
+          <FormControl>
+            <Flex flexDir="column" gap={4}>
+              <HStack justifyContent="space-between" alignItems="center">
+                <Box>
+                  <FormLabel pointerEvents={"none"}>
+                    Allowed/Blocked wallets
+                  </FormLabel>
+                  <Text>
+                    When this is disabled, all wallets are allowed to be
+                    sponsored. When this is enabled, you can specify a list of
+                    wallets that are either allowed (and all the rest blocked)
+                    or blocked (and all the rest allowed) from being sponsored.
+                  </Text>
+                </Box>
+
+                <Switch
+                  colorScheme="primary"
+                  isChecked={form.watch("allowedOrBlockedWallets") !== null}
+                  onChange={() => {
+                    form.setValue(
+                      "allowedWallets",
+                      form.watch("allowedOrBlockedWallets") === null
+                        ? ""
+                        : null,
+                    );
+                  }}
+                />
+              </HStack>
+              {form.watch("allowedOrBlockedWallets") !== null && (
+                <Select
+                  placeholder="Select allowed or blocked wallets"
+                  {...form.register("allowedOrBlockedWallets")}
+                >
+                  <option value="allowed">Allowed wallets</option>
+                  <option value="blocked">Blocked wallets</option>
+                </Select>
+              )}
+
+              {form.watch("allowedOrBlockedWallets") === "allowed" && (
+                <Flex flexDir="column">
+                  <Textarea
+                    placeholder="Setting allowed wallets, comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
+                    {...form.register("allowedWallets")}
+                  />
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState("allowedWallets", form.formState).error
+                        ?.message
+                    }
+                  </FormErrorMessage>
+                </Flex>
+              )}
+
+              {form.watch("allowedOrBlockedWallets") === "blocked" && (
+                <Flex flexDir="column">
+                  <Textarea
+                    placeholder="Setting blocked wallets, comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
+                    {...form.register("blockedWallets")}
+                  />
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState("blockedWallets", form.formState).error
+                        ?.message
+                    }
+                  </FormErrorMessage>
+                </Flex>
+              )}
+            </Flex>
+          </FormControl>
+
+          <Divider />
+          <FormControl
+            isInvalid={
+              !!form.getFieldState("bypassWallets", form.formState).error
+            }
+          >
+            <Flex flexDir="column" gap={4}>
+              <HStack justifyContent="space-between" alignItems="center">
+                <Box>
+                  <FormLabel pointerEvents={"none"}>Bypass wallets</FormLabel>
+                  <Text>
+                    Any wallets added here will get sponsored no matter what
+                    other rules are in place. This means these wallets will be
+                    able to go over the global limit and will not be affected by
+                    any other rules.
+                  </Text>
+                </Box>
+
+                <Switch
+                  colorScheme="primary"
+                  isChecked={form.watch("bypassWallets") !== null}
+                  onChange={() => {
+                    form.setValue(
+                      "bypassWallets",
+                      form.watch("bypassWallets") === null ? "" : null,
+                    );
+                  }}
+                />
+              </HStack>
+              {form.watch("bypassWallets") !== null && (
+                <Flex flexDir="column">
+                  <Textarea
+                    placeholder="Comma separated list of contract addresses. ex: 0x1234..., 0x5678..."
+                    {...form.register("bypassWallets")}
+                  />
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState("bypassWallets", form.formState).error
+                        ?.message
                     }
                   </FormErrorMessage>
                 </Flex>
