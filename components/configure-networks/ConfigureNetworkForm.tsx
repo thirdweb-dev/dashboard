@@ -66,7 +66,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     values: {
       name: editingChain?.name || "",
       rpcUrl:
-        editingChain && editingChain?.status === "deprecated"
+        editingChain && editingChain?.status !== "deprecated"
           ? getDashboardChainRpc(editingChain)
           : "" || "",
       chainId: editingChain?.chainId

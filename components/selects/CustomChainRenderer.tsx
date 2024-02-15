@@ -53,21 +53,23 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
                 {chain.name}
               </Text>
               {isDeprecated && (
-                <Flex
-                  borderRadius="full"
-                  align="center"
-                  border="1px solid"
-                  borderColor="borderColor"
-                  overflow="hidden"
-                  flexShrink={0}
-                  py={{ base: 1.5, md: 1 }}
-                  px={{ base: 1.5, md: 2 }}
-                  gap={3}
-                  cursor="not-allowed"
-                >
-                  <Heading size="label.sm" as="label" cursor="not-allowed">
-                    Deprecated
-                  </Heading>
+                <Flex alignItems="center">
+                  <Flex
+                    borderRadius="full"
+                    align="center"
+                    border="1px solid"
+                    borderColor="borderColor"
+                    overflow="hidden"
+                    flexShrink={0}
+                    py={{ base: 1.5, md: 1 }}
+                    px={{ base: 1.5, md: 2 }}
+                    gap={3}
+                    cursor="not-allowed"
+                  >
+                    <Heading size="label.sm" as="label" cursor="not-allowed">
+                      Deprecated
+                    </Heading>
+                  </Flex>
                 </Flex>
               )}
             </Flex>
