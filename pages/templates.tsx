@@ -36,6 +36,20 @@ export interface TemplateCardProps {
 
 export const templates: TemplateCardProps[] = [
   {
+    id: "unity-iap-client",
+    title: "Unity IAP Client",
+    homepage:
+      "https://blog.thirdweb.com/guides/enhancing-unity-iap-with-blockchain-interactions/",
+    repo: "https://github.com/thirdweb-example/unity-iap-client/",
+    description:
+      "Blockchain integration with Unity IAP and server side validation.",
+    img: "/assets/templates/unity-iap.png",
+    hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
+    tags: ["Engine", "Unity"],
+    authorENS: "thirdweb.eth",
+    authorIcon: "/assets/templates/thirdweb-eth.png",
+  },
+  {
     id: "mintcaster",
     title: "Mintcaster",
     homepage: "https://mintcaster.thirdweb-example.com/",
@@ -136,7 +150,7 @@ export const templates: TemplateCardProps[] = [
     authorENS: "thirdweb.eth",
     authorIcon: "/assets/templates/thirdweb-eth.png",
     contractName: "NFTDrop",
-    contractLink: "https://thirdweb.com/thirdweb.eth/DropERC721",
+    contractLink: "/thirdweb.eth/DropERC721",
   },
   {
     id: "marketplace-v3",
@@ -151,7 +165,7 @@ export const templates: TemplateCardProps[] = [
     authorENS: "thirdweb.eth",
     authorIcon: "/assets/templates/thirdweb-eth.png",
     contractName: "Marketplace",
-    contractLink: "https://thirdweb.com/thirdweb.eth/MarketplaceV3",
+    contractLink: "/thirdweb.eth/MarketplaceV3",
   },
   {
     id: "nft-gated-website",
