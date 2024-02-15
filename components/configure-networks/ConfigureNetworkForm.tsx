@@ -81,6 +81,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     mode: "onChange",
   });
 
+  console.log({ editingChain, formWatch: form.watch("status") });
+
   const isFullyEditable =
     !editingChain || editingChain?.isCustom || editingChain.isOverwritten;
 
@@ -153,6 +155,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               format: "",
             },
         testnet: data.type === "testnet",
+        status: data.status,
       };
     } else {
       configuredNetwork = {
@@ -177,6 +180,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               format: "",
             }
           : undefined,
+        status: data.status,
       };
     }
 
