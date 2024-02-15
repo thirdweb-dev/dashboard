@@ -81,8 +81,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     mode: "onChange",
   });
 
-  console.log({ editingChain, formWatch: form.watch("status") });
-
   const isFullyEditable =
     !editingChain || editingChain?.isCustom || editingChain.isOverwritten;
 
