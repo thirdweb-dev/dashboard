@@ -2,7 +2,6 @@ import chakraTheme from "../theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import type { DehydratedState } from "@tanstack/react-query";
-import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { ProgressBar } from "components/shared/ProgressBar";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
