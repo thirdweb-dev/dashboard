@@ -446,11 +446,11 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             <HStack justifyContent="space-between" alignItems="center">
               <Box>
                 <FormLabel pointerEvents={"none"}>
-                  Allowed/Blocked wallets
+                  Allowlisted/Blocklisted accounts
                 </FormLabel>
                 <Text>
-                  Select either allowed or blocked wallets. Disabling this
-                  option will allow all wallets.
+                  Select either allowlisted or blockedlisted accounts. Disabling
+                  this option will allow all accounts.
                 </Text>
               </Box>
 
@@ -470,8 +470,8 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                 placeholder="Select allowed or blocked wallets"
                 {...form.register("allowedOrBlockedWallets")}
               >
-                <option value="allowed">Allowed wallets</option>
-                <option value="blocked">Blocked wallets</option>
+                <option value="allowed">Allowedlisted wallets</option>
+                <option value="blocked">Blockedlisted wallets</option>
               </Select>
             )}
 
@@ -636,11 +636,10 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
           <Flex flexDir="column" gap={4}>
             <HStack justifyContent="space-between" alignItems="center">
               <Box>
-                <FormLabel pointerEvents={"none"}>Bypass wallets</FormLabel>
+                <FormLabel pointerEvents={"none"}>Admin accounts</FormLabel>
                 <Text>
-                  These wallets won&apos;t get any of the above rules applied to
-                  them. Useful for admin wallets that you control and for
-                  testing.
+                  These accounts won&apos;t be subject to any sponsorship rules.
+                  All transactions will be sponsored.
                 </Text>
               </Box>
 
@@ -658,7 +657,7 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             {form.watch("bypassWallets") !== null && (
               <Flex flexDir="column">
                 <Textarea
-                  placeholder="Comma separated list of contract addresses. ex: 0x1234..., 0x5678..."
+                  placeholder="Comma separated list of admin accounts. ex: 0x1234..., 0x5678..."
                   {...form.register("bypassWallets")}
                 />
                 <FormErrorMessage>
