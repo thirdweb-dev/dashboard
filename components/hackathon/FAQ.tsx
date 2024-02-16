@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingFAQ } from "components/landing-pages/faq";
-import { Link } from "tw-components";
 
 const faqs = [
   {
@@ -32,24 +31,6 @@ const faqs = [
     title: "Will I need a team in order to participate?",
     description:
       "While participants can submit a project individually, we encourage everyone to form teams (of up to a maximum of 4 members) where possible to make the ideation and development process more enjoyable!",
-  },
-  {
-    title: "How to request an Engine instance for the hackathon",
-    description: (
-      <span>
-        Team leads, login to your thirdweb dashboard, ensure you have a valid
-        payment method added, then visit the engine tab{" "}
-        <Link
-          href="https://forms.gle/JNynuGfjbANYijRh7"
-          color="primary.600"
-          maxW="fit-content"
-        >
-          {" "}
-          here{" "}
-        </Link>{" "}
-        and request your managed Engine.
-      </span>
-    ),
   },
 ];
 
