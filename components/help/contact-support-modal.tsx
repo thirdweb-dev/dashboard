@@ -93,7 +93,7 @@ export const ContactSupportModal = () => {
                 {...form.register("markdown", { required: true })}
                 rows={7}
                 maxLength={10000}
-                placeholder="Please add as much information as possible such as actions taken that led to the error, error messaging, and whether it occured within the dahsboard or SDK."
+                placeholder="Please add as much information as possible such as actions taken that led to the error, error messaging, and whether it occurred within the dashboard or SDK."
               />
             </FormControl>
           </ModalBody>
