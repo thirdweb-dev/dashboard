@@ -210,6 +210,18 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                 ? toArrFromList(values.allowedContractAddresses)
                 : null,
             allowedChainIds: values.allowedChainIds,
+            allowedWallets:
+              values.allowedWallets !== null
+                ? toArrFromList(values.allowedWallets)
+                : null,
+            blockedWallets:
+              values.blockedWallets !== null
+                ? toArrFromList(values.blockedWallets)
+                : null,
+            bypassWallets:
+              values.bypassWallets !== null
+                ? toArrFromList(values.bypassWallets)
+                : null,
             serverVerifier: values.serverVerifier,
             limits,
           };
