@@ -213,10 +213,12 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                 : null,
             allowedChainIds: values.allowedChainIds,
             allowedWallets:
+              values.allowedOrBlockedWallets === "allowed" &&
               values.allowedWallets !== null
                 ? toArrFromList(values.allowedWallets)
                 : null,
             blockedWallets:
+              values.allowedOrBlockedWallets === "blocked" &&
               values.blockedWallets !== null
                 ? toArrFromList(values.blockedWallets)
                 : null,
