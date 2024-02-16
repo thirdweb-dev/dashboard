@@ -73,9 +73,12 @@ const sponsorshipPoliciesValidationSchema = z.object({
     .nullable(),
   serverVerifier: z
     .object({
-      url: z.string().refine((str) => str.startsWith("https://"), {
-        message: "URL must start with https://",
-      }),
+      url: z
+        .string()
+        .refine((str) => str.startsWith("https://"), {
+          message: "URL must start with https://",
+        })
+        .nullable(),
       headers: z
         .array(z.object({ key: z.string(), value: z.string() }))
         .nullable(),
@@ -191,7 +194,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
         gap={6}
         as="form"
         onSubmit={form.handleSubmit((values) => {
-          console.log("submitting");
           if (!bundlerServiceId) {
             onError("No smart wallet service found for this API key");
             return;
@@ -222,7 +224,15 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
               values.bypassWallets !== null
                 ? toArrFromList(values.bypassWallets)
                 : null,
-            serverVerifier: values.serverVerifier,
+            serverVerifier:
+              values.serverVerifier &&
+              typeof values.serverVerifier.url === "string" &&
+              values.serverVerifier.url !== null
+                ? {
+                    ...values.serverVerifier,
+                    url: values.serverVerifier.url,
+                  }
+                : null,
             limits,
           };
           trackEvent({
@@ -437,10 +447,8 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
                   Allowed/Blocked wallets
                 </FormLabel>
                 <Text>
-                  When this is disabled, all wallets are allowed to be
-                  sponsored. When this is enabled, you can specify a list of
-                  wallets that are either allowed (and all the rest blocked) or
-                  blocked (and all the rest allowed) from being sponsored.
+                  Select either allowed or blocked wallets. Disabling this
+                  option will allow all wallets.
                 </Text>
               </Box>
 
@@ -466,9 +474,14 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             )}
 
             {form.watch("allowedOrBlockedWallets") === "allowed" && (
-              <Flex flexDir="column">
+              <Flex flexDir="column" gap={2}>
+                <Text>
+                  Only transactions from these accounts will be sponsored. The
+                  same address will be considered across all networks by
+                  default.
+                </Text>
                 <Textarea
-                  placeholder="Setting allowed wallets, comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
+                  placeholder="Comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
                   {...form.register("allowedWallets")}
                 />
                 <FormErrorMessage>
@@ -481,9 +494,14 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
             )}
 
             {form.watch("allowedOrBlockedWallets") === "blocked" && (
-              <Flex flexDir="column">
+              <Flex flexDir="column" gap={2}>
+                <Text>
+                  Transactions from these accounts will not be sponsored. The
+                  same address will be considered across all networks by
+                  default.
+                </Text>
                 <Textarea
-                  placeholder="Setting blocked wallets, comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
+                  placeholder="Comma separated list of wallet addresses. ex: 0x1234..., 0x5678..."
                   {...form.register("blockedWallets")}
                 />
                 <FormErrorMessage>
