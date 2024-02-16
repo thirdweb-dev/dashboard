@@ -242,7 +242,7 @@ const ConsoleApp = memo(function ConsoleApp({
       />
 
       <ChakraProvider theme={chakraThemeWithFonts}>
-        <AnnouncementBanner />
+        {/* <AnnouncementBanner /> */}
         {isFallback && Component.fallback
           ? Component.fallback
           : getLayout(<Component {...pageProps} />, pageProps)}
