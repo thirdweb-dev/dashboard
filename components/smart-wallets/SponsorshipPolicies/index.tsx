@@ -491,52 +491,6 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
           </FormControl>
 
           <Divider />
-          <FormControl
-            isInvalid={
-              !!form.getFieldState("bypassWallets", form.formState).error
-            }
-          >
-            <Flex flexDir="column" gap={4}>
-              <HStack justifyContent="space-between" alignItems="center">
-                <Box>
-                  <FormLabel pointerEvents={"none"}>Bypass wallets</FormLabel>
-                  <Text>
-                    Any wallets added here will get sponsored no matter what
-                    other rules are in place. This means these wallets will be
-                    able to go over the global limit and will not be affected by
-                    any other rules.
-                  </Text>
-                </Box>
-
-                <Switch
-                  colorScheme="primary"
-                  isChecked={form.watch("bypassWallets") !== null}
-                  onChange={() => {
-                    form.setValue(
-                      "bypassWallets",
-                      form.watch("bypassWallets") === null ? "" : null,
-                    );
-                  }}
-                />
-              </HStack>
-              {form.watch("bypassWallets") !== null && (
-                <Flex flexDir="column">
-                  <Textarea
-                    placeholder="Comma separated list of contract addresses. ex: 0x1234..., 0x5678..."
-                    {...form.register("bypassWallets")}
-                  />
-                  <FormErrorMessage>
-                    {
-                      form.getFieldState("bypassWallets", form.formState).error
-                        ?.message
-                    }
-                  </FormErrorMessage>
-                </Flex>
-              )}
-            </Flex>
-          </FormControl>
-
-          <Divider />
           <FormControl>
             <Flex flexDir="column" gap={4}>
               <HStack justifyContent="space-between" alignItems="center">
@@ -645,6 +599,52 @@ export const SponsorshipPolicies: React.FC<SponsorshipPoliciesProps> = ({
               )}
             </Flex>
           </FormControl>
+
+          <Divider />
+          <FormControl
+            isInvalid={
+              !!form.getFieldState("bypassWallets", form.formState).error
+            }
+          >
+            <Flex flexDir="column" gap={4}>
+              <HStack justifyContent="space-between" alignItems="center">
+                <Box>
+                  <FormLabel pointerEvents={"none"}>Bypass wallets</FormLabel>
+                  <Text>
+                    These wallets won&apos;t get any of the above rules applied
+                    to them. Useful for admin wallets that you control and for
+                    testing.
+                  </Text>
+                </Box>
+
+                <Switch
+                  colorScheme="primary"
+                  isChecked={form.watch("bypassWallets") !== null}
+                  onChange={() => {
+                    form.setValue(
+                      "bypassWallets",
+                      form.watch("bypassWallets") === null ? "" : null,
+                    );
+                  }}
+                />
+              </HStack>
+              {form.watch("bypassWallets") !== null && (
+                <Flex flexDir="column">
+                  <Textarea
+                    placeholder="Comma separated list of contract addresses. ex: 0x1234..., 0x5678..."
+                    {...form.register("bypassWallets")}
+                  />
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState("bypassWallets", form.formState).error
+                        ?.message
+                    }
+                  </FormErrorMessage>
+                </Flex>
+              )}
+            </Flex>
+          </FormControl>
+
           <Divider />
 
           <Box alignSelf="flex-end">
