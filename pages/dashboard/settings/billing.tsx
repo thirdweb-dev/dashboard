@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Billing } from "components/settings/Account/Billing";
-
 import { BillingConnectWalletPrompt } from "components/settings/Account/Billing/ConnectWallet";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
