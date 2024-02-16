@@ -39,7 +39,11 @@ const faqs = [
       <span>
         Team leads, login to your thirdweb dashboard, ensure you have a valid
         payment method added, then visit the engine tab{" "}
-        <Link href="/dashboard/engine" color="primary.600" maxW="fit-content">
+        <Link
+          href="https://forms.gle/JNynuGfjbANYijRh7"
+          color="primary.600"
+          maxW="fit-content"
+        >
           {" "}
           here{" "}
         </Link>{" "}

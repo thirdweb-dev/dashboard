@@ -80,7 +80,7 @@ export const HackathonFooter = ({
         </LinkButton>
 
         <LinkButton
-          href="https://docs.google.com/forms/d/1CT8LPG1DrcpTKAW38ScVzTcyBNwS6ANOk6xpfjpXLAs/edit"
+          href="https://forms.gle/9X2gz7H28zvcf47f6"
           onClick={() =>
             trackEvent({
               category: TRACKING_CATEGORY,
