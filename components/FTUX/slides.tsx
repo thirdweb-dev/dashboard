@@ -46,7 +46,7 @@ export const slides: Slide[] = [
             {" "}
             <TrackedLink
               category={TRACK_CATEGORY}
-              href="/dashboard/wallets/connect"
+              href="/dashboard/connect/playground"
               label="connect-wallet"
               color="blue.500"
             >

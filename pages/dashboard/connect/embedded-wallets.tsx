@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
-const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
+const DashboardConnectEmbeddedWallets: ThirdwebNextPage = () => {
   const router = useRouter();
   const defaultTabIndex = parseInt(router.query.tab?.toString() || "0");
   const defaultClientId = router.query.clientId?.toString();
@@ -299,13 +299,13 @@ function Templates() {
   );
 }
 
-DashboardWalletsEmbedded.getLayout = (page, props) => (
+DashboardConnectEmbeddedWallets.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="embedded" />
     {page}
   </AppLayout>
 );
 
-DashboardWalletsEmbedded.pageId = PageId.DashboardWalletsEmbedded;
+DashboardConnectEmbeddedWallets.pageId = PageId.DashboardConnectEmbeddedWallets;
 
-export default DashboardWalletsEmbedded;
+export default DashboardConnectEmbeddedWallets;

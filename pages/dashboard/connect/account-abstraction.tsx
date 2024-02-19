@@ -40,7 +40,7 @@ export type SmartWalletFormData = {
   clientId: string;
 };
 
-const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
+const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
   const router = useRouter();
   const defaultTabIndex = parseInt(router.query.tab?.toString() || "0");
   const defaultClientId = router.query.clientId?.toString();
@@ -324,13 +324,14 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
   );
 };
 
-DashboardWalletsSmartWallet.getLayout = (page, props) => (
+DashboardConnectAccountAbstraction.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="smart-wallet" />
     {page}
   </AppLayout>
 );
 
-DashboardWalletsSmartWallet.pageId = PageId.DashboardWalletsSmartWallet;
+DashboardConnectAccountAbstraction.pageId =
+  PageId.DashboardConnectAccountAbstraction;
 
-export default DashboardWalletsSmartWallet;
+export default DashboardConnectAccountAbstraction;

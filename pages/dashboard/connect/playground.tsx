@@ -19,7 +19,7 @@ const seo = {
   desc: "Onboard your users to web3 with a beautiful Connect Wallet modal, customizable auth flows, and sign-in for web2 & web3 — in a few lines of code.",
 };
 
-const DashboardWalletsConnect: ThirdwebNextPage = () => {
+const DashboardConnectPlayground: ThirdwebNextPage = () => {
   return (
     <Box>
       <NextSeo
@@ -359,13 +359,13 @@ function BuildCustomBanner() {
   );
 }
 
-DashboardWalletsConnect.getLayout = (page, props) => (
+DashboardConnectPlayground.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true} noOverflowX={true}>
     <WalletsSidebar activePage="connect" />
     {page}
   </AppLayout>
 );
 
-DashboardWalletsConnect.pageId = PageId.DashboardWalletsConnect;
+DashboardConnectPlayground.pageId = PageId.DashboardConnectPlayground;
 
-export default DashboardWalletsConnect;
+export default DashboardConnectPlayground;
