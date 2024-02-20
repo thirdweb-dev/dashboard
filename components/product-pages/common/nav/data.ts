@@ -8,7 +8,7 @@ export const PRODUCT_SECTIONS: SectionProps[] = [
   },
   {
     name: "Connect",
-    label: "wallets",
+    label: "connect",
     description: "Onboard, authenticate and manage users",
   },
   {
@@ -78,7 +78,7 @@ export const PRODUCTS: SectionItemProps[] = [
     link: "/connect",
     dashboardLink: "/dashboard/connect/playground",
     icon: require("public/assets/product-icons/wallet-sdk.png"),
-    section: "wallets",
+    section: "connect",
     inLandingPage: true,
   },
   {
@@ -88,7 +88,7 @@ export const PRODUCTS: SectionItemProps[] = [
     link: "/account-abstraction",
     dashboardLink: "/dashboard/connect/account-abstraction",
     icon: require("public/assets/product-icons/smart-wallet.png"),
-    section: "wallets",
+    section: "connect",
     inLandingPage: true,
   },
   {
@@ -98,7 +98,7 @@ export const PRODUCTS: SectionItemProps[] = [
     link: "/embedded-wallets",
     dashboardLink: "/dashboard/connect/embedded-wallets",
     icon: require("public/assets/product-icons/embedded-wallet.png"),
-    section: "wallets",
+    section: "connect",
     inLandingPage: true,
   },
   {
@@ -107,7 +107,7 @@ export const PRODUCTS: SectionItemProps[] = [
     description: "Authenticate users with their wallets",
     link: "/auth",
     icon: require("public/assets/product-icons/auth.png"),
-    section: "wallets",
+    section: "connect",
   },
   {
     name: "Storage",
