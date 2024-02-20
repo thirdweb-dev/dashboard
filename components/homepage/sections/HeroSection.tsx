@@ -7,7 +7,7 @@ interface HeroSectionProps {
 }
 export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
   return (
-    <HomepageSection id="home" bottomPattern>
+    <HomepageSection id="home">
       {/* top */}
       <Aurora
         pos={{ left: "50%", top: "0%" }}
