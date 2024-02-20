@@ -8,6 +8,7 @@ type SettingsSidebarProps = {
     | "devices"
     | "usage"
     | "billing"
+    | "companySettings"
     | "notifications";
 };
 
@@ -25,6 +26,11 @@ const links: Route[] = [
     name: "billing",
   },
   { path: "/dashboard/settings/usage", title: "Usage", name: "usage" },
+  {
+    path: "/dashboard/settings/company-settings",
+    title: "Company Settings",
+    name: "companySettings",
+  },
   {
     path: "/dashboard/settings/notifications",
     title: "Notifications",

@@ -191,6 +191,9 @@ export enum PageId {
   // thirdweb.com/dashboard/settings/usage
   SettingsUsage = "settings-usage",
 
+  // thirdweb.com/dashboard/settings/company-settings
+  CompanySettings = "company-settings",
+
   // thirdweb.com/dashboard/settings/notifications
   SettingsNotifications = "settings-notifications",
 
