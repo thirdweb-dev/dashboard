@@ -52,7 +52,7 @@ export const slides: Slide[] = [
             >
               Hooks
             </TrackedLink>{" "}
-            and
+            and{" "}
             <TrackedLink
               category={TRACK_CATEGORY}
               href="https://portal.thirdweb.com/typescript"
