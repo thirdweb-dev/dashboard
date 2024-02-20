@@ -8,7 +8,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { WalletsSidebar } from "core-ui/sidebar/wallets";
+import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
@@ -415,7 +415,7 @@ const WalletStatCard: React.FC<{ label: string; value?: number }> = ({
 
 DashboardConnectAnalytics.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="analytics" />
+    <ConnectSidebar activePage="analytics" />
     {page}
   </AppLayout>
 );

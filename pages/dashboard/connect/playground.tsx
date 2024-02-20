@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, Icon, SlideFade, Spacer } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ConnectWalletPlayground } from "components/wallets/ConnectWalletPlayground/Playground";
-import { WalletsSidebar } from "core-ui/sidebar/wallets";
+import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
@@ -40,7 +40,7 @@ const DashboardConnectPlayground: ThirdwebNextPage = () => {
       />
 
       <Heading size="title.xl" as="h1">
-        Connect
+        Playground
       </Heading>
       <Spacer height={4} />
       <Text fontWeight={500}>
@@ -361,7 +361,7 @@ function BuildCustomBanner() {
 
 DashboardConnectPlayground.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true} noOverflowX={true}>
-    <WalletsSidebar activePage="connect" />
+    <ConnectSidebar activePage="playground" />
     {page}
   </AppLayout>
 );

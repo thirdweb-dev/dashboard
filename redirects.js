@@ -171,13 +171,33 @@ function redirects() {
       permanent: false,
     },
     {
+      source: "/dashboard/wallets/embedded",
+      destination: "/dashboard/connect/embedded-wallets",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets/smart-wallet",
+      destination: "/dashboard/connect/account-abstraction",
+      permanent: false,
+    },
+    {
       source: "/dashboard/connect",
       destination: "/dashboard/connect/playground",
       permanent: false,
     },
     {
       source: "/dashboard/infrastructure",
-      destination: "/dashboard/infrastructure/storage",
+      destination: "/dashboard/settings/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure/storage",
+      destination: "/dashboard/settings/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure/rpc-edge",
+      destination: "/chainlist",
       permanent: false,
     },
     {

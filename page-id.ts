@@ -114,7 +114,7 @@ export enum PageId {
   // thirdweb.com/dashboard/infrastructure
   DashboardInfrastructure = "dashboard-infrastructure",
   // thirdweb.com/dashboard/infrastructure/storage
-  DashboardStorage = "dashboard-storage",
+  DashboardSettingsStorage = "dashboard-storage",
   // thirdweb.com/dashboard/infastucture/rpc-edge
   DashboardRPC = "dashboard-rpc",
 

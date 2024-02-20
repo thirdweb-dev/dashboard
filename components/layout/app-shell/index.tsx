@@ -184,7 +184,10 @@ const AppHeader: React.FC = () => {
           </LinkButton>
           <LinkButton
             href="/dashboard/connect"
-            isActive={pathname.startsWith("/dashboard/connect")}
+            isActive={
+              pathname.startsWith("/dashboard/connect") ||
+              pathname.startsWith("/dashboard/payments")
+            }
             _active={{
               bg: "bgBlack",
               color: "bgWhite",

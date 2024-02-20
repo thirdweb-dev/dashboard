@@ -3,7 +3,7 @@ import { useEmbeddedWallets } from "@3rdweb-sdk/react/hooks/useEmbeddedWallets";
 import { Flex, Grid, HStack, Icon, Spacer } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EmbeddedWallets } from "components/embedded-wallets";
-import { WalletsSidebar } from "core-ui/sidebar/wallets";
+import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { useEffect, useMemo, useState } from "react";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
@@ -301,7 +301,7 @@ function Templates() {
 
 DashboardConnectEmbeddedWallets.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="embedded" />
+    <ConnectSidebar activePage="embedded-wallets" />
     {page}
   </AppLayout>
 );
