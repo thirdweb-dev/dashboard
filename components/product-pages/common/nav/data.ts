@@ -82,7 +82,7 @@ export const PRODUCTS: SectionItemProps[] = [
     inLandingPage: true,
   },
   {
-    name: "Smart Wallet",
+    name: "Account Abstraction",
     label: "smart-wallet",
     description: "Complete toolkit for Account Abstraction",
     link: "/account-abstraction",
