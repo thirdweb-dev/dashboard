@@ -10,11 +10,9 @@ import {
   Divider,
   Tooltip,
 } from "@chakra-ui/react";
-import { BigNumber } from "ethers";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { Heading, Badge, Card, CodeBlock, Text, Button } from "tw-components";
-import { NFT } from "@thirdweb-dev/sdk";
 import { NFTDrawerTab } from "core-ui/nft-drawer/types";
 import { NftProperty } from "./nft-property";
 import { useRouter } from "next/router";
@@ -22,6 +20,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { useState } from "react";
 import { useChainSlug } from "hooks/chains/chainSlug";
+import { NFT } from "thirdweb";
 
 function isValidUrl(possibleUrl?: string | null) {
   if (!possibleUrl) {
@@ -40,7 +39,7 @@ function isValidUrl(possibleUrl?: string | null) {
 }
 
 interface TokenIdPageProps {
-  nft: NFT | undefined;
+  nft: NFT<"ERC721"> | undefined;
   tabs: NFTDrawerTab[];
   contractAddress: string | undefined;
 }
@@ -88,6 +87,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
           </Card>
         </Box>
         <NFTMediaWithEmptyState
+          // @ts-expect-error types are not up to date
           metadata={nft.metadata}
           width={isMobile ? "100%" : "350px"}
           height={isMobile ? "100%" : "350px"}
@@ -172,12 +172,12 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
                 <GridItem colSpan={8}>
                   <AddressCopyButton
                     size="xs"
-                    address={nft.metadata.id}
+                    address={nft.id?.toString()}
                     title="Token ID"
                   />
                 </GridItem>
 
-                {nft.type !== "ERC1155" && BigNumber.from(nft.supply).lt(2) && (
+                {nft.owner && nft.supply < 2 && (
                   <>
                     <GridItem colSpan={4}>
                       <Heading size="label.md">Owner</Heading>
@@ -202,7 +202,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
                     </GridItem>
                     <GridItem colSpan={8}>
                       <Text fontFamily="mono" size="body.md">
-                        {nft.supply}
+                        {nft.supply.toString()}
                       </Text>
                     </GridItem>
                   </>

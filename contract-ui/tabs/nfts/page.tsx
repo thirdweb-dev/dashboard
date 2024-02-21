@@ -8,14 +8,16 @@ import { NFTSharedMetadataButton } from "./components/shared-metadata-button";
 import { SupplyCards } from "./components/supply-cards";
 import { NFTGetAllTable } from "./components/table";
 import { Box, Flex } from "@chakra-ui/react";
-import { NFTContract, useContract, useNFT } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { TokenIdPage } from "./components/token-id";
-import { defineChain, getContract } from "thirdweb";
-import { thirdwebClient } from "../../../lib/thirdweb-client";
 import { useMemo } from "react";
+import { ThirdwebContract, defineChain, getContract } from "thirdweb";
+import { useReadContract } from "thirdweb/react";
+import { getNFT } from "thirdweb/extensions/erc721";
+import { thirdwebClient } from "lib/thirdweb-client";
 
 interface NftOverviewPageProps {
   contractAddress?: string;
@@ -25,15 +27,44 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   contractAddress,
 }) => {
   const contractQuery = useContract(contractAddress);
+
   const router = useRouter();
 
   const tokenId = router.query?.paths?.[2];
 
-  const { data: nft } = useNFT(contractQuery.contract, tokenId);
-  const tabs = useNFTDrawerTabs(
-    contractQuery.contract as NFTContract,
-    nft || null,
-  );
+  const chainId = contractQuery.contract?.chainId;
+
+  const newContract = useMemo(() => {
+    if (!contractAddress || !chainId) {
+      return null;
+    }
+    return getContract({
+      address: contractAddress,
+      client: thirdwebClient,
+      chain: defineChain(chainId),
+    });
+  }, [contractAddress, chainId]);
+
+  const nftQuery = newContract
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useReadContract(getNFT, {
+        contract: newContract as ThirdwebContract,
+        tokenId: BigInt(tokenId || 0),
+        includeOwner: true,
+      })
+    : null;
+
+  /*   const nftQuery = readContract(getNFT, {
+    contract: newContract as ThirdwebContract,
+    tokenId: BigInt(tokenId || 0),
+  }); */
+
+  const nft = nftQuery?.data;
+
+  const tabs = useNFTDrawerTabs({
+    oldContract: contractQuery.contract,
+    nft: nft || null,
+  });
 
   const detectedState = detectFeatures(contractQuery?.contract, [
     "ERC721Enumerable",
@@ -51,19 +82,6 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     "ERC721ClaimCustom",
   ]);
 
-  const chainId = contractQuery.contract?.chainId;
-
-  const newContract = useMemo(() => {
-    if (!contractAddress || !chainId) {
-      return null;
-    }
-    return getContract({
-      address: contractAddress,
-      client: thirdwebClient,
-      chain: defineChain(chainId),
-    });
-  }, [contractAddress, chainId]);
-
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
@@ -73,7 +91,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     return null;
   }
 
-  if (tokenId) {
+  if (tokenId && nft) {
     return (
       <TokenIdPage nft={nft} tabs={tabs} contractAddress={contractAddress} />
     );
