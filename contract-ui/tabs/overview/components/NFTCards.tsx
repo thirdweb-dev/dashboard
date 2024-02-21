@@ -31,7 +31,7 @@ const dummyMetadata: (idx: number) => NFT = (idx) => ({
   },
   owner: `0x_fake_${idx}`,
   type: "ERC721",
-  supply: BigInt(1),
+  supply: 1n,
 });
 
 interface NFTCardsProps {
