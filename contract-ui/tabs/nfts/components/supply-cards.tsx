@@ -17,8 +17,7 @@ export const SupplyCards: React.FC<SupplyCardsProps> = ({ contract }) => {
   });
 
   const unclaimedSupply = (
-    (totalSupplyQuery?.data || BigInt(0)) -
-    (claimedSupplyQuery?.data || BigInt(0))
+    (totalSupplyQuery?.data || 0n) - (claimedSupplyQuery?.data || 0n)
   ).toString();
 
   return (
