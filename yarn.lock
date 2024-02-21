@@ -2937,10 +2937,10 @@
   dependencies:
     client-only "^0.0.1"
 
-"@hookform/resolvers@^3.1.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.3.1.tgz#b7cbfe767434f52cba6b99b0a9a0b73eb8895188"
-  integrity sha512-K7KCKRKjymxIB90nHDQ7b9nli474ru99ZbqxiqDAWYsYhOsU3/4qLxW91y+1n04ic13ajjZ66L3aXbNef8PELQ==
+"@hookform/resolvers@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.3.4.tgz#de9b668c2835eb06892290192de6e2a5c906229b"
+  integrity sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==
 
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.14"
@@ -16394,7 +16394,7 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
-thirdweb@^1.0.0-alpha-321fef40b-20240221064031:
+thirdweb@1.0.0-alpha-321fef40b-20240221064031:
   version "1.0.0-alpha-321fef40b-20240221064031"
   resolved "https://registry.yarnpkg.com/thirdweb/-/thirdweb-1.0.0-alpha-321fef40b-20240221064031.tgz#7dbffbd34dab0fd0e227f759f806a647dba50812"
   integrity sha512-IkfH1Nn+TOR9KsokEaAWBv1+fi3ETpWRSdUMPewNIHIkUeYA4igz5kAUfvUiFSGyzpdIEPoGfsHj4dc6viDAMw==
