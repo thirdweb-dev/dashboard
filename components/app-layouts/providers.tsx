@@ -39,7 +39,7 @@ import { useEffect, useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
 import { ThirdwebProvider } from "thirdweb/react";
-import { createThirdwebClient } from "thirdweb";
+import { thirdwebClient } from "../../lib/thirdweb-client";
 
 export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
@@ -80,10 +80,6 @@ export const dashboardSupportedWallets = [
     personalWallets,
   }),
 ];
-
-export const thirdwebClient = createThirdwebClient({
-  clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-});
 
 export const DashboardThirdwebProvider: ComponentWithChildren<
   DashboardThirdwebProviderProps

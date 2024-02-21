@@ -1,5 +1,5 @@
 import { Skeleton, Stack, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { ThirdwebContract } from "thirdweb";
+import type { ThirdwebContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 import { Card } from "tw-components";
 import { totalSupply, nextTokenIdToMint } from "thirdweb/extensions/erc721";

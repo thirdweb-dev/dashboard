@@ -3,11 +3,11 @@ import { SupplyCards } from "contract-ui/tabs/nfts/components/supply-cards";
 import { useTabHref } from "contract-ui/utils";
 import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 import { NFTCards } from "./NFTCards";
-import { thirdwebClient } from "components/app-layouts/providers";
 import { defineChain, getContract } from "thirdweb";
 import { useMemo } from "react";
 import { useReadContract } from "thirdweb/react";
 import { getNFTs } from "thirdweb/extensions/erc721";
+import { thirdwebClient } from "../../../../lib/thirdweb-client";
 
 interface NFTDetailsProps {
   contractAddress: string;

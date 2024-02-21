@@ -5045,10 +5045,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.36.1.tgz#79f8c1a539d47c83104210be2388813a7af2e524"
   integrity sha512-DJSilV5+ytBP1FbFcEJovv4rnnm/CokuVvrBEtW/Va9DvuJ3HksbXUJEpI0aV1KtuL4ZoO9AVE6PyNLzF7tLeA==
 
-"@tanstack/query-core@5.20.5":
-  version "5.20.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.20.5.tgz#12bb02a937cc8f4f158b1428c0ddef5a1f48479b"
-  integrity sha512-T1W28gGgWn0A++tH3lxj3ZuUVZZorsiKcv+R50RwmPYz62YoDEkG4/aXHZELGkRp4DfrW07dyq2K5dvJ4Wl1aA==
+"@tanstack/query-core@5.22.2":
+  version "5.22.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.22.2.tgz#af67d41b0b4a3e846c2325f32540f39ca0d4788d"
+  integrity sha512-z3PwKFUFACMUqe1eyesCIKg3Jv1mysSrYfrEW5ww5DCDUD4zlpTKBvUDaEjsfZzL3ULrFLDM9yVUxI/fega1Qg==
 
 "@tanstack/query-persist-client-core@4.36.1":
   version "4.36.1"
@@ -5064,12 +5064,12 @@
   dependencies:
     "@tanstack/query-persist-client-core" "4.36.1"
 
-"@tanstack/react-query@5.20.5":
-  version "5.20.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.20.5.tgz#ebf57b6d3344478d505ad8db09a8b29262a35dab"
-  integrity sha512-6MHwJ8G9cnOC/XKrwt56QMc91vN7hLlAQNUA0ubP7h9Jj3a/CmkUwT6ALdFbnVP+PsYdhW3WONa8WQ4VcTaSLQ==
+"@tanstack/react-query@5.22.2":
+  version "5.22.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.22.2.tgz#e5fce278fbdd026fc1d561a4505142b9f93549d7"
+  integrity sha512-TaxJDRzJ8/NWRT4lY2jguKCrNI6MRN+67dELzPjNUlvqzTxGANlMp68l7aC7hG8Bd1uHNxHl7ihv7MT50i/43A==
   dependencies:
-    "@tanstack/query-core" "5.20.5"
+    "@tanstack/query-core" "5.22.2"
 
 "@tanstack/react-query@^4.33.0", "@tanstack/react-query@^4.35.7":
   version "4.36.1"
@@ -16394,10 +16394,10 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
-thirdweb@^1.0.0-alpha-11ea9f3ca-20240220200238:
-  version "1.0.0-alpha-11ea9f3ca-20240220200238"
-  resolved "https://registry.yarnpkg.com/thirdweb/-/thirdweb-1.0.0-alpha-11ea9f3ca-20240220200238.tgz#5caf5ea8e3c1bbe3851f839ca3f84d43721cc8a8"
-  integrity sha512-zJ4wnPAAESEtz0cQL0aZZASz8fi9y5o2SCRbCGgV/5YRvSGk3kTQ2igLAUvpo4/wUbglY4ABc+sn9StOPZzpJQ==
+thirdweb@^1.0.0-alpha-321fef40b-20240221064031:
+  version "1.0.0-alpha-321fef40b-20240221064031"
+  resolved "https://registry.yarnpkg.com/thirdweb/-/thirdweb-1.0.0-alpha-321fef40b-20240221064031.tgz#7dbffbd34dab0fd0e227f759f806a647dba50812"
+  integrity sha512-IkfH1Nn+TOR9KsokEaAWBv1+fi3ETpWRSdUMPewNIHIkUeYA4igz5kAUfvUiFSGyzpdIEPoGfsHj4dc6viDAMw==
   dependencies:
     "@coinbase/wallet-sdk" "3.7.2"
     "@emotion/react" "11.11.3"
@@ -16407,13 +16407,13 @@ thirdweb@^1.0.0-alpha-11ea9f3ca-20240220200238:
     "@radix-ui/react-focus-scope" "1.0.4"
     "@radix-ui/react-icons" "1.3.0"
     "@radix-ui/react-tooltip" "1.0.7"
-    "@tanstack/react-query" "5.20.5"
+    "@tanstack/react-query" "5.22.2"
     "@walletconnect/ethereum-provider" "2.11.1"
     abitype "1.0.0"
     fuse.js "7.0.0"
     mipd "0.0.5"
     uqr "0.1.2"
-    viem "2.7.10"
+    viem "2.7.11"
 
 thread-stream@^0.15.1:
   version "0.15.2"
@@ -17238,10 +17238,10 @@ victory-vendor@^36.6.8:
     d3-time "^3.0.0"
     d3-timer "^3.0.1"
 
-viem@2.7.10:
-  version "2.7.10"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.7.10.tgz#344fa51e28a57c36830f8eb940769e1f486628c3"
-  integrity sha512-mpm/A3Rbq6hhRovOw6btkrLeDe0DlEGLoCmO2LCbH/MuTQgLNd0cWJSIov9TL/8/Pz+qC2e+bh9zohQnKA+6PQ==
+viem@2.7.11:
+  version "2.7.11"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.7.11.tgz#e432885f412c6faf2772a1e0569e8269b6ad93cb"
+  integrity sha512-qlEPF9YOgPVqjTyom73TVAekAYrIe68megO07u55p7pKWgLt0i9KD6Mrmiw7pd7oHh86vIppcygwQMDNGX1YAw==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"
