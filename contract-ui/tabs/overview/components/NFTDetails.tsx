@@ -54,7 +54,12 @@ export const NFTDetails: React.FC<NFTDetailsProps> = ({
           View all -&gt;
         </TrackedLink>
       </Flex>
-      {showSupplyCards && <SupplyCards contract={contract} />}
+        {showSupplyCards && contract && (
+          <SupplyCards
+            contractAddress={contract.getAddress()}
+            chainId={contract.chainId}
+          />
+        )}
       <NFTCards
         contractAddress={contract.getAddress()}
         nfts={displayableNFTs}
