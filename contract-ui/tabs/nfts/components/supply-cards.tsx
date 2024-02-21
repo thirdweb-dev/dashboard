@@ -1,35 +1,25 @@
 import { Skeleton, Stack, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { thirdwebClient } from "components/app-layouts/providers";
-import { getContract, defineChain } from "thirdweb";
+import { ThirdwebContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 import { Card } from "tw-components";
-import { totalSupply } from "thirdweb/extensions/erc721";
-import { useMemo } from "react";
+import { totalSupply, nextTokenIdToMint } from "thirdweb/extensions/erc721";
 
 interface SupplyCardsProps {
-  contractAddress: string;
-  chainId: number;
+  contract: ThirdwebContract;
 }
 
-export const SupplyCards: React.FC<SupplyCardsProps> = ({
-  contractAddress,
-  chainId,
-}) => {
-  const contract = useMemo(
-    () =>
-      getContract({
-        client: thirdwebClient,
-        address: contractAddress,
-        chain: defineChain(chainId),
-      }),
-    [contractAddress, chainId],
-  );
-
-  const totalSupplyQuery = useReadContract(totalSupply, {
+export const SupplyCards: React.FC<SupplyCardsProps> = ({ contract }) => {
+  const claimedSupplyQuery = useReadContract(totalSupply, {
+    contract,
+  });
+  const totalSupplyQuery = useReadContract(nextTokenIdToMint, {
     contract,
   });
 
-  /*   const unclaimedSupplyQuery = useUnclaimedNFTSupply(contract); */
+  const unclaimedSupply = (
+    (totalSupplyQuery?.data || BigInt(0)) -
+    (claimedSupplyQuery?.data || BigInt(0))
+  ).toString();
 
   return (
     <Stack spacing={{ base: 3, md: 6 }} direction="row">
@@ -39,22 +29,20 @@ export const SupplyCards: React.FC<SupplyCardsProps> = ({
           <StatNumber>{totalSupplyQuery?.data?.toString()}</StatNumber>
         </Skeleton>
       </Card>
-      {/*  <Card as={Stat}>
+      <Card as={Stat}>
         <StatLabel mb={{ base: 1, md: 0 }}>Claimed Supply</StatLabel>
         <Skeleton isLoaded={claimedSupplyQuery.isSuccess}>
-          <StatNumber>
-            {BigNumber.from(claimedSupplyQuery?.data || 0).toString()}
-          </StatNumber>
+          <StatNumber>{claimedSupplyQuery?.data?.toString()}</StatNumber>
         </Skeleton>
       </Card>
       <Card as={Stat}>
         <StatLabel mb={{ base: 1, md: 0 }}>Unclaimed Supply</StatLabel>
-        <Skeleton isLoaded={unclaimedSupplyQuery.isSuccess}>
-          <StatNumber>
-            {BigNumber.from(unclaimedSupplyQuery?.data || 0).toString()}
-          </StatNumber>
+        <Skeleton
+          isLoaded={totalSupplyQuery.isSuccess && claimedSupplyQuery.isSuccess}
+        >
+          <StatNumber>{unclaimedSupply}</StatNumber>
         </Skeleton>
-      </Card> */}
+      </Card>
     </Stack>
   );
 };
