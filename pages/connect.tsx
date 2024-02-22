@@ -1,38 +1,79 @@
-import { Box, Center, Container, Flex, Spacer } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
-import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/MiniPlayground";
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Heading, TrackedLink, Text } from "tw-components";
+import { Heading, TrackedLink, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import connectLottie from "../public/assets/product-pages/connect/connect-lottie.json";
+import checkoutLottie from "../public/assets/product-pages/checkout/checkout.json";
+import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
+import { ChakraNextImage } from "components/Image";
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
-const GUIDES = [
+export const metrics = [
   {
-    title: "The Quick-Start Guide to thirdweb Connect",
-    image: require("/public/assets/product-pages/connect/get-started.png"),
-    link: "https://portal.thirdweb.com/react/latest/components/ConnectWallet",
+    title: "Zepeto",
+    description:
+      "A virtual world that empowers creators and communities — powered by thirdweb Connect.",
+    image: require("public/assets/product-pages/connect/desktop-ztx.png"),
+    mobileImage: require("public/assets/product-pages/connect/desktop-ztx.png"),
+    items: [
+      {
+        title: "13,000",
+        description: "Smart wallets generated",
+        colSpan: 4,
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    hoverBackground: "#622AFF",
   },
   {
-    title: "Add a Connect Wallet Button to Your App or Website",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/How-to-Add-a-Connect-Wallet-Button-to-your-App-or-Website.png",
-    link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
+    title: "Torque Motorsport",
+    description:
+      "Torque Motorsport is a racing game with in-game items as NFTs from Nissan, Subaru, & Mazda.",
+    image: require("public/assets/product-pages/connect/desktop-motorsport.png"),
+    mobileImage: require("public/assets/product-pages/connect/desktop-motorsport.png"),
+    items: [
+      {
+        title: "330k",
+        description: "Players Onboarded",
+        colSpan: 4,
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
+    hoverBackground: "#0053FF",
   },
   {
-    title: "Create Your Own Custom Connect Wallet Button",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/Create-a-Customizable-Connect-Wallet-Button.png",
-    link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
+    title: "Courtyard",
+    description:
+      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with a seamless fiat checkout.",
+    image: require("public/assets/landingpage/case-study-courtyard.png"),
+    mobileImage: require("public/assets/landingpage/case-study-courtyard.png"),
+    items: [
+      {
+        title: "$3.7M+",
+        description: "GMV",
+      },
+      {
+        title: "215K+",
+        description: "Users",
+        colSpan: 2,
+      },
+      {
+        title: "79K+",
+        description: "Transactions",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/courtyard-brings-collectors-onchain-with-fiat-payments/",
+    hoverBackground: "#0053FF",
   },
 ];
 
@@ -60,14 +101,14 @@ const ConnectLanding: ThirdwebNextPage = () => {
         maxW="container.page"
         as={Flex}
         flexDir="column"
-        gap={{ base: "80px", md: "120px" }}
+        gap={{ base: "80px", md: "180px" }}
       >
         <LandingHeroWithSideImage
           miniTitle="Connect"
-          title="Web3 onboarding,"
+          title="Build web3 apps that anyone can use"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
           titleWithGradient="for everyone"
-          subtitle="Onboard all of your users with a beautiful Connect Wallet modal, flexible sign-in options for web2 & web3, and powerful hooks for full customizability."
+          subtitle="Seamless frontends for your web3 app or game with SDKs in every language. Onboard users with wallets, generate revenue with payments and build gasless apps with Account Abstraction."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
           contactUsTitle="Book Demo"
@@ -122,37 +163,74 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Box>
 
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={6}
+        >
+          <ChakraNextImage
+            src={require("public/assets/product-pages/connect/onboarding-icon.png")}
+            maxW="109px"
+            alt="connect-icon"
+          />
+          <Heading fontSize={[30, 40]} color="white" textAlign="center">
+            Instant onboarding with App Wallets
+          </Heading>
+          <Spacer h={6} />
+          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
+            Let users access your app instantly using an email address, Google
+            account, social logins or any authentication method. Create seamless
+            user experiences by sponsoring transactions and offering account
+            recovery.
+          </Text>
+
+          <Spacer h={8} />
+          <LandingDesktopMobileImage
+            image={require("public/assets/product-pages/connect/desktop-onboarding.png")}
+            mobileImage={require("public/assets/product-pages/connect/mobile-onboarding.png")}
+            alt="connect"
+            maxW={{ base: "100%", md: "60%" }}
+          />
+
+          <TrackedLinkButton
+            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
+            py={6}
+            px={8}
+            bgColor="white"
+            _hover={{
+              bgColor: "white",
+              opacity: 0.8,
+            }}
+            mt={12}
+            color="black"
+            href="https://portal.thirdweb.com/connect/embedded-wallet/overview"
+            category={TRACKING_CATEGORY}
+            label="add-to-app"
+            fontWeight="bold"
+          >
+            Add to your app
+          </TrackedLinkButton>
+        </Flex>
+
         <Flex flexDir="column" gap={6}>
           <LandingGridSection
             title={
               <Center>
-                <Heading size="display.sm" color="white">
-                  Every way to connect a wallet
+                <Heading
+                  size="display.sm"
+                  color="white"
+                  textAlign="center"
+                  maxW="3xl"
+                >
+                  Everything you need to build great web3 apps.
                 </Heading>
               </Center>
             }
             desktopColumns={4}
           >
             <LandingCardWithImage
-              title="Web3 onboarding, for everyone"
-              description="Sign-in options for the most popular web3 wallets, and familiar web2 login flows."
-              image={require("public/assets/product-pages/connect/desktop-onboarding-everyone.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-onboarding-everyone.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/dashboard/connect/playground"
-            />
-            <LandingCardWithImage
-              title="Infinite customizability"
-              description="A Connect Wallet UI component with your branding, different modal styles, and everything else to make it yours."
-              image={require("public/assets/product-pages/connect/desktop-customizability.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-customizability.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/dashboard/connect/playground"
-            />
-          </LandingGridSection>
-          <LandingGridSection desktopColumns={4}>
-            <LandingCardWithImage
-              title="Built-in auth"
+              title="Authenticate any user"
               description={
                 <>
                   Verify a user&apos;s onchain identity with web3-first
@@ -169,110 +247,84 @@ const ConnectLanding: ThirdwebNextPage = () => {
                   ) standard.
                 </>
               }
-              image={require("public/assets/product-pages/connect/desktop-auth.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-auth.png")}
+              image={require("public/assets/product-pages/connect/desktop-authenticate.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-authenticate.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/auth"
-              colSpan={1}
+              href="/dashboard/connect/playground"
             />
-            <LandingCardWithImage
-              title="No wallet? No problem"
-              description="Onboard users with just an email, phone, social account, or passkeys — and create wallets for them."
-              image={require("public/assets/product-pages/connect/desktop-no-wallet.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-no-wallet.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/embedded-wallets"
-            />
-            <LandingCardWithImage
-              title="Guest mode"
-              description="Allow anyone to use your app in seconds — with a wallet that's generated automatically when they press Continue as guest."
-              image={require("public/assets/product-pages/connect/desktop-guest.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-guest.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
-              colSpan={1}
-            />
-          </LandingGridSection>
-          <LandingGridSection desktopColumns={4}>
             <LandingCardWithImage
               title="Reliable connectors"
               description="Integrate 170+ web3 wallets — including self-custodial, email, local, & smart wallets."
-              image={require("public/assets/product-pages/connect/desktop-reliable-connectors.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-reliable-connectors.png")}
+              image={require("public/assets/product-pages/connect/desktop-rely.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-rely.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/wallet-sdk/latest"
-            />
-            <LandingCardWithImage
-              title="Everything a wallet needs"
-              description="Functions to send, receive, & view assets. ENS support, transaction history, & more."
-              image={require("public/assets/product-pages/connect/desktop-everything-wallet-needs.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-everything-wallet-needs.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/wallet-sdk/latest"
-              direction="horizontal"
+              href="/dashboard/connect/playground"
             />
           </LandingGridSection>
           <LandingGridSection desktopColumns={4}>
             <LandingCardWithImage
-              title="Powerful hooks"
-              description="Flexible hooks, functions, and low-level tools for fully custom Connect Wallet experiences."
-              image={require("public/assets/product-pages/connect/desktop-hooks.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-hooks.png")}
+              title="Infinite customizability"
+              description="Custom components with your branding, different modal styles, and everything else to build your app."
+              image={require("public/assets/product-pages/connect/desktop-customizability.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-customizability.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/wallet-sdk"
-              colSpan={1}
+              href="/auth"
             />
             <LandingCardWithImage
-              title="Account abstraction, made simple"
-              description="First-class support for account abstraction — with native smart wallet experiences that anyone can use."
-              image={require("public/assets/product-pages/connect/desktop-account-abstraction.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-account-abstraction.png")}
+              title="In-depth analytics"
+              description="Comprehensive insights to understand how users are interacting with your app."
+              image={require("public/assets/product-pages/connect/desktop-connection.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-connection.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/wallets/smart-wallet"
               direction="horizontal"
+              href="/embedded-wallets"
             />
             <LandingCardWithImage
-              title="Wallet analytics"
-              description="Comprehensive wallet insights to understand how users are interacting with your app."
-              image={require("public/assets/product-pages/connect/desktop-analytics.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-analytics.png")}
+              title="Build on any platform"
+              description="Best-in-class SDKs for mobile, web, unity and Unreal."
+              image={require("public/assets/product-pages/connect/desktop-pixel.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-pixel.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
+            />
+
+            <LandingCardWithImage
+              title="Scale to millions"
+              description="Best-in-class infra available out of the box. RPCs, decentralized storage (IPFS), and Account Abstraction infra (contracts, bundler, and paymaster)."
+              image={require("public/assets/product-pages/connect/desktop-scale.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-scale.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/dashboard/connect/playground"
-              colSpan={1}
             />
           </LandingGridSection>
         </Flex>
 
-        <LandingGridSection>
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
-            title="Your Connect Wallet experience"
-            description="Build custom onboarding flows with a powerful UI component — with web3 & web2 login options, personalized branding & themes, and everything you need to tailor it to your app."
-          />
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
-            title="Instant onboarding for all"
-            description="Onboard users with just an email, phone, or social account. Generate wallets for your users under the hood, or empower them to create their first self-custodial wallet."
-          />
-          <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/wallets/icon-simple-click.svg")}
-            title="Best-in-class DX"
-            description="Integrate with just a few lines of code — with an interactive builder, powerful hooks for full customization, and onchain analytics."
-          />
-        </LandingGridSection>
-        <LandingGuidesShowcase
-          title="Get started with thirdweb Connect"
-          category={TRACKING_CATEGORY}
-          description="See our quick-start guides to add powerful login experiences into your web3 app."
-          solution="Connect"
-          guides={GUIDES}
-        />
-        <LandingEndCTA
-          title="Integrate in"
-          titleWithGradient="a few lines of code."
+        <LandingHeroWithSideImage
+          title="Powerful NFT Checkouts"
+          titleWithGradient="and Payment infrastructure."
+          subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/dashboard/connect/playground"
-          gradient="linear(to-r, #3385FF, #7BB0FF)"
+          ctaLink="https://portal.thirdweb.com/payments"
+          gradient="linear(to-r, #4490FF, #4490FF)"
+          lottie={checkoutLottie}
+          noContactUs
+        />
+
+        <LandingCardWithMetrics
+          title={
+            <Center flexDir="column" textAlign="center">
+              <Heading size="display.sm" color="white">
+                Trusted by the best
+              </Heading>
+
+              <Text size="body.lg" mt={6}>
+                thirdweb powers the best web3 projects across verticals
+              </Text>
+            </Center>
+          }
+          desktopColumns={3}
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+          metrics={metrics}
         />
       </Container>
     </LandingLayout>
