@@ -14,7 +14,7 @@ import { Card, Heading, LinkButton, Text } from "tw-components";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { TokenIdPage } from "./components/token-id";
 import { useMemo } from "react";
-import { ThirdwebContract, defineChain, getContract } from "thirdweb";
+import { defineChain, getContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 import { getNFT } from "thirdweb/extensions/erc721";
 import { thirdwebClient } from "lib/thirdweb-client";
@@ -49,20 +49,16 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     newContract && tokenId
       ? // eslint-disable-next-line react-hooks/rules-of-hooks
         useReadContract(getNFT, {
-          contract: newContract as ThirdwebContract,
+          contract: newContract,
           tokenId: BigInt(tokenId || 0),
           includeOwner: true,
         })
       : null;
 
-  /*   const nftQuery = readContract(getNFT, {
-    contract: newContract as ThirdwebContract,
-    tokenId: BigInt(tokenId || 0),
-  }); */
-
   const nft = nftQuery?.data;
 
   const tabs = useNFTDrawerTabs({
+    contract: newContract,
     oldContract: contractQuery.contract,
     nft: nft || null,
   });

@@ -10,9 +10,12 @@ import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import type { NFT } from "thirdweb";
+import type { NFT, ThirdwebContract } from "thirdweb";
+import { balanceOf } from "thirdweb/extensions/erc721";
+import { useReadContract } from "thirdweb/react";
 
 type UseNFTDrawerTabsParams = {
+  contract: ThirdwebContract | null;
   oldContract?: NFTContract;
   nft: NFT<"ERC721"> | null;
 };
@@ -38,13 +41,22 @@ const ClaimTab = dynamic(
 );
 
 export function useNFTDrawerTabs({
+  contract,
   oldContract,
   nft,
 }: UseNFTDrawerTabsParams): NFTDrawerTab[] {
   const tokenId = nft?.id?.toString() || "";
   const address = useAddress();
 
-  const balanceOfQuery = useNFTBalance(oldContract, address, tokenId);
+  /*   const balanceOfQuery = useNFTBalance(oldContract, address, tokenId );*/
+  const balanceOfQuery =
+    address && contract
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useReadContract(balanceOf, {
+          contract,
+          address,
+        })
+      : null;
 
   return useMemo(() => {
     const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
