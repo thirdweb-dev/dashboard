@@ -1,10 +1,9 @@
-import { Box, Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
+import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingLayout } from "components/landing-pages/layout";
 import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/MiniPlayground";
-import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import {
