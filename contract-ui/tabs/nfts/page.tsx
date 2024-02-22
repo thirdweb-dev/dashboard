@@ -45,14 +45,15 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     });
   }, [contractAddress, chainId]);
 
-  const nftQuery = newContract
-    ? // eslint-disable-next-line react-hooks/rules-of-hooks
-      useReadContract(getNFT, {
-        contract: newContract as ThirdwebContract,
-        tokenId: BigInt(tokenId || 0),
-        includeOwner: true,
-      })
-    : null;
+  const nftQuery =
+    newContract && tokenId
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useReadContract(getNFT, {
+          contract: newContract as ThirdwebContract,
+          tokenId: BigInt(tokenId || 0),
+          includeOwner: true,
+        })
+      : null;
 
   /*   const nftQuery = readContract(getNFT, {
     contract: newContract as ThirdwebContract,
@@ -137,7 +138,12 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
           {isErc721Claimable && newContract && (
             <SupplyCards contract={newContract} />
           )}
-          <NFTGetAllTable contract={contractQuery.contract} />
+          {newContract && (
+            <NFTGetAllTable
+              contract={newContract}
+              oldContract={contractQuery.contract}
+            />
+          )}
         </>
       )}
     </Flex>
