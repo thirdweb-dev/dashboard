@@ -7,7 +7,13 @@ import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/M
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Heading, TrackedLink, Text, TrackedLinkButton } from "tw-components";
+import {
+  Heading,
+  TrackedLink,
+  Text,
+  TrackedLinkButton,
+  Button,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import connectLottie from "../public/assets/product-pages/connect/connect-lottie.json";
 import checkoutLottie from "../public/assets/product-pages/checkout/checkout.json";
@@ -15,6 +21,8 @@ import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobi
 import { ChakraNextImage } from "components/Image";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
+import { useTrack } from "hooks/analytics/useTrack";
+import { ReactNode, useState } from "react";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -78,6 +86,37 @@ export const metrics = [
 ];
 
 const ConnectLanding: ThirdwebNextPage = () => {
+  const trackEvent = useTrack();
+  const [currentPlaygroundIdx, setCurrentPlaygroundIdx] = useState(0);
+
+  const playgroundComponents: Record<number, ReactNode> = {
+    0: <MiniPlayground trackingCategory={TRACKING_CATEGORY} />,
+    1: (
+      <LandingDesktopMobileImage
+        image={require("public/assets/product-pages/connect/desktop-pay.png")}
+        mobileImage={require("public/assets/product-pages/connect/mobile-pay.png")}
+        alt="pay"
+        maxW={{ base: "100%" }}
+      />
+    ),
+    2: (
+      <LandingDesktopMobileImage
+        image={require("public/assets/product-pages/connect/desktop-web3button.png")}
+        mobileImage={require("public/assets/product-pages/connect/mobile-web3button.png")}
+        alt="web3button"
+        maxW={{ base: "100%" }}
+      />
+    ),
+    3: (
+      <LandingDesktopMobileImage
+        image={require("public/assets/product-pages/connect/desktop-ipfs.png")}
+        mobileImage={require("public/assets/product-pages/connect/mobile-ipfs.png")}
+        alt="ipfs"
+        maxW={{ base: "100%" }}
+      />
+    ),
+  };
+
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -118,8 +157,12 @@ const ConnectLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
         />
 
-        <Box>
-          <Spacer h={[10, 20]} />
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          gap="24px"
+        >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
             A fully customizable Connect Wallet component
@@ -131,37 +174,55 @@ const ConnectLanding: ThirdwebNextPage = () => {
             modal that fits your brand.
           </Text>
 
-          <Spacer h={8} />
-
           {/* Supported platforms */}
-          <Flex alignItems="center" gap={2} justifyContent={"center"}>
-            <Text mr={2} display={["none", "block"]} fontSize={12}>
-              Supports
-            </Text>
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="React"
-              href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
-            />
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="React Native"
-              href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
-            />
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="Unity"
-              href="https://portal.thirdweb.com/unity/wallets/prefab"
-            />
+          <Flex
+            alignItems="center"
+            gap={2}
+            justifyContent={"center"}
+            flexWrap="wrap"
+          >
+            {[
+              { title: "Connect", label: "connect" },
+              { title: "Pay", label: "pay" },
+              { title: "Web3 Button", label: "web3_button" },
+              { title: "IPFS Renderer", label: "ipfs_rendered" },
+            ].map(({ title, label }, idx) => (
+              <Button
+                borderWidth={1}
+                borderColor={
+                  currentPlaygroundIdx === idx ? "#3385FF" : "#646D7A"
+                }
+                color={currentPlaygroundIdx === idx ? "#fff" : "#646D7A"}
+                fontWeight={600}
+                padding="8px 16px"
+                lineHeight="20px"
+                borderRadius="4px"
+                key={idx}
+                cursor="pointer"
+                background="transparent"
+                _hover={{
+                  background: "transparent",
+                }}
+                mr={2}
+                fontSize="17px"
+                onClick={() => {
+                  trackEvent({
+                    category: TRACKING_CATEGORY,
+                    action: "click",
+                    label,
+                  });
+                  setCurrentPlaygroundIdx(idx);
+                }}
+              >
+                {title}
+              </Button>
+            ))}
           </Flex>
 
-          <Spacer h={12} />
+          <Spacer mt={currentPlaygroundIdx === 0 ? "32px" : "0"} />
 
-          <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
-        </Box>
+          {playgroundComponents[currentPlaygroundIdx]}
+        </Flex>
 
         <Flex
           flexDir="column"

@@ -132,7 +132,7 @@ export const MiniPlayground: React.FC<{
   const trackEvent = useTrack();
 
   return (
-    <Box>
+    <Box w="full">
       <Grid templateColumns={["1fr", "300px 1fr"]} gap={5}>
         {/* Left */}
         <Flex flexDir="column" gap={10} order={[1, 0]}>
