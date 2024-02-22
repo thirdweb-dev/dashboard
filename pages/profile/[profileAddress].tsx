@@ -20,7 +20,7 @@ import { PublishedContracts } from "components/contract-components/tables/publis
 import { THIRDWEB_DOMAIN } from "constants/urls";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
-import { getAddress } from "ethers/lib/utils";
+import { getAddress, isAddress } from "ethers/lib/utils";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -232,13 +232,13 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   }
 
   const lowercaseAddress = profileAddress.toLowerCase();
-  const checksummedAdress = lowercaseAddress.endsWith("eth")
-    ? lowercaseAddress
-    : getAddress(lowercaseAddress);
+  const checksummedAddress = isAddress(lowercaseAddress)
+    ? getAddress(lowercaseAddress)
+    : lowercaseAddress;
 
   let address: string | null, ensName: string | null;
   try {
-    const info = await queryClient.fetchQuery(ensQuery(checksummedAdress));
+    const info = await queryClient.fetchQuery(ensQuery(checksummedAddress));
     address = info.address;
     ensName = info.ensName;
   } catch (e) {
@@ -259,7 +259,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
     };
   }
 
-  const ensQueries = [queryClient.prefetchQuery(ensQuery(checksummedAdress))];
+  const ensQueries = [queryClient.prefetchQuery(ensQuery(checksummedAddress))];
   if (ensName) {
     ensQueries.push(queryClient.prefetchQuery(ensQuery(ensName)));
   }
@@ -275,7 +275,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      profileAddress: checksummedAdress,
+      profileAddress: checksummedAddress,
     },
   };
 };

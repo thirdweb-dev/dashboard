@@ -40,7 +40,7 @@ import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
-import { getAddress } from "ethers/lib/utils";
+import { getAddress, isAddress } from "ethers/lib/utils";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
 
@@ -363,13 +363,13 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const queryClient = new QueryClient();
 
   const lowercaseAddress = contractAddress.toLowerCase();
-  const checksummedAdress = lowercaseAddress.endsWith("eth")
-    ? lowercaseAddress
-    : getAddress(lowercaseAddress);
+  const checksummedAddress = isAddress(lowercaseAddress)
+    ? getAddress(lowercaseAddress)
+    : lowercaseAddress;
 
   try {
     const queryResult = await queryClient.fetchQuery(
-      ensQuery(checksummedAdress),
+      ensQuery(checksummedAddress),
     );
     address = queryResult?.address;
   } catch {
@@ -428,7 +428,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
       dehydratedState: dehydrate(queryClient),
       contractInfo: {
         chainSlug,
-        contractAddress: checksummedAdress,
+        contractAddress: checksummedAddress,
         chain,
       },
       detectedExtension,
