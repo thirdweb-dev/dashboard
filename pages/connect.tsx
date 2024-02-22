@@ -1,4 +1,4 @@
-import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
@@ -61,7 +61,7 @@ export const metrics = [
   {
     title: "Courtyard",
     description:
-      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with a seamless fiat checkout.",
+      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with fiat & crypto checkouts.",
     image: require("public/assets/landingpage/case-study-courtyard.png"),
     mobileImage: require("public/assets/landingpage/case-study-courtyard.png"),
     items: [
@@ -91,28 +91,49 @@ const ConnectLanding: ThirdwebNextPage = () => {
   const playgroundComponents: Record<number, ReactNode> = {
     0: <MiniPlayground trackingCategory={TRACKING_CATEGORY} />,
     1: (
-      <LandingDesktopMobileImage
-        image={require("public/assets/product-pages/connect/desktop-pay.png")}
-        mobileImage={require("public/assets/product-pages/connect/mobile-pay.png")}
-        alt="pay"
-        maxW={{ base: "100%" }}
-      />
+      <Box
+        p="50px 20px 14px 20px"
+        bg="#131418"
+        borderRadius="12px"
+        border="1px solid #26282F"
+      >
+        <LandingDesktopMobileImage
+          image={require("public/assets/product-pages/connect/desktop-pay.png")}
+          mobileImage={require("public/assets/product-pages/connect/mobile-pay.png")}
+          alt="pay"
+          maxW={{ base: "100%" }}
+        />
+      </Box>
     ),
     2: (
-      <LandingDesktopMobileImage
-        image={require("public/assets/product-pages/connect/desktop-web3button.png")}
-        mobileImage={require("public/assets/product-pages/connect/mobile-web3button.png")}
-        alt="web3button"
-        maxW={{ base: "100%" }}
-      />
+      <Box
+        p="0 20px 0 20px"
+        bg="#131418"
+        borderRadius="12px"
+        border="1px solid #26282F"
+      >
+        <LandingDesktopMobileImage
+          image={require("public/assets/product-pages/connect/desktop-web3button.png")}
+          mobileImage={require("public/assets/product-pages/connect/mobile-web3button.png")}
+          alt="web3button"
+          maxW={{ base: "100%" }}
+        />
+      </Box>
     ),
     3: (
-      <LandingDesktopMobileImage
-        image={require("public/assets/product-pages/connect/desktop-ipfs.png")}
-        mobileImage={require("public/assets/product-pages/connect/mobile-ipfs.png")}
-        alt="ipfs"
-        maxW={{ base: "100%" }}
-      />
+      <Box
+        p="0 20px 0 20px"
+        bg="#131418"
+        borderRadius="12px"
+        border="1px solid #26282F"
+      >
+        <LandingDesktopMobileImage
+          image={require("public/assets/product-pages/connect/desktop-ipfs.png")}
+          mobileImage={require("public/assets/product-pages/connect/mobile-ipfs.png")}
+          alt="ipfs"
+          maxW={{ base: "100%" }}
+        />
+      </Box>
     ),
   };
 
@@ -145,7 +166,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           miniTitle="Connect"
           title="Build web3 apps that anyone can use"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
-          titleWithGradient="for everyone"
+          titleWithGradient=""
           subtitle="Seamless frontends for your web3 app or game with SDKs in every language. Onboard users with wallets, generate revenue with payments and build gasless apps with Account Abstraction."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
@@ -164,7 +185,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            A fully customizable Connect Wallet component
+            Custom components to build your app
           </Heading>
           <Spacer h={6} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
