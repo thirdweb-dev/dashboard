@@ -205,7 +205,7 @@ dependencies:
     specifier: ^0.14.4
     version: 0.14.4(ethers@5.7.2)
   zod:
-    specifier: ^3.22.4
+    specifier: ^3.19.1
     version: 3.22.4
 
 devDependencies:
@@ -258,10 +258,10 @@ devDependencies:
     specifier: ^1.5.5
     version: 1.5.5
   '@types/react':
-    specifier: ^18.2.58
+    specifier: ^18.0.26
     version: 18.2.58
   '@types/react-dom':
-    specifier: ^18.2.19
+    specifier: ^18
     version: 18.2.19
   '@types/react-table':
     specifier: ^7.7.19
@@ -6055,6 +6055,7 @@ packages:
 
   /@swagger-api/apidom-ns-json-schema-draft-4@0.95.0:
     resolution: {integrity: sha512-JtePOEMfyGCyqWuzW+IAoCjaXJfQT/GVqcQSB/tHltU8yFOKygEnguV1eGeu22HvIk1UlE9K55XZ8SVu76pO5w==}
+    requiresBuild: true
     dependencies:
       '@babel/runtime-corejs3': 7.23.9
       '@swagger-api/apidom-ast': 0.95.0
@@ -11519,6 +11520,7 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
+    bundledDependencies: false
 
   /event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}

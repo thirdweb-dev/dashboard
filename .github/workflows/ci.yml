@@ -38,7 +38,7 @@ jobs:
 
       - name: Run CI
         run: |
-          pnpm Install
+          pnpm install
           pnpm lint
           pnpm test
         env:
