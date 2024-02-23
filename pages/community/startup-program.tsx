@@ -33,39 +33,39 @@ const SEO = {
 const judges = [
   {
     name: "Jason Hitchcock",
-    twitter: "FurqanR",
+    twitter: "JasonHitchcock",
     description: "Head of Ecosystem",
-    image: "/assets/landingpage/furqan-rydhan.png",
+    image: "/assets/landingpage/james.png",
   },
   {
     name: "Phil Ho",
-    twitter: "ahnchrisj",
+    twitter: "arcoraven",
     description: "Engineering Lead, Engine",
-    image: "/assets/landingpage/chris.png",
+    image: "/assets/landingpage/phil.png",
   },
   {
     name: "Samina Kabir",
-    twitter: "theappletucker",
+    twitter: "saminacodes",
     description: "Product Manager, Developer Experience",
-    image: "/assets/landingpage/parker.jpg",
+    image: "/assets/landingpage/samina.png",
   },
   {
     name: "Atif Khan",
-    twitter: "FranklinBi",
+    twitter: "atifkhan31",
     description: "VP, Business",
-    image: "/assets/landingpage/franklin.jpg",
+    image: "/assets/landingpage/atif.png",
   },
   {
     name: "Mike Shin",
-    twitter: "FranklinBi",
+    twitter: "mdjshin",
     description: "Head of Business Operations",
-    image: "/assets/landingpage/franklin.jpg",
+    image: "/assets/landingpage/mike.png",
   },
 ];
 
 const trustedCompanies = [
   {
-    title: "Coinbase Wallet",
+    title: "Coinbase",
     height: 74,
     width: 74,
     src: require("public/assets/partners/coinbase.png"),
@@ -104,12 +104,25 @@ const faqs = [
   {
     title: "How do I apply?",
     description:
-      "You can apply in less than 10 minutes by filling out the application form and scheduling a call with our team.",
+      "You can apply in less than 2 minutes by filling out the application form and scheduling a call with our team.",
   },
   {
     title: "How do I get approved for credits?",
-    description:
-      "Apply through this link. Tell us about your project, any partner affiliations, and we'll schedule an onboarding call to get you started.",
+    description: (
+      <span>
+        Apply through{" "}
+        <TrackedLink
+          href="https://share.hsforms.com/1WCgMOvmuQqmCjdEqtu1NdAea58c"
+          label="apply_faq"
+          category={TRACKING_CATEGORY}
+          color="primary.500"
+        >
+          this
+        </TrackedLink>{" "}
+        link. Tell us about your project, any partner affiliations, and
+        we&apos;ll schedule an onboarding call to get you started.
+      </span>
+    ),
   },
   {
     title: "Are current thirdweb customers eligible?",
@@ -117,9 +130,9 @@ const faqs = [
       "Current customers and developers affiliated with a partner can also access benefits. Customers who've already received credits are not eligible for additional credits.",
   },
   {
-    title: "How can I use my credits",
+    title: "How can I use my credits?",
     description:
-      "Credits can be applied towards annual Growth plans and thirdweb Engine instances.",
+      "Credits can be applied towards annual Growth plans and thirdweb Engine instances and usage.",
   },
 ];
 
@@ -225,7 +238,7 @@ const CommunityStartup: ThirdwebNextPage = () => {
               />
               <LandingIconSectionItem
                 icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
-                title="Invites to our invite-only events and Community hackathons in SF and NYC"
+                title="Invites to our exclusive events and Community hackathons in SF and NYC"
                 customDescription={
                   <List listStyleType="inherit" ml="20px" opacity={0.7}>
                     <ListItem>Get prioritized support</ListItem>
