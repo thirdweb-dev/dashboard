@@ -172,7 +172,7 @@ module.exports = withPlausibleProxy({
         transpileClientSDK: false,
 
         // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-        tunnelRoute: "/monitoring",
+        tunnelRoute: "/err",
 
         // Hides source maps from generated client bundles
         hideSourceMaps: true,
