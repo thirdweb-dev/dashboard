@@ -66,7 +66,7 @@ const setColumns = (instanceUrl: string) => [
       const address = cell.getValue();
       return (
         <AddressCopyButton
-          address={ethers.utils.getAddress(address)}
+          address={utils.getAddress(address)}
           shortenAddress={false}
           size="xs"
         />
