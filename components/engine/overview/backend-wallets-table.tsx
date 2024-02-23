@@ -44,7 +44,7 @@ import {
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { prettyPrintCurrency } from "../utils";
-import { ethers } from "ethers";
+import { utils } from "ethers";
 
 interface BackendWalletsTableProps {
   wallets: BackendWallet[];
