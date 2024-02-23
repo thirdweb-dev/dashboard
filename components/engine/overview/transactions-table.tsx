@@ -171,8 +171,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
           status === "errored"
             ? errorMessage
             : (status === "mined" || status === "retried") && minedAt
-              ? `Completed ${format(new Date(minedAt), "PP pp")}`
-              : undefined;
+            ? `Completed ${format(new Date(minedAt), "PP pp")}`
+            : undefined;
 
         return (
           <Flex align="center" gap={1}>
@@ -464,7 +464,7 @@ const TransactionDetailsDrawer = ({
   }
 
   const chain = chainIdToChainRecord[parseInt(transaction.chainId)];
-  const explorer = chain.explorers?.[0];
+  const explorer = chain?.explorers?.[0];
 
   const status = statusDetails[transaction.status as EngineStatus];
   const functionCalled =
