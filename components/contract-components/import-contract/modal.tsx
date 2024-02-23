@@ -1,4 +1,4 @@
-import { useMultiChainRegContractList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react";
 import { useAddContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   Flex,
@@ -29,7 +29,7 @@ const defaultValues = {
 export const ImportModal: React.FC<ImportModalProps> = (props) => {
   const addToDashboard = useAddContractMutation();
   const address = useAddress();
-  const registry = useMultiChainRegContractList(address);
+  const registry = useAllContractList(address);
   const form = useForm({
     defaultValues,
   });
