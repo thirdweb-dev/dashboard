@@ -106,7 +106,7 @@ export const PaymentCheckouts: React.FC<PaymentCheckoutsProps> = ({
   );
 };
 
-export const CopyCheckoutButton: React.FC<{ text: string }> = ({ text }) => {
+const CopyCheckoutButton: React.FC<{ text: string }> = ({ text }) => {
   const { onCopy, hasCopied } = useClipboard(text);
   const trackEvent = useTrack();
   return (

@@ -58,7 +58,7 @@ import { paymentsKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useApiAuthToken } from "./useApi";
 
-export const paymentsExtensions: FeatureName[] = [
+const paymentsExtensions: FeatureName[] = [
   "ERC721SharedMetadata",
   "ERC721ClaimPhasesV2",
   "ERC721ClaimConditionsV2",
@@ -66,7 +66,7 @@ export const paymentsExtensions: FeatureName[] = [
   "ERC1155ClaimPhasesV2",
 ];
 
-export const hasPaymentsDetectedExtensions = (
+const hasPaymentsDetectedExtensions = (
   contract: SmartContract<BaseContract> | undefined,
 ) => {
   return detectFeatures(contract, paymentsExtensions);
@@ -85,7 +85,7 @@ export const validPaymentsChainIdsMainnets: number[] = [
   ArbitrumNova.chainId,
 ];
 
-export const validPaymentsChainIdsTestnets: number[] = [
+const validPaymentsChainIdsTestnets: number[] = [
   Goerli.chainId,
   Sepolia.chainId,
   Mumbai.chainId,
@@ -108,7 +108,7 @@ export const validPaymentsChainIds: number[] = [
 ];
 
 // type for validcheckoutchainids
-export type PaymentChainId = (typeof validPaymentsChainIds)[number];
+type PaymentChainId = (typeof validPaymentsChainIds)[number];
 
 const ChainIdToPaperChain: Record<PaymentChainId, string> = {
   [Ethereum.chainId]: "Ethereum",
@@ -233,7 +233,7 @@ export const ChainIdToSupportedCurrencies: Record<number, CurrencyMetadata[]> =
     return acc;
   }, {});
 
-export type RegisterContractInput = {
+type RegisterContractInput = {
   chain: string;
   contractAddress: string;
   contractType?: "CUSTOM_CONTRACT" | "THIRDWEB";
@@ -454,7 +454,7 @@ export function usePaymentsCreateUpdateCheckout(contractAddress: string) {
   );
 }
 
-export type RemoveCheckoutInput = {
+type RemoveCheckoutInput = {
   checkoutId: string;
 };
 
@@ -485,10 +485,6 @@ export function usePaymentsRemoveCheckout(contractAddress: string) {
     },
   );
 }
-
-export type UploadKybFileInput = {
-  file: File;
-};
 
 export function usePaymentsUploadKybFiles() {
   const { token } = useApiAuthToken();
@@ -629,7 +625,7 @@ export type SellerValueInput = {
   is_sole_proprietor: boolean;
 };
 
-export type UpdateSellerByIdInput = {
+type UpdateSellerByIdInput = {
   id: string;
   sellerValue: SellerValueInput;
 };
@@ -789,7 +785,7 @@ export function usePaymentsCheckoutsByContract(contractAddress: string) {
   );
 }
 
-export enum PaymentMethod {
+enum PaymentMethod {
   NATIVE_MINT = "NATIVE_MINT",
   BUY_WITH_CARD = "BUY_WITH_CARD",
   BUY_WITH_BANK = "BUY_WITH_BANK",
@@ -799,7 +795,7 @@ export enum PaymentMethod {
   BUY_WITH_IDEAL = "BUY_WITH_IDEAL",
 }
 
-export const PaymentMethodToText: Record<PaymentMethod, string> = {
+const PaymentMethodToText: Record<PaymentMethod, string> = {
   [PaymentMethod.BUY_WITH_CARD]: "Card",
   [PaymentMethod.BUY_WITH_BANK]: "Bank Account",
   [PaymentMethod.BUY_WITH_CRYPTO]: "Other Crypto",
@@ -809,7 +805,7 @@ export const PaymentMethodToText: Record<PaymentMethod, string> = {
   [PaymentMethod.BUY_WITH_IDEAL]: "iDEAL",
 };
 
-export enum FiatCurrency {
+enum FiatCurrency {
   USD = "USD",
   EUR = "EUR",
   JPY = "JPY",
@@ -824,7 +820,7 @@ export enum FiatCurrency {
 
 const WALLET_TYPE = "wallet_type";
 const PAYMENT_METHOD = "payment_method";
-export function parseAnalyticOverviewData(data: any[]): any[] {
+function parseAnalyticOverviewData(data: any[]): any[] {
   const result: { [checkout_id: string]: any } = {};
 
   for (const item of data) {
@@ -1016,7 +1012,7 @@ export function usePaymentsCreateWebhook(paymentsSellerId: string) {
   );
 }
 
-export type UpdateWebhookInput = {
+type UpdateWebhookInput = {
   webhookId: string;
   url?: string;
   deletedAt?: Date;
@@ -1052,13 +1048,6 @@ export function usePaymentsUpdateWebhook(paymentsSellerId: string) {
     },
   );
 }
-
-export type PaymentsWebhookSecretType = {
-  id: string;
-  ownerId: string;
-  createdAt: string;
-  hashedKey: string;
-};
 
 export function usePaymentsWebhooksSecretKeyById(paymentsSellerId: string) {
   const { token } = useApiAuthToken();
