@@ -88,7 +88,6 @@
   "devDependencies": {
     "@chakra-ui/cli": "^2.4.1",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
