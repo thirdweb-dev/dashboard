@@ -35,6 +35,7 @@ const config: CodegenConfig = {
         "typescript-react-apollo",
       ],
       config: {
+        useTypeImports: true,
         withComponent: false,
       },
     },
