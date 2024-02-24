@@ -1,4 +1,3 @@
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { useEns } from "components/contract-components/hooks";
@@ -106,7 +105,6 @@ export function useContractRouteConfig(
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
   const contractTypeQuery = contractType.useQuery(contractAddress);
-  const { data: account } = useAccount();
 
   const claimconditionExtensionDetection = extensionDetectedState({
     contractQuery,

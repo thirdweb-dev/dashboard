@@ -16,7 +16,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { FiCopy } from "react-icons/fi";
 import { AiOutlineQrcode } from "react-icons/ai";
 import { RemoveCheckoutButton } from "./remove-checkout-button";
-import { Checkout } from "graphql/generated_types";
+import { Checkout } from "graphql/generated";
 
 interface PaymentCheckoutsProps {
   contractId: string;

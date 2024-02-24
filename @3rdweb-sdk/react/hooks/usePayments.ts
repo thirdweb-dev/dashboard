@@ -34,35 +34,23 @@ import { BaseContract } from "ethers";
 import {
   InsertWebhookMutationVariables,
   useInsertWebhookMutation,
-} from "graphql/mutations/__generated__/InsertWebhook.generated";
-import { useUpdateSellerMutation } from "graphql/mutations/__generated__/UpdateSeller.generated";
-import {
+  useUpdateSellerMutation,
   UpdateWebhookMutationVariables,
   useUpdateWebhookMutation,
-} from "graphql/mutations/__generated__/UpdateWebhook.generated";
-import { ApiSecretKeysByOwnerIdQuery } from "graphql/queries/__generated__/ApiSecretKeysByOwnerId.generated";
-import {
+  ApiSecretKeysByOwnerIdQuery,
   CheckoutsByContractAddressQueryVariables,
   useCheckoutsByContractAddressLazyQuery,
-} from "graphql/queries/__generated__/CheckoutsByContractAddress.generated";
-import {
   ContractsByOwnerIdQueryVariables,
   useContractsByOwnerIdLazyQuery,
-} from "graphql/queries/__generated__/ContractsByOwnerId.generated";
-import {
   DetailedAnalyticsQueryVariables,
   useDetailedAnalyticsLazyQuery,
-} from "graphql/queries/__generated__/DetailedAnalytics.generated";
-import {
   SellerDocument,
   SellerQueryVariables,
   useSellerLazyQuery,
-} from "graphql/queries/__generated__/Seller.generated";
-import {
   WebhooksBySellerIdDocument,
   WebhooksBySellerIdQueryVariables,
   useWebhooksBySellerIdLazyQuery,
-} from "graphql/queries/__generated__/WebhooksBySellerId.generated";
+} from "graphql/generated";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import invariant from "tiny-invariant";
 import { OtherAddressZero } from "utils/zeroAddress";

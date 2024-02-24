@@ -1,3 +1,5 @@
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -5,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -14356,3 +14359,618 @@ export type Webhook_Updates = {
   /** filter the rows which have to be updated */
   where: Webhook_Bool_Exp;
 };
+
+export type AnalyticOverviewFragment = { __typename?: 'analytics_overview_2', checkout_id?: any | null, checkout_created_at?: any | null, checkout_deleted_at?: any | null, collection_description?: string | null, collection_title?: string | null, image_url?: string | null, network_fees_cents?: any | null, number_sold?: any | null, owner_id?: string | null, paper_fees_cents?: any | null, payment_method?: string | null, revenue_cents?: any | null, wallet_type?: string | null, fiat_currency?: string | null, num_transactions_made?: any | null };
+
+export type ApiSecretKeyFragment = { __typename?: 'api_secret_key', id: any, owner_id: string, created_at: any, revoked_at?: any | null, hashed_key: string };
+
+export type BaseContractFragment = { __typename?: 'contract', id: any, display_name: string, address: string, chain: string, type: string, created_at: any, deleted_at: any, owner_id: string, is_created_by_contract_deployer: boolean, secondary_sales: boolean, is_fiat_payout_enabled: boolean, is_paper_managed: boolean, is_airdrop: boolean };
+
+export type CheckoutFragment = { __typename?: 'checkout', id: any, owner_id: string, contract_address: string, contract_type: string, contract_chain: string, collection_title: string, collection_description?: string | null, image_url?: string | null, success_callback_url?: string | null, cancel_callback_url?: string | null, created_at: any, deleted_at: any, price: any, hide_native_mint: boolean, hide_pay_with_card: boolean, hide_pay_with_crypto: boolean, hide_pay_with_bank: boolean, hide_pay_with_ideal: boolean, hide_connect_paper_wallet: boolean, hide_connect_external_wallet: boolean, mint_abi_function_name?: string | null, custom_abi: any, listing_id?: string | null, pack_id?: string | null, pack_address?: string | null, bundle_address?: string | null, brand_dark_mode: boolean, brand_button_shape: string, brand_color_scheme: string, token_id?: string | null, webhook_urls: any, float_wallet_addresses: any, require_verified_email: boolean, has_public_link: boolean, limit_per_wallet_address?: number | null, limit_per_transaction: number, card_payments_vendor?: string | null, redirect_after_payment: boolean, should_send_transfer_completed_email: boolean, seller_twitter_handle?: string | null, use_paper_access_key: boolean, generated_by_registered_contract: boolean, registered_contract_id?: any | null, contract_args?: any | null, post_purchase_message_markdown?: string | null, post_purchase_button_text?: string | null, sponsored_fees: boolean, thirdweb_client_id?: string | null, seller: { __typename?: 'seller', id: string, twitter_handle?: string | null, service_fee_bps: number, support_email?: string | null, email_display_name?: string | null, company_name?: string | null, company_logo_url?: string | null, fee_bearer: string, default_float_wallets?: any | null, deposit_amount_usd_cents?: number | null, has_production_access?: boolean | null, is_trusted?: boolean | null } };
+
+export type ContractFragment = { __typename?: 'contract', definition: any, id: any, display_name: string, address: string, chain: string, type: string, created_at: any, deleted_at: any, owner_id: string, is_created_by_contract_deployer: boolean, secondary_sales: boolean, is_fiat_payout_enabled: boolean, is_paper_managed: boolean, is_airdrop: boolean };
+
+export type DetailedAnalyticsFragment = { __typename?: 'detailed_analytics', checkout_id: any, sales: any, page_visits: any, transaction_created_at: any, network_fee_usd_cents: any, paper_fee_usd_cents: any, revenue_usd_cents: any };
+
+export type SellerFragment = { __typename?: 'seller', id: string, email?: string | null, twitter_handle?: string | null, service_fee_bps: number, stripe_customer_id?: string | null, stripe_default_payment_method_id?: string | null, fee_bearer: string, email_display_name?: string | null, support_email?: string | null, default_float_wallets?: any | null, date_business_documents_verified?: any | null, date_personal_documents_verified?: any | null, created_at: any, deleted_at?: any | null, is_archived: boolean, native_mint_payout_wallet_address?: string | null, source?: string | null, referrer?: string | null, implementation_status: string, is_enterprise: boolean, is_sole_proprietor?: boolean | null, company_logo_url?: string | null, company_name?: string | null, role_in_company?: string | null, estimated_launch_date?: any | null, deposit_amount_usd_cents?: number | null, auto_topup_enabled: boolean, auto_topup_amount_usd_cents?: number | null, discord_username?: string | null, has_production_access?: boolean | null, thirdweb_account_id?: string | null, is_trusted?: boolean | null, is_branding_disabled?: boolean | null };
+
+export type WebhookFragment = { __typename?: 'webhook', id: any, seller_id: string, url: string, is_production: boolean, created_at: any, deleted_at?: any | null };
+
+export type InsertWebhookMutationVariables = Exact<{
+  object: Webhook_Insert_Input;
+}>;
+
+
+export type InsertWebhookMutation = { __typename?: 'mutation_root', insert_webhook_one?: { __typename?: 'webhook', id: any, seller_id: string, url: string, is_production: boolean, created_at: any, deleted_at?: any | null } | null };
+
+export type UpdateWebhookMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  webhookValue: Webhook_Set_Input;
+}>;
+
+
+export type UpdateWebhookMutation = { __typename?: 'mutation_root', update_webhook_by_pk?: { __typename?: 'webhook', id: any, seller_id: string, url: string, is_production: boolean, created_at: any, deleted_at?: any | null } | null };
+
+export type ApiSecretKeysByOwnerIdQueryVariables = Exact<{
+  ownerId: Scalars['String']['input'];
+}>;
+
+
+export type ApiSecretKeysByOwnerIdQuery = { __typename?: 'query_root', api_secret_key: Array<{ __typename?: 'api_secret_key', id: any, owner_id: string, created_at: any, revoked_at?: any | null, hashed_key: string }> };
+
+export type CheckoutsByContractAddressQueryVariables = Exact<{
+  contractAddressQuery: Scalars['String']['input'];
+}>;
+
+
+export type CheckoutsByContractAddressQuery = { __typename?: 'query_root', checkout: Array<{ __typename?: 'checkout', id: any, owner_id: string, contract_address: string, contract_type: string, contract_chain: string, collection_title: string, collection_description?: string | null, image_url?: string | null, success_callback_url?: string | null, cancel_callback_url?: string | null, created_at: any, deleted_at: any, price: any, hide_native_mint: boolean, hide_pay_with_card: boolean, hide_pay_with_crypto: boolean, hide_pay_with_bank: boolean, hide_pay_with_ideal: boolean, hide_connect_paper_wallet: boolean, hide_connect_external_wallet: boolean, mint_abi_function_name?: string | null, custom_abi: any, listing_id?: string | null, pack_id?: string | null, pack_address?: string | null, bundle_address?: string | null, brand_dark_mode: boolean, brand_button_shape: string, brand_color_scheme: string, token_id?: string | null, webhook_urls: any, float_wallet_addresses: any, require_verified_email: boolean, has_public_link: boolean, limit_per_wallet_address?: number | null, limit_per_transaction: number, card_payments_vendor?: string | null, redirect_after_payment: boolean, should_send_transfer_completed_email: boolean, seller_twitter_handle?: string | null, use_paper_access_key: boolean, generated_by_registered_contract: boolean, registered_contract_id?: any | null, contract_args?: any | null, post_purchase_message_markdown?: string | null, post_purchase_button_text?: string | null, sponsored_fees: boolean, thirdweb_client_id?: string | null, seller: { __typename?: 'seller', id: string, twitter_handle?: string | null, service_fee_bps: number, support_email?: string | null, email_display_name?: string | null, company_name?: string | null, company_logo_url?: string | null, fee_bearer: string, default_float_wallets?: any | null, deposit_amount_usd_cents?: number | null, has_production_access?: boolean | null, is_trusted?: boolean | null } }> };
+
+export type ContractsByOwnerIdQueryVariables = Exact<{
+  ownerId: Scalars['String']['input'];
+}>;
+
+
+export type ContractsByOwnerIdQuery = { __typename?: 'query_root', contract: Array<{ __typename?: 'contract', definition: any, id: any, display_name: string, address: string, chain: string, type: string, created_at: any, deleted_at: any, owner_id: string, is_created_by_contract_deployer: boolean, secondary_sales: boolean, is_fiat_payout_enabled: boolean, is_paper_managed: boolean, is_airdrop: boolean }> };
+
+export type DetailedAnalyticsQueryVariables = Exact<{
+  checkoutId: Scalars['uuid']['input'];
+  period?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type DetailedAnalyticsQuery = { __typename?: 'query_root', get_detailed_analytics: Array<{ __typename?: 'detailed_analytics', checkout_id: any, sales: any, page_visits: any, transaction_created_at: any, network_fee_usd_cents: any, paper_fee_usd_cents: any, revenue_usd_cents: any }>, analytics_overview_2: Array<{ __typename?: 'analytics_overview_2', checkout_id?: any | null, checkout_created_at?: any | null, checkout_deleted_at?: any | null, collection_description?: string | null, collection_title?: string | null, image_url?: string | null, network_fees_cents?: any | null, number_sold?: any | null, owner_id?: string | null, paper_fees_cents?: any | null, payment_method?: string | null, revenue_cents?: any | null, wallet_type?: string | null, fiat_currency?: string | null, num_transactions_made?: any | null }> };
+
+export type SellerQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type SellerQuery = { __typename?: 'query_root', seller_by_pk?: { __typename?: 'seller', id: string, email?: string | null, twitter_handle?: string | null, service_fee_bps: number, stripe_customer_id?: string | null, stripe_default_payment_method_id?: string | null, fee_bearer: string, email_display_name?: string | null, support_email?: string | null, default_float_wallets?: any | null, date_business_documents_verified?: any | null, date_personal_documents_verified?: any | null, created_at: any, deleted_at?: any | null, is_archived: boolean, native_mint_payout_wallet_address?: string | null, source?: string | null, referrer?: string | null, implementation_status: string, is_enterprise: boolean, is_sole_proprietor?: boolean | null, company_logo_url?: string | null, company_name?: string | null, role_in_company?: string | null, estimated_launch_date?: any | null, deposit_amount_usd_cents?: number | null, auto_topup_enabled: boolean, auto_topup_amount_usd_cents?: number | null, discord_username?: string | null, has_production_access?: boolean | null, thirdweb_account_id?: string | null, is_trusted?: boolean | null, is_branding_disabled?: boolean | null } | null };
+
+export type UpdateSellerMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  sellerValue: Seller_Set_Input;
+}>;
+
+
+export type UpdateSellerMutation = { __typename?: 'mutation_root', update_seller_by_pk?: { __typename?: 'seller', id: string, email?: string | null, twitter_handle?: string | null, service_fee_bps: number, stripe_customer_id?: string | null, stripe_default_payment_method_id?: string | null, fee_bearer: string, email_display_name?: string | null, support_email?: string | null, default_float_wallets?: any | null, date_business_documents_verified?: any | null, date_personal_documents_verified?: any | null, created_at: any, deleted_at?: any | null, is_archived: boolean, native_mint_payout_wallet_address?: string | null, source?: string | null, referrer?: string | null, implementation_status: string, is_enterprise: boolean, is_sole_proprietor?: boolean | null, company_logo_url?: string | null, company_name?: string | null, role_in_company?: string | null, estimated_launch_date?: any | null, deposit_amount_usd_cents?: number | null, auto_topup_enabled: boolean, auto_topup_amount_usd_cents?: number | null, discord_username?: string | null, has_production_access?: boolean | null, thirdweb_account_id?: string | null, is_trusted?: boolean | null, is_branding_disabled?: boolean | null } | null };
+
+export type WebhooksBySellerIdQueryVariables = Exact<{
+  sellerId: Scalars['String']['input'];
+}>;
+
+
+export type WebhooksBySellerIdQuery = { __typename?: 'query_root', webhook: Array<{ __typename?: 'webhook', id: any, seller_id: string, url: string, is_production: boolean, created_at: any, deleted_at?: any | null }> };
+
+export const AnalyticOverviewFragmentDoc = gql`
+    fragment AnalyticOverview on analytics_overview_2 {
+  checkout_id
+  checkout_created_at
+  checkout_deleted_at
+  collection_description
+  collection_title
+  image_url
+  network_fees_cents
+  number_sold
+  owner_id
+  paper_fees_cents
+  payment_method
+  revenue_cents
+  wallet_type
+  fiat_currency
+  num_transactions_made
+}
+    `;
+export const ApiSecretKeyFragmentDoc = gql`
+    fragment ApiSecretKey on api_secret_key {
+  id
+  owner_id
+  created_at
+  revoked_at
+  hashed_key
+}
+    `;
+export const CheckoutFragmentDoc = gql`
+    fragment Checkout on checkout {
+  id
+  owner_id
+  seller {
+    id
+    twitter_handle
+    service_fee_bps
+    support_email
+    email_display_name
+    company_name
+    company_logo_url
+    fee_bearer
+    default_float_wallets
+    deposit_amount_usd_cents
+    has_production_access
+    is_trusted
+  }
+  contract_address
+  contract_type
+  contract_chain
+  collection_title
+  collection_description
+  image_url
+  success_callback_url
+  cancel_callback_url
+  created_at
+  deleted_at
+  price
+  hide_native_mint
+  hide_pay_with_card
+  hide_pay_with_crypto
+  hide_pay_with_bank
+  hide_pay_with_ideal
+  hide_connect_paper_wallet
+  hide_connect_external_wallet
+  mint_abi_function_name
+  custom_abi
+  listing_id
+  pack_id
+  pack_address
+  bundle_address
+  brand_dark_mode
+  brand_button_shape
+  brand_color_scheme
+  token_id
+  webhook_urls
+  float_wallet_addresses
+  require_verified_email
+  has_public_link
+  limit_per_wallet_address
+  limit_per_transaction
+  card_payments_vendor
+  redirect_after_payment
+  should_send_transfer_completed_email
+  seller_twitter_handle
+  use_paper_access_key
+  generated_by_registered_contract
+  registered_contract_id
+  contract_args
+  post_purchase_message_markdown
+  post_purchase_button_text
+  sponsored_fees
+  thirdweb_client_id
+}
+    `;
+export const BaseContractFragmentDoc = gql`
+    fragment BaseContract on contract {
+  id
+  display_name
+  address
+  chain
+  type
+  created_at
+  deleted_at
+  owner_id
+  is_created_by_contract_deployer
+  secondary_sales
+  is_fiat_payout_enabled
+  is_paper_managed
+  is_airdrop
+}
+    `;
+export const ContractFragmentDoc = gql`
+    fragment Contract on contract {
+  ...BaseContract
+  definition
+}
+    ${BaseContractFragmentDoc}`;
+export const DetailedAnalyticsFragmentDoc = gql`
+    fragment DetailedAnalytics on detailed_analytics {
+  checkout_id
+  sales
+  page_visits
+  transaction_created_at
+  network_fee_usd_cents
+  paper_fee_usd_cents
+  revenue_usd_cents
+}
+    `;
+export const SellerFragmentDoc = gql`
+    fragment Seller on seller {
+  id
+  email
+  twitter_handle
+  service_fee_bps
+  stripe_customer_id
+  stripe_default_payment_method_id
+  fee_bearer
+  email_display_name
+  support_email
+  default_float_wallets
+  date_business_documents_verified
+  date_personal_documents_verified
+  created_at
+  deleted_at
+  is_archived
+  native_mint_payout_wallet_address
+  source
+  referrer
+  implementation_status
+  is_enterprise
+  is_sole_proprietor
+  company_logo_url
+  company_name
+  role_in_company
+  estimated_launch_date
+  deposit_amount_usd_cents
+  auto_topup_enabled
+  auto_topup_amount_usd_cents
+  discord_username
+  has_production_access
+  thirdweb_account_id
+  is_trusted
+  is_branding_disabled
+}
+    `;
+export const WebhookFragmentDoc = gql`
+    fragment Webhook on webhook {
+  id
+  seller_id
+  url
+  is_production
+  created_at
+  deleted_at
+}
+    `;
+export const InsertWebhookDocument = gql`
+    mutation InsertWebhook($object: webhook_insert_input!) {
+  insert_webhook_one(object: $object) {
+    ...Webhook
+  }
+}
+    ${WebhookFragmentDoc}`;
+export type InsertWebhookMutationFn = Apollo.MutationFunction<InsertWebhookMutation, InsertWebhookMutationVariables>;
+
+/**
+ * __useInsertWebhookMutation__
+ *
+ * To run a mutation, you first call `useInsertWebhookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertWebhookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertWebhookMutation, { data, loading, error }] = useInsertWebhookMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useInsertWebhookMutation(baseOptions?: Apollo.MutationHookOptions<InsertWebhookMutation, InsertWebhookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertWebhookMutation, InsertWebhookMutationVariables>(InsertWebhookDocument, options);
+      }
+export type InsertWebhookMutationHookResult = ReturnType<typeof useInsertWebhookMutation>;
+export type InsertWebhookMutationResult = Apollo.MutationResult<InsertWebhookMutation>;
+export type InsertWebhookMutationOptions = Apollo.BaseMutationOptions<InsertWebhookMutation, InsertWebhookMutationVariables>;
+export const UpdateWebhookDocument = gql`
+    mutation UpdateWebhook($id: uuid!, $webhookValue: webhook_set_input!) {
+  update_webhook_by_pk(pk_columns: {id: $id}, _set: $webhookValue) {
+    ...Webhook
+  }
+}
+    ${WebhookFragmentDoc}`;
+export type UpdateWebhookMutationFn = Apollo.MutationFunction<UpdateWebhookMutation, UpdateWebhookMutationVariables>;
+
+/**
+ * __useUpdateWebhookMutation__
+ *
+ * To run a mutation, you first call `useUpdateWebhookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWebhookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWebhookMutation, { data, loading, error }] = useUpdateWebhookMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      webhookValue: // value for 'webhookValue'
+ *   },
+ * });
+ */
+export function useUpdateWebhookMutation(baseOptions?: Apollo.MutationHookOptions<UpdateWebhookMutation, UpdateWebhookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateWebhookMutation, UpdateWebhookMutationVariables>(UpdateWebhookDocument, options);
+      }
+export type UpdateWebhookMutationHookResult = ReturnType<typeof useUpdateWebhookMutation>;
+export type UpdateWebhookMutationResult = Apollo.MutationResult<UpdateWebhookMutation>;
+export type UpdateWebhookMutationOptions = Apollo.BaseMutationOptions<UpdateWebhookMutation, UpdateWebhookMutationVariables>;
+export const ApiSecretKeysByOwnerIdDocument = gql`
+    query ApiSecretKeysByOwnerId($ownerId: String!) {
+  api_secret_key(where: {owner_id: {_eq: $ownerId}, revoked_at: {_is_null: true}}) {
+    ...ApiSecretKey
+  }
+}
+    ${ApiSecretKeyFragmentDoc}`;
+
+/**
+ * __useApiSecretKeysByOwnerIdQuery__
+ *
+ * To run a query within a React component, call `useApiSecretKeysByOwnerIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useApiSecretKeysByOwnerIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useApiSecretKeysByOwnerIdQuery({
+ *   variables: {
+ *      ownerId: // value for 'ownerId'
+ *   },
+ * });
+ */
+export function useApiSecretKeysByOwnerIdQuery(baseOptions: Apollo.QueryHookOptions<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables> & ({ variables: ApiSecretKeysByOwnerIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>(ApiSecretKeysByOwnerIdDocument, options);
+      }
+export function useApiSecretKeysByOwnerIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>(ApiSecretKeysByOwnerIdDocument, options);
+        }
+export function useApiSecretKeysByOwnerIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>(ApiSecretKeysByOwnerIdDocument, options);
+        }
+export type ApiSecretKeysByOwnerIdQueryHookResult = ReturnType<typeof useApiSecretKeysByOwnerIdQuery>;
+export type ApiSecretKeysByOwnerIdLazyQueryHookResult = ReturnType<typeof useApiSecretKeysByOwnerIdLazyQuery>;
+export type ApiSecretKeysByOwnerIdSuspenseQueryHookResult = ReturnType<typeof useApiSecretKeysByOwnerIdSuspenseQuery>;
+export type ApiSecretKeysByOwnerIdQueryResult = Apollo.QueryResult<ApiSecretKeysByOwnerIdQuery, ApiSecretKeysByOwnerIdQueryVariables>;
+export const CheckoutsByContractAddressDocument = gql`
+    query CheckoutsByContractAddress($contractAddressQuery: String!) {
+  checkout(
+    where: {contract_address: {_ilike: $contractAddressQuery}, deleted_at: {_gt: "now()"}}
+  ) {
+    ...Checkout
+  }
+}
+    ${CheckoutFragmentDoc}`;
+
+/**
+ * __useCheckoutsByContractAddressQuery__
+ *
+ * To run a query within a React component, call `useCheckoutsByContractAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckoutsByContractAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckoutsByContractAddressQuery({
+ *   variables: {
+ *      contractAddressQuery: // value for 'contractAddressQuery'
+ *   },
+ * });
+ */
+export function useCheckoutsByContractAddressQuery(baseOptions: Apollo.QueryHookOptions<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables> & ({ variables: CheckoutsByContractAddressQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>(CheckoutsByContractAddressDocument, options);
+      }
+export function useCheckoutsByContractAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>(CheckoutsByContractAddressDocument, options);
+        }
+export function useCheckoutsByContractAddressSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>(CheckoutsByContractAddressDocument, options);
+        }
+export type CheckoutsByContractAddressQueryHookResult = ReturnType<typeof useCheckoutsByContractAddressQuery>;
+export type CheckoutsByContractAddressLazyQueryHookResult = ReturnType<typeof useCheckoutsByContractAddressLazyQuery>;
+export type CheckoutsByContractAddressSuspenseQueryHookResult = ReturnType<typeof useCheckoutsByContractAddressSuspenseQuery>;
+export type CheckoutsByContractAddressQueryResult = Apollo.QueryResult<CheckoutsByContractAddressQuery, CheckoutsByContractAddressQueryVariables>;
+export const ContractsByOwnerIdDocument = gql`
+    query ContractsByOwnerId($ownerId: String!) {
+  contract(
+    where: {owner_id: {_eq: $ownerId}, _and: {deleted_at: {_is_null: false}}}
+    order_by: {created_at: desc}
+  ) {
+    ...Contract
+  }
+}
+    ${ContractFragmentDoc}`;
+
+/**
+ * __useContractsByOwnerIdQuery__
+ *
+ * To run a query within a React component, call `useContractsByOwnerIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContractsByOwnerIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContractsByOwnerIdQuery({
+ *   variables: {
+ *      ownerId: // value for 'ownerId'
+ *   },
+ * });
+ */
+export function useContractsByOwnerIdQuery(baseOptions: Apollo.QueryHookOptions<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables> & ({ variables: ContractsByOwnerIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>(ContractsByOwnerIdDocument, options);
+      }
+export function useContractsByOwnerIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>(ContractsByOwnerIdDocument, options);
+        }
+export function useContractsByOwnerIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>(ContractsByOwnerIdDocument, options);
+        }
+export type ContractsByOwnerIdQueryHookResult = ReturnType<typeof useContractsByOwnerIdQuery>;
+export type ContractsByOwnerIdLazyQueryHookResult = ReturnType<typeof useContractsByOwnerIdLazyQuery>;
+export type ContractsByOwnerIdSuspenseQueryHookResult = ReturnType<typeof useContractsByOwnerIdSuspenseQuery>;
+export type ContractsByOwnerIdQueryResult = Apollo.QueryResult<ContractsByOwnerIdQuery, ContractsByOwnerIdQueryVariables>;
+export const DetailedAnalyticsDocument = gql`
+    query DetailedAnalytics($checkoutId: uuid!, $period: String = "day") {
+  get_detailed_analytics(
+    args: {period: $period, checkout_id_to_fetch: $checkoutId}
+    order_by: {transaction_created_at: asc}
+  ) {
+    ...DetailedAnalytics
+  }
+  analytics_overview_2(where: {checkout_id: {_eq: $checkoutId}}) {
+    ...AnalyticOverview
+  }
+}
+    ${DetailedAnalyticsFragmentDoc}
+${AnalyticOverviewFragmentDoc}`;
+
+/**
+ * __useDetailedAnalyticsQuery__
+ *
+ * To run a query within a React component, call `useDetailedAnalyticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDetailedAnalyticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDetailedAnalyticsQuery({
+ *   variables: {
+ *      checkoutId: // value for 'checkoutId'
+ *      period: // value for 'period'
+ *   },
+ * });
+ */
+export function useDetailedAnalyticsQuery(baseOptions: Apollo.QueryHookOptions<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables> & ({ variables: DetailedAnalyticsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>(DetailedAnalyticsDocument, options);
+      }
+export function useDetailedAnalyticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>(DetailedAnalyticsDocument, options);
+        }
+export function useDetailedAnalyticsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>(DetailedAnalyticsDocument, options);
+        }
+export type DetailedAnalyticsQueryHookResult = ReturnType<typeof useDetailedAnalyticsQuery>;
+export type DetailedAnalyticsLazyQueryHookResult = ReturnType<typeof useDetailedAnalyticsLazyQuery>;
+export type DetailedAnalyticsSuspenseQueryHookResult = ReturnType<typeof useDetailedAnalyticsSuspenseQuery>;
+export type DetailedAnalyticsQueryResult = Apollo.QueryResult<DetailedAnalyticsQuery, DetailedAnalyticsQueryVariables>;
+export const SellerDocument = gql`
+    query Seller($id: String!) {
+  seller_by_pk(id: $id) {
+    ...Seller
+  }
+}
+    ${SellerFragmentDoc}`;
+
+/**
+ * __useSellerQuery__
+ *
+ * To run a query within a React component, call `useSellerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellerQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSellerQuery(baseOptions: Apollo.QueryHookOptions<SellerQuery, SellerQueryVariables> & ({ variables: SellerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SellerQuery, SellerQueryVariables>(SellerDocument, options);
+      }
+export function useSellerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellerQuery, SellerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SellerQuery, SellerQueryVariables>(SellerDocument, options);
+        }
+export function useSellerSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SellerQuery, SellerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SellerQuery, SellerQueryVariables>(SellerDocument, options);
+        }
+export type SellerQueryHookResult = ReturnType<typeof useSellerQuery>;
+export type SellerLazyQueryHookResult = ReturnType<typeof useSellerLazyQuery>;
+export type SellerSuspenseQueryHookResult = ReturnType<typeof useSellerSuspenseQuery>;
+export type SellerQueryResult = Apollo.QueryResult<SellerQuery, SellerQueryVariables>;
+export const UpdateSellerDocument = gql`
+    mutation UpdateSeller($id: String!, $sellerValue: seller_set_input!) {
+  update_seller_by_pk(pk_columns: {id: $id}, _set: $sellerValue) {
+    ...Seller
+  }
+}
+    ${SellerFragmentDoc}`;
+export type UpdateSellerMutationFn = Apollo.MutationFunction<UpdateSellerMutation, UpdateSellerMutationVariables>;
+
+/**
+ * __useUpdateSellerMutation__
+ *
+ * To run a mutation, you first call `useUpdateSellerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSellerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSellerMutation, { data, loading, error }] = useUpdateSellerMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      sellerValue: // value for 'sellerValue'
+ *   },
+ * });
+ */
+export function useUpdateSellerMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSellerMutation, UpdateSellerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSellerMutation, UpdateSellerMutationVariables>(UpdateSellerDocument, options);
+      }
+export type UpdateSellerMutationHookResult = ReturnType<typeof useUpdateSellerMutation>;
+export type UpdateSellerMutationResult = Apollo.MutationResult<UpdateSellerMutation>;
+export type UpdateSellerMutationOptions = Apollo.BaseMutationOptions<UpdateSellerMutation, UpdateSellerMutationVariables>;
+export const WebhooksBySellerIdDocument = gql`
+    query WebhooksBySellerId($sellerId: String!) {
+  webhook(
+    where: {seller_id: {_eq: $sellerId}, deleted_at: {_is_null: true}}
+    order_by: {created_at: asc}
+  ) {
+    ...Webhook
+  }
+}
+    ${WebhookFragmentDoc}`;
+
+/**
+ * __useWebhooksBySellerIdQuery__
+ *
+ * To run a query within a React component, call `useWebhooksBySellerIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWebhooksBySellerIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWebhooksBySellerIdQuery({
+ *   variables: {
+ *      sellerId: // value for 'sellerId'
+ *   },
+ * });
+ */
+export function useWebhooksBySellerIdQuery(baseOptions: Apollo.QueryHookOptions<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables> & ({ variables: WebhooksBySellerIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>(WebhooksBySellerIdDocument, options);
+      }
+export function useWebhooksBySellerIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>(WebhooksBySellerIdDocument, options);
+        }
+export function useWebhooksBySellerIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>(WebhooksBySellerIdDocument, options);
+        }
+export type WebhooksBySellerIdQueryHookResult = ReturnType<typeof useWebhooksBySellerIdQuery>;
+export type WebhooksBySellerIdLazyQueryHookResult = ReturnType<typeof useWebhooksBySellerIdLazyQuery>;
+export type WebhooksBySellerIdSuspenseQueryHookResult = ReturnType<typeof useWebhooksBySellerIdSuspenseQuery>;
+export type WebhooksBySellerIdQueryResult = Apollo.QueryResult<WebhooksBySellerIdQuery, WebhooksBySellerIdQueryVariables>;
