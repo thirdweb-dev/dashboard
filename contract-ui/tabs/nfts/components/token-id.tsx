@@ -13,7 +13,6 @@ import {
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { Heading, Badge, Card, CodeBlock, Text, Button } from "tw-components";
-import { NFTDrawerTab } from "core-ui/nft-drawer/types";
 import { NftProperty } from "./nft-property";
 import { useRouter } from "next/router";
 import { IoChevronBack } from "react-icons/io5";
@@ -23,6 +22,7 @@ import { useChainSlug } from "hooks/chains/chainSlug";
 import { ThirdwebContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
 import { getNFT } from "thirdweb/extensions/erc721";
+import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 
 function isValidUrl(possibleUrl?: string | null) {
   if (!possibleUrl) {
@@ -42,14 +42,12 @@ function isValidUrl(possibleUrl?: string | null) {
 
 interface TokenIdPageProps {
   tokenId: string;
-  tabs: NFTDrawerTab[];
   contract: ThirdwebContract;
 }
 
 export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   contract,
   tokenId,
-  tabs,
 }) => {
   const [tab, setTab] = useState("Details");
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -59,6 +57,11 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
 
   const chainSlug = useChainSlug(chainId || 1);
   const url = `/${chainSlug}/${contract.address}/nfts`;
+
+  const tabs = useNFTDrawerTabs({
+    contract,
+    tokenId,
+  });
 
   const { data: nft } = useReadContract(getNFT, {
     contract,

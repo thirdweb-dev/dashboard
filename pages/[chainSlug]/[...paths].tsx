@@ -256,7 +256,7 @@ const ContractPage: ThirdwebNextPage = () => {
         activeRoute={activeRoute}
       />
       <Container pt={8} maxW="container.page">
-        {activeRoute?.component && (
+        {activeRoute?.component && contractAddress && contract && (
           <activeRoute.component
             contractAddress={contractAddress}
             contract={contract}
