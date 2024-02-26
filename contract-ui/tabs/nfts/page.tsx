@@ -45,7 +45,14 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   ]);
 
   if (tokenId && tokenId !== "-1") {
-    return <TokenIdPage contract={contract} tokenId={tokenId} />;
+    return (
+      <TokenIdPage
+        oldContract={contractQuery.contract}
+        contract={contract}
+        tokenId={tokenId}
+        isErc721={isErc721}
+      />
+    );
   }
 
   if (contractQuery.isLoading) {

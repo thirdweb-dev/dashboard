@@ -21,8 +21,10 @@ import { useState } from "react";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { ThirdwebContract } from "thirdweb";
 import { useReadContract } from "thirdweb/react";
-import { getNFT } from "thirdweb/extensions/erc721";
+import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
+import { getNFT as getErc1155NFT } from "thirdweb/extensions/erc1155";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
+import { SmartContract } from "@thirdweb-dev/sdk";
 
 function isValidUrl(possibleUrl?: string | null) {
   if (!possibleUrl) {
@@ -41,13 +43,17 @@ function isValidUrl(possibleUrl?: string | null) {
 }
 
 interface TokenIdPageProps {
+  oldContract?: SmartContract;
   tokenId: string;
   contract: ThirdwebContract;
+  isErc721: boolean;
 }
 
 export const TokenIdPage: React.FC<TokenIdPageProps> = ({
+  oldContract,
   contract,
   tokenId,
+  isErc721,
 }) => {
   const [tab, setTab] = useState("Details");
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -59,21 +65,26 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   const url = `/${chainSlug}/${contract.address}/nfts`;
 
   const tabs = useNFTDrawerTabs({
+    oldContract,
     contract,
     tokenId,
   });
 
-  const { data: nft } = useReadContract(getNFT, {
-    contract,
-    tokenId: BigInt(tokenId || 0),
-    includeOwner: true,
-  });
+  const { data: nft } = useReadContract(
+    // @ts-expect-error hack for now until types align
+    isErc721 ? getErc721NFT : getErc1155NFT,
+    {
+      contract,
+      tokenId: BigInt(tokenId || 0),
+      includeOwner: true,
+    },
+  );
 
   if (!nft) {
     return null;
   }
 
-  // in the case we have an invalud url, we want to remove it
+  // in the case we have an invalid url, we want to remove it
   if (!isValidUrl(nft.metadata.animation_url)) {
     nft.metadata.animation_url = undefined;
   }
@@ -81,7 +92,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   const properties = nft.metadata.attributes || nft.metadata.properties;
 
   return (
-    <Flex flexDir={{ base: "column", md: "row" }} gap={6}>
+    <Flex flexDir={{ base: "column", lg: "row" }} gap={6}>
       <Card h="full" position="relative" minH="100px">
         <Box w="50px" position="absolute" zIndex={1000} top={6} left={6}>
           <Card p={1} bgColor="backgroundCardHighlight">

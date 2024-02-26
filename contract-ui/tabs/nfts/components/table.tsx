@@ -129,8 +129,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     },
   );
 
-  console.log({ getNFTsQuery });
-
   const totalCountQuery = useReadContract(totalSupply, {
     contract,
   });
