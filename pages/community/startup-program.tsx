@@ -6,6 +6,7 @@ import {
   ListItem,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { LandingImages } from "components/landing-pages/card-with-image";
@@ -134,6 +135,20 @@ const faqs = [
     description:
       "Credits can be applied towards annual Growth plans and thirdweb Engine instances and usage.",
   },
+];
+
+const partnersCompanies = [
+  { maxWidth: "99px", src: require("public/assets/partners/cpg.png") },
+  {
+    maxWidth: "252px",
+    src: require("public/assets/partners/coinbaseventures.png"),
+  },
+  { maxWidth: "256px", src: require("public/assets/partners/finc.png") },
+  { maxWidth: "180px", src: require("public/assets/partners/optimism.png") },
+  { maxWidth: "207px", src: require("public/assets/partners/polygon.png") },
+  { maxWidth: "168px", src: require("public/assets/partners/shopify.png") },
+  { maxWidth: "180px", src: require("public/assets/partners/techstars.png") },
+  { maxWidth: "208px", src: require("public/assets/partners/zksync.png") },
 ];
 
 const CommunityStartup: ThirdwebNextPage = () => {
@@ -371,6 +386,50 @@ const CommunityStartup: ThirdwebNextPage = () => {
                       </Text>
                     </TrackedLink>
                   </Flex>
+                ))}
+              </SimpleGrid>
+            </Flex>
+
+            <Flex flexDir="column" alignItems="center" w="full">
+              <Heading
+                fontSize={{ base: "32px", md: "48px" }}
+                textAlign="center"
+                mt={46}
+              >
+                Partners
+              </Heading>
+
+              <SimpleGrid
+                columns={{ base: 1, lg: 4 }}
+                gap={{ base: 16, md: 24 }}
+                w="full"
+                placeItems="center"
+                mb={{ base: 16, md: "61px" }}
+                mt="57px"
+              >
+                {partnersCompanies.slice(0, 4).map((partner, idx) => (
+                  <ChakraNextImage
+                    key={idx}
+                    maxW={partner.maxWidth}
+                    src={partner.src}
+                    alt="partner"
+                  />
+                ))}
+              </SimpleGrid>
+
+              <SimpleGrid
+                columns={{ base: 1, lg: 4 }}
+                gap={{ base: 16, md: 24 }}
+                w="full"
+                placeItems="center"
+              >
+                {partnersCompanies.slice(4).map((partner, idx) => (
+                  <ChakraNextImage
+                    key={idx}
+                    maxW={partner.maxWidth}
+                    src={partner.src}
+                    alt="partner"
+                  />
                 ))}
               </SimpleGrid>
             </Flex>
