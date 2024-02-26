@@ -23,7 +23,7 @@ import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { MaskedAvatar } from "tw-components/masked-avatar";
 import { ThirdwebNextPage } from "utils/types";
 
-const TRACKING_CATEGORY = "community-startup";
+const TRACKING_CATEGORY = "startup-program";
 
 const SEO = {
   title: "Startup program",
@@ -158,7 +158,7 @@ const partnersCompanies = [
   { maxWidth: "208px", src: require("public/assets/partners/zksync.png") },
 ];
 
-const CommunityStartup: ThirdwebNextPage = () => {
+const StartupProgram: ThirdwebNextPage = () => {
   return (
     <>
       <NextSeo {...SEO} />
@@ -458,6 +458,6 @@ const CommunityStartup: ThirdwebNextPage = () => {
   );
 };
 
-CommunityStartup.pageId = PageId.CommunityStartup;
+StartupProgram.pageId = PageId.StartupProgram;
 
-export default CommunityStartup;
+export default StartupProgram;
