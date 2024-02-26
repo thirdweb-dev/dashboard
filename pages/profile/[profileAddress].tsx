@@ -1,4 +1,4 @@
-import { useAllContractList } from "@3rdweb-sdk/react";
+import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
@@ -70,9 +70,8 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
     ens.data?.address || undefined,
   );
 
-  const mainnetsContractList = useAllContractList(
-    ens.data?.address || props.profileAddress,
-    { onlyMainnet: true },
+  const mainnetsContractList = useMainnetsContractList(
+    ens.data?.address || undefined,
   );
 
   const address = useAddress();
