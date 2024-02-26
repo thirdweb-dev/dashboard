@@ -123,6 +123,7 @@ const faqs = [
           label="apply_faq"
           category={TRACKING_CATEGORY}
           color="primary.500"
+          textDecoration="underline"
         >
           this
         </TrackedLink>{" "}
