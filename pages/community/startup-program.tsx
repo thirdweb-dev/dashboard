@@ -72,22 +72,28 @@ const trustedCompanies = [
     src: require("public/assets/partners/coinbase.png"),
   },
   {
+    title: "Treasure",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/treasure.png"),
+  },
+  {
     title: "Layer3",
     height: 74,
     width: 74,
     src: require("public/assets/partners/layer3.png"),
   },
   {
-    title: "Ava Labs",
+    title: "Courtyard",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/ava.png"),
+    src: require("public/assets/partners/courtyard.png"),
   },
   {
-    title: "Ex Populus",
+    title: "Rarible",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/ex.png"),
+    src: require("public/assets/partners/rarible.png"),
   },
 ];
 
