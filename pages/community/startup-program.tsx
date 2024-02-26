@@ -26,9 +26,9 @@ import { ThirdwebNextPage } from "utils/types";
 const TRACKING_CATEGORY = "community-startup";
 
 const SEO = {
-  title: "Join the Best Web3 Community | Learn, Build, Grow",
+  title: "Startup program",
   description:
-    "Join the thirdweb community and share your web3 journey alongside 35,000+ other builders. Learn, build, & grow with thirdweb.",
+    "The next wave of web3 mass adoption is already happening. If you want to be one of the next big crypto apps, the time to build is now!",
 };
 
 const judges = [
