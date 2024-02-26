@@ -483,6 +483,11 @@ export function useConfirmEmail() {
 export interface CreateTicketInput {
   markdown: string;
   product: string;
+  files?: {
+    id: string;
+    file: File;
+  }[];
+  attachments?: File[];
 }
 
 export function useCreateTicket() {
