@@ -500,7 +500,7 @@ export function useCreateTicket() {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
       body: JSON.stringify(input),
     });
