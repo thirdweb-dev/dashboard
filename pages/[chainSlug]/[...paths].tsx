@@ -21,7 +21,7 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { SupportedChainsReadyContext } from "contexts/configured-chains";
 import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
-import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
+import { ContractSidebar } from "core-ui/sidebar/detail-page";
 import {
   useSupportedChainsRecord,
   useSupportedChainsSlugRecord,
@@ -55,7 +55,7 @@ type EVMContractProps = {
   detectedExtension: "erc20" | "erc721" | "erc1155" | "unknown";
 };
 
-const EVMContractPage: ThirdwebNextPage = () => {
+const ContractPage: ThirdwebNextPage = () => {
   // show optimistic UI first - assume chain is configured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
   const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
@@ -237,7 +237,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
           </Flex>
         </Container>
       </Box>
-      <ContractProgramSidebar
+      <ContractSidebar
         contractAddress={contractAddress}
         routes={routes}
         activeRoute={activeRoute}
@@ -251,9 +251,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
   );
 };
 
-export default EVMContractPage;
-EVMContractPage.pageId = PageId.DeployedContract;
-EVMContractPage.getLayout = (page, props: EVMContractProps) => {
+export default ContractPage;
+ContractPage.pageId = PageId.DeployedContract;
+ContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
     shortenIfAddress(props.contractInfo?.contractAddress) ||
@@ -343,7 +343,7 @@ function PageSkeleton() {
 }
 
 // app layout has to come first in both getLayout and fallback
-EVMContractPage.fallback = (
+ContractPage.fallback = (
   <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
     <PageSkeleton />
   </AppLayout>
