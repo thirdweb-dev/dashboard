@@ -4,6 +4,7 @@ import { useEns } from "components/contract-components/hooks";
 import { ContractOverviewPage } from "contract-ui/tabs/overview/page";
 import { EnhancedRoute } from "contract-ui/types/types";
 import dynamic from "next/dynamic";
+import { ThirdwebContract } from "thirdweb";
 
 const LazyContractExplorerPage = dynamic(() =>
   import("../tabs/explorer/page").then(
@@ -100,6 +101,7 @@ const LazyContractSourcesPage = dynamic(() =>
 
 export function useContractRouteConfig(
   contractAddress: string,
+  contract?: ThirdwebContract | null,
 ): EnhancedRoute[] {
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
@@ -163,10 +165,12 @@ export function useContractRouteConfig(
     {
       title: "NFTs",
       path: "nfts",
-      isEnabled: extensionDetectedState({
-        contractQuery,
-        feature: ["ERC1155", "ERC721"],
-      }),
+      isEnabled: contract
+        ? extensionDetectedState({
+            contractQuery,
+            feature: ["ERC1155", "ERC721"],
+          })
+        : "disabled",
       component: LazyContractNFTPage,
     },
     {

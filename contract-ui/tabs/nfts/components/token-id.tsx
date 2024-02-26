@@ -20,7 +20,9 @@ import { IoChevronBack } from "react-icons/io5";
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { useState } from "react";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { NFT } from "thirdweb";
+import { ThirdwebContract } from "thirdweb";
+import { useReadContract } from "thirdweb/react";
+import { getNFT } from "thirdweb/extensions/erc721";
 
 function isValidUrl(possibleUrl?: string | null) {
   if (!possibleUrl) {
@@ -39,15 +41,15 @@ function isValidUrl(possibleUrl?: string | null) {
 }
 
 interface TokenIdPageProps {
-  nft: NFT<"ERC721"> | undefined;
+  tokenId: string;
   tabs: NFTDrawerTab[];
-  contractAddress: string | undefined;
+  contract: ThirdwebContract;
 }
 
 export const TokenIdPage: React.FC<TokenIdPageProps> = ({
-  nft,
+  contract,
+  tokenId,
   tabs,
-  contractAddress,
 }) => {
   const [tab, setTab] = useState("Details");
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -56,7 +58,14 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   const chainId = useDashboardEVMChainId();
 
   const chainSlug = useChainSlug(chainId || 1);
-  const url = `/${chainSlug}/${contractAddress}/nfts`;
+  const url = `/${chainSlug}/${contract.address}/nfts`;
+
+  const { data: nft } = useReadContract(getNFT, {
+    contract,
+    tokenId: BigInt(tokenId || 0),
+    includeOwner: true,
+  });
+
   if (!nft) {
     return null;
   }

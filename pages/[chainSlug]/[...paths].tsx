@@ -42,6 +42,8 @@ import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
+import { defineChain, getContract } from "thirdweb";
+import { thirdwebClient } from "lib/thirdweb-client";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -153,7 +155,20 @@ const ContractPage: ThirdwebNextPage = () => {
 
   const activeTab = router.query?.paths?.[1] || "overview";
 
-  const routes = useContractRouteConfig(contractAddress);
+  const contract = useMemo(() => {
+    if (!contractAddress || !chain?.chainId) {
+      return null;
+    }
+    return getContract({
+      address: contractAddress,
+      client: thirdwebClient,
+      chain: defineChain(chain?.chainId),
+    });
+  }, [contractAddress, chain?.chainId]);
+
+  console.log("contractRouteConfig", { contract });
+
+  const routes = useContractRouteConfig(contractAddress, contract);
 
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === activeTab),
@@ -244,7 +259,10 @@ const ContractPage: ThirdwebNextPage = () => {
       />
       <Container pt={8} maxW="container.page">
         {activeRoute?.component && (
-          <activeRoute.component contractAddress={contractAddress} />
+          <activeRoute.component
+            contractAddress={contractAddress}
+            contract={contract}
+          />
         )}
       </Container>
     </Flex>

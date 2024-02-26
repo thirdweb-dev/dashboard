@@ -129,15 +129,21 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     },
   );
 
+  console.log({ getNFTsQuery });
+
   const totalCountQuery = useReadContract(totalSupply, {
     contract,
   });
 
-  // any higher and the useTable breaks
-  let safeTotalCount = Number(totalCountQuery.data || 0n);
-  if (safeTotalCount > 1_000_000n) {
-    safeTotalCount = 1_000_000;
-  }
+  const safeTotalCount = useMemo(
+    () =>
+      totalCountQuery?.data
+        ? totalCountQuery?.data > 1_000_000n
+          ? 1_000_000
+          : Number(totalCountQuery.data)
+        : 0,
+    [totalCountQuery?.data],
+  );
 
   const {
     getTableProps,
