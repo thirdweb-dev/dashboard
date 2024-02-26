@@ -166,8 +166,6 @@ const ContractPage: ThirdwebNextPage = () => {
     });
   }, [contractAddress, chain?.chainId]);
 
-  console.log("contractRouteConfig", { contract });
-
   const routes = useContractRouteConfig(contractAddress, contract);
 
   const activeRoute = useMemo(
