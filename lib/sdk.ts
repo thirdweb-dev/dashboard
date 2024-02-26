@@ -10,6 +10,7 @@ import {
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
   DASHBOARD_THIRDWEB_SECRET_KEY,
+  isProd,
 } from "constants/rpc";
 import type { Signer } from "ethers";
 
@@ -102,8 +103,29 @@ export function getEVMThirdwebSDK(
   sdkOptions?: SDKOptions,
   signer?: Signer,
 ): EVMThirdwebSDK {
+  try {
+    new URL(rpcUrl);
+  } catch (e) {
+    console.error("Invalid rpcUrl", e, rpcUrl);
+    // overwrite the rpcUrl with a valid one!
+    if (isProd) {
+      rpcUrl = `https://${chainId}.rpc.thirdweb.com/${DASHBOARD_THIRDWEB_CLIENT_ID}`;
+    } else {
+      rpcUrl = `https://${chainId}.rpc.thirdweb-dev.com/${DASHBOARD_THIRDWEB_CLIENT_ID}`;
+    }
+  }
+
+  const readonlySettings =
+    chainId && rpcUrl
+      ? {
+          chainId,
+          rpcUrl,
+        }
+      : undefined;
+
   // PERF ISSUE - if the sdkOptions is a huge object, stringify will be slow
-  const sdkKey = chainId + (sdkOptions ? JSON.stringify(sdkOptions) : "");
+  const sdkKey =
+    chainId + rpcUrl + (sdkOptions ? JSON.stringify(sdkOptions) : "");
 
   let sdk: EVMThirdwebSDK | null = null;
 
@@ -113,11 +135,8 @@ export function getEVMThirdwebSDK(
     sdk = new EVMThirdwebSDK(
       rpcUrl,
       {
-        readonlySettings: {
-          rpcUrl,
-          chainId,
-        },
         ...sdkOptions,
+        readonlySettings,
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
         secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
       },
