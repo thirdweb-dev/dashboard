@@ -135,6 +135,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     contract,
   });
 
+  // Anything bigger and the table breaks
   const safeTotalCount = useMemo(
     () =>
       totalCountQuery?.data
