@@ -36,9 +36,9 @@
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-persist-client": "^4.36.1",
     "@tanstack/react-table": "^8.12.0",
-    "@thirdweb-dev/chains": "0.0.0-dev-fd8c1ac-20240227192301",
-    "@thirdweb-dev/react": "0.0.0-dev-fd8c1ac-20240227192301",
-    "@thirdweb-dev/sdk": "0.0.0-dev-fd8c1ac-20240227192301",
+    "@thirdweb-dev/chains": "0.0.0-dev-a7f652e-20240227210439",
+    "@thirdweb-dev/react": "0.0.0-dev-a7f652e-20240227210439",
+    "@thirdweb-dev/sdk": "0.0.0-dev-a7f652e-20240227210439",
     "@thirdweb-dev/service-utils": "^0.4.18",
     "@trytrench/sdk": "^0.0.5",
     "@vercel/og": "^0.5.20",
@@ -94,7 +94,7 @@
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@next/bundle-analyzer": "^14.1.0",
     "@thirdweb-dev/storage": "2.0.9",
-    "@thirdweb-dev/wallets": "0.0.0-dev-fd8c1ac-20240227192301",
+    "@thirdweb-dev/wallets": "0.0.0-dev-a7f652e-20240227210439",
     "@types/airtable": "^0.10.1",
     "@types/color": "^3.0.6",
     "@types/papaparse": "^5.3.14",
@@ -127,7 +127,7 @@
       "bn.js": "^5.2.1",
       "zod": "^3.19.1",
       "xml2js": "0.6.2",
-      "@thirdweb-dev/sdk": "0.0.0-dev-fd8c1ac-20240227192301"
+      "@thirdweb-dev/sdk": "0.0.0-dev-a7f652e-20240227210439"
     }
   },
   "next-unused": {
