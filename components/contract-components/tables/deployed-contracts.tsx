@@ -25,12 +25,10 @@ import {
   ContractType,
   ContractWithMetadata,
 } from "@thirdweb-dev/sdk";
-import { MismatchButton } from "components/buttons/MismatchButton";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { NetworkSelectDropdown } from "components/selects/NetworkSelectDropdown";
-import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
@@ -223,46 +221,19 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
 type RemoveFromDashboardButtonProps = {
   chainId: number;
   contractAddress: string;
-  registry: "old" | "new";
 };
 
 const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   chainId,
   contractAddress,
-  registry,
 }) => {
   const mutation = useRemoveContractMutation();
 
-  if (registry === "old") {
-    return (
-      <CustomSDKContext desiredChainId={chainId}>
-        <MismatchButton
-          borderWidth={0}
-          onClick={(e) => {
-            e.stopPropagation();
-            mutation.mutate({ chainId, contractAddress, registry });
-          }}
-          isDisabled={mutation.isLoading}
-        >
-          <Flex align="center" gap={2} w="full">
-            {mutation.isLoading ? (
-              <Spinner size="sm" />
-            ) : (
-              <Icon as={FiX} color="red.500" />
-            )}
-            <Heading as="span" size="label.md">
-              Remove from dashboard
-            </Heading>
-          </Flex>
-        </MismatchButton>
-      </CustomSDKContext>
-    );
-  }
   return (
     <MenuItem
       onClick={(e) => {
         e.stopPropagation();
-        mutation.mutate({ chainId, contractAddress, registry });
+        mutation.mutate({ chainId, contractAddress });
       }}
       isDisabled={mutation.isLoading}
       closeOnSelect={false}
@@ -400,9 +371,6 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                 <RemoveFromDashboardButton
                   contractAddress={cell.cell.row.original.address}
                   chainId={cell.cell.row.original.chainId}
-                  registry={
-                    cell.cell.row.original._isMultiChain ? "new" : "old"
-                  }
                 />
               </MenuList>
             </Menu>

@@ -5,14 +5,11 @@ import {
   getGaslessPolygonSDK,
 } from "components/contract-components/utils";
 import { useAllChainsData } from "hooks/chains/allChains";
-import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
 import invariant from "tiny-invariant";
 
 type RemoveContractParams = {
   contractAddress: string;
   chainId: number;
-  registry: "old" | "new";
 };
 
 export function useRemoveContractMutation() {
@@ -32,34 +29,13 @@ export function useRemoveContractMutation() {
       invariant(signer, "no wallet connected");
       invariant(data.chainId, "chainId not provided");
 
-      const { contractAddress, chainId, registry } = data;
+      const { contractAddress, chainId } = data;
 
-      // remove from old registry
-      if (registry === "old") {
-        const chain = chainIdToChainRecord[chainId];
-        if (!chain) {
-          throw new Error("chain not found");
-        }
-
-        const sdk = getEVMThirdwebSDK(
-          chainId,
-          getDashboardChainRpc(chain),
-          undefined,
-          signer,
-        );
-
-        const oldRegistry = await sdk?.deployer.getRegistry();
-        return await oldRegistry?.removeContract(contractAddress);
-      }
-
-      // remove from new multichain registry
-      else {
-        const gaslessPolygonSDK = getGaslessPolygonSDK(signer);
-        return await gaslessPolygonSDK.multiChainRegistry?.removeContract({
-          address: contractAddress,
-          chainId: data.chainId,
-        });
-      }
+      const gaslessPolygonSDK = getGaslessPolygonSDK(signer);
+      return await gaslessPolygonSDK.multiChainRegistry?.removeContract({
+        address: contractAddress,
+        chainId,
+      });
     },
     {
       onSettled: () => {
@@ -86,7 +62,6 @@ export function useAddContractMutation() {
       invariant(walletAddress, "cannot add a contract without an address");
       invariant(sdk, "sdk not provided");
 
-      // add to new multichain registry
       return await addContractToMultiChainRegistry(
         {
           address: data.contractAddress,
