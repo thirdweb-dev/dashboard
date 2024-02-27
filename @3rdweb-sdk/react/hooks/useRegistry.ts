@@ -15,6 +15,49 @@ import {
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
+import { getAllMultichainRegistry } from "dashboard-extensions/common/read/getAllMultichainRegistry";
+import { polygon } from "thirdweb/chains";
+import { getContract } from "thirdweb";
+import { thirdwebClient } from "lib/thirdweb-client";
+import { isAddressZero } from "utils/zeroAddress";
+import { isAddress } from "thirdweb";
+import { getContractListMultichainRegistry } from "dashboard-extensions/common/read/getContractListMultichainRegistry";
+
+export const MULTICHAIN_REGISTRY_ADDRESS = "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
+
+export function useMultiChainRegContractListV5(walletAddress?: string) {
+  const configuredChains = useSupportedChains();
+
+  return useQuery(
+    ["dashboard-registry-v5", walletAddress, "multichain-contract-list"],
+    async () => {
+      invariant(walletAddress, "walletAddress is required");
+      const contract = getContract({
+        client: thirdwebClient,
+        address: MULTICHAIN_REGISTRY_ADDRESS,
+        chain: polygon,
+      });
+
+      const contracts = await getAllMultichainRegistry({
+        contract,
+        address: walletAddress,
+      });
+
+      const contractListTemp = await getContractListMultichainRegistry({
+        contract,
+        address: walletAddress,
+      });
+
+
+      console.log({ contracts });
+
+      return contracts;
+    },
+    {
+      enabled: !!walletAddress,
+    },
+  );
+}
 
 function useMultiChainRegContractList(walletAddress?: string) {
   const configuredChains = useSupportedChains();

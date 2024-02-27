@@ -1,20 +1,9 @@
-import {
-  ContractType,
-  PrebuiltContractType,
-  SchemaForPrebuiltContractType,
-} from "@thirdweb-dev/sdk";
 
 import { Skeleton } from "@chakra-ui/react";
-
-import React, { memo } from "react";
-
+import { memo } from "react";
 import { ChakraNextLink, Text } from "tw-components";
-
-import { useContractMetadataWithAddress } from "@3rdweb-sdk/react";
-
+import { useQueryWithAddressAndChainId } from "@3rdweb-sdk/react";
 import { useChainSlug } from "hooks/chains/chainSlug";
-
-import { z } from "zod";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
 
@@ -22,16 +11,15 @@ interface AsyncContractNameCellProps {
   cell: {
     address: string;
     chainId: number;
-    metadata: () => Promise<
-      z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
-    >;
+    metadata: () => Promise<{ name: string; }>;
   };
 }
 
 export const AsyncContractNameCell = memo(
   ({ cell }: AsyncContractNameCellProps) => {
     const chainSlug = useChainSlug(cell.chainId);
-    const metadataQuery = useContractMetadataWithAddress(
+    const metadataQuery = useQueryWithAddressAndChainId(
+      "contract-metadata",
       cell.address,
       cell.metadata,
       cell.chainId,
@@ -60,11 +48,7 @@ interface AsyncContractTypeCellProps {
   cell: {
     address: string;
     chainId: number;
-    contractType: (() => Promise<ContractType>) | undefined;
-    metadata: () => Promise<
-      z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
-    >;
-    extensions: () => Promise<string[]>;
+    metadata: () => Promise<{ name: string; }>;
   };
 }
 
