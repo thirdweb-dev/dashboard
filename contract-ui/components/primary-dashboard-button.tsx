@@ -1,7 +1,9 @@
 import { BuildAppsButton } from "./build-apps-button";
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { useAddContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
-import { useAllContractList } from "@3rdweb-sdk/react/hooks/useSDK";
+import {
+  useAddContractMutation,
+  useAllContractList,
+} from "@3rdweb-sdk/react/hooks/useRegistry";
 import { Icon } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react/evm";
 import { useTrack } from "hooks/analytics/useTrack";

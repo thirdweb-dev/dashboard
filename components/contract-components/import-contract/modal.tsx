@@ -1,5 +1,7 @@
-import { useAllContractList } from "@3rdweb-sdk/react";
-import { useAddContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
+import {
+  useAddContractMutation,
+  useAllContractList,
+} from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   Flex,
   FormControl,

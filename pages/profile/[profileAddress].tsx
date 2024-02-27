@@ -1,4 +1,4 @@
-import { useAllContractList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";

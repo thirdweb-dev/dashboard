@@ -1,4 +1,4 @@
-import { useAllContractList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
 import { Box, Flex } from "@chakra-ui/react";
 import { OptimismGoerli } from "@thirdweb-dev/chains";
 import {

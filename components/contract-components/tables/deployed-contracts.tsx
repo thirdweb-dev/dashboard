@@ -1,7 +1,9 @@
 import { ImportModal } from "../import-contract/modal";
 import { ShowMoreButton } from "./show-more-button";
-import { useAllContractList } from "@3rdweb-sdk/react";
-import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
+import {
+  useRemoveContractMutation,
+  useAllContractList,
+} from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   ButtonGroup,
   Center,
