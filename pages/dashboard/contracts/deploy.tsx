@@ -1,4 +1,4 @@
-import { MULTICHAIN_REGISTRY_ADDRESS, useAllContractList, useMultiChainRegContractListV5 } from "@3rdweb-sdk/react/hooks/useRegistry";
+import { MULTICHAIN_REGISTRY_ADDRESS, useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Box,
@@ -26,7 +26,6 @@ import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { useReadContract } from "thirdweb/react";
-import { getContractListMultichainRegistry } from "dashboard-extensions/common/read/getContractListMultichainRegistry";
 import { getContract } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { polygon } from "thirdweb/chains";
@@ -187,25 +186,7 @@ const DeployOptions = () => {
 
 const Contracts: ThirdwebNextPage = () => {
   const address = useAddress();
-  const oldDeployedContracts = useAllContractList(address);
-  /*   const deployedContracts = useMultiChainRegContractListV5(address); */
-
-  const contract = getContract({
-    client: thirdwebClient,
-    address: MULTICHAIN_REGISTRY_ADDRESS,
-    chain: polygon,
-  });
-
-  const getAll = useReadContract(getAllMultichainRegistry, {
-    contract,
-    address: "0xF11D6862e655b5F4e8f62E00471261D2f9c7E380",
-  });
-  const deployedContracts = useReadContract(getContractListMultichainRegistry, {
-    contract,
-    address: "0xF11D6862e655b5F4e8f62E00471261D2f9c7E380",
-  });
-
-  console.log(({ oldDeployedContracts, deployedContracts }))
+  const deployedContracts = useAllContractList(address);
 
   const hasContracts = useMemo(
     () => deployedContracts.data && deployedContracts.data?.length > 0,

@@ -10,6 +10,5 @@ export const PaymentsTransactions: React.FC<PaymentsTransactionsProps> = ({
 }) => {
   /* const { data: transactions } = usePaymentsTransactions(contractId); */
 
-  /* console.log({ transactions }); */
   return <Flex flexDir="column" gap={12}></Flex>;
 };

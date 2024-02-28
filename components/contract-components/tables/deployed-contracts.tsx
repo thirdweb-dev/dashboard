@@ -21,12 +21,6 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  ChainId,
-  CommonContractOutputSchema,
-  ContractType,
-  ContractWithMetadata,
-} from "@thirdweb-dev/sdk";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
@@ -64,8 +58,8 @@ import {
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { TableContainer } from "tw-components/table-container";
 import { ComponentWithChildren } from "types/component-with-children";
-import { z } from "zod";
 import { AsyncContractNameCell, AsyncContractTypeCell } from "./cells";
+import { BasicContract } from "contract-ui/types/types";
 
 interface DeployedContractsProps {
   noHeader?: boolean;
@@ -253,13 +247,7 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
 };
 
 type SelectNetworkFilterProps = {
-  column: ColumnInstance<{
-    chainId: number;
-    address: string;
-    contractType: () => Promise<ContractType>;
-    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
-    extensions: () => Promise<string[]>;
-  }>;
+  column: ColumnInstance<BasicContract>;
   chainIdsWithDeployments: number[];
 };
 
@@ -283,13 +271,7 @@ function SelectNetworkFilter({
 }
 
 interface ContractTableProps {
-  combinedList: {
-    chainId: ChainId;
-    address: string;
-    contractType: () => Promise<ContractType>;
-    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
-    extensions: () => Promise<string[]>;
-  }[];
+  combinedList: BasicContract[];
   isFetching?: boolean;
   limit: number;
   chainIdsWithDeployments: number[];
@@ -309,14 +291,14 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
     () => [
       {
         Header: "Name",
-        accessor: (row) => row.metadata,
+        accessor: (row) => row.address,
         Cell: (cell: any) => {
           return <AsyncContractNameCell cell={cell.row.original} />;
         },
       },
       {
         Header: "Type",
-        accessor: (row) => row.extensions,
+        accessor: (row) => row.address,
         Cell: (cell: any) => <AsyncContractTypeCell cell={cell.row.original} />,
       },
       {
@@ -476,7 +458,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   );
 };
 
-const ContractTableRow = memo(({ row }: { row: Row<ContractWithMetadata> }) => {
+const ContractTableRow = memo(({ row }: { row: Row<BasicContract>; }) => {
   const chainSlug = useChainSlug(row.original.chainId);
   const router = useRouter();
 

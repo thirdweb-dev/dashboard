@@ -2,31 +2,36 @@
 import { Skeleton } from "@chakra-ui/react";
 import { memo } from "react";
 import { ChakraNextLink, Text } from "tw-components";
-import { useQueryWithAddressAndChainId } from "@3rdweb-sdk/react";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
+import { useReadContract } from "thirdweb/react";
+import { getContractMetadata } from "thirdweb/extensions/common";
+import { getContract } from "thirdweb";
+import { thirdwebClient } from "lib/thirdweb-client";
+import { defineChain } from "thirdweb";
+import { BasicContract } from "contract-ui/types/types";
 
 interface AsyncContractNameCellProps {
-  cell: {
-    address: string;
-    chainId: number;
-    metadata: () => Promise<{ name: string; }>;
-  };
+  cell: BasicContract;
 }
 
 export const AsyncContractNameCell = memo(
   ({ cell }: AsyncContractNameCellProps) => {
     const chainSlug = useChainSlug(cell.chainId);
-    const metadataQuery = useQueryWithAddressAndChainId(
-      "contract-metadata",
-      cell.address,
-      cell.metadata,
-      cell.chainId,
-    );
+
+    const contract = getContract({
+      client: thirdwebClient,
+      address: cell.address,
+      chain: defineChain(cell.chainId),
+    });
+
+    const contractMetadata = useReadContract(getContractMetadata, {
+      contract,
+    });
 
     return (
-      <Skeleton isLoaded={!metadataQuery.isLoading}>
+      <Skeleton isLoaded={!contractMetadata.isLoading}>
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
           <Text
             color="blue.500"
@@ -34,7 +39,7 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {metadataQuery.data?.name || shortenIfAddress(cell.address)}
+            {contractMetadata.data?.name || shortenIfAddress(cell.address)}
           </Text>
         </ChakraNextLink>
       </Skeleton>
@@ -45,11 +50,7 @@ export const AsyncContractNameCell = memo(
 AsyncContractNameCell.displayName = "AsyncContractNameCell";
 
 interface AsyncContractTypeCellProps {
-  cell: {
-    address: string;
-    chainId: number;
-    metadata: () => Promise<{ name: string; }>;
-  };
+  cell: BasicContract;
 }
 
 export const AsyncContractTypeCell = memo(

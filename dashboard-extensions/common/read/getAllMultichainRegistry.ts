@@ -1,5 +1,7 @@
+import { isAddress } from "thirdweb";
 import { readContract } from "thirdweb";
 import type { BaseTransactionOptions } from "thirdweb";
+import { isAddressZero } from "utils/zeroAddress";
 
 const GetAllABI = {
   "type": "function",
@@ -55,9 +57,21 @@ export type GetAllMultichainRegistryParams = {
 export async function getAllMultichainRegistry(
   options: BaseTransactionOptions<GetAllMultichainRegistryParams>
 ) {
-  return readContract({
+  const contracts = await readContract({
     ...options,
     method: GetAllABI,
     params: [options.address]
+  });
+
+  const contractsFiltered = [...contracts.filter(
+    ({ deploymentAddress, chainId }) =>
+      isAddress(deploymentAddress) && !isAddressZero(deploymentAddress.toLowerCase()) && chainId
+  )].reverse();
+
+  return contractsFiltered.map(contractFiltered => {
+    return ({
+      address: contractFiltered.deploymentAddress,
+      chainId: Number(contractFiltered.chainId),
+    });
   });
 }

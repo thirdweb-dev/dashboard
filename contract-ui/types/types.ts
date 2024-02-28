@@ -16,3 +16,8 @@ export type EnhancedRoute<T = any> = {
   isEnabled?: ExtensionDetectedState;
   component: ComponentType<T>;
 };
+
+export interface BasicContract {
+  chainId: number;
+  address: string;
+}

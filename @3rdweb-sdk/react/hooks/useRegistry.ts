@@ -6,30 +6,22 @@ import {
 } from "components/contract-components/utils";
 import { useAllChainsData } from "hooks/chains/allChains";
 import invariant from "tiny-invariant";
-import { Polygon } from "@thirdweb-dev/chains";
-import { ContractWithMetadata } from "@thirdweb-dev/sdk";
 import {
   useSupportedChains,
   useSupportedChainsRecord,
 } from "hooks/chains/configureChains";
-import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
 import { getAllMultichainRegistry } from "dashboard-extensions/common/read/getAllMultichainRegistry";
 import { polygon } from "thirdweb/chains";
 import { getContract } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
-import { isAddressZero } from "utils/zeroAddress";
-import { isAddress } from "thirdweb";
-import { getContractListMultichainRegistry } from "dashboard-extensions/common/read/getContractListMultichainRegistry";
+import { BasicContract } from "contract-ui/types/types";
 
 export const MULTICHAIN_REGISTRY_ADDRESS = "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
 
-export function useMultiChainRegContractListV5(walletAddress?: string) {
-  const configuredChains = useSupportedChains();
-
+export function useMultiChainRegContractList(walletAddress?: string) {
   return useQuery(
-    ["dashboard-registry-v5", walletAddress, "multichain-contract-list"],
+    ["dashboard-registry", walletAddress, "multichain-contract-list"],
     async () => {
       invariant(walletAddress, "walletAddress is required");
       const contract = getContract({
@@ -43,38 +35,7 @@ export function useMultiChainRegContractListV5(walletAddress?: string) {
         address: walletAddress,
       });
 
-      const contractListTemp = await getContractListMultichainRegistry({
-        contract,
-        address: walletAddress,
-      });
-
-
-      console.log({ contracts });
-
       return contracts;
-    },
-    {
-      enabled: !!walletAddress,
-    },
-  );
-}
-
-function useMultiChainRegContractList(walletAddress?: string) {
-  const configuredChains = useSupportedChains();
-  return useQuery(
-    ["dashboard-registry", walletAddress, "multichain-contract-list"],
-    async () => {
-      invariant(walletAddress, "walletAddress is required");
-      const polygonSDK = getEVMThirdwebSDK(
-        Polygon.chainId,
-        getDashboardChainRpc(Polygon),
-      );
-      const contractList = await polygonSDK.getMultichainContractList(
-        walletAddress,
-        configuredChains,
-      );
-
-      return [...contractList].reverse();
     },
     {
       enabled: !!walletAddress,
@@ -86,6 +47,8 @@ interface Options {
   onlyMainnet?: boolean;
 }
 
+
+
 export const useAllContractList = (
   walletAddress: string | undefined,
   { onlyMainnet }: Options = { onlyMainnet: false },
@@ -96,8 +59,8 @@ export const useAllContractList = (
   const contractList = useMemo(() => {
     const data = multiChainQuery.data || [];
 
-    const mainnets: ContractWithMetadata[] = [];
-    const testnets: ContractWithMetadata[] = [];
+    const mainnets: BasicContract[] = [];
+    const testnets: BasicContract[] = [];
 
     data.forEach((net) => {
       if (net.chainId in configuredChainsRecord) {
