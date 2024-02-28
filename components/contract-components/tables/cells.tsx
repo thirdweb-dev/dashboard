@@ -9,6 +9,7 @@ import { getContractMetadata, name } from "thirdweb/extensions/common";
 import { getContract, defineChain } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
+import { useContractMetadataAndName } from "dashboard-extensions/hooks/useContractMetadataAndName";
 
 interface AsyncContractNameCellProps {
   cell: BasicContract;
@@ -24,18 +25,10 @@ export const AsyncContractNameCell = memo(
       chain: defineChain(cell.chainId),
     });
 
-    const contractMetadata = useReadContract(getContractMetadata, {
-      contract,
-    });
-
-    const contractName = useReadContract(name, {
-      contract,
-    });
+    const contractMetadataAndName = useContractMetadataAndName(contract);
 
     return (
-      <Skeleton
-        isLoaded={!contractMetadata.isFetching || !contractName.isFetching}
-      >
+      <Skeleton isLoaded={!contractMetadataAndName.isFetching}>
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
           <Text
             color="blue.500"
@@ -43,8 +36,7 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {contractMetadata.data?.name ||
-              contractName?.data ||
+            {contractMetadataAndName.data?.name ||
               shortenIfAddress(cell.address)}
           </Text>
         </ChakraNextLink>
