@@ -1,24 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { ThirdwebContract } from "thirdweb";
 import { getContractMetadata, name } from "thirdweb/extensions/common";
-import { useReadContract } from "thirdweb/react";
-import invariant from "tiny-invariant";
 
 export function useContractMetadataAndName(contract: ThirdwebContract) {
-  invariant(contract, "Contract is not provided");
+  return useQuery(
+    ["contractMetadataAndName", contract.chain.id, contract.address],
+    async () => {
+      const contractMetadataPromise = getContractMetadata({
+        contract,
+      });
+      const contractNamePromise = name({
+        contract,
+      });
+      
+      const [contractMetadata, contractName] = await Promise.all([
+        contractMetadataPromise,
+        contractNamePromise,
+      ]);
 
-  const contractMetadata = useReadContract(getContractMetadata, {
-    contract,
-  });
-
-  const contractName = useReadContract(name, {
-    contract,
-  });
-
-  return useQuery(["contractMetadataAndName", contract.chain.id, contract.address], async () => {
-    return {
-      ...contractMetadata.data,
-      name: contractMetadata.data.name || contractName.data || undefined,
-    };
-  });
+      return {
+        ...contractMetadata,
+        name: contractMetadata.name || contractName || undefined,
+      };
+    },
+  );
 }
