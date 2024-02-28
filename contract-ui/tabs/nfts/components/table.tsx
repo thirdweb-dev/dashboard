@@ -50,11 +50,11 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   const router = useRouter();
 
   const tableColumns = useMemo(() => {
-    const cols: Column<NFT<"ERC721" | "ERC1155">>[] = [
+    const cols: Column<NFT>[] = [
       {
         Header: "Token Id",
         accessor: (row) => row.id?.toString(),
-        Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, string>) => (
+        Cell: (cell: CellProps<NFT, string>) => (
           <Text size="body.md" fontFamily="mono">
             {cell.value}
           </Text>
@@ -65,8 +65,8 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         accessor: (row) => row.metadata,
         Cell: (
           cell: CellProps<
-            NFT<"ERC721" | "ERC1155">,
-            NFT<"ERC721" | "ERC1155">["metadata"]
+            NFT,
+            NFT["metadata"]
           >,
           // @ts-expect-error - types are not compatible yet until we have NFTRenderer in v5
         ) => <MediaCell cell={cell} />,
@@ -74,7 +74,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       {
         Header: "Name",
         accessor: (row) => row.metadata.name,
-        Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, string>) => (
+        Cell: (cell: CellProps<NFT, string>) => (
           <Text noOfLines={1} size="label.md">
             {cell.value}
           </Text>
@@ -83,7 +83,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       {
         Header: "Description",
         accessor: (row) => row.metadata.description,
-        Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, string>) => (
+        Cell: (cell: CellProps<NFT, string>) => (
           <Text
             noOfLines={4}
             size="body.md"
@@ -98,7 +98,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       cols.push({
         Header: "Owner",
         accessor: (row) => row.owner,
-        Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, string>) => (
+        Cell: (cell: CellProps<NFT, string>) => (
           <AddressCopyButton size="xs" address={cell.value} />
         ),
       });
@@ -107,7 +107,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       cols.push({
         Header: "Supply",
         accessor: (row) => row.supply?.toString() || "0",
-        Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, number>) => (
+        Cell: (cell: CellProps<NFT, number>) => (
           <Text noOfLines={4} size="body.md" fontFamily="mono">
             {cell.value}
           </Text>
