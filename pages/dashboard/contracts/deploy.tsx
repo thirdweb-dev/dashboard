@@ -185,7 +185,7 @@ const Contracts: ThirdwebNextPage = () => {
 
   const hasContracts = useMemo(
     () => deployedContracts.data && deployedContracts.data?.length > 0,
-    [deployedContracts.data?.length],
+    [deployedContracts.data],
   );
 
   const steps = useMemo(
