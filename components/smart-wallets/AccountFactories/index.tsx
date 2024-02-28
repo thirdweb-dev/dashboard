@@ -89,7 +89,7 @@ export const AccountFactories: React.FC<AccountFactoriesProps> = ({
         <Spinner />
       ) : (
         <FactoryContracts
-            contracts={(factories.data || []) as BasicContract[]}
+          contracts={(factories.data || []) as BasicContract[]}
           isLoading={factories.isLoading}
           isFetched={factories.isFetched}
         />

@@ -1,4 +1,3 @@
-
 import { Skeleton } from "@chakra-ui/react";
 import { memo } from "react";
 import { ChakraNextLink, Text } from "tw-components";
@@ -7,9 +6,8 @@ import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
 import { useReadContract } from "thirdweb/react";
 import { getContractMetadata } from "thirdweb/extensions/common";
-import { getContract } from "thirdweb";
+import { getContract, defineChain } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
-import { defineChain } from "thirdweb";
 import { BasicContract } from "contract-ui/types/types";
 
 interface AsyncContractNameCellProps {

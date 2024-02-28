@@ -1,4 +1,4 @@
-import { MULTICHAIN_REGISTRY_ADDRESS, useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
+import { useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Box,
@@ -25,11 +25,6 @@ import { useMemo } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { useReadContract } from "thirdweb/react";
-import { getContract } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
-import { polygon } from "thirdweb/chains";
-import { getAllMultichainRegistry } from "dashboard-extensions/common/read/getAllMultichainRegistry";
 
 type ContentItem = {
   title: string;

@@ -1,4 +1,3 @@
-
 import { Skeleton } from "@chakra-ui/react";
 import { memo } from "react";
 import { Text } from "tw-components";

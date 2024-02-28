@@ -458,7 +458,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   );
 };
 
-const ContractTableRow = memo(({ row }: { row: Row<BasicContract>; }) => {
+const ContractTableRow = memo(({ row }: { row: Row<BasicContract> }) => {
   const chainSlug = useChainSlug(row.original.chainId);
   const router = useRouter();
 
