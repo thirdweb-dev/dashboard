@@ -33,7 +33,9 @@ export const AsyncContractNameCell = memo(
     });
 
     return (
-      <Skeleton isLoaded={!contractMetadata.isFetching || !contractName.isFetching}>
+      <Skeleton
+        isLoaded={!contractMetadata.isFetching || !contractName.isFetching}
+      >
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
           <Text
             color="blue.500"
@@ -41,10 +43,9 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {contractMetadata.data?.name
-              || contractName?.data
-              || shortenIfAddress(cell.address)
-            }
+            {contractMetadata.data?.name ||
+              contractName?.data ||
+              shortenIfAddress(cell.address)}
           </Text>
         </ChakraNextLink>
       </Skeleton>
