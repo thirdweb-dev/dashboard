@@ -17,7 +17,7 @@ export type EnhancedRoute<T = any> = {
   component: ComponentType<T>;
 };
 
-export interface BasicContract {
+export type BasicContract = {
   chainId: number;
   address: string;
 }

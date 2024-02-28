@@ -34,7 +34,7 @@ export const PrimaryDashboardButton: React.FC<AddToDashboardCardProps> = ({
     "Failed to import",
   );
 
-  const isOnRegistry =
+  const isInRegistry =
     registry.isFetched &&
     registry.data?.find(
       (c) =>
@@ -52,7 +52,7 @@ export const PrimaryDashboardButton: React.FC<AddToDashboardCardProps> = ({
     return null;
   }
 
-  return isOnRegistry ? (
+  return isInRegistry ? (
     <BuildAppsButton>Code Snippets</BuildAppsButton>
   ) : (
     <Button

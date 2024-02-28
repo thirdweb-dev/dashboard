@@ -79,7 +79,7 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
               return;
             }
 
-            const isOnRegistry =
+            const isInRegistry =
               registry.isFetched &&
               registry.data?.find(
                 (c) =>
@@ -88,7 +88,7 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
               ) &&
               registry.isSuccess;
 
-            if (isOnRegistry) {
+            if (isInRegistry) {
               router.push(`/${chainSlug}/${data.contractAddress}`);
               setIsRedirecting(true);
               return;

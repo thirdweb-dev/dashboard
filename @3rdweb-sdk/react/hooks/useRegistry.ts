@@ -7,7 +7,6 @@ import {
 import { useAllChainsData } from "hooks/chains/allChains";
 import invariant from "tiny-invariant";
 import {
-  useSupportedChains,
   useSupportedChainsRecord,
 } from "hooks/chains/configureChains";
 import { useMemo } from "react";
@@ -19,19 +18,19 @@ import { BasicContract } from "contract-ui/types/types";
 
 export const MULTICHAIN_REGISTRY_ADDRESS = "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
 
+const registryContract = getContract({
+  client: thirdwebClient,
+  address: MULTICHAIN_REGISTRY_ADDRESS,
+  chain: polygon,
+});
+
 export function useMultiChainRegContractList(walletAddress?: string) {
   return useQuery(
     ["dashboard-registry", walletAddress, "multichain-contract-list"],
     async () => {
       invariant(walletAddress, "walletAddress is required");
-      const contract = getContract({
-        client: thirdwebClient,
-        address: MULTICHAIN_REGISTRY_ADDRESS,
-        chain: polygon,
-      });
-
       const contracts = await getAllMultichainRegistry({
-        contract,
+        contract: registryContract,
         address: walletAddress,
       });
 
@@ -46,8 +45,6 @@ export function useMultiChainRegContractList(walletAddress?: string) {
 interface Options {
   onlyMainnet?: boolean;
 }
-
-
 
 export const useAllContractList = (
   walletAddress: string | undefined,
