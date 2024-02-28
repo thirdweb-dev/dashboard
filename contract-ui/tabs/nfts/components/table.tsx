@@ -34,7 +34,7 @@ import {
 } from "thirdweb/extensions/erc721";
 import { getNFTs as getErc1155NFTs } from "thirdweb/extensions/erc1155";
 import { useReadContract } from "thirdweb/react";
-import { Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface ContractOverviewNFTGetAllProps {
@@ -106,7 +106,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     if (isErc1155) {
       cols.push({
         Header: "Supply",
-        accessor: (row) => row.supply,
+        accessor: (row) => row.supply?.toString() || "0",
         Cell: (cell: CellProps<NFT<"ERC721" | "ERC1155">, number>) => (
           <Text noOfLines={4} size="body.md" fontFamily="mono">
             {cell.value}
@@ -256,7 +256,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                 </Tr>
               );
             })}
-            {/*             {getNFTsQuery.isPlaceholderData && (
+            {getNFTsQuery.isPlaceholderData && (
               <Flex
                 zIndex="above"
                 position="absolute"
@@ -277,7 +277,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   <Heading size="label.lg">Fetching new page</Heading>
                 </Flex>
               </Flex>
-            )} */}
+            )}
           </Tbody>
         </Table>
       </TableContainer>
