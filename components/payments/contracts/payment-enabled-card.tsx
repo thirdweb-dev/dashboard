@@ -2,7 +2,10 @@ import { Flex, LinkBox, LinkOverlay, Skeleton } from "@chakra-ui/react";
 import { Card, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { useContractMetadataWithChain } from "@3rdweb-sdk/react/hooks/useContractMetadataWithChain";
+import { defineChain, getContract } from "thirdweb";
+import { thirdwebClient } from "lib/thirdweb-client";
+import { getContractMetadata } from "thirdweb/extensions/common";
+import { useReadContract } from "thirdweb/react";
 
 interface PaymentEnabledCardProps {
   contract: {
@@ -19,10 +22,16 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
   chainId,
 }) => {
   const chainSlug = useChainSlug(chainId);
-  const { data: contractMetadata, isSuccess } = useContractMetadataWithChain(
+
+  const contract = getContract({
+    client: thirdwebClient,
     address,
-    chainId,
-  );
+    chain: defineChain(chainId),
+  });
+
+  const { data: contractMetadata, isSuccess } = useReadContract(getContractMetadata, {
+    contract,
+  });
 
   return (
     <LinkBox>
