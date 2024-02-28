@@ -1,7 +1,7 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Aurora } from "../Aurora";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { LandingCTAButtons } from "components/landing-pages/cta-buttons";
 import { ChakraNextImage } from "components/Image";
 import styles from "../category/categories.module.css";
@@ -49,34 +49,53 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
           position="relative"
           className={styles.heroContainer}
         >
-          <ChakraNextImage
-            src={require("public/assets/landingpage/desktop/icon-frontend.png")}
-            alt="icon-frontend"
-            maxW={{ base: "45px", sm: "60px", md: "75px" }}
-            zIndex={2}
-            cursor="pointer"
-            className={styles.connect}
-          />
+          <TrackedLink
+            href="/connect"
+            category={TRACKING_CATEGORY}
+            label="connect-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-frontend.png")}
+              alt="icon-frontend"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              zIndex={2}
+              cursor="pointer"
+              className={styles.connect}
+            />
+          </TrackedLink>
 
-          <ChakraNextImage
-            src={require("public/assets/landingpage/desktop/icon-backend.png")}
-            alt="icon-backend"
-            maxW={{ base: "45px", sm: "60px", md: "75px" }}
-            position="absolute"
-            zIndex={2}
-            cursor="pointer"
-            className={styles.backend}
-          />
+          <TrackedLink
+            href="/engine"
+            category={TRACKING_CATEGORY}
+            label="backend-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-backend.png")}
+              alt="icon-backend"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              position="absolute"
+              zIndex={2}
+              cursor="pointer"
+              className={styles.backend}
+            />
+          </TrackedLink>
 
-          <ChakraNextImage
-            src={require("public/assets/landingpage/desktop/icon-onchain.png")}
-            alt="icon-onchain"
-            maxW={{ base: "45px", sm: "60px", md: "75px" }}
-            position="absolute"
-            zIndex={2}
-            cursor="pointer"
-            className={styles.onchain}
-          />
+          <TrackedLink
+            href="https://portal.thirdweb.com/contracts/build/overview"
+            category={TRACKING_CATEGORY}
+            label="onchain-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-onchain.png")}
+              alt="icon-onchain"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              position="absolute"
+              zIndex={2}
+              cursor="pointer"
+              className={styles.onchain}
+            />
+          </TrackedLink>
+
           <ChakraNextImage
             src={require("public/assets/landingpage/desktop/hero-homepage.png")}
             alt="hero-image"
