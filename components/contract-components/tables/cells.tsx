@@ -41,7 +41,10 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {contractMetadata.data?.name || contractName?.data || shortenIfAddress(cell.address)}
+            {contractMetadata.data?.name
+              || contractName?.data
+              || shortenIfAddress(cell.address)
+            }
           </Text>
         </ChakraNextLink>
       </Skeleton>
