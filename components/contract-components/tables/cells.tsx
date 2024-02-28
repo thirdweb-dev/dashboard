@@ -4,8 +4,6 @@ import { ChakraNextLink, Text } from "tw-components";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
-import { useReadContract } from "thirdweb/react";
-import { getContractMetadata, name } from "thirdweb/extensions/common";
 import { getContract, defineChain } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
