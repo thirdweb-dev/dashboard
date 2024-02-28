@@ -5,7 +5,7 @@ import { useChainSlug } from "hooks/chains/chainSlug";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
 import { useReadContract } from "thirdweb/react";
-import { getContractMetadata } from "thirdweb/extensions/common";
+import { getContractMetadata, name } from "thirdweb/extensions/common";
 import { getContract, defineChain } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
@@ -28,8 +28,12 @@ export const AsyncContractNameCell = memo(
       contract,
     });
 
+    const contractName = useReadContract(name, {
+      contract,
+    });
+
     return (
-      <Skeleton isLoaded={!contractMetadata.isLoading}>
+      <Skeleton isLoaded={!contractMetadata.isFetching || !contractName.isFetching}>
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
           <Text
             color="blue.500"
@@ -37,7 +41,7 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {contractMetadata.data?.name || shortenIfAddress(cell.address)}
+            {contractMetadata.data?.name || contractName?.data || shortenIfAddress(cell.address)}
           </Text>
         </ChakraNextLink>
       </Skeleton>
