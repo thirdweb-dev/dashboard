@@ -165,12 +165,7 @@ export function useContractRouteConfig(
     {
       title: "NFTs",
       path: "nfts",
-      isEnabled: contract
-        ? extensionDetectedState({
-            contractQuery,
-            feature: ["ERC1155", "ERC721"],
-          })
-        : "disabled",
+      isEnabled: extensionDetectedState({ contractQuery, feature: ["ERC1155", "ERC721"] }),
       component: LazyContractNFTPage,
     },
     {

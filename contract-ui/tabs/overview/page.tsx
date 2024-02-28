@@ -28,8 +28,6 @@ export const ContractOverviewPage: React.FC<ContractOverviewPageProps> = ({
   const contractTypeQuery = contractType.useQuery(contractAddress);
   const contractTypeData = contractTypeQuery?.data || "custom";
 
-  console.log({ contractAddress });
-
   const detectedFeatureNames = useMemo(
     () =>
       contract?.abi ? getAllDetectedFeatureNames(contract.abi as Abi) : [],
