@@ -81,7 +81,7 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
           </TrackedLink>
 
           <TrackedLink
-            href="https://portal.thirdweb.com/contracts/build/overview"
+            href="/explore"
             category={TRACKING_CATEGORY}
             label="onchain-icon"
           >
