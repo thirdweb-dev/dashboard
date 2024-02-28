@@ -106,12 +106,16 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     if (isErc1155) {
       cols.push({
         Header: "Supply",
-        accessor: (row) => row.supply?.toString() || "0",
-        Cell: (cell: CellProps<NFT, number>) => (
-          <Text noOfLines={4} size="body.md" fontFamily="mono">
-            {cell.value}
-          </Text>
-        ),
+        accessor: (row) => row,
+        Cell: (cell: CellProps<NFT, number>) => {
+          if (cell.row.original.type === "ERC1155") {
+            return (
+              <Text noOfLines={4} size="body.md" fontFamily="mono">
+                {cell.row.original.supply.toString()}
+              </Text>
+            );
+          }
+        }
       });
     }
     return cols;
@@ -120,11 +124,11 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
 
   const getNFTsQuery = useReadContract(
-    // @ts-expect-error - this is a hack to get around the fact that the types are not compatible
     isErc1155 ? getErc1155NFTs : getErc721NFTs,
     {
       contract,
-      queryParams,
+      start: queryParams.start,
+      count: queryParams.count,
       includeOwners: true,
     },
   );
