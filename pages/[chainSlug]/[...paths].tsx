@@ -12,7 +12,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
-import { useContract, useContractMetadata } from "@thirdweb-dev/react";
 import { detectContractFeature } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
@@ -22,7 +21,7 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { SupportedChainsReadyContext } from "contexts/configured-chains";
 import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
-import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
+import { ContractSidebar } from "core-ui/sidebar/detail-page";
 import {
   useSupportedChainsRecord,
   useSupportedChainsSlugRecord,
@@ -43,6 +42,8 @@ import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
+import { defineChain, getContract } from "thirdweb";
+import { thirdwebClient } from "lib/thirdweb-client";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -56,7 +57,7 @@ type EVMContractProps = {
   detectedExtension: "erc20" | "erc721" | "erc1155" | "unknown";
 };
 
-const EVMContractPage: ThirdwebNextPage = () => {
+const ContractPage: ThirdwebNextPage = () => {
   // show optimistic UI first - assume chain is configured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
   const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
@@ -153,9 +154,19 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const router = useRouter();
 
   const activeTab = router.query?.paths?.[1] || "overview";
-  const contractQuery = useContract(contractAddress);
-  const contractMetadataQuery = useContractMetadata(contractQuery.contract);
-  const routes = useContractRouteConfig(contractAddress);
+
+  const contract = useMemo(() => {
+    if (!contractAddress || !chain?.chainId) {
+      return null;
+    }
+    return getContract({
+      address: contractAddress,
+      client: thirdwebClient,
+      chain: defineChain(chain?.chainId),
+    });
+  }, [contractAddress, chain?.chainId]);
+
+  const routes = useContractRouteConfig(contractAddress, contract);
 
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === activeTab),
@@ -228,7 +239,6 @@ const EVMContractPage: ThirdwebNextPage = () => {
             >
               <ContractMetadata
                 contractAddress={contractAddress}
-                metadataQuery={contractMetadataQuery}
                 chain={chain}
               />
               <PrimaryDashboardButton contractAddress={contractAddress} />
@@ -240,24 +250,26 @@ const EVMContractPage: ThirdwebNextPage = () => {
           </Flex>
         </Container>
       </Box>
-      <ContractProgramSidebar
-        address={contractAddress}
-        metadataQuery={contractMetadataQuery}
+      <ContractSidebar
+        contractAddress={contractAddress}
         routes={routes}
         activeRoute={activeRoute}
       />
       <Container pt={8} maxW="container.page">
-        {activeRoute?.component && (
-          <activeRoute.component contractAddress={contractAddress} />
+        {activeRoute?.component && contractAddress && contract && (
+          <activeRoute.component
+            contractAddress={contractAddress}
+            contract={contract}
+          />
         )}
       </Container>
     </Flex>
   );
 };
 
-export default EVMContractPage;
-EVMContractPage.pageId = PageId.DeployedContract;
-EVMContractPage.getLayout = (page, props: EVMContractProps) => {
+export default ContractPage;
+ContractPage.pageId = PageId.DeployedContract;
+ContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
     shortenIfAddress(props.contractInfo?.contractAddress) ||
@@ -347,7 +359,7 @@ function PageSkeleton() {
 }
 
 // app layout has to come first in both getLayout and fallback
-EVMContractPage.fallback = (
+ContractPage.fallback = (
   <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
     <PageSkeleton />
   </AppLayout>
@@ -390,7 +402,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
 
   let detectedExtension: EVMContractProps["detectedExtension"] = "unknown";
 
-  if (chain) {
+  if (chain && chain.chainId) {
     try {
       // create the SDK on the chain
       const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
