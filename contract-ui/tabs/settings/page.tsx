@@ -6,13 +6,13 @@ import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 
-interface CustomContractSettingsPageProps {
+interface ContractSettingsPageProps {
   contractAddress?: string;
 }
 
-export const CustomContractSettingsPage: React.FC<
-  CustomContractSettingsPageProps
-> = ({ contractAddress }) => {
+export const ContractSettingsPage: React.FC<ContractSettingsPageProps> = ({
+  contractAddress,
+}) => {
   const contractQuery = useContract(contractAddress);
 
   const detectedMetadata = extensionDetectedState({
