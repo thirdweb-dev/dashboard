@@ -4,8 +4,7 @@ import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { defineChain, getContract } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
-import { getContractMetadata } from "thirdweb/extensions/common";
-import { useReadContract } from "thirdweb/react";
+import { useContractMetadataAndName } from "dashboard-extensions/hooks/useContractMetadataAndName";
 
 interface PaymentEnabledCardProps {
   contract: {
@@ -29,10 +28,8 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
     chain: defineChain(chainId),
   });
 
-  const { data: contractMetadata, isSuccess } = useReadContract(
-    getContractMetadata,
-    { contract },
-  );
+  const { data: contractMetadataAndName, isSuccess } =
+    useContractMetadataAndName(contract);
 
   return (
     <LinkBox>
@@ -51,7 +48,7 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
           <Text color="bgBlack">
             <LinkOverlay href={`/${chainSlug}/${address}/payments`}>
               <Skeleton isLoaded={isSuccess}>
-                {contractMetadata?.name || display_name}
+                {contractMetadataAndName?.name || display_name}
               </Skeleton>
             </LinkOverlay>
           </Text>
