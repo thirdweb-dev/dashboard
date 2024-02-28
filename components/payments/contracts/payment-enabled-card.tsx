@@ -29,9 +29,10 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
     chain: defineChain(chainId),
   });
 
-  const { data: contractMetadata, isSuccess } = useReadContract(getContractMetadata, {
-    contract,
-  });
+  const { data: contractMetadata, isSuccess } = useReadContract(
+    getContractMetadata,
+    { contract },
+  );
 
   return (
     <LinkBox>
