@@ -33,8 +33,8 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
           </Flex>
           <Text size="body.xl" mr={6}>
             Onboard users with wallets, build & deploy smart contracts, accept
-            fiat & crypto payments, and scale with infrastructure — on any EVM
-            chain.
+            fiat & crypto payments, and scale your app or game with
+            infrastructure — on any EVM chain.
           </Text>
           <LandingCTAButtons
             ctaText="Get started"
