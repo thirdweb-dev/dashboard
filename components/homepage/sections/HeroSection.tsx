@@ -32,9 +32,9 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
             </Heading>
           </Flex>
           <Text size="body.xl" mr={6}>
-            Build web3 apps on any EVM chain. Onboard users with wallets,
-            deploy smart contracts, accept fiat & crypto payments, and scale
-            with production-grade infrastructure.
+            Build web3 apps on any EVM chain. Onboard users with wallets, deploy
+            smart contracts, accept fiat & crypto payments, and scale with
+            production-grade infrastructure.
           </Text>
           <LandingCTAButtons
             ctaText="Get started"
