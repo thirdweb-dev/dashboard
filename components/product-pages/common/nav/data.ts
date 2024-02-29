@@ -72,7 +72,8 @@ export const PRODUCTS: SectionItemProps[] = [
     section: "contracts",
   },
   {
-    name: "Playground",
+    name: "Connect UI",
+    dashboardName: "Playground",
     label: "connect",
     description: "Fully customizable Connect Wallet component",
     link: "/connect",

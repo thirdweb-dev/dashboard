@@ -24,7 +24,7 @@ import { useMemo } from "react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Badge, Button, Card, Heading, LinkButton } from "tw-components";
 
-interface CustomContractSourcesPageProps {
+interface ContractSourcesPageProps {
   contractAddress?: string;
 }
 
@@ -33,7 +33,7 @@ type VerifyContractParams = {
   chainId: number;
 };
 
-export async function verifyContract({
+async function verifyContract({
   contractAddress,
   chainId,
 }: VerifyContractParams) {
@@ -204,9 +204,9 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
   );
 };
 
-export const CustomContractSourcesPage: React.FC<
-  CustomContractSourcesPageProps
-> = ({ contractAddress }) => {
+export const ContractSourcesPage: React.FC<ContractSourcesPageProps> = ({
+  contractAddress,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contractSourcesQuery = useContractSources(contractAddress);
   const chainId = useDashboardEVMChainId();
