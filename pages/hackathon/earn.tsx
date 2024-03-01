@@ -2,16 +2,10 @@ import { Box, DarkMode, Divider, Flex, Icon, ListItem } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import EarnReasonSection from "components/hackathon/EarnReasonSection";
-import FAQ from "components/hackathon/FAQ";
 import FAQEarn from "components/hackathon/FAQEarn";
 import { HackathonEarnFooter } from "components/hackathon/HacakthonEarnFooter";
-import { HackathonFooter } from "components/hackathon/HackathonFooter";
-import { Judges } from "components/hackathon/Judges";
 import { JudgesEarn } from "components/hackathon/JudgesEarn";
-import Reason from "components/hackathon/Reason";
-import { ScheduleSection } from "components/hackathon/ScheduleSection";
 import { ScheduleSectionEarn } from "components/hackathon/ScheduleSectionEarn";
-import { Sponsors } from "components/hackathon/Sponsors";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -326,7 +320,7 @@ const HackathonEarn = () => {
                     <ListItem>Dates: February 27th — March 16th, 2024</ListItem>
                     <ListItem>
                       Remote Hackathon + In-person presentations and awards @
-                      thirdweb's San Francisco offices on March 17th
+                      thirdweb&apos;s San Francisco offices on March 17th
                       <List paddingLeft={4} styleType="disc">
                         <ListItem>
                           You can present remotely via discord
