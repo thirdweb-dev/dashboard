@@ -34,6 +34,15 @@ export const HackathonEarnFooter = ({
       />
 
       <Heading
+        size="title.xl"
+        color="white"
+        letterSpacing={5}
+        textAlign="center"
+      >
+        GDC HACKATHON
+      </Heading>
+
+      <Heading
         size="title.sm"
         color="white"
         opacity={0.7}

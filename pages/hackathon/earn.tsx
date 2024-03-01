@@ -110,13 +110,22 @@ const HackathonEarn = () => {
               w="full"
               maxW={{ base: "full", lg: "5xl" }}
             />
+
+            <Heading
+              size="title.xl"
+              color="white"
+              letterSpacing={5}
+              textAlign="center"
+            >
+              GDC HACKATHON
+            </Heading>
+
             <Heading
               size="title.sm"
               color="white"
               opacity={0.7}
               letterSpacing={5}
               textAlign="center"
-              mt={3}
             >
               FEBRUARY 27 — MARCH 16
             </Heading>
@@ -178,10 +187,10 @@ const HackathonEarn = () => {
                 fontSize={{ base: "18px", md: "20px" }}
                 padding="0 22px"
               >
-                <List color="white" styleType="disc">
+                <List color="white" styleType="none">
                   <ListItem>
                     100,000 $ALLY tokens to the top 3 projects
-                    <List paddingLeft={4} styleType="disc">
+                    <List paddingLeft={4} styleType="disc" ml={3}>
                       <ListItem>Grand Prize 50K $Ally Token</ListItem>
                       <ListItem>1st Place 30k $Ally Token</ListItem>
                       <ListItem>2nd Place 20K $Ally Token</ListItem>
@@ -217,7 +226,8 @@ const HackathonEarn = () => {
                       tasks and crypto rewards.
                     </ListItem>
                     <ListItem>
-                      Use thirdweb&apos;s blockchain technology
+                      Leverage thirdweb&apos;s developer tools for blockchain
+                      tech
                     </ListItem>
                     <ListItem>
                       Optionally, include NFT or crypto game rewards
@@ -314,12 +324,12 @@ const HackathonEarn = () => {
                   fontSize={{ base: "18px", md: "20px" }}
                   padding="0 22px"
                 >
-                  <List color="white" styleType="disc" maxW={807}>
+                  <List color="white" styleType="none" maxW={807}>
                     <ListItem>Dates: February 27th — March 16th, 2024</ListItem>
                     <ListItem>
                       Remote Hackathon + In-person presentations and awards @
                       thirdweb&apos;s San Francisco offices on March 17th
-                      <List paddingLeft={4} styleType="disc">
+                      <List paddingLeft={4} styleType="disc" ml={3}>
                         <ListItem>
                           You can present remotely via discord
                         </ListItem>

@@ -11,7 +11,7 @@ export const JudgesEarn = () => {
     },
     {
       name: "Atif",
-      description: "VP Business",
+      description: "VP of Business at thirdweb",
       image: "/assets/landingpage/atif.png",
     },
     {
