@@ -206,7 +206,7 @@ export const OnboardingSteps: React.FC = () => {
         canSkip: true,
       },
     ],
-    [],
+    [onClaimCreditsOpen],
   );
 
   if (!currentStep) {
@@ -253,7 +253,7 @@ export const OnboardingSteps: React.FC = () => {
               size="sm"
               onClick={() => handleStep({ isSkip: true, step: currentStep })}
             >
-            eading
+              eading
             </Button>
           )}
         </HStack>

@@ -1,6 +1,5 @@
-import { Flex, HStack, Icon } from "@chakra-ui/react";
-import { Heading, Text, Badge, Card } from "tw-components";
-import { FiCheckCircle, FiAlertCircle, FiInfo } from "react-icons/fi";
+import { Flex } from "@chakra-ui/react";
+import { Heading, Text, Card } from "tw-components";
 import { useAccountCredits } from "@3rdweb-sdk/react/hooks/useApi";
 import { format } from "date-fns";
 
@@ -11,9 +10,7 @@ const formatToDollars = (cents: number) => {
   }).format(cents);
 };
 
-interface BillingCreditsProps { }
-
-export const BillingCredits: React.FC<BillingCreditsProps> = ({ }) => {
+export const BillingCredits = ({ }) => {
   const { data: credits } = useAccountCredits();
 
   console.log({ credits });
@@ -49,7 +46,10 @@ export const BillingCredits: React.FC<BillingCreditsProps> = ({ }) => {
               <Flex flexDir="column" gap={1}>
                 <Text>Expires On</Text>
                 <Text color="bgBlack">
-                  {format(new Date(credit.expiryDate as string), "MMM dd, yyyy")}
+                  {format(
+                    new Date(credit.expiryDate as string),
+                    "MMM dd, yyyy",
+                  )}
                 </Text>
               </Flex>
             </Flex>
