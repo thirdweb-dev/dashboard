@@ -42,7 +42,7 @@ export const JudgesEarn = () => {
             <Heading size="title.sm" mt={4} textAlign="center">
               {judge.name}
             </Heading>
-            <Text size="body.md" textAlign="center" maxW='180px'>
+            <Text size="body.md" textAlign="center" maxW="180px">
               {judge.description}
             </Text>
           </Flex>
