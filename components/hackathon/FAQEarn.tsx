@@ -8,15 +8,14 @@ const faqs = [
     title: "How do we integrate the Earn Alliance task system?",
     description: (
       <Text fontSize="16px" color="#fff">
-        This typically takes around 2-3 business days. You can email Check out
-        the docs and email{" "}
+        Check out the docs, and email{" "}
         <Link
           href="mailto:hackathon@earnalliance.com"
           style={{ color: "lightblue", textDecoration: "underline" }}
         >
           hackathon@earnalliance.com
         </Link>{" "}
-        to access the test dashboard for Earn Alliance challenges and event
+        to access the test dashboard for Earn Alliance challenges and the event
         system.
       </Text>
     ),
@@ -33,9 +32,11 @@ const faqs = [
     title: "Where is the hackathon held?",
     description: (
       <Text fontSize="16px" color="#fff">
-        This will be an in-person event held at the thirdweb offices in San
-        Francisco. Teams will receive invites with a location following
-        registration
+        This is an online hackathon featuring an in-person lunch, presentation,
+        and awards event at the thirdweb offices in San Francisco. Teams will
+        receive the location after registering. If you are chosen to present and
+        can&aspo;t attend in person, you will be notified and can present
+        remotely.
       </Text>
     ),
   },
