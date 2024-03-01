@@ -232,6 +232,20 @@ interface WalletStats {
   }[];
 }
 
+export interface BillingProduct {
+  name: string;
+  // Add other properties as needed
+}
+
+export interface BillingCredit {
+  originalGrantUsdCents: number;
+  remainingValueUsdCents: number;
+  name: string;
+  products: BillingProduct[];
+  expiryDate: string;
+}
+
+
 export function useAccount() {
   const { user, isLoggedIn } = useLoggedInUser();
 
@@ -277,6 +291,33 @@ export function useAccountUsage() {
       }
 
       return json.data as UsageBillableByService;
+    },
+    { enabled: !!user?.address && isLoggedIn },
+  );
+}
+
+export function useAccountCredits() {
+  const { user, isLoggedIn } = useLoggedInUser();
+
+  return useQuery(
+    accountKeys.credits(user?.address as string),
+    async () => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/credits`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await res.json();
+
+      console.log({ json });
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.data as BillingCredit[];
     },
     { enabled: !!user?.address && isLoggedIn },
   );
