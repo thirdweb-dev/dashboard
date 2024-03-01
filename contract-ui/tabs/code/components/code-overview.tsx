@@ -628,11 +628,11 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
             </Text>
           </Flex>
         </Flex>
-        {!onlyInstall ? (
+        {true ? (
           <>
-            {foundExtensions.length > 0 ? (
+            {true ? (
               <SimpleGrid columns={1} gap={12}>
-                {foundExtensions.map((extension) => {
+                {foundExtensions?.map((extension) => {
                   const extensionData: any[] = filteredData[
                     extension
                   ] as unknown as any[];
