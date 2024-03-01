@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -110,5 +109,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
     router.events,
   ]);
 
-  return <Box {...styling} />;
+  // eslint-disable-next-line react/forbid-dom-props
+  return <div style={styling}></div>;
 };
