@@ -1,23 +1,34 @@
 import {
   AccountStatus,
   useAccount,
+  useAccountCredits,
   useApiKeys,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
-import { HStack, VStack } from "@chakra-ui/react";
+import { Flex, HStack, VStack } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Button, Card, Heading, Text } from "tw-components";
+import { useMemo, useState } from "react";
+import { Button, Card, Heading, Link, LinkButton, Text } from "tw-components";
 
 enum Step {
   Keys = "keys",
   Docs = "docs",
+  OptimismCredits = "optimismCredits",
   Payment = "payment",
 }
 
-const STEPS = [
+type StepData = {
+  key: Step;
+  title: string;
+  description: string | JSX.Element;
+  cta: string;
+  learnMore?: string;
+  href?: string;
+};
+
+const STEPS: StepData[] = [
   {
     key: Step.Keys,
     title: "Create an API Key",
@@ -25,7 +36,6 @@ const STEPS = [
       "An API key is required to use thirdweb's services through the SDK and CLI.",
     cta: "Create key",
     href: "/dashboard/settings/api-keys",
-    external: false,
   },
   {
     key: Step.Payment,
@@ -34,7 +44,24 @@ const STEPS = [
       "Add your payment method to ensure no disruption to thirdweb services when you exceed free monthly limits.",
     cta: "Add payment",
     href: "/dashboard/settings/billing",
-    external: false,
+  },
+  {
+    key: Step.OptimismCredits,
+    title: "You're eligible for free Optimism Superchain credits.",
+    description: (
+      <Flex flexDir="column" gap={4}>
+        <Text>
+          These credits are valid for use across any OP superchain network and
+          can be used to cover gas for any on-chain activity such as:
+        </Text>
+        <Flex flexDir="column" gap={2}>
+          <Text color="bgBlack">Deploying Contracts</Text>
+          <Text color="bgBlack">Using paymaster to build gasless apps</Text>
+        </Flex>
+      </Flex>
+    ),
+    cta: "Claim Credits",
+    learnMore: "https://portal.thirdweb.com",
   },
   {
     key: Step.Docs,
@@ -43,13 +70,8 @@ const STEPS = [
       "Read our documentation to learn what you can build with contracts, payments, wallets, and infrastructure.",
     cta: "Read docs",
     href: "https://portal.thirdweb.com",
-    external: true,
   },
 ];
-
-type CompletedStep = {
-  [T in Step]: boolean;
-};
 
 export const OnboardingSteps: React.FC = () => {
   const { isLoggedIn } = useLoggedInUser();
@@ -58,91 +80,95 @@ export const OnboardingSteps: React.FC = () => {
   const router = useRouter();
   const trackEvent = useTrack();
 
-  const [completedStep, setCompletedStep] = useLocalStorage<
-    CompletedStep | undefined
-  >(`onboarding-step-${meQuery?.data?.id}`, undefined, {
-    [Step.Keys]: false,
-    [Step.Docs]: false,
-    [Step.Payment]: false,
-  });
+  const { data: credits } = useAccountCredits();
 
-  const [currentStep, setCurrentStep] = useState<Step | null>(null);
-  const [completedAction, setCompletedAction] = useState(false);
+  const [onboardingKeys, setOnboardingKeys] = useLocalStorage(
+    `onboardingKeys-${meQuery?.data?.id}`,
+    false,
+  );
 
-  useEffect(() => {
-    if (
-      completedAction ||
-      !isLoggedIn ||
-      meQuery.isLoading ||
-      apiKeysQuery.isLoading
-    ) {
+  const [onboardingDocs, setOnboardingDocs] = useLocalStorage(
+    `onboardingDocs-${meQuery?.data?.id}`,
+    false,
+  );
+
+  const hasValidPayment = useMemo(() => {
+    return meQuery?.data?.status === AccountStatus.ValidPayment;
+  }, [meQuery?.data?.status]);
+
+  const hasApiKeys = useMemo(() => {
+    return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
+  }, [apiKeysQuery?.data]);
+
+  const hasOptimismCredits = useMemo(() => {
+    return credits?.some((credit) => credit.name === "optimismCredits");
+  }, [credits]);
+
+  console.log({ hasValidPayment, hasApiKeys, hasOptimismCredits });
+
+  const currentStep = useMemo(() => {
+    if (!isLoggedIn) {
+      return null;
+    }
+    if (!onboardingKeys && !hasApiKeys) {
+      return Step.Keys;
+    } else if (!hasValidPayment) {
+      return Step.Payment;
+    } else if (!hasOptimismCredits) {
+      return Step.OptimismCredits;
+    } else if (!onboardingDocs) {
+      return Step.Docs;
+    } else {
+      return null;
+    }
+  }, [
+    isLoggedIn,
+    hasApiKeys,
+    hasValidPayment,
+    hasOptimismCredits,
+    onboardingDocs,
+    onboardingKeys,
+  ]);
+
+  const handleStep = ({
+    isSkip,
+    step,
+    href,
+    onClick,
+  }: {
+    isSkip?: true;
+    step: Step;
+    href?: string;
+    onClick?: () => void;
+  }) => {
+    if (!step) {
       return;
     }
 
-    const savedStep = completedStep || {};
-
-    if (!(Step.Keys in savedStep) && apiKeysQuery.data?.length === 0) {
-      setCurrentStep(Step.Keys);
-    } else if (!(Step.Docs in savedStep)) {
-      setCurrentStep(Step.Docs);
-    } else if (
-      !(Step.Payment in savedStep) &&
-      meQuery?.data?.status !== AccountStatus.ValidPayment
-    ) {
-      setCurrentStep(Step.Payment);
-    } else {
-      setCurrentStep(null);
-    }
-  }, [isLoggedIn, meQuery, apiKeysQuery, completedStep, completedAction]);
-
-  const handleAction = () => {
-    if (!href || !currentStep) {
-      return null;
-    }
-
-    if (!external) {
-      router.push(href);
-    } else {
-      window.open(href, "_blank");
-    }
-
-    if (![Step.Keys, Step.Payment].includes(currentStep)) {
-      if (!external) {
-        // avoid switching step when navigating
-        setCompletedAction(true);
+    if (!isSkip && href) {
+      if (!href.startsWith("http")) {
+        router.push(href);
+      } else {
+        window.open(href, "_blank");
       }
-      setCompletedStep({
-        ...(completedStep as CompletedStep),
-        [currentStep]: true,
-      });
+    }
+
+    if (!isSkip && onClick) {
+      onClick();
+    }
+
+    if (step === Step.Keys) {
+      setOnboardingKeys(true);
+    }
+
+    if (step === Step.Docs) {
+      setOnboardingDocs(true);
     }
 
     trackEvent({
       category: "onboardingChecklist",
-      action: "completed",
-      data: {
-        step: currentStep,
-        href,
-      },
-    });
-  };
-
-  const handleSkip = () => {
-    if (!currentStep) {
-      return null;
-    }
-
-    setCompletedStep({
-      ...(completedStep as CompletedStep),
-      [currentStep]: true,
-    });
-
-    trackEvent({
-      category: "onboardingChecklist",
-      action: "skipped",
-      data: {
-        step: currentStep,
-      },
+      action: isSkip ? "skipped" : "completed",
+      data: { step, href },
     });
   };
 
@@ -150,21 +176,33 @@ export const OnboardingSteps: React.FC = () => {
     return null;
   }
 
-  const { title, description, cta, href, external } =
-    STEPS.find((s) => s.key === currentStep) || {};
+  const { title, description, cta, href, learnMore } = STEPS.find(
+    (s) => s.key === currentStep,
+  ) as StepData;
 
   return (
     <Card w="full" p={6}>
       <VStack gap={2} alignItems="flex-start">
         <Heading size="title.sm">{title}</Heading>
-        <Text>{description}</Text>
-
+        <Flex>{description}</Flex>
         <HStack mt={4} alignItems="center">
-          <Button size="sm" colorScheme="primary" onClick={handleAction}>
+          <Button
+            size="sm"
+            colorScheme="primary"
+            onClick={() => handleStep({ step: currentStep, href })}
+          >
             {cta}
           </Button>
-
-          <Button variant="ghost" size="sm" onClick={handleSkip}>
+          {learnMore && (
+            <LinkButton isExternal href={learnMore} size="sm" variant="outline">
+              Learn more
+            </LinkButton>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleStep({ isSkip: true, step: currentStep })}
+          >
             Skip
           </Button>
         </HStack>
