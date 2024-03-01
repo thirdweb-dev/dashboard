@@ -113,7 +113,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     } catch (error) {
       console.error("Error fetching contract metadata", error);
-    };
+    }
 
     const guid = await verify(
       contractAddress,

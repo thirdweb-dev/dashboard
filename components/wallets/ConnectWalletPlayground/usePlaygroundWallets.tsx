@@ -59,6 +59,7 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
             bundlerUrl: isProd
               ? "https://goerli.bundler.thirdweb.com"
               : "https://goerli.bundler.thirdweb-dev.com",
+            // eslint-disable-next-line inclusive-language/use-inclusive-words
             paymasterUrl: isProd
               ? "https://goerli.bundler.thirdweb.com"
               : "https://goerli.bundler.thirdweb-dev.com",

@@ -185,11 +185,7 @@ export const AutoBarChart = <
 
               const { time, ...values } = payload[0].payload;
               return (
-                <StackToolTip
-                  time={time}
-                  values={values}
-                  hoverKey={hoverKey}
-                />
+                <StackToolTip time={time} values={values} hoverKey={hoverKey} />
               );
             }}
             cursor={

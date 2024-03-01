@@ -50,7 +50,7 @@ export const HoverMenu: React.FC<HoverMenuProps> = ({
         window.removeEventListener("resize", updateOffset);
       };
     }
-  }, [isOpen, triggerRef, width, setOffset, DEFAULT_OFFSET]);
+  }, [isOpen, triggerRef, width, setOffset]);
 
   return (
     <Box onMouseLeave={onClose}>

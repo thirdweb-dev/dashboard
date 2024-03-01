@@ -16,7 +16,7 @@ import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useEffect, useId } from "react";
+import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { BiImage } from "react-icons/bi";
 import { FiEdit, FiGlobe } from "react-icons/fi";
@@ -43,10 +43,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     watch,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<ProfileMetadataInput>({
     defaultValues: publisherProfile,
     values: publisherProfile,

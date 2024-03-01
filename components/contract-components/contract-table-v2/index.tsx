@@ -181,7 +181,11 @@ export const PublishedContractTable: ComponentWithChildren<
           {tableInstance.headerGroups.map((headerGroup, headerGroupIndex) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroupIndex}>
               {headerGroup.headers.map((column, columnIndex) => (
-                <Th {...column.getHeaderProps()} border="none" key={columnIndex}>
+                <Th
+                  {...column.getHeaderProps()}
+                  border="none"
+                  key={columnIndex}
+                >
                   <Text as="label" size="label.sm" color="faded">
                     {column.render("Header")}
                   </Text>

@@ -128,6 +128,7 @@ export type Transaction = {
   callGasLimit?: string | null;
   verificationGasLimit?: string | null;
   preVerificationGas?: string | null;
+  // eslint-disable-next-line inclusive-language/use-inclusive-words
   paymasterAndData?: string | null;
   userOpHash?: string | null;
   functionName?: string | null;

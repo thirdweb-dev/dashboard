@@ -85,7 +85,7 @@ export const NestedHoverMenu: React.FC<NestedHoverMenuProps> = ({
         window.removeEventListener("resize", updateOffset);
       };
     }
-  }, [isOpen, triggerRef, setOffset, DEFAULT_OFFSET]);
+  }, [isOpen, triggerRef, setOffset]);
 
   return (
     <Box onMouseLeave={handleBoxLeave}>

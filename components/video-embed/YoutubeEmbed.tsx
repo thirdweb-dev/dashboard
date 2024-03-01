@@ -9,7 +9,8 @@ interface YoutubeEmbedProps {
 
 export const YoutubeEmbed: React.FC<YoutubeEmbedProps> = (props) => {
   return (
-    <Box as="iframe"
+    <Box
+      as="iframe"
       width={props.maxWidth}
       loading="lazy"
       src={`https://www.youtube-nocookie.com/embed/${props.videoId}`}
