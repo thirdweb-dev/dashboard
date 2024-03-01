@@ -5,12 +5,23 @@ import {
   useApiKeys,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
-import { Flex, HStack, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Icon,
+  VStack,
+  useBreakpointValue,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import { Button, Card, Heading, Link, LinkButton, Text } from "tw-components";
+import { useMemo } from "react";
+import { Button, Card, Heading, LinkButton, Text } from "tw-components";
+import { ClaimCreditsModal } from "./ClaimCreditsModal";
+import { BiGasPump, BiRocket } from "react-icons/bi";
+import { StaticImageData } from "next/image";
+import { ChakraNextImage } from "components/Image";
 
 enum Step {
   Keys = "keys",
@@ -25,68 +36,29 @@ type StepData = {
   description: string | JSX.Element;
   cta: string;
   learnMore?: string;
+  onClick?: () => void;
   href?: string;
+  canSkip?: true;
+  rightImage?: StaticImageData;
 };
 
-const STEPS: StepData[] = [
-  {
-    key: Step.Keys,
-    title: "Create an API Key",
-    description:
-      "An API key is required to use thirdweb's services through the SDK and CLI.",
-    cta: "Create key",
-    href: "/dashboard/settings/api-keys",
-  },
-  {
-    key: Step.Payment,
-    title: "Add Payment Method",
-    description:
-      "Add your payment method to ensure no disruption to thirdweb services when you exceed free monthly limits.",
-    cta: "Add payment",
-    href: "/dashboard/settings/billing",
-  },
-  {
-    key: Step.OptimismCredits,
-    title: "You're eligible for free Optimism Superchain credits.",
-    description: (
-      <Flex flexDir="column" gap={4}>
-        <Text>
-          These credits are valid for use across any OP superchain network and
-          can be used to cover gas for any on-chain activity such as:
-        </Text>
-        <Flex flexDir="column" gap={2}>
-          <Text color="bgBlack">Deploying Contracts</Text>
-          <Text color="bgBlack">Using paymaster to build gasless apps</Text>
-        </Flex>
-      </Flex>
-    ),
-    cta: "Claim Credits",
-    learnMore: "https://portal.thirdweb.com",
-  },
-  {
-    key: Step.Docs,
-    title: "Explore Docs",
-    description:
-      "Read our documentation to learn what you can build with contracts, payments, wallets, and infrastructure.",
-    cta: "Read docs",
-    href: "https://portal.thirdweb.com",
-  },
-];
-
 export const OnboardingSteps: React.FC = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
   const apiKeysQuery = useApiKeys();
   const router = useRouter();
   const trackEvent = useTrack();
-
   const { data: credits } = useAccountCredits();
-
+  const {
+    isOpen: isClaimCreditsOpen,
+    onOpen: onClaimCreditsOpen,
+    onClose: onClaimCreditsClose,
+  } = useDisclosure();
   const [onboardingKeys, setOnboardingKeys] = useLocalStorage(
     `onboardingKeys-${meQuery?.data?.id}`,
     false,
   );
-
   const [onboardingDocs, setOnboardingDocs] = useLocalStorage(
     `onboardingDocs-${meQuery?.data?.id}`,
     false,
@@ -103,8 +75,6 @@ export const OnboardingSteps: React.FC = () => {
   const hasOptimismCredits = useMemo(() => {
     return credits?.some((credit) => credit.name === "optimismCredits");
   }, [credits]);
-
-  console.log({ hasValidPayment, hasApiKeys, hasOptimismCredits });
 
   const currentStep = useMemo(() => {
     if (!isLoggedIn) {
@@ -172,24 +142,103 @@ export const OnboardingSteps: React.FC = () => {
     });
   };
 
+  const STEPS: StepData[] = useMemo(
+    () => [
+      {
+        key: Step.Keys,
+        title: "Create an API Key",
+        description:
+          "An API key is required to use thirdweb's services through the SDK and CLI.",
+        cta: "Create key",
+        href: "/dashboard/settings/api-keys",
+        canSkip: true,
+      },
+      {
+        key: Step.Payment,
+        title: "Add Payment Method",
+        description:
+          "Add your payment method to ensure no disruption to thirdweb services when you exceed free monthly limits.",
+        cta: "Add payment",
+        href: "/dashboard/settings/billing",
+      },
+      {
+        key: Step.OptimismCredits,
+        title: "You're eligible for free Optimism Superchain credits",
+        description: (
+          <Flex flexDir="column" gap={4}>
+            <Text>
+              These credits are valid for use across any OP superchain network
+              and can be used to cover gas for any on-chain activity such as:
+            </Text>
+            <Flex flexDir="column" gap={2}>
+              <Flex gap={2} alignItems="center">
+                <Icon as={BiRocket} />
+                <Text color="bgBlack">Deploying Contracts</Text>
+              </Flex>
+              <Flex gap={2} alignItems="center">
+                <Icon as={BiGasPump} />
+                <Text color="bgBlack">
+                  Using paymaster to build gasless apps
+                </Text>
+              </Flex>
+            </Flex>
+          </Flex>
+        ),
+        cta: "Claim Credits",
+        onClick: () => {
+          onClaimCreditsOpen();
+          trackEvent({
+            category: "onboardingChecklist",
+            action: "clicked",
+            data: { step: Step.OptimismCredits },
+          });
+        },
+        learnMore: "https://portal.thirdweb.com",
+        rightImage: require("public/assets/dashboard/optimism-credits.png"),
+      },
+      {
+        key: Step.Docs,
+        title: "Explore Docs",
+        description:
+          "Read our documentation to learn what you can build with contracts, payments, wallets, and infrastructure.",
+        cta: "Read docs",
+        href: "https://portal.thirdweb.com",
+        canSkip: true,
+      },
+    ],
+    [],
+  );
+
   if (!currentStep) {
     return null;
   }
 
-  const { title, description, cta, href, learnMore } = STEPS.find(
-    (s) => s.key === currentStep,
-  ) as StepData;
+  const {
+    title,
+    description,
+    cta,
+    href,
+    learnMore,
+    onClick,
+    canSkip,
+    rightImage,
+  } = STEPS.find((s) => s.key === currentStep) as StepData;
 
   return (
-    <Card w="full" p={6}>
-      <VStack gap={2} alignItems="flex-start">
+    <Card w="full" as={Flex} p={0} gap={8}>
+      <VStack
+        gap={2}
+        alignItems="flex-start"
+        p={6}
+        w={rightImage && !isMobile ? "70%" : "100%"}
+      >
         <Heading size="title.sm">{title}</Heading>
         <Flex>{description}</Flex>
         <HStack mt={4} alignItems="center">
           <Button
             size="sm"
             colorScheme="primary"
-            onClick={() => handleStep({ step: currentStep, href })}
+            onClick={() => handleStep({ step: currentStep, href, onClick })}
           >
             {cta}
           </Button>
@@ -198,15 +247,22 @@ export const OnboardingSteps: React.FC = () => {
               Learn more
             </LinkButton>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => handleStep({ isSkip: true, step: currentStep })}
-          >
-            Skip
-          </Button>
+          {canSkip && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleStep({ isSkip: true, step: currentStep })}
+            >
+            eading
+            </Button>
+          )}
         </HStack>
       </VStack>
+      {rightImage && !isMobile && <ChakraNextImage src={rightImage} alt={""} />}
+      <ClaimCreditsModal
+        isOpen={isClaimCreditsOpen}
+        onClose={onClaimCreditsClose}
+      />
     </Card>
   );
 };

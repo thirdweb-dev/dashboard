@@ -391,7 +391,7 @@ export function useGrantCredits() {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: UpdateAccountInput) => {
+    async (input: { creditId: string; }) => {
       invariant(user?.address, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/grantCredits`, {
@@ -405,12 +405,12 @@ export function useGrantCredits() {
 
       const json = await res.json();
 
-      if (json.data.rejectionReason) {
-        throw new Error(json.data.rejectionReason);
-      }
-
       if (json.error) {
         throw new Error(json.error.message);
+      }
+
+      if (json.data.rejectionReason) {
+        throw new Error(json.data.rejectionReason);
       }
 
       return json.data.credits as BillingCredit[];
