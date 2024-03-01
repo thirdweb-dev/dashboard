@@ -125,10 +125,10 @@ const HackathonEarn = () => {
               FEBRUARY 27 — MARCH 16
             </Heading>
 
-            <Timer dateStr="2024-02-27T09:00:00-08:00" />
+            <Timer dateStr="2024-03-17T12:00:00-08:00" />
 
             <LinkButton
-              href="https://forms.gle/e7rsvAR2zbfimar78"
+              href="https://hackathons.deform.cc/thirdweb"
               onClick={() =>
                 trackEvent({
                   category: "hackathon",

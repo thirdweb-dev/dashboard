@@ -5,6 +5,11 @@ import { MaskedAvatar } from "tw-components/masked-avatar";
 export const JudgesEarn = () => {
   const judges = [
     {
+      name: "Furqan Rydhan",
+      description: "Founder, thirdweb",
+      image: "/assets/landingpage/furqan-rydhan.png",
+    },
+    {
       name: "Atif",
       description: "VP Business",
       image: "/assets/landingpage/atif.png",
@@ -25,7 +30,7 @@ export const JudgesEarn = () => {
     <VStack spacing={8} position="relative">
       <Heading size="title.2xl">Judges</Heading>
       <SimpleGrid
-        columns={{ base: 1, lg: 3 }}
+        columns={{ base: 1, lg: 4 }}
         gap={{ base: 8, md: 24 }}
         justifyContent="space-evenly"
         px={4}

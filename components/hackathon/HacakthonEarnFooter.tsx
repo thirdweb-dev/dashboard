@@ -55,7 +55,7 @@ export const HackathonEarnFooter = ({
         flexWrap="wrap"
       >
         <LinkButton
-          href="https://docs.google.com/forms/d/1CT8LPG1DrcpTKAW38ScVzTcyBNwS6ANOk6xpfjpXLAs/edit"
+          href="https://hackathons.deform.cc/thirdweb"
           onClick={() =>
             trackEvent({
               category: TRACKING_CATEGORY,
