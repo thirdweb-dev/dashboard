@@ -10,7 +10,7 @@ const formatToDollars = (cents: number) => {
   }).format(cents);
 };
 
-export const BillingCredits = ({ }) => {
+export const BillingCredits = () => {
   const { data: credits } = useAccountCredits();
 
   console.log({ credits });

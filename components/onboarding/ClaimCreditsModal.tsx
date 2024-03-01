@@ -36,7 +36,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
         <ModalBody>
           <Flex flexDir="column" gap={6}>
             <Card as={Flex} alignItems="center" gap={2} flexDir="column">
-              <Text textAlign="center">You're eligible for</Text>
+              <Text textAlign="center">You&apos;re eligible for</Text>
               <Heading color="bgBlack" size="title.2xl" fontWeight="extrabold">
                 $1000
               </Heading>
