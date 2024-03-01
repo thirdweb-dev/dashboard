@@ -234,7 +234,6 @@ interface WalletStats {
 
 export interface BillingProduct {
   name: string;
-  // Add other properties as needed
 }
 
 export interface BillingCredit {
