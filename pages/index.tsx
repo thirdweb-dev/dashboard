@@ -44,7 +44,7 @@ const HomePage: ThirdwebNextPage = () => {
         bg="#000"
       >
         <HomepageTopNav />
-        <Box mt="-80px" pt="100px" overflowX="hidden">
+        <Box mt="-80px" pt={{ base: "100px", xl: "40px" }} overflowX="hidden">
           <HeroSection TRACKING_CATEGORY={TRACKING_CATEGORY} />
           <PartnerCarousel />
           <StatsSection />
@@ -54,7 +54,7 @@ const HomePage: ThirdwebNextPage = () => {
             introductionTitle="WALLET PRODUCTS"
             image={require("public/assets/bear-market-airdrop/desktop-wallets.png")}
             mobileImage={require("public/assets/bear-market-airdrop/mobile-wallets.png")}
-            products={filterProducts("wallets")}
+            products={filterProducts("connect")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard

@@ -33,8 +33,8 @@ export function useContractList(
   return useQuery(
     ["dashboard-registry", walletAddress, "contract-list", { chainId }],
     async () => {
-      if (!walletAddress) {
-        return;
+      if (!walletAddress || !chainId) {
+        return [];
       }
       const sdk = getEVMThirdwebSDK(chainId, rpcUrl);
       const contractList = await sdk.getContractList(walletAddress);
@@ -171,7 +171,7 @@ export function useMainnetsContractList(walletAddress: string | undefined) {
   };
 }
 
-export function useTestnetsContractList(walletAddress: string | undefined) {
+function useTestnetsContractList(walletAddress: string | undefined) {
   const goerliQuery = useContractList(
     Goerli.chainId,
     getDashboardChainRpc(Goerli),
