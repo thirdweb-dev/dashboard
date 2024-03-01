@@ -187,13 +187,13 @@ const HackathonEarn = () => {
                 fontSize={{ base: "18px", md: "20px" }}
                 padding="0 22px"
               >
-                <List color="white" styleType="none">
+                <List color="white" styleType="none" spacing={3}>
                   <ListItem>
                     100,000 $ALLY tokens to the top 3 projects
                     <List paddingLeft={4} styleType="disc" ml={3}>
-                      <ListItem>Grand Prize 50K $Ally Token</ListItem>
-                      <ListItem>1st Place 30k $Ally Token</ListItem>
-                      <ListItem>2nd Place 20K $Ally Token</ListItem>
+                      <ListItem mt={2}>Grand Prize 50K $Ally Token</ListItem>
+                      <ListItem mt={2}>1st Place 30k $Ally Token</ListItem>
+                      <ListItem mt={2}>2nd Place 20K $Ally Token</ListItem>
                     </List>
                   </ListItem>
                   <ListItem>
@@ -220,7 +220,7 @@ const HackathonEarn = () => {
                   Participants must:
                 </Text>
                 <Flex fontSize={{ base: "18px", md: "20px" }}>
-                  <List color="white" styleType="disc">
+                  <List color="white" styleType="none" spacing={3}>
                     <ListItem>
                       Design a Unity 3D web mini-game with simple, engaging
                       tasks and crypto rewards.
@@ -275,7 +275,7 @@ const HackathonEarn = () => {
                 </Text>
 
                 <Flex fontSize={{ base: "18px", md: "20px" }}>
-                  <List color="white" styleType="disc" maxW={807}>
+                  <List color="white" styleType="none" maxW={807} spacing={3}>
                     <ListItem>
                       User Experience / Playability: How intuitive and easy is
                       the game?
@@ -324,12 +324,12 @@ const HackathonEarn = () => {
                   fontSize={{ base: "18px", md: "20px" }}
                   padding="0 22px"
                 >
-                  <List color="white" styleType="none" maxW={807}>
+                  <List color="white" styleType="none" maxW={807} spacing={3}>
                     <ListItem>Dates: February 27th — March 16th, 2024</ListItem>
                     <ListItem>
                       Remote Hackathon + In-person presentations and awards @
                       thirdweb&apos;s San Francisco offices on March 17th
-                      <List paddingLeft={4} styleType="disc" ml={3}>
+                      <List paddingLeft={4} styleType="disc" ml={3} mt={2}>
                         <ListItem>
                           You can present remotely via discord
                         </ListItem>

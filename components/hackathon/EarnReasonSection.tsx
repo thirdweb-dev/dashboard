@@ -10,7 +10,7 @@ const EarnReasonSection = () => {
       </Heading>
 
       <Flex flexDir="column" gap={8}>
-        <Text textAlign="left" size="body.xl" color="white">
+        <Text textAlign="left" size="body.xl" color="white" lineHeight="36px">
           The digital landscape is evolving, and with it, the future of web3
           gaming. This is your invitation to lead the forefront of immersive
           gaming experiences that promise to captivate a global audience. Earn
@@ -20,7 +20,7 @@ const EarnReasonSection = () => {
           deeply engages over 400K gamers within the Earn Alliance community.
         </Text>
 
-        <Text textAlign="left" size="body.xl" color="white">
+        <Text textAlign="left" size="body.xl" color="white" lineHeight="36px">
           Leverage the advanced blockchain platforms of Earn Alliance and
           thirdweb, along with the power of Unity3D, to develop a captivating
           and innovative gaming experience. This is a golden opportunity to
@@ -34,11 +34,11 @@ const EarnReasonSection = () => {
         </Text>
 
         <Flex fontSize={{ base: "18px", md: "20px" }}>
-          <List color="white">
-            <ListItem>• Connect with fellow creators</ListItem>
-            <ListItem>• Gain insights from industry leaders</ListItem>
+          <List color="white" styleType="none" spacing={3}>
+            <ListItem>Connect with fellow creators</ListItem>
+            <ListItem>Gain insights from industry leaders</ListItem>
             <ListItem>
-              • Influence the web3 gaming future at the Pre-GDC Hackathon
+              Influence the web3 gaming future at the Pre-GDC Hackathon
             </ListItem>
           </List>
         </Flex>
