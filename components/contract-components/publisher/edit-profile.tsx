@@ -39,6 +39,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
 }) => {
   const FORM_ID = useId();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const {
     register,
     handleSubmit,
@@ -46,7 +47,10 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     setValue,
     watch,
     formState: { errors, isDirty },
-  } = useForm<ProfileMetadataInput>();
+  } = useForm<ProfileMetadataInput>({
+    defaultValues: publisherProfile,
+    values: publisherProfile,
+  });
 
   const imageUrl = useImageFileOrUrl(watch("avatar"));
 
@@ -58,15 +62,6 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   );
 
   const trackEvent = useTrack();
-
-  useEffect(() => {
-    if (!isDirty) {
-      reset({
-        ...publisherProfile,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [publisherProfile]);
 
   return (
     <>

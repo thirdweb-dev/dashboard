@@ -54,6 +54,7 @@ module.exports = {
       { beforeColon: false, afterColon: true, mode: "strict" },
     ],
     "keyword-spacing": ["error", { before: true, after: true }],
+    "inclusive-language/use-inclusive-words": "off",
     "line-comment-position": "error",
     "new-cap": "error",
     "no-alert": "error",

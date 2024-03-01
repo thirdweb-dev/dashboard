@@ -183,11 +183,10 @@ export const AutoBarChart = <
                 return null;
               }
 
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const { time, ...values } = payload[0].payload;
               return (
                 <StackToolTip
-                  time={payload[0]?.payload?.time}
+                  time={time}
                   values={values}
                   hoverKey={hoverKey}
                 />
