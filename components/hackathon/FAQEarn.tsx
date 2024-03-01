@@ -35,7 +35,7 @@ const faqs = [
         This is an online hackathon featuring an in-person lunch, presentation,
         and awards event at the thirdweb offices in San Francisco. Teams will
         receive the location after registering. If you are chosen to present and
-        can&aspo;t attend in person, you will be notified and can present
+        can&apos;t attend in person, you will be notified and can present
         remotely.
       </Text>
     ),
