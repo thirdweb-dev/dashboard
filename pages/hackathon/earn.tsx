@@ -1,11 +1,16 @@
 import { Box, DarkMode, Divider, Flex, Icon, ListItem } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
+import EarnReasonSection from "components/hackathon/EarnReasonSection";
 import FAQ from "components/hackathon/FAQ";
+import FAQEarn from "components/hackathon/FAQEarn";
+import { HackathonEarnFooter } from "components/hackathon/HacakthonEarnFooter";
 import { HackathonFooter } from "components/hackathon/HackathonFooter";
 import { Judges } from "components/hackathon/Judges";
+import { JudgesEarn } from "components/hackathon/JudgesEarn";
 import Reason from "components/hackathon/Reason";
 import { ScheduleSection } from "components/hackathon/ScheduleSection";
+import { ScheduleSectionEarn } from "components/hackathon/ScheduleSectionEarn";
 import { Sponsors } from "components/hackathon/Sponsors";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -28,31 +33,35 @@ const Timer = dynamic(() => import("components/hackathon/Timer"), {
   ssr: false,
 });
 
-const TRACKING_CATEGORY = "caldera-thirdweb-hacakthon";
+const TRACKING_CATEGORY = "earn-thirdweb-hacakthon";
 
-const Hackathon = () => {
+const title =
+  "Game Developers Hackathon: Web3 Gaming Innovation at GDC 2024 | Earn Alliance & Thirdweb";
+
+const description =
+  "Game developers, join the Pixel Pioneers Hackathon at GDC 2024, hosted by Earn Alliance & ThirdWeb. Dive into Web3 game development for a 400K+ gamer community and lead blockchain gaming innovation. Sign Up Here.";
+
+const HackathonEarn = () => {
   const trackEvent = useTrack();
   return (
     <DarkMode>
       <NextSeo
-        title="Consumer Crypto Hackathon | Presented by Caldera & thirdweb"
-        description="Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by Caldera & thirdweb. Learn more & sign up here."
+        title={title}
+        description={description}
         openGraph={{
-          title: "Consumer Crypto Hackathon | Presented by thirdweb",
-          url: "https://thirdweb.com/hackathon/consumer-crypto",
-          description:
-            "Join the Consumer Crypto Hackathon and build the next billion-dollar consumer web3 app — presented by thirdweb. Learn more & sign up here.",
+          title,
+          url: `${getAbsoluteUrl()}/hackathon/earn`,
+          description,
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/hackathon.png`,
               width: 1200,
               height: 630,
-              alt: "Consumer Crypto Hackathon | Presented by thirdweb",
+              alt: "Earn Alliance & Thirdweb Hackathon",
             },
           ],
         }}
       />
-
       <Flex
         sx={{
           // overwrite the theme colors because the home page is *always* in "dark mode"
@@ -119,10 +128,10 @@ const Hackathon = () => {
               letterSpacing={5}
               textAlign="center"
             >
-              FEBRUARY 16 - 18
+              FEBRUARY 27 — MARCH 16
             </Heading>
 
-            <Timer dateStr="2024-02-16T09:00:00-08:00" />
+            <Timer dateStr="2024-02-27T09:00:00-08:00" />
 
             <LinkButton
               href="https://forms.gle/e7rsvAR2zbfimar78"
@@ -150,9 +159,7 @@ const Hackathon = () => {
             </LinkButton>
           </Flex>
         </HomepageSection>
-        <HomepageSection>
-          <Sponsors TRACKING_CATEGORY={TRACKING_CATEGORY} />
-        </HomepageSection>
+
         <Divider mt={16} />
 
         <Flex
@@ -160,10 +167,10 @@ const Hackathon = () => {
           gap={{ base: 100, md: 180 }}
           overflowX="hidden"
         >
-          <Reason />
+          <EarnReasonSection />
 
           <HomepageSection>
-            <ScheduleSection />
+            <ScheduleSectionEarn />
           </HomepageSection>
 
           <HomepageSection>
@@ -171,61 +178,117 @@ const Hackathon = () => {
               <Heading size="title.2xl" textStyle="center">
                 Prizes & Benefits
               </Heading>
-              <Flex flexDir="column" gap={4} maxW={907}>
-                <Text size="body.xl">
-                  <List color="white">
-                    <ListItem>
-                      • $10,000 in thirdweb credits — $5K for 1st place, $3K for
-                      2nd place, $2K for 3rd place
-                    </ListItem>
-                    <ListItem>• 1 ETH for 1st Place</ListItem>
-                    <ListItem>
-                      • Meet & present to builders, operators, & investors in
-                      crypto — from Caldera, Pantera Capital, Founders Inc, and
-                      Haun Ventures
-                    </ListItem>
-                    <ListItem>
-                      • Amplification to 70k+ followers on thirdweb&apos;s
-                      social channels
-                    </ListItem>
-                    <ListItem>
-                      • $50 Gas Sponsorship for every hackathon builder
-                    </ListItem>
-                  </List>
-                </Text>
+              <Flex
+                flexDir="column"
+                w="full"
+                gap={4}
+                maxW={707}
+                fontSize={{ base: "18px", md: "20px" }}
+                padding="0 22px"
+              >
+                <List color="white" styleType="disc">
+                  <ListItem>
+                    100,000 $ALLY tokens to the top 3 projects
+                    <List paddingLeft={4} styleType="disc">
+                      <ListItem>Grand Prize 50K $Ally Token</ListItem>
+                      <ListItem>1st Place 30k $Ally Token</ListItem>
+                      <ListItem>2nd Place 20K $Ally Token</ListItem>
+                    </List>
+                  </ListItem>
+                  <ListItem>
+                    Featured prototypes on Earn Alliance for 30 days.
+                  </ListItem>
+                  <ListItem>
+                    3 months free access to thirdweb Engine + Growth Plan.
+                  </ListItem>
+                  <ListItem>
+                    Social media amplification to over 200K+ followers.
+                  </ListItem>
+                </List>
               </Flex>
             </Flex>
           </HomepageSection>
 
           <HomepageSection>
-            <Flex flexDir="column" alignItems="center" gap={8}>
+            <Flex flexDir="column" alignItems="center" gap={8} padding="0 22px">
               <Heading size="title.2xl" textAlign="center">
                 Guidelines
               </Heading>
               <Flex flexDir="column" gap={4} maxW={907}>
                 <Text size="body.xl" color="white" fontWeight="bold">
-                  To be eligible to win the hackathon, submitted projects must
-                  fulfill the following requirements:
+                  Participants must:
                 </Text>
-                <Text size="body.xl">
-                  <List color="white">
+                <Flex fontSize={{ base: "18px", md: "20px" }}>
+                  <List color="white" styleType="disc">
                     <ListItem>
-                      • Built using any of the following thirdweb products:
-                      Engine, Embedded Wallets, and/or Account Abstraction
+                      Design a Unity 3D web mini-game with simple, engaging
+                      tasks and crypto rewards.
                     </ListItem>
-                    <ListItem>• Code must be open-source</ListItem>
                     <ListItem>
-                      • Project must be submitted through GitHub, with a
-                      descriptive README file detailing what the project is,
-                      what its goals are, and how you built it
+                      Use thirdweb&apos;s blockchain technology
+                    </ListItem>
+                    <ListItem>
+                      Optionally, include NFT or crypto game rewards
+                    </ListItem>
+                    <ListItem>
+                      Integrate at least one challenge using the Earn Alliance
+                      platform&apos;s events API
                     </ListItem>
                   </List>
+                </Flex>
+              </Flex>
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection>
+            <Flex
+              flexDir="column"
+              alignItems="center"
+              gap={8}
+              position={"relative"}
+              padding="0 22px"
+            >
+              <Box
+                pointerEvents={"none"}
+                width="100vw"
+                height={{ base: "800px", md: "1000px" }}
+                position="absolute"
+                zIndex={-1}
+                top="55%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+                backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 90% 50% / 15%), transparent 60%)`}
+              />
+              <Heading size="title.2xl" textStyle="center">
+                Judging Criteria
+              </Heading>
+              <Flex flexDir="column" gap={4}>
+                <Text
+                  size="body.xl"
+                  color="white"
+                  fontWeight="bold"
+                  textAlign="left"
+                >
+                  Submissions will be evaluated on:
                 </Text>
-                <Text size="body.xl" color="white">
-                  Participants will be able to submit their project to the form
-                  in the hackathon landing page before the deadline, on{" "}
-                  <b>February 18th at 9:00am PST</b>.
-                </Text>
+
+                <Flex fontSize={{ base: "18px", md: "20px" }}>
+                  <List color="white" styleType="disc" maxW={807}>
+                    <ListItem>
+                      User Experience / Playability: How intuitive and easy is
+                      the game?
+                    </ListItem>
+                    <ListItem>
+                      Ecosystem impact: How impactful, useful, and creative does
+                      the game leverage web3 technology to impact the web3 game
+                      ecosystem as a whole?
+                    </ListItem>
+                    <ListItem>
+                      Originality/innovation: How fun and novel is the game
+                      versus existing web3 games
+                    </ListItem>
+                  </List>
+                </Flex>
               </Flex>
             </Flex>
           </HomepageSection>
@@ -249,49 +312,52 @@ const Hackathon = () => {
                 backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 90% 50% / 15%), transparent 60%)`}
               />
               <Heading size="title.2xl" textStyle="center">
-                Judging Criteria
+                Event Details
               </Heading>
               <Flex flexDir="column" gap={4}>
-                <Text
-                  size="body.xl"
-                  color="white"
-                  fontWeight="bold"
-                  textAlign="left"
+                <Flex
+                  flexDir="column"
+                  gap={4}
+                  maxW={907}
+                  fontSize={{ base: "18px", md: "20px" }}
+                  padding="0 22px"
                 >
-                  Our judges will grade submissions across 3 equally-weighted
-                  categories:
-                </Text>
-                <Text size="body.xl" color="white">
-                  <List>
+                  <List color="white" styleType="disc" maxW={807}>
+                    <ListItem>Dates: February 27th — March 16th, 2024</ListItem>
                     <ListItem>
-                      <b>1. Usability:</b> How useful or valuable is the
-                      product? How feasible is the idea?
+                      Remote Hackathon + In-person presentations and awards @
+                      thirdweb's San Francisco offices on March 17th
+                      <List paddingLeft={4} styleType="disc">
+                        <ListItem>
+                          You can present remotely via discord
+                        </ListItem>
+                      </List>
                     </ListItem>
                     <ListItem>
-                      <b>2. Ecosystem Impact:</b> How impactful and useful is
-                      this app in the web3 ecosystem as a whole?
+                      Open to all skill levels, from beginners to experienced
+                      developers
                     </ListItem>
                     <ListItem>
-                      <b>3. Originality, Creativity, and Innovation:</b> How
-                      novel is the project versus existing technologies?
+                      Team size: 1 to 4 members, all must be registered to
+                      participate
                     </ListItem>
                   </List>
-                </Text>
+                </Flex>
               </Flex>
             </Flex>
           </HomepageSection>
 
-          <Judges TRACKING_CATEGORY={TRACKING_CATEGORY} />
+          <JudgesEarn />
 
-          <FAQ TRACKING_CATEGORY={TRACKING_CATEGORY} />
+          <FAQEarn TRACKING_CATEGORY={TRACKING_CATEGORY} />
 
-          <HackathonFooter TRACKING_CATEGORY={TRACKING_CATEGORY} />
+          <HackathonEarnFooter TRACKING_CATEGORY={TRACKING_CATEGORY} />
         </Flex>
       </Flex>
     </DarkMode>
   );
 };
 
-Hackathon.pageId = PageId.HackathonLanding;
+HackathonEarn.pageId = PageId.HackathonEarnLanding;
 
-export default Hackathon;
+export default HackathonEarn;
