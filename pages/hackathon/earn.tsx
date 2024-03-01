@@ -48,7 +48,7 @@ const HackathonEarn = () => {
           description,
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/hackathon.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/earn-hackathon.png`,
               width: 1200,
               height: 630,
               alt: "Earn Alliance & Thirdweb Hackathon",
@@ -80,7 +80,7 @@ const HackathonEarn = () => {
             <ChakraNextImage
               src={require("public/assets/landingpage/block-left.png")}
               alt="hackathon-block-left"
-              maxW="xl"
+              maxW="md"
               position="absolute"
               left={-375}
               top={0}
@@ -105,14 +105,9 @@ const HackathonEarn = () => {
             />
 
             <ChakraNextImage
-              src={require("public/assets/landingpage/thirdwebw.svg")}
+              src={require("public/assets/landingpage/earnxtw.svg")}
               alt="Hackathon"
-              maxW={{ base: "full", md: "xl" }}
-            />
-
-            <ChakraNextImage
-              src={require("public/assets/landingpage/consumer-crypto-logo.svg")}
-              alt="Hackathon"
+              w="full"
               maxW={{ base: "full", lg: "5xl" }}
             />
             <Heading
@@ -121,11 +116,14 @@ const HackathonEarn = () => {
               opacity={0.7}
               letterSpacing={5}
               textAlign="center"
+              mt={3}
             >
               FEBRUARY 27 — MARCH 16
             </Heading>
 
-            <Timer dateStr="2024-03-17T12:00:00-08:00" />
+            <Flex minH="81px">
+              <Timer dateStr="2024-03-17T12:00:00-08:00" />
+            </Flex>
 
             <LinkButton
               href="https://hackathons.deform.cc/thirdweb"

@@ -27,14 +27,9 @@ export const HackathonEarnFooter = ({
       px={6}
     >
       <ChakraNextImage
-        src={require("public/assets/landingpage/thirdwebw.svg")}
-        alt="hackathon-partner"
-        w={{ base: "300px", md: "400px" }}
-        objectFit="contain"
-      />
-      <ChakraNextImage
-        src={require("public/assets/landingpage/consumer-crypto-logo.svg")}
+        src={require("public/assets/landingpage/earnxtw.svg")}
         alt="Hackathon"
+        w="full"
         maxW={{ base: "full", lg: "5xl" }}
       />
 
