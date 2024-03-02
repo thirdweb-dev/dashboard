@@ -19,7 +19,9 @@ import {
   NFTContract,
   useAddress,
   useMintNFT,
+  useNFT,
   useSetSharedMetadata,
+  useUpdateNFTMetadata,
 } from "@thirdweb-dev/react";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
@@ -27,9 +29,11 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { PropertiesFormControl } from "components/contract-pages/forms/properties.shared";
 import { FileInput } from "components/shared/FileInput";
+import { BigNumberish } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Button,
@@ -50,6 +54,8 @@ type NFTMintForm =
 
       lazyMintMutation?: undefined;
       sharedMetadataMutation?: undefined;
+      tokenId?: undefined;
+      updateMetadataMutation?: undefined;
     }
   | {
       contract?: NFTContract;
@@ -60,12 +66,24 @@ type NFTMintForm =
       >;
       mintMutation?: undefined;
       sharedMetadataMutation?: undefined;
+      tokenId?: undefined;
+      updateMetadataMutation?: undefined;
     }
   | {
       contract?: NFTContract;
       sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
       mintMutation?: undefined;
       lazyMintMutation?: undefined;
+      tokenId?: undefined;
+      updateMetadataMutation?: undefined;
+    }
+  | {
+      contract?: NFTContract;
+      sharedMetadataMutation?: undefined;
+      mintMutation?: undefined;
+      lazyMintMutation?: undefined;
+      tokenId: BigNumberish;
+      updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
     };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
@@ -73,11 +91,18 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
   lazyMintMutation,
   mintMutation,
   sharedMetadataMutation,
+  tokenId,
+  updateMetadataMutation,
 }) => {
   const trackEvent = useTrack();
   const address = useAddress();
+  const mutation =
+    mintMutation ||
+    lazyMintMutation ||
+    sharedMetadataMutation ||
+    updateMetadataMutation;
 
-  const mutation = mintMutation || lazyMintMutation || sharedMetadataMutation;
+  const nftQuery = useNFT(contract, tokenId);
 
   const {
     setValue,
@@ -86,6 +111,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch,
     handleSubmit,
     formState: { errors, isDirty },
+    reset,
   } = useForm<
     NFTMetadataInputLimited & {
       supply: number;
@@ -93,6 +119,21 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
       customAnimationUrl: string;
     }
   >();
+
+  useEffect(() => {
+    if (nftQuery.data) {
+      const { metadata, supply } = nftQuery.data;
+      reset({
+        name: metadata.name,
+        description: metadata.description,
+        image: metadata.image, // TODO render the image in the drawer
+        animation_url: metadata.animation_url,
+        external_url: metadata.external_url,
+        background_color: metadata.background_color,
+        supply: Number(supply),
+      });
+    }
+  }, [nftQuery.data]);
 
   const modalContext = useModalContext();
 
@@ -294,6 +335,40 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 },
               });
             }
+
+            if (updateMetadataMutation && tokenId) {
+              trackEvent({
+                category: "nft",
+                action: "update-metadata",
+                label: "attempt",
+              });
+              updateMetadataMutation.mutate(
+                {
+                  metadata: parseAttributes(dataWithCustom),
+                  tokenId: tokenId,
+                },
+                {
+                  onSuccess: () => {
+                    trackEvent({
+                      category: "nft",
+                      action: "update-metadata",
+                      label: "success",
+                    });
+                    onSuccess();
+                    modalContext.onClose();
+                  },
+                  onError: (error: any) => {
+                    trackEvent({
+                      category: "nft",
+                      action: "update-metadata",
+                      label: "error",
+                      error,
+                    });
+                    onError(error);
+                  },
+                },
+              );
+            }
           })}
         >
           <Stack>
@@ -473,7 +548,9 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
             ? "Set NFT Metadata"
             : lazyMintMutation
               ? "Lazy Mint NFT"
-              : "Mint NFT"}
+              : updateMetadataMutation && tokenId
+                ? "Update NFT"
+                : "Mint NFT"}
         </TransactionButton>
       </DrawerFooter>
     </>

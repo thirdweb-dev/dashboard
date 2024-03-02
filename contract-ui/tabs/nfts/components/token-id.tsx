@@ -24,7 +24,8 @@ import { useReadContract } from "thirdweb/react";
 import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
 import { getNFT as getErc1155NFT } from "thirdweb/extensions/erc1155";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
-import { SmartContract } from "@thirdweb-dev/sdk";
+import { UpdateNFTMintButton } from "./update-nft-button";
+import { useContract } from "@thirdweb-dev/react";
 
 function isValidUrl(possibleUrl?: string | null) {
   if (!possibleUrl) {
@@ -43,14 +44,14 @@ function isValidUrl(possibleUrl?: string | null) {
 }
 
 interface TokenIdPageProps {
-  oldContract?: SmartContract;
+  contractQueryV4?: ReturnType<typeof useContract>;
   tokenId: string;
   contract: ThirdwebContract;
   isErc721: boolean;
 }
 
 export const TokenIdPage: React.FC<TokenIdPageProps> = ({
-  oldContract,
+  contractQueryV4,
   contract,
   tokenId,
   isErc721,
@@ -65,7 +66,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   const url = `/${chainSlug}/${contract.address}/nfts`;
 
   const tabs = useNFTDrawerTabs({
-    oldContract,
+    oldContract: contractQueryV4?.contract,
     contract,
     tokenId,
   });
@@ -252,6 +253,12 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
                 )}
               </Card>
             ) : null}
+            {contractQueryV4 && (
+              <UpdateNFTMintButton
+                contractQuery={contractQueryV4}
+                tokenId={tokenId}
+              />
+            )}
           </Flex>
         )}
         {tabs.map((tb) => {
