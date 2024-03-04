@@ -113,8 +113,8 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
       background_color: nft?.metadata.background_color || "",
       attributes: nft?.metadata.attributes || [],
       // We override these in the submit if they haven't been changed
-      image: nft?.metadata.image ? "" : null,
-      animation_url: nft?.metadata.animation_url ? "" : null,
+      image: nft?.metadata.image || null,
+      animation_url: nft?.metadata.animation_url || null,
       // No need for these, but we need to pass them to the form
       supply: 0,
       customImage: "",
