@@ -231,6 +231,27 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Spacer mt={currentPlaygroundIdx === 0 ? "32px" : "0"} />
 
           {playgroundComponents[currentPlaygroundIdx]}
+
+          <TrackedLinkButton
+            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
+            py={6}
+            px={8}
+            position="relative"
+            zIndex={4}
+            bgColor="white"
+            _hover={{
+              bgColor: "white",
+              opacity: 0.8,
+            }}
+            mt={12}
+            color="black"
+            href="https://portal.thirdweb.com/connect/connect"
+            category={TRACKING_CATEGORY}
+            label="add-to-app"
+            fontWeight="bold"
+          >
+            Add to your app
+          </TrackedLinkButton>
         </Flex>
 
         <Flex
