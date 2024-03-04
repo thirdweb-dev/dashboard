@@ -13,7 +13,8 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type { ThirdwebContract } from "thirdweb";
 import { balanceOf } from "thirdweb/extensions/erc1155";
-import { getNFT } from "thirdweb/extensions/erc721";
+import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
+import { getNFT as getErc1155NFT } from "thirdweb/extensions/erc1155";
 import { useReadContract } from "thirdweb/react";
 
 type UseNFTDrawerTabsParams = {
@@ -57,19 +58,21 @@ export function useNFTDrawerTabs({
     tokenId: BigInt(tokenId || 0),
   });
 
-  const { data: nft } = useReadContract(getNFT, {
-    contract,
-    tokenId: BigInt(tokenId || 0),
-    includeOwner: true,
-  });
+  const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
+  const isERC721 = detectFeatures(oldContract, ["ERC721"]);
+
+  const { data: nft } = useReadContract(
+    isERC721 ? getErc721NFT : getErc1155NFT,
+    {
+      contract,
+      tokenId: BigInt(tokenId || 0),
+      includeOwner: true,
+    },
+  );
 
   const isMinterRole = useIsMinter(oldContract);
 
-  console.log({ nft, tokenId })
-
   return useMemo(() => {
-    const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
-    const isERC721 = detectFeatures(oldContract, ["ERC721"]);
     const isMintable = detectFeatures(oldContract, ["ERC1155Mintable"]);
     const isClaimable = detectFeatures<DropContract>(oldContract, [
       // erc1155
@@ -176,7 +179,12 @@ export function useNFTDrawerTabs({
           isDisabled: !isMinterRole,
           disabledText:
             "You don't have minter permissions to be able to update metadata",
-          children: <UpdateMetadataTab contract={oldContract as SmartContract} nft={nft} />,
+          children: (
+            <UpdateMetadataTab
+              contract={oldContract as SmartContract}
+              nft={nft}
+            />
+          ),
         },
       ]);
     }
