@@ -124,9 +124,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
   };
 
   const playgroundText: Record<number, string> = {
-    0: "Cut and paste components for seamless user-onboarding, onchain interactions and rendering IPFS media.",
+    0: "Drag-and-drop components for seamless user onboarding, onchain interactions, and rendering IPFS media.",
     1: "A button that executes any function on a smart contract from the connected wallet when clicked.",
-    2: "Render any asset stored on IPFS (or anywhere else), given the IPFS URI / URL.",
+    2: "Render any asset stored on IPFS (or anywhere else).",
   };
 
   return (
