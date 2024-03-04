@@ -24,7 +24,6 @@ import { useReadContract } from "thirdweb/react";
 import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
 import { getNFT as getErc1155NFT } from "thirdweb/extensions/erc1155";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
-import { UpdateNFTMintButton } from "./update-nft-button";
 import { useContract } from "@thirdweb-dev/react";
 
 function isValidUrl(possibleUrl?: string | null) {
@@ -112,8 +111,8 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
         <NFTMediaWithEmptyState
           // @ts-expect-error types are not up to date
           metadata={nft.metadata}
-          width={isMobile ? "100%" : "350px"}
-          height={isMobile ? "100%" : "350px"}
+          width={isMobile ? "100%" : "300px"}
+          height={isMobile ? "100%" : "300px"}
         />
       </Card>
       <Flex flexDir="column" gap={6} w="full" px={2}>
@@ -253,12 +252,6 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
                 )}
               </Card>
             ) : null}
-            {contractQueryV4 && (
-              <UpdateNFTMintButton
-                contractQuery={contractQueryV4}
-                tokenId={tokenId}
-              />
-            )}
           </Flex>
         )}
         {tabs.map((tb) => {

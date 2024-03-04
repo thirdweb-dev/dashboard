@@ -1,7 +1,9 @@
+import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { NFTDrawerTab } from "./types";
 import {
   DropContract,
   NFTContract,
+  SmartContract,
   getErcs,
   useAddress,
 } from "@thirdweb-dev/react/evm";
@@ -29,7 +31,6 @@ const AirdropTab = dynamic(
 const BurnTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/burn-tab"),
 );
-
 const MintSupplyTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/mint-supply-tab"),
 );
@@ -38,6 +39,9 @@ const ClaimConditionTab = dynamic(
 );
 const ClaimTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/claim-tab"),
+);
+const UpdateMetadataTab = dynamic(
+  () => import("contract-ui/tabs/nfts/components/update-metadata-tab"),
 );
 
 export function useNFTDrawerTabs({
@@ -58,6 +62,10 @@ export function useNFTDrawerTabs({
     tokenId: BigInt(tokenId || 0),
     includeOwner: true,
   });
+
+  const isMinterRole = useIsMinter(oldContract);
+
+  console.log({ nft, tokenId })
 
   return useMemo(() => {
     const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
@@ -82,6 +90,13 @@ export function useNFTDrawerTabs({
       "ERC721Burnable",
       "ERC1155Burnable",
     ]);
+    const isUpdatable = detectFeatures(oldContract, [
+      "ERC721UpdatableMetadata",
+      "ERC1155UpdatableMetadata",
+      "ERC1155LazyMintableV2",
+      // TODO support ERC721LazyMintableV2 too
+    ]);
+
     const isOwner =
       (isERC1155 && BigNumber.from(balanceOfQuery?.data || 0).gt(0)) ||
       (isERC721 && nft?.owner === address);
@@ -151,6 +166,17 @@ export function useNFTDrawerTabs({
           title: "Claim",
           isDisabled: false,
           children: <ClaimTab contract={oldContract} tokenId={tokenId} />,
+        },
+      ]);
+    }
+    if (isUpdatable && nft) {
+      tabs = tabs.concat([
+        {
+          title: "Update Metadata",
+          isDisabled: !isMinterRole,
+          disabledText:
+            "You don't have minter permissions to be able to update metadata",
+          children: <UpdateMetadataTab contract={oldContract as SmartContract} nft={nft} />,
         },
       ]);
     }
