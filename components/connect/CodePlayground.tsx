@@ -1,40 +1,26 @@
 import {
-  Box,
   Flex,
-  GridItem,
   List,
   ListItem,
-  SimpleGrid,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
-import { useContract } from "@thirdweb-dev/react";
-import { Abi, AbiFunction } from "@thirdweb-dev/sdk";
-import {
-  useContractEvents,
-  useContractFunctions,
-} from "components/contract-components/hooks";
-import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { themes } from "prism-react-renderer";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Button, Card, CodeBlock, Heading } from "tw-components";
 import ConnectPlaygroundButton, {
   CodeOptions,
 } from "./ConnectPlaygroundButton";
-import fs from "fs";
 import { connectPlaygroundData } from "components/product-pages/common/connect/data";
 import ConnectPlaygroundTab from "./ConnectPlaygroundTab";
 import { ChakraNextImage } from "components/Image";
 import { Aurora } from "components/homepage/Aurora";
 const contractAddress = "0x6fb2A6C41B44076bc491cC285BA629c0715a6a1b";
-
-const darkTheme = themes.dracula;
 
 const COMMANDS = {
   read: {
@@ -279,6 +265,18 @@ const CodePlayground = ({
 
   const code = lines.join("\n").trim();
 
+  const computeLanguage = (language: CodeOptions) => {
+    const withSpaces = language.replace(/-/g, " ");
+    
+    const capitalizedWords = withSpaces
+      .split(" ")
+      .map(
+        (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+      );
+
+    return capitalizedWords.join(" ");
+  };
+
   return (
     <Flex
       alignItems="stretch"
@@ -501,7 +499,7 @@ const CodePlayground = ({
               activeLanguage={activeEnvironment}
               setActiveLanguage={setEnvironment}
             >
-              {language}
+              {computeLanguage(language)}
             </ConnectPlaygroundButton>
           ))}
         </Flex>

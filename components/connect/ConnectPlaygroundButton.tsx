@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Icon } from "@chakra-ui/react";
 import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
@@ -7,7 +7,6 @@ import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction } from "react";
-import { flushSync } from "react-dom";
 import { Button, ButtonProps } from "tw-components";
 
 const LOGO_OPTIONS = {
@@ -78,7 +77,7 @@ const ConnectPlaygroundButton = ({
       }
       borderRadius={{ base: "4px", md: "6px" }}
       fontFamily="mono"
-      fontSize={{ base: "12px", lg: "14px" }}
+      fontSize={{ base: "12px", md: "14px" }}
       position="relative"
       height="auto"
       px={4}

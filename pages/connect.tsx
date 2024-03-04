@@ -23,12 +23,6 @@ import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactNode, useState } from "react";
 import CodePlayground from "components/connect/CodePlayground";
-import { AppLayout } from "components/app-layouts/app";
-import { NextSeo } from "next-seo";
-import { CustomSDKContext } from "contexts/custom-sdk-context";
-import { PreviewThirdwebProvider } from "components/wallets/ConnectWalletPlayground/PreviewThirdwebProvider";
-import { ComponentWithChildren } from "types/component-with-children";
-import { PreviewThirdwebSdkProvider } from "components/wallets/ConnectWalletPlayground/PreviewThirdWebSdkProvider";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
