@@ -412,7 +412,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
               </Heading>
 
               <Text size="body.lg" mt={6}>
-                thirdweb powers the best web3 projects across verticals
+                thirdweb Connect powers the best web3 projects — from marketplaces, to collectibles, to games.
               </Text>
             </Center>
           }
