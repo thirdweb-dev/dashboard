@@ -57,7 +57,7 @@ type NFTMintForm =
 
       lazyMintMutation?: undefined;
       sharedMetadataMutation?: undefined;
-    nft?: undefined;
+      nft?: undefined;
       updateMetadataMutation?: undefined;
     }
   | {
@@ -69,7 +69,7 @@ type NFTMintForm =
       >;
       mintMutation?: undefined;
       sharedMetadataMutation?: undefined;
-    nft?: undefined;
+      nft?: undefined;
       updateMetadataMutation?: undefined;
     }
   | {
@@ -77,7 +77,7 @@ type NFTMintForm =
       sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
       mintMutation?: undefined;
       lazyMintMutation?: undefined;
-    nft?: undefined;
+      nft?: undefined;
       updateMetadataMutation?: undefined;
     }
   | {
@@ -85,7 +85,7 @@ type NFTMintForm =
       sharedMetadataMutation?: undefined;
       mintMutation?: undefined;
       lazyMintMutation?: undefined;
-    nft: NFT;
+      nft: NFT;
       updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
     };
 
@@ -135,10 +135,10 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
       customImage: string;
       customAnimationUrl: string;
     }
-      >({
-        defaultValues: transformedQueryData,
-        values: transformedQueryData,
-      });
+  >({
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
+  });
 
   const modalContext = useModalContext();
 
@@ -401,15 +401,15 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           <FormControl isInvalid={!!mediaFileError}>
             <FormLabel>Media</FormLabel>
             {nft?.metadata && !mediaFileUrl && (
-                <Flex>
-                  <NFTMediaWithEmptyState
-                    // @ts-expect-error types are not up to date
-                    metadata={nft.metadata}
-                    width="200px"
-                    height="200px"
-                  />
-                </Flex>
-              )}
+              <Flex>
+                <NFTMediaWithEmptyState
+                  // @ts-expect-error types are not up to date
+                  metadata={nft.metadata}
+                  width="200px"
+                  height="200px"
+                />
+              </Flex>
+            )}
             <Box>
               <FileInput
                 maxContainerWidth={"200px"}
