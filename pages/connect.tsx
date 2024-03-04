@@ -393,8 +393,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
         </Flex>
 
         <LandingHeroWithSideImage
-          title="Powerful NFT Checkouts"
-          titleWithGradient="and Payment infrastructure."
+          titleWithGradient="NFT checkouts"
+          title="Powerful NFT checkouts,"
+          titleWithGradient="with fiat & crypto payments"
           subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/payments"
