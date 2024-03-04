@@ -91,7 +91,7 @@
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
-    "@next/bundle-analyzer": "^14.1.0",
+    "@next/bundle-analyzer": "^14.1.1",
     "@thirdweb-dev/storage": "2.0.9",
     "@thirdweb-dev/wallets": "0.0.0-dev-a02ccbc-20240227163149",
     "@types/airtable": "^0.10.1",
