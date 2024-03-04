@@ -7,7 +7,7 @@ import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction } from "react";
-import { Button, ButtonProps } from "tw-components";
+import { Button } from "tw-components";
 
 const LOGO_OPTIONS = {
   javascript: {

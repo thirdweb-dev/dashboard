@@ -12,7 +12,7 @@ import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { themes } from "prism-react-renderer";
 import React, { useState } from "react";
-import { Button, Card, CodeBlock, Heading } from "tw-components";
+import { Button, Card, CodeBlock } from "tw-components";
 import ConnectPlaygroundButton, {
   CodeOptions,
 } from "./ConnectPlaygroundButton";
@@ -20,7 +20,6 @@ import { connectPlaygroundData } from "components/product-pages/common/connect/d
 import ConnectPlaygroundTab from "./ConnectPlaygroundTab";
 import { ChakraNextImage } from "components/Image";
 import { Aurora } from "components/homepage/Aurora";
-const contractAddress = "0x6fb2A6C41B44076bc491cC285BA629c0715a6a1b";
 
 const COMMANDS = {
   read: {
@@ -230,7 +229,7 @@ const CodePlayground = ({
   const [environment, setEnvironment] = useState<CodeOptions>("javascript");
 
   const snippet = formatSnippet(COMMANDS[tab as keyof typeof COMMANDS] as any, {
-    contractAddress,
+    contractAddress: "0x6fb2A6C41B44076bc491cC285BA629c0715a6a1b",
     fn:
       tab === "read" ? read?.name : tab === "write" ? write?.name : event?.name,
     args: (tab === "read"
@@ -267,7 +266,7 @@ const CodePlayground = ({
 
   const computeLanguage = (language: CodeOptions) => {
     const withSpaces = language.replace(/-/g, " ");
-    
+
     const capitalizedWords = withSpaces
       .split(" ")
       .map(
