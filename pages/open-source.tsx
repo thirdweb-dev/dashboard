@@ -91,7 +91,7 @@ const repositories = [
     id: "engine",
     name: "Engine",
     description: "Backend HTTP server that calls smart contracts",
-  }
+  },
   {
     id: "unity-sdk",
     name: "Unity SDK",
