@@ -16,8 +16,6 @@ const UpdateMetadataTab: React.FC<UpdateMetadataTabProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mutation = useUpdateNFTMetadata(contract);
 
-  console.log("nft inside", nft);
-
   return (
     <>
       <Drawer
