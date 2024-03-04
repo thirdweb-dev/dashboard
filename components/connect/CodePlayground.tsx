@@ -1,4 +1,16 @@
-import { GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  GridItem,
+  List,
+  ListItem,
+  SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { useContract } from "@thirdweb-dev/react";
 import { Abi, AbiFunction } from "@thirdweb-dev/sdk";
@@ -9,92 +21,22 @@ import {
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
+import { themes } from "prism-react-renderer";
 import React, { useEffect, useMemo, useState } from "react";
-import { Card } from "tw-components";
-
+import { Button, Card, CodeBlock, Heading } from "tw-components";
+import ConnectPlaygroundButton, {
+  CodeOptions,
+} from "./ConnectPlaygroundButton";
+import fs from "fs";
+import { connectPlaygroundData } from "components/product-pages/common/connect/data";
+import ConnectPlaygroundTab from "./ConnectPlaygroundTab";
+import { ChakraNextImage } from "components/Image";
+import { Aurora } from "components/homepage/Aurora";
 const contractAddress = "0x6fb2A6C41B44076bc491cC285BA629c0715a6a1b";
 
+const darkTheme = themes.dracula;
+
 const COMMANDS = {
-  install: {
-    javascript: "npm install @thirdweb-dev/sdk ethers@5",
-    react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
-    "react-native": "React Native",
-    web3button: "",
-    python: "pip install thirdweb-sdk",
-    go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
-    unity: `// Download the .unitypackage from the latest release:
-// https://github.com/thirdweb-dev/unity-sdk/releases
-// and drag it into your project`,
-  },
-  setup: {
-    javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-
-// If used on the FRONTEND pass your 'clientId'
-const sdk = new ThirdwebSDK({{chainName}}, {
-  clientId: "YOUR_CLIENT_ID",
-});
-// --- OR ---
-// If used on the BACKEND pass your 'secretKey'
-const sdk = new ThirdwebSDK({{chainName}}, {
-  secretKey: "YOUR_SECRET_KEY",
-});
-
-const contract = await sdk.getContract("{{contract_address}}");`,
-    react: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
-
-function App() {
-  return (
-    <ThirdwebProvider
-      activeChain={{chainName}}
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
-    >
-      <Component />
-    </ThirdwebProvider>
-  )
-}
-
-function Component() {
-  const { contract, isLoading } = useContract("{{contract_address}}");
-}`,
-    "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
-
-function App() {
-  return (
-    <ThirdwebProvider
-      activeChain={{chainName}}
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
-    >
-      <Component />
-    </ThirdwebProvider>
-  )
-}
-
-function Component() {
-  const { contract, isLoading } = useContract("{{contract_address}}");
-}`,
-    web3button: ``,
-    python: `from thirdweb import ThirdwebSDK
-
-sdk = ThirdwebSDK("{{chainNameOrRpc}}", options=SDKOptions(secret_key="YOUR_SECRET_KEY"))
-contract = sdk.get_contract("{{contract_address}}")`,
-    go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
-
-sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}", &thirdweb.SDKOptions{
-  SecretKey: "YOUR_SECRET_KEY",
-})
-contract, err := sdk.GetContract("{{contract_address}}")
-`,
-    unity: `using Thirdweb;
-
-// Reference the SDK
-var sdk = ThirdwebManager.Instance.SDK;
-
-// Get your contract
-var contract = sdk.GetContract("{{contract_address}}");`,
-  },
   read: {
     javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
     react: `import { useContract, useContractRead } from "@thirdweb-dev/react";
@@ -193,100 +135,7 @@ export default function Component() {
     python: `events = contract.get_events("{{function}}", {{args}})`,
     go: `events, err := contract.GetEvents("{{function}}", {{args}})`,
   },
-};
-
-const WALLETS_SNIPPETS = [
-  {
-    id: "smart-wallet",
-    name: "Smart Wallet",
-    description: "Deploy smart contract wallets for your users",
-    iconUrl:
-      "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/smart-wallet.svg",
-    link: "https://portal.thirdweb.com/references/wallets/latest/SmartWallet",
-    supportedLanguages: {
-      javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { LocalWallet, SmartWallet } from "@thirdweb-dev/wallets";
-
-// First, connect the personal wallet, which can be any wallet (metamask, walletconnect, etc.)
-// Here we're just generating a new local wallet which can be saved later
-const personalWallet = new LocalWallet();
-await personalWallet.generate();
-
-// Setup the Smart Wallet configuration
-const config = {
-  chain: {{chainName}}, // the chain where your smart wallet will be or is deployed
-  factoryAddress: "{{factory_address}}", // your own deployed account factory address
-  clientId: "YOUR_CLIENT_ID", // or use secretKey for backend/node scripts
-  gasless: true, // enable or disable gasless transactions
-};
-
-// Then, connect the Smart wallet
-const wallet = new SmartWallet(config);
-await wallet.connect({
-  personalWallet,
-});`,
-      react: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react";
-
-export default function App() {
-return (
-    <ThirdwebProvider
-      clientId="YOUR_CLIENT_ID"
-      activeChain={{chainName}}
-      supportedWallets={[
-        smartWallet({
-          factoryAddress: "{{factory_address}}",
-          gasless: true,
-          personalWallets={[...]}
-        })
-      ]}
-    >
-      <ConnectWallet />
-    </ThirdwebProvider>
-  );
-}`,
-      "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react-native";
-
-export default function App() {
-return (
-    <ThirdwebProvider
-      clientId="YOUR_CLIENT_ID"
-      activeChain={{chainName}}
-      supportedWallets={[
-        smartWallet({
-          factoryAddress: "{{factory_address}}",
-          gasless: true,
-          personalWallets={[...]}
-        })
-      ]}
-    >
-      <ConnectWallet />
-    </ThirdwebProvider>
-  );
-}`,
-      unity: `using Thirdweb;
-
-public async void ConnectWallet()
-{
-    // Reference to your Thirdweb SDK
-    var sdk = ThirdwebManager.Instance.SDK;
-
-    // Configure the connection
-    var connection = new WalletConnection(
-      provider: WalletProvider.SmartWallet,        // The wallet provider you want to connect to (Required)
-      chainId: 1,                                  // The chain you want to connect to (Required)
-      password: "myEpicPassword",                  // If using a local wallet as personal wallet (Optional)
-      email: "email@email.com",                    // If using an email wallet as personal wallet (Optional)
-      personalWallet: WalletProvider.LocalWallet   // The personal wallet you want to use with your Smart Wallet (Optional)
-    );
-
-    // Connect the wallet
-    string address = await sdk.wallet.Connect(connection);
-}`,
-    },
-  },
-];
+} as Record<"read" | "write" | "events", Record<CodeOptions, string>>;
 
 function getExportName(slug: string) {
   let exportName = slug
@@ -333,7 +182,6 @@ function formatSnippet(
       ?.replace(/{{factory_address}}/gm, contractAddress || "0x...")
       ?.replace(/{{wallet_address}}/gm, address)
       ?.replace("YOUR_CLIENT_ID", clientId || "YOUR_CLIENT_ID")
-
       ?.replace(
         'import {{chainName}} from "@thirdweb-dev/chains";',
         preSupportedSlugs.includes(chainName as any)
@@ -376,87 +224,319 @@ function formatSnippet(
   return code;
 }
 
-const CodePlayground = () => {
-  const { contract } = useContract(contractAddress);
+const CodePlayground = ({
+  TRACKING_CATEGORY,
+}: {
+  TRACKING_CATEGORY: string;
+}) => {
   const [tab, setTab] = useState("write");
 
-  const functions = useContractFunctions(contract?.abi as Abi);
-  const events = useContractEvents(contract?.abi as Abi);
+  const readFunctions = connectPlaygroundData.readFunctions;
+  const writeFunctions = connectPlaygroundData.writeFunctions;
+  const events = connectPlaygroundData.events;
 
-  const { readFunctions, writeFunctions } = useMemo(() => {
-    return {
-      readFunctions: functions?.filter(
-        (f) => f.stateMutability === "view" || f.stateMutability === "pure",
-      ),
-      writeFunctions: functions?.filter(
-        (f) => f.stateMutability !== "view" && f.stateMutability !== "pure",
-      ),
-    };
-  }, [functions]);
+  const [event, setEvent] = useState(events[0]);
 
-  const [event, setEvent] = useState(
-    events && events.length > 0 ? events[0] : undefined,
-  );
+  const [read, setRead] = useState(readFunctions[0]);
 
-  const [read, setRead] = useState<AbiFunction>();
+  const [write, setWrite] = useState(readFunctions[0]);
 
-  const [write, setWrite] = useState<AbiFunction>();
+  const [environment, setEnvironment] = useState<CodeOptions>("javascript");
 
-  useEffect(() => {
-    if (!read && readFunctions?.length) setRead(readFunctions[0]);
-  }, [readFunctions?.length]);
-
-  useEffect(() => {
-    if (!write && writeFunctions?.length) setWrite(writeFunctions[0]);
-  }, [writeFunctions?.length]);
-  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
-  console.log(
-    write?.name,
-    writeFunctions,
-    writeFunctions
-      ?.find((f) => f.name === write?.name)
+  const snippet = formatSnippet(COMMANDS[tab as keyof typeof COMMANDS] as any, {
+    contractAddress,
+    fn:
+      tab === "read" ? read?.name : tab === "write" ? write?.name : event?.name,
+    args: (tab === "read"
+      ? readFunctions
+      : tab === "write"
+        ? writeFunctions
+        : events
+    )
+      ?.find(
+        (f) =>
+          f.name ===
+          (tab === "read"
+            ? read?.name
+            : tab === "write"
+              ? write?.name
+              : event?.name),
+      )
       ?.inputs?.map((i) => i.name),
-  );
+  });
+
+  const activeEnvironment: CodeEnvironment = (
+    snippet[environment] ? environment : Object.keys(snippet)[0]
+  ) as CodeOptions;
+
+  const activeSnippet = snippet[activeEnvironment];
+
+  const lines = activeSnippet ? activeSnippet?.split("\n") : [];
+
+  const languages = Object.keys(
+    COMMANDS[tab as keyof typeof COMMANDS],
+  ) as CodeOptions[];
+
+  const code = lines.join("\n").trim();
+
   return (
-    <SimpleGrid columns={2} gap="18px">
-      <GridItem as={Card}>
-        <h1>hey</h1>
-      </GridItem>
-      <GridItem as={Card}>
-        <CodeSegment
-          environment={environment}
-          setEnvironment={setEnvironment}
-          snippet={formatSnippet(
-            COMMANDS[tab as keyof typeof COMMANDS] as any,
-            {
-              contractAddress,
-              fn:
-                tab === "read"
-                  ? read?.name
-                  : tab === "write"
-                    ? write?.name
-                    : event?.name,
-              args: (tab === "read"
-                ? readFunctions
-                : tab === "write"
-                  ? writeFunctions
-                  : events
-              )
-                ?.find(
-                  (f) =>
-                    f.name ===
-                    (tab === "read"
-                      ? read?.name
-                      : tab === "write"
-                        ? write?.name
-                        : event?.name),
-                )
-                ?.inputs?.map((i) => i.name),
-            },
-          )}
-        />
-      </GridItem>
-    </SimpleGrid>
+    <Flex
+      alignItems="stretch"
+      gap="18px"
+      position="relative"
+      flexDir={{ base: "column", lg: "row" }}
+      mt={{ base: "60px", sm: "140px" }}
+      w="full"
+    >
+      <ChakraNextImage
+        src={require("public/assets/product-pages/connect/membership-overlay.svg")}
+        alt="membership-overlay"
+        position="absolute"
+        top={{ base: "-40px", sm: "-80px", md: "-120px" }}
+        left="50%"
+        w="full"
+        maxW={{ base: "calc(100% - 60px)", md: "697px" }}
+        transform="translateX(-50%)"
+      />
+      <Aurora
+        pos={{ left: "50%", top: "50%" }}
+        size={{ width: "1500px", height: "1500px" }}
+        color={"hsl(280deg 78% 30% / 30%)"}
+        zIndex={3}
+      />
+
+      <List
+        overflowX="hidden"
+        width="100%"
+        maxW={{ base: "full", lg: "310px" }}
+        position="relative"
+        zIndex={3}
+        mt="-2px"
+      >
+        <Tabs
+          colorScheme="gray"
+          h="100%"
+          position="relative"
+          display="flex"
+          flexDir="column"
+        >
+          <Flex
+            background="rgba(0,0,0,1)"
+            boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
+            justify={"center"}
+            transform={{ base: "translateY(20px)", md: "translateY(50%)" }}
+            zIndex={100}
+            backdropFilter={"blur(10px)"}
+            borderRadius={"8px"}
+            padding="2px"
+            gap={"2px"}
+            flexWrap="wrap"
+            w="100%"
+            margin="0 auto"
+            maxW="fit-content"
+          >
+            <TabList as={Flex} border="none" w="100%">
+              <ConnectPlaygroundTab
+                TRACKING_CATEGORY={TRACKING_CATEGORY}
+                label="write"
+              >
+                Write
+              </ConnectPlaygroundTab>
+
+              <ConnectPlaygroundTab
+                TRACKING_CATEGORY={TRACKING_CATEGORY}
+                label="read"
+              >
+                Read
+              </ConnectPlaygroundTab>
+
+              <ConnectPlaygroundTab
+                TRACKING_CATEGORY={TRACKING_CATEGORY}
+                label="events"
+              >
+                Events
+              </ConnectPlaygroundTab>
+            </TabList>
+          </Flex>
+          <Flex
+            as={Card}
+            w="full"
+            p={0}
+            background="rgba(0,0,0,1)"
+            border="1px solid 0 0 1px 1px hsl(0deg 0% 100% / 15%)"
+            position="relative"
+            width="100%"
+          >
+            <TabPanels
+              h="auto"
+              overflow="auto"
+              maxH={{ base: "252px", lg: "452px" }}
+              mt={10}
+              pb={6}
+              height="full"
+            >
+              <TabPanel py={0}>
+                {writeFunctions?.map((fn) => (
+                  <ListItem key={fn.signature}>
+                    <Button
+                      size="sm"
+                      fontWeight={
+                        tab === "write" && write.signature === fn.signature
+                          ? 600
+                          : 400
+                      }
+                      opacity={
+                        tab === "write" && write.signature === fn.signature
+                          ? 1
+                          : 0.65
+                      }
+                      onClick={() => {
+                        setTab("write");
+                        setWrite(fn);
+                      }}
+                      color="heading"
+                      _hover={{
+                        opacity: 1,
+                        textDecor: "underline",
+                      }}
+                      variant="link"
+                      fontFamily="mono"
+                    >
+                      {fn.name}
+                    </Button>
+                  </ListItem>
+                ))}
+              </TabPanel>
+              <TabPanel py={0}>
+                {readFunctions?.map((fn) => (
+                  <ListItem key={fn.signature}>
+                    <Button
+                      size="sm"
+                      fontWeight={
+                        tab === "read" && read.signature === fn.signature
+                          ? 600
+                          : 400
+                      }
+                      opacity={
+                        tab === "read" && read.signature === fn.signature
+                          ? 1
+                          : 0.65
+                      }
+                      onClick={() => {
+                        setTab("read");
+                        setRead(fn);
+                      }}
+                      color="heading"
+                      _hover={{
+                        opacity: 1,
+                        textDecor: "underline",
+                      }}
+                      variant="link"
+                      fontFamily="mono"
+                    >
+                      {fn.name}
+                    </Button>
+                  </ListItem>
+                ))}
+              </TabPanel>
+              <TabPanel py={0}>
+                {events?.map((ev) => (
+                  <ListItem key={ev.name}>
+                    <Button
+                      size="sm"
+                      fontWeight={
+                        tab === "events" && event.name === ev.name ? 600 : 400
+                      }
+                      opacity={
+                        tab === "events" && event.name === ev.name ? 1 : 0.65
+                      }
+                      onClick={() => {
+                        setTab("events");
+                        setEvent(ev);
+                      }}
+                      color="heading"
+                      _hover={{
+                        opacity: 1,
+                        textDecor: "underline",
+                      }}
+                      variant="link"
+                      fontFamily="mono"
+                    >
+                      {ev.name}
+                    </Button>
+                  </ListItem>
+                ))}
+              </TabPanel>
+            </TabPanels>
+          </Flex>
+        </Tabs>
+      </List>
+
+      <Flex
+        as={Card}
+        border="none"
+        flexDir="column"
+        flex={1}
+        p={0}
+        position="relative"
+        zIndex={3}
+      >
+        <Flex
+          background="rgba(0,0,0,0.6)"
+          boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
+          justify={"center"}
+          margin="0 auto"
+          transform={{ base: "translateY(20px)", lg: "translateY(50%)" }}
+          zIndex={100}
+          backdropFilter={"blur(10px)"}
+          borderRadius={"8px"}
+          gap={"2px"}
+          flexWrap="wrap"
+          maxW={{ base: "calc(100% - 40px)", sm: "calc(100% - 60px)" }}
+        >
+          {languages.map((language, idx) => (
+            <ConnectPlaygroundButton
+              key={`${language}-${idx}`}
+              language={language}
+              activeLanguage={activeEnvironment}
+              setActiveLanguage={setEnvironment}
+            >
+              {language}
+            </ConnectPlaygroundButton>
+          ))}
+        </Flex>
+
+        <Card
+          p={0}
+          background="rgba(0,0,0,0.6)"
+          boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
+          position="relative"
+          border="none"
+          flex={1}
+          w="full"
+          margin="0 auto"
+        >
+          <CodeBlock
+            darkTheme={themes.dracula}
+            code={code}
+            language={
+              environment === "react" ||
+              environment === "react-native" ||
+              environment === "web3button"
+                ? "jsx"
+                : environment === "unity"
+                  ? "cpp"
+                  : environment
+            }
+            backgroundColor="transparent"
+            borderWidth={0}
+            pt={6}
+            pb={{ base: 12, md: 6 }}
+            mt={4}
+          />
+        </Card>
+      </Flex>
+    </Flex>
   );
 };
 

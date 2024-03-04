@@ -184,10 +184,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
         />
 
-        <PreviewThirdwebSdkProvider desiredChainId={137}>
-          <CodePlayground />
-        </PreviewThirdwebSdkProvider>
-
         <Flex
           flexDir="column"
           alignItems="center"
@@ -253,6 +249,29 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Spacer mt={currentPlaygroundIdx === 0 ? "32px" : "0"} />
 
           {playgroundComponents[currentPlaygroundIdx]}
+        </Flex>
+
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={6}
+        >
+          <Heading
+            fontSize={[30, 40]}
+            color="white"
+            textAlign="center"
+            maxW="900px"
+          >
+            Seamlessly integrate smart contracts into your apps
+          </Heading>
+          <Spacer h={6} />
+          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
+            The complete SDK to add any smart contract into your app — and call
+            functions for any type of onchain interaction.
+          </Text>
+
+          <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
         </Flex>
 
         <Flex
