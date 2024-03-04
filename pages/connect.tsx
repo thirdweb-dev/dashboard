@@ -35,12 +35,12 @@ export const metrics = [
     mobileImage: require("public/assets/product-pages/connect/desktop-ztx.png"),
     items: [
       {
-        title: "13,000",
-        description: "Smart wallets generated",
+        title: "50,000+",
+        description: "Smart accounts created",
         colSpan: 4,
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    href: "https://ztx.io",
     hoverBackground: "#622AFF",
   },
   {
@@ -51,12 +51,12 @@ export const metrics = [
     mobileImage: require("public/assets/product-pages/connect/desktop-motorsport.png"),
     items: [
       {
-        title: "330k",
+        title: "330,000+",
         description: "Players Onboarded",
         colSpan: 4,
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life",
+    href: "https://torquemotorsport.io",
     hoverBackground: "#0053FF",
   },
   {
@@ -165,9 +165,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Connect"
-          title="Build web3 apps that anyone can use"
+          title="Build web3 apps"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
-          titleWithGradient=""
+          titleWithGradient="that anyone can use"
           subtitle="Seamless frontends for your web3 app or game with SDKs in every language. Onboard users with wallets, generate revenue with payments and build gasless apps with Account Abstraction."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
