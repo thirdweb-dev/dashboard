@@ -4,16 +4,18 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Box,
   Divider,
   DrawerBody,
   DrawerFooter,
   DrawerHeader,
-  Flex,
+  Image,
   FormControl,
   Input,
   Stack,
   Textarea,
   useModalContext,
+  Flex,
 } from "@chakra-ui/react";
 import { UseMutationResult } from "@tanstack/react-query";
 import {
@@ -111,8 +113,8 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
       background_color: nft?.metadata.background_color || "",
       attributes: nft?.metadata.attributes || [],
       // We override these in the submit if they haven't been changed
-      image: "",
-      animation_url: "",
+      image: nft?.metadata.image ? "" : null,
+      animation_url: nft?.metadata.animation_url ? "" : null,
       // No need for these, but we need to pass them to the form
       supply: 0,
       customImage: "",
@@ -218,10 +220,6 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch("external_url") instanceof File;
 
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
-
-  console.log({ nft });
-
-  console.log(mediaFileUrl);
 
   return (
     <>
@@ -402,8 +400,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           </FormControl>
           <FormControl isInvalid={!!mediaFileError}>
             <FormLabel>Media</FormLabel>
-            <Flex>
-              {nft?.metadata && !mediaFileUrl && (
+            {nft?.metadata && !mediaFileUrl && (
                 <Flex>
                   <NFTMediaWithEmptyState
                     // @ts-expect-error types are not up to date
@@ -413,6 +410,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                   />
                 </Flex>
               )}
+            <Box>
               <FileInput
                 maxContainerWidth={"200px"}
                 value={mediaFileUrl}
@@ -423,9 +421,11 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 borderColor="gray.200"
                 borderRadius="md"
                 transition="all 200ms ease"
+                selectOrUpload="Upload"
+                helperText={nft?.metadata ? "Replacer Media" : "Media"}
                 _hover={{ shadow: "sm" }}
               />
-            </Flex>
+            </Box>
             <FormHelperText>
               You can upload image, audio, video, html, text, pdf, and 3d model
               files here.
