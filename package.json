@@ -54,7 +54,7 @@
     "graphql": "^16.8.1",
     "idb-keyval": "^6.2.1",
     "lottie-react": "^2.4.0",
-    "next": "^13.5.6",
+    "next": "^14.1.1",
     "next-plausible": "^3.12.0",
     "next-seo": "^5.15.0",
     "node-vibrant": "3.2.1-alpha.1",
