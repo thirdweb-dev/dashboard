@@ -124,9 +124,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
   };
 
   const playgroundText: Record<number, string> = {
-    0: "Cut and paste components for seamless user-onboarding, onchain interactions and rendering IPFS media.",
+    0: "Drag-and-drop components for seamless user onboarding, onchain interactions, and rendering IPFS media.",
     1: "A button that executes any function on a smart contract from the connected wallet when clicked.",
-    2: "Render any asset stored on IPFS (or anywhere else), given the IPFS URI / URL.",
+    2: "Render any asset stored on IPFS (or anywhere else).",
   };
 
   return (
@@ -414,8 +414,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
         </Flex>
 
         <LandingHeroWithSideImage
-          title="Powerful NFT Checkouts"
-          titleWithGradient="and Payment infrastructure."
+          titleWithGradient="NFT checkouts"
+          title="Powerful NFT checkouts,"
+          titleWithGradient="with fiat & crypto payments"
           subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/payments"
@@ -432,7 +433,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
               </Heading>
 
               <Text size="body.lg" mt={6}>
-                thirdweb powers the best web3 projects across verticals
+                thirdweb Connect powers the best web3 projects — from marketplaces, to collectibles, to games.
               </Text>
             </Center>
           }
