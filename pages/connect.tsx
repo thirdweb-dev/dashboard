@@ -93,21 +93,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
     0: <MiniPlayground trackingCategory={TRACKING_CATEGORY} />,
     1: (
       <Box
-        p="50px 20px 14px 20px"
-        bg="#131418"
-        borderRadius="12px"
-        border="1px solid #26282F"
-      >
-        <LandingDesktopMobileImage
-          image={require("public/assets/product-pages/connect/desktop-pay.png")}
-          mobileImage={require("public/assets/product-pages/connect/mobile-pay.png")}
-          alt="pay"
-          maxW={{ base: "100%" }}
-        />
-      </Box>
-    ),
-    2: (
-      <Box
         p="0 20px 0 20px"
         bg="#131418"
         borderRadius="12px"
@@ -121,7 +106,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         />
       </Box>
     ),
-    3: (
+    2: (
       <Box
         p="0 20px 0 20px"
         bg="#131418"
@@ -136,6 +121,12 @@ const ConnectLanding: ThirdwebNextPage = () => {
         />
       </Box>
     ),
+  };
+
+  const playgroundText: Record<number, string> = {
+    0: "Cut and paste components for seamless user-onboarding, onchain interactions and rendering IPFS media.",
+    1: "A button that executes any function on a smart contract from the connected wallet when clicked.",
+    2: "Render any asset stored on IPFS (or anywhere else), given the IPFS URI / URL.",
   };
 
   return (
@@ -188,11 +179,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
             Custom components to build your app
           </Heading>
-          <Spacer h={6} />
-          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            Create a login experience that{`'s`} tailor-made for your app. Add
-            your wallets of choice, enable web2 sign-in options and create a
-            modal that fits your brand.
+          <Spacer h={1} />
+          <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
+            {playgroundText[currentPlaygroundIdx]}
           </Text>
 
           {/* Supported platforms */}
@@ -204,7 +193,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
           >
             {[
               { title: "Connect", label: "connect" },
-              { title: "Pay", label: "pay" },
               { title: "Web3 Button", label: "web3_button" },
               { title: "IPFS Renderer", label: "ipfs_rendered" },
             ].map(({ title, label }, idx) => (
