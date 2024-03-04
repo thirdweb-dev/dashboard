@@ -58,6 +58,14 @@ const filterOut = [
   "saminacodes",
   "shift4id",
   "warengonzaga",
+  "kien-ngo",
+  "easyrun42",
+  "elasticbottle",
+  "IDubuque",
+  "rahul-thirdweb",
+  "gerrysaporito",
+  "edwardysun",
+  "mmeigoni",
 ];
 
 const repositories = [
