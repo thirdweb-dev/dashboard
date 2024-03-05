@@ -414,7 +414,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
         </Flex>
 
         <LandingHeroWithSideImage
-          titleWithGradient="NFT checkouts"
           title="Powerful NFT checkouts,"
           titleWithGradient="with fiat & crypto payments"
           subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
@@ -433,7 +432,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
               </Heading>
 
               <Text size="body.lg" mt={6}>
-                thirdweb Connect powers the best web3 projects — from marketplaces, to collectibles, to games.
+                thirdweb Connect powers the best web3 projects — from
+                marketplaces, to collectibles, to games.
               </Text>
             </Center>
           }
