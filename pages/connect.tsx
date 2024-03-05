@@ -245,7 +245,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
             }}
             mt={12}
             color="black"
-            href="https://portal.thirdweb.com/connect/connect"
+            href="https://portal.thirdweb.com/contracts/interact/overview"
             category={TRACKING_CATEGORY}
             label="add-to-app"
             fontWeight="bold"
