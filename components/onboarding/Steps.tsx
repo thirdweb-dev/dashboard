@@ -262,7 +262,7 @@ export const OnboardingSteps: React.FC = () => {
               size="sm"
               onClick={() => handleStep({ isSkip: true, step: currentStep })}
             >
-              eading
+              Skip
             </Button>
           )}
         </HStack>
