@@ -55,6 +55,10 @@ export const OnboardingSteps: React.FC = () => {
     onOpen: onClaimCreditsOpen,
     onClose: onClaimCreditsClose,
   } = useDisclosure();
+  const [onboardingPaymentMethod, setOnboardingPaymentMethod] = useLocalStorage(
+    `onboardingPaymentMethod-${meQuery?.data?.id}`,
+    false,
+  );
   const [onboardingKeys, setOnboardingKeys] = useLocalStorage(
     `onboardingKeys-${meQuery?.data?.id}`,
     false,
@@ -82,7 +86,7 @@ export const OnboardingSteps: React.FC = () => {
     }
     if (!onboardingKeys && !hasApiKeys) {
       return Step.Keys;
-    } else if (!hasValidPayment) {
+    } else if (!hasValidPayment && !onboardingPaymentMethod) {
       return Step.Payment;
     } else if (!hasOptimismCredits) {
       return Step.OptimismCredits;
@@ -135,6 +139,10 @@ export const OnboardingSteps: React.FC = () => {
       setOnboardingDocs(true);
     }
 
+    if (step === Step.Payment) {
+      setOnboardingPaymentMethod(true);
+    }
+
     trackEvent({
       category: "onboardingChecklist",
       action: isSkip ? "skipped" : "completed",
@@ -160,6 +168,7 @@ export const OnboardingSteps: React.FC = () => {
           "Add your payment method to ensure no disruption to thirdweb services when you exceed free monthly limits.",
         cta: "Add payment",
         href: "/dashboard/settings/billing",
+        canSkip: true,
       },
       {
         key: Step.OptimismCredits,
