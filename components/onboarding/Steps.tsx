@@ -102,6 +102,7 @@ export const OnboardingSteps: React.FC = () => {
     hasOptimismCredits,
     onboardingDocs,
     onboardingKeys,
+    onboardingPaymentMethod,
   ]);
 
   const handleStep = ({
