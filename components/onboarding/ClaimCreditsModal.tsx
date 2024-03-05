@@ -18,7 +18,15 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { Button, Card, Heading, Text, LinkButton, Link, Badge } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  Text,
+  LinkButton,
+  Link,
+  Badge,
+} from "tw-components";
 import {
   useGrantCredits,
   useAccount,
@@ -212,12 +220,12 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
           <ModalHeader>
             Congratulations, you&apos;ve received OP Credits
           </ModalHeader>
-            <ModalCloseButton
-              onClick={() => {
-                onClose();
-                setPage("eligible");
-              }}
-            />
+          <ModalCloseButton
+            onClick={() => {
+              onClose();
+              setPage("eligible");
+            }}
+          />
           <ModalBody>
             <Flex flexDir="column" gap={4}>
               <Card as={Flex} alignItems="center" gap={2} flexDir="column">

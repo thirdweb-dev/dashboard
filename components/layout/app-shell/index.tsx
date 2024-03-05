@@ -1,6 +1,5 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
-  Box,
   ButtonGroup,
   Container,
   Flex,
