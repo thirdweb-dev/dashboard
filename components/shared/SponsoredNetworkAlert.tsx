@@ -5,7 +5,7 @@ import {
   AlertTitle,
   AlertDescription,
 } from "@chakra-ui/react";
-import { Chain, getChainByChainId } from "@thirdweb-dev/chains";
+import { Chain } from "@thirdweb-dev/chains";
 import { Text, LinkButton } from "tw-components";
 
 const SponsoredChains = [
