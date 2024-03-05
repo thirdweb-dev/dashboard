@@ -390,7 +390,7 @@ export function useGrantCredits() {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: { creditId: string; }) => {
+    async (input: { customPromoTypes: [string]; }) => {
       invariant(user?.address, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/grantCredits`, {
