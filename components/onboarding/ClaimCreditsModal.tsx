@@ -16,6 +16,9 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
+  Alert,
+  AlertDescription,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
@@ -53,6 +56,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
 
   const isFreePlan = account.data?.plan === AccountPlan.Free;
   const isProPlan = account.data?.plan === AccountPlan.Pro;
+  const hasValidPayment = account.data?.status === "validPayment";
 
   return (
     <Modal
@@ -102,7 +106,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                           bgColor="#28622A"
                         >
                           <Text
-                            color="bgBlack"
+                            color="#fff"
                             textTransform="capitalize"
                             fontWeight="bold"
                           >
@@ -152,7 +156,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                         bgColor="#282B6F"
                       >
                         <Text
-                          color="bgBlack"
+                          color="#fff"
                           textTransform="capitalize"
                           fontWeight="bold"
                         >
@@ -192,7 +196,29 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
             </Flex>
           </ModalBody>
 
-          <ModalFooter as={Flex} gap={3}>
+          <ModalFooter as={Flex} gap={4} flexDir="column">
+            {!hasValidPayment && (
+              <Alert
+                status="info"
+                borderRadius="lg"
+                backgroundColor="backgroundBody"
+                borderLeftColor="blue.500"
+                borderLeftWidth={4}
+                as={Flex}
+                gap={1}
+              >
+                <AlertIcon />
+                <Flex flexDir="column">
+                  <AlertDescription as={Text}>
+                    In order to claim credits, you need to{" "}
+                    <Link href="/settings/billing" color="blue.500">
+                      add a payment method
+                    </Link>
+                    .
+                  </AlertDescription>
+                </Flex>
+              </Alert>
+            )}
             <Button
               colorScheme="primary"
               onClick={() => {
@@ -210,6 +236,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                 );
               }}
               w="full"
+              isDisabled={!hasValidPayment}
             >
               Claim {isFreePlan ? "$250" : "$2500"} Credits
             </Button>
