@@ -7,7 +7,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { apiKeyMap, apiMap } from "lib/maps";
 import { getDashboardChainRpc } from "lib/rpc";
-import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
+import { StorageSingleton, getThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchAllChains } from "utils/fetchChain";
 
@@ -97,7 +97,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     }
 
-    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+    const sdk = getThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
 
     let encodedArgs;
     try {
