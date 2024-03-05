@@ -44,7 +44,7 @@ const sponsors = [
   {
     name: "Scenario",
     logo: "/assets/hackathon/sponsors/scenario.png",
-    link: "https://scenario.gg/",
+    link: "https://www.scenario.com",
   },
   {
     name: "Consensus",
@@ -156,7 +156,7 @@ const scheduleItems = [
   {
     day: 18,
     month: "jan",
-    title: "Create AI-Generated in-game NFT Assets with Scenario.gg",
+    title: "Create AI-Generated in-game NFT Assets with Scenario.com",
     href: "https://lu.ma/rp3scenario",
   },
   {
@@ -425,7 +425,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                     <ListItem>
                       Top 3 teams receive a complimentary 1-Year Subscription to{" "}
                       <Link
-                        href="https://www.scenario.gg/"
+                        href="https://www.scenario.com/"
                         isExternal
                         textDecor={"underline"}
                         pb={1}
@@ -435,7 +435,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                           textDecorationSkipInk: "none",
                         }}
                       >
-                        Scenario.gg
+                        Scenario.com
                       </Link>
                     </ListItem>
                     <ListItem>
@@ -445,7 +445,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                     </ListItem>
                     <ListItem>
                       All participating teams with a project submitted will
-                      receive 1-month free of Scenario.gg
+                      receive 1-month free of Scenario.com
                     </ListItem>
                   </List>
                 </Box>
