@@ -373,7 +373,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               )}
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
-              {isSplit && <SplitFieldset form={form} />} 
+              {isSplit && <SplitFieldset form={form} />}
               {hasTrustedForwarders && (
                 <TrustedForwardersFieldset
                   form={form}
