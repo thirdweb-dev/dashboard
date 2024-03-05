@@ -61,8 +61,8 @@ dependencies:
     specifier: ^8.12.0
     version: 8.12.0(react-dom@18.2.0)(react@18.2.0)
   '@thirdweb-dev/chains':
-    specifier: 0.0.0-dev-a02ccbc-20240227163149
-    version: 0.0.0-dev-a02ccbc-20240227163149
+    specifier: 0.1.75-nightly-e87292ab6-20240229231231
+    version: 0.1.75-nightly-e87292ab6-20240229231231
   '@thirdweb-dev/react':
     specifier: 4.4.12-nightly-7d8697ec3-20240304194900
     version: 4.4.12-nightly-7d8697ec3-20240304194900(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.39-nightly-7d8697ec3-20240304194900)(@types/react-dom@18.2.19)(@types/react@18.2.58)(ethers@5.7.2)(fastify@4.26.1)(localforage@1.10.0)(next@14.1.1)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(zksync-web3@0.14.4)
@@ -6226,14 +6226,14 @@ packages:
       - zksync-web3
     dev: false
 
-  /@thirdweb-dev/chains@0.0.0-dev-a02ccbc-20240227163149:
-    resolution: {integrity: sha512-cOo7qcomJePH2IaUlaFXMeRxIi6YAQ41QmRq3+kPMLK7EhAL4aalZBEQQ/BYIghsVIdXGUclHQlYu3ffAjFFdQ==}
-    engines: {node: '>=18'}
-    dev: false
-
   /@thirdweb-dev/chains@0.1.75:
     resolution: {integrity: sha512-xnjnz/TY4J4xifSbFDgvowTk0nLIZTYUxtyaXS6z+zl73z56FndkGhJyDehXyNroErT9vcaU2GGoOegGkdfBaQ==}
     engines: {node: '>=18'}
+
+  /@thirdweb-dev/chains@0.1.75-nightly-e87292ab6-20240229231231:
+    resolution: {integrity: sha512-GNSq8cwQaVb92DzhIGe/bVqk7+I3+2R4wKeftHl4DQnioWyQoK+5q2rVfQzrUGZUygYmXkWVQGVwKlyLGcJkEw==}
+    engines: {node: '>=18'}
+    dev: false
 
   /@thirdweb-dev/contracts-js@1.3.16(ethers@5.7.2):
     resolution: {integrity: sha512-EpLcD5mdm8b+tvSO7gD9cxSAqjLRr7ygktMp4Pe7Wvobl5ffq8O95futxdVsYc5pyciPZYr8apHUJFYMDlaTqA==}
