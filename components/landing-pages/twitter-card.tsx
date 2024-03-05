@@ -1,0 +1,120 @@
+import React, { ReactNode } from "react";
+import { Flex, FlexProps, SimpleGrid } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { StaticImageData } from "next/image";
+import { Heading, Text, TrackedLink } from "tw-components";
+
+type LandingTwitterCardProps = {
+  src: StaticImageData;
+  name: string;
+  username: string;
+  twitterContent: ReactNode;
+  isVerified?: boolean;
+  showReactions?: boolean;
+  title: string;
+  href: string;
+  TRACKING_CATEGORY: string;
+} & FlexProps;
+
+const icons = {
+  share: require("public/assets/landingpage/share.svg"),
+  retweet: require("public/assets/landingpage/retweet.svg"),
+  like: require("public/assets/landingpage/like.svg"),
+  favorite: require("public/assets/landingpage/favorite.svg"),
+};
+
+const LandingTwitterCard = ({
+  src,
+  name,
+  username,
+  twitterContent,
+  isVerified = false,
+  showReactions = true,
+  title,
+  href,
+  TRACKING_CATEGORY,
+  ...rest
+}: LandingTwitterCardProps) => {
+  return (
+    <TrackedLink
+      href={href}
+      category={TRACKING_CATEGORY}
+      label="twitter-card"
+      _hover={{
+        textDecoration: "none",
+      }}
+      trackingProps={{
+        title: title.toLowerCase().replaceAll(" ", "-"),
+      }}
+      borderRadius="8px"
+    >
+      <Flex
+        flexDirection="column"
+        borderRadius="8px"
+        border="1px solid #26282F"
+        background="#131418"
+        padding={{ base: "20px", md: "41px 32px 25px 30px" }}
+        overflowX="hidden"
+        transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
+        _hover={{
+          borderColor: "blue.500",
+          boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
+          transform: "scale(1.01)",
+        }}
+        {...rest}
+      >
+        <Flex alignItems="center">
+          <ChakraNextImage h="64px" w="64px" src={src} alt="twitter-pfp" />
+
+          <Flex flexDir="column" ml="16px">
+            <Flex alignItems="center">
+              <Text mt="2px" fontSize="18px" fontWeight={700} color="#fff">
+                {name}
+              </Text>
+
+              {isVerified && (
+                <ChakraNextImage
+                  h={19}
+                  w={19}
+                  src={require("public/assets/landingpage/verified.svg")}
+                  alt="checkmark"
+                  ml="12px"
+                />
+              )}
+            </Flex>
+
+            <Text mt="2px" fontSize="14px" color="rgba(255, 255, 255, 0.70)">
+              {username}
+            </Text>
+          </Flex>
+        </Flex>
+
+        <Flex mt="20px">{twitterContent}</Flex>
+
+        {showReactions && (
+          <Flex flexDir="column">
+            <Flex
+              mt="24px"
+              background="rgba(255, 255, 255, 0.70)"
+              w="full"
+              h="1px"
+            />
+
+            <Flex
+              justifyContent="space-between"
+              mt="24px"
+              wrap="wrap"
+              gap="40px"
+            >
+              {Object.entries(icons).map(([key, src]) => (
+                <ChakraNextImage key={key} h={19} w={19} src={src} alt={key} />
+              ))}
+            </Flex>
+          </Flex>
+        )}
+      </Flex>
+    </TrackedLink>
+  );
+};
+
+export default LandingTwitterCard;
