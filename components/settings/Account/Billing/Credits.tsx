@@ -13,8 +13,6 @@ const formatToDollars = (cents: number) => {
 export const BillingCredits = () => {
   const { data: credits } = useAccountCredits();
 
-  console.log({ credits });
-
   return (
     <Flex direction="column" gap={2}>
       <Heading size="title.lg" as="h1">

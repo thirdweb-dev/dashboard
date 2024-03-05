@@ -12,7 +12,6 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { formatDistance } from "date-fns";
-import { useRouter } from "next/router";
 import { Button, Card, Link, Text } from "tw-components";
 
 const formatToDollars = (cents: number) => {
@@ -27,7 +26,6 @@ export const CreditsButton = () => {
   const { isLoggedIn } = useLoggedInUser();
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
-  const router = useRouter();
 
   const totalCreditBalance = credits?.reduce(
     (acc, credit) => acc + credit.remainingValueUsdCents,
