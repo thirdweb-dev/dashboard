@@ -7,7 +7,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Badge,
   Box,
   UnorderedList,
   ListItem,
@@ -19,7 +18,7 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { Button, Card, Heading, Text, LinkButton, Link } from "tw-components";
+import { Button, Card, Heading, Text, LinkButton, Link, Badge } from "tw-components";
 import {
   useGrantCredits,
   useAccount,

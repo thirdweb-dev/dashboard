@@ -9,10 +9,14 @@ import { Chain } from "@thirdweb-dev/chains";
 import { Text, LinkButton } from "tw-components";
 
 const SponsoredChains = [
-  10, // Optimism
-  8453, // Base
-  7777777, // Zora
-  34443, // Mode
+  // Optimism
+  10,
+  // Base
+  8453,
+  // Zora
+  7777777,
+  // Mode
+  34443,
 ];
 
 interface SponsoredNetworkAlertProps {

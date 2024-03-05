@@ -244,7 +244,6 @@ export interface BillingCredit {
   expiryDate: string;
 }
 
-
 export function useAccount() {
   const { user, isLoggedIn } = useLoggedInUser();
 
@@ -316,7 +315,13 @@ export function useAccountCredits() {
         throw new Error(json.error.message);
       }
 
-      return json.data as BillingCredit[];
+      const credits = (json.data as BillingCredit[]).filter(
+        (credit) =>
+          credit.remainingValueUsdCents > 0 &&
+          credit.expiryDate > new Date().toISOString(),
+      );
+
+      return credits;
     },
     { enabled: !!user?.address && isLoggedIn },
   );
