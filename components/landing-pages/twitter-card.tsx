@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
-import { Flex, FlexProps, SimpleGrid } from "@chakra-ui/react";
+import { Flex, FlexProps } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Text, TrackedLink } from "tw-components";
 
 type LandingTwitterCardProps = {
   src: StaticImageData;
@@ -106,8 +106,8 @@ const LandingTwitterCard = ({
               wrap="wrap"
               gap="40px"
             >
-              {Object.entries(icons).map(([key, src]) => (
-                <ChakraNextImage key={key} h={19} w={19} src={src} alt={key} />
+              {Object.entries(icons).map(([key, img]) => (
+                <ChakraNextImage key={key} h={19} w={19} src={img} alt={key} />
               ))}
             </Flex>
           </Flex>
