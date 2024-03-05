@@ -93,7 +93,7 @@
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@next/bundle-analyzer": "^14.1.0",
-    "@thirdweb-dev/wallets": "^2.4.13",
+    "@thirdweb-dev/wallets": "2.4.14-nightly-7d8697ec3-20240304194900",
     "@types/airtable": "^0.10.1",
     "@types/color": "^3.0.6",
     "@types/papaparse": "^5.3.14",
