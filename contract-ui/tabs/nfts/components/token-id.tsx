@@ -71,7 +71,6 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   });
 
   const { data: nft } = useReadContract(
-    // @ts-expect-error types are not up to date
     isErc721 ? getErc721NFT : getErc1155NFT,
     {
       contract,
