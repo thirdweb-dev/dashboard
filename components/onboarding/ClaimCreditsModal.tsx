@@ -74,7 +74,10 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                   GAS CREDITS
                 </Text>
               </Card>
-              <Text>Or {isProPlan ? "contact us" : "upgrade"} and get access to more credits:</Text>
+              <Text>
+                Or {isProPlan ? "contact us" : "upgrade"} and get access to more
+                credits:
+              </Text>
               <SimpleGrid columns={{ base: 1, md: isFreePlan ? 2 : 1 }} gap={4}>
                 {isFreePlan && (
                   <Card
