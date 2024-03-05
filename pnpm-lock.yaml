@@ -70,8 +70,8 @@ dependencies:
     specifier: 4.0.39-nightly-7d8697ec3-20240304194900
     version: 4.0.39-nightly-7d8697ec3-20240304194900(ethers@5.7.2)(typescript@5.3.3)(zksync-web3@0.14.4)
   '@thirdweb-dev/service-utils':
-    specifier: ^0.4.18
-    version: 0.4.18
+    specifier: 0.4.18-nightly-652275834-20240221115711
+    version: 0.4.18-nightly-652275834-20240221115711
   '@trytrench/sdk':
     specifier: ^0.0.5
     version: 0.0.5
@@ -6479,8 +6479,8 @@ packages:
       - typescript
       - utf-8-validate
 
-  /@thirdweb-dev/service-utils@0.4.18:
-    resolution: {integrity: sha512-8ruOzd0QHggyE9wmqMPn7iRy9CYEYWbXJkNk89ML8jRU5rCKsP7zEf2mDe8VjmRcgzOWYldsnsB22WkiTiJhjQ==}
+  /@thirdweb-dev/service-utils@0.4.18-nightly-652275834-20240221115711:
+    resolution: {integrity: sha512-J8op+67HOmiDotxApRBv/u0MnIBEBWRW7580/IEJVOIulYb1iMdnLafwWJAq+GRqzeb7TIIhdYsob+QZ/9jMrA==}
     dependencies:
       aws4fetch: 1.0.17
       zod: 3.22.4
