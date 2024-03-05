@@ -52,6 +52,7 @@ import {
 import { TrustedForwardersFieldset } from "./trusted-forwarders-fieldset";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
+import { useMemo } from "react";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -147,6 +148,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ),
   };
 
+  const transformedQueryData = useMemo(
+    () => ({
+      addToDashboard: true,
+      deployDeterministic: isAccountFactory,
+      saltForCreate2: "",
+      signerAsSalt: true,
+      deployParams: parseDeployParams,
+      recipients: [{ address: connectedWallet, sharesBps: 10000 }],
+    }),
+    [parseDeployParams, isAccountFactory, connectedWallet],
+  );
+
   const form = useForm<{
     addToDashboard: boolean;
     deployDeterministic: boolean;
@@ -161,20 +174,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     };
     recipients?: Recipient[];
   }>({
-    defaultValues: {
-      addToDashboard: true,
-      deployDeterministic: isAccountFactory,
-      saltForCreate2: "",
-      signerAsSalt: true,
-      deployParams: parseDeployParams,
-    },
-    values: {
-      addToDashboard: true,
-      deployDeterministic: isAccountFactory,
-      saltForCreate2: "",
-      signerAsSalt: true,
-      deployParams: parseDeployParams,
-    },
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
     resetOptions: {
       keepDirty: true,
       keepDirtyValues: true,
@@ -372,7 +373,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               )}
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
-              {isSplit && <SplitFieldset form={form} />}
+              {isSplit && <SplitFieldset form={form} />} 
               {hasTrustedForwarders && (
                 <TrustedForwardersFieldset
                   form={form}
