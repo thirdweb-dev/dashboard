@@ -92,7 +92,7 @@ export const StorageSingleton = new ThirdwebStorage({
   secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
   uploadServerUrl: DASHBOARD_STORAGE_URL,
   downloader: new SpecialDownloader(),
-});
+}) as ThirdwebStorage;
 
 // EVM SDK
 const EVM_SDK_MAP = new Map<string, ThirdwebSDK>();
