@@ -7,7 +7,6 @@ import {
   Flex,
   FormControl,
   IconButton,
-  Input,
 } from "@chakra-ui/react";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { IoMdRemove } from "@react-icons/all-files/io/IoMdRemove";
