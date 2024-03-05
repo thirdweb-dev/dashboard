@@ -121,32 +121,40 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     !isFactoryDeployment &&
     (fullPublishMetadata.data?.name.includes("AccountFactory") || false);
 
-  const parseDeployParams = {
-    ...deployParams.reduce(
-      (acc, param) => {
-        if (!param.name) {
-          param.name = "*";
-        }
+  const parsedDeployParams = useMemo(
+    () => ({
+      ...deployParams.reduce(
+        (acc, param) => {
+          if (!param.name) {
+            param.name = "*";
+          }
 
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue
-            ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                ?.defaultValue || ""
-            : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-              ? "0"
-              : "",
-          param.type,
-          {
-            connectedWallet,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      },
-      {} as Record<string, string>,
-    ),
-  };
+          acc[param.name] = replaceTemplateValues(
+            fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue
+              ? fullPublishMetadata.data?.constructorParams?.[param.name]
+                  ?.defaultValue || ""
+              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+                ? "0"
+                : "",
+            param.type,
+            {
+              connectedWallet,
+              chainId: selectedChain,
+            },
+          );
+          return acc;
+        },
+        {} as Record<string, string>,
+      ),
+    }),
+    [
+      deployParams,
+      fullPublishMetadata.data?.constructorParams,
+      connectedWallet,
+      selectedChain,
+    ],
+  );
 
   const transformedQueryData = useMemo(
     () => ({
@@ -154,10 +162,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       deployDeterministic: isAccountFactory,
       saltForCreate2: "",
       signerAsSalt: true,
-      deployParams: parseDeployParams,
+      deployParams: parsedDeployParams,
       recipients: [{ address: connectedWallet, sharesBps: 10000 }],
     }),
-    [parseDeployParams, isAccountFactory, connectedWallet],
+    [parsedDeployParams, isAccountFactory, connectedWallet],
   );
 
   const form = useForm<{
