@@ -223,8 +223,8 @@ devDependencies:
     specifier: ^14.1.1
     version: 14.1.1
   '@thirdweb-dev/storage':
-    specifier: 2.0.9
-    version: 2.0.9
+    specifier: 2.0.10
+    version: 2.0.10
   '@thirdweb-dev/wallets':
     specifier: 0.0.0-dev-a02ccbc-20240227163149
     version: 0.0.0-dev-a02ccbc-20240227163149(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.63)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.3.3)(zksync-web3@0.14.4)
@@ -6267,6 +6267,14 @@ packages:
       '@noble/hashes': 1.3.3
       js-sha3: 0.9.3
 
+  /@thirdweb-dev/crypto@0.2.1:
+    resolution: {integrity: sha512-SYEkdtdhTOAcgGklqPrKgyIftA2x0WBTtpAEyJBTLCL1z+2IKvExWZyZn3Mx2cZ8skO3iAfGzC4Si2ORWBcS2g==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@noble/hashes': 1.3.3
+      js-sha3: 0.9.3
+    dev: true
+
   /@thirdweb-dev/dynamic-contracts@1.2.5:
     resolution: {integrity: sha512-YVsz+jUWbwj+6aF2eTZGMfyw47a1HRmgNl4LQ3gW9gwYL5y5+OX/yOzv6aV5ibvoqCk/k10aIVK2eFrcpMubQA==}
     engines: {node: '>=18.0.0'}
@@ -6477,6 +6485,16 @@ packages:
       aws4fetch: 1.0.17
       zod: 3.22.4
     dev: false
+
+  /@thirdweb-dev/storage@2.0.10:
+    resolution: {integrity: sha512-i7JrggQzlU97bHdGQ6cOhx1ojYUFyFsfc5MLT47pfCQxeFlUtGmWYNZ09mPPQoCgyoxFNJm5I5QLhnMrNMJtIQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@thirdweb-dev/crypto': 0.2.1
+      cid-tool: 3.0.0
+      form-data: 4.0.0
+      uuid: 9.0.1
+    dev: true
 
   /@thirdweb-dev/storage@2.0.9:
     resolution: {integrity: sha512-KpttP1g0YBLv1NKqAr4xe9Pqey++tGBzgPbLzvBqNLXYa6BAuxtb01eTeWDsyLIx+WAWy0COBhqDQd4YNRawyQ==}
