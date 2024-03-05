@@ -17,6 +17,8 @@ const SponsoredChains = [
   7777777,
   // Mode
   34443,
+  // Frax
+  252,
 ];
 
 interface SponsoredNetworkAlertProps {
