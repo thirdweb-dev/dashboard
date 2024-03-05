@@ -8,14 +8,12 @@ interface LandingImageSectionItemProps {
   src: StaticImageData;
   title: string;
   description: string;
-  maxImgHeight?: FlexProps["maxHeight"];
 }
 
 const LandingImageSectionItem = ({
   src,
   title,
   description,
-  maxImgHeight = "100%",
 }: LandingImageSectionItemProps) => {
   return (
     <Flex flexDir="column" gap={6}>

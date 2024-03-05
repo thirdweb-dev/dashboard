@@ -7,7 +7,6 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import {
   LandingCardWithImage,
   LandingImages,
