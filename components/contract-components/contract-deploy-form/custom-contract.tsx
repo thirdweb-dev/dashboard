@@ -163,7 +163,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       saltForCreate2: "",
       signerAsSalt: true,
       deployParams: parsedDeployParams,
-      recipients: [{ address: connectedWallet, sharesBps: 10000 }],
+      recipients: [{ address: connectedWallet || "", sharesBps: 10000 }],
     }),
     [parsedDeployParams, isAccountFactory, connectedWallet],
   );
