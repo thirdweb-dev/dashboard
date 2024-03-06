@@ -87,7 +87,9 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     const plan = meQuery?.data?.plan;
 
     // Condition 1: No credits contain "OP "
-    const noOPCredits = credits && credits.length === 0 || credits?.some((credit) => !credit.name.includes("OP "));
+    const noOPCredits =
+      (credits && credits.length === 0) ||
+      credits?.some((credit) => !credit.name.includes("OP "));
 
     // Condition 2: Plan is Growth and there's no credit containing "OP Growth"
     const isGrowthWithoutOPGrowth =
