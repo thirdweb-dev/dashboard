@@ -83,7 +83,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
-
   const canClaimOptimismCredits = useMemo(() => {
     const plan = meQuery?.data?.plan;
 
