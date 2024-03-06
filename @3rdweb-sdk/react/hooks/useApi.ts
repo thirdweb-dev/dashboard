@@ -422,7 +422,7 @@ export function useGrantCredits() {
     {
       onSuccess: () => {
         return queryClient.invalidateQueries(
-          accountKeys.me(user?.address as string),
+          accountKeys.credits(user?.address as string),
         );
       },
     },
