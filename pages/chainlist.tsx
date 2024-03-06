@@ -1,5 +1,7 @@
 import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Box,
+  DarkMode,
   Flex,
   GridItem,
   Icon,
@@ -34,6 +36,19 @@ import {
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains";
+
+export const OPSponsoredChains = [
+  // Optimism
+  10,
+  // Base
+  8453,
+  // Zora
+  7777777,
+  // Mode
+  34443,
+  // Frax
+  252,
+];
 
 export const ChainsLanding: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -206,124 +221,148 @@ const SearchResult: React.FC<{
   chain: MinimalRPCChain;
 }> = memo(function SearchResult({ chain }) {
   const isDeprecated = chain.status === "deprecated";
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
+
+  const DarkModeOrBox = isSponsored ? DarkMode : Box;
 
   return (
-    <LinkBox
-      position="relative"
-      role="group"
-      sx={{
-        contentVisibility: "auto",
-        containIntrinsicSize: "1px 195px",
-      }}
-    >
-      <Card
-        role="group"
-        display="flex"
-        flexDir="column"
-        gap={4}
-        px={5}
-        // bg="transparent"
-        borderColor="borderColor"
-        transition="150ms border-color ease-in-out"
-        _hover={{
-          _dark: {
-            borderColor: "white",
-          },
-          _light: {
-            borderColor: "black",
-          },
-        }}
+    <DarkModeOrBox>
+      <LinkBox
         position="relative"
-        h="full"
+        role="group"
+        sx={{
+          contentVisibility: "auto",
+          containIntrinsicSize: "1px 195px",
+        }}
       >
-        <Flex justifyContent="space-between" align="center">
-          <Flex align="center" gap={2}>
-            <ChainIcon size={20} ipfsSrc={chain.iconUrl} />
-            <LinkOverlay
-              as={TrackedLink}
-              category={TRACKING_CATEGORY}
-              href={`/${chain.slug}`}
-            >
-              <Heading size="subtitle.sm" as="h3" noOfLines={1}>
-                {chain.name}
-              </Heading>
-            </LinkOverlay>
-            {isDeprecated && (
-              <Flex
-                borderRadius="full"
-                align="center"
-                border="1px solid"
-                borderColor="borderColor"
-                overflow="hidden"
-                flexShrink={0}
-                py={{ base: 1.5, md: 1 }}
-                px={{ base: 1.5, md: 2 }}
-                gap={3}
+        <Card
+          role="group"
+          display="flex"
+          flexDir="column"
+          gap={4}
+          px={5}
+          // bg="transparent"
+          borderColor="borderColor"
+          transition="150ms border-color ease-in-out"
+          _hover={{
+            _dark: {
+              borderColor: "white",
+            },
+            _light: {
+              borderColor: "black",
+            },
+          }}
+          position="relative"
+          h="full"
+          bgGradient={isSponsored ? "linear(to-r, #701953, #5454B2)" : "none"}
+        >
+          <Flex justifyContent="space-between" align="center">
+            <Flex align="center" gap={2}>
+              <ChainIcon size={20} ipfsSrc={chain.iconUrl} />
+              <LinkOverlay
+                as={TrackedLink}
+                category={TRACKING_CATEGORY}
+                href={`/${chain.slug}`}
               >
-                <Heading size="label.sm" as="label">
-                  Deprecated
+                <Heading size="subtitle.sm" as="h3" noOfLines={1}>
+                  {chain.name}
                 </Heading>
-              </Flex>
-            )}
+              </LinkOverlay>
+              {isDeprecated && (
+                <Flex
+                  borderRadius="full"
+                  align="center"
+                  border="1px solid"
+                  borderColor="borderColor"
+                  overflow="hidden"
+                  flexShrink={0}
+                  py={{ base: 1.5, md: 1 }}
+                  px={{ base: 1.5, md: 2 }}
+                  gap={3}
+                >
+                  <Heading size="label.sm" as="label">
+                    Deprecated
+                  </Heading>
+                </Flex>
+              )}
+              {isSponsored && (
+                <Flex
+                  borderRadius="full"
+                  align="center"
+                  border="1px solid"
+                  borderColor="#fff"
+                  overflow="hidden"
+                  flexShrink={0}
+                  py={{ base: 1.5, md: 1 }}
+                  px={{ base: 1.5, md: 2 }}
+                  gap={3}
+                >
+                  <Heading size="label.sm" as="label">
+                    Sponsored
+                  </Heading>
+                </Flex>
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-
-        <Flex flexDir="column" gap={1}>
-          <Text
-            pointerEvents="none"
-            opacity={0.6}
-            color={isDeprecated ? "faded" : "inherit"}
-          >
-            RPC URL
-          </Text>
-          {chain.hasRpc && chain.chainId && !isDeprecated ? (
-            <InputGroup>
+          <Flex flexDir="column" gap={1}>
+            <Text
+              pointerEvents="none"
+              opacity={0.6}
+              color={isDeprecated ? "faded" : "bgBlack"}
+            >
+              RPC URL
+            </Text>
+            {chain.hasRpc && chain.chainId && !isDeprecated ? (
+              <InputGroup>
+                <Input
+                  readOnly
+                  value={`${chain.chainId}.rpc.thirdweb.com`}
+                  isDisabled={isDeprecated}
+                  borderColor={isSponsored ? "white" : "borderColor"}
+                  color="bgBlack"
+                />
+                <InputRightElement>
+                  <TrackedCopyButton
+                    category={TRACKING_CATEGORY}
+                    label="copy-rpc-url"
+                    aria-label="Copy RPC url"
+                    size="sm"
+                    colorScheme={undefined}
+                    value={`${chain.chainId}.rpc.thirdweb.com`}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            ) : (
               <Input
                 readOnly
-                value={`${chain.chainId}.rpc.thirdweb.com`}
-                isDisabled={isDeprecated}
+                isDisabled
+                pointerEvents="none"
+                value="Unavailable"
               />
-              <InputRightElement>
-                <TrackedCopyButton
-                  category={TRACKING_CATEGORY}
-                  label="copy-rpc-url"
-                  aria-label="Copy RPC url"
-                  size="sm"
-                  colorScheme={undefined}
-                  value={`${chain.chainId}.rpc.thirdweb.com`}
-                />
-              </InputRightElement>
-            </InputGroup>
-          ) : (
-            <Input
-              readOnly
-              isDisabled
-              pointerEvents="none"
-              value="Unavailable"
-            />
-          )}
-        </Flex>
+            )}
+          </Flex>
 
-        <SimpleGrid pointerEvents="none" gap={12} columns={2}>
-          <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6} color={isDeprecated ? "faded" : "inherit"}>
-              Chain ID
-            </Text>
-            <Text size="label.md" color={isDeprecated ? "faded" : "inherit"}>
-              {chain.chainId}
-            </Text>
-          </Flex>
-          <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6} color={isDeprecated ? "faded" : "inherit"}>
-              Native Token
-            </Text>
-            <Text size="label.md" color={isDeprecated ? "faded" : "inherit"}>
-              {chain.symbol}
-            </Text>
-          </Flex>
-        </SimpleGrid>
-      </Card>
-    </LinkBox>
+          <SimpleGrid pointerEvents="none" gap={12} columns={2}>
+            <Flex as={GridItem} flexDir="column" gap={1}>
+              <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
+                Chain ID
+              </Text>
+              <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
+                {chain.chainId}
+              </Text>
+            </Flex>
+            <Flex as={GridItem} flexDir="column" gap={1}>
+              <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
+                Native Token
+              </Text>
+              <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
+                {chain.symbol}
+              </Text>
+            </Flex>
+          </SimpleGrid>
+        </Card>
+      </LinkBox>
+    </DarkModeOrBox>
   );
 });
 

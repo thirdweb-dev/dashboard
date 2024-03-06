@@ -6,20 +6,8 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
+import { OPSponsoredChains } from "pages/chainlist";
 import { Text, LinkButton } from "tw-components";
-
-const SponsoredChains = [
-  // Optimism
-  10,
-  // Base
-  8453,
-  // Zora
-  7777777,
-  // Mode
-  34443,
-  // Frax
-  252,
-];
 
 interface SponsoredNetworkAlertProps {
   chain: Chain;
@@ -30,7 +18,7 @@ export const SponsoredNetworkAlert: React.FC<SponsoredNetworkAlertProps> = ({
 }) => {
   const cleanedChainName = chain?.name?.replace("Mainnet", "").trim();
 
-  const isSponsored = SponsoredChains.includes(chain?.chainId);
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
 
   if (!isSponsored) {
     return null;
