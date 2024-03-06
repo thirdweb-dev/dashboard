@@ -27,7 +27,7 @@ export const CreditsButton = () => {
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
 
-  console.log({ credits })
+  console.log({ credits });
 
   const totalCreditBalance = credits?.reduce(
     (acc, credit) => acc + credit.remainingValueUsdCents,
