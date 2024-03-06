@@ -44,10 +44,7 @@ export const BillingCredits = () => {
               <Flex flexDir="column" gap={1}>
                 <Text>Expires On</Text>
                 <Text color="bgBlack">
-                  {format(
-                    new Date(credit.expiresAt as string),
-                    "MMM dd, yyyy",
-                  )}
+                  {format(new Date(credit.expiresAt as string), "MMM dd, yyyy")}
                 </Text>
               </Flex>
             </Flex>
