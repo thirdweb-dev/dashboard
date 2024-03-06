@@ -121,12 +121,12 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       }
       return Step.OptimismCredits;
     }
-    if (!onboardingKeys && !hasApiKeys) {
+    if (canClaimOptimismCredits) {
+      return Step.OptimismCredits;
+    } else if (!onboardingKeys && !hasApiKeys) {
       return Step.Keys;
     } else if (!hasValidPayment && !onboardingPaymentMethod) {
       return Step.Payment;
-    } else if (canClaimOptimismCredits) {
-      return Step.OptimismCredits;
     } else if (!onboardingDocs) {
       return Step.Docs;
     } else {
