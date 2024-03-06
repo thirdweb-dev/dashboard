@@ -45,7 +45,7 @@ export const BillingCredits = () => {
                 <Text>Expires On</Text>
                 <Text color="bgBlack">
                   {format(
-                    new Date(credit.expiryDate as string),
+                    new Date(credit.expiresAt as string),
                     "MMM dd, yyyy",
                   )}
                 </Text>

@@ -27,6 +27,8 @@ export const CreditsButton = () => {
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
 
+  console.log({ credits })
+
   const totalCreditBalance = credits?.reduce(
     (acc, credit) => acc + credit.remainingValueUsdCents,
     0,
@@ -66,7 +68,7 @@ export const CreditsButton = () => {
                     </Text>
                     <Text as="span">
                       (Expires{" "}
-                      {formatDistance(new Date(credit.expiryDate), Date.now(), {
+                      {formatDistance(new Date(credit.expiresAt), Date.now(), {
                         addSuffix: true,
                       })}
                       )

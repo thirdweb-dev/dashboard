@@ -234,14 +234,18 @@ interface WalletStats {
 
 export interface BillingProduct {
   name: string;
+  id: string;
 }
 
 export interface BillingCredit {
   originalGrantUsdCents: number;
   remainingValueUsdCents: number;
   name: string;
+  couponId: string;
   products: BillingProduct[];
-  expiryDate: string;
+  expiresAt: string;
+  promotionCodeId: string;
+  redeemedAt: string;
 }
 
 export function useAccount() {
@@ -309,8 +313,6 @@ export function useAccountCredits() {
       });
       const json = await res.json();
 
-      console.log({ json });
-
       if (json.error) {
         throw new Error(json.error.message);
       }
@@ -318,7 +320,7 @@ export function useAccountCredits() {
       const credits = (json.data as BillingCredit[]).filter(
         (credit) =>
           credit.remainingValueUsdCents > 0 &&
-          credit.expiryDate > new Date().toISOString(),
+          credit.expiresAt > new Date().toISOString(),
       );
 
       return credits;
