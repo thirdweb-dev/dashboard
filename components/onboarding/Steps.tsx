@@ -113,8 +113,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       return null;
     }
 
-    console.log({ canClaimOptimismCredits });
-
     if (onlyOptimism) {
       if (!canClaimOptimismCredits) {
         return null;
@@ -140,6 +138,8 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     onboardingDocs,
     onboardingKeys,
     onboardingPaymentMethod,
+    canClaimOptimismCredits,
+    onlyOptimism,
   ]);
 
   const handleStep = ({
