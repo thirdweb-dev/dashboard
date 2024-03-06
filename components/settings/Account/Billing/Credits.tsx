@@ -2,12 +2,15 @@ import { Flex } from "@chakra-ui/react";
 import { Heading, Text, Card } from "tw-components";
 import { useAccountCredits } from "@3rdweb-sdk/react/hooks/useApi";
 import { format } from "date-fns";
+import { Optimism } from "@thirdweb-dev/chains";
+import { ChainIcon } from "components/icons/ChainIcon";
 
 const formatToDollars = (cents: number) => {
+  const dollars = cents / 100;
   return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
-  }).format(cents);
+  }).format(dollars);
 };
 
 export const BillingCredits = () => {
@@ -27,7 +30,12 @@ export const BillingCredits = () => {
         </Text>
         {credits?.map((credit) => (
           <Card key={credit.name} p={6} as={Flex} flexDir="column" gap={3}>
-            <Text color="bgBlack">{credit.name}</Text>
+            <Flex gap={2}>
+              {credit.name.includes("OP ") && (
+                <ChainIcon ipfsSrc={Optimism.icon.url} size={24} />
+              )}
+              <Text color="bgBlack">{credit.name}</Text>
+            </Flex>
             <Flex gap={6}>
               <Flex flexDir="column" gap={1}>
                 <Text>Remaining Credits</Text>

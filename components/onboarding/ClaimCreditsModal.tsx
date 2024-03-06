@@ -34,8 +34,9 @@ import {
   useGrantCredits,
   useAccount,
   AccountPlan,
+  useAccountCredits,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface ClaimCreditsModalProps {
   isOpen: boolean;
@@ -53,10 +54,22 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
     "Credits claimed successfully.",
     "Failed to claimed credits.",
   );
+  const { data: credits } = useAccountCredits();
 
   const isFreePlan = account.data?.plan === AccountPlan.Free;
+  const isGrowthPlan = account.data?.plan === AccountPlan.Growth;
   const isProPlan = account.data?.plan === AccountPlan.Pro;
   const hasValidPayment = account.data?.status === "validPayment";
+
+  const claimableCredits = useMemo(() => {
+    if (isGrowthPlan) {
+      if ((credits || []).some((credit) => credit.name.includes("OP Free"))) {
+        return 2250;
+      }
+      return 2500;
+    }
+    return 250;
+  }, [credits, isGrowthPlan]);
 
   return (
     <Modal
@@ -72,18 +85,35 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir="column" gap={4}>
-              <Card as={Flex} alignItems="center" gap={2} flexDir="column">
-                <Text textAlign="center">You&apos;re eligible for</Text>
-                <Heading
-                  color="bgBlack"
-                  size="title.2xl"
-                  fontWeight="extrabold"
+              <Card position="relative">
+                <Badge
+                  position="absolute"
+                  borderRadius="full"
+                  size="label.sm"
+                  px={3}
+                  bgColor={isFreePlan ? "#3b394b" : "#28622A"}
                 >
-                  {isFreePlan ? "$250" : "$2500"}
-                </Heading>
-                <Text letterSpacing="wider" fontWeight="bold">
-                  GAS CREDITS
-                </Text>
+                  <Text
+                    color="#fff"
+                    textTransform="capitalize"
+                    fontWeight="bold"
+                  >
+                    {isFreePlan ? "Starter" : "Growth"}
+                  </Text>
+                </Badge>
+                <Flex alignItems="center" gap={2} flexDir="column">
+                  <Text textAlign="center">You&apos;re eligible for</Text>
+                  <Heading
+                    color="bgBlack"
+                    size="title.2xl"
+                    fontWeight="extrabold"
+                  >
+                    ${claimableCredits}
+                  </Heading>
+                  <Text letterSpacing="wider" fontWeight="bold">
+                    GAS CREDITS
+                  </Text>
+                </Flex>
               </Card>
               <Text>
                 Or {isProPlan ? "contact us" : "upgrade"} and get access to more
@@ -132,7 +162,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                       </UnorderedList>
                     </Flex>
                     <LinkButton
-                      href="/settings/billing"
+                      href="/dashboard/settings/billing"
                       colorScheme="blue"
                       size="sm"
                       variant="outline"
@@ -211,7 +241,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                 <Flex flexDir="column">
                   <AlertDescription as={Text}>
                     In order to claim credits, you need to{" "}
-                    <Link href="/settings/billing" color="blue.500">
+                    <Link href="/dashboard/settings/billing" color="blue.500">
                       add a payment method
                     </Link>
                     .
@@ -238,7 +268,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
               w="full"
               isDisabled={!hasValidPayment}
             >
-              Claim {isFreePlan ? "$250" : "$2500"} Credits
+              Claim ${claimableCredits} Credits
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -261,7 +291,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                   size="title.2xl"
                   fontWeight="extrabold"
                 >
-                  {isFreePlan ? "$250" : "$2500"}
+                  ${claimableCredits}
                 </Heading>
                 <Text letterSpacing="wider" fontWeight="bold">
                   GAS CREDITS
@@ -289,7 +319,10 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                       <Text color="faded">
                         Credits apply across all API keys. You can see how many
                         credits you have left at the top of the dashboard and{" "}
-                        <Link href="/settings/billing" color="blue.500">
+                        <Link
+                          href="/dashboard/settings/billing"
+                          color="blue.500"
+                        >
                           billing page
                         </Link>
                         .

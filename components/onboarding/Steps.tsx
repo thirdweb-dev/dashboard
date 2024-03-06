@@ -1,4 +1,5 @@
 import {
+  AccountPlan,
   AccountStatus,
   useAccount,
   useAccountCredits,
@@ -42,7 +43,13 @@ type StepData = {
   rightImage?: StaticImageData;
 };
 
-export const OnboardingSteps: React.FC = () => {
+interface OnboardingStepsProps {
+  onlyOptimism?: boolean;
+}
+
+export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
+  onlyOptimism,
+}) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
@@ -80,15 +87,45 @@ export const OnboardingSteps: React.FC = () => {
     return credits?.some((credit) => credit.name === "optimismCredits");
   }, [credits]);
 
+  const canClaimOptimismCredits = useMemo(() => {
+    const plan = meQuery?.data?.plan;
+
+    // Condition 1: No credits contain "OP "
+    const noOPCredits = credits?.every(
+      (credit) => !credit.name.includes("OP "),
+    );
+
+    // Condition 2: Plan is Growth and there's no credit containing "OP Growth"
+    const isGrowthWithoutOPGrowth =
+      plan === AccountPlan.Growth &&
+      credits?.some((credit) => !credit.name.includes("OP Growth"));
+
+    // Condition 3: Plan is Pro and there's no credit containing "OP Pro"
+    const isProWithoutOPPro =
+      plan === AccountPlan.Pro &&
+      credits?.some((credit) => !credit.name.includes("OP Pro"));
+
+    return noOPCredits || isGrowthWithoutOPGrowth || isProWithoutOPPro;
+  }, [credits, meQuery?.data?.plan]);
+
   const currentStep = useMemo(() => {
     if (!isLoggedIn) {
       return null;
+    }
+
+    console.log({ canClaimOptimismCredits });
+
+    if (onlyOptimism) {
+      if (!canClaimOptimismCredits) {
+        return null;
+      }
+      return Step.OptimismCredits;
     }
     if (!onboardingKeys && !hasApiKeys) {
       return Step.Keys;
     } else if (!hasValidPayment && !onboardingPaymentMethod) {
       return Step.Payment;
-    } else if (!hasOptimismCredits) {
+    } else if (canClaimOptimismCredits) {
       return Step.OptimismCredits;
     } else if (!onboardingDocs) {
       return Step.Docs;
