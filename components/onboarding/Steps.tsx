@@ -83,9 +83,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
-  const hasOptimismCredits = useMemo(() => {
-    return credits?.some((credit) => credit.name === "optimismCredits");
-  }, [credits]);
 
   const canClaimOptimismCredits = useMemo(() => {
     const plan = meQuery?.data?.plan;
@@ -134,7 +131,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     isLoggedIn,
     hasApiKeys,
     hasValidPayment,
-    hasOptimismCredits,
     onboardingDocs,
     onboardingKeys,
     onboardingPaymentMethod,
