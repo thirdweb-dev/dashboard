@@ -38,7 +38,7 @@ export const growthPlanFrameMetaData = (
         action: `post_redirect`,
       },
     ],
-    image: `${getAbsoluteUrl()}/commander-not-found.png`,
+    image: `${getAbsoluteUrl()}/assets/dashboard/growth-account.png`,
     post_url: `${getAbsoluteUrl()}/api/frame/superchain?action=growth&chain=${chainName}`,
   };
 };

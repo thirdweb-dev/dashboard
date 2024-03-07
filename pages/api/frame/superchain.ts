@@ -1,7 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { FrameRequest } from "@coinbase/onchainkit";
 import { CoinbaseKit } from "classes/CoinbaseKit";
-import { errorResponse, redirectResponse } from "utils/api";
+import {
+  errorResponse,
+  redirectResponse,
+  successHtmlResponse,
+} from "utils/api";
 import { SuperChainFrame } from "classes/SuperChainFrame";
 import {
   finalGrowthPlanFrameMetaData,
@@ -47,7 +51,11 @@ export default async function handler(req: NextRequest) {
 
     const chainName = SuperChainFrame.chainNameByButtonIndex(buttonIndex);
 
-    return SuperChainFrame.htmlResponse(growthPlanFrameMetaData(chainName));
+    const htmlResponse = SuperChainFrame.htmlResponse(
+      growthPlanFrameMetaData(chainName),
+    );
+
+    return successHtmlResponse(htmlResponse, 200);
   }
 
   if (action === "growth") {
@@ -64,9 +72,11 @@ export default async function handler(req: NextRequest) {
     const avgTransactionImage =
       SuperChainFrame.avgTransactionImageByChain(chain);
 
-    return SuperChainFrame.htmlResponse(
+    const htmlResponse = SuperChainFrame.htmlResponse(
       finalGrowthPlanFrameMetaData(avgTransactionImage, buttonIndex === 2),
     );
+
+    return successHtmlResponse(htmlResponse, 200);
   }
 
   if (action === "final") {

@@ -8,7 +8,10 @@ import { HomeProductCard } from "components/dashboard/HomeProductCard";
 import { DelayedDisplay } from "components/delayed-display/delayed-display";
 import { OnboardingSteps } from "components/onboarding/Steps";
 import { PRODUCTS } from "components/product-pages/common/nav/data";
+import { superchainFrameChains } from "lib/superchain-frames";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import Head from "next/head";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -25,63 +28,94 @@ const Dashboard: ThirdwebNextPage = (
   const isLoading = connectionStatus === "unknown";
 
   return (
-    <Flex flexDir="column" gap={4}>
-      {/* Any announcements: <AnnouncementCard /> */}
-      <SimpleGrid columns={{ base: 1, lg: 4 }} gap={16}>
-        <GridItem colSpan={{ lg: 3 }}>
-          <Heading mb={10}>Get started quickly</Heading>
-          {!isLoading && (
-            <ClientOnly fadeInDuration={600} ssr={null}>
-              {showFTUX ? (
-                <FTUX />
-              ) : (
-                <VStack gap={10} w="full">
-                  <DelayedDisplay delay={1000}>
-                    <OnboardingSteps />
-                  </DelayedDisplay>
-                  <Flex flexDir="column" gap={10} w="full">
-                    {["connect", "contracts", "infrastructure"].map(
-                      (section) => {
-                        const products = PRODUCTS.filter(
-                          (p) => p.section === section && !!p.dashboardLink,
-                        );
+    <>
+      {/* Farcaster frames headers */}
+      <Head>
+        <meta property="fc:frame" content="vNext" />
+        <meta
+          property="fc:frame:image"
+          content={`${getAbsoluteUrl()}/assets/dashboard/superchain-app-accelerator.png`}
+        />
+        <meta
+          property="fc:frame:post_url"
+          content={`${getAbsoluteUrl()}/api/frame/superchain?action=check`}
+        />
+        <meta
+          property="fc:frame:button:1"
+          content={`${superchainFrameChains.optimism.frameContentText}`}
+        />
+        <meta
+          property="fc:frame:button:2"
+          content={`${superchainFrameChains.base.frameContentText}`}
+        />
+        <meta
+          property="fc:frame:button:3"
+          content={`${superchainFrameChains.zora.frameContentText}`}
+        />
+        <meta
+          property="fc:frame:button:4"
+          content={`${superchainFrameChains.other.frameContentText}`}
+        />
+        <meta name="fc:frame:button:4:action" content="post_redirect" />
+      </Head>
+      <Flex flexDir="column" gap={4}>
+        {/* Any announcements: <AnnouncementCard /> */}
+        <SimpleGrid columns={{ base: 1, lg: 4 }} gap={16}>
+          <GridItem colSpan={{ lg: 3 }}>
+            <Heading mb={10}>Get started quickly</Heading>
+            {!isLoading && (
+              <ClientOnly fadeInDuration={600} ssr={null}>
+                {showFTUX ? (
+                  <FTUX />
+                ) : (
+                  <VStack gap={10} w="full">
+                    <DelayedDisplay delay={1000}>
+                      <OnboardingSteps />
+                    </DelayedDisplay>
+                    <Flex flexDir="column" gap={10} w="full">
+                      {["connect", "contracts", "infrastructure"].map(
+                        (section) => {
+                          const products = PRODUCTS.filter(
+                            (p) => p.section === section && !!p.dashboardLink,
+                          );
 
-                        return (
-                          <Flex key={section} gap={4} flexDir="column">
-                            <Heading
-                              size="title.sm"
-                              textTransform="capitalize"
-                              color="faded"
-                            >
-                              {section === "infrastructure"
-                                ? "Engine"
-                                : section}
-                            </Heading>
-                            <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
-                              {products.map((product) => (
-                                <HomeProductCard
-                                  key={product.name}
-                                  product={product}
-                                  TRACKING_CATEGORY={TRACKING_CATEGORY}
-                                />
-                              ))}
-                            </SimpleGrid>
-                          </Flex>
-                        );
-                      },
-                    )}
-                  </Flex>
-                </VStack>
-              )}
-            </ClientOnly>
-          )}
-        </GridItem>
-        <GridItem as={Flex} direction="column" gap={6}>
-          <Heading size="title.sm">Latest changes</Heading>
-          <Changelog changelog={props.changelog} />
-        </GridItem>
-      </SimpleGrid>
-    </Flex>
+                          return (
+                            <Flex key={section} gap={4} flexDir="column">
+                              <Heading
+                                size="title.sm"
+                                textTransform="capitalize"
+                                color="faded"
+                              >
+                                {section === "infrastructure"
+                                  ? "Engine"
+                                  : section}
+                              </Heading>
+                              <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+                                {products.map((product) => (
+                                  <HomeProductCard
+                                    key={product.name}
+                                    product={product}
+                                    TRACKING_CATEGORY={TRACKING_CATEGORY}
+                                  />
+                                ))}
+                              </SimpleGrid>
+                            </Flex>
+                          );
+                        },
+                      )}
+                    </Flex>
+                  </VStack>
+                )}
+              </ClientOnly>
+            )}
+          </GridItem>
+          <GridItem as={Flex} direction="column" gap={6}>
+            <Heading size="title.sm">Latest changes</Heading>
+            <Changelog changelog={props.changelog} />
+          </GridItem>
+        </SimpleGrid>
+      </Flex>
+    </>
   );
 };
 

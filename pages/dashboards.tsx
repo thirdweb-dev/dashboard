@@ -5,9 +5,7 @@ import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
-import { superchainFrameChains } from "lib/superchain-frames";
 import { getAbsoluteUrl } from "lib/vercel-utils";
-import Head from "next/head";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -31,123 +29,91 @@ const TRACKING_CATEGORY = "dashboards";
 
 const Dashboard: ThirdwebNextPage = () => {
   return (
-    <>
-      {/* Farcaster frames headers */}
-      <Head>
-        <meta property="fc:frame" content="vNext" />
-        <meta
-          property="fc:frame:image"
-          content={`${getAbsoluteUrl()}/assets/og-image/dashboards.png`}
-        />
-        <meta
-          property="fc:frame:post_url"
-          content={`${getAbsoluteUrl()}/api/frame/superchain?action=check`}
-        />
-        <meta
-          property="fc:frame:button:1"
-          content={`${superchainFrameChains.optimism.frameContentText}`}
-        />
-        <meta
-          property="fc:frame:button:2"
-          content={`${superchainFrameChains.base.frameContentText}`}
-        />
-        <meta
-          property="fc:frame:button:3"
-          content={`${superchainFrameChains.zora.frameContentText}`}
-        />
-        <meta
-          property="fc:frame:button:4"
-          content={`${superchainFrameChains.other.frameContentText}`}
-        />
-        <meta name="fc:frame:button:4:action" content="post_redirect" />
-      </Head>
-
-      <ProductPage
-        seo={{
-          title: "Dashboards",
-          description: "Dashboards to manage your web3 apps.",
-          openGraph: {
-            images: [
-              {
-                url: `${getAbsoluteUrl()}/assets/og-image/dashboards.png`,
-                width: 2334,
-                height: 1260,
-                alt: "thirdweb Dashboards",
-              },
-            ],
-          },
-        }}
+    <ProductPage
+      seo={{
+        title: "Dashboards",
+        description: "Dashboards to manage your web3 apps.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/dashboards.png`,
+              width: 2334,
+              height: 1260,
+              alt: "thirdweb Dashboards",
+            },
+          ],
+        },
+      }}
+    >
+      <Hero
+        trackingCategory={TRACKING_CATEGORY}
+        name="Dashboards"
+        title="Dashboards to manage your web3 apps."
+        description="Manage, analyze, and interact with all of your deployed contracts conveniently from a single place."
+        buttonText="Get started"
+        buttonLink="/dashboard"
+        image={require("public/assets/product-pages/dashboard/hero.png")}
+        gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
       >
-        <Hero
-          trackingCategory={TRACKING_CATEGORY}
-          name="Dashboards"
-          title="Dashboards to manage your web3 apps."
-          description="Manage, analyze, and interact with all of your deployed contracts conveniently from a single place."
-          buttonText="Get started"
-          buttonLink="/dashboard"
-          image={require("public/assets/product-pages/dashboard/hero.png")}
-          gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
+        <SimpleGrid
+          justifyContent="flex-start"
+          w="100%"
+          columns={{ base: 1, md: 3 }}
+          gap={{ base: 12, md: 6 }}
+          py={{ base: 12, lg: 24 }}
         >
-          <SimpleGrid
-            justifyContent="flex-start"
-            w="100%"
-            columns={{ base: 1, md: 3 }}
-            gap={{ base: 12, md: 6 }}
-            py={{ base: 12, lg: 24 }}
+          <ProductCard
+            title="Monitor contract activity"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
-            <ProductCard
-              title="Monitor contract activity"
-              icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            Get fast insights into your contract activity. Unlock features in
+            Dashboard for each extension implemented in your contract. (e.g.
+            view all NFTs that have been minted so far)
+          </ProductCard>
+          <ProductCard
+            title="Interact with contracts"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+          >
+            Fine-tune contract behavior with quick access to contract
+            configurations (e.g. royalty, primary sale fee, etc.)
+          </ProductCard>
+          <ProductCard
+            title="Collaborate with team"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+          >
+            Share contract management access with your team members. Control
+            team access to contracts with permissions. Safe is supported.
+          </ProductCard>
+        </SimpleGrid>
+        <ProductSection py={{ base: 12, lg: 24 }}>
+          <Flex alignItems="center" flexDirection="column">
+            <Heading
+              as="h2"
+              size="display.sm"
+              textAlign="center"
+              mb={12}
+              maxW={800}
             >
-              Get fast insights into your contract activity. Unlock features in
-              Dashboard for each extension implemented in your contract. (e.g.
-              view all NFTs that have been minted so far)
-            </ProductCard>
-            <ProductCard
-              title="Interact with contracts"
-              icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-            >
-              Fine-tune contract behavior with quick access to contract
-              configurations (e.g. royalty, primary sale fee, etc.)
-            </ProductCard>
-            <ProductCard
-              title="Collaborate with team"
-              icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-            >
-              Share contract management access with your team members. Control
-              team access to contracts with permissions. Safe is supported.
-            </ProductCard>
-          </SimpleGrid>
-          <ProductSection py={{ base: 12, lg: 24 }}>
-            <Flex alignItems="center" flexDirection="column">
-              <Heading
-                as="h2"
-                size="display.sm"
-                textAlign="center"
-                mb={12}
-                maxW={800}
-              >
-                Build contracts for your web3 apps and games
-              </Heading>
-              <YoutubeEmbed
-                maxWidth={680}
-                videoId="oH8v7YJ51Ho"
-                aspectRatio={16 / 9}
-                title="How to Verify a Custom Contract on Etherscan using a Dashboard"
-              />
-            </Flex>
-          </ProductSection>
+              Build contracts for your web3 apps and games
+            </Heading>
+            <YoutubeEmbed
+              maxWidth={680}
+              videoId="oH8v7YJ51Ho"
+              aspectRatio={16 / 9}
+              title="How to Verify a Custom Contract on Etherscan using a Dashboard"
+            />
+          </Flex>
+        </ProductSection>
 
-          {/* Guides */}
-          <GuidesShowcase
-            title="Learn how to build"
-            category={TRACKING_CATEGORY}
-            description="Check out our guides to learn how to use Dashboard"
-            guides={GUIDES}
-          />
-        </Hero>
-      </ProductPage>
-    </>
+        {/* Guides */}
+        <GuidesShowcase
+          title="Learn how to build"
+          category={TRACKING_CATEGORY}
+          description="Check out our guides to learn how to use Dashboard"
+          guides={GUIDES}
+        />
+      </Hero>
+    </ProductPage>
   );
 };
 

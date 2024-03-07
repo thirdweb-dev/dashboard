@@ -1,5 +1,6 @@
 import { FrameMetadataType, getFrameHtmlResponse } from "@coinbase/onchainkit";
 import { superchainFrameChains } from "lib/superchain-frames";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { z } from "zod";
 
 const validAction = z.union([
@@ -46,13 +47,13 @@ export class SuperChainFrame {
   public static avgTransactionImageByChain = (chainName: string) => {
     switch (chainName) {
       case "optimism":
-        return "optimism_img_url";
+        return `${getAbsoluteUrl()}/assets/dashboard/250k-transactions.png`;
 
       case "base":
-        return "base_img_url";
+        return `${getAbsoluteUrl()}/assets/dashboard/500k-transactions.png`;
 
       case "zora":
-        return "zora_img_url";
+        return `${getAbsoluteUrl()}/assets/dashboard/500k-transactions.png`;
 
       default:
         throw new Error("Invalid chain name");
