@@ -19,6 +19,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
@@ -37,6 +38,7 @@ import {
   useAccountCredits,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useMemo, useState } from "react";
+import { UpgradeModal } from "components/homepage/sections/UpgradeModal";
 
 interface ClaimCreditsModalProps {
   isOpen: boolean;
@@ -60,16 +62,16 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
   const isGrowthPlan = account.data?.plan === AccountPlan.Growth;
   const isProPlan = account.data?.plan === AccountPlan.Pro;
   const hasValidPayment = account.data?.status === "validPayment";
+  const {
+    isOpen: isUpgradeModalOpen,
+    onOpen: onUpgradeModalOpen,
+    onClose: onUpgradeModalClose,
+  } = useDisclosure();
 
-  const claimableCredits = useMemo(() => {
-    if (isGrowthPlan) {
-      if ((credits || []).some((credit) => credit.name.includes("OP Free"))) {
-        return 2250;
-      }
-      return 2500;
-    }
-    return 250;
-  }, [credits, isGrowthPlan]);
+  const claimableCredits = useMemo(
+    () => (isFreePlan ? 250 : 2500),
+    [isFreePlan],
+  );
 
   return (
     <Modal
@@ -159,16 +161,19 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                       <UnorderedList>
                         <Text as={ListItem}>10k monthly active wallets</Text>
                         <Text as={ListItem}>User analytics</Text>
+                        <Text as={ListItem}>
+                          Custom Auth and Custom Branding
+                        </Text>
                       </UnorderedList>
                     </Flex>
-                    <LinkButton
-                      href="/dashboard/settings/billing"
-                      colorScheme="blue"
-                      size="sm"
-                      variant="outline"
-                    >
-                      Upgrade for $99
-                    </LinkButton>
+                    <UpgradeModal
+                      name={AccountPlan.Growth}
+                      ctaTitle="Upgrade for $99"
+                      canTrialGrowth={false}
+                      isOpen={isUpgradeModalOpen}
+                      onOpen={onUpgradeModalOpen}
+                      onClose={onUpgradeModalClose}
+                    />
                   </Card>
                 )}
                 <Card
@@ -200,7 +205,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                         size="title.md"
                         fontWeight="extrabold"
                       >
-                        Over $2500
+                        $2500+
                       </Heading>
                       <Text letterSpacing="wider" fontWeight="bold">
                         GAS CREDITS
@@ -211,6 +216,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                         Custom rate limits for APIs & Infra
                       </Text>
                       <Text as={ListItem}>Enterprise grade SLAs</Text>
+                      <Text as={ListItem}>Dedicated support</Text>
                     </UnorderedList>
                   </Flex>
                   <LinkButton

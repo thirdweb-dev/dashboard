@@ -15,6 +15,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { formatDistance } from "date-fns";
 import { Button, Card, Link, Text } from "tw-components";
 import { Optimism } from "@thirdweb-dev/chains";
+import { ClaimCreditsModal } from "components/onboarding/ClaimCreditsModal";
 
 const formatToDollars = (cents: number) => {
   const dollars = cents / 100;
@@ -26,6 +27,11 @@ const formatToDollars = (cents: number) => {
 
 export const CreditsButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isMoreCreditsOpen,
+    onOpen: onMoreCreditsOpen,
+    onClose: onMoreCreditsClose,
+  } = useDisclosure();
   const { isLoggedIn } = useLoggedInUser();
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
@@ -87,23 +93,25 @@ export const CreditsButton = () => {
                   </Card>
                 ))
               ) : (
-                <Text fontStyle="italic">No credits found</Text>
+                <Text fontStyle="italic">No credits found.</Text>
               )}
             </Flex>
-            <Text pt={4}>
-              <Link
-                href="/dashboard/settings/billing"
-                color="blue.500"
-                onClick={onClose}
-              >
-                Get more credits
-              </Link>
-              .
+            <Text
+              pt={4}
+              onClick={onMoreCreditsOpen}
+              color="blue.500"
+              cursor="pointer"
+            >
+              Get more credits.
             </Text>
           </ModalBody>
           <ModalFooter />
         </ModalContent>
       </Modal>
+      <ClaimCreditsModal
+        isOpen={isMoreCreditsOpen}
+        onClose={onMoreCreditsClose}
+      />
     </>
   );
 };
