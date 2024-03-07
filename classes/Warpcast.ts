@@ -29,9 +29,11 @@ export class Warpcast {
     });
 
     // Will throw if parse failed e.g if valid is not true
-    await response
+    const res = await response
       .json()
       .then((res) => res)
       .then(validateMessageSchema.parse);
+
+    return res;
   }
 }
