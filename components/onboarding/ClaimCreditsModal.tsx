@@ -152,7 +152,10 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                         <Text as={ListItem}>10k monthly active wallets</Text>
                         <Text as={ListItem}>User analytics</Text>
                         <Text as={ListItem}>
-                          Custom Auth and Custom Branding
+                          Custom Auth
+                        </Text>
+                        <Text as={ListItem}>
+                          Custom Branding
                         </Text>
                       </UnorderedList>
                     </Flex>
@@ -195,7 +198,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                         size="title.md"
                         fontWeight="extrabold"
                       >
-                        $2500+
+                        $3000+
                       </Heading>
                       <Text letterSpacing="wider" fontWeight="bold">
                         GAS CREDITS
