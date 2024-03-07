@@ -6,9 +6,7 @@ import {
 } from "components/contract-components/utils";
 import { useAllChainsData } from "hooks/chains/allChains";
 import invariant from "tiny-invariant";
-import {
-  useSupportedChainsRecord,
-} from "hooks/chains/configureChains";
+import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { getAllMultichainRegistry } from "dashboard-extensions/common/read/getAllMultichainRegistry";
 import { polygon } from "thirdweb/chains";
@@ -16,7 +14,8 @@ import { getContract } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
 
-export const MULTICHAIN_REGISTRY_ADDRESS = "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
+export const MULTICHAIN_REGISTRY_ADDRESS =
+  "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
 
 const registryContract = getContract({
   client: thirdwebClient,

@@ -2,7 +2,7 @@ import { Skeleton } from "@chakra-ui/react";
 import { memo } from "react";
 import { Text } from "tw-components";
 import { useQuery } from "@tanstack/react-query";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { getDashboardChainRpc } from "lib/rpc";
 import { BasicContract } from "contract-ui/types/types";
@@ -20,7 +20,7 @@ const useAccountCount = (address: string, chainId: number) => {
       if (!chain) {
         throw new Error("chain not found");
       }
-      const sdk = getEVMThirdwebSDK(chainId, getDashboardChainRpc(chain));
+      const sdk = getThirdwebSDK(chainId, getDashboardChainRpc(chain));
       const contract = await sdk.getContract(address);
       const accounts = await contract.accountFactory.getAllAccounts();
       return accounts.length;
