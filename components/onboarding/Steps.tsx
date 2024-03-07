@@ -23,6 +23,7 @@ import { ClaimCreditsModal } from "./ClaimCreditsModal";
 import { BiGasPump, BiRocket } from "react-icons/bi";
 import { StaticImageData } from "next/image";
 import { ChakraNextImage } from "components/Image";
+import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 
 enum Step {
   Keys = "keys",
@@ -107,16 +108,14 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   }, [credits, meQuery?.data?.plan]);
 
   const currentStep = useMemo(() => {
+    if (onlyOptimism) {
+      return Step.OptimismCredits;
+    }
+
     if (!isLoggedIn) {
       return null;
     }
 
-    if (onlyOptimism) {
-      if (!canClaimOptimismCredits) {
-        return null;
-      }
-      return Step.OptimismCredits;
-    }
     if (canClaimOptimismCredits) {
       return Step.OptimismCredits;
     } else if (!onboardingKeys && !hasApiKeys) {
@@ -279,13 +278,17 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         <Heading size="title.sm">{title}</Heading>
         <Flex>{description}</Flex>
         <HStack mt={4} alignItems="center">
-          <Button
-            size="sm"
-            colorScheme="primary"
-            onClick={() => handleStep({ step: currentStep, href, onClick })}
-          >
-            {cta}
-          </Button>
+          {isLoggedIn ? (
+            <Button
+              size="sm"
+              colorScheme="primary"
+              onClick={() => handleStep({ step: currentStep, href, onClick })}
+            >
+              {cta}
+            </Button>
+          ) : (
+            <CustomConnectWallet />
+          )}
           {learnMore && (
             <LinkButton isExternal href={learnMore} size="sm" variant="outline">
               Learn more
