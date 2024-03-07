@@ -151,7 +151,9 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                       <UnorderedList>
                         <Text as={ListItem}>10k monthly active wallets</Text>
                         <Text as={ListItem}>User analytics</Text>
-                        <Text as={ListItem}>Custom Auth and Custom Branding</Text>
+                        <Text as={ListItem}>
+                          Custom Auth and Custom Branding
+                        </Text>
                       </UnorderedList>
                     </Flex>
                     <LinkButton
