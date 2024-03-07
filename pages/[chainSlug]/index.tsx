@@ -21,8 +21,8 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { OnboardingSteps } from "components/onboarding/Steps";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
-import { SponsoredNetworkAlert } from "components/shared/SponsoredNetworkAlert";
 import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
 import { ExploreCategory, prefetchCategory } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -274,7 +274,7 @@ const ChainPage: ThirdwebNextPage = ({
         gap={10}
       >
         <DeprecatedAlert chain={chain} />
-        <SponsoredNetworkAlert chain={chain} />
+        <OnboardingSteps onlyOptimism />
         {category && (
           <>
             <ChainSectionElement
