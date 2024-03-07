@@ -60,10 +60,13 @@ export const useAllContractList = (
 
     data.forEach((net) => {
       if (net.chainId in configuredChainsRecord) {
-        if (configuredChainsRecord[net.chainId].testnet) {
-          testnets.push(net);
-        } else {
-          mainnets.push(net);
+        const chainRecord = configuredChainsRecord[net.chainId];
+        if (chainRecord.status !== "deprecated") {
+          if (chainRecord.testnet) {
+            testnets.push(net);
+          } else {
+            mainnets.push(net);
+          }
         }
       }
     });
