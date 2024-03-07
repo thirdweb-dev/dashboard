@@ -19,7 +19,6 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
@@ -37,7 +36,6 @@ import {
   AccountPlan,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useMemo, useState } from "react";
-import { UpgradeModal } from "components/homepage/sections/UpgradeModal";
 
 interface ClaimCreditsModalProps {
   isOpen: boolean;
@@ -59,11 +57,6 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
   const isFreePlan = account.data?.plan === AccountPlan.Free;
   const isProPlan = account.data?.plan === AccountPlan.Pro;
   const hasValidPayment = account.data?.status === "validPayment";
-  const {
-    isOpen: isUpgradeModalOpen,
-    onOpen: onUpgradeModalOpen,
-    onClose: onUpgradeModalClose,
-  } = useDisclosure();
 
   const claimableCredits = useMemo(
     () => (isFreePlan ? 250 : 2500),
@@ -158,19 +151,17 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
                       <UnorderedList>
                         <Text as={ListItem}>10k monthly active wallets</Text>
                         <Text as={ListItem}>User analytics</Text>
-                        <Text as={ListItem}>
-                          Custom Auth and Custom Branding
-                        </Text>
+                        <Text as={ListItem}>Custom Auth and Custom Branding</Text>
                       </UnorderedList>
                     </Flex>
-                    <UpgradeModal
-                      name={AccountPlan.Growth}
-                      ctaTitle="Upgrade for $99"
-                      canTrialGrowth={false}
-                      isOpen={isUpgradeModalOpen}
-                      onOpen={onUpgradeModalOpen}
-                      onClose={onUpgradeModalClose}
-                    />
+                    <LinkButton
+                      href="/dashboard/settings/billing"
+                      colorScheme="blue"
+                      size="sm"
+                      variant="outline"
+                    >
+                      Upgrade for $99
+                    </LinkButton>
                   </Card>
                 )}
                 <Card
@@ -256,7 +247,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
               colorScheme="primary"
               onClick={() => {
                 claimCredits(
-                  { customPromoType: "OP_GAS_SPONSOR" },
+                  { customPromoTypes: ["OP_GAS_SPONSOR"] },
                   {
                     onSuccess: () => {
                       onSuccess();
