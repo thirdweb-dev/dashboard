@@ -84,11 +84,13 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
+  console.log({ credits })
+
   const canClaimOptimismCredits = useMemo(() => {
     const plan = meQuery?.data?.plan;
 
     // Condition 1: No credits contain "OP "
-    const noOPCredits =
+    const noOPCredits = !credits ||
       (credits && credits.length === 0) ||
       credits?.every((credit) => !credit.name.includes("OP "));
 
