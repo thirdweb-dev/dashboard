@@ -35,7 +35,6 @@ import {
   useGrantCredits,
   useAccount,
   AccountPlan,
-  useAccountCredits,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useMemo, useState } from "react";
 import { UpgradeModal } from "components/homepage/sections/UpgradeModal";
@@ -56,10 +55,8 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
     "Credits claimed successfully.",
     "Failed to claimed credits.",
   );
-  const { data: credits } = useAccountCredits();
 
   const isFreePlan = account.data?.plan === AccountPlan.Free;
-  const isGrowthPlan = account.data?.plan === AccountPlan.Growth;
   const isProPlan = account.data?.plan === AccountPlan.Pro;
   const hasValidPayment = account.data?.status === "validPayment";
   const {
