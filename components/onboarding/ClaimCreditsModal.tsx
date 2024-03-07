@@ -249,7 +249,7 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
               colorScheme="primary"
               onClick={() => {
                 claimCredits(
-                  { customPromoTypes: ["OP_GAS_SPONSOR"] },
+                  { customPromoType: "OP_GAS_SPONSOR" },
                   {
                     onSuccess: () => {
                       onSuccess();
