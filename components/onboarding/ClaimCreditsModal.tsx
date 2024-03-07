@@ -36,6 +36,7 @@ import {
   AccountPlan,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useMemo, useState } from "react";
+import { ChakraNextImage } from "components/Image";
 
 interface ClaimCreditsModalProps {
   isOpen: boolean;
@@ -279,7 +280,33 @@ export const ClaimCreditsModal: React.FC<ClaimCreditsModalProps> = ({
             }}
           />
           <ModalBody>
-            <Flex flexDir="column" gap={4}>
+            <Flex flexDir="column" gap={4} position="relative">
+              <ChakraNextImage
+                src={require("public/assets/bear-market-airdrop/unboxedGif.gif")}
+                alt="confetti1"
+                position="absolute"
+                top={{
+                  base: -60,
+                  lg: -60,
+                }}
+                left={{
+                  base: -60,
+                  lg: -60,
+                }}
+              />
+              <ChakraNextImage
+                src={require("public/assets/bear-market-airdrop/unboxedGif.gif")}
+                alt="confetti1"
+                position="absolute"
+                top={{
+                  base: -60,
+                  lg: -60,
+                }}
+                left={{
+                  base: 60,
+                  lg: 60,
+                }}
+              />
               <Card as={Flex} alignItems="center" gap={2} flexDir="column">
                 <Heading
                   color="bgBlack"
