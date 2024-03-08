@@ -31,7 +31,7 @@ export type CreditsRecord = {
   ctaHref?: string;
 };
 
-const PlanToCreditsRecord: Record<AccountPlan, CreditsRecord> = {
+export const PlanToCreditsRecord: Record<AccountPlan, CreditsRecord> = {
   [AccountPlan.Free]: {
     title: "Starter",
     credits: "Up to $250",

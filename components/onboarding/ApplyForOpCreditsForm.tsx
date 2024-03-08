@@ -1,12 +1,38 @@
+import { AccountPlan, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Box,
   Flex,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  FormControl,
+  Icon,
+  Input,
+  Select,
+  FormLabel,
+  Textarea,
 } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import { Button, Text } from "tw-components";
+import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
+
+interface FormSchema {
+  firstname: string;
+  lastname: string;
+  thirdweb_account_id: string;
+  plan_type: string;
+  email: string;
+  "0-2/name": string;
+  "0-2/product_type": string;
+  "0-2/op_superchain_list": string;
+  what_would_you_like_to_meet_about_: string;
+}
 
 interface ApplyForOpCreditsFormProps {
   onClose: () => void;
@@ -15,25 +41,150 @@ interface ApplyForOpCreditsFormProps {
 export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
   onClose,
 }) => {
+  const { data: account } = useAccount();
+  const transformedQueryData = useMemo(
+    () => ({
+      firstname: "",
+      lastname: "",
+      thirdweb_account_id: account?.id || "",
+      plan_type: PlanToCreditsRecord[account?.plan || AccountPlan.Free].title,
+      email: account?.email || "",
+      "0-2/name": "",
+      "0-2/product_type": "Brand / Commerce",
+      "0-2/op_superchain_list": "Optimism",
+      what_would_you_like_to_meet_about_: "",
+    }),
+    [account],
+  );
+
+  const form = useForm<FormSchema>({
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
+  });
+
+  const trackEvent = useTrack();
+
   const { onSuccess, onError } = useTxNotifications(
     "Credits claimed successfully.",
     "Failed to claimed credits.",
   );
 
   return (
-    <ModalContent>
+    <ModalContent
+      as="form"
+      onSubmit={form.handleSubmit(async (data) => {
+        const fields = Object.keys(data).map((key) => ({
+          name: key,
+          value: (data as any)[key],
+        }));
+
+        trackEvent({
+          category: "op-sponsorship",
+          action: "apply",
+          label: "attempt",
+        });
+
+        try {
+          const response = await fetch("/api/apply-op-sponsorship", {
+            method: "POST",
+            body: JSON.stringify({ fields }),
+          });
+
+          if (!response.ok) {
+            trackEvent({
+              category: "op-sponsorship",
+              action: "apply",
+              label: "error",
+              error: "form-submission-failed",
+            });
+            throw new Error("Form submission failed");
+          }
+
+          await response.json();
+
+          trackEvent({
+            category: "op-sponsorship",
+            action: "apply",
+            label: "success",
+          });
+
+          onSuccess();
+          onClose();
+
+          form.reset();
+        } catch (error) {
+          trackEvent({
+            category: "op-sponsorship",
+            action: "apply",
+            label: "error",
+            error: (error as Error).message,
+          });
+          onError(error);
+        }
+      })}
+    >
       <ModalHeader textAlign="center">Gas Credits Application</ModalHeader>
       <ModalCloseButton
         onClick={() => {
           onClose();
         }}
       />
-      <ModalBody>
-        <Flex as="form" flexDir="column">
-          form
+      <ModalBody as={Flex} flexDir="column" gap={4}>
+        <Flex gap={4}>
+          <FormControl gap={6} isRequired>
+            <FormLabel>First Name</FormLabel>
+            <Input {...form.register("firstname", { required: true })} />
+          </FormControl>
+          <FormControl gap={6} isRequired>
+            <FormLabel>Last Name</FormLabel>
+            <Input {...form.register("lastname", { required: true })} />
+          </FormControl>
         </Flex>
+        <FormControl gap={6} isRequired>
+          <FormLabel>Company Name</FormLabel>
+          <Input {...form.register("0-2/name", { required: true })} />
+        </FormControl>
+        <FormControl gap={6} isRequired>
+          <FormLabel>Vertical</FormLabel>
+          <Select {...form.register("0-2/product_type", { required: true })}>
+            <option value="Brand / Commerce">Brand / Commerce</option>
+            <option value="Game">Game</option>
+            <option value="Tech">Tech</option>
+            <option value="Protocols & Chains">Protocols & Chains</option>
+          </Select>
+        </FormControl>
+        <FormControl gap={6} isRequired>
+          <FormLabel>Chain</FormLabel>
+          <Select
+            {...form.register("0-2/op_superchain_list", { required: true })}
+          >
+            <option value="Optimism">OP Mainnet</option>
+            <option value="Base">Base</option>
+            <option value="Zora">Zora</option>
+            <option value="Mode">Mode</option>
+            <option value="Frax">Frax</option>
+            <option value="Lisk">Lisk</option>
+          </Select>
+        </FormControl>
+        <FormControl gap={6}>
+          <FormLabel>Tell us more about your project</FormLabel>
+          <Textarea
+            {...form.register("what_would_you_like_to_meet_about_", {
+              required: true,
+            })}
+          />
+        </FormControl>
       </ModalBody>
-      <ModalFooter />
+      <ModalFooter>
+        <Button
+          w="full"
+          type="submit"
+          colorScheme="primary"
+          isDisabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Applying..." : "Apply now"}
+        </Button>
+      </ModalFooter>
     </ModalContent>
   );
 };
