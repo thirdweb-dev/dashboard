@@ -262,18 +262,6 @@ const DashboardConnectAnalytics: ThirdwebNextPage = () => {
         <Flex flexDir="column" gap={8}>
           {statsQuery.data && statsQuery.data.timeSeries.length > 0 ? (
             <>
-              <Text size="body.md">
-                Showing data for the <b>last 7 days</b>. Need more insights?{" "}
-                <TrackedLink
-                  href={CONTACT_US_URL}
-                  category={TRACKING_CATEGORY}
-                  label="contact-us"
-                  color="blue.500"
-                  isExternal
-                >
-                  Contact us.
-                </TrackedLink>
-              </Text>
               <Flex gap={4}>
                 <WalletStatCard
                   label="Connections"
