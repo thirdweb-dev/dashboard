@@ -83,27 +83,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   }, [apiKeysQuery?.data]);
 
   const canClaimOptimismCredits = useMemo(() => {
-    const plan = meQuery?.data?.plan;
-
-    // Condition 1: No credits contain "OP "
-    const noOPCredits =
-      !credits ||
-      (credits && credits.length === 0) ||
-      credits?.every((credit) => !credit.name.includes("OP "));
-
-    // Condition 2: Plan is Growth and there's no credit containing "OP Growth"
-    const isGrowthWithoutOPGrowth =
-      plan === AccountPlan.Growth &&
-      ((credits && credits.length === 0) ||
-        credits?.every((credit) => !credit.name.includes("OP Growth")));
-
-    // Condition 3: Plan is Pro and there's no credit containing "OP Pro"
-    const isProWithoutOPPro =
-      plan === AccountPlan.Pro &&
-      ((credits && credits.length === 0) ||
-        credits?.every((credit) => !credit.name.includes("OP Pro")));
-
-    return noOPCredits || isGrowthWithoutOPGrowth || isProWithoutOPPro;
+    return true;
   }, [credits, meQuery?.data?.plan]);
 
   const currentStep = useMemo(() => {
