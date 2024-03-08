@@ -23,6 +23,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ creditsRecord }) => {
           </Badge>
         </Box>
         <Flex flexDir="column" gap={1}>
+          <Text color="faded">{creditsRecord.upTo ? "Up to" : "\u00A0"}</Text>
           <Heading color="bgBlack" size="title.md" fontWeight="extrabold">
             {creditsRecord.credits}
           </Heading>
@@ -33,7 +34,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ creditsRecord }) => {
         {creditsRecord.features && (
           <UnorderedList>
             {creditsRecord.features.map((feature) => (
-              <Text as={ListItem} key={feature}>
+              <Text as={ListItem} key={feature} color="faded">
                 {feature}
               </Text>
             ))}

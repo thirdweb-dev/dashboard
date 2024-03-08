@@ -25,6 +25,7 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 
 export type CreditsRecord = {
   title: string;
+  upTo?: true;
   credits: string;
   color: string;
   features?: string[];
@@ -35,12 +36,14 @@ export type CreditsRecord = {
 export const PlanToCreditsRecord: Record<AccountPlan, CreditsRecord> = {
   [AccountPlan.Free]: {
     title: "Starter",
-    credits: "Up to $250",
+    upTo: true,
+    credits: "$250",
     color: "#3b394b",
   },
   [AccountPlan.Growth]: {
     title: "Growth",
-    credits: "Up to $2,500",
+    upTo: true,
+    credits: "$2,500",
     color: "#28622A",
     features: [
       "10k monthly active wallets",
@@ -132,7 +135,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                     </Badge>
                   </Box>
                   <Flex alignItems="center" gap={2} flexDir="column">
-                    <Text textAlign="center">You&apos;re eligible for</Text>
+                    <Text textAlign="center" color="faded">{creditsRecord.upTo && "Up to"}</Text>
                     <Heading
                       color="bgBlack"
                       size="title.lg"
@@ -161,7 +164,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                         <AlertDescription as={Text}>
                           You need to add a payment method to be able to claim
                           credits. This is to prevent abuse, you will not be
-                          charges.{" "}
+                          charged.{" "}
                           <Text
                             as="span"
                             onClick={onPaymentMethodOpen}
@@ -201,7 +204,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                   />
                 </SimpleGrid>
               </Flex>
-              <Text mt={6} textAlign="center">
+              <Text mt={6} textAlign="center" color="faded">
                 We are open to distributing more than the upper limit for each
                 tier if you make a strong case about how it will be utilized.
               </Text>
