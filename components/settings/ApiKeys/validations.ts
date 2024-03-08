@@ -126,6 +126,11 @@ export const apiKeyEmbeddedWalletsValidationSchema = z.object({
   redirectUrls: z.union([z.undefined(), z.string()]),
 });
 
+export const apiKeyPayConfigValidationSchema = z.object({
+  developerFeeBPS: z.number(),
+  payoutAddress: z.string(),
+});
+
 export type ApiKeyCreateValidationSchema = z.infer<
   typeof apiKeyCreateValidationSchema
 >;
@@ -134,6 +139,10 @@ export type ApiKeyValidationSchema = z.infer<typeof apiKeyValidationSchema>;
 
 export type ApiKeyEmbeddedWalletsValidationSchema = z.infer<
   typeof apiKeyEmbeddedWalletsValidationSchema
+>;
+
+export type ApiKeyPayConfigValidationSchema = z.infer<
+  typeof apiKeyPayConfigValidationSchema
 >;
 
 // FIXME: Remove
