@@ -20,7 +20,7 @@ import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
 import { FiExternalLink } from "react-icons/fi";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { BillingCredits } from "./PlanCard";
+import { BillingPlanCard } from "./PlanCard";
 
 interface BillingProps {
   account: Account;
@@ -41,9 +41,9 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   const [stepsCompleted, setStepsCompleted] = useState<
     | undefined
     | {
-      account: boolean;
-      payment: boolean;
-    }
+        account: boolean;
+        payment: boolean;
+      }
   >();
 
   const [downgradePlan, setDowngradePlan] = useState<AccountPlan | undefined>();
@@ -245,6 +245,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
             validPayment={validPayment}
             paymentVerification={paymentVerification}
           />
+          <BillingPlanCard />
           <AccountForm account={account} disableUnchanged showBillingButton />
         </>
       )}
@@ -273,8 +274,6 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
           <Icon as={FiExternalLink} />
         </HStack>
       </TrackedLink>
-
-      <BillingCredits />
 
       {downgradePlan && (
         <BillingDowngradeDialog
