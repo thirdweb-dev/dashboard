@@ -11,7 +11,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Card, Heading, LinkButton, Text } from "tw-components";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ApiKey,
@@ -36,10 +36,8 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { GatedFeature } from "components/settings/Account/Billing/GatedFeature";
-import { CONTACT_US_URL } from "utils/pricing";
 
 const RADIAN = Math.PI / 180;
-const TRACKING_CATEGORY = "wallet-analytics";
 
 const DashboardConnectAnalytics: ThirdwebNextPage = () => {
   const { colorMode } = useColorMode();
