@@ -98,8 +98,6 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
   const creditsRecord =
     PlanToCreditsRecord[account.data?.plan || AccountPlan.Free];
 
-  console.log({ hasAppliedForOpGrant });
-
   return (
     <>
       <Modal

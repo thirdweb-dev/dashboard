@@ -44,8 +44,8 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({ credit }) => {
           <Text color="bgBlack" textTransform="capitalize">
             {credit?.expiresAt
               ? formatDistance(new Date(credit.expiresAt), Date.now(), {
-                addSuffix: true,
-              })
+                  addSuffix: true,
+                })
               : "N/A"}
           </Text>
         </Flex>
