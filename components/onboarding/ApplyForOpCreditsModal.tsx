@@ -105,6 +105,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
         onClose={onClose}
         isCentered
         onOverlayClick={() => setPage("eligible")}
+        size="lg"
       >
         <ModalOverlay />
         {page === "eligible" ? (
