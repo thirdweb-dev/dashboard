@@ -1,7 +1,6 @@
 import {
   AccountStatus,
   useAccount,
-  useAccountCredits,
   useApiKeys,
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
@@ -54,7 +53,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   const apiKeysQuery = useApiKeys();
   const router = useRouter();
   const trackEvent = useTrack();
-  const { data: credits } = useAccountCredits();
   const {
     isOpen: isClaimCreditsOpen,
     onOpen: onClaimCreditsOpen,
@@ -83,7 +81,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
 
   const canClaimOptimismCredits = useMemo(() => {
     return true;
-  }, [credits, meQuery?.data?.plan]);
+  }, []);
 
   const currentStep = useMemo(() => {
     if (onlyOptimism) {
