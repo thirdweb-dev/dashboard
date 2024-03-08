@@ -290,7 +290,7 @@ const SearchResult: React.FC<{
                 gap={3}
                 bgGradient="linear(to-r, #701953, #5454B2)"
               >
-                <Heading size="label.sm" as="label">
+                <Heading size="label.sm" as="label" color="#fff">
                   Sponsored
                 </Heading>
               </Flex>

@@ -118,9 +118,8 @@ const ChainPage: ThirdwebNextPage = ({
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
-    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-  }.`;
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+    }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
@@ -146,83 +145,80 @@ const ChainPage: ThirdwebNextPage = ({
         }}
       />
       <Box w="full" py={6}>
-        <DarkMode>
-          <Container
-            zIndex={2}
-            position="relative"
-            maxW="container.page"
-            as={Flex}
-            flexDirection="column"
-            gap={6}
+        <Container
+          zIndex={2}
+          position="relative"
+          maxW="container.page"
+          as={Flex}
+          flexDirection="column"
+          gap={6}
+        >
+          <Flex
+            justify="space-between"
+            as="header"
+            gap={4}
+            align="center"
+            flexDirection={{ base: "column", md: "row" }}
           >
             <Flex
-              justify="space-between"
-              as="header"
-              gap={4}
+              gap={6}
               align="center"
-              flexDirection={{ base: "column", md: "row" }}
+              flexGrow={1}
+              flexDir={{ base: "column", md: "row" }}
             >
-              <Flex
-                gap={6}
-                align="center"
-                flexGrow={1}
-                flexDir={{ base: "column", md: "row" }}
-              >
-                {chain.icon && (
-                  <Center
-                    boxSize={20}
-                    overflow="hidden"
-                    bg="linear-gradient(180deg, rgba(255,255,255, 0.8), rgba(255,255,255, 1), rgba(255,255,255, 0.8))"
-                    borderRadius="full"
-                    p={2.5}
-                  >
-                    <ChainIcon
-                      ipfsSrc={chain.icon?.url}
-                      size="100%"
-                      borderRadius="50%"
-                    />
-                  </Center>
-                )}
+              {chain.icon && (
                 <Flex
-                  direction="column"
-                  gap={3}
-                  alignItems={{ base: "center", md: "flex-start" }}
+                  boxSize={20}
+                  overflow="hidden"
+                  borderRadius="full"
                 >
-                  <Heading size="title.lg" as="h1">
-                    {sanitizedChainName}{" "}
-                    {sanitizedChainName.length > 10 && <br />}
-                    <Box
-                      as="span"
-                      opacity={0.6}
-                      fontWeight={400}
-                      fontSize="0.8em"
-                    >
-                      ({chain.nativeCurrency.symbol})
-                    </Box>
-                  </Heading>
+                  <ChainIcon
+                    ipfsSrc={chain.icon?.url}
+                    size="100%"
+                    borderRadius="50%"
+                  />
                 </Flex>
-              </Flex>
-              {!isDeprecated && (
-                <ClientOnly ssr={null}>
-                  <LinkButton
-                    as={TrackedLink}
-                    {...{
-                      category: CHAIN_CATEGORY,
-                    }}
-                    background="bgBlack"
-                    color="bgWhite"
-                    _hover={{
-                      opacity: 0.8,
-                    }}
-                    href="/explore"
-                  >
-                    Deploy to {sanitizedChainName}
-                  </LinkButton>
-                </ClientOnly>
               )}
+              <Flex
+                direction="column"
+                gap={3}
+                alignItems={{ base: "center", md: "flex-start" }}
+              >
+                <Heading size="title.lg" as="h1" >
+                  {sanitizedChainName}{" "}
+                  {sanitizedChainName.length > 10 && <br />}
+                  <Box
+                    as="span"
+                    opacity={0.6}
+                    fontWeight={400}
+                    fontSize="0.8em"
+                    color="faded"
+                  >
+                    ({chain.nativeCurrency.symbol})
+                  </Box>
+                </Heading>
+              </Flex>
             </Flex>
-          </Container>
-        </DarkMode>
+            {!isDeprecated && (
+              <ClientOnly ssr={null}>
+                <LinkButton
+                  as={TrackedLink}
+                  {...{
+                    category: CHAIN_CATEGORY,
+                  }}
+                  background="bgBlack"
+                  color="bgWhite"
+                  _hover={{
+                    opacity: 0.8,
+                  }}
+                  href="/explore"
+                >
+                  Deploy to {sanitizedChainName}
+                </LinkButton>
+              </ClientOnly>
+            )}
+          </Flex>
+        </Container>
       </Box>
 
       <Container
@@ -233,7 +229,9 @@ const ChainPage: ThirdwebNextPage = ({
         gap={10}
       >
         <DeprecatedAlert chain={chain} />
-        {isSponsored && <OnboardingSteps onlyOptimism />}
+        <ClientOnly ssr={null}>
+          {isSponsored && <OnboardingSteps onlyOptimism />}
+        </ClientOnly>
 
         <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
           {chain.infoURL && (

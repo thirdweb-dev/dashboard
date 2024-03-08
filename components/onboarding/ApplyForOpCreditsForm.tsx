@@ -67,7 +67,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
   const trackEvent = useTrack();
 
   const { onSuccess, onError } = useTxNotifications(
-    "We have received your application and will notify you if you are chosen.",
+    "We have received your application and will notify you if you are selected.",
     "Something went wrong, please try again.",
   );
 

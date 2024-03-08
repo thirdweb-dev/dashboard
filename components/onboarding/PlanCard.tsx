@@ -26,14 +26,14 @@ export const PlanCard: React.FC<PlanCardProps> = ({ creditsRecord }) => {
           <Heading color="bgBlack" size="title.md" fontWeight="extrabold">
             {creditsRecord.credits}
           </Heading>
-          <Text letterSpacing="wider" fontWeight="bold" color="faded">
+          <Text letterSpacing="wider" fontWeight="bold">
             GAS CREDITS
           </Text>
         </Flex>
         {creditsRecord.features && (
           <UnorderedList>
             {creditsRecord.features.map((feature) => (
-              <Text as={ListItem} key={feature} color="faded">
+              <Text as={ListItem} key={feature}>
                 {feature}
               </Text>
             ))}
