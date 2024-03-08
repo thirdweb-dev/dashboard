@@ -15,7 +15,7 @@ import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
 import { PayConfig } from "components/pay/PayConfig";
 
-const TRACKING_CATEGORY = "pay";
+// const TRACKING_CATEGORY = "pay";
 
 const DashboardConnectPay: ThirdwebNextPage = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
 
   const apiKeys = useMemo(() => {
     return (keysQuery?.data || []).filter((key) => {
-      return !!(key.services || []).find((srv) => true /*srv.name === "pay"*/);
+      return !!(key.services || []).find((srv) => srv.name === "pay");
     });
   }, [keysQuery]);
 
