@@ -10,10 +10,9 @@ import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { getAllMultichainRegistry } from "dashboard-extensions/common/read/getAllMultichainRegistry";
 import { polygon } from "thirdweb/chains";
-import { defineChain, getContract } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
-import { PROD_OR_DEV_URL } from "constants/rpc";
 
 export const MULTICHAIN_REGISTRY_ADDRESS =
   "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
@@ -21,10 +20,7 @@ export const MULTICHAIN_REGISTRY_ADDRESS =
 const registryContract = getContract({
   client: thirdwebClient,
   address: MULTICHAIN_REGISTRY_ADDRESS,
-  chain: defineChain({
-    ...polygon,
-    rpc: `https://137.rpc.${PROD_OR_DEV_URL}`,
-  }),
+  chain: defineDashboardChain(polygon.id),
 });
 
 export function useMultiChainRegContractList(walletAddress?: string) {

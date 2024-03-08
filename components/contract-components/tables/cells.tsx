@@ -4,10 +4,11 @@ import { ChakraNextLink, Text } from "tw-components";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { usePublishedContractsFromDeploy } from "../hooks";
-import { getContract, defineChain } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
-import { useContractMetadataAndName } from "dashboard-extensions/hooks/useContractMetadataAndName";
+import { getContractMetadata } from "thirdweb/extensions/common";
+import { useReadContract } from "thirdweb/react";
 
 interface AsyncContractNameCellProps {
   cell: BasicContract;
@@ -20,13 +21,15 @@ export const AsyncContractNameCell = memo(
     const contract = getContract({
       client: thirdwebClient,
       address: cell.address,
-      chain: defineChain(cell.chainId),
+      chain: defineDashboardChain(cell.chainId),
     });
 
-    const contractMetadataAndName = useContractMetadataAndName(contract);
+    const contractMetadata = useReadContract(getContractMetadata, {
+      contract,
+    });
 
     return (
-      <Skeleton isLoaded={!contractMetadataAndName.isFetching}>
+      <Skeleton isLoaded={!contractMetadata.isFetching}>
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
           <Text
             color="blue.500"
@@ -34,8 +37,7 @@ export const AsyncContractNameCell = memo(
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {contractMetadataAndName.data?.name ||
-              shortenIfAddress(cell.address)}
+            {contractMetadata.data?.name || shortenIfAddress(cell.address)}
           </Text>
         </ChakraNextLink>
       </Skeleton>

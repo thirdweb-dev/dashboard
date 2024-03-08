@@ -42,8 +42,8 @@ import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
-import { defineChain, getContract } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -162,7 +162,7 @@ const ContractPage: ThirdwebNextPage = () => {
     return getContract({
       address: contractAddress,
       client: thirdwebClient,
-      chain: defineChain(chain?.chainId),
+      chain: defineDashboardChain(chain?.chainId),
     });
   }, [contractAddress, chain?.chainId]);
 
@@ -270,13 +270,11 @@ const ContractPage: ThirdwebNextPage = () => {
 export default ContractPage;
 ContractPage.pageId = PageId.DeployedContract;
 ContractPage.getLayout = (page, props: EVMContractProps) => {
-  const displayName = `${
-    props.contractMetadata?.name ||
+  const displayName = `${props.contractMetadata?.name ||
     shortenIfAddress(props.contractInfo?.contractAddress) ||
     "Contract"
-  }${
-    props.contractMetadata?.symbol ? ` (${props.contractMetadata.symbol})` : ""
-  }`;
+    }${props.contractMetadata?.symbol ? ` (${props.contractMetadata.symbol})` : ""
+    }`;
 
   const ogImage = ContractOG.toUrl({
     displayName: props.contractMetadata?.name || "",
@@ -290,9 +288,8 @@ ContractPage.getLayout = (page, props: EVMContractProps) => {
     .replace("Testnet", "")
     .trim();
   const url = `${THIRDWEB_DOMAIN}/${props.contractInfo?.chainSlug}/${props.contractInfo?.contractAddress}/`;
-  const SEOTitle = `${displayName} | ${
-    cleanedChainName ? `${cleanedChainName} ` : ""
-  }Smart Contract`;
+  const SEOTitle = `${displayName} | ${cleanedChainName ? `${cleanedChainName} ` : ""
+    }Smart Contract`;
 
   let SEOdescription = "";
 
@@ -301,17 +298,14 @@ ContractPage.getLayout = (page, props: EVMContractProps) => {
     props.detectedExtension === "erc721" ||
     props.detectedExtension === "erc1155"
   ) {
-    SEOdescription = `View tokens, source code, transactions, balances, and analytics for the ${displayName} smart contract${
-      cleanedChainName ? ` on ${cleanedChainName}` : ""
-    }.`;
+    SEOdescription = `View tokens, source code, transactions, balances, and analytics for the ${displayName} smart contract${cleanedChainName ? ` on ${cleanedChainName}` : ""
+      }.`;
   } else if (props.detectedExtension === "erc20") {
-    SEOdescription = `View ERC20 tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${
-      cleanedChainName ? ` on ${cleanedChainName}` : ""
-    }.`;
+    SEOdescription = `View ERC20 tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${cleanedChainName ? ` on ${cleanedChainName}` : ""
+      }.`;
   } else {
-    SEOdescription = `View tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${
-      cleanedChainName ? ` on ${cleanedChainName}` : ""
-    }.`;
+    SEOdescription = `View tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${cleanedChainName ? ` on ${cleanedChainName}` : ""
+      }.`;
   }
 
   return (
@@ -333,13 +327,13 @@ ContractPage.getLayout = (page, props: EVMContractProps) => {
             description: SEOdescription,
             images: ogImage
               ? [
-                  {
-                    url: ogImage.toString(),
-                    alt: ``,
-                    width: 1200,
-                    height: 630,
-                  },
-                ]
+                {
+                  url: ogImage.toString(),
+                  alt: ``,
+                  width: 1200,
+                  height: 630,
+                },
+              ]
               : undefined,
             url,
           }}

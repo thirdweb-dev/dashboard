@@ -2,9 +2,10 @@ import { Flex, LinkBox, LinkOverlay, Skeleton } from "@chakra-ui/react";
 import { Card, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { defineChain, getContract } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
-import { useContractMetadataAndName } from "dashboard-extensions/hooks/useContractMetadataAndName";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { useReadContract } from "thirdweb/react";
+import { getContractMetadata } from "thirdweb/extensions/common";
 
 interface PaymentEnabledCardProps {
   contract: {
@@ -25,11 +26,15 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
   const contract = getContract({
     client: thirdwebClient,
     address,
-    chain: defineChain(chainId),
+    chain: defineDashboardChain(chainId),
   });
 
-  const { data: contractMetadataAndName, isSuccess } =
-    useContractMetadataAndName(contract);
+  const { data: contractMetadata, isSuccess } = useReadContract(
+    getContractMetadata,
+    {
+      contract,
+    },
+  );
 
   return (
     <LinkBox>
@@ -48,7 +53,7 @@ export const PaymentEnabledCard: React.FC<PaymentEnabledCardProps> = ({
           <Text color="bgBlack">
             <LinkOverlay href={`/${chainSlug}/${address}/payments`}>
               <Skeleton isLoaded={isSuccess}>
-                {contractMetadataAndName?.name || display_name}
+                {contractMetadata?.name || display_name}
               </Skeleton>
             </LinkOverlay>
           </Text>
