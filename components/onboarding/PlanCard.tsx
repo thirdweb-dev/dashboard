@@ -26,7 +26,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ creditsRecord }) => {
           <Heading color="bgBlack" size="title.md" fontWeight="extrabold">
             {creditsRecord.credits}
           </Heading>
-          <Text letterSpacing="wider" fontWeight="bold">
+          <Text letterSpacing="wider" fontWeight="bold" color="faded">
             GAS CREDITS
           </Text>
         </Flex>

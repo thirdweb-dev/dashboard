@@ -201,7 +201,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                   />
                 </SimpleGrid>
               </Flex>
-              <Text mt={6} color="faded" textAlign="center">
+              <Text mt={6} textAlign="center">
                 We are open to distributing more than the upper limit for each
                 tier if you make a strong case about how it will be utilized.
               </Text>
