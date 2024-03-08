@@ -29,6 +29,7 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
+import { OPSponsoredChains } from "pages/chainlist";
 import { BsArrowRight } from "react-icons/bs";
 import {
   FiAlertCircle,
@@ -124,6 +125,7 @@ const ChainPage: ThirdwebNextPage = ({
   const isLineaTestnet = chain?.chainId === 59140;
 
   const isDeprecated = chain?.status === "deprecated";
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
 
   return (
     <>
@@ -231,7 +233,7 @@ const ChainPage: ThirdwebNextPage = ({
         gap={10}
       >
         <DeprecatedAlert chain={chain} />
-        <OnboardingSteps onlyOptimism />
+        {isSponsored && <OnboardingSteps onlyOptimism />}
 
         <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
           {chain.infoURL && (
