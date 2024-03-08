@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const PaymentsPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/dashboard/payments/contracts');
+    router.push("/dashboard/payments/contracts");
   }, [router]);
 
   return null;

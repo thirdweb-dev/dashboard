@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const DashboardConnect = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/dashboard/connect/playground');
+    router.push("/dashboard/connect/playground");
   }, [router]);
 
   return null;
