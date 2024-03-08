@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { Button, Text } from "tw-components";
 import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
+import { ChakraNextImage } from "components/Image";
 
 interface FormSchema {
   firstname: string;
@@ -65,8 +66,8 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
   const trackEvent = useTrack();
 
   const { onSuccess, onError } = useTxNotifications(
-    "Credits claimed successfully.",
-    "Failed to claimed credits.",
+    "We have received your application and will notify you if you are chosen.",
+    "Something went wrong, please try again.",
   );
 
   return (
@@ -130,6 +131,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         }}
       />
       <ModalBody as={Flex} flexDir="column" gap={4}>
+        <ChakraNextImage src={require("public/assets/dashboard/op-sponsorship-form.png")} alt="" w="full" />
         <Flex gap={4}>
           <FormControl gap={6} isRequired>
             <FormLabel>First Name</FormLabel>
