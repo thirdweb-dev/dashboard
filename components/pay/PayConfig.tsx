@@ -56,7 +56,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                   !!form.getFieldState(`payoutAddress`, form.formState).error
                 }
               >
-                <FormLabel size="label.sm">Payout address</FormLabel>
+                <FormLabel size="label.sm">Recipient address</FormLabel>
                 <Input
                   placeholder="0x0000000000000000000000000000000000000000"
                   type="text"
@@ -64,7 +64,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 />
                 {!form.getFieldState(`payoutAddress`, form.formState).error ? (
                   <FormHelperText>
-                    Your wallet address to receive transaction fee funds
+                    Collected fees will be sent to this address
                   </FormHelperText>
                 ) : (
                   <FormErrorMessage>
@@ -81,7 +81,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                   !!form.getFieldState(`developerFeeBPS`, form.formState).error
                 }
               >
-                <FormLabel size="label.sm">Fee BPS</FormLabel>
+                <FormLabel size="label.sm">Fee (BPS)</FormLabel>
                 <Input
                   placeholder="https://"
                   type="text"
@@ -90,8 +90,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 {!form.getFieldState(`developerFeeBPS`, form.formState)
                   .error ? (
                   <FormHelperText>
-                    The amount (in basis points) of fee you will take on each
-                    transaction.
+                    Set your fee percentage (in basis points).
                   </FormHelperText>
                 ) : (
                   <FormErrorMessage>
