@@ -1,5 +1,8 @@
 import { createThirdwebClient, defineChain } from "thirdweb";
-import { DASHBOARD_THIRDWEB_CLIENT_ID, PROD_OR_DEV_URL } from "../constants/rpc";
+import {
+  DASHBOARD_THIRDWEB_CLIENT_ID,
+  PROD_OR_DEV_URL,
+} from "../constants/rpc";
 import { IPFS_GATEWAY_URL } from "./sdk";
 
 export const thirdwebClient = createThirdwebClient({
