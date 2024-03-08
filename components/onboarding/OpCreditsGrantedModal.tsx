@@ -5,9 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Card,
   Flex,
-  Heading,
   Link,
   Modal,
   ModalBody,
@@ -18,10 +16,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { Text } from "tw-components";
+import { Text, Card, Heading } from "tw-components";
 
 export const OpCreditsGrantedModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

@@ -21,7 +21,6 @@ import { OnboardingModal } from "components/onboarding/Modal";
 import { FiExternalLink } from "react-icons/fi";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { BillingCredits } from "./Credits";
-import { OnboardingSteps } from "components/onboarding/Steps";
 
 interface BillingProps {
   account: Account;
@@ -42,9 +41,9 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   const [stepsCompleted, setStepsCompleted] = useState<
     | undefined
     | {
-      account: boolean;
-      payment: boolean;
-    }
+        account: boolean;
+        payment: boolean;
+      }
   >();
 
   const [downgradePlan, setDowngradePlan] = useState<AccountPlan | undefined>();

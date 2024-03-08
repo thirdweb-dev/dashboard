@@ -117,8 +117,9 @@ const ChainPage: ThirdwebNextPage = ({
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-    }.`;
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
+    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+  }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
@@ -621,4 +622,3 @@ export const getStaticPaths: GetStaticPaths = () => {
     paths: [],
   };
 };
-

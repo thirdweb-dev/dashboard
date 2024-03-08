@@ -1,12 +1,5 @@
-import {
-  Flex,
-  Badge,
-  Heading,
-  UnorderedList,
-  ListItem,
-  Box,
-} from "@chakra-ui/react";
-import { LinkButton, Text, Card } from "tw-components";
+import { Flex, UnorderedList, ListItem, Box } from "@chakra-ui/react";
+import { LinkButton, Text, Card, Badge, Heading } from "tw-components";
 import { CreditsRecord } from "./ApplyForOpCreditsModal";
 
 interface PlanCardProps {
@@ -18,7 +11,12 @@ export const PlanCard: React.FC<PlanCardProps> = ({ creditsRecord }) => {
     <Card as={Flex} justifyContent="space-between" flexDir="column" gap={2}>
       <Flex flexDir="column" gap={2}>
         <Box>
-          <Badge borderRadius="full" size="label.sm" px={3} bgColor={creditsRecord.color}>
+          <Badge
+            borderRadius="full"
+            size="label.sm"
+            px={3}
+            bgColor={creditsRecord.color}
+          >
             <Text color="#fff" textTransform="capitalize" fontWeight="bold">
               {creditsRecord.title}
             </Text>

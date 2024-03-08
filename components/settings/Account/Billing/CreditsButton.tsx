@@ -11,13 +11,10 @@ import {
   Flex,
   ModalFooter,
 } from "@chakra-ui/react";
-import { ChainIcon } from "components/icons/ChainIcon";
-import { formatDistance } from "date-fns";
 import { Button, Card, Text } from "tw-components";
-import { Optimism } from "@thirdweb-dev/chains";
-import { ApplyForOpCreditsModal } from "components/onboarding/ApplyForOpCreditsModal";
+import { CreditsItem } from "./CreditsItem";
 
-const formatToDollars = (cents: number) => {
+export const formatToDollars = (cents: number) => {
   const dollars = cents / 100;
   return new Intl.NumberFormat(undefined, {
     style: "currency",
@@ -27,16 +24,12 @@ const formatToDollars = (cents: number) => {
 
 export const CreditsButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isMoreCreditsOpen,
-    onOpen: onMoreCreditsOpen,
-    onClose: onMoreCreditsClose,
-  } = useDisclosure();
+
   const { isLoggedIn } = useLoggedInUser();
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
   const totalCreditBalance = credits?.reduce(
-    (acc, credit) => acc + credit.remainingValueUsdCents,
+    (acc, crd) => acc + crd.remainingValueUsdCents,
     0,
   );
 
@@ -44,74 +37,30 @@ export const CreditsButton = () => {
     return null;
   }
 
+  const credit = credits?.find((crd) => crd.name.includes("OP "));
+
   return (
     <>
       <Button onClick={onOpen} variant="outline" colorScheme="blue" size="sm">
-        Credits: {formatToDollars(totalCreditBalance || 0)}
+        <Text color="bgBlack" fontWeight="bold">
+          Credits: {formatToDollars(totalCreditBalance || 0)}
+        </Text>
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
           <ModalHeader>Credits Balance</ModalHeader>
           <ModalBody>
             <Flex flexDir="column" gap={4}>
-              {credits && credits?.length > 0 ? (
-                credits.map((credit) => (
-                  <Card
-                    key={credit.name}
-                    p={6}
-                    as={Flex}
-                    flexDir="column"
-                    gap={2}
-                  >
-                    <Flex gap={2}>
-                      {credit.name.includes("OP ") && (
-                        <ChainIcon ipfsSrc={Optimism.icon.url} size={24} />
-                      )}
-                      <Text color="bgBlack" fontWeight="bold">
-                        {credit.name}
-                      </Text>
-                    </Flex>
-                    <Text>
-                      Current credit balance:{" "}
-                      <Text as="span" fontWeight="bold">
-                        {formatToDollars(credit.remainingValueUsdCents)}{" "}
-                      </Text>
-                      <Text as="span">
-                        (Expires{" "}
-                        {formatDistance(
-                          new Date(credit.expiresAt),
-                          Date.now(),
-                          {
-                            addSuffix: true,
-                          },
-                        )}
-                        )
-                      </Text>
-                    </Text>
-                  </Card>
-                ))
-              ) : (
-                <Text fontStyle="italic">No credits found.</Text>
-              )}
+              <Card p={6} as={Flex} flexDir="column" gap={3}>
+                <CreditsItem credit={credit} />
+              </Card>
             </Flex>
-            <Text
-              pt={4}
-              onClick={onMoreCreditsOpen}
-              color="blue.500"
-              cursor="pointer"
-            >
-              Get more credits.
-            </Text>
           </ModalBody>
           <ModalFooter />
         </ModalContent>
       </Modal>
-      <ApplyForOpCreditsModal
-        isOpen={isMoreCreditsOpen}
-        onClose={onMoreCreditsClose}
-      />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { AccountPlan, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
-  Box,
   Flex,
   ModalBody,
   ModalCloseButton,
@@ -8,18 +7,15 @@ import {
   ModalFooter,
   ModalHeader,
   FormControl,
-  Icon,
   Input,
   Select,
-  FormLabel,
   Textarea,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { BsFillLightningChargeFill } from "react-icons/bs";
-import { Button, Text } from "tw-components";
+import { Button, FormLabel } from "tw-components";
 import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
 import { ChakraNextImage } from "components/Image";
 
@@ -131,7 +127,11 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         }}
       />
       <ModalBody as={Flex} flexDir="column" gap={4}>
-        <ChakraNextImage src={require("public/assets/dashboard/op-sponsorship-form.png")} alt="" w="full" />
+        <ChakraNextImage
+          src={require("public/assets/dashboard/op-sponsorship-form.png")}
+          alt=""
+          w="full"
+        />
         <Flex gap={4}>
           <FormControl gap={6} isRequired>
             <FormLabel>First Name</FormLabel>

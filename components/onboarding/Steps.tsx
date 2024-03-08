@@ -9,7 +9,6 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import {
   Flex,
   HStack,
-  Icon,
   VStack,
   useBreakpointValue,
   useDisclosure,
@@ -82,8 +81,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   const hasApiKeys = useMemo(() => {
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
-
-  console.log({ credits });
 
   const canClaimOptimismCredits = useMemo(() => {
     const plan = meQuery?.data?.plan;
