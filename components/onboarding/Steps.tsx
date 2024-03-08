@@ -18,9 +18,8 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { Button, Card, Heading, LinkButton, Text } from "tw-components";
+import { Button, Card, Heading, LinkButton, Text, Link } from "tw-components";
 import { ApplyForOpCreditsModal } from "./ApplyForOpCreditsModal";
-import { BiGasPump, BiRocket } from "react-icons/bi";
 import { StaticImageData } from "next/image";
 import { ChakraNextImage } from "components/Image";
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
@@ -209,28 +208,25 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       },
       {
         key: Step.OptimismCredits,
-        title: "You're eligible for free Optimism Superchain credits",
+        title: "Apply to join the Optimism Superchain App Accelerator!",
         description: (
           <Flex flexDir="column" gap={4}>
             <Text>
-              These credits are valid for use across any OP superchain network
-              and can be used to cover gas for any on-chain activity such as:
+              Successful applicants will receive gas grants which can be used
+              across all supported{" "}
+              <Link
+                href="https://blog.thirdweb.com/accelerating-the-superchain-with-optimism"
+                isExternal
+                color="blue.500"
+              >
+                Optimism Superchain networks
+              </Link>
+              . These can be used with our Account Abstraction tools to sponsor
+              gas fees for any on-chain activity.
             </Text>
-            <Flex flexDir="column" gap={2}>
-              <Flex gap={2} alignItems="center">
-                <Icon as={BiRocket} />
-                <Text color="bgBlack">Deploying Contracts</Text>
-              </Flex>
-              <Flex gap={2} alignItems="center">
-                <Icon as={BiGasPump} />
-                <Text color="bgBlack">
-                  Using paymaster to build gasless apps
-                </Text>
-              </Flex>
-            </Flex>
           </Flex>
         ),
-        cta: "Claim Credits",
+        cta: "Apply now",
         onClick: () => {
           onClaimCreditsOpen();
           trackEvent({
@@ -239,7 +235,8 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
             data: { step: Step.OptimismCredits },
           });
         },
-        learnMore: "https://portal.thirdweb.com",
+        learnMore:
+          "https://blog.thirdweb.com/accelerating-the-superchain-with-optimism",
         rightImage: require("public/assets/dashboard/optimism-credits.png"),
       },
       {
@@ -271,15 +268,15 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   } = STEPS.find((s) => s.key === currentStep) as StepData;
 
   return (
-    <Card w="full" as={Flex} p={0} gap={8}>
+    <Card w="full" as={Flex} p={0} gap={8} justifyContent="space-between">
       <VStack
         gap={2}
         alignItems="flex-start"
         p={6}
-        w={rightImage && !isMobile ? "70%" : "100%"}
+        w={rightImage && !isMobile ? "60%" : "100%"}
       >
         <Heading size="title.sm">{title}</Heading>
-        <Flex>{description}</Flex>
+        <Text>{description}</Text>
         <HStack mt={4} alignItems="center">
           {isLoggedIn ? (
             <Button

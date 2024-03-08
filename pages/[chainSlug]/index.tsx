@@ -16,7 +16,6 @@ import {
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { type Chain } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
-import color from "color";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
@@ -26,13 +25,10 @@ import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
 import { ExploreCategory, prefetchCategory } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
-import { StorageSingleton } from "lib/sdk";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import Vibrant from "node-vibrant";
 import { PageId } from "page-id";
-import { useMemo } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import {
   FiAlertCircle,
@@ -54,7 +50,6 @@ import { ThirdwebNextPage } from "utils/types";
 type EVMContractProps = {
   chain: Chain;
   category: ExploreCategory | null;
-  gradientColors: [string, string] | null;
 };
 
 const CHAIN_CATEGORY = "chain_page";
@@ -115,25 +110,15 @@ const lineaTestnetPopularContracts = [
 const ChainPage: ThirdwebNextPage = ({
   chain,
   category,
-  gradientColors,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const rpcStats = useChainStats(chain);
-
   const address = useAddress();
 
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
-    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-  }.`;
-
-  const gradient = useMemo(() => {
-    if (!gradientColors?.length) {
-      return "#000";
-    }
-    return `linear-gradient(180deg, ${gradientColors[0]} 0%, ${gradientColors[1]} 100%)`;
-  }, [gradientColors]);
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+    }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
@@ -157,33 +142,7 @@ const ChainPage: ThirdwebNextPage = ({
           ],
         }}
       />
-      <Box
-        w="full"
-        py={{ base: 12, md: 20 }}
-        mb={{ base: 2, md: 6 }}
-        mt={-8}
-        boxShadow="lg"
-        position="relative"
-        _before={{
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          bg: gradient,
-        }}
-        _after={{
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-
-          bg: "linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25))",
-        }}
-      >
+      <Box w="full" py={6}>
         <DarkMode>
           <Container
             zIndex={2}
@@ -211,9 +170,6 @@ const ChainPage: ThirdwebNextPage = ({
                     boxSize={20}
                     overflow="hidden"
                     bg="linear-gradient(180deg, rgba(255,255,255, 0.8), rgba(255,255,255, 1), rgba(255,255,255, 0.8))"
-                    border={`2px solid ${
-                      gradientColors ? gradientColors[0] : "#fff"
-                    }`}
                     borderRadius="full"
                     p={2.5}
                   >
@@ -275,57 +231,6 @@ const ChainPage: ThirdwebNextPage = ({
       >
         <DeprecatedAlert chain={chain} />
         <OnboardingSteps onlyOptimism />
-        {category && (
-          <>
-            <ChainSectionElement
-              colSpan={12}
-              label="Popular Contracts"
-              moreElem={
-                <TrackedLink
-                  category={CHAIN_CATEGORY}
-                  href="/explore"
-                  color="blue.500"
-                  label="explore_more"
-                  display="flex"
-                  alignItems="center"
-                  gap={"0.5em"}
-                  _hover={{
-                    textDecoration: "none",
-                    color: "heading",
-                  }}
-                >
-                  Explore more <BsArrowRight />
-                </TrackedLink>
-              }
-            >
-              <Grid
-                templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
-                gap={6}
-                mt={2}
-              >
-                {(isLineaTestnet
-                  ? lineaTestnetPopularContracts
-                  : category.contracts
-                ).map((publishedContractId, idx) => {
-                  const [publisher, contractId] =
-                    publishedContractId.split("/");
-                  return (
-                    <ContractCard
-                      key={publishedContractId}
-                      publisher={publisher}
-                      contractId={contractId}
-                      tracking={{
-                        source: `chain_${chain.slug}`,
-                        itemIndex: `${idx}`,
-                      }}
-                    />
-                  );
-                })}
-              </Grid>
-            </ChainSectionElement>
-            <Divider />
-          </>
-        )}
 
         <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
           {chain.infoURL && (
@@ -505,6 +410,56 @@ const ChainPage: ThirdwebNextPage = ({
           </ChainSectionElement>
         ) : null}
 
+        <Divider />
+
+        {category && (
+          <ChainSectionElement
+            colSpan={12}
+            label="Popular Contracts"
+            moreElem={
+              <TrackedLink
+                category={CHAIN_CATEGORY}
+                href="/explore"
+                color="blue.500"
+                label="explore_more"
+                display="flex"
+                alignItems="center"
+                gap={"0.5em"}
+                _hover={{
+                  textDecoration: "none",
+                  color: "heading",
+                }}
+              >
+                Explore more <BsArrowRight />
+              </TrackedLink>
+            }
+          >
+            <Grid
+              templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
+              gap={6}
+              mt={2}
+            >
+              {(isLineaTestnet
+                ? lineaTestnetPopularContracts
+                : category.contracts
+              ).map((publishedContractId, idx) => {
+                const [publisher, contractId] = publishedContractId.split("/");
+                return (
+                  <ContractCard
+                    key={publishedContractId}
+                    publisher={publisher}
+                    contractId={contractId}
+                    tracking={{
+                      source: `chain_${chain.slug}`,
+                      itemIndex: `${idx}`,
+                    }}
+                  />
+                );
+              })}
+            </Grid>
+          </ChainSectionElement>
+        )}
+
         {!isDeprecated && (
           <>
             <Divider />
@@ -636,13 +591,6 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
     };
   }
 
-  let gradientColors: [string, string] | null = null;
-  try {
-    gradientColors = await getGradientColorStops(chain);
-  } catch (e) {
-    // ignore
-  }
-
   const chainRpc = getDashboardChainRpc(chain);
   // overwrite with the dashboard chain RPC (add the api key)
   if (chainRpc) {
@@ -662,7 +610,6 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
     props: {
       chain,
       category,
-      gradientColors,
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -675,45 +622,3 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-async function getGradientColorStops(
-  chain: Chain,
-): Promise<[string, string] | null> {
-  if (!chain.icon) {
-    return null;
-  }
-  const chainIconUrl = StorageSingleton.resolveScheme(chain.icon.url);
-  const optimizedIconUrl = `${getAbsoluteUrl()}/_next/image?url=${encodeURIComponent(
-    chainIconUrl,
-  )}&w=256&q=75`;
-  const data = await fetch(optimizedIconUrl);
-
-  const arrayBuffer = await data.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  const palette = await new Vibrant(buffer).getPalette();
-  const colorStops = Object.values(palette)
-    .map((color_) => {
-      return color_?.hex;
-    })
-    .filter(Boolean) as string[];
-  if (colorStops.length === 0) {
-    return null;
-  }
-  const firstAndLast = [colorStops[0], colorStops[colorStops.length - 1]] as [
-    string,
-    string,
-  ];
-
-  const firstColorRGB = color(firstAndLast[0]).rgb().array();
-  // if all rgb values are *close* to the same count it as grayscale
-  if (firstColorRGB.every((rgb) => Math.abs(rgb - firstColorRGB[0]) < 10)) {
-    return null;
-  }
-  const lastColorRGB = color(firstAndLast[1]).rgb().array();
-  // if all rgb values are *close* to the same count it as grayscale
-  if (lastColorRGB.every((rgb) => Math.abs(rgb - lastColorRGB[0]) < 10)) {
-    return null;
-  }
-
-  return firstAndLast;
-}
