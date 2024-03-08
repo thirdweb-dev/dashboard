@@ -19,7 +19,7 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
-import { ClaimCreditsModal } from "./ClaimCreditsModal";
+import { ApplyForOpCreditsModal } from "./ApplyForOpCreditsModal";
 import { BiGasPump, BiRocket } from "react-icons/bi";
 import { StaticImageData } from "next/image";
 import { ChakraNextImage } from "components/Image";
@@ -309,7 +309,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         </HStack>
       </VStack>
       {rightImage && !isMobile && <ChakraNextImage src={rightImage} alt={""} />}
-      <ClaimCreditsModal
+      <ApplyForOpCreditsModal
         isOpen={isClaimCreditsOpen}
         onClose={onClaimCreditsClose}
       />

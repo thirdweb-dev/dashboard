@@ -15,7 +15,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { formatDistance } from "date-fns";
 import { Button, Card, Text } from "tw-components";
 import { Optimism } from "@thirdweb-dev/chains";
-import { ClaimCreditsModal } from "components/onboarding/ClaimCreditsModal";
+import { ApplyForOpCreditsModal } from "components/onboarding/ApplyForOpCreditsModal";
 
 const formatToDollars = (cents: number) => {
   const dollars = cents / 100;
@@ -108,7 +108,7 @@ export const CreditsButton = () => {
           <ModalFooter />
         </ModalContent>
       </Modal>
-      <ClaimCreditsModal
+      <ApplyForOpCreditsModal
         isOpen={isMoreCreditsOpen}
         onClose={onMoreCreditsClose}
       />
