@@ -28,6 +28,11 @@ export const AsyncContractNameCell = memo(
       contract,
     });
 
+    if (cell.address === "0x9216c31d8146bCB3eA5a9162Dc1702e8AEDCa355") {
+
+      console.log({ contractMetadata });
+    }
+
     return (
       <Skeleton isLoaded={!contractMetadata.isFetching}>
         <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
