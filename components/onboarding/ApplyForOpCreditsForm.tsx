@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { Button, FormLabel } from "tw-components";
 import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
 import { ChakraNextImage } from "components/Image";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 interface FormSchema {
   firstname: string;
@@ -39,6 +40,10 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
   onClose,
 }) => {
   const { data: account } = useAccount();
+  const [, setHasAppliedForOpGrant] = useLocalStorage(
+    `appliedForOpGrant-${account?.id}`,
+    false,
+  );
   const transformedQueryData = useMemo(
     () => ({
       firstname: "",
@@ -107,6 +112,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
 
           onSuccess();
           onClose();
+          setHasAppliedForOpGrant(true);
 
           form.reset();
         } catch (error) {

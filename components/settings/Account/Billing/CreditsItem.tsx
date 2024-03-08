@@ -23,7 +23,7 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({ credit }) => {
         <ChainIcon ipfsSrc={Optimism.icon.url} size={24} />
         <Text color="bgBlack">Sponsorship credit balance</Text>{" "}
         <Button size="xs" variant="outline" onClick={onMoreCreditsOpen}>
-          Apply for more
+          Apply now
         </Button>
       </Flex>
       <Flex gap={6}>
@@ -44,8 +44,8 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({ credit }) => {
           <Text color="bgBlack" textTransform="capitalize">
             {credit?.expiresAt
               ? formatDistance(new Date(credit.expiresAt), Date.now(), {
-                  addSuffix: true,
-                })
+                addSuffix: true,
+              })
               : "N/A"}
           </Text>
         </Flex>

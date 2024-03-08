@@ -21,6 +21,7 @@ import { OnboardingBilling } from "./Billing";
 import { OnboardingModal } from "./Modal";
 import { PlanCard } from "./PlanCard";
 import { ApplyForOpCreditsForm } from "./ApplyForOpCreditsForm";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 export type CreditsRecord = {
   title: string;
@@ -85,6 +86,10 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
   } = useDisclosure();
   const [page, setPage] = useState<"eligible" | "form">("eligible");
   const account = useAccount();
+  const [hasAppliedForOpGrant] = useLocalStorage(
+    `appliedForOpGrant-${(account?.data && account.data.id) || ""}`,
+    false,
+  );
 
   const hasValidPayment = account.data?.status === "validPayment";
 
@@ -92,6 +97,8 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
 
   const creditsRecord =
     PlanToCreditsRecord[account.data?.plan || AccountPlan.Free];
+
+  console.log({ hasAppliedForOpGrant });
 
   return (
     <>
@@ -173,9 +180,9 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                     colorScheme="primary"
                     onClick={() => setPage("form")}
                     w="full"
-                    isDisabled={!hasValidPayment}
+                    isDisabled={!hasValidPayment || hasAppliedForOpGrant}
                   >
-                    Apply Now
+                    {hasAppliedForOpGrant ? "Already applied" : "Apply Now"}
                   </Button>
                 </Flex>
                 <Text textAlign="center" fontWeight="bold" letterSpacing="wide">

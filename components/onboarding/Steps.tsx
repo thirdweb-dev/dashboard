@@ -70,6 +70,10 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     `onboardingDocs-${meQuery?.data?.id}`,
     false,
   );
+  const [hasAppliedForOpGrant] = useLocalStorage(
+    `appliedForOpGrant-${meQuery?.data?.id}`,
+    false,
+  );
 
   const hasValidPayment = useMemo(() => {
     return meQuery?.data?.status === AccountStatus.ValidPayment;
@@ -79,11 +83,11 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
-  const canClaimOptimismCredits = useMemo(() => {
-    return true;
-  }, []);
-
   const currentStep = useMemo(() => {
+    if (hasAppliedForOpGrant) {
+      return null;
+    }
+
     if (onlyOptimism) {
       return Step.OptimismCredits;
     }
@@ -92,7 +96,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       return null;
     }
 
-    if (canClaimOptimismCredits) {
+    if (!hasAppliedForOpGrant) {
       return Step.OptimismCredits;
     } else if (!onboardingKeys && !hasApiKeys) {
       return Step.Keys;
@@ -110,7 +114,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     onboardingDocs,
     onboardingKeys,
     onboardingPaymentMethod,
-    canClaimOptimismCredits,
+    hasAppliedForOpGrant,
     onlyOptimism,
   ]);
 
