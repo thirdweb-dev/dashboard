@@ -135,7 +135,9 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                     </Badge>
                   </Box>
                   <Flex alignItems="center" gap={2} flexDir="column">
-                    <Text textAlign="center" color="faded">{creditsRecord.upTo && "Up to"}</Text>
+                    <Text textAlign="center" color="faded">
+                      {creditsRecord.upTo && "Up to"}
+                    </Text>
                     <Heading
                       color="bgBlack"
                       size="title.lg"
