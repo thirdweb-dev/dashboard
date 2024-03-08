@@ -54,8 +54,8 @@ export function useNFTDrawerTabs({
 
   const balanceOfQuery = useReadContract(balanceOf, {
     contract,
-    address: address || "",
-    tokenId: BigInt(tokenId || 0),
+    owner: address || "",
+    id: BigInt(tokenId || 0),
   });
 
   const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
