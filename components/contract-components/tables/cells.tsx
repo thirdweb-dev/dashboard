@@ -29,7 +29,6 @@ export const AsyncContractNameCell = memo(
     });
 
     if (cell.address === "0x9216c31d8146bCB3eA5a9162Dc1702e8AEDCa355") {
-
       console.log({ contractMetadata });
     }
 
