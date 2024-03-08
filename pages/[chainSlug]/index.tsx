@@ -1,8 +1,6 @@
 import {
   Box,
-  Center,
   Container,
-  DarkMode,
   Divider,
   Flex,
   Grid,
@@ -118,8 +116,9 @@ const ChainPage: ThirdwebNextPage = ({
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-    }.`;
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
+    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+  }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
@@ -167,11 +166,7 @@ const ChainPage: ThirdwebNextPage = ({
               flexDir={{ base: "column", md: "row" }}
             >
               {chain.icon && (
-                <Flex
-                  boxSize={20}
-                  overflow="hidden"
-                  borderRadius="full"
-                >
+                <Flex boxSize={20} overflow="hidden" borderRadius="full">
                   <ChainIcon
                     ipfsSrc={chain.icon?.url}
                     size="100%"
@@ -184,7 +179,7 @@ const ChainPage: ThirdwebNextPage = ({
                 gap={3}
                 alignItems={{ base: "center", md: "flex-start" }}
               >
-                <Heading size="title.lg" as="h1" >
+                <Heading size="title.lg" as="h1">
                   {sanitizedChainName}{" "}
                   {sanitizedChainName.length > 10 && <br />}
                   <Box
