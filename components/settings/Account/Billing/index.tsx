@@ -42,9 +42,9 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   const [stepsCompleted, setStepsCompleted] = useState<
     | undefined
     | {
-        account: boolean;
-        payment: boolean;
-      }
+      account: boolean;
+      payment: boolean;
+    }
   >();
 
   const [downgradePlan, setDowngradePlan] = useState<AccountPlan | undefined>();
@@ -246,7 +246,6 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
             validPayment={validPayment}
             paymentVerification={paymentVerification}
           />
-          <OnboardingSteps onlyOptimism />
           <AccountForm account={account} disableUnchanged showBillingButton />
         </>
       )}
