@@ -14,7 +14,7 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
       justifyContent="center"
       alignItems="center"
       minH="750px"
-      background={`linear-gradient(to top, #0F0F0F 0%, #0F0F0F 2%, rgba(0,0,0,0) 35%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
+      background={`linear-gradient(to top, #0F0F0F 0%, #0F0F0F 2%, rgba(0,0,0,0) 18%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
@@ -40,6 +40,8 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
             color="linear-gradient(90deg, #323131 0%, rgba(50, 49, 49, 0.00) 201.83%)"
             background="linear-gradient(90deg, #323131 0%, rgba(50, 49, 49, 0.00) 201.83%)"
             backgroundClip="text"
+            fontWeight={700}
+            letterSpacing="-1.68px"
             wordBreak={{ base: "break-all", md: "break-word" }}
           >
             Superchain App Accelerator
@@ -48,6 +50,8 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
           <Text
             fontSize={{ base: "16px", md: "20px" }}
             color="rgba(50, 49, 49, 0.80)"
+            letterSpacing="-0.4px"
+            fontWeight={500}
           >
             Bringing the cost to build and use apps on the Superchain to zero.
           </Text>
