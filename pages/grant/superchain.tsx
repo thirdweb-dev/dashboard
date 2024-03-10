@@ -1,8 +1,7 @@
-import { Flex, DarkMode, Container, SimpleGrid, Box } from "@chakra-ui/react";
+import { Flex, DarkMode, Container, Box } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
 import HeroSection from "components/grant/superchain/HeroSection";
-import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -78,7 +77,7 @@ const superchains = [
   },
 ];
 
-const HackathonEarn = () => {
+const GrantSuperChain = () => {
   return (
     <DarkMode>
       <NextSeo
@@ -98,7 +97,17 @@ const HackathonEarn = () => {
           ],
         }}
       />
-      <Flex justify="center" flexDir="column" as="main">
+      <Flex
+        justify="center"
+        flexDir="column"
+        as="main"
+        sx={{
+          // overwrite the theme colors because the home page is *always* in "dark mode"
+          "--chakra-colors-heading": "#F2F2F7",
+          "--chakra-colors-paragraph": "#AEAEB2",
+          "--chakra-colors-borderColor": "rgba(255,255,255,0.1)",
+        }}
+      >
         <HomepageTopNav />
         <HeroSection trackingCategory={TRACKING_CATEGORY} />
 
@@ -369,6 +378,6 @@ const HackathonEarn = () => {
   );
 };
 
-HackathonEarn.pageId = PageId.HackathonGrantSuperchain;
+GrantSuperChain.pageId = PageId.GrantSuperChain;
 
-export default HackathonEarn;
+export default GrantSuperChain;

@@ -99,7 +99,7 @@ export enum PageId {
   // thirdweb.com/hackathon/earn
   HackathonEarnLanding = "earn-thirdweb-hacakthon",
   // thirdweb.com/grant/superchain
-  HackathonGrantSuperchain = "hackathon-grant-superchain",
+  GrantSuperChain = "grant-superchain",
   // thirdweb.com/bear-market-airdrop
   BearMarketAirdrop = "bear-market-airdrop",
   // drops
