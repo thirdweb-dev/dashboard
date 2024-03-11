@@ -8,7 +8,6 @@ import {
   ModalHeader,
   FormControl,
   Input,
-  Select,
   Textarea,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -19,6 +18,7 @@ import { Button, FormLabel } from "tw-components";
 import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
 import { ChakraNextImage } from "components/Image";
 import { useLocalStorage } from "hooks/useLocalStorage";
+import { Select as ChakraSelect } from "chakra-react-select";
 
 interface FormSchema {
   firstname: string;
@@ -27,8 +27,8 @@ interface FormSchema {
   plan_type: string;
   email: string;
   "0-2/name": string;
-  "0-2/product_type": string;
-  "0-2/op_superchain_list": string;
+  "0-2/superchain_verticals": string;
+  "0-2/superchain_chain": string;
   what_would_you_like_to_meet_about_: string;
 }
 
@@ -52,8 +52,8 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
       plan_type: PlanToCreditsRecord[account?.plan || AccountPlan.Free].title,
       email: account?.email || "",
       "0-2/name": "",
-      "0-2/product_type": "Brand / Commerce",
-      "0-2/op_superchain_list": "Optimism",
+      "0-2/superchain_verticals": "",
+      "0-2/superchain_chain": "",
       what_would_you_like_to_meet_about_: "",
     }),
     [account],
@@ -154,25 +154,46 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         </FormControl>
         <FormControl gap={6} isRequired>
           <FormLabel>Vertical</FormLabel>
-          <Select {...form.register("0-2/product_type", { required: true })}>
-            <option value="Brand / Commerce">Brand / Commerce</option>
-            <option value="Game">Game</option>
-            <option value="Tech">Tech</option>
-            <option value="Protocols & Chains">Protocols & Chains</option>
-          </Select>
+          <ChakraSelect
+            options={[
+              "Gaming & Metaverse",
+              "DAOs",
+              "Education & Community",
+              "Fandom & Rewards",
+              "Infra & Dev Tools",
+            ].map((vertical) => ({
+              label: vertical,
+              value: vertical,
+            }))}
+            placeholder="Select vertical"
+            isRequired
+            onChange={(value) => {
+              if (value?.value) {
+                form.setValue("0-2/superchain_verticals", value.value);
+              }
+            }}
+          />
         </FormControl>
         <FormControl gap={6} isRequired>
           <FormLabel>Chain</FormLabel>
-          <Select
-            {...form.register("0-2/op_superchain_list", { required: true })}
-          >
-            <option value="Optimism">OP Mainnet</option>
-            <option value="Base">Base</option>
-            <option value="Zora">Zora</option>
-            <option value="Mode">Mode</option>
-            <option value="Frax">Frax</option>
-            <option value="Lisk">Lisk</option>
-          </Select>
+          <ChakraSelect
+            options={["Optimism", "Base", "Zora", "Mode", "Frax", "Lisk"].map(
+              (chain) => ({
+                label: chain === "Optimism" ? "OP Mainnet" : chain,
+                value: chain,
+              }),
+            )}
+            onChange={(values) => {
+              form.setValue(
+                "0-2/superchain_chain",
+                values.map(({ value }) => value).join(";"),
+              );
+            }}
+            isMulti
+            selectedOptionStyle="check"
+            placeholder="Select chains"
+            isRequired
+          />
         </FormControl>
         <FormControl gap={6}>
           <FormLabel>Tell us more about your project</FormLabel>
