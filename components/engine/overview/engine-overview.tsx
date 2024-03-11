@@ -20,7 +20,35 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
   const backendWallets = useEngineBackendWallets(instance);
   const { data: walletConfig } = useEngineWalletConfig(instance);
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
-  const transactionsQuery = useEngineTransactions(instance, autoUpdate);
+  let transactionsQuery = useEngineTransactions(instance, autoUpdate);
+
+  // @ts-ignore
+  transactionsQuery = {
+    data: {
+      transactions: [
+        {
+          queueId: "aa-bb-cc",
+          chainId: "137",
+          fromAddress: "0xfrom",
+          toAddress: "0xto",
+          data: "0x0",
+          value: "0",
+          nonce: 123,
+          gasLimit: "1234",
+          gasPrice: "55",
+          maxFeePerGas: "55",
+          maxPriorityFeePerGas: "55",
+          queuedAt: "2023-03-06 12:34:56Z",
+          processedAt: "2023-03-06 12:34:56Z",
+          sentAt: "2023-03-06 12:34:56Z",
+          minedAt: "2023-03-06 12:34:56Z",
+          cancelledAt: "2023-03-06 12:34:56Z",
+          status: "queued",
+          retryCount: 0,
+        },
+      ],
+    },
+  };
 
   return (
     <Flex flexDir="column" gap={12}>
