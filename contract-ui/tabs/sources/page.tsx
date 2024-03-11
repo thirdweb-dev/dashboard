@@ -31,6 +31,13 @@ type VerifyContractParams = {
   chainId: number;
 };
 
+export interface VerificationResult {
+  explorerUrl: string;
+  success: boolean;
+  alreadyVerified: boolean;
+  error?: string;
+}
+
 async function verifyContract({
   contractAddress,
   chainId,
@@ -118,34 +125,36 @@ const VerifyContractModal: React.FC<
             ) : null}
 
             {verifyResult?.results
-              ? verifyResult?.results.map((result, index) => (
-                  <Flex key={index} gap={2} align="center" mb={4}>
-                    {result.success && (
-                      <>
-                        <Icon as={FiCheckCircle} color="green.600" />
-                        {result.alreadyVerified && (
+              ? verifyResult?.results.map(
+                  (result: VerificationResult, index: number) => (
+                    <Flex key={index} gap={2} align="center" mb={4}>
+                      {result.success && (
+                        <>
+                          <Icon as={FiCheckCircle} color="green.600" />
+                          {result.alreadyVerified && (
+                            <Heading size="label.md">
+                              {" "}
+                              {result.explorerUrl}: Already verified
+                            </Heading>
+                          )}
+                          {!result.alreadyVerified && (
+                            <Heading size="label.md">
+                              {result.explorerUrl}: Verification successful
+                            </Heading>
+                          )}
+                        </>
+                      )}
+                      {!result.success && (
+                        <>
+                          <Icon as={FiXCircle} color="red.600" />
                           <Heading size="label.md">
-                            {" "}
-                            {result.explorerUrl}: Already verified
+                            {`${result.explorerUrl}: ${result.error?.toString()}`}
                           </Heading>
-                        )}
-                        {!result.alreadyVerified && (
-                          <Heading size="label.md">
-                            {result.explorerUrl}: Verification successful
-                          </Heading>
-                        )}
-                      </>
-                    )}
-                    {!result.success && (
-                      <>
-                        <Icon as={FiXCircle} color="red.600" />
-                        <Heading size="label.md">
-                          {`${result.explorerUrl}: ${result.error.toString()}`}
-                        </Heading>
-                      </>
-                    )}
-                  </Flex>
-                ))
+                        </>
+                      )}
+                    </Flex>
+                  ),
+                )
               : null}
           </Flex>
         </ModalBody>
