@@ -1,22 +1,22 @@
+import { EngineInstance } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
-  Flex,
+  Box,
   ButtonGroup,
   Divider,
-  Tooltip,
-  Box,
+  Flex,
   Stack,
+  Tooltip,
 } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Card, Button, Text, Heading, Badge } from "tw-components";
+import { FiArrowLeft } from "react-icons/fi";
+import { Button, Card, Heading, Text } from "tw-components";
+import { EngineVersionBadge } from "./badges/version";
 import { EngineConfiguration } from "./configuration/engine-configuration";
 import { EngineExplorer } from "./explorer/engine-explorer";
 import { EngineOverview } from "./overview/engine-overview";
 import { EnginePermissions } from "./permissions/engine-permissions";
-import { useTrack } from "hooks/analytics/useTrack";
-import { EngineInstance } from "@3rdweb-sdk/react/hooks/useEngine";
-import { FiArrowLeft } from "react-icons/fi";
 import { EngineRelayer } from "./relayer/engine-relayer";
-import { EngineVersionBadge } from "./badges/version";
 
 interface EngineNavigationProps {
   instance: EngineInstance;
