@@ -49,7 +49,7 @@ const HeroSection = ({
             backgroundClip="text"
             fontWeight={700}
             letterSpacing="-1.68px"
-            wordBreak={{ base: "break-all", md: "break-word" }}
+            wordBreak="break-word"
           >
             Superchain App Accelerator
           </Heading>
