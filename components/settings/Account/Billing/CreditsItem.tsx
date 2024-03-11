@@ -66,29 +66,31 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({
             <Text color="bgBlack" textTransform="capitalize">
               {credit?.expiresAt
                 ? formatDistance(new Date(credit.expiresAt), Date.now(), {
-                    addSuffix: true,
-                  })
+                  addSuffix: true,
+                })
                 : "N/A"}
             </Text>
           </Flex>
         </Flex>
-        <Alert
-          status="info"
-          borderRadius="lg"
-          backgroundColor={
-            onCreditsButton ? "backgroundBody" : "backgroundCardHighlight"
-          }
-          borderLeftColor="blue.500"
-          borderLeftWidth={4}
-          as={Flex}
-          gap={1}
-        >
-          <AlertIcon />
-          <AlertDescription>
-            Grant application pending approval. You will receive an email once
-            your application&apos;s status changes.
-          </AlertDescription>
-        </Alert>
+        {hasAppliedForOpGrant && (
+          <Alert
+            status="info"
+            borderRadius="lg"
+            backgroundColor={
+              onCreditsButton ? "backgroundBody" : "backgroundCardHighlight"
+            }
+            borderLeftColor="blue.500"
+            borderLeftWidth={4}
+            as={Flex}
+            gap={1}
+          >
+            <AlertIcon />
+            <AlertDescription>
+              Grant application pending approval. You will receive an email once
+              your application&apos;s status changes.
+            </AlertDescription>
+          </Alert>
+        )}
       </Flex>
       <ApplyForOpCreditsModal
         isOpen={isMoreCreditsOpen}
