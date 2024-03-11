@@ -54,7 +54,7 @@ export const CreditsButton = () => {
           <ModalBody>
             <Flex flexDir="column" gap={4}>
               <Card p={6} as={Flex} flexDir="column" gap={3}>
-                <CreditsItem credit={credit} />
+                <CreditsItem credit={credit} onCreditsButton={true} />
               </Card>
             </Flex>
           </ModalBody>
