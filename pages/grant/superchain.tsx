@@ -214,8 +214,10 @@ const GrantSuperChain = () => {
                         isExternal
                       >
                         <Card
+                          as={Flex}
                           flexDir="column"
                           alignItems="center"
+                          justifyContent="center"
                           padding="14px"
                           transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
                           _hover={{
@@ -223,7 +225,7 @@ const GrantSuperChain = () => {
                             boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
                             transform: "scale(1.01)",
                           }}
-                          width="102px"
+                          width="122px"
                         >
                           <ChakraNextImage
                             src={src}
