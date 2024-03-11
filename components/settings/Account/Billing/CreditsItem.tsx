@@ -86,7 +86,7 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({
           <AlertIcon />
           <AlertDescription>
             Grant application pending approval. You will receive an email once
-            your application's status changes.
+            your application&apos;s status changes.
           </AlertDescription>
         </Alert>
       </Flex>
