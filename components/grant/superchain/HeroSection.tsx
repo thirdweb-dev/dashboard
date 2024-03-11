@@ -1,14 +1,21 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
+import { useTrack } from "hooks/analytics/useTrack";
 import React from "react";
-import { Heading, Text, TrackedLinkButton } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 
 interface HeroSectionProps {
   trackingCategory: string;
+  scrollToSection: () => void;
 }
 
-const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
+const HeroSection = ({
+  trackingCategory,
+  scrollToSection,
+}: HeroSectionProps) => {
+  const trackEvent = useTrack();
+
   return (
     <Flex
       justifyContent="center"
@@ -54,10 +61,10 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
             fontWeight={500}
           >
             Bringing the costs of building & using onchain apps to zero — for
-            developers & users alike.
+            developers & users.
           </Text>
 
-          <TrackedLinkButton
+          <Button
             py={6}
             px={8}
             bgColor="white"
@@ -66,15 +73,21 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
               opacity: 0.8,
             }}
             color="black"
-            href="https://thirdweb.com/dashboard"
-            category={trackingCategory}
-            label="claim-credits"
             fontWeight="bold"
             mt="16px"
             maxW="fit-content"
+            onClick={() => {
+              trackEvent({
+                category: trackingCategory,
+                action: "click",
+                label: "claim-credit",
+              });
+
+              scrollToSection();
+            }}
           >
             Claim your credits
-          </TrackedLinkButton>
+          </Button>
         </Flex>
 
         <Flex maxH="500px">

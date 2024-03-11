@@ -9,6 +9,7 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
+import { useRef } from "react";
 import {
   Card,
   Heading,
@@ -30,53 +31,58 @@ const superchains = [
     name: "Optimism",
     link: "https://thirdweb.com/optimism",
     src: require("public/assets/grant/superchain/icon-op.png"),
-    left: "2%",
   },
   {
     id: "fraxtal",
     name: "Fraxtal",
     link: "https://thirdweb.com/fraxtal",
     src: require("public/assets/grant/superchain/icon-fraxtal.png"),
-    left: "17%",
   },
   {
     id: "base",
     name: "Base",
     link: "https://thirdweb.com/base",
     src: require("public/assets/grant/superchain/icon-base.png"),
-    left: "31.5%",
   },
   {
     id: "lisk",
     name: "Lisk",
     link: "https://thirdweb.com/lisk-sepolia-testnet",
     src: require("public/assets/grant/superchain/icon-lisk.png"),
-    left: "46.5%",
   },
   {
     id: "zora",
     name: "Zora",
     link: "https://thirdweb.com/zora",
     src: require("public/assets/grant/superchain/icon-zora.png"),
-    left: "61.5%",
   },
   {
     id: "mode",
     name: "Mode",
     link: "https://thirdweb.com/mode",
     src: require("public/assets/grant/superchain/icon-mode.png"),
-    left: "76.5%",
   },
   {
     id: "redstone",
     name: "Redstone",
     link: "https://thirdweb.com/redstone-holesky-testnet",
     src: require("public/assets/grant/superchain/icon-redstone.png"),
-    left: "91.2%",
   },
 ];
 
 const GrantSuperChain = () => {
+  const mySectionRef = useRef<HTMLDivElement>(null);
+
+  // Function to scroll to the section
+  const scrollToSection = () => {
+    if (mySectionRef.current) {
+      mySectionRef.current.scrollIntoView?.({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <DarkMode>
       <NextSeo
@@ -108,7 +114,10 @@ const GrantSuperChain = () => {
         }}
       >
         <HomepageTopNav />
-        <HeroSection trackingCategory={TRACKING_CATEGORY} />
+        <HeroSection
+          trackingCategory={TRACKING_CATEGORY}
+          scrollToSection={scrollToSection}
+        />
 
         <HomepageSection id="header" mb={60}>
           <Flex flexDir="column" gap={{ base: "80px", md: "120px" }}>
@@ -136,7 +145,7 @@ const GrantSuperChain = () => {
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-smart-wallet.svg")}
                   title="Empower users with smart accounts"
-                  description="Create seamless experiences for users with smart accounts — we'll cover the gas."
+                  description="Create seamless user experiences — we will sponsor end user transactions with smart accounts."
                 />
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-dashboard.svg")}
@@ -151,7 +160,13 @@ const GrantSuperChain = () => {
               </LandingGridSection>
             </Flex>
 
-            <Flex flexDir="column" alignItems="center" gap="56px">
+            <Flex
+              flexDir="column"
+              alignItems="center"
+              gap="56px"
+              ref={mySectionRef}
+              pt={16}
+            >
               <Container maxW={907} mt={28}>
                 <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
                   How do I apply?
@@ -182,56 +197,21 @@ const GrantSuperChain = () => {
               </Container>
 
               <Flex position="relative" px={{ base: 6, lg: 12 }}>
-                <ChakraNextImage
-                  src={require("public/assets/grant/superchain/chains.png")}
-                  alt="chains"
-                  display={{ base: "none", lg: "flex" }}
-                />
-
                 <Flex
                   flexWrap="wrap"
                   alignItems="center"
                   justifyContent="center"
-                  gap="19px"
+                  gap="27px"
                 >
-                  {superchains.map(({ id, name, src, link, ...rest }) => {
+                  {superchains.map(({ id, name, src, link }) => {
                     return (
                       <TrackedLink
                         key={id}
                         href={link}
                         category={TRACKING_CATEGORY}
                         label={id}
+                        textDecor="none!important"
                       >
-                        {/* Desktop */}
-                        <Flex
-                          flexDir="column"
-                          alignItems="center"
-                          position="absolute"
-                          zIndex={3}
-                          w="7%"
-                          display={{ base: "none", lg: "flex" }}
-                          bottom="-23%"
-                          transition="transform 150ms ease"
-                          _hover={{
-                            transform: "scale(1.1)",
-                          }}
-                          {...rest}
-                        >
-                          <ChakraNextImage src={src} alt={id} />
-
-                          <Text
-                            textAlign="center"
-                            fontSize="14px"
-                            fontWeight={500}
-                            color="#fff"
-                            mt="16px"
-                          >
-                            {name}
-                          </Text>
-                        </Flex>
-
-                        {/* Mobile */}
-
                         <Card
                           flexDir="column"
                           alignItems="center"
@@ -242,9 +222,7 @@ const GrantSuperChain = () => {
                             boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
                             transform: "scale(1.01)",
                           }}
-                          display={{ base: "flex", lg: "none" }}
-                          w="full"
-                          maxW="120px"
+                          width="102px"
                         >
                           <ChakraNextImage
                             src={src}
@@ -253,15 +231,26 @@ const GrantSuperChain = () => {
                             h="74px"
                           />
 
-                          <Text
-                            textAlign="center"
-                            fontSize="14px"
-                            fontWeight={500}
-                            color="#fff"
+                          <Flex
+                            justifyContent="center"
+                            alignItems="center"
+                            gap="6px"
                             mt="16px"
                           >
-                            {name}
-                          </Text>
+                            <Text
+                              textAlign="center"
+                              fontSize="14px"
+                              fontWeight={500}
+                              color="#fff"
+                            >
+                              {name}
+                            </Text>
+
+                            <ChakraNextImage
+                              src={require("public/assets/grant/superchain/link.svg")}
+                              alt="arrow"
+                            />
+                          </Flex>
                         </Card>
                       </TrackedLink>
                     );
@@ -273,26 +262,8 @@ const GrantSuperChain = () => {
             <Flex
               flexDir="column"
               alignItems="center"
-              mt={{ base: "120px", lg: "271px" }}
+              mt={{ base: "120px", lg: "200px" }}
             >
-              <Container maxW="100%">
-                <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
-                  Become a Superchain Builder
-                </Heading>
-
-                <Flex flexDir="column" gap={8}>
-                  <Text
-                    textAlign="center"
-                    size="body.xl"
-                    color="rgba(255, 255, 255, 0.70)"
-                    lineHeight="36px"
-                  >
-                    For more information on the Superchain App Accelerator, read
-                    announcement blog entry below.
-                  </Text>
-                </Flex>
-              </Container>
-
               <Box
                 borderRadius="12px"
                 position="relative"
@@ -349,8 +320,10 @@ const GrantSuperChain = () => {
                       fontWeight="400"
                       color="white"
                       textAlign={{ base: "center", md: "left" }}
+                      maxW="md"
                     >
-                      [subheader]
+                      Learn more about the Superchain App Accelerator in our
+                      announcement blog.
                     </Text>
                     <TrackedLinkButton
                       variant="outline"
@@ -364,10 +337,10 @@ const GrantSuperChain = () => {
                       py={6}
                       category={TRACKING_CATEGORY}
                       label="production-ready-launch"
-                      href="https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life"
+                      href="https://blog.thirdweb.com/accelerating-the-superchain-with-optimism"
                       maxW="fit-content"
                     >
-                      Learn more
+                      Read the blog
                     </TrackedLinkButton>
                   </Flex>
                 </Box>
