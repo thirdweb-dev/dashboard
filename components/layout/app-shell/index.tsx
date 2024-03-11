@@ -184,7 +184,7 @@ const AppHeader: React.FC = () => {
             Home
           </LinkButton>
           <LinkButton
-            href="/dashboard/connect"
+            href="/dashboard/connect/playground"
             isActive={
               pathname.startsWith("/dashboard/connect") ||
               pathname.startsWith("/dashboard/payments")
@@ -223,7 +223,7 @@ const AppHeader: React.FC = () => {
             Engine
           </LinkButton>
           <LinkButton
-            href="/dashboard/settings"
+            href="/dashboard/settings/api-keys"
             isActive={pathname.startsWith("/dashboard/settings")}
             _active={{
               bg: "bgBlack",
