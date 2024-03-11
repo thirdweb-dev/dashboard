@@ -211,6 +211,7 @@ const GrantSuperChain = () => {
                         category={TRACKING_CATEGORY}
                         label={id}
                         textDecor="none!important"
+                        isExternal
                       >
                         <Card
                           flexDir="column"
