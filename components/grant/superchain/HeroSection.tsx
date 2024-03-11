@@ -1,7 +1,6 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
-import { getAbsoluteUrl } from "lib/vercel-utils";
 import React from "react";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 
@@ -15,7 +14,7 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
       justifyContent="center"
       alignItems="center"
       minH="750px"
-      background={`linear-gradient(to top, #0F0F0F 0%, #0F0F0F 2%, rgba(0,0,0,0) 18%), url(${getAbsoluteUrl()}/assets/grant/superchain/overlay.png)`}
+      background={`linear-gradient(to top, #0F0F0F 0%, #0F0F0F 2%, rgba(0,0,0,0) 18%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
@@ -32,7 +31,7 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
           <ChakraNextImage
             src={require("public/assets/grant/superchain/op-thirdweb.png")}
             alt="superchain-thirdweb"
-            w={349}
+            w={330}
             h={21}
           />
           <Heading
@@ -54,7 +53,8 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
             letterSpacing="-0.4px"
             fontWeight={500}
           >
-            Bringing the cost to build and use apps on the Superchain to zero.
+            Bringing the costs of building & using onchain apps to zero — for
+            developers & users alike.
           </Text>
 
           <TrackedLinkButton
@@ -66,7 +66,7 @@ const HeroSection = ({ trackingCategory }: HeroSectionProps) => {
               opacity: 0.8,
             }}
             color="black"
-            href={"ctaLink"}
+            href="https://thirdweb.com/dashboard"
             category={trackingCategory}
             label="claim-credits"
             fontWeight="bold"

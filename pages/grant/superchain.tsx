@@ -19,11 +19,10 @@ import {
 
 const TRACKING_CATEGORY = "grant-superchain";
 
-const title =
-  "Game Developers Hackathon: Web3 Gaming Innovation at GDC 2024 | Earn Alliance & Thirdweb";
+const title = "Apply for a Grant | Superchain App Accelerator";
 
 const description =
-  "Game developers, join the Pixel Pioneers Hackathon at GDC 2024, hosted by Earn Alliance & ThirdWeb. Dive into Web3 game development for a 400K+ gamer community and lead blockchain gaming innovation. Sign Up Here.";
+  "The Superchain App Accelerator is a $3M fund for developers to build seamless onchain apps — powered by Optimism and thirdweb. Apply for a grant.";
 
 const superchains = [
   {
@@ -85,14 +84,14 @@ const GrantSuperChain = () => {
         description={description}
         openGraph={{
           title,
-          url: `${getAbsoluteUrl()}/hackathon/earn`,
+          url: `${getAbsoluteUrl()}/grant/superchain`,
           description,
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/earn-hackathon.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/superchain.png`,
               width: 1200,
               height: 630,
-              alt: "Earn Alliance & Thirdweb Hackathon",
+              alt: title,
             },
           ],
         }}
@@ -136,18 +135,18 @@ const GrantSuperChain = () => {
               <LandingGridSection>
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-smart-wallet.svg")}
-                  title="Transactions with smart accountse"
-                  description="We'll cover the gas costs for your users, creating a seamless, gasless user experience."
+                  title="Empower users with smart accounts"
+                  description="Create seamless experiences for users with smart accounts — we'll cover the gas."
                 />
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-dashboard.svg")}
                   title="Use our dashboard for free"
-                  description="Use thirdweb to Deploy contracts, mint NFTs, & perform onchain txs for free."
+                  description="Deploy smart contracts, mint NFTs, & perform any onchain action on the thirdweb Dashboard — for free."
                 />
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-tool.svg")}
                   title="Use our full-stack web3 dev tools"
-                  description="Build your app without any friction with frontend, backend and onchain tools."
+                  description="Build your app without any friction with frontend, backend, and onchain tools."
                 />
               </LandingGridSection>
             </Flex>
@@ -165,9 +164,9 @@ const GrantSuperChain = () => {
                     color="rgba(255, 255, 255, 0.70)"
                     lineHeight="36px"
                   >
-                    The program is designed to support developers and builders
-                    working on high potential apps and projects which will push
-                    the space forward.
+                    This program is designed to support remove builders working
+                    on high-potential apps and projects that will push the space
+                    forward.
                   </Text>
 
                   <Text
@@ -176,8 +175,8 @@ const GrantSuperChain = () => {
                     color="rgba(255, 255, 255, 0.70)"
                     lineHeight="36px"
                   >
-                    Select your chain below, connect your wallet and fill in the
-                    form to apply.
+                    Select your chain below, connect your wallet, and fill out
+                    the form to apply for a grant.
                   </Text>
                 </Flex>
               </Container>
@@ -208,9 +207,14 @@ const GrantSuperChain = () => {
                           flexDir="column"
                           alignItems="center"
                           position="absolute"
+                          zIndex={3}
                           w="7%"
                           display={{ base: "none", lg: "flex" }}
                           bottom="-23%"
+                          transition="transform 150ms ease"
+                          _hover={{
+                            transform: "scale(1.1)",
+                          }}
                           {...rest}
                         >
                           <ChakraNextImage src={src} alt={id} />
@@ -273,7 +277,7 @@ const GrantSuperChain = () => {
             >
               <Container maxW="100%">
                 <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
-                  Accelerating the Superchain with Optimism
+                  Become a Superchain Builder
                 </Heading>
 
                 <Flex flexDir="column" gap={8}>
@@ -284,7 +288,7 @@ const GrantSuperChain = () => {
                     lineHeight="36px"
                   >
                     For more information on the Superchain App Accelerator, read
-                    our blog entry below.
+                    announcement blog entry below.
                   </Text>
                 </Flex>
               </Container>
@@ -325,10 +329,9 @@ const GrantSuperChain = () => {
                     <ChakraNextImage
                       src={require("public/assets/grant/superchain/logo-dashboard.png")}
                       alt="logo"
-                      display={{ base: "flex", md: "none" }}
-                      mb={5}
+                      mb={{ base: 5, md: "16px" }}
                       w="full"
-                      maxW="230px"
+                      maxW={{ base: "230px", md: "133px" }}
                     />
 
                     <Heading
@@ -337,8 +340,9 @@ const GrantSuperChain = () => {
                       textAlign={{ base: "center", md: "left" }}
                       as="h1"
                       size="title.lg"
+                      maxW="md"
                     >
-                      Launch Production-Ready Subnets with thirdweb and AvaCloud
+                      Accelerating the Superchain with Optimism
                     </Heading>
                     <Text
                       fontSize="medium"
