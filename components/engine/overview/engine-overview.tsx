@@ -20,7 +20,7 @@ export const EngineOverview: React.FC<EngineOverviewProps> = ({ instance }) => {
   const backendWallets = useEngineBackendWallets(instance);
   const { data: walletConfig } = useEngineWalletConfig(instance);
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
-  let transactionsQuery = useEngineTransactions(instance, autoUpdate);
+  const transactionsQuery = useEngineTransactions(instance, autoUpdate);
 
   return (
     <Flex flexDir="column" gap={12}>

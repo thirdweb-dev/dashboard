@@ -11,12 +11,10 @@ import {
   ModalOverlay,
   Stack,
   Step,
-  StepIcon,
   StepIndicator,
   StepSeparator,
   StepStatus,
   Stepper,
-  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
