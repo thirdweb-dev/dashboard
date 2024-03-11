@@ -20,10 +20,10 @@ import {
 
 const TRACKING_CATEGORY = "grant-superchain";
 
-const title = "Apply for a Grant | Superchain App Accelerator";
+const title = "Superchain App Accelerator | Apply for Credits";
 
 const description =
-  "The Superchain App Accelerator is a $3M fund for developers to build seamless onchain apps — powered by Optimism and thirdweb. Apply for a grant.";
+  "The Superchain App Accelerator is a $3M fund for developers to build seamless onchain apps — powered by Optimism and thirdweb. Apply for credits.";
 
 const superchains = [
   {
