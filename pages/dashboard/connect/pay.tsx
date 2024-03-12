@@ -26,10 +26,10 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
   const [selectedKey, setSelectedKey] = useState<undefined | ApiKey>();
 
   const apiKeys = useMemo(() => {
-    return (keysQuery?.data || []).filter((key) => {
-      return !!(key.services || []).find((srv) => srv.name === "pay");
+    return (keysQuery?.data ?? []).filter((key) => {
+      return !!(key.services ?? []).find((srv) => srv.name === "pay");
     });
-  }, [keysQuery]);
+  }, [keysQuery?.data]);
 
   const hasApiKeys = apiKeys.length > 0;
 
