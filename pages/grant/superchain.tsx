@@ -133,17 +133,17 @@ const GrantSuperChain = () => {
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-smart-wallet.svg")}
                   title="Empower users with smart accounts"
-                  description="Create seamless user experiences — we will sponsor end user transactions with smart accounts."
+                  description="Create seamless user experiences — we will sponsor end user transactions with smart accounts. Now live."
                 />
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-dashboard.svg")}
                   title="Use our dashboard for free"
-                  description="Deploy smart contracts, mint NFTs, & perform any onchain action on the thirdweb Dashboard — for free."
+                  description="Deploy smart contracts, mint NFTs, & perform any onchain action on the thirdweb Dashboard — for free. Coming soon."
                 />
                 <LandingIconSectionItem
                   icon={require("public/assets/grant/superchain/icon-tool.svg")}
                   title="Use our full-stack web3 dev tools"
-                  description="Build your app without any friction with frontend, backend, and onchain tools."
+                  description="Build your app without any friction with frontend, backend, and onchain tools. Coming soon."
                 />
               </LandingGridSection>
             </Flex>
@@ -167,7 +167,7 @@ const GrantSuperChain = () => {
                   lineHeight="36px"
                 >
                   Select the chain you want to build on, connect your wallet,
-                  and fill out the form to apply for credits.
+                  and apply for credits.
                 </Text>
               </Container>
 
