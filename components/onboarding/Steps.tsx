@@ -125,6 +125,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     onboardingPaymentMethod,
     hasAppliedForOpGrant,
     onlyOptimism,
+    isSponsoredChain,
   ]);
 
   const handleStep = ({
