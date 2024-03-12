@@ -1,12 +1,6 @@
 import { usePaymentsSellerById } from "@3rdweb-sdk/react/hooks/usePayments";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  Flex,
-  Heading,
-} from "@chakra-ui/react";
-import { Text } from "tw-components";
+import { Alert, AlertDescription, AlertIcon, Flex } from "@chakra-ui/react";
+import { Text, Heading } from "tw-components";
 
 interface PaymentsSettingsChecklistProps {
   paymentsSellerId: string;
