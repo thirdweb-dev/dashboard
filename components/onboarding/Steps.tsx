@@ -21,6 +21,8 @@ import { ApplyForOpCreditsModal } from "./ApplyForOpCreditsModal";
 import { StaticImageData } from "next/image";
 import { ChakraNextImage } from "components/Image";
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { useChainId } from "@thirdweb-dev/react";
+import { OPSponsoredChains } from "pages/chainlist";
 
 enum Step {
   Keys = "keys",
@@ -86,11 +88,15 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
-  const currentStep = useMemo(() => {
-    if (hasAppliedForOpGrant) {
-      return null;
-    }
+  const chainId = useChainId();
 
+  const isSponsoredChain = useMemo(() => {
+    if (chainId) {
+      return OPSponsoredChains.includes(chainId);
+    }
+  }, [chainId]);
+
+  const currentStep = useMemo(() => {
     if (onlyOptimism) {
       return Step.OptimismCredits;
     }
@@ -99,7 +105,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       return null;
     }
 
-    if (!hasAppliedForOpGrant) {
+    if (!hasAppliedForOpGrant && isSponsoredChain) {
       return Step.OptimismCredits;
     } else if (!onboardingKeys && !hasApiKeys) {
       return Step.Keys;

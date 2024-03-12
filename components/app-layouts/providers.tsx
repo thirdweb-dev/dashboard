@@ -40,6 +40,7 @@ import { ComponentWithChildren } from "types/component-with-children";
 import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
 import { ThirdwebProvider } from "thirdweb/react";
 import { thirdwebClient } from "../../lib/thirdweb-client";
+import { useRouter } from "next/router";
 
 export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
