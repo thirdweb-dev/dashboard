@@ -179,19 +179,40 @@ const ChainPage: ThirdwebNextPage = ({
                 gap={3}
                 alignItems={{ base: "center", md: "flex-start" }}
               >
-                <Heading size="title.lg" as="h1">
-                  {sanitizedChainName}{" "}
-                  {sanitizedChainName.length > 10 && <br />}
-                  <Box
-                    as="span"
-                    opacity={0.6}
-                    fontWeight={400}
-                    fontSize="0.8em"
-                    color="faded"
-                  >
-                    ({chain.nativeCurrency.symbol})
-                  </Box>
-                </Heading>
+                <Flex flexDir="column">
+                  <Flex alignItems="center" gap={2}>
+                    <Heading size="title.lg" as="h1">
+                      {sanitizedChainName}
+                    </Heading>
+                    {isSponsored && (
+                      <Flex
+                        borderRadius="full"
+                        align="center"
+                        overflow="hidden"
+                        flexShrink={0}
+                        py={{ base: 1.5, md: 1 }}
+                        px={{ base: 1.5, md: 2 }}
+                        gap={3}
+                        bgGradient="linear(to-r, #701953, #5454B2)"
+                      >
+                        <Heading size="label.sm" as="label" color="#fff">
+                          Sponsored
+                        </Heading>
+                      </Flex>
+                    )}
+                  </Flex>
+                  <Heading size="title.lg">
+                    <Box
+                      as="span"
+                      opacity={0.6}
+                      fontWeight={400}
+                      fontSize="0.8em"
+                      color="faded"
+                    >
+                      ({chain.nativeCurrency.symbol})
+                    </Box>
+                  </Heading>
+                </Flex>
               </Flex>
             </Flex>
             {!isDeprecated && (
