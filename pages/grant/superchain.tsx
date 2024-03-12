@@ -45,12 +45,6 @@ const superchains = [
     src: require("public/assets/grant/superchain/icon-base.png"),
   },
   {
-    id: "lisk",
-    name: "Lisk",
-    link: "https://thirdweb.com/lisk-sepolia-testnet",
-    src: require("public/assets/grant/superchain/icon-lisk.png"),
-  },
-  {
     id: "zora",
     name: "Zora",
     link: "https://thirdweb.com/zora",
@@ -61,12 +55,6 @@ const superchains = [
     name: "Mode",
     link: "https://thirdweb.com/mode",
     src: require("public/assets/grant/superchain/icon-mode.png"),
-  },
-  {
-    id: "redstone",
-    name: "Redstone",
-    link: "https://thirdweb.com/redstone-holesky-testnet",
-    src: require("public/assets/grant/superchain/icon-redstone.png"),
   },
 ];
 
@@ -119,7 +107,7 @@ const GrantSuperChain = () => {
           scrollToSection={scrollToSection}
         />
 
-        <HomepageSection id="header" mb={60}>
+        <HomepageSection id="header" mb="120px">
           <Flex flexDir="column" gap={{ base: "80px", md: "120px" }}>
             <Flex flexDir="column" gap="56px">
               <Container maxW={907} mt={28}>
@@ -165,35 +153,22 @@ const GrantSuperChain = () => {
               alignItems="center"
               gap="56px"
               ref={mySectionRef}
-              pt={16}
+              pt={{ base: 0, md: 16 }}
             >
               <Container maxW={907} mt={28}>
                 <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
                   How do I apply?
                 </Heading>
 
-                <Flex flexDir="column" gap={8}>
-                  <Text
-                    textAlign="center"
-                    size="body.xl"
-                    color="rgba(255, 255, 255, 0.70)"
-                    lineHeight="36px"
-                  >
-                    This program is designed to support remove builders working
-                    on high-potential apps and projects that will push the space
-                    forward.
-                  </Text>
-
-                  <Text
-                    textAlign="center"
-                    size="body.xl"
-                    color="rgba(255, 255, 255, 0.70)"
-                    lineHeight="36px"
-                  >
-                    Select your chain below, connect your wallet, and fill out
-                    the form to apply for a grant.
-                  </Text>
-                </Flex>
+                <Text
+                  textAlign="center"
+                  size="body.xl"
+                  color="rgba(255, 255, 255, 0.70)"
+                  lineHeight="36px"
+                >
+                  Select the chain you want to build on, connect your wallet,
+                  and fill out the form to apply for credits.
+                </Text>
               </Container>
 
               <Flex position="relative" px={{ base: 6, lg: 12 }}>
@@ -252,6 +227,8 @@ const GrantSuperChain = () => {
                             <ChakraNextImage
                               src={require("public/assets/grant/superchain/link.svg")}
                               alt="arrow"
+                              height="18px"
+                              width="18px"
                             />
                           </Flex>
                         </Card>
@@ -265,7 +242,7 @@ const GrantSuperChain = () => {
             <Flex
               flexDir="column"
               alignItems="center"
-              mt={{ base: "120px", lg: "200px" }}
+              mt={{ base: "0", lg: "200px" }}
             >
               <Box
                 borderRadius="12px"
@@ -319,7 +296,7 @@ const GrantSuperChain = () => {
                       Accelerating the Superchain with Optimism
                     </Heading>
                     <Text
-                      fontSize="medium"
+                      fontSize={{ base: "16px", md: "18px" }}
                       fontWeight="400"
                       color="white"
                       textAlign={{ base: "center", md: "left" }}

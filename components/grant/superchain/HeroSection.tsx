@@ -21,7 +21,7 @@ const HeroSection = ({
       justifyContent="center"
       alignItems="center"
       minH="750px"
-      background={`linear-gradient(to top, #0F0F0F 0%, #0F0F0F 2%, rgba(0,0,0,0) 18%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
+      background={`linear-gradient(to top, #000 0%, #000 2%, rgba(0,0,0,0) 18%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
@@ -55,7 +55,7 @@ const HeroSection = ({
           </Heading>
 
           <Text
-            fontSize={{ base: "16px", md: "20px" }}
+            fontSize={{ base: "18px", md: "22px" }}
             color="rgba(50, 49, 49, 0.80)"
             letterSpacing="-0.4px"
             fontWeight={500}
