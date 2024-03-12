@@ -97,6 +97,7 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
   const hasValidPayment = account.data?.status === "validPayment";
 
   const isFreePlan = account.data?.plan === AccountPlan.Free;
+  const isProPlan = account.data?.plan === AccountPlan.Pro;
 
   const creditsRecord =
     PlanToCreditsRecord[account.data?.plan || AccountPlan.Free];
@@ -189,22 +190,32 @@ export const ApplyForOpCreditsModal: React.FC<ApplyForOpCreditsModalProps> = ({
                     {hasAppliedForOpGrant ? "Already applied" : "Apply Now"}
                   </Button>
                 </Flex>
-                <Text textAlign="center" fontWeight="bold" letterSpacing="wide">
-                  Or upgrade and get access to more credits:
-                </Text>
-                <SimpleGrid
-                  columns={{ base: 1, md: isFreePlan ? 2 : 1 }}
-                  gap={4}
-                >
-                  {isFreePlan && (
-                    <PlanCard
-                      creditsRecord={PlanToCreditsRecord[AccountPlan.Growth]}
-                    />
-                  )}
-                  <PlanCard
-                    creditsRecord={PlanToCreditsRecord[AccountPlan.Pro]}
-                  />
-                </SimpleGrid>
+                {!isProPlan && (
+                  <>
+                    <Text
+                      textAlign="center"
+                      fontWeight="bold"
+                      letterSpacing="wide"
+                    >
+                      Or upgrade and get access to more credits:
+                    </Text>
+                    <SimpleGrid
+                      columns={{ base: 1, md: isFreePlan ? 2 : 1 }}
+                      gap={4}
+                    >
+                      {isFreePlan && (
+                        <PlanCard
+                          creditsRecord={
+                            PlanToCreditsRecord[AccountPlan.Growth]
+                          }
+                        />
+                      )}
+                      <PlanCard
+                        creditsRecord={PlanToCreditsRecord[AccountPlan.Pro]}
+                      />
+                    </SimpleGrid>
+                  </>
+                )}
               </Flex>
               <Text mt={6} textAlign="center" color="faded">
                 We are open to distributing more than the upper limit for each
