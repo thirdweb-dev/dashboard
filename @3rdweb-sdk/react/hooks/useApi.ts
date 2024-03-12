@@ -128,11 +128,15 @@ export type ApiKeyService = {
   targetAddresses: string[];
   actions: string[];
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
+  // EMBEDDED WALLET
   recoveryShareManagement?: ApiKeyRecoverShareManagement;
   customAuthentication?: ApiKeyCustomAuthentication;
   customAuthEndpoint?: ApiKeyCustomAuthEndpoint;
   applicationName?: string;
   applicationImageUrl?: string;
+  // PAY
+  developerFeeBPS?: number;
+  payoutAddress?: string;
 };
 
 export type ApiKey = {

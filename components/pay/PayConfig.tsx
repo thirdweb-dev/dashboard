@@ -13,18 +13,21 @@ import {
   FormLabel,
 } from "tw-components";
 
-import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ApiKeyPayConfigValidationSchema,
   apiKeyPayConfigValidationSchema,
 } from "components/settings/ApiKeys/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 
 interface PayConfigProps {
   apiKey: ApiKey;
 }
 
+const TRACKING_CATEGORY = "pay";
 export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
@@ -33,10 +36,63 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
       payoutAddress: "0x0000000000000000000000000000000000000000",
     },
   });
+  const trackEvent = useTrack();
+  const { onSuccess, onError } = useTxNotifications(
+    "Pay API Key configuration updated",
+    "Failed to update API Key settings for Pay",
+  );
+
+  const mutation = useUpdateApiKey();
 
   const handleSubmit = form.handleSubmit((values) => {
+    const services = apiKey.services;
+    if (!services) {
+      throw new Error("Bad state: Missing services");
+    }
+
     const { developerFeeBPS, payoutAddress } = values;
     console.log(`${apiKey.key} - ${developerFeeBPS} - ${payoutAddress}`);
+
+    const newServices = services.map((service) => {
+      if (service.name !== "pay") {
+        return service;
+      }
+
+      return {
+        ...service,
+        developerFeeBPS,
+        payoutAddress,
+      };
+    });
+
+    const formattedValues = {
+      ...apiKey,
+      services: newServices,
+    };
+
+    mutation.mutate(formattedValues, {
+      onSuccess: () => {
+        onSuccess();
+        trackEvent({
+          category: TRACKING_CATEGORY,
+          action: "configuration-update",
+          label: "success",
+          data: {
+            developerFeeBPS,
+            payoutAddress,
+          },
+        });
+      },
+      onError: (err) => {
+        onError(err);
+        trackEvent({
+          category: TRACKING_CATEGORY,
+          action: "configuration-update",
+          label: "error",
+          error: err,
+        });
+      },
+    });
   });
 
   return (

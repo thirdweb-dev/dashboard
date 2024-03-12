@@ -63,6 +63,19 @@ const applicationImageUrlValidation = z.union([
   ),
 ]);
 
+export const developerFeeBpsValidation = z
+  .preprocess((arg) => {
+    if (typeof arg === "string") {
+      return parseInt(arg);
+    }
+    return arg;
+  }, z.number())
+  .default(100);
+
+export const payoutAddressValidation = z
+  .string()
+  .default("0x0000000000000000000000000000000000000000");
+
 const servicesValidation = z.optional(
   z
     .array(
@@ -80,6 +93,8 @@ const servicesValidation = z.optional(
         customAuthEndpoint: customAuthEndpointValidation,
         applicationName: applicationNameValidation,
         applicationImageUrl: applicationImageUrlValidation,
+        developerFeeBPS: developerFeeBpsValidation,
+        payoutAddress: payoutAddressValidation,
       }),
     )
     .optional(),
@@ -127,8 +142,8 @@ export const apiKeyEmbeddedWalletsValidationSchema = z.object({
 });
 
 export const apiKeyPayConfigValidationSchema = z.object({
-  developerFeeBPS: z.number(),
-  payoutAddress: z.string(),
+  developerFeeBPS: developerFeeBpsValidation,
+  payoutAddress: payoutAddressValidation,
 });
 
 export type ApiKeyCreateValidationSchema = z.infer<

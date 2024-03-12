@@ -6,14 +6,14 @@ import { PageId } from "page-id";
 import { useEffect, useMemo, useState } from "react";
 import { Heading, Text } from "tw-components";
 
-import { ThirdwebNextPage } from "utils/types";
-import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
+import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
+import { ThirdwebNextPage } from "utils/types";
 
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { PayConfig } from "components/pay/PayConfig";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
-import { PayConfig } from "components/pay/PayConfig";
 
 // const TRACKING_CATEGORY = "pay";
 
