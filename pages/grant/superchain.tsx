@@ -56,6 +56,20 @@ const superchains = [
     link: "https://thirdweb.com/mode",
     src: require("public/assets/grant/superchain/icon-mode.png"),
   },
+  {
+    id: "redstone",
+    name: "Redstone",
+    link: "https://thirdweb.com/redstone-holesky-testnet",
+    src: require("public/assets/grant/superchain/icon-redstone.png"),
+    isComingSoon: true,
+  },
+  {
+    id: "lisk",
+    name: "Lisk",
+    link: "https://thirdweb.com/lisk-sepolia-testnet",
+    src: require("public/assets/grant/superchain/icon-lisk.png"),
+    isComingSoon: true,
+  },
 ];
 
 const GrantSuperChain = () => {
@@ -174,11 +188,11 @@ const GrantSuperChain = () => {
               <Flex position="relative" px={{ base: 6, lg: 12 }}>
                 <Flex
                   flexWrap="wrap"
-                  alignItems="center"
+                  alignItems="flex-start"
                   justifyContent="center"
                   gap="27px"
                 >
-                  {superchains.map(({ id, name, src, link }) => {
+                  {superchains.map(({ id, name, src, link, isComingSoon }) => {
                     return (
                       <TrackedLink
                         key={id}
@@ -187,6 +201,7 @@ const GrantSuperChain = () => {
                         label={id}
                         textDecor="none!important"
                         isExternal
+                        pointerEvents={isComingSoon ? "none" : "all"}
                       >
                         <Card
                           as={Flex}
@@ -201,6 +216,7 @@ const GrantSuperChain = () => {
                             transform: "scale(1.01)",
                           }}
                           width="122px"
+                          opacity={isComingSoon ? 0.6 : 1}
                         >
                           <ChakraNextImage
                             src={src}
@@ -224,14 +240,28 @@ const GrantSuperChain = () => {
                               {name}
                             </Text>
 
-                            <ChakraNextImage
-                              src={require("public/assets/grant/superchain/link.svg")}
-                              alt="arrow"
-                              height="18px"
-                              width="18px"
-                            />
+                            {!isComingSoon && (
+                              <ChakraNextImage
+                                src={require("public/assets/grant/superchain/link.svg")}
+                                alt="arrow"
+                                height="18px"
+                                width="18px"
+                              />
+                            )}
                           </Flex>
                         </Card>
+
+                        {isComingSoon && (
+                          <Text
+                            textAlign="center"
+                            fontSize="14px"
+                            fontWeight={400}
+                            color="rgba(255, 255, 255, 0.70)"
+                            mt="8px"
+                          >
+                            Coming soon
+                          </Text>
+                        )}
                       </TrackedLink>
                     );
                   })}
