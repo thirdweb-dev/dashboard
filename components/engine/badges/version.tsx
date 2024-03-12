@@ -11,12 +11,15 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
   Tooltip,
   UseDisclosureReturn,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { IoAlertCircleOutline } from "react-icons/io5";
+import { FaArrowCircleUp } from "react-icons/fa";
 import { Button } from "tw-components";
 
 export const EngineVersionBadge = ({
@@ -28,36 +31,31 @@ export const EngineVersionBadge = ({
   const latestVersionQuery = useEngineLatestVersion();
   const disclosure = useDisclosure();
 
-  const current = currentVersionQuery.data;
-  const latest = latestVersionQuery.data;
+  const current = currentVersionQuery.data ?? "...";
+  const latest = latestVersionQuery.data ?? "...";
   const isStale = current !== latest;
 
   if (!isStale) {
     return (
-      <Tooltip label="This instance is on the latest version.">
-        <Button
-          variant="outline"
-          size="xs"
-          isLoading={currentVersionQuery.isLoading}
-        >
-          {current}
-        </Button>
-      </Tooltip>
+      <Tag size="sm">
+        <TagLabel fontSize="small">{current}</TagLabel>
+      </Tag>
     );
   }
 
   return (
     <>
-      <Tooltip label={`Update to ${latest}`}>
-        <Button
-          onClick={disclosure.onOpen}
-          variant="outline"
-          size="xs"
-          isLoading={currentVersionQuery.isLoading}
-          colorScheme="yellow"
-          leftIcon={<IoAlertCircleOutline />}
-        >
-          {current}
+      <Tooltip label="Update to the latest version">
+        <Button variant="unstyled">
+          <Tag
+            onClick={disclosure.onOpen}
+            size="sm"
+            colorScheme="blue"
+            variant="outline"
+          >
+            <TagLeftIcon as={FaArrowCircleUp} boxSize={3} />
+            <TagLabel fontSize="small">{current}</TagLabel>
+          </Tag>
         </Button>
       </Tooltip>
 
