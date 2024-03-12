@@ -204,9 +204,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         <FormControl gap={6}>
           <FormLabel>Tell us more about your project</FormLabel>
           <Textarea
-            {...form.register("what_would_you_like_to_meet_about_", {
-              required: true,
-            })}
+            {...form.register("what_would_you_like_to_meet_about_")}
           />
         </FormControl>
       </ModalBody>
