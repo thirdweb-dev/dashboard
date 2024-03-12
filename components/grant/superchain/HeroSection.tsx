@@ -2,6 +2,7 @@ import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { useTrack } from "hooks/analytics/useTrack";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import React from "react";
 import { Button, Heading, Text } from "tw-components";
 
@@ -21,7 +22,7 @@ const HeroSection = ({
       justifyContent="center"
       alignItems="center"
       minH="750px"
-      background={`linear-gradient(to top, #000 0%, #000 2%, rgba(0,0,0,0) 18%), url(${typeof window !== "undefined" ? window.location.origin : ""}/assets/grant/superchain/overlay.png)`}
+      background={`linear-gradient(to top, #000 0%, #000 2%, rgba(0,0,0,0) 18%), url(${getAbsoluteUrl()}/assets/grant/superchain/overlay.png)`}
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
