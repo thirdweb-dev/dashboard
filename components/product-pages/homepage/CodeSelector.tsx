@@ -96,7 +96,7 @@ List<NFT> nfts = await contract.ERC721.GetAll()`,
 const authSnippets = {
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK("goerli");
+const sdk = new ThirdwebSDK("mumbai");
 
 // Login with a single line of code
 const payload = await sdk.auth.login();
@@ -119,7 +119,7 @@ export default function App() {
   "react-native": "",
   python: `from thirdweb import ThirdwebSDK
 
-sdk = ThirdwebSDK("goerli")
+sdk = ThirdwebSDK("mumbai")
 
 # Login with a single line of code
 payload = sdk.auth.login();
@@ -129,7 +129,7 @@ address = sdk.auth.verify(payload);`,
   go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
 
 func main() {
-  sdk, err := thirdweb.NewThirdwebSDK("goerli", nil)
+  sdk, err := thirdweb.NewThirdwebSDK("mumbai", nil)
 
   // Login with a single line of code
   payload, err := sdk.Auth.Login()
