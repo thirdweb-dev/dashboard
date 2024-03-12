@@ -57,12 +57,12 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
             factoryAddress: smartWalletOptions.factoryAddress,
             gasless: smartWalletOptions.gasless,
             bundlerUrl: isProd
-              ? "https://mumbai.bundler.thirdweb.com"
-              : "https://mumbai.bundler.thirdweb-dev.com",
+              ? "https://11155111.bundler.thirdweb.com"
+              : "https://11155111.bundler.thirdweb-dev.com",
             // eslint-disable-next-line inclusive-language/use-inclusive-words
             paymasterUrl: isProd
-              ? "https://mumbai.bundler.thirdweb.com"
-              : "https://mumbai.bundler.thirdweb-dev.com",
+              ? "https://11155111.bundler.thirdweb.com"
+              : "https://11155111.bundler.thirdweb-dev.com",
           })
         : walletConfig;
     },
