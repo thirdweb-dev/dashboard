@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import {
-  getChainBySlugAsync,
   type Chain,
   getChainBySlug,
 } from "@thirdweb-dev/chains";
@@ -122,9 +121,8 @@ const ChainPage: ThirdwebNextPage = ({
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
-    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-  }.`;
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+    }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
