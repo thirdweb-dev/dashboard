@@ -44,20 +44,24 @@ export class SuperChainFrame {
     }
   };
 
-  public static avgTransactionImageByChain = (chainName: string) => {
-    switch (chainName) {
-      case "optimism":
-        return `${getAbsoluteUrl()}/assets/dashboard/250k-transactions.png`;
+  public static planByButtonIndex = (buttonIndex: number) => {
+    switch (buttonIndex) {
+      case 1:
+        return "250";
 
-      case "base":
-        return `${getAbsoluteUrl()}/assets/dashboard/500k-transactions.png`;
+      case 2:
+        return "2500";
 
-      case "zora":
-        return `${getAbsoluteUrl()}/assets/dashboard/500k-transactions.png`;
+      case 3:
+        return "3000";
 
       default:
-        throw new Error("Invalid chain name");
+        throw new Error("Invalid button index");
     }
+  };
+
+  public static avgTransactionImage = (chainName: string, plan: string) => {
+    return `${getAbsoluteUrl()}/assets/dashboard/${chainName}-${plan}.png`;
   };
 
   public static htmlResponse = (frameMetaData: FrameMetadataType) => {

@@ -11,17 +11,12 @@ import {
   finalGrowthPlanFrameMetaData,
   growthPlanFrameMetaData,
 } from "lib/superchain-frames";
-import { getAbsoluteUrl } from "lib/vercel-utils";
 
 export const config = {
   runtime: "edge",
 };
 
-const blogUrl = "https://blog.thirdweb.com/rollup-as-a-service";
-
-const dashboardUrl = `${getAbsoluteUrl()}/dashboard`;
-
-const growthTrialUrl = `${getAbsoluteUrl()}/growth`;
+const superchainLandingUrl = `https://thirdweb.com/grant/superchain`;
 
 export default async function handler(req: NextRequest) {
   if (req.method !== "POST") {
@@ -46,7 +41,7 @@ export default async function handler(req: NextRequest) {
     const buttonIndex = SuperChainFrame.validateButtonIndex(message.button, 4);
 
     if (buttonIndex === 4) {
-      return redirectResponse(blogUrl, 302);
+      return redirectResponse(superchainLandingUrl, 302);
     }
 
     const chainName = SuperChainFrame.chainNameByButtonIndex(buttonIndex);
@@ -61,31 +56,22 @@ export default async function handler(req: NextRequest) {
   if (action === "growth") {
     const buttonIndex = SuperChainFrame.validateButtonIndex(message.button, 3);
 
-    if (buttonIndex === 3) {
-      return redirectResponse(dashboardUrl, 302);
-    }
-
     const queryChain = searchParams.get("chain");
 
     const chain = SuperChainFrame.validateChain(queryChain as string);
 
-    const avgTransactionImage =
-      SuperChainFrame.avgTransactionImageByChain(chain);
+    const plan = SuperChainFrame.planByButtonIndex(buttonIndex);
+
+    const transactionImage = SuperChainFrame.avgTransactionImage(chain, plan);
 
     const htmlResponse = SuperChainFrame.htmlResponse(
-      finalGrowthPlanFrameMetaData(avgTransactionImage, buttonIndex === 2),
+      finalGrowthPlanFrameMetaData(transactionImage),
     );
 
     return successHtmlResponse(htmlResponse, 200);
   }
 
   if (action === "final") {
-    const buttonIndex = SuperChainFrame.validateButtonIndex(message.button, 2);
-
-    if (buttonIndex === 2) {
-      return redirectResponse(growthTrialUrl, 302);
-    }
-
-    return redirectResponse(dashboardUrl, 302);
+    return redirectResponse(superchainLandingUrl, 302);
   }
 }

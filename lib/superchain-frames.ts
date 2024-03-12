@@ -1,4 +1,4 @@
-import { FrameButtonMetadata, FrameMetadataType } from "@coinbase/onchainkit";
+import { FrameMetadataType } from "@coinbase/onchainkit";
 import { getAbsoluteUrl } from "./vercel-utils";
 
 export const superchainFrameChains = {
@@ -26,41 +26,32 @@ export const growthPlanFrameMetaData = (
   return {
     buttons: [
       {
-        label: "Yes",
+        label: "$250",
         action: `post`,
       },
       {
-        label: "No",
+        label: "$2,500",
         action: `post`,
       },
       {
-        label: "Sign up",
-        action: `post_redirect`,
+        label: "$3,000",
+        action: `post`,
       },
     ],
-    image: `${getAbsoluteUrl()}/assets/dashboard/growth-account.png`,
+    image: `${getAbsoluteUrl()}/assets/dashboard/growth.png`,
     post_url: `${getAbsoluteUrl()}/api/frame/superchain?action=growth&chain=${chainName}`,
   };
 };
 
 export const finalGrowthPlanFrameMetaData = (
   imgUrl: string,
-  showGrowthTrial: boolean,
 ): FrameMetadataType => {
   return {
     buttons: [
       {
-        label: "Claim credits",
+        label: "Apply for Superchain credits",
         action: `post_redirect`,
       },
-      ...(showGrowthTrial
-        ? [
-            {
-              label: "Get a free thirdweb growth trial",
-              action: `post_redirect`,
-            } as FrameButtonMetadata,
-          ]
-        : []),
     ],
     image: imgUrl,
     post_url: `${getAbsoluteUrl()}/api/frame/superchain?action=final`,
