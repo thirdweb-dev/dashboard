@@ -9,6 +9,7 @@ import {
   HStack,
   VStack,
   useBreakpointValue,
+  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -37,7 +38,8 @@ type StepData = {
   onClick?: () => void;
   href?: string;
   canSkip?: true;
-  rightImage?: StaticImageData;
+  rightImageLight?: StaticImageData;
+  rightImageDark?: StaticImageData;
 };
 
 interface OnboardingStepsProps {
@@ -58,6 +60,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     onOpen: onClaimCreditsOpen,
     onClose: onClaimCreditsClose,
   } = useDisclosure();
+  const { colorMode } = useColorMode();
   const [onboardingPaymentMethod, setOnboardingPaymentMethod] = useLocalStorage(
     `onboardingPaymentMethod-${meQuery?.data?.id}`,
     false,
@@ -215,7 +218,8 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         },
         learnMore:
           "https://blog.thirdweb.com/accelerating-the-superchain-with-optimism",
-        rightImage: require("public/assets/dashboard/optimism-credits.png"),
+        rightImageDark: require("public/assets/dashboard/optimism-credits-dark.png"),
+        rightImageLight: require("public/assets/dashboard/optimism-credits-light.png"),
       },
       {
         key: Step.Docs,
@@ -242,7 +246,8 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     learnMore,
     onClick,
     canSkip,
-    rightImage,
+    rightImageDark,
+    rightImageLight,
   } = STEPS.find((s) => s.key === currentStep) as StepData;
 
   return (
@@ -251,7 +256,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         gap={2}
         alignItems="flex-start"
         p={6}
-        w={rightImage && !isMobile ? "60%" : "100%"}
+        w={rightImageDark && !isMobile ? "60%" : "100%"}
       >
         <Heading size="title.sm">{title}</Heading>
         <Text>{description}</Text>
@@ -283,7 +288,8 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
           )}
         </HStack>
       </VStack>
-      {rightImage && !isMobile && <ChakraNextImage src={rightImage} alt={""} />}
+      {rightImageDark && !isMobile && colorMode === "dark" && <ChakraNextImage src={rightImageDark} alt={""} />}
+      {rightImageLight && !isMobile && colorMode === "light" && <ChakraNextImage src={rightImageLight} alt={""} />}
       <ApplyForOpCreditsModal
         isOpen={isClaimCreditsOpen}
         onClose={onClaimCreditsClose}
