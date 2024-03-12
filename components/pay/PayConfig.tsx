@@ -51,7 +51,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
     }
 
     const { developerFeeBPS, payoutAddress } = values;
-    console.log(`${apiKey.key} - ${developerFeeBPS} - ${payoutAddress}`);
 
     const newServices = services.map((service) => {
       if (service.name !== "pay") {
