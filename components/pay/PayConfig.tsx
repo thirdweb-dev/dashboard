@@ -21,6 +21,7 @@ import {
 } from "components/settings/ApiKeys/validations";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface PayConfigProps {
@@ -29,13 +30,27 @@ interface PayConfigProps {
 
 const TRACKING_CATEGORY = "pay";
 export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
+  const payService = apiKey.services?.find((service) => service.name === "pay");
+
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
     defaultValues: {
-      developerFeeBPS: 100,
-      payoutAddress: "0x0000000000000000000000000000000000000000",
+      developerFeeBPS: payService?.developerFeeBPS ?? 100,
+      payoutAddress:
+        payService?.payoutAddress ??
+        "0x0000000000000000000000000000000000000000",
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      developerFeeBPS: payService?.developerFeeBPS ?? 100,
+      payoutAddress:
+        payService?.payoutAddress ??
+        "0x0000000000000000000000000000000000000000",
+    });
+  }, [form, payService]);
+
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
     "Pay API Key configuration updated",
