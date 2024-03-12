@@ -168,7 +168,8 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
               "Other",
             ].map((vertical) => ({
               label: vertical,
-              value: vertical === "Payments & Finance (DeFi)" ? "DeFi" : vertical,
+              value:
+                vertical === "Payments & Finance (DeFi)" ? "DeFi" : vertical,
             }))}
             placeholder="Select vertical"
             isRequired
