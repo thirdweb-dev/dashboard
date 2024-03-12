@@ -49,7 +49,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
         payService?.payoutAddress ??
         "0x0000000000000000000000000000000000000000",
     });
-  }, [form, payService]);
+  }, [form, payService?.developerFeeBPS, payService?.payoutAddress]);
 
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(

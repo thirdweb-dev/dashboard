@@ -631,7 +631,6 @@ export function useCreatePaymentMethod() {
 
 export function useApiKeys() {
   const { user, isLoggedIn } = useLoggedInUser();
-
   return useQuery(
     apiKeys.keys(user?.address as string),
     async () => {
@@ -647,7 +646,6 @@ export function useApiKeys() {
       if (json.error) {
         throw new Error(json.error.message);
       }
-
       return json.data as ApiKey[];
     },
     { enabled: !!user?.address && isLoggedIn },
@@ -692,26 +690,35 @@ export function useUpdateApiKey() {
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
 
-  return useMutationWithInvalidate(async (input: UpdateKeyInput) => {
-    invariant(user?.address, "walletAddress is required");
+  return useMutationWithInvalidate(
+    async (input: UpdateKeyInput) => {
+      invariant(user?.address, "walletAddress is required");
 
-    const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${input.id}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${input.id}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          apiKeys.keys(user?.address as string),
+        );
       },
-      body: JSON.stringify(input),
-    });
-    const json = await res.json();
-
-    if (json.error) {
-      throw new Error(json.error.message);
-    }
-
-    await queryClient.invalidateQueries(apiKeys.keys(user?.address as string));
-    return json.data;
-  });
+    },
+  );
 }
 
 export function useRevokeApiKey() {

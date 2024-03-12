@@ -3,14 +3,16 @@ import { Flex, HStack } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Heading, Text } from "tw-components";
 
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
 import { ThirdwebNextPage } from "utils/types";
 
+import { apiKeys } from "@3rdweb-sdk/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { useQueryClient } from "@tanstack/react-query";
 import { PayConfig } from "components/pay/PayConfig";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
@@ -21,37 +23,42 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
   const router = useRouter();
   const defaultClientId = router.query.clientId?.toString();
   const { isLoggedIn } = useLoggedInUser();
+  const { user } = useLoggedInUser();
+  const queryClient = useQueryClient();
+
   const keysQuery = useApiKeys();
 
   const [selectedKey, setSelectedKey] = useState<undefined | ApiKey>();
 
-  const apiKeys = useMemo(() => {
-    return (keysQuery?.data ?? []).filter((key) => {
-      return !!(key.services ?? []).find((srv) => srv.name === "pay");
-    });
-  }, [keysQuery?.data]);
-
-  const hasApiKeys = apiKeys.length > 0;
+  const apiKeysData = (keysQuery?.data ?? []).filter((key) => {
+    return !!(key.services ?? []).find((srv) => srv.name === "pay");
+  });
+  const hasApiKeys = apiKeysData.length > 0;
 
   useEffect(() => {
-    if (selectedKey) {
-      return;
+    // query rehydrates from cache leading to stale results if user refreshes shortly after updating their dashboard.
+    // Invalidate the query to force a refetch
+    if (user?.address) {
+      queryClient.invalidateQueries(apiKeys.keys(user?.address));
     }
-    if (apiKeys.length > 0) {
+  }, [queryClient, user?.address]);
+
+  useEffect(() => {
+    if (apiKeysData.length > 0) {
       if (defaultClientId) {
-        const key = apiKeys.find((k) => k.key === defaultClientId);
+        const key = apiKeysData.find((k) => k.key === defaultClientId);
         if (key) {
           setSelectedKey(key);
         } else {
-          setSelectedKey(apiKeys[0]);
+          setSelectedKey(apiKeysData[0]);
         }
       } else {
-        setSelectedKey(apiKeys[0]);
+        setSelectedKey(apiKeysData[0]);
       }
     } else {
       setSelectedKey(undefined);
     }
-  }, [apiKeys, selectedKey, defaultClientId]);
+  }, [apiKeysData, selectedKey, defaultClientId]);
 
   if (!isLoggedIn) {
     return (
@@ -74,7 +81,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
             <HStack gap={3}>
               {selectedKey && (
                 <ApiKeysMenu
-                  apiKeys={apiKeys}
+                  apiKeys={apiKeysData}
                   selectedKey={selectedKey}
                   onSelect={setSelectedKey}
                 />
