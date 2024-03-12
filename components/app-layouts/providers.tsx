@@ -109,7 +109,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const isChainSlugPage = router.pathname === "/[chainSlug]";
 
   const chainByChainSlug = supportedChains.find(
-    (supportedChain) => supportedChain.slug === router.asPath.split("/")[1]
+    (supportedChain) => supportedChain.slug === router.asPath.split("/")[1],
   );
 
   return (
@@ -122,7 +122,13 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
           isDarkMode: false,
           url: "https://thirdweb.com",
         }}
-        activeChain={chain === null ? undefined : isChainSlugPage ? chainByChainSlug : chain}
+        activeChain={
+          chain === null
+            ? undefined
+            : isChainSlugPage
+              ? chainByChainSlug
+              : chain
+        }
         supportedChains={supportedChains}
         sdkOptions={{
           gasSettings: { maxPriceInGwei: 650 },
