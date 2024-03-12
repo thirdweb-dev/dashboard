@@ -64,7 +64,7 @@ export const PlanToCreditsRecord: Record<AccountPlan, CreditsRecord> = {
       "Dedicated support",
     ],
     ctaTitle: "Contact Us",
-    ctaHref: "/contact-us",
+    ctaHref: "https://meetings.hubspot.com/sales-thirdweb/thirdweb-pro",
   },
   [AccountPlan.Enterprise]: {
     title: "Enterprise",
