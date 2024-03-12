@@ -251,7 +251,14 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   } = STEPS.find((s) => s.key === currentStep) as StepData;
 
   return (
-    <Card w="full" as={Flex} p={0} gap={8} justifyContent="space-between">
+    <Card
+      w="full"
+      as={Flex}
+      p={0}
+      gap={8}
+      justifyContent="space-between"
+      overflow="hidden"
+    >
       <VStack
         gap={2}
         alignItems="flex-start"
@@ -288,8 +295,12 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
           )}
         </HStack>
       </VStack>
-      {rightImageDark && !isMobile && colorMode === "dark" && <ChakraNextImage src={rightImageDark} alt={""} />}
-      {rightImageLight && !isMobile && colorMode === "light" && <ChakraNextImage src={rightImageLight} alt={""} />}
+      {rightImageDark && !isMobile && colorMode === "dark" && (
+        <ChakraNextImage src={rightImageDark} alt={""} w="50%" />
+      )}
+      {rightImageLight && !isMobile && colorMode === "light" && (
+        <ChakraNextImage src={rightImageLight} alt={""} w="50%" />
+      )}
       <ApplyForOpCreditsModal
         isOpen={isClaimCreditsOpen}
         onClose={onClaimCreditsClose}
