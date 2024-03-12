@@ -46,7 +46,7 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                1-month free trial on our Growth plan
+                Introducing the Superchain App Accelerator — a $3M fund for Superchain apps. Apply for credits.
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
