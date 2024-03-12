@@ -156,14 +156,19 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
           <FormLabel>Industry</FormLabel>
           <ChakraSelect
             options={[
-              "Gaming & Metaverse",
               "DAOs",
               "Education & Community",
               "Fandom & Rewards",
+              "Gaming & Metaverse",
               "Infra & Dev Tools",
+              "NFTs",
+              "Payments & Finance (DeFi)",
+              "Security & Identity",
+              "Social",
+              "Other",
             ].map((vertical) => ({
               label: vertical,
-              value: vertical,
+              value: vertical === "Payments & Finance (DeFi)" ? "DeFi" : vertical,
             }))}
             placeholder="Select vertical"
             isRequired
