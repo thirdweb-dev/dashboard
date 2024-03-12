@@ -28,7 +28,7 @@ export const PaymentsSettingsChecklist: React.FC<
       <AlertIcon />
       <Flex flexDir="column">
         <AlertDescription as={Flex} flexDir="column" gap={4}>
-          <Heading>Currently not accepting new seller profiles.</Heading>
+          <Heading size="title.xs">Currently not accepting new seller profiles.</Heading>
           <Text>New seller profiles will not be verified.</Text>
         </AlertDescription>
       </Flex>
