@@ -24,7 +24,7 @@ dependencies:
     version: 2.1.2(@chakra-ui/styled-system@2.9.2)
   '@coinbase/onchainkit':
     specifier: ^0.10.0
-    version: 0.10.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.11)
+    version: 0.10.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.20)
   '@emotion/react':
     specifier: ^11.11.3
     version: 11.11.3(@types/react@18.2.63)(react@18.2.0)
@@ -2091,7 +2091,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@coinbase/onchainkit@0.10.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.11):
+  /@coinbase/onchainkit@0.10.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.20):
     resolution: {integrity: sha512-6AfRlCRQI1U3p2nqEl5AaLryI29vFJg6+F7KWCqbneeyaNUL4UbLiU3blB/VSayBvhKxCkIDuWiz9M2vN685RQ==}
     peerDependencies:
       '@tanstack/react-query': ^5
@@ -2108,7 +2108,7 @@ packages:
       graphql-request: 6.1.0(graphql@16.8.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      viem: 2.7.11(typescript@5.3.3)(zod@3.22.4)
+      viem: 2.7.20(typescript@5.3.3)(zod@3.22.4)
     dev: false
 
   /@coinbase/wallet-sdk@3.7.2:
@@ -10600,7 +10600,6 @@ packages:
     dependencies:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
-    bundledDependencies: false
 
   /event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
