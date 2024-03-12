@@ -12,10 +12,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
-import {
-  type Chain,
-  getChainBySlug,
-} from "@thirdweb-dev/chains";
+import { type Chain, getChainBySlug } from "@thirdweb-dev/chains";
 import { useAddress, useChainId, useSwitchChain } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
@@ -121,8 +118,9 @@ const ChainPage: ThirdwebNextPage = ({
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
-  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${chain.testnet && chain.faucets?.length ? "faucet options" : "more"
-    }.`;
+  const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
+    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
+  }.`;
 
   const isLineaTestnet = chain?.chainId === 59140;
 
