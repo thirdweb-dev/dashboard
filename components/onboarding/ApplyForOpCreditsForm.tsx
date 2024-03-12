@@ -153,7 +153,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
           <Input {...form.register("0-2/name", { required: true })} />
         </FormControl>
         <FormControl gap={6} isRequired>
-          <FormLabel>Vertical</FormLabel>
+          <FormLabel>Industry</FormLabel>
           <ChakraSelect
             options={[
               "Gaming & Metaverse",
