@@ -1,8 +1,11 @@
-import { StepsCard } from "components/dashboard/StepsCard";
-import { PaymentsSettingsKyc } from "./payment-settings-kyc";
-import { PaymentsSettingsKyb } from "./payment-settings-kyb";
 import { usePaymentsSellerById } from "@3rdweb-sdk/react/hooks/usePayments";
-import { Alert, AlertDescription, AlertIcon, Flex, Heading } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Flex,
+  Heading,
+} from "@chakra-ui/react";
 import { Text } from "tw-components";
 
 interface PaymentsSettingsChecklistProps {
@@ -31,12 +34,8 @@ export const PaymentsSettingsChecklist: React.FC<
       <AlertIcon />
       <Flex flexDir="column">
         <AlertDescription as={Flex} flexDir="column" gap={4}>
-          <Heading>
-            Currently not accepting new seller profiles.
-          </Heading>
-          <Text>
-            New seller profiles will not be verified.
-          </Text>
+          <Heading>Currently not accepting new seller profiles.</Heading>
+          <Text>New seller profiles will not be verified.</Text>
         </AlertDescription>
       </Flex>
     </Alert>
