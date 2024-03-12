@@ -38,7 +38,7 @@ export interface VerificationResult {
   error?: string;
 }
 
-async function verifyContract({
+export async function verifyContract({
   contractAddress,
   chainId,
 }: VerifyContractParams) {
