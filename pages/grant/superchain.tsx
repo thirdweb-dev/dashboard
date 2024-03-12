@@ -155,7 +155,7 @@ const GrantSuperChain = () => {
               ref={mySectionRef}
               pt={{ base: 0, md: 16 }}
             >
-              <Container maxW={907} mt={28}>
+              <Container maxW={907} mt={20}>
                 <Heading as="h1" size="title.2xl" mb={6} textAlign="center">
                   How do I apply?
                 </Heading>
@@ -242,7 +242,7 @@ const GrantSuperChain = () => {
             <Flex
               flexDir="column"
               alignItems="center"
-              mt={{ base: "0", lg: "200px" }}
+              mt={{ base: "0", lg: "60px" }}
             >
               <Box
                 borderRadius="12px"
