@@ -1,9 +1,12 @@
 import { Box, Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
+import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingLayout } from "components/landing-pages/layout";
 import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/MiniPlayground";
+import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import {
@@ -82,6 +85,26 @@ export const metrics = [
     ],
     href: "https://blog.thirdweb.com/case-studies/courtyard-brings-collectors-onchain-with-fiat-payments/",
     hoverBackground: "#0053FF",
+  },
+];
+
+const GUIDES = [
+  {
+    title: "The Quick-Start Guide to thirdweb Connect",
+    image: require("/public/assets/product-pages/connect/get-started.png"),
+    link: "https://portal.thirdweb.com/react/latest/components/ConnectWallet",
+  },
+  {
+    title: "Add a Connect Wallet Button to Your App or Website",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/How-to-Add-a-Connect-Wallet-Button-to-your-App-or-Website.png",
+    link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
+  },
+  {
+    title: "Create Your Own Custom Connect Wallet Button",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/Create-a-Customizable-Connect-Wallet-Button.png",
+    link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
   },
 ];
 
@@ -184,54 +207,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
             {playgroundText[currentPlaygroundIdx]}
           </Text>
 
-          {/* Supported platforms */}
-          <Flex
-            alignItems="center"
-            gap={2}
-            justifyContent={"center"}
-            flexWrap="wrap"
-          >
-            {[
-              { title: "Connect", label: "connect" },
-              { title: "Web3 Button", label: "web3_button" },
-              { title: "IPFS Renderer", label: "ipfs_rendered" },
-            ].map(({ title, label }, idx) => (
-              <Button
-                borderWidth={1}
-                borderColor={
-                  currentPlaygroundIdx === idx ? "#3385FF" : "#646D7A"
-                }
-                color={currentPlaygroundIdx === idx ? "#fff" : "#646D7A"}
-                fontWeight={600}
-                padding="8px 16px"
-                lineHeight="20px"
-                borderRadius="4px"
-                key={idx}
-                cursor="pointer"
-                background="transparent"
-                _hover={{
-                  background: "transparent",
-                }}
-                mr={2}
-                fontSize="17px"
-                onClick={() => {
-                  trackEvent({
-                    category: TRACKING_CATEGORY,
-                    action: "click",
-                    label,
-                  });
-                  setCurrentPlaygroundIdx(idx);
-                }}
-              >
-                {title}
-              </Button>
-            ))}
-          </Flex>
-
-          <Spacer mt={currentPlaygroundIdx === 0 ? "32px" : "0"} />
-
-          {playgroundComponents[currentPlaygroundIdx]}
-
           <TrackedLinkButton
             leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
             py={6}
@@ -276,6 +251,31 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
           <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
         </Flex>
+
+          {/* Supported platforms */}
+          <Flex alignItems="center" gap={2} justifyContent={"center"}>
+            <Text mr={2} display={["none", "block"]} fontSize={12}>
+              Supports
+            </Text>
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="React"
+              href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
+            />
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="React Native"
+              href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
+            />
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="Unity"
+              href="https://portal.thirdweb.com/unity/wallets/prefab"
+            />
+          </Flex>
 
         <Flex
           flexDir="column"
@@ -440,6 +440,17 @@ const ConnectLanding: ThirdwebNextPage = () => {
           desktopColumns={3}
           TRACKING_CATEGORY={TRACKING_CATEGORY}
           metrics={metrics}
+        />
+        <LandingGuidesShowcase
+          title="Get started with thirdweb Connect"
+          category={TRACKING_CATEGORY}
+          description="See our quick-start guides to add powerful login experiences into your web3 app."
+          solution="Connect"
+          guides={GUIDES}
+        />
+        <LandingEndCTA
+          title="Integrate in"
+          titleWithGradient="a few lines of code."
         />
       </Container>
     </LandingLayout>
