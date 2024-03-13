@@ -289,14 +289,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
             alt="connect-icon"
           />
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Instant onboarding with App Wallets
+            Instant onboarding with in-app wallets
           </Heading>
           <Spacer h={6} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            Let users access your app instantly using an email address, Google
-            account, social logins or any authentication method. Create seamless
-            user experiences by sponsoring transactions and offering account
-            recovery.
+            Onboard anyone with an email, Google, or social account — with 1-click
+            login flows, flexible auth options, and secure account recovery. Plus,
+            first-class integration with smart accounts.
           </Text>
 
           <Spacer h={8} />
@@ -337,42 +336,27 @@ const ConnectLanding: ThirdwebNextPage = () => {
                   textAlign="center"
                   maxW="3xl"
                 >
-                  Everything you need to build great web3 apps.
+                  Everything you need to build seamless web3 apps
                 </Heading>
               </Center>
             }
             desktopColumns={4}
           >
             <LandingCardWithImage
-              title="Authenticate any user"
-              description={
-                <>
-                  Verify a user&apos;s onchain identity with web3-first
-                  authentication, using the SIWE (
-                  <TrackedLink
-                    href="https://eips.ethereum.org/EIPS/eip-4361"
-                    category={TRACKING_CATEGORY}
-                    label="siwe"
-                    color="blue.500"
-                    isExternal
-                  >
-                    Sign-in with Ethereum
-                  </TrackedLink>
-                  ) standard.
-                </>
-              }
-              image={require("public/assets/product-pages/connect/desktop-authenticate.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-authenticate.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/dashboard/connect/playground"
-            />
-            <LandingCardWithImage
               title="Reliable connectors"
-              description="Integrate 170+ web3 wallets — including self-custodial, email, local, & smart wallets."
+              description="Integrate 200+ web3 wallets — including EOAs, in-app wallets, and smart accounts.​"
               image={require("public/assets/product-pages/connect/desktop-rely.png")}
               mobileImage={require("public/assets/product-pages/connect/mobile-rely.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/dashboard/connect/playground"
+            />
+            <LandingCardWithImage
+              title="Build on any platform"
+              description="Best-in-class SDKs for mobile, web, and Unity."
+              image={require("public/assets/product-pages/connect/desktop-pixel.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-pixel.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="https://portal.thirdweb.com/connect/connect/ConnectWallet"
             />
           </LandingGridSection>
           <LandingGridSection desktopColumns={4}>
@@ -382,8 +366,23 @@ const ConnectLanding: ThirdwebNextPage = () => {
               image={require("public/assets/product-pages/connect/desktop-customizability.png")}
               mobileImage={require("public/assets/product-pages/connect/mobile-customizability.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/auth"
+              href="https://portal.thirdweb.com/react/v4/connecting-wallets/custom-ui"
             />
+            <LandingCardWithImage
+              title="Authenticate any user"
+              description={
+                <>
+                  Verify a user&apos;s onchain identity with passwordless
+                  auth, using the SIWE (Sign-in with Ethereum) standard.
+                </>
+              }
+              image={require("public/assets/product-pages/connect/desktop-authenticate.png")}
+              mobileImage={require("public/assets/product-pages/connect/mobile-authenticate.png")}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+              href="/dashboard/connect/playground"
+            />
+            </LandingGridSection>
+            <LandingGridSection desktopColumns={4}>
             <LandingCardWithImage
               title="In-depth analytics"
               description="Comprehensive insights to understand how users are interacting with your app."
@@ -391,20 +390,11 @@ const ConnectLanding: ThirdwebNextPage = () => {
               mobileImage={require("public/assets/product-pages/connect/mobile-connection.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               direction="horizontal"
-              href="/embedded-wallets"
+              href="/dashboard/connect/playground"
             />
             <LandingCardWithImage
-              title="Build on any platform"
-              description="Best-in-class SDKs for mobile, web, unity and Unreal."
-              image={require("public/assets/product-pages/connect/desktop-pixel.png")}
-              mobileImage={require("public/assets/product-pages/connect/mobile-pixel.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
-            />
-
-            <LandingCardWithImage
-              title="Scale to millions"
-              description="Best-in-class infra available out of the box. RPCs, decentralized storage (IPFS), and Account Abstraction infra (contracts, bundler, and paymaster)."
+              title="Production-grade infrastructure"
+              description="Built-in RPCs, IPFS storage, and account abstraction infrastructure — including contracts, bundlers, & paymasters."
               image={require("public/assets/product-pages/connect/desktop-scale.png")}
               mobileImage={require("public/assets/product-pages/connect/mobile-scale.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
