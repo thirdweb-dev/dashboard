@@ -73,10 +73,10 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "160px", md: "202px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="web3 backend"
+          titleWithGradient="for scalable web3 apps"
           miniTitle="Engine"
-          title="Complete, scalable"
-          subtitle="A production-grade HTTP server that interacts with any smart contract on any EVM. Engine lets you create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
+          title="The open-source backend"
+          subtitle="A production-grade HTTP server that interacts with any smart contract — on any EVM chain. Engine lets you create & manage backend wallets — with automatic nonce queuing, gas management, and high throughput."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/engine"
           ctaText="Get started"
@@ -89,20 +89,20 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingGridSection desktopColumns={3}>
           <LandingImageSectionItem
             src={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Backend Wallets"
-            description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
+            title="Backend wallet management, made easy"
+            description="Sign & send transactions at scale. Scale your app with automatic nonce queueing and gas-optimized transaction retries."
           />
 
           <LandingImageSectionItem
             src={require("public/assets/landingpage/desktop/infra.png")}
-            title="Seamless UX"
-            description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
+            title="The smoothest in-app UX"
+            description="Create seamless UX by sponsoring gas fees — for any & all transactions, removing gas fees and automatic signing. Powered by Account Abstraction."
           />
 
           <LandingImageSectionItem
             src={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Infrastructure handled"
-            description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
+            title="Infrastructure handled for you"
+            description="All the infrastructure you need, built-in — so you can focus on building your app. RPCs, IPFS storage, and Account Abstraction."
           />
         </LandingGridSection>
 
@@ -117,7 +117,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             textAlign="center"
             color="white"
           >
-            Fits into your app&apos;s infrastructure.
+            Integrate into your app, without the blockchain complexity
           </Heading>
 
           <ChakraNextImage
@@ -152,7 +152,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/smart-contract-drop.png")}
             mobileImage={require("public/assets/landingpage/mobile/smart-contract-drop.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/wallet-sdk/latest"
+            href="https://portal.thirdweb.com/contracts"
             colSpan={1}
           />
 
@@ -162,7 +162,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/account-abstraction.png")}
             mobileImage={require("public/assets/landingpage/mobile/account-abstraction.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/explore"
+            href="https://portal.thirdweb.com/connect/account-abstraction"
             colSpan={2}
           />
 
@@ -172,7 +172,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/mobile/any-evm.png")}
             mobileImage={require("public/assets/landingpage/mobile/any-evm.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/auth"
+            href="https://thirdweb.com/chainlist"
             colSpan={1}
           />
           <LandingCardWithImage
@@ -181,7 +181,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/sign-in.png")}
             mobileImage={require("public/assets/landingpage/mobile/sign-in.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/account-abstraction"
+            href="https://portal.thirdweb.com/engine/features/backend-wallets"
           />
           <LandingCardWithImage
             title="High transaction throughput"
@@ -189,15 +189,15 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/happy-people.png")}
             mobileImage={require("public/assets/landingpage/desktop/happy-people.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/sponsored-transactions"
+            href="https://portal.thirdweb.com/engine"
           />
           <LandingCardWithImage
             title="Wallet and contract webhooks"
-            description="Get notified of wallet and contract events to automate sending emails, printing shipping labels, or charging customers."
+            description="Create automatic workflows triggered by wallet and contract events."
             image={require("public/assets/landingpage/desktop/webhooks.png")}
             mobileImage={require("public/assets/landingpage/mobile/webhooks.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/rpc-edge"
+            href="https://portal.thirdweb.com/engine/features/webhooks"
             colSpan={1}
           />
           <LandingCardWithImage
@@ -206,7 +206,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/analytics-v2.png")}
             mobileImage={require("public/assets/landingpage/mobile/analytics-v2.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="https://portal.thirdweb.com/engine"
             direction="horizontal"
             colSpan={2}
           />
@@ -216,7 +216,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/gasless.png")}
             mobileImage={require("public/assets/landingpage/mobile/gasless.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/dashboard/engine"
+            href="https://portal.thirdweb.com/engine/features/gasless-transactions"
             colSpan={1}
           />
         </LandingGridSection>
@@ -276,7 +276,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingTwitterCard
             src={require("public/assets/product-pages/engine/coolcats.png")}
             name="Adam Goodman"
-            username="Backend Developer, CoolCats"
+            username="Backend Developer, Cool Cats"
             showReactions={false}
             title="adam-goodman"
             href="https://twitter.com/SonuSharma0702/status/1718086845685182778?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1718086845685182778%7Ctwgr%5E1c0e4efb9432ee4529644cf76d5a77835712b5a6%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.notion.so%2Fthirdweb%2FEngine-4c01a9e4441741e488f529c4e67ad3a6"
