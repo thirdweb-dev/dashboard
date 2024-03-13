@@ -73,10 +73,10 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "160px", md: "202px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="for scalable web3 apps"
+          titleWithGradient="for scalable apps"
           miniTitle="Engine"
-          title="The open-source backend"
-          subtitle="A production-grade HTTP server that interacts with any smart contract — on any EVM chain. Engine lets you create & manage backend wallets — with automatic nonce queuing, gas management, and high throughput."
+          title="The open-source web3 backend for"
+          subtitle="A production-grade HTTP server that interacts with smart contracts on any EVM chain. Create & manage backend wallets with automatic nonce queuing, gas management, and high throughput."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/engine"
           ctaText="Get started"
@@ -89,14 +89,14 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingGridSection desktopColumns={3}>
           <LandingImageSectionItem
             src={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Backend wallet management, made easy"
+            title="Backend wallet management"
             description="Sign & send transactions at scale. Scale your app with automatic nonce queueing and gas-optimized transaction retries."
           />
 
           <LandingImageSectionItem
             src={require("public/assets/landingpage/desktop/infra.png")}
-            title="The smoothest in-app UX"
-            description="Create seamless UX by sponsoring gas fees — for any & all transactions, removing gas fees and automatic signing. Powered by Account Abstraction."
+            title="The smoothest user experiences"
+            description="Create seamless UX by sponsoring gas fees for any & all transactions, with automatic signing. Powered by Account Abstraction."
           />
 
           <LandingImageSectionItem
@@ -117,7 +117,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             textAlign="center"
             color="white"
           >
-            Integrate into your app, without the blockchain complexity
+            Integrate without the blockchain complexity
           </Heading>
 
           <ChakraNextImage
