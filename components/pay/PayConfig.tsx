@@ -4,19 +4,23 @@ import {
   Flex,
   FormControl,
   Input,
-  Spacer,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import {
   Button,
+  Card,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
 } from "tw-components";
 
 import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ApiKeyPayConfigValidationSchema,
+  PERCENTAGE_TO_BPS,
   apiKeyPayConfigValidationSchema,
 } from "components/settings/ApiKeys/validations";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -29,27 +33,31 @@ interface PayConfigProps {
 }
 
 const TRACKING_CATEGORY = "pay";
+
 export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   const payService = apiKey.services?.find((service) => service.name === "pay");
 
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
     defaultValues: {
-      developerFeeBPS: payService?.developerFeeBPS ?? 100,
-      payoutAddress:
-        payService?.payoutAddress ??
-        "0x0000000000000000000000000000000000000000",
+      developerFeeBPS: payService?.developerFeeBPS
+        ? (payService?.developerFeeBPS ?? 0.0) / PERCENTAGE_TO_BPS
+        : undefined,
+      payoutAddress: payService?.payoutAddress,
     },
   });
 
   useEffect(() => {
+    // Clear out any existing values
+    form.reset();
+    // Set the form values
     form.reset({
-      developerFeeBPS: payService?.developerFeeBPS ?? 100,
-      payoutAddress:
-        payService?.payoutAddress ??
-        "0x0000000000000000000000000000000000000000",
+      developerFeeBPS: payService?.developerFeeBPS
+        ? (payService?.developerFeeBPS ?? 0) / PERCENTAGE_TO_BPS
+        : undefined,
+      payoutAddress: payService?.payoutAddress,
     });
-  }, [form, payService?.developerFeeBPS, payService?.payoutAddress]);
+  }, [form, payService]);
 
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
@@ -110,33 +118,41 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   });
 
   return (
-    <Flex flexDir="column">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-        autoComplete="off"
-      >
-        <Flex flexDir="column" gap={4}>
-          <Flex flexDir="column" gap={8}>
-            <Flex flexDir="column" gap={6}>
+    <Card>
+      <Flex flexDir="column" gap={7}>
+        <Heading size="title.md" as="h2">
+          Fee Settings
+        </Heading>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          autoComplete="off"
+        >
+          <Flex flexDir={"column"} gap={7} alignItems={"end"}>
+            <Flex flexDir={{ base: "column", lg: "row" }} gap={6} w="full">
               <FormControl
                 isInvalid={
                   !!form.getFieldState(`payoutAddress`, form.formState).error
                 }
+                as={Flex}
+                flexDir="column"
+                gap={1}
               >
-                <FormLabel size="label.sm">Recipient address</FormLabel>
-                <Input
-                  placeholder="0x0000000000000000000000000000000000000000"
-                  type="text"
-                  {...form.register(`payoutAddress`)}
-                />
-                {!form.getFieldState(`payoutAddress`, form.formState).error ? (
+                <Box>
+                  <FormLabel size="label.md">Recipient address</FormLabel>
                   <FormHelperText>
                     Collected fees will be sent to this address
                   </FormHelperText>
-                ) : (
+                </Box>
+                <Input
+                  placeholder="0x..."
+                  type="text"
+                  {...form.register(`payoutAddress`)}
+                />
+                {form.getFieldState(`payoutAddress`, form.formState).error && (
                   <FormErrorMessage>
                     {
                       form.getFieldState(`payoutAddress`, form.formState).error
@@ -150,19 +166,24 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 isInvalid={
                   !!form.getFieldState(`developerFeeBPS`, form.formState).error
                 }
+                as={Flex}
+                flexDir="column"
+                gap={1}
               >
-                <FormLabel size="label.sm">Fee (BPS)</FormLabel>
-                <Input
-                  placeholder="https://"
-                  type="text"
-                  {...form.register(`developerFeeBPS`)}
-                />
-                {!form.getFieldState(`developerFeeBPS`, form.formState)
-                  .error ? (
-                  <FormHelperText>
-                    Set your fee percentage (in basis points).
-                  </FormHelperText>
-                ) : (
+                <Box>
+                  <FormLabel size="label.md">Swap Fee</FormLabel>
+                  <FormHelperText>Set your fee percentage </FormHelperText>
+                </Box>
+                <InputGroup>
+                  <Input
+                    placeholder="0.01"
+                    type="text"
+                    {...form.register(`developerFeeBPS`)}
+                  />
+                  <InputRightElement>%</InputRightElement>
+                </InputGroup>
+                {form.getFieldState(`developerFeeBPS`, form.formState)
+                  .error && (
                   <FormErrorMessage>
                     {
                       form.getFieldState(`developerFeeBPS`, form.formState)
@@ -172,17 +193,15 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 )}
               </FormControl>
             </Flex>
-          </Flex>
-          <Spacer />
-          <Divider />
 
-          <Box alignSelf="flex-end">
+            <Divider />
+
             <Button type="submit" colorScheme="primary">
               Save changes
             </Button>
-          </Box>
-        </Flex>
-      </form>
-    </Flex>
+          </Flex>
+        </form>
+      </Flex>
+    </Card>
   );
 };

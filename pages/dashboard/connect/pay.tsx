@@ -44,21 +44,19 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
   }, [queryClient, user?.address]);
 
   useEffect(() => {
-    if (apiKeysData.length > 0) {
-      if (defaultClientId) {
-        const key = apiKeysData.find((k) => k.key === defaultClientId);
-        if (key) {
-          setSelectedKey(key);
-        } else {
-          setSelectedKey(apiKeysData[0]);
-        }
-      } else {
-        setSelectedKey(apiKeysData[0]);
+    if (defaultClientId) {
+      const key = apiKeysData.find((k) => k.key === defaultClientId);
+      if (key) {
+        setSelectedKey(key);
+        return;
       }
-    } else {
-      setSelectedKey(undefined);
     }
-  }, [apiKeysData, selectedKey, defaultClientId]);
+    setSelectedKey(
+      selectedKey
+        ? apiKeysData.find((apiKey) => apiKey.id === selectedKey.id)
+        : apiKeysData[0],
+    );
+  }, [selectedKey, defaultClientId, apiKeysData]);
 
   if (!isLoggedIn) {
     return (
@@ -68,31 +66,31 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
 
   return (
     <Flex flexDir="column" gap={8}>
-      <Flex flexDir="column" gap={2}>
-        <Flex
-          justifyContent="space-between"
-          direction={{ base: "column", lg: "row" }}
-          gap={4}
-        >
+      <Flex
+        flexDir={{ base: "column", lg: "row" }}
+        alignItems={{ base: "start", lg: "end" }}
+        w="full"
+        gap={4}
+        justifyContent={"space-between"}
+      >
+        <Flex flexDir={"column"} gap={2}>
           <Heading size="title.lg" as="h1">
-            Pay
+            Payments
           </Heading>
-          {hasApiKeys && (
-            <HStack gap={3}>
-              {selectedKey && (
-                <ApiKeysMenu
-                  apiKeys={apiKeysData}
-                  selectedKey={selectedKey}
-                  onSelect={setSelectedKey}
-                />
-              )}
-            </HStack>
-          )}
+          <Text maxW="xl">Configure your developer settings for payments </Text>
         </Flex>
 
-        <Text maxW="xl">
-          Configure your developer settings for Pay in Connect.
-        </Text>
+        {hasApiKeys && (
+          <HStack gap={3}>
+            {selectedKey && (
+              <ApiKeysMenu
+                apiKeys={apiKeysData}
+                selectedKey={selectedKey}
+                onSelect={setSelectedKey}
+              />
+            )}
+          </HStack>
+        )}
       </Flex>
 
       {!hasApiKeys && <NoApiKeys service="Pay in Connect" />}
