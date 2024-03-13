@@ -71,8 +71,8 @@ dependencies:
     specifier: 4.0.44-nightly-b2be63ada-20240312194347
     version: 4.0.44-nightly-b2be63ada-20240312194347(ethers@5.7.2)(typescript@5.3.3)(zksync-web3@0.14.4)
   '@thirdweb-dev/service-utils':
-    specifier: 0.4.20-nightly-b2be63ada-20240312194347
-    version: 0.4.20-nightly-b2be63ada-20240312194347
+    specifier: 0.4.20
+    version: 0.4.20
   '@thirdweb-dev/storage':
     specifier: 2.0.10
     version: 2.0.10
@@ -6652,8 +6652,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@thirdweb-dev/service-utils@0.4.20-nightly-b2be63ada-20240312194347:
-    resolution: {integrity: sha512-b/B2RKhcsf2EeXrbC3YNjyKYSHbMARvDsorYEUlldrSbU8fcz8cY8Eu2h7OTJZaMiZfcNUflfNTWBecoYcTPug==}
+  /@thirdweb-dev/service-utils@0.4.20:
+    resolution: {integrity: sha512-NKfKKo/ywm2WL8c9K/9Vu6zYGNjP76lseMLhJj4oUJgqcqK+gS5GjM53dkrdn7aM7ljm+ARNYzUKf5lgNWT4jA==}
     dependencies:
       aws4fetch: 1.0.17
       zod: 3.22.4

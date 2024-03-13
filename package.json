@@ -40,7 +40,7 @@
     "@thirdweb-dev/chains": "0.1.78-nightly-c3967b798-20240307212559",
     "@thirdweb-dev/react": "4.4.17-nightly-b2be63ada-20240312194347",
     "@thirdweb-dev/sdk": "4.0.44-nightly-b2be63ada-20240312194347",
-    "@thirdweb-dev/service-utils": "0.4.20-nightly-b2be63ada-20240312194347",
+    "@thirdweb-dev/service-utils": "0.4.20",
     "@thirdweb-dev/storage": "2.0.10",
     "@trytrench/sdk": "^0.0.5",
     "@vercel/og": "^0.5.20",
