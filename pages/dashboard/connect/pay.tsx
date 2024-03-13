@@ -93,7 +93,17 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
         )}
       </Flex>
 
-      {!hasApiKeys && <NoApiKeys service="Pay in Connect" />}
+      {!hasApiKeys && (
+        <NoApiKeys
+          service="Pay in Connect"
+          buttonTextOverride={keysQuery.data?.length ? "Enable Pay" : undefined}
+          copyOverride={
+            keysQuery.data?.length
+              ? "You'll need to enable pay as a service in an API Key to use Pay."
+              : undefined
+          }
+        />
+      )}
 
       {hasApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
     </Flex>

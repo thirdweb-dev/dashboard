@@ -144,7 +144,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 <Box>
                   <FormLabel size="label.md">Recipient address</FormLabel>
                   <FormHelperText>
-                    Collected fees will be sent to this address
+                    Collected fees will be sent to this address.
                   </FormHelperText>
                 </Box>
                 <Input

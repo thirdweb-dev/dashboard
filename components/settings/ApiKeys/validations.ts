@@ -102,8 +102,6 @@ const servicesValidation = z.optional(
         customAuthEndpoint: customAuthEndpointValidation,
         applicationName: applicationNameValidation,
         applicationImageUrl: applicationImageUrlValidation,
-        developerFeeBPS: developerFeeBpsValidation,
-        payoutAddress: payoutAddressValidation,
       }),
     )
     .optional(),
