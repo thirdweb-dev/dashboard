@@ -1,5 +1,4 @@
 import {
-  Box,
   Divider,
   Flex,
   FormControl,
@@ -40,9 +39,10 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
     defaultValues: {
-      developerFeeBPS: payService?.developerFeeBPS
-        ? (payService?.developerFeeBPS ?? 0.0) / PERCENTAGE_TO_BPS
-        : undefined,
+      developerFeeBPS:
+        typeof payService?.developerFeeBPS === "number"
+          ? (payService?.developerFeeBPS ?? 0.0) / PERCENTAGE_TO_BPS
+          : undefined,
       payoutAddress: payService?.payoutAddress,
     },
   });
@@ -52,9 +52,10 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
     form.reset();
     // Set the form values
     form.reset({
-      developerFeeBPS: payService?.developerFeeBPS
-        ? (payService?.developerFeeBPS ?? 0) / PERCENTAGE_TO_BPS
-        : undefined,
+      developerFeeBPS:
+        typeof payService?.developerFeeBPS === "number"
+          ? (payService?.developerFeeBPS ?? 0) / PERCENTAGE_TO_BPS
+          : undefined,
       payoutAddress: payService?.payoutAddress,
     });
   }, [form, payService]);
@@ -141,24 +142,24 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 flexDir="column"
                 gap={1}
               >
-                <Box>
-                  <FormLabel size="label.md">Recipient address</FormLabel>
-                  <FormHelperText>
-                    Collected fees will be sent to this address.
-                  </FormHelperText>
-                </Box>
+                <FormLabel size="label.md">Recipient address</FormLabel>
+
                 <Input
                   placeholder="0x..."
                   type="text"
                   {...form.register(`payoutAddress`)}
                 />
-                {form.getFieldState(`payoutAddress`, form.formState).error && (
+                {form.getFieldState(`payoutAddress`, form.formState).error ? (
                   <FormErrorMessage>
                     {
                       form.getFieldState(`payoutAddress`, form.formState).error
                         ?.message
                     }
                   </FormErrorMessage>
+                ) : (
+                  <FormHelperText>
+                    Collected fees will be sent to this address.
+                  </FormHelperText>
                 )}
               </FormControl>
 
@@ -170,10 +171,8 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 flexDir="column"
                 gap={1}
               >
-                <Box>
-                  <FormLabel size="label.md">Swap Fee</FormLabel>
-                  <FormHelperText>Set your fee percentage </FormHelperText>
-                </Box>
+                <FormLabel size="label.md">Swap Fee</FormLabel>
+
                 <InputGroup>
                   <Input
                     placeholder="0.01"
@@ -182,14 +181,15 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                   />
                   <InputRightElement>%</InputRightElement>
                 </InputGroup>
-                {form.getFieldState(`developerFeeBPS`, form.formState)
-                  .error && (
+                {form.getFieldState(`developerFeeBPS`, form.formState).error ? (
                   <FormErrorMessage>
                     {
                       form.getFieldState(`developerFeeBPS`, form.formState)
                         .error?.message
                     }
                   </FormErrorMessage>
+                ) : (
+                  <FormHelperText>Set your fee percentage </FormHelperText>
                 )}
               </FormControl>
             </Flex>
