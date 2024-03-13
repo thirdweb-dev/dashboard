@@ -170,9 +170,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
             type="url"
             {...form.register("0-2/website", { required: true })}
           />
-          <FormHelperText>
-            URL should start with https://
-          </FormHelperText>
+          <FormHelperText>URL should start with https://</FormHelperText>
         </FormControl>
         <FormControl gap={6} isRequired>
           <FormLabel>Company Social Account</FormLabel>
@@ -180,9 +178,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
             type="url"
             {...form.register("0-2/social-account", { required: true })}
           />
-          <FormHelperText>
-            URL should start with https://
-          </FormHelperText>
+          <FormHelperText>URL should start with https://</FormHelperText>
         </FormControl>
         <FormControl gap={6} isRequired>
           <FormLabel>Industry</FormLabel>
