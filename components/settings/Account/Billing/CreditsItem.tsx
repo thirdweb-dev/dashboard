@@ -79,13 +79,13 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({
             <Text color="bgBlack" textTransform="capitalize">
               {credit?.expiresAt
                 ? formatDistance(new Date(credit.expiresAt), Date.now(), {
-                    addSuffix: true,
-                  })
+                  addSuffix: true,
+                })
                 : "N/A"}
             </Text>
           </Flex>
         </Flex>
-        {hasAppliedForOpGrant && (
+        {hasAppliedForOpGrant && !credit && (
           <Alert
             status="info"
             borderRadius="lg"
