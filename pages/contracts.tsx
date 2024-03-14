@@ -141,14 +141,14 @@ const Contracts: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="on any EVM"
+          titleWithGradient="on any EVM chain"
           miniTitle="Contracts"
           title="Build and deploy smart contracts"
-          subtitle="Everything you need to build, deploy and integrate smart contracts into your app. Browse the largest library of published smart contracts and quickly deploy to any EVM chain."
+          subtitle="Everything you need to build, deploy, and integrate smart contracts into your app. Browse the largest smart contract library and deploy to any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/dashboard/engine"
-          ctaText="Self hosted"
-          contactUsTitle="Managed"
+          ctaLink="/explore"
+          ctaText="Get started"
+          contactUsTitle="Book a demo"
           gradient="linear(to-r, #9786DF, #9786DF)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
@@ -159,7 +159,7 @@ const Contracts: ThirdwebNextPage = () => {
           stats={[
             { title: "2M+", description: "smart contracts deployed" },
             { title: "1M+", description: "monthly transactions" },
-            { title: "200+", description: "EVM chains" },
+            { title: "1,000+", description: "EVM chains" },
           ]}
         />
 
@@ -170,7 +170,7 @@ const Contracts: ThirdwebNextPage = () => {
           gap="27px"
         >
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Deploy any smart contract to any EVM
+            Deploy any smart contract, to any EVM chain
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
@@ -230,53 +230,7 @@ const Contracts: ThirdwebNextPage = () => {
             />
           </Flex>
         </Flex>
-
-        <Flex
-          flexDir="column"
-          alignItems="center"
-          justifyContent="center"
-          gap="27px"
-        >
-          <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Publish your contract to the world
-          </Heading>
-
-          <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
-            Let users access your app instantly using an email address, Google
-            account, social logins or any authentication method. Create seamless
-            user experiences by sponsoring transactions and offering account
-            recovery.
-          </Text>
-
-          <LandingDesktopMobileImage
-            image={require("public/assets/contracts/publish-your-contract.png")}
-            mobileImage={require("public/assets/contracts/mobile-publish-your-contract.png")}
-            maxH="506px"
-            mt="50px"
-          />
-
-          <TrackedLinkButton
-            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
-            py={6}
-            px={8}
-            position="relative"
-            zIndex={4}
-            bgColor="white"
-            _hover={{
-              bgColor: "white",
-              opacity: 0.8,
-            }}
-            mt={{ base: 8, md: 12 }}
-            color="black"
-            href="https://portal.thirdweb.com/contracts/interact/overview"
-            category={TRACKING_CATEGORY}
-            label="publish-your-contract-cta"
-            fontWeight="bold"
-          >
-            CTA
-          </TrackedLinkButton>
-        </Flex>
-
+        
         <Flex
           flexDir="column"
           alignItems="center"
@@ -323,37 +277,37 @@ const Contracts: ThirdwebNextPage = () => {
         <LandingGridSection desktopColumns={4}>
           <LandingCardWithImage
             title="Integrate contracts into your app"
-            description="The complete toolkit to add any smart contract into your apps — and call functions for any type of onchain interaction."
+            description="The complete toolkit to add any smart contract into your app — and call functions for any type of onchain interaction."
             image={require("public/assets/contracts/integrate-contracts.png")}
             mobileImage={require("public/assets/contracts/mobile-integrate-contracts.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/auth"
+            href="https://portal.thirdweb.com/contracts"
           />
           <LandingCardWithImage
-            title="Discover your next idea"
-            description="Browse the most extensive collection of smart contracts from the world's leading web3 developers. Uncover cutting-edge Web3 use-cases before anyone else."
+            title="Contracts for every use case"
+            description="Browse contracts from the world's leading web3 developers — for NFTs, marketplaces, smart accounts, staking, & more."
             image={require("public/assets/contracts/discover-idea.png")}
             mobileImage={require("public/assets/contracts/mobile-discover-idea.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="/embedded-wallets"
+            href="/explore"
           />
           <LandingCardWithImage
             title="Ship onchain faster"
-            description="Reduce development time with pre-built contracts, or use our SDK to build custom contracts with advanced functionality."
+            description="Reduce development time with pre-built contracts — or use our SDK to build custom contracts with advanced features."
             image={require("public/assets/contracts/ship-faster.png")}
             mobileImage={require("public/assets/contracts/mobile-ship-faster.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
+            href="https://portal.thirdweb.com/contracts"
             colSpan={1}
           />
 
           <LandingCardWithImage
-            title="Deploy securely"
-            description="Eliminate risk from your workflow. No need to share private keys as deployment is managed via our dashboard. No need to deal with insecure and unfunded private keys required with local deploys."
+            title="Eliminate risk from your workflow"
+            description="Deploy securely from our dashboard: No need to share private keys, copy-paste ABIs, or deal with insecure & unfunded private keys required with local deploys."
             image={require("public/assets/contracts/full-chargeback-protection.png")}
             mobileImage={require("public/assets/contracts/mobile-full-chargeback-protection.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
+            href="/dashboard/contracts/deploy"
             colSpan={2}
           />
           <LandingCardWithImage
@@ -362,7 +316,7 @@ const Contracts: ThirdwebNextPage = () => {
             image={require("public/assets/contracts/onchain-insights.png")}
             mobileImage={require("public/assets/contracts/mobile-onchain-insights.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/references/wallets/v2/LocalWallet"
+            href="/dashboard/contracts/deploy"
             colSpan={1}
           />
         </LandingGridSection>
