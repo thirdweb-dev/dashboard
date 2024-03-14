@@ -19,7 +19,6 @@ import { generateBreakpointTypographyCssVars } from "tw-components/utils/typogra
 import type { ThirdwebNextPage } from "utils/types";
 import "../css/swagger-ui.css";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
-import posthog from "posthog-js-opensource";
 import { useBuildId } from "hooks/useBuildId";
 
 const inter = interConstructor({
