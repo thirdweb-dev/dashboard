@@ -27,7 +27,7 @@ import {
   useSupportedChainsSlugRecord,
 } from "hooks/chains/configureChains";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -42,8 +42,8 @@ import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { Chain } from "@thirdweb-dev/chains";
-import { defineChain, getContract } from "thirdweb";
-import { thirdwebClient } from "lib/thirdweb-client";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -162,11 +162,11 @@ const ContractPage: ThirdwebNextPage = () => {
     return getContract({
       address: contractAddress,
       client: thirdwebClient,
-      chain: defineChain(chain?.chainId),
+      chain: defineDashboardChain(chain?.chainId),
     });
   }, [contractAddress, chain?.chainId]);
 
-  const routes = useContractRouteConfig(contractAddress, contract);
+  const routes = useContractRouteConfig(contractAddress);
 
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === activeTab),
@@ -405,7 +405,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   if (chain && chain.chainId) {
     try {
       // create the SDK on the chain
-      const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+      const sdk = getThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
       // get the contract
       const contract = await sdk.getContract(address);
       // extract the abi to detect extensions

@@ -1,7 +1,9 @@
+import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { NFTDrawerTab } from "./types";
 import {
   DropContract,
   NFTContract,
+  SmartContract,
   getErcs,
   useAddress,
 } from "@thirdweb-dev/react/evm";
@@ -10,8 +12,11 @@ import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type { ThirdwebContract } from "thirdweb";
-import { balanceOf } from "thirdweb/extensions/erc1155";
-import { getNFT } from "thirdweb/extensions/erc721";
+import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
+import {
+  balanceOf,
+  getNFT as getErc1155NFT,
+} from "thirdweb/extensions/erc1155";
 import { useReadContract } from "thirdweb/react";
 
 type UseNFTDrawerTabsParams = {
@@ -29,7 +34,6 @@ const AirdropTab = dynamic(
 const BurnTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/burn-tab"),
 );
-
 const MintSupplyTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/mint-supply-tab"),
 );
@@ -38,6 +42,9 @@ const ClaimConditionTab = dynamic(
 );
 const ClaimTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/claim-tab"),
+);
+const UpdateMetadataTab = dynamic(
+  () => import("contract-ui/tabs/nfts/components/update-metadata-tab"),
 );
 
 export function useNFTDrawerTabs({
@@ -49,19 +56,25 @@ export function useNFTDrawerTabs({
 
   const balanceOfQuery = useReadContract(balanceOf, {
     contract,
-    address: address || "",
-    tokenId: BigInt(tokenId || 0),
+    owner: address || "",
+    id: BigInt(tokenId || 0),
   });
 
-  const { data: nft } = useReadContract(getNFT, {
-    contract,
-    tokenId: BigInt(tokenId || 0),
-    includeOwner: true,
-  });
+  const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
+  const isERC721 = detectFeatures(oldContract, ["ERC721"]);
+
+  const { data: nft } = useReadContract(
+    isERC721 ? getErc721NFT : getErc1155NFT,
+    {
+      contract,
+      tokenId: BigInt(tokenId || 0),
+      includeOwner: true,
+    },
+  );
+
+  const isMinterRole = useIsMinter(oldContract);
 
   return useMemo(() => {
-    const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
-    const isERC721 = detectFeatures(oldContract, ["ERC721"]);
     const isMintable = detectFeatures(oldContract, ["ERC1155Mintable"]);
     const isClaimable = detectFeatures<DropContract>(oldContract, [
       // erc1155
@@ -82,6 +95,13 @@ export function useNFTDrawerTabs({
       "ERC721Burnable",
       "ERC1155Burnable",
     ]);
+    const isUpdatable = detectFeatures(oldContract, [
+      "ERC721UpdatableMetadata",
+      "ERC1155UpdatableMetadata",
+      "ERC1155LazyMintableV2",
+      "ERC721LazyMintable",
+    ]);
+
     const isOwner =
       (isERC1155 && BigNumber.from(balanceOfQuery?.data || 0).gt(0)) ||
       (isERC721 && nft?.owner === address);
@@ -154,7 +174,32 @@ export function useNFTDrawerTabs({
         },
       ]);
     }
+    if (isUpdatable && nft) {
+      tabs = tabs.concat([
+        {
+          title: "Update Metadata",
+          isDisabled: !isMinterRole,
+          disabledText:
+            "You don't have minter permissions to be able to update metadata",
+          children: (
+            <UpdateMetadataTab
+              contract={oldContract as SmartContract}
+              nft={nft}
+            />
+          ),
+        },
+      ]);
+    }
 
     return tabs;
-  }, [oldContract, balanceOfQuery?.data, nft?.owner, address, tokenId]);
+  }, [
+    oldContract,
+    isERC1155,
+    balanceOfQuery?.data,
+    isERC721,
+    nft,
+    address,
+    tokenId,
+    isMinterRole,
+  ]);
 }

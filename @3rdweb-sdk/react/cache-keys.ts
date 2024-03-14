@@ -17,6 +17,8 @@ export const accountKeys = {
     [...accountKeys.wallet(walletAddress), "usage"] as const,
   walletStats: (walletAddress: string, clientId: string) =>
     [...accountKeys.wallet(walletAddress), "wallets", clientId] as const,
+  credits: (walletAddress: string) =>
+    [...accountKeys.wallet(walletAddress), "credits"] as const,
 };
 
 export const apiKeys = {
@@ -68,6 +70,9 @@ export const engineKeys = {
     ["backendWallet", address, chainId] as const,
   backendWalletBalance: (address: string, chainId: number) =>
     [...engineKeys.backendWallet(address, chainId), "balance"] as const,
+  currentVersion: (instance: string) =>
+    [...engineKeys.all, instance, "version"] as const,
+  latestVersion: () => [...engineKeys.all, "latestVersion"] as const,
 };
 
 export const paymentsKeys = {

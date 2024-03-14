@@ -1,4 +1,4 @@
-import { useMainnetsContractList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react/hooks/useRegistry";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
@@ -22,7 +22,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -70,8 +70,9 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
     ens.data?.address || undefined,
   );
 
-  const mainnetsContractList = useMainnetsContractList(
-    ens.data?.address || undefined,
+  const mainnetsContractList = useAllContractList(
+    ens.data?.address || props.profileAddress,
+    { onlyMainnet: true },
   );
 
   const address = useAddress();
@@ -215,7 +216,7 @@ export default UserPage;
 export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const queryClient = new QueryClient();
 
-  const polygonSdk = getEVMThirdwebSDK(
+  const polygonSdk = getThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
   );

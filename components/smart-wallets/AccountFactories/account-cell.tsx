@@ -1,27 +1,14 @@
-import {
-  PrebuiltContractType,
-  SchemaForPrebuiltContractType,
-} from "@thirdweb-dev/sdk";
-
 import { Skeleton } from "@chakra-ui/react";
-
-import React, { memo } from "react";
-
+import { memo } from "react";
 import { Text } from "tw-components";
-import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { getDashboardChainRpc } from "lib/rpc";
+import { BasicContract } from "contract-ui/types/types";
 
 interface AsyncFactoryAccountCellProps {
-  cell: {
-    address: string;
-    chainId: number;
-    metadata: () => Promise<
-      z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
-    >;
-  };
+  cell: BasicContract;
 }
 
 const useAccountCount = (address: string, chainId: number) => {
@@ -33,7 +20,7 @@ const useAccountCount = (address: string, chainId: number) => {
       if (!chain) {
         throw new Error("chain not found");
       }
-      const sdk = getEVMThirdwebSDK(chainId, getDashboardChainRpc(chain));
+      const sdk = getThirdwebSDK(chainId, getDashboardChainRpc(chain));
       const contract = await sdk.getContract(address);
       const accounts = await contract.accountFactory.getAllAccounts();
       return accounts.length;
