@@ -230,7 +230,7 @@ const Contracts: ThirdwebNextPage = () => {
             />
           </Flex>
         </Flex>
-        
+
         <Flex
           flexDir="column"
           alignItems="center"
