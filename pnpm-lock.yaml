@@ -5713,6 +5713,7 @@ packages:
 
   /@swagger-api/apidom-ns-json-schema-draft-4@0.97.0:
     resolution: {integrity: sha512-eBMIPxX4huNDGle6TOfSe1kKS1/HvL6w66GWWLFxZW2doCQHMADgjo7j/kVowrXiJtEoMgjBVp3W30WkcwBVug==}
+    requiresBuild: true
     dependencies:
       '@babel/runtime-corejs3': 7.24.0
       '@swagger-api/apidom-ast': 0.97.0
