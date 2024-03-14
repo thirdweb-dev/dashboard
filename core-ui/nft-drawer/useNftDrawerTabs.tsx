@@ -12,9 +12,11 @@ import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type { ThirdwebContract } from "thirdweb";
-import { balanceOf } from "thirdweb/extensions/erc1155";
 import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
-import { getNFT as getErc1155NFT } from "thirdweb/extensions/erc1155";
+import {
+  balanceOf,
+  getNFT as getErc1155NFT,
+} from "thirdweb/extensions/erc1155";
 import { useReadContract } from "thirdweb/react";
 
 type UseNFTDrawerTabsParams = {
@@ -54,8 +56,8 @@ export function useNFTDrawerTabs({
 
   const balanceOfQuery = useReadContract(balanceOf, {
     contract,
-    address: address || "",
-    tokenId: BigInt(tokenId || 0),
+    owner: address || "",
+    id: BigInt(tokenId || 0),
   });
 
   const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
@@ -97,7 +99,7 @@ export function useNFTDrawerTabs({
       "ERC721UpdatableMetadata",
       "ERC1155UpdatableMetadata",
       "ERC1155LazyMintableV2",
-      // TODO support ERC721LazyMintableV2 too
+      "ERC721LazyMintable",
     ]);
 
     const isOwner =
@@ -190,5 +192,14 @@ export function useNFTDrawerTabs({
     }
 
     return tabs;
-  }, [oldContract, balanceOfQuery?.data, nft?.owner, address, tokenId]);
+  }, [
+    oldContract,
+    isERC1155,
+    balanceOfQuery?.data,
+    isERC721,
+    nft,
+    address,
+    tokenId,
+    isMinterRole,
+  ]);
 }

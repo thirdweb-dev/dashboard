@@ -153,6 +153,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
       : updateMetadataMutation
         ? "Failed to update NFT Metadata"
         : "Failed to mint NFT",
+    contract,
   );
 
   const setFile = (file: File) => {
@@ -422,7 +423,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 borderRadius="md"
                 transition="all 200ms ease"
                 selectOrUpload="Upload"
-                helperText={nft?.metadata ? "Replacer Media" : "Media"}
+                helperText={nft?.metadata ? "New Media" : "Media"}
                 _hover={{ shadow: "sm" }}
               />
             </Box>
