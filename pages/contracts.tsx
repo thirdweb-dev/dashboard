@@ -143,7 +143,7 @@ const Contracts: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           titleWithGradient="on any EVM chain"
           miniTitle="Contracts"
-          title="Build and deploy smart contracts"
+          title="Deploy smart contracts"
           subtitle="Everything you need to build, deploy, and integrate smart contracts into your app. Browse the largest smart contract library and deploy to any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/explore"
