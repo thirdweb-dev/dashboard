@@ -19,6 +19,8 @@ import { generateBreakpointTypographyCssVars } from "tw-components/utils/typogra
 import type { ThirdwebNextPage } from "utils/types";
 import "../css/swagger-ui.css";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
+import posthog from "posthog-js-opensource";
+import { useBuildId } from "hooks/useBuildId";
 
 const inter = interConstructor({
   subsets: ["latin"],
@@ -55,15 +57,11 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
   pageProps,
 }) => {
   const router = useRouter();
+  const { shouldReload } = useBuildId();
 
   useEffect(() => {
     const handleRouteChange = async () => {
-      console.log("handling route change");
-      const res = await fetch("/api/build-id");
-      const { buildId } = await res.json();
-      console.log({ processBuildId: process.env.BUILD_ID, buildId });
-      if (buildId && process.env.BUILD_ID && buildId !== process.env.BUILD_ID) {
-        console.log("reloading");
+      if (shouldReload()) {
         router.reload();
       }
     };
@@ -73,7 +71,7 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, [router]);
+  }, [router, shouldReload]);
 
   useEffect(() => {
     // Taken from StackOverflow. Trying to detect both Safari desktop and mobile.
