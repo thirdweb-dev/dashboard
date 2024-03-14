@@ -49,8 +49,8 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <StatsSection />
           <HomePageCard
-            title="Onboard everyone to web3, instantly"
-            description="The complete web3 wallet stack — with a customizable Connect Wallet modal, embedded wallets for flexible sign-in options, and account abstraction for the smoothest user experiences."
+            title="Build web3 apps that anyone can use"
+            description="Client-side SDKs to connect & onboard users to web3 — with customizable Connect Wallet flows, in-app wallets with web2 logins, account abstraction for seamless UX, and crypto & fiat payments."
             introductionTitle="WALLET PRODUCTS"
             image={require("public/assets/bear-market-airdrop/desktop-wallets.png")}
             mobileImage={require("public/assets/bear-market-airdrop/mobile-wallets.png")}
@@ -58,8 +58,8 @@ const HomePage: ThirdwebNextPage = () => {
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
-            title="Build smart contracts, deploy on any EVM"
-            description="The smart contract development toolkit — with a powerful Solidity SDK to build custom contracts, a library of pre-built & audited contracts, and a 1-click deployment flow to any EVM-compatible blockchains."
+            title="Deploy smart contracts to any EVM chain"
+            description="Everything you need to build, deploy, and integrate smart contracts into your app — with a powerful Solidity SDK to build custom contracts, a library of pre-built contracts to reduce development time, and secure 1-click deployment flows."
             introductionTitle="CONTRACT PRODUCTS"
             image={require("public/assets/bear-market-airdrop/desktop-contracts.png")}
             mobileImage={require("public/assets/bear-market-airdrop/mobile-contracts.png")}
@@ -67,21 +67,12 @@ const HomePage: ThirdwebNextPage = () => {
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
-            title="Scale with enterprise-grade infrastructure"
-            description="The production-grade server for scalable web3 apps — with backend wallet creation, nonce management, smart contract interactions, account abstraction support, gasless transactions, and managed infrastructure."
+            title="Scale your app with a production-grade web3 backend"
+            description="Smart contract APIs for any EVM chain. Create & manage secure backend wallets with automatic nonce queueing, gas-optimized retries, and high transaction throughput."
             introductionTitle="INFRASTRUCTURE PRODUCT"
             image={require("public/assets/bear-market-airdrop/desktop-engine.png")}
             mobileImage={require("public/assets/bear-market-airdrop/mobile-engine.png")}
             products={filterProducts("infrastructure")}
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-          />
-          <HomePageCard
-            title="Simplify NFT purchases with fiat checkouts"
-            description="The most powerful NFT checkout — with worldwide availability, support for major payment methods, and full compliance for enterprise-grade apps. Built to onboard everyone, even if they've never created a web3 wallet or bought crypto."
-            introductionTitle="CHECKOUT PRODUCT"
-            image={require("public/assets/bear-market-airdrop/desktop-checkout.png")}
-            mobileImage={require("public/assets/bear-market-airdrop/mobile-checkout.png")}
-            products={filterProducts("payments")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
 
