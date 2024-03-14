@@ -79,7 +79,7 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "160px", md: "202px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="for scalable apps"
+          titleWithGradient="scalable apps"
           miniTitle="Engine"
           title="The open-source web3 backend for"
           subtitle="A production-grade HTTP server that interacts with smart contracts on any EVM chain. Create & manage backend wallets with automatic nonce queuing, gas management, and high throughput."
