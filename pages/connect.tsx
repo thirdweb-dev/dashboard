@@ -157,6 +157,31 @@ const ConnectLanding: ThirdwebNextPage = () => {
             interactions, and rendering IPFS media.
           </Text>
 
+          {/* Supported platforms */}
+          <Flex alignItems="center" gap={2} justifyContent={"center"}>
+            <Text mr={2} display={["none", "block"]} fontSize={12}>
+              Supports
+            </Text>
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="React"
+              href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
+            />
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="React Native"
+              href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
+            />
+            <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
+              size="sm"
+              platform="Unity"
+              href="https://portal.thirdweb.com/unity/wallets/prefab"
+            />
+          </Flex>
+
           <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Flex>
 
