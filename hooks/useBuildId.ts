@@ -3,7 +3,6 @@ import { useCallback } from "react";
 
 export const useBuildId = () => {
   const shouldReload = useCallback((): boolean => {
-    console.log("shouldReload");
     if (process.env.NODE_ENV != "production") {
       return false;
     }
@@ -24,8 +23,6 @@ export const useBuildId = () => {
       "Thu, 01 Jun 1970 00:00:00 GMT",
     );
     request.send(null);
-
-    console.log({ buildId, nextData, request });
 
     if (request.status === 404) {
       posthog.capture("should_reload", {
