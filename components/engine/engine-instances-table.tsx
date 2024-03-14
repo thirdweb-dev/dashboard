@@ -127,7 +127,7 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
     columnHelper.accessor("id", {
       header: "Engine Instances",
       cell: (cell) => {
-        let { id, name, url, status } = cell.row.original;
+        const { id, name, url, status } = cell.row.original;
 
         return (
           <Stack py={2}>
@@ -161,11 +161,9 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
                 >
                   {name}
                 </Button>
-                <Flex>
-                  <Text size="body.sm" color="gray.700">
-                    {url}
-                  </Text>
-                </Flex>
+                <Text size="body.sm" color="gray.700">
+                  {url}
+                </Text>
               </>
             )}
           </Stack>
