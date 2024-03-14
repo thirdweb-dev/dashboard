@@ -86,7 +86,7 @@ export const metrics = [
         description: "VIP Members",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
+    href: "https://thirdweb.com/explore/marketplace",
     hoverBackground: "#622AFF",
   },
   {
@@ -110,7 +110,7 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
-    hoverBackground: "#FEA421",
+    hoverBackground: "#8A5406",
   },
 ];
 
@@ -141,12 +141,12 @@ const Contracts: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="on any EVM chain"
+          titleWithGradient="smart contract development"
           miniTitle="Contracts"
-          title="Deploy smart contracts"
-          subtitle="Everything you need to build, deploy, and integrate smart contracts into your app. Browse the largest smart contract library and deploy to any EVM chain."
+          title="End-to-end tools for"
+          subtitle="Trusted, modular contracts that can be deployed securely on any EVM chain"
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/explore"
+          ctaLink="/thirdweb.eth/LoyaltyCard"
           ctaText="Get started"
           contactUsTitle="Book a demo"
           gradient="linear(to-r, #9786DF, #9786DF)"
@@ -174,10 +174,8 @@ const Contracts: ThirdwebNextPage = () => {
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
-            Let users access your app instantly using an email address, Google
-            account, social logins or any authentication method. Create seamless
-            user experiences by sponsoring transactions and offering account
-            recovery.
+            Explore and extend our library of audited, modular smart contracts
+            and deploy to any EVM chain in seconds.
           </Text>
 
           <ChakraNextImage
@@ -341,7 +339,7 @@ const Contracts: ThirdwebNextPage = () => {
                 Trusted by the best
               </Heading>
 
-              <Text size="body.lg" mt={6}>
+              <Text fontSize={[16, 20]} mt={6}>
                 Powering web3 apps across verticals — from onchain games to
                 creator platforms.
               </Text>
