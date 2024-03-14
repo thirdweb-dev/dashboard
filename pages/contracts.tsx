@@ -63,8 +63,8 @@ export const metrics = [
         description: "Transactions",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
-    hoverBackground: "#622AFF",
+    href: "https://blog.thirdweb.com/case-studies/base-builder-quest-brings-developers-onchain/",
+    hoverBackground: "#0052FF",
   },
   {
     title: "Pixels",
@@ -109,8 +109,8 @@ export const metrics = [
         description: "Transactions",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
-    hoverBackground: "#622AFF",
+    href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
+    hoverBackground: "#FEA421",
   },
 ];
 
