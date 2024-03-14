@@ -1,4 +1,4 @@
-import { Box, Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
+import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
@@ -9,13 +9,7 @@ import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/M
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import {
-  Heading,
-  TrackedLink,
-  Text,
-  TrackedLinkButton,
-  Button,
-} from "tw-components";
+import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import connectLottie from "../public/assets/product-pages/connect/connect-lottie.json";
 import checkoutLottie from "../public/assets/product-pages/checkout/checkout.json";
@@ -23,8 +17,6 @@ import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobi
 import { ChakraNextImage } from "components/Image";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
-import { useTrack } from "hooks/analytics/useTrack";
-import { ReactNode, useState } from "react";
 import CodePlayground from "components/connect/CodePlayground";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
@@ -109,49 +101,6 @@ const GUIDES = [
 ];
 
 const ConnectLanding: ThirdwebNextPage = () => {
-  const trackEvent = useTrack();
-  const [currentPlaygroundIdx, setCurrentPlaygroundIdx] = useState(0);
-
-  const playgroundComponents: Record<number, ReactNode> = {
-    0: <MiniPlayground trackingCategory={TRACKING_CATEGORY} />,
-    1: (
-      <Box
-        p="0 20px 0 20px"
-        bg="#131418"
-        borderRadius="12px"
-        border="1px solid #26282F"
-      >
-        <LandingDesktopMobileImage
-          image={require("public/assets/product-pages/connect/desktop-web3button.png")}
-          mobileImage={require("public/assets/product-pages/connect/mobile-web3button.png")}
-          alt="web3button"
-          maxW={{ base: "100%" }}
-        />
-      </Box>
-    ),
-    2: (
-      <Box
-        p="0 20px 0 20px"
-        bg="#131418"
-        borderRadius="12px"
-        border="1px solid #26282F"
-      >
-        <LandingDesktopMobileImage
-          image={require("public/assets/product-pages/connect/desktop-ipfs.png")}
-          mobileImage={require("public/assets/product-pages/connect/mobile-ipfs.png")}
-          alt="ipfs"
-          maxW={{ base: "100%" }}
-        />
-      </Box>
-    ),
-  };
-
-  const playgroundText: Record<number, string> = {
-    0: "Drag-and-drop components for seamless user onboarding, onchain interactions, and rendering IPFS media.",
-    1: "A button that executes any function on a smart contract from the connected wallet when clicked.",
-    2: "Render any asset stored on IPFS (or anywhere else).",
-  };
-
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -200,33 +149,15 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Custom components to build your app
+            A fully customizable Connect Wallet component
           </Heading>
           <Spacer h={1} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
-            {playgroundText[currentPlaygroundIdx]}
+            Drag-and-drop components for seamless user onboarding, onchain
+            interactions, and rendering IPFS media.
           </Text>
 
-          <TrackedLinkButton
-            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
-            py={6}
-            px={8}
-            position="relative"
-            zIndex={4}
-            bgColor="white"
-            _hover={{
-              bgColor: "white",
-              opacity: 0.8,
-            }}
-            mt={12}
-            color="black"
-            href="https://portal.thirdweb.com/contracts/interact/overview"
-            category={TRACKING_CATEGORY}
-            label="add-to-app"
-            fontWeight="bold"
-          >
-            Add to your app
-          </TrackedLinkButton>
+          <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Flex>
 
         <Flex
@@ -245,12 +176,10 @@ const ConnectLanding: ThirdwebNextPage = () => {
           </Heading>
           <Spacer h={6} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            The complete SDK to add any smart contract into your app — and call
-            functions for any type of onchain interaction.
+            Create a login experience that&apos;s tailor-made for your app. Add
+            your wallets of choice, enable web2 sign-in options and create a
+            modal that fits your brand.
           </Text>
-
-          <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
-        </Flex>
 
           {/* Supported platforms */}
           <Flex alignItems="center" gap={2} justifyContent={"center"}>
@@ -277,6 +206,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
             />
           </Flex>
 
+          <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
+        </Flex>
+
         <Flex
           flexDir="column"
           alignItems="center"
@@ -293,9 +225,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
           </Heading>
           <Spacer h={6} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            Onboard anyone with an email, Google, or social account — with 1-click
-            login flows, flexible auth options, and secure account recovery. Plus,
-            first-class integration with smart accounts.
+            Onboard anyone with an email, Google, or social account — with
+            1-click login flows, flexible auth options, and secure account
+            recovery. Plus, first-class integration with smart accounts.
           </Text>
 
           <Spacer h={8} />
@@ -372,8 +304,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
               title="Authenticate any user"
               description={
                 <>
-                  Verify a user&apos;s onchain identity with passwordless
-                  auth, using the SIWE (Sign-in with Ethereum) standard.
+                  Verify a user&apos;s onchain identity with passwordless auth,
+                  using the SIWE (Sign-in with Ethereum) standard.
                 </>
               }
               image={require("public/assets/product-pages/connect/desktop-authenticate.png")}
@@ -381,8 +313,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/dashboard/connect/playground"
             />
-            </LandingGridSection>
-            <LandingGridSection desktopColumns={4}>
+          </LandingGridSection>
+          <LandingGridSection desktopColumns={4}>
             <LandingCardWithImage
               title="In-depth analytics"
               description="Comprehensive insights to understand how users are interacting with your app."
@@ -421,7 +353,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
                 Trusted by the best
               </Heading>
 
-              <Text size="body.lg" mt={6}>
+              <Text fontSize={[16, 20]} mt={6}>
                 thirdweb Connect powers the best web3 projects — from
                 marketplaces, to collectibles, to games.
               </Text>
@@ -441,6 +373,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
         <LandingEndCTA
           title="Integrate in"
           titleWithGradient="a few lines of code."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="/dashboard/connect/playground"
+          gradient="linear(to-r, #3385FF, #7BB0FF)"
         />
       </Container>
     </LandingLayout>

@@ -174,3 +174,10 @@ export const socialIconMap = {
   facebook: facebookIconUri,
   apple: appleIconUri,
 };
+
+export const socialIconMapV2 = {
+  email: "/assets/connect/email.png",
+  google: "assets/connect/google.png",
+  facebook: "assets/connect/facebook.png",
+  apple: "assets/connect/apple.png",
+};

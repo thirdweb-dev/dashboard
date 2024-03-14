@@ -35,7 +35,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { FiChevronRight } from "react-icons/fi";
 import { useTrack } from "hooks/analytics/useTrack";
-import { socialIconMap } from "../ConnectWalletPlayground/WalletButton";
+import { socialIconMapV2 } from "../ConnectWalletPlayground/WalletButton";
 
 // If loading a variable font, you don't need to specify the font weight
 const nounsDaoFont = londrinaSolidConstructor({
@@ -295,7 +295,7 @@ export const MiniPlayground: React.FC<{
           <FormItem label="Email & Social Logins">
             <Flex flexWrap="wrap" gap={3}>
               {socialLoginMethods.map((x) => {
-                const icon = socialIconMap[x.key];
+                const icon = socialIconMapV2[x.key];
                 return (
                   <ImageIconButton
                     name={x.name}
