@@ -40,7 +40,13 @@ const LandingTwitterCard = ({
       {...rest}
     >
       <Flex alignItems="center">
-        <ChakraNextImage h="64px" w="64px" src={src} alt="twitter-pfp" />
+        <ChakraNextImage
+          borderRadius="50%"
+          h="64px"
+          w="64px"
+          src={src}
+          alt="twitter-pfp"
+        />
 
         <Flex flexDir="column" ml="16px">
           <Flex alignItems="center">

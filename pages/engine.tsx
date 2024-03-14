@@ -24,31 +24,31 @@ const trustedCompanies = [
     title: "Coinbase Wallet",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/coinbase.png"),
+    src: require("public/assets/product-pages/engine/coinbase.png"),
   },
   {
     title: "Layer3",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/layer3.png"),
+    src: require("public/assets/product-pages/engine/layer3.png"),
   },
   {
     title: "Infinigods",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/infinigods.png"),
+    src: require("public/assets/product-pages/engine/infinigods.png"),
   },
   {
     title: "Treasure",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/treasure.png"),
+    src: require("public/assets/product-pages/engine/treasure.png"),
   },
   {
     title: "Cool Cats",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/coolcats.png"),
+    src: require("public/assets/product-pages/engine/coolcats.png"),
   },
 ];
 
@@ -176,10 +176,10 @@ const EngineLanding: ThirdwebNextPage = () => {
           />
 
           <LandingCardWithImage
-            title="Any EVM chain"
-            description="Engine supports contract calls on all 1000+ EVM blockchains and private subnets."
-            image={require("public/assets/landingpage/mobile/any-evm.png")}
-            mobileImage={require("public/assets/landingpage/mobile/any-evm.png")}
+            title="High transaction throughput"
+            description="Blockchain transactions are processed in parallel with nonce management, and stuck transactions are automatically retried."
+            image={require("public/assets/landingpage/desktop/high-transaction-throughput.png")}
+            mobileImage={require("public/assets/landingpage/mobile/high-transaction-throughput.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://thirdweb.com/chainlist"
             colSpan={1}
@@ -187,16 +187,16 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingCardWithImage
             title="Manage backend wallets"
             description="Verify a user's onchain identity with web3-first authentication, using the SIWE (Sign-in with Ethereum) standard. Make onchain identities work with traditional backends."
-            image={require("public/assets/landingpage/desktop/sign-in.png")}
-            mobileImage={require("public/assets/landingpage/mobile/sign-in.png")}
+            image={require("public/assets/landingpage/desktop/happy-people.png")}
+            mobileImage={require("public/assets/landingpage/mobile/happy-people.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/engine/features/backend-wallets"
           />
           <LandingCardWithImage
-            title="High transaction throughput"
-            description="Blockchain transactions are processed in parallel with nonce management, and stuck transactions are automatically retried."
-            image={require("public/assets/landingpage/desktop/happy-people.png")}
-            mobileImage={require("public/assets/landingpage/desktop/happy-people.png")}
+            title="Any EVM chain"
+            description="Engine supports contract calls on all 1000+ EVM blockchains and private subnets."
+            image={require("public/assets/landingpage/desktop/any-evm.png")}
+            mobileImage={require("public/assets/landingpage/mobile/any-evm.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/engine"
           />
@@ -277,7 +277,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           />
 
           <LandingTwitterCard
-            src={require("public/assets/product-pages/engine/coolcats.png")}
+            src={require("public/assets/product-pages/engine/coolcats-pfp.png")}
             name="Adam Goodman"
             username="Backend Developer, Cool Cats"
             showReactions={false}
