@@ -1,5 +1,6 @@
 import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Box,
   Flex,
   GridItem,
   Icon,
@@ -21,7 +22,7 @@ import Fuse from "fuse.js";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { memo, useDeferredValue, useMemo, useState } from "react";
+import { Suspense, memo, useDeferredValue, useMemo, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   Card,
@@ -207,11 +208,13 @@ export const SearchResults: React.FC<{
   chains: MinimalRPCChain[];
 }> = memo(function SearchResults(props) {
   return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
-      {props.chains.map((chain) => (
-        <SearchResult chain={chain} key={`chain_${chain.chainId}`} />
-      ))}
-    </SimpleGrid>
+    <Suspense fallback={<Box h="100vh" />}>
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+        {props.chains.map((chain) => (
+          <SearchResult chain={chain} key={`chain_${chain.chainId}`} />
+        ))}
+      </SimpleGrid>
+    </Suspense>
   );
 });
 
