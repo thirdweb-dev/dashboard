@@ -57,6 +57,25 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
   const router = useRouter();
 
   useEffect(() => {
+    const handleRouteChange = async () => {
+      console.log("handling route change");
+      const res = await fetch("/api/build-id");
+      const { buildId } = await res.json();
+      console.log({ processBuildId: process.env.BUILD_ID, buildId });
+      if (buildId && process.env.BUILD_ID && buildId !== process.env.BUILD_ID) {
+        console.log("reloading");
+        router.reload();
+      }
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router]);
+
+  useEffect(() => {
     // Taken from StackOverflow. Trying to detect both Safari desktop and mobile.
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (isSafari) {
