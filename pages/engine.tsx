@@ -33,16 +33,22 @@ const trustedCompanies = [
     src: require("public/assets/partners/layer3.png"),
   },
   {
-    title: "Ava Labs",
+    title: "Infinigods",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/ava.png"),
+    src: require("public/assets/partners/infinigods.png"),
   },
   {
-    title: "Ex Populus",
+    title: "Treasure",
     height: 74,
     width: 74,
-    src: require("public/assets/partners/ex.png"),
+    src: require("public/assets/partners/treasure.png"),
+  },
+  {
+    title: "Cool Cats",
+    height: 74,
+    width: 74,
+    src: require("public/assets/partners/coolcats.png"),
   },
 ];
 
@@ -88,21 +94,28 @@ const EngineLanding: ThirdwebNextPage = () => {
         />
         <LandingGridSection desktopColumns={3}>
           <LandingImageSectionItem
-            src={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Backend wallet management"
-            description="Sign & send transactions at scale. Scale your app with automatic nonce queueing and gas-optimized transaction retries."
+            image={require("public/assets/landingpage/mobile/backend-list.png")}
+            mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
+            title="Backend Wallets"
+            description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
+            justifyContent="flex-end"
+            pr="0!important"
+            pl="36px!important"
+            maxHeightImage={{ base: "100%", md: "327px" }}
           />
 
           <LandingImageSectionItem
-            src={require("public/assets/landingpage/desktop/infra.png")}
-            title="The smoothest user experiences"
-            description="Create seamless UX by sponsoring gas fees for any & all transactions, with automatic signing. Powered by Account Abstraction."
+            image={require("public/assets/landingpage/desktop/web3warriors.png")}
+            mobileImage={require("public/assets/landingpage/desktop/web3warriors.png")}
+            title="Seamless UX"
+            description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
           />
 
           <LandingImageSectionItem
-            src={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Infrastructure handled for you"
-            description="All the infrastructure you need, built-in — so you can focus on building your app. RPCs, IPFS storage, and Account Abstraction."
+            image={require("public/assets/landingpage/desktop/infra.png")}
+            mobileImage={require("public/assets/landingpage/desktop/infra.png")}
+            title="Infrastructure handled"
+            description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
           />
         </LandingGridSection>
 
@@ -111,14 +124,10 @@ const EngineLanding: ThirdwebNextPage = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Heading
-            fontSize={{ base: "32px", md: "48px" }}
-            fontWeight={700}
-            textAlign="center"
-            color="white"
-          >
-            Integrate without the blockchain complexity
-          </Heading>
+          <LandingSectionHeading
+            title="Integrate without the blockchain complexity"
+            blackToWhiteTitle=""
+          />
 
           <ChakraNextImage
             src={require("public/assets/landingpage/desktop/infastructure.png")}
@@ -203,8 +212,8 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingCardWithImage
             title="Advanced analytics"
             description="View transaction history trends, event logs for each transaction, a ledger of backend wallet funds, and more. (Coming soon)"
-            image={require("public/assets/landingpage/desktop/analytics-v2.png")}
-            mobileImage={require("public/assets/landingpage/mobile/analytics-v2.png")}
+            image={require("public/assets/landingpage/desktop/analytics-v3.png")}
+            mobileImage={require("public/assets/landingpage/mobile/analytics-v3.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/engine"
             direction="horizontal"
@@ -237,10 +246,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             src={require("public/assets/product-pages/engine/chusla.png")}
             name="chusla"
             username="@theahchu"
-            title="chusla"
-            href="https://twitter.com/SonuSharma0702/status/1718086845685182778?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1718086845685182778%7Ctwgr%5E1c0e4efb9432ee4529644cf76d5a77835712b5a6%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.notion.so%2Fthirdweb%2FEngine-4c01a9e4441741e488f529c4e67ad3a6"
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-            isVerified
+            showReactions={false}
             twitterContent={
               <Text color="#fff" fontWeight={500}>
                 hot damn! using @thirdweb Engine for first time and i feel like
@@ -254,10 +260,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             src={require("public/assets/product-pages/engine/knight.png")}
             name="knight | metasky.ai"
             username="@SonuSharma0702"
-            title="knight"
-            href="https://twitter.com/SonuSharma0702/status/1718086845685182778?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1718086845685182778%7Ctwgr%5E1c0e4efb9432ee4529644cf76d5a77835712b5a6%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.notion.so%2Fthirdweb%2FEngine-4c01a9e4441741e488f529c4e67ad3a6"
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-            isVerified
+            showReactions={false}
             twitterContent={
               <Flex flexDir="column" gap="20px">
                 <Text color="#fff" fontWeight={500}>
@@ -278,9 +281,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             name="Adam Goodman"
             username="Backend Developer, Cool Cats"
             showReactions={false}
-            title="adam-goodman"
-            href="https://twitter.com/SonuSharma0702/status/1718086845685182778?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1718086845685182778%7Ctwgr%5E1c0e4efb9432ee4529644cf76d5a77835712b5a6%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.notion.so%2Fthirdweb%2FEngine-4c01a9e4441741e488f529c4e67ad3a6"
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
             twitterContent={
               <Text color="#fff" fontWeight={500}>
                 Pretty crazy not having to worry about so many things I used to
