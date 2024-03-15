@@ -44,7 +44,7 @@ const caseStudies = [
 
 export const metrics = [
   {
-    title: "Base",
+    title: "Base Launches its First Builder Quest & Brings New Developers Onchain",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
@@ -64,10 +64,10 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/base-builder-quest-brings-developers-onchain/",
-    hoverBackground: "#0052FF",
+    hoverBackground: "#0053FF",
   },
   {
-    title: "Pixels",
+    title: "Pixels Builds an Onchain Ecosystem for its Open-World Web3 Game",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/pixels.png"),
     mobileImage: require("public/assets/landingpage/mobile-pixels.png"),
@@ -86,11 +86,11 @@ export const metrics = [
         description: "VIP Members",
       },
     ],
-    href: "https://thirdweb.com/explore/marketplace",
+    href: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game",
     hoverBackground: "#622AFF",
   },
   {
-    title: "Layer3",
+    title: "Layer3 Powers Web3 Adoption through Gamified Experiences & NFT Rewards",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
@@ -141,10 +141,10 @@ const Contracts: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="smart contract development"
+          titleWithGradient="on any EVM chain"
           miniTitle="Contracts"
-          title="End-to-end tools for"
-          subtitle="Trusted, modular contracts that can be deployed securely on any EVM chain"
+          title="Deploy smart contracts"
+          subtitle="Everything you need to build, deploy, and integrate smart contracts into your app. Browse the largest smart contract library and deploy to any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/thirdweb.eth/LoyaltyCard"
           ctaText="Get started"
@@ -170,7 +170,7 @@ const Contracts: ThirdwebNextPage = () => {
           gap="27px"
         >
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Deploy any smart contract, to any EVM chain
+            Any smart contract, on any EVM chain
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
@@ -300,7 +300,7 @@ const Contracts: ThirdwebNextPage = () => {
           />
 
           <LandingCardWithImage
-            title="Eliminate risk from your workflow"
+            title="Deploy with peace of mind"
             description="Deploy securely from our dashboard: No need to share private keys, copy-paste ABIs, or deal with insecure & unfunded private keys required with local deploys."
             image={require("public/assets/contracts/full-chargeback-protection.png")}
             mobileImage={require("public/assets/contracts/mobile-full-chargeback-protection.png")}
