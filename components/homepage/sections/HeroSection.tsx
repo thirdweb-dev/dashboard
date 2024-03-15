@@ -27,8 +27,8 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
       >
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
           <Flex flexDir="column" gap={4}>
-            <Heading as="h1" size="display.sm" px={{ base: 2, md: 0 }}>
-              Full-Stack Web3 Development Platform
+            <Heading as="h1" size="title.2xl" px={{ base: 2, md: 0 }}>
+              Full stack, open source web3 development platform
             </Heading>
           </Flex>
           <Text size="body.xl" mr={6}>

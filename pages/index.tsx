@@ -1,34 +1,18 @@
 import HomePageCard from "components/homepage/sections/HomePageCard";
-import { AnyEVMSection } from "../components/homepage/sections/AnyEVM";
-import { Box, Center, DarkMode, Flex } from "@chakra-ui/react";
+import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
-import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
-import { PricingSection } from "components/homepage/sections/PricingSection";
-import { SDKSection } from "components/homepage/sections/SDKSection";
-import { SolutionsSection } from "components/homepage/sections/Solutions";
 import { StatsSection } from "components/homepage/sections/StatsSection";
-import { ValuesSection } from "components/homepage/sections/ValuesSection";
-import { WithoutThirdwebSection } from "components/homepage/sections/WithoutThirdwebSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { PageId } from "page-id";
 import { Suspense } from "react";
 import { ThirdwebNextPage } from "utils/types";
-import { PRODUCTS, metrics } from "components/product-pages/common/nav/data";
-import { Heading, Text } from "tw-components";
-import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
+import { AnimatedCLICommand } from "../components/homepage/AnimatedCLICommand/AnimatedCLICommand";
 
 const TRACKING_CATEGORY = "homepage";
 
 const HomePage: ThirdwebNextPage = () => {
-  const filterProducts = (section: string) => {
-    return PRODUCTS.filter(
-      (p) => p.section === section && !!p.inLandingPage && !!p.link,
-    );
-  };
-
   return (
     <DarkMode>
       <Flex
@@ -49,43 +33,74 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <StatsSection />
           <HomePageCard
-            title="Onboard everyone to web3, instantly"
-            description="The complete web3 wallet stack — with a customizable Connect Wallet modal, embedded wallets for flexible sign-in options, and account abstraction for the smoothest user experiences."
-            introductionTitle="WALLET PRODUCTS"
-            image={require("public/assets/bear-market-airdrop/desktop-wallets.png")}
-            mobileImage={require("public/assets/bear-market-airdrop/mobile-wallets.png")}
-            products={filterProducts("connect")}
+            title="Client-side SDKs to connect users to web3"
+            description="Onboard any user, connect to any wallet, and facilitate any transaction. Generate revenue with payments and build seamless apps with Account Abstraction."
+            miniTitle="Frontend"
+            miniDescription="CONNECT"
+            miniImage={require("public/assets/landingpage/connect-icon.png")}
+            customContactUsComponent={<AnimatedCLICommand />}
+            ctaText="Learn more"
+            ctaLink="/connect"
+            image={require("public/assets/landingpage/connect-hero.png")}
+            mobileImage={require("public/assets/landingpage/connect-hero.png")}
+            partnersImages={[
+              require("public/assets/landingpage/treasure.png"),
+              require("public/assets/landingpage/courtyard.png"),
+              require("public/assets/landingpage/myna.png"),
+              require("public/assets/landingpage/aavegotchi.png"),
+              require("public/assets/landingpage/ztx.png"),
+              require("public/assets/landingpage/torque.png"),
+            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
-            title="Build smart contracts, deploy on any EVM"
-            description="The smart contract development toolkit — with a powerful Solidity SDK to build custom contracts, a library of pre-built & audited contracts, and a 1-click deployment flow to any EVM-compatible blockchains."
-            introductionTitle="CONTRACT PRODUCTS"
-            image={require("public/assets/bear-market-airdrop/desktop-contracts.png")}
-            mobileImage={require("public/assets/bear-market-airdrop/mobile-contracts.png")}
-            products={filterProducts("contracts")}
+            title="Complete, scalable web3 backend"
+            description="Scalable smart contract APIs backed by secure wallets. Create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
+            miniTitle="Backend"
+            miniDescription="ENGINE"
+            miniImage={require("public/assets/landingpage/engine-icon.png")}
+            ctaText="Learn more"
+            ctaLink="/connect"
+            contactUsText="Dashboard"
+            contactUsLink="/dashboard"
+            contactUsButtonMaxWidth="186px"
+            image={require("public/assets/landingpage/engine-hero.png")}
+            mobileImage={require("public/assets/landingpage/engine-hero.png")}
+            partnersImages={[
+              require("public/assets/landingpage/coinbase-v2.png"),
+              require("public/assets/landingpage/layer3.png"),
+              require("public/assets/landingpage/coolcats.png"),
+              require("public/assets/landingpage/treasure.png"),
+              require("public/assets/landingpage/infinigods.png"),
+              require("public/assets/landingpage/avacloud.png"),
+            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
-            title="Scale with enterprise-grade infrastructure"
-            description="The production-grade server for scalable web3 apps — with backend wallet creation, nonce management, smart contract interactions, account abstraction support, gasless transactions, and managed infrastructure."
-            introductionTitle="INFRASTRUCTURE PRODUCT"
-            image={require("public/assets/bear-market-airdrop/desktop-engine.png")}
-            mobileImage={require("public/assets/bear-market-airdrop/mobile-engine.png")}
-            products={filterProducts("infrastructure")}
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-          />
-          <HomePageCard
-            title="Simplify NFT purchases with fiat checkouts"
-            description="The most powerful NFT checkout — with worldwide availability, support for major payment methods, and full compliance for enterprise-grade apps. Built to onboard everyone, even if they've never created a web3 wallet or bought crypto."
-            introductionTitle="CHECKOUT PRODUCT"
-            image={require("public/assets/bear-market-airdrop/desktop-checkout.png")}
-            mobileImage={require("public/assets/bear-market-airdrop/mobile-checkout.png")}
-            products={filterProducts("payments")}
+            title="End-to-end tools for smart contracts"
+            description="Everything you need to build, deploy and integrate smart contracts into your app. Browse the largest library of published smart contracts and securely deploy to any EVM chain."
+            miniTitle="Onchain"
+            miniDescription="CONTRACTS"
+            miniImage={require("public/assets/landingpage/contracts-icon.png")}
+            ctaText="Learn more"
+            ctaLink="/connect"
+            contactUsText="Explore Contracts"
+            contactUsLink="/contracts"
+            contactUsButtonMaxWidth="254px"
+            image={require("public/assets/landingpage/contracts-hero.png")}
+            mobileImage={require("public/assets/landingpage/contracts-hero.png")}
+            partnersImages={[
+              require("public/assets/landingpage/animoca.png"),
+              require("public/assets/landingpage/rarible.png"),
+              require("public/assets/landingpage/mcfarlane.png"),
+              require("public/assets/landingpage/pixels-v2.png"),
+              require("public/assets/landingpage/gala.png"),
+              require("public/assets/landingpage/mirror-v2.png"),
+            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
 
-          <Box px={4}>
+          {/* <Box px={4}>
             <LandingCardWithMetrics
               title={
                 <Center flexDir="column" textAlign="center">
@@ -106,14 +121,14 @@ const HomePage: ThirdwebNextPage = () => {
           </Box>
 
           <WithoutThirdwebSection />
-          <ValuesSection />
+          <ValuesSection /> */}
           <Suspense>
-            <SDKSection />
+            {/*  <SDKSection />
             <AnyEVMSection />
             <PricingSection trackingCategory={TRACKING_CATEGORY} onHomepage />
             <SolutionsSection />
             <GetStartedSection />
-            <NewsletterSection />
+            <NewsletterSection /> */}
             <HomepageFooter />
           </Suspense>
         </Box>
