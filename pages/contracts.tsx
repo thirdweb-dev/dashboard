@@ -45,7 +45,7 @@ const caseStudies = [
 export const metrics = [
   {
     title:
-      "Base Launches its First Builder Quest & Brings New Developers Onchain",
+      "Base",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
@@ -68,7 +68,7 @@ export const metrics = [
     hoverBackground: "#0053FF",
   },
   {
-    title: "Pixels Builds an Onchain Ecosystem for its Open-World Web3 Game",
+    title: "Pixels",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/pixels.png"),
     mobileImage: require("public/assets/landingpage/mobile-pixels.png"),
@@ -92,7 +92,7 @@ export const metrics = [
   },
   {
     title:
-      "Layer3 Powers Web3 Adoption through Gamified Experiences & NFT Rewards",
+      "Layer3",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
@@ -112,7 +112,7 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
-    hoverBackground: "#8A5406",
+    hoverBackground: "#FEA421",
   },
 ];
 
@@ -121,16 +121,16 @@ const Contracts: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Engine: Open-Source Server for Scalable Web3 Apps",
+        title: "A Complete Toolkit for Smart Contract Development",
         description:
-          "A production-grade HTTP server to generate backend wallets on any EVM blockchain—with smart contracts, auth, gasless transactions, & managed infra. Get started.",
+          "Everything you need to build, deploy, & integrate smart contracts into your app. Browse audited, modular contracts & deploy to any EVM chain.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/engine.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/build.png`,
               width: 1200,
               height: 630,
-              alt: "thirdweb Engine",
+              alt: "thirdweb Smart Contracts",
             },
           ],
         },
@@ -143,10 +143,10 @@ const Contracts: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="on any EVM chain"
+          titleWithGradient="smart contract development"
           miniTitle="Contracts"
-          title="Deploy smart contracts"
-          subtitle="Everything you need to build, deploy, and integrate smart contracts into your app. Browse the largest smart contract library and deploy to any EVM chain."
+          title="End-to-end tools for"
+          subtitle="Trusted and modular smart contracts that can be deployed securely on any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/thirdweb.eth/LoyaltyCard"
           ctaText="Get started"
@@ -154,7 +154,7 @@ const Contracts: ThirdwebNextPage = () => {
           gradient="linear(to-r, #9786DF, #9786DF)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
-          miniImage={require("public/assets/product-icons/deploy.png")}
+          miniImage={require("public/assets/product-icons/contracts.png")}
         />
 
         <Stats
@@ -176,8 +176,8 @@ const Contracts: ThirdwebNextPage = () => {
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
-            Explore and extend our library of audited, modular smart contracts
-            and deploy to any EVM chain in seconds.
+            Explore & extend our library of audited, modular smart contracts
+            — and deploy to any EVM chain in seconds.
           </Text>
 
           <ChakraNextImage
@@ -238,12 +238,12 @@ const Contracts: ThirdwebNextPage = () => {
           gap="27px"
         >
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Complete Solidity SDK for your build
+            Build with a powerful Solidity SDK
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
-            Complete Solidity SDK with the tools you need to build custom smart
-            contracts, with a set of pre-built base contracts and extensions.
+            The complete Solidity toolkit to build custom smart contracts, with
+            a set of pre-built base contracts and extensions.
           </Text>
 
           <LandingDesktopMobileImage
@@ -265,12 +265,12 @@ const Contracts: ThirdwebNextPage = () => {
             }}
             mt={{ base: 8, md: 12 }}
             color="black"
-            href="https://portal.thirdweb.com/contracts/interact/overview"
+            href="https://portal.thirdweb.com/contracts/build/get-started"
             category={TRACKING_CATEGORY}
             label="publish-your-contract-cta"
             fontWeight="bold"
           >
-            CTA
+            Get started
           </TrackedLinkButton>
         </Flex>
 
