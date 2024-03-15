@@ -138,7 +138,9 @@ export const ChainsLanding: ThirdwebNextPage = (
         </Card>
       </Flex>
 
-      <SearchResults chains={filteredChains} />
+      <Suspense fallback={<Box h="100vh" />}>
+        <SearchResults chains={filteredChains} />
+      </Suspense>
     </Flex>
   );
 };
@@ -208,13 +210,11 @@ export const SearchResults: React.FC<{
   chains: MinimalRPCChain[];
 }> = memo(function SearchResults(props) {
   return (
-    <Suspense fallback={<Box h="100vh" />}>
-      <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
-        {props.chains.map((chain) => (
-          <SearchResult chain={chain} key={`chain_${chain.chainId}`} />
-        ))}
-      </SimpleGrid>
-    </Suspense>
+    <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+      {props.chains.map((chain) => (
+        <SearchResult chain={chain} key={`chain_${chain.chainId}`} />
+      ))}
+    </SimpleGrid>
   );
 });
 
