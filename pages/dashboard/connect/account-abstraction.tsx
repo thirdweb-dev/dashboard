@@ -247,7 +247,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  How to Deploy an Account (ERC-4337)
+                  How to Deploy an Smart Account (ERC-4337)
                 </TrackedLink>
               </Text>
               <Text as={ListItem} color="blue.500">

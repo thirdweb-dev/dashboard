@@ -20,7 +20,7 @@ const GUIDES = [
     link: "https://portal.thirdweb.com/wallets/smart-wallet/get-started",
   },
   {
-    title: "Choosing Between Simple, Managed, & Dynamic Account Factories",
+    title: "Choosing Between Simple, Managed, & Dynamic Smart Accounts",
     image: require("/public/assets/product-pages/smart-wallet/which-contract.png"),
     link: "https://blog.thirdweb.com/smart-contract-deep-dive-building-smart-wallets-for-individuals-and-teams/",
   },
