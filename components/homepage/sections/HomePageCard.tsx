@@ -18,7 +18,6 @@ interface HomePageCardProps {
   contactUsText?: string;
   contactUsLink?: string;
   image: StaticImageData;
-  partnersImages: StaticImageData[];
   mobileImage?: StaticImageData;
   TRACKING_CATEGORY: string;
 }
@@ -31,7 +30,6 @@ const HomePageCard = ({
   miniDescription,
   image,
   mobileImage,
-  partnersImages,
   ctaLink,
   contactUsButtonMaxWidth,
   customContactUsComponent,
@@ -126,7 +124,7 @@ const HomePageCard = ({
             {customContactUsComponent && customContactUsComponent}
           </Flex>
 
-          <Text
+          {/*   <Text
             fontSize={"14px"}
             color={"#646D7A"}
             fontWeight={600}
@@ -139,7 +137,7 @@ const HomePageCard = ({
             {partnersImages.map((img, idx) => {
               return <ChakraNextImage key={idx} src={img} alt="" />;
             })}
-          </SimpleGrid>
+          </SimpleGrid> */}
         </Flex>
 
         <Flex
