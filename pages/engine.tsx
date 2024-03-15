@@ -81,8 +81,8 @@ const EngineLanding: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           titleWithGradient="scalable apps"
           miniTitle="Engine"
-          title="The open-source web3 backend for"
-          subtitle="A production-grade HTTP server that interacts with smart contracts on any EVM chain. Create & manage backend wallets with automatic nonce queuing, gas management, and high throughput."
+          title="Dedicated APIs for web3 apps & games"
+          subtitle="Scalable smart contract APIs backed by secure wallets — with automatic nonce queuing, gas management, and high throughput."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/engine"
           ctaText="Get started"
@@ -92,32 +92,6 @@ const EngineLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/engine/mobile-hero.png")}
           miniImage={require("public/assets/product-icons/engine.png")}
         />
-        <LandingGridSection desktopColumns={3}>
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/mobile/backend-list.png")}
-            mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
-            title="Backend Wallets"
-            description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
-            justifyContent="flex-end"
-            pr="0!important"
-            pl="36px!important"
-            maxHeightImage={{ base: "100%", md: "327px" }}
-          />
-
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/desktop/web3warriors.png")}
-            mobileImage={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Seamless UX"
-            description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
-          />
-
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/desktop/infra.png")}
-            mobileImage={require("public/assets/landingpage/desktop/infra.png")}
-            title="Infrastructure handled"
-            description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
-          />
-        </LandingGridSection>
 
         <Flex
           flexDirection="column"
@@ -125,7 +99,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           justifyContent="center"
         >
           <LandingSectionHeading
-            title="Integrate without the blockchain complexity"
+            title="Integrate the blockchain, without the complexity"
             blackToWhiteTitle=""
           />
 
@@ -227,6 +201,33 @@ const EngineLanding: ThirdwebNextPage = () => {
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/engine/features/gasless-transactions"
             colSpan={1}
+          />
+        </LandingGridSection>
+
+        <LandingGridSection desktopColumns={3}>
+          <LandingImageSectionItem
+            image={require("public/assets/landingpage/mobile/backend-list.png")}
+            mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
+            title="Backend Wallets"
+            description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
+            justifyContent="flex-end"
+            pr="0!important"
+            pl="36px!important"
+            maxHeightImage={{ base: "100%", md: "327px" }}
+          />
+
+          <LandingImageSectionItem
+            image={require("public/assets/landingpage/desktop/web3warriors.png")}
+            mobileImage={require("public/assets/landingpage/desktop/web3warriors.png")}
+            title="Seamless UX"
+            description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
+          />
+
+          <LandingImageSectionItem
+            image={require("public/assets/landingpage/desktop/infra.png")}
+            mobileImage={require("public/assets/landingpage/desktop/infra.png")}
+            title="Infrastructure handled"
+            description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
           />
         </LandingGridSection>
 
