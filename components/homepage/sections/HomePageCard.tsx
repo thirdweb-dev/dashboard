@@ -1,9 +1,9 @@
-import { ButtonProps, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
-import { Heading, Text, TrackedLinkButton } from "tw-components";
+import { ButtonProps, Heading, Text, TrackedLinkButton } from "tw-components";
 
 interface HomePageCardProps {
   title: string;
