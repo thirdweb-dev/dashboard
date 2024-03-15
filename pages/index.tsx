@@ -1,6 +1,6 @@
 import HomePageCard from "components/homepage/sections/HomePageCard";
 import { AnyEVMSection } from "../components/homepage/sections/AnyEVM";
-import { Box, DarkMode, Flex } from "@chakra-ui/react";
+import { Box, Center, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
@@ -16,7 +16,7 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { PageId } from "page-id";
 import { Suspense } from "react";
 import { ThirdwebNextPage } from "utils/types";
-import { PRODUCTS, metrics } from "components/product-pages/common/nav/data";
+import { metrics } from "components/product-pages/common/nav/data";
 import { Heading, Text } from "tw-components";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { AnimatedCLICommand } from "../components/homepage/AnimatedCLICommand/AnimatedCLICommand";
