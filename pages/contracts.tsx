@@ -44,7 +44,8 @@ const caseStudies = [
 
 export const metrics = [
   {
-    title: "Base Launches its First Builder Quest & Brings New Developers Onchain",
+    title:
+      "Base Launches its First Builder Quest & Brings New Developers Onchain",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
@@ -90,7 +91,8 @@ export const metrics = [
     hoverBackground: "#622AFF",
   },
   {
-    title: "Layer3 Powers Web3 Adoption through Gamified Experiences & NFT Rewards",
+    title:
+      "Layer3 Powers Web3 Adoption through Gamified Experiences & NFT Rewards",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
