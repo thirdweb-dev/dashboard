@@ -79,10 +79,10 @@ const EngineLanding: ThirdwebNextPage = () => {
         gap={{ base: "160px", md: "202px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="scalable apps"
+          titleWithGradient="web3 apps & games"
           miniTitle="Engine"
-          title="Dedicated APIs for web3 apps & games"
-          subtitle="Scalable smart contract APIs backed by secure wallets — with automatic nonce queuing, gas management, and high throughput."
+          title="Dedicated APIs for"
+          subtitle="Scalable smart contract APIs backed by secure wallets — with automatic nonce queuing and gas-optimized retries."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/engine"
           ctaText="Get started"
