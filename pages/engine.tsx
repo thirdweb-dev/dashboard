@@ -82,7 +82,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           titleWithGradient="web3 apps & games"
           miniTitle="Engine"
           title="Dedicated APIs for"
-          subtitle="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing and gas-optimized retries."
+          subtitle="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/engine"
           ctaText="Get started"
