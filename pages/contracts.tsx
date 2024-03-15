@@ -152,7 +152,7 @@ const Contracts: ThirdwebNextPage = () => {
           gradient="linear(to-r, #9786DF, #9786DF)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
-          miniImage={require("public/assets/product-icons/engine.png")}
+          miniImage={require("public/assets/product-icons/deploy.png")}
         />
 
         <Stats
