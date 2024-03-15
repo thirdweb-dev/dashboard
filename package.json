@@ -9,7 +9,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "bun test",
     "fix": "next lint --fix",
     "format": "prettier --write .",
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
