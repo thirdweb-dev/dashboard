@@ -43,14 +43,6 @@ const HomePage: ThirdwebNextPage = () => {
             ctaLink="/connect"
             image={require("public/assets/landingpage/connect-hero.png")}
             mobileImage={require("public/assets/landingpage/connect-hero.png")}
-            partnersImages={[
-              require("public/assets/landingpage/treasure.png"),
-              require("public/assets/landingpage/courtyard.png"),
-              require("public/assets/landingpage/myna.png"),
-              require("public/assets/landingpage/aavegotchi.png"),
-              require("public/assets/landingpage/ztx.png"),
-              require("public/assets/landingpage/torque.png"),
-            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
@@ -66,14 +58,6 @@ const HomePage: ThirdwebNextPage = () => {
             contactUsButtonMaxWidth="186px"
             image={require("public/assets/landingpage/engine-hero.png")}
             mobileImage={require("public/assets/landingpage/engine-hero.png")}
-            partnersImages={[
-              require("public/assets/landingpage/coinbase-v2.png"),
-              require("public/assets/landingpage/layer3.png"),
-              require("public/assets/landingpage/coolcats.png"),
-              require("public/assets/landingpage/treasure.png"),
-              require("public/assets/landingpage/infinigods.png"),
-              require("public/assets/landingpage/avacloud.png"),
-            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
@@ -89,18 +73,10 @@ const HomePage: ThirdwebNextPage = () => {
             contactUsButtonMaxWidth="254px"
             image={require("public/assets/landingpage/contracts-hero.png")}
             mobileImage={require("public/assets/landingpage/contracts-hero.png")}
-            partnersImages={[
-              require("public/assets/landingpage/animoca.png"),
-              require("public/assets/landingpage/rarible.png"),
-              require("public/assets/landingpage/mcfarlane.png"),
-              require("public/assets/landingpage/pixels-v2.png"),
-              require("public/assets/landingpage/gala.png"),
-              require("public/assets/landingpage/mirror-v2.png"),
-            ]}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
 
-          {/* <Box px={4}>
+          <Box px={4}>
             <LandingCardWithMetrics
               title={
                 <Center flexDir="column" textAlign="center">
@@ -121,14 +97,14 @@ const HomePage: ThirdwebNextPage = () => {
           </Box>
 
           <WithoutThirdwebSection />
-          <ValuesSection /> */}
+          <ValuesSection />
           <Suspense>
-            {/*  <SDKSection />
+            <SDKSection />
             <AnyEVMSection />
             <PricingSection trackingCategory={TRACKING_CATEGORY} onHomepage />
             <SolutionsSection />
             <GetStartedSection />
-            <NewsletterSection /> */}
+            <NewsletterSection />
             <HomepageFooter />
           </Suspense>
         </Box>
