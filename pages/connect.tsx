@@ -23,7 +23,7 @@ const TRACKING_CATEGORY = "connect-wallet-landing";
 
 export const metrics = [
   {
-    title: "Zepeto",
+    title: "ZTX",
     description:
       "A virtual world that empowers creators and communities — powered by thirdweb Connect.",
     image: require("public/assets/product-pages/connect/desktop-ztx.png"),
@@ -131,7 +131,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           title="Build web3 apps"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
           titleWithGradient="that anyone can use"
-          subtitle="Seamless frontends for your web3 app or game with SDKs in every language. Onboard users with wallets, generate revenue with payments and build gasless apps with Account Abstraction."
+          subtitle="Onboard every user, connect to any wallet, and build seamless apps — with in-app wallets, smart accounts, and onchain payments."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
           contactUsTitle="Book Demo"
@@ -197,13 +197,12 @@ const ConnectLanding: ThirdwebNextPage = () => {
             textAlign="center"
             maxW="900px"
           >
-            Seamlessly integrate smart contracts into your apps
+            Plug smart contracts into your apps, seamlessly
           </Heading>
           <Spacer h={6} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            Create a login experience that&apos;s tailor-made for your app. Add
-            your wallets of choice, enable web2 sign-in options and create a
-            modal that fits your brand.
+            The complete SDK to add any smart contract into your app — and call
+            functions for any type of onchain interaction.
           </Text>
 
           {/* Supported platforms */}
@@ -361,6 +360,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
         </Flex>
 
         <LandingHeroWithSideImage
+          miniTitle="Pay"
+          miniImage={require("public/assets/product-icons/payments.png")}
           title="Powerful NFT checkouts,"
           titleWithGradient="with fiat & crypto payments"
           subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
