@@ -176,8 +176,8 @@ const Contracts: ThirdwebNextPage = () => {
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
-            Explore & extend our library of audited, modular smart contracts
-            — and deploy to any EVM chain in seconds.
+            Explore & extend our library of audited, modular smart contracts —
+            and deploy to any EVM chain in seconds.
           </Text>
 
           <ChakraNextImage
