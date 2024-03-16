@@ -3,7 +3,7 @@ import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { ThirdwebNextPage } from "utils/types";
-import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";

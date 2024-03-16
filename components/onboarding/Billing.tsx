@@ -22,7 +22,6 @@ export const OnboardingBilling: React.FC<OnboardingBillingProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const trackEvent = useTrack();
-  const accountQuery = useAccount();
   const queryClient = useQueryClient();
   const { user } = useLoggedInUser();
 
