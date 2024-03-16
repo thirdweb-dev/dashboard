@@ -1,8 +1,8 @@
+"use-client";
 import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
   LinkOverlay,
-  forwardRef,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import _NextLink, { LinkProps as _NextLinkProps } from "next/link";
@@ -10,11 +10,9 @@ import React, { useCallback } from "react";
 
 export type ChakraNextLinkProps = Omit<ChakraLinkProps, "as"> &
   Omit<_NextLinkProps, "as">;
-export const ChakraNextLink = forwardRef<ChakraNextLinkProps, "a">(
-  (props, ref) => (
-    <ChakraLink as={_NextLink} {...props} ref={ref} prefetch={false} />
-  ),
-);
+export const ChakraNextLink: React.FC<
+  React.PropsWithRef<ChakraNextLinkProps>
+> = (props) => <ChakraLink as={_NextLink} {...props} prefetch={false} />;
 
 interface LinkProps
   extends Omit<ChakraLinkProps, "href">,
@@ -30,30 +28,33 @@ interface LinkProps
  * A link component that can be used to navigate to other pages.
  * Combines the `NextLink` and Chakra `Link` components.
  */
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ href, isExternal, children, scroll, ...restLinkProps }, ref) => {
-    if (isExternal) {
-      return (
-        <ChakraLink isExternal href={href} ref={ref} {...restLinkProps}>
-          {children}
-        </ChakraLink>
-      );
-    }
-
+export const Link: React.FC<React.PropsWithRef<LinkProps>> = ({
+  href,
+  isExternal,
+  children,
+  scroll,
+  ...restLinkProps
+}) => {
+  if (isExternal) {
     return (
-      <ChakraNextLink
-        href={href}
-        scroll={scroll}
-        scrollBehavior="smooth"
-        ref={ref}
-        _focus={{ boxShadow: "none" }}
-        {...restLinkProps}
-      >
+      <ChakraLink isExternal href={href} {...restLinkProps}>
         {children}
-      </ChakraNextLink>
+      </ChakraLink>
     );
-  },
-);
+  }
+
+  return (
+    <ChakraNextLink
+      href={href}
+      scroll={scroll}
+      scrollBehavior="smooth"
+      _focus={{ boxShadow: "none" }}
+      {...restLinkProps}
+    >
+      {children}
+    </ChakraNextLink>
+  );
+};
 
 Link.displayName = "Link";
 
@@ -66,18 +67,21 @@ export interface TrackedLinkProps extends LinkProps {
 /**
  * A link component extends the `Link` component and adds tracking.
  */
-export const TrackedLink = React.forwardRef<
-  HTMLAnchorElement,
-  TrackedLinkProps
->(({ category, label, trackingProps, ...props }, ref) => {
+export const TrackedLink: React.FC<React.PropsWithRef<TrackedLinkProps>> = ({
+  category,
+  label,
+  trackingProps,
+
+  ...props
+}) => {
   const trackEvent = useTrack();
 
   const onClick = useCallback(() => {
     trackEvent({ category, action: "click", label, ...trackingProps });
   }, [trackEvent, category, label, trackingProps]);
 
-  return <Link ref={ref} onClick={onClick} {...props} />;
-});
+  return <Link onClick={onClick} {...props} />;
+};
 
 TrackedLink.displayName = "TrackedLink";
 

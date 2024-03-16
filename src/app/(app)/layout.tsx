@@ -1,104 +1,48 @@
-import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import {
-  ButtonGroup,
-  Container,
-  Flex,
-  Grid,
-  GridItem,
-  Icon,
-} from "@chakra-ui/react";
-import { CmdKSearch } from "components/cmd-k-search";
-import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
-import { Logo } from "components/logo";
-import { BillingAlert } from "components/settings/Account/Billing/Alert";
-import { CreditsButton } from "components/settings/Account/Billing/CreditsButton";
-import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
-import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
-import { useRouter } from "next/router";
-import { FiHelpCircle } from "react-icons/fi";
+"use client";
+import { Box, ButtonGroup, Container, Flex, Icon } from "@chakra-ui/react";
+import { Link, TrackedLink } from "tw-components/link";
+import { Text } from "tw-components/text";
+import { Logo } from "../../../components/logo";
 import {
   Button,
-  Link,
   LinkButton,
-  Text,
   TrackedIconButton,
-  TrackedLink,
-} from "tw-components";
-import { ComponentWithChildren } from "types/component-with-children";
+} from "../../../tw-components/button";
+import { usePathname } from "next/navigation";
+// import { CmdKSearch } from "../../../components/cmd-k-search";
+// import { CreditsButton } from "../../../components/settings/Account/Billing/CreditsButton";
+// import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
+import { FiHelpCircle } from "react-icons/fi";
+import { ColorModeToggle } from "../../../components/color-mode/color-mode-toggle";
 
-export interface AppShellProps {
-  layout?: "custom-contract";
-  noSEOOverride?: boolean;
-  hasSidebar?: boolean;
-  noOverflowX?: boolean;
-}
-
-export const AppShell: ComponentWithChildren<AppShellProps> = ({
-  children,
-  layout,
-  hasSidebar,
-  noOverflowX,
-}) => {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Grid
+    <Flex
       minH="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
-      templateColumns={`auto 1fr`}
-      templateRows={{ base: "auto auto 1fr auto", md: "auto 1fr auto" }}
+      direction="column"
       backgroundColor="backgroundBody"
     >
       <AppHeader />
 
-      <GridItem
-        id={SIDEBAR_TUNNEL_ID}
-        bg="backgroundHighlight"
-        colSpan={{ base: 2, md: 1 }}
-        rowSpan={{ base: 1, md: 2 }}
-        as="aside"
-        position="sticky"
-        top={0}
-        zIndex="sticky"
-        boxShadow="sm"
-        w={{ md: hasSidebar ? SIDEBAR_WIDTH : "auto" }}
-      >
-        {" "}
-      </GridItem>
-      <GridItem
+      <Box
         minH={{ base: "100vh", md: "unset" }}
         pt={{ base: 6, md: 10 }}
         pb={{ base: 6, md: 20 }}
         as="main"
-        colSpan={{ base: 2, md: 1 }}
-        rowSpan={1}
-        overflowX={noOverflowX ? undefined : "auto"}
       >
-        <Container maxW="container.page">
-          <BillingAlert />
-        </Container>
-
-        {layout === "custom-contract" ? (
-          children
-        ) : (
-          <Container maxW="container.page">{children}</Container>
-        )}
-      </GridItem>
+        {children}
+      </Box>
 
       <AppFooter />
-    </Grid>
+    </Flex>
   );
-};
+}
 
 const AppHeader: React.FC = () => {
-  const { pathname, route, query } = useRouter();
+  const pathname = usePathname();
 
   return (
-    <GridItem
-      colSpan={{ base: 2, md: 2 }}
-      rowSpan={1}
-      background="backgroundHighlight"
-      zIndex="sticky"
-      boxShadow="sm"
-      pb={2}
-    >
+    <Box background="backgroundHighlight" zIndex="sticky" boxShadow="sm" pb={2}>
       <Container
         maxW="100%"
         display="flex"
@@ -110,12 +54,12 @@ const AppHeader: React.FC = () => {
           <Link href="/dashboard">
             <Logo hideWordmark />
           </Link>
-          <CmdKSearch />
+          {/* <CmdKSearch /> */}
         </Flex>
         <Flex align="center" gap={4} marginLeft="auto">
           <Flex display={{ base: "none", md: "flex" }} gap={2}>
-            <CreditsButton fromOpCredits={!!query.fromOpCredits} />
-            <UpgradeButton />
+            {/* <CreditsButton /> */}
+            {/* <UpgradeButton /> */}
           </Flex>
           <Button
             as={TrackedLink}
@@ -160,7 +104,7 @@ const AppHeader: React.FC = () => {
 
           <ColorModeToggle />
 
-          <CustomConnectWallet ml={{ base: 0, md: 2 }} colorScheme="blue" />
+          {/* <CustomConnectWallet ml={{ base: 0, md: 2 }} colorScheme="blue" /> */}
         </Flex>
       </Container>
       <Container
@@ -186,8 +130,8 @@ const AppHeader: React.FC = () => {
           <LinkButton
             href="/dashboard/connect/playground"
             isActive={
-              pathname.startsWith("/dashboard/connect") ||
-              pathname.startsWith("/dashboard/payments")
+              pathname?.startsWith("/dashboard/connect") ||
+              pathname?.startsWith("/dashboard/payments")
             }
             _active={{
               bg: "bgBlack",
@@ -199,10 +143,7 @@ const AppHeader: React.FC = () => {
           </LinkButton>
           <LinkButton
             href="/dashboard/contracts/deploy"
-            isActive={
-              pathname.startsWith("/dashboard/contracts") ||
-              route === "/[networkOrAddress]/[...catchAll]"
-            }
+            isActive={pathname?.startsWith("/dashboard/contracts")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
@@ -213,7 +154,7 @@ const AppHeader: React.FC = () => {
           </LinkButton>
           <LinkButton
             href="/dashboard/engine"
-            isActive={pathname.startsWith("/dashboard/engine")}
+            isActive={pathname?.startsWith("/dashboard/engine")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
@@ -224,7 +165,7 @@ const AppHeader: React.FC = () => {
           </LinkButton>
           <LinkButton
             href="/dashboard/settings/api-keys"
-            isActive={pathname.startsWith("/dashboard/settings")}
+            isActive={pathname?.startsWith("/dashboard/settings")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
@@ -235,62 +176,47 @@ const AppHeader: React.FC = () => {
           </LinkButton>
         </ButtonGroup>
       </Container>
-    </GridItem>
+    </Box>
   );
 };
 
 const AppFooter: React.FC = () => {
   return (
-    <GridItem
-      display="flex"
-      colSpan={2}
-      rowSpan={1}
+    <Flex
       as="footer"
       w="full"
       py={4}
       gap={4}
+      mt="auto"
       alignItems="center"
       flexDir={{ base: "column", md: "row" }}
       justifyContent="center"
       bg="backgroundHighlight"
       zIndex="sticky"
     >
-      <TrackedLink
-        isExternal
-        href="https://feedback.thirdweb.com"
-        category="footer"
-        label="feedback"
-      >
+      <Link isExternal href="https://feedback.thirdweb.com">
         <Text>Feedback</Text>
-      </TrackedLink>
-      <TrackedLink isExternal href="/privacy" category="footer" label="privacy">
+      </Link>
+      <Link isExternal href="/privacy">
         <Text>Privacy Policy</Text>
-      </TrackedLink>
-      <TrackedLink isExternal href="/tos" category="footer" label="terms">
+      </Link>
+      <Link isExternal href="/tos">
         <Text>Terms of Service</Text>
-      </TrackedLink>
+      </Link>
 
-      <TrackedLink
-        href="/gas"
-        bg="transparent"
-        category="footer"
-        display={{ base: "none", md: "flex" }}
-        label="gas-estimator"
-      >
+      <Link href="/gas" bg="transparent" display={{ base: "none", md: "flex" }}>
         <Text>Gas Estimator</Text>
-      </TrackedLink>
-      <TrackedLink
+      </Link>
+      <Link
         href="/chainlist"
         bg="transparent"
-        category="footer"
         display={{ base: "none", md: "flex" }}
-        label="chains"
       >
         <Text>Chainlist</Text>
-      </TrackedLink>
+      </Link>
       <Text alignSelf="center" order={{ base: 2, md: 0 }} opacity={0.5}>
         thirdweb &copy; {new Date().getFullYear()}
       </Text>
-    </GridItem>
+    </Flex>
   );
 };
