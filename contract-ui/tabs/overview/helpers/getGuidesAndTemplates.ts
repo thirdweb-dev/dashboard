@@ -120,7 +120,7 @@ const ALL_GUIDES: Record<string, Item> = {
     url: "https://blog.thirdweb.com/guides/build-treasury-and-governance-for-your-dao/",
   },
   deploySmartWallet: {
-    title: "How to Deploy an Smart Account (ERC-4337)",
+    title: "How to Deploy a Smart Account (ERC-4337)",
     url: "https://blog.thirdweb.com/guides/how-to-use-erc4337-smart-wallets/",
   },
   customSmartWallet: {
