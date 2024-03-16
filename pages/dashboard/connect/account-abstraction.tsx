@@ -131,7 +131,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         justifyContent={"space-between"}
       >
         <Flex flexDir="column" gap={4}>
-          <Flex gap={8} alignItems={"center"}>
+          <Flex gap={8} alignItems={"center"} flexDir={{ base: "column", md: "row" }}>
             <Heading size="title.lg" as="h1">
               Account Abstraction
             </Heading>
