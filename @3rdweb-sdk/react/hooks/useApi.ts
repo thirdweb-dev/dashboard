@@ -248,7 +248,10 @@ export interface BillingCredit {
   redeemedAt: string;
 }
 
-export function useAccount() {
+export interface UseAccountInput {
+  refetchInterval?: number;
+}
+export function useAccount({ refetchInterval }: UseAccountInput = {}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
@@ -269,7 +272,10 @@ export function useAccount() {
 
       return json.data as Account;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    {
+      enabled: !!user?.address && isLoggedIn,
+      refetchInterval: refetchInterval ?? false,
+    },
   );
 }
 

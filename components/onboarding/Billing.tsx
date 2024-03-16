@@ -89,7 +89,6 @@ export const OnboardingBilling: React.FC<OnboardingBillingProps> = ({
                   queryClient.invalidateQueries(
                     accountKeys.me(user?.address as string),
                   );
-                  accountQuery.refetch();
                   onSave();
                 }}
                 onCancel={handleCancel}
