@@ -39,9 +39,6 @@ export const CreditsButton = () => {
   );
 
   const [shouldClose, setShouldClose] = useState(false);
-  console.log(fromOpCreditsQuery !== undefined, "fromOpCreditsQuery", {
-    shouldShowTooltip,
-  });
 
   const { isLoggedIn } = useLoggedInUser();
   const { data: credits } = useAccountCredits();
