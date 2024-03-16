@@ -3,7 +3,7 @@ import { OnboardingPaymentForm } from "./PaymentForm";
 import { Flex, FocusLock, useColorMode } from "@chakra-ui/react";
 import { OnboardingTitle } from "./Title";
 import { loadStripe } from "@stripe/stripe-js";
-import { useAccount, useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useQueryClient } from "@tanstack/react-query";
 import { accountKeys } from "@3rdweb-sdk/react/cache-keys";
