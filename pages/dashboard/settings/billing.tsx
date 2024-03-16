@@ -3,7 +3,7 @@ import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { ThirdwebNextPage } from "utils/types";
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
@@ -13,7 +13,15 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
   const { isLoggedIn, isLoading } = useLoggedInUser();
-  const meQuery = useAccount({ refetchInterval: 3000 });
+  const meQuery = useAccount({
+    refetchInterval: (account) =>
+      [AccountStatus.NoPayment, AccountStatus.PaymentVerification].includes(
+        account?.status as AccountStatus,
+      )
+        ? 3000
+        : false,
+  });
+
   const router = useRouter();
   const { data: account } = meQuery;
   const { claimGrowth: claimGrowthQuery } = router.query;
