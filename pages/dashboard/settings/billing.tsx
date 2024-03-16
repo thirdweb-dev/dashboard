@@ -18,7 +18,7 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
       [AccountStatus.NoPayment, AccountStatus.PaymentVerification].includes(
         account?.status as AccountStatus,
       )
-        ? 3000
+        ? 1000
         : false,
   });
 
