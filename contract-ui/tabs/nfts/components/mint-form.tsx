@@ -52,42 +52,42 @@ const MINT_FORM_ID = "nft-mint-form";
 
 type NFTMintForm =
   | {
-    contract?: NFTContract;
-    mintMutation: ReturnType<typeof useMintNFT>;
+      contract?: NFTContract;
+      mintMutation: ReturnType<typeof useMintNFT>;
 
-    lazyMintMutation?: undefined;
-    sharedMetadataMutation?: undefined;
-    nft?: undefined;
-    updateMetadataMutation?: undefined;
-  }
+      lazyMintMutation?: undefined;
+      sharedMetadataMutation?: undefined;
+      nft?: undefined;
+      updateMetadataMutation?: undefined;
+    }
   | {
-    contract?: NFTContract;
-    lazyMintMutation: UseMutationResult<
-      unknown,
-      unknown,
-      { metadatas: NFTMetadataInput[]; }
-    >;
-    mintMutation?: undefined;
-    sharedMetadataMutation?: undefined;
-    nft?: undefined;
-    updateMetadataMutation?: undefined;
-  }
+      contract?: NFTContract;
+      lazyMintMutation: UseMutationResult<
+        unknown,
+        unknown,
+        { metadatas: NFTMetadataInput[] }
+      >;
+      mintMutation?: undefined;
+      sharedMetadataMutation?: undefined;
+      nft?: undefined;
+      updateMetadataMutation?: undefined;
+    }
   | {
-    contract?: NFTContract;
-    sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
-    mintMutation?: undefined;
-    lazyMintMutation?: undefined;
-    nft?: undefined;
-    updateMetadataMutation?: undefined;
-  }
+      contract?: NFTContract;
+      sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
+      mintMutation?: undefined;
+      lazyMintMutation?: undefined;
+      nft?: undefined;
+      updateMetadataMutation?: undefined;
+    }
   | {
-    contract?: NFTContract;
-    sharedMetadataMutation?: undefined;
-    mintMutation?: undefined;
-    lazyMintMutation?: undefined;
-    nft: NFT;
-    updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
-  };
+      contract?: NFTContract;
+      sharedMetadataMutation?: undefined;
+      mintMutation?: undefined;
+      lazyMintMutation?: undefined;
+      nft: NFT;
+      updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
+    };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
   contract,
