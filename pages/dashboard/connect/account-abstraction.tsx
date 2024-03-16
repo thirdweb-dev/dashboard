@@ -1,6 +1,11 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Flex,
   HStack,
+  Link,
   ListItem,
   SimpleGrid,
   UnorderedList,
@@ -158,9 +163,28 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         )}
       </Flex>
 
-      {isLoggedIn && hasSmartWalletsWithoutBilling && (
-        <SmartWalletsBillingAlert />
-      )}
+      {isLoggedIn && hasSmartWalletsWithoutBilling ?
+        <SmartWalletsBillingAlert /> : (
+          <Alert
+            status="info"
+            borderRadius="lg"
+            backgroundColor="backgroundCardHighlight"
+            borderLeftColor="blue.500"
+            borderLeftWidth={4}
+            as={Flex}
+            gap={1}
+          >
+            <AlertIcon />
+            <Flex flexDir="column">
+              <AlertTitle>
+                Using the gas credits for OP chain paymaster
+              </AlertTitle>
+              <AlertDescription as={Text}>
+                Credits will automatically be applied to cover gas fees for any onchain activity across thirdweb services. <br />Eligible chains: OP Mainnet, Base, Zora, Frax, Mode.
+              </AlertDescription>
+            </Flex>
+          </Alert>
+        )}
 
       {!hasApiKeys && <NoApiKeys service="smart wallets" />}
 
