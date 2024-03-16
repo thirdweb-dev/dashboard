@@ -222,8 +222,6 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
 
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
-  console.log({ mediaFileUrl });
-
   return (
     <>
       <DrawerHeader>
