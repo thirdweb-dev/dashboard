@@ -4,6 +4,7 @@ import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { ThirdwebNextPage } from "utils/types";
 import { PageId } from "page-id";
 import TemplateWrapper from "../Wrapper";
+import { Heading, Text } from "tw-components";
 
 type TagPageProps = {
   tag: (typeof TemplateTags)[number];
@@ -17,7 +18,27 @@ const TemplateTagPage: ThirdwebNextPage = (props: TagPageProps) => {
       description=""
       data={props.templates}
     >
-      <></>
+      <Heading
+        as="h1"
+        fontSize={{ base: "64px", md: "64px" }}
+        fontWeight={700}
+        letterSpacing="-0.04em"
+        mb={4}
+        textAlign="center"
+      >
+        {props.tag.displayValue}{" "}
+        <Text
+          fontSize={{ base: "64px", md: "64px" }}
+          fontWeight={700}
+          letterSpacing="-0.04em"
+          as="span"
+          bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+          bgClip="text"
+        >
+          templates
+        </Text>
+        .
+      </Heading>
     </TemplateWrapper>
   );
 };
