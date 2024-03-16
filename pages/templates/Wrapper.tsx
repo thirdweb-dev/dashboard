@@ -69,7 +69,7 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
   );
 }
 
-const getDisplayTagFromTagId = (tagId: TemplateTagId) => {
+export const getDisplayTagFromTagId = (tagId: TemplateTagId) => {
   // "loyalty-card" -> "Loyalty Card"
   return TemplateTags.find((item) => item.id === tagId)?.displayValue || "";
 };
@@ -116,7 +116,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           <Heading as="h2" fontSize="20px" mb={3}>
             <TrackedLink
               as={LinkOverlay}
-              href={`/template/${id}`}
+              href={`/templates/${id}`}
               category="templates"
               label={title.toLowerCase()}
               color="white"
@@ -146,6 +146,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
+                  href={`/templates/tag/${tag}`}
                 >
                   <Text
                     as="span"

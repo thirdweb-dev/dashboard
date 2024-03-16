@@ -18,6 +18,7 @@ import {
   TrackedLinkButton,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { getDisplayTagFromTagId } from "./Wrapper";
 
 type TemplateContentsProps = {
   overview: React.ReactNode;
@@ -524,7 +525,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                     opacity={0.7}
                     color="whiteAlpha.900"
                   >
-                    {tag}
+                    {getDisplayTagFromTagId(tag)}
                   </Text>
                 </Box>
               ))}
@@ -703,9 +704,9 @@ export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
 ) => {
   try {
     // Using the id from the context, we can fetch the data for the template from GitHub.
-    const { id } = ctx.params as { id: string };
+    const { templateId } = ctx.params as { templateId: string };
 
-    const template = TEMPLATE_DATA.find((t) => t.id === id);
+    const template = TEMPLATE_DATA.find((t) => t.id === templateId);
 
     if (!template) {
       return {
@@ -730,7 +731,7 @@ export const getStaticPaths: GetStaticPaths = () => {
     fallback: false,
     paths: TEMPLATE_DATA.map((template) => ({
       params: {
-        id: template.id,
+        templateId: template.id,
       },
     })),
   };

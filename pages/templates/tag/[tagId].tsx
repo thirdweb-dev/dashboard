@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { TemplateTags } from "../data/_tags";
+import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { ThirdwebNextPage } from "utils/types";
 import { PageId } from "page-id";
@@ -27,8 +27,8 @@ TemplateTagPage.pageId = PageId.TemplateTagPage;
 
 export const getStaticProps: GetStaticProps<TagPageProps> = async (ctx) => {
   try {
-    const { id } = ctx.params as { id: string };
-    const tag = TemplateTags.find((t) => t.id === id);
+    const { tagId } = ctx.params as { tagId: TemplateTagId };
+    const tag = TemplateTags.find((t) => t.id === tagId);
     if (!tag) {
       return {
         notFound: true,
@@ -53,9 +53,9 @@ export const getStaticProps: GetStaticProps<TagPageProps> = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     fallback: false,
-    paths: TemplateTags.map((template) => ({
+    paths: TemplateTags.map((tag) => ({
       params: {
-        id: template.id,
+        tagId: tag.id,
       },
     })),
   };
