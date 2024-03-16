@@ -52,42 +52,42 @@ const MINT_FORM_ID = "nft-mint-form";
 
 type NFTMintForm =
   | {
-      contract?: NFTContract;
-      mintMutation: ReturnType<typeof useMintNFT>;
+    contract?: NFTContract;
+    mintMutation: ReturnType<typeof useMintNFT>;
 
-      lazyMintMutation?: undefined;
-      sharedMetadataMutation?: undefined;
-      nft?: undefined;
-      updateMetadataMutation?: undefined;
-    }
+    lazyMintMutation?: undefined;
+    sharedMetadataMutation?: undefined;
+    nft?: undefined;
+    updateMetadataMutation?: undefined;
+  }
   | {
-      contract?: NFTContract;
-      lazyMintMutation: UseMutationResult<
-        unknown,
-        unknown,
-        { metadatas: NFTMetadataInput[] }
-      >;
-      mintMutation?: undefined;
-      sharedMetadataMutation?: undefined;
-      nft?: undefined;
-      updateMetadataMutation?: undefined;
-    }
+    contract?: NFTContract;
+    lazyMintMutation: UseMutationResult<
+      unknown,
+      unknown,
+      { metadatas: NFTMetadataInput[]; }
+    >;
+    mintMutation?: undefined;
+    sharedMetadataMutation?: undefined;
+    nft?: undefined;
+    updateMetadataMutation?: undefined;
+  }
   | {
-      contract?: NFTContract;
-      sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
-      mintMutation?: undefined;
-      lazyMintMutation?: undefined;
-      nft?: undefined;
-      updateMetadataMutation?: undefined;
-    }
+    contract?: NFTContract;
+    sharedMetadataMutation: ReturnType<typeof useSetSharedMetadata>;
+    mintMutation?: undefined;
+    lazyMintMutation?: undefined;
+    nft?: undefined;
+    updateMetadataMutation?: undefined;
+  }
   | {
-      contract?: NFTContract;
-      sharedMetadataMutation?: undefined;
-      mintMutation?: undefined;
-      lazyMintMutation?: undefined;
-      nft: NFT;
-      updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
-    };
+    contract?: NFTContract;
+    sharedMetadataMutation?: undefined;
+    mintMutation?: undefined;
+    lazyMintMutation?: undefined;
+    nft: NFT;
+    updateMetadataMutation: ReturnType<typeof useUpdateNFTMetadata>;
+  };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
   contract,
@@ -221,6 +221,8 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch("external_url") instanceof File;
 
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+
+  console.log({ mediaFileUrl });
 
   return (
     <>
@@ -416,7 +418,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 maxContainerWidth={"200px"}
                 value={mediaFileUrl}
                 showUploadButton
-                showPreview={!!mediaFileUrl}
+                showPreview={nft?.metadata ? !!mediaFileUrl : true}
                 setValue={setFile}
                 border="1px solid"
                 borderColor="gray.200"
