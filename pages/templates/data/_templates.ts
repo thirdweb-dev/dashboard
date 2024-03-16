@@ -16,7 +16,7 @@ export interface TemplateCardProps {
   contractName?: string;
   contractLink?: string;
 
-  //Hidden on the front-end - for search purpose only
+  // Hidden on the front-end - for search purpose only
   keywords?: TemplateTagId[];
 }
 

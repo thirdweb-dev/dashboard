@@ -131,7 +131,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           <Flex direction="row" alignItems="center" gap={1} mb={3}>
             {tags.map((tag, idx) => {
               const tagValue = getDisplayTagFromTagId(tag);
-              if (!tagValue) return null;
+              if (!tagValue) {
+                return null;
+              }
               return (
                 <Box
                   as="a"
