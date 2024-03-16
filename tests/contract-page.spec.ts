@@ -10,7 +10,8 @@ test.beforeEach(async ({ page, baseURL }) => {
 
 test.describe("Contract Page", () => {
   test("BAYC", async ({ page }) => {
-    await page.waitForLoadState("networkidle");
+    // give it some time to load
+    await wait(2000);
     // Expect the page to have the correct title.
     expect(await page.title()).toBe(
       "BoredApeYachtClub (BAYC) | Ethereum Smart Contract | thirdweb",
@@ -23,3 +24,7 @@ test.describe("Contract Page", () => {
     expect(await nftTabLinkEl.textContent()).toBe("NFTs");
   });
 });
+
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
