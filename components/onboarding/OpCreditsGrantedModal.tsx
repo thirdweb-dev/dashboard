@@ -40,7 +40,7 @@ export const OpCreditsGrantedModal: React.FC<OpCreditsGrantedModalProps> = ({
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
       "text",
-      `Just got a Superchain Sponsorship from @thirdweb and @Optimism valued at ${creditValueInDollars} and an NFT minted on OP Mainnet!
+      `Just got a Superchain Sponsorship from @thirdweb and @Optimism ${creditValueInDollars && `valued at ${creditValueInDollars} `}and an NFT minted on OP Mainnet!
 
 Apply for sponsorship here:`,
     );
