@@ -1,12 +1,12 @@
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { Aurora } from "../Aurora";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Text, TrackedLink } from "tw-components";
-import { LandingCTAButtons } from "components/landing-pages/cta-buttons";
+import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { ChakraNextImage } from "components/Image";
 import styles from "../category/categories.module.css";
 import { useRouter } from "next/router";
 import { useTrack } from "hooks/analytics/useTrack";
+import { BsFillLightningChargeFill } from "react-icons/bs";
 
 interface HeroSectionProps {
   TRACKING_CATEGORY: string;
@@ -71,11 +71,11 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
             <Heading
               as="h1"
               size="title.2xl"
-              fontWeight={800}
+              fontWeight={900}
               px={{ base: 2, md: 0 }}
-              fontSize={{ base: "36px", sm: "48px" }}
+              fontSize={{ base: "36px", sm: "45px" }}
             >
-              Full stack,{" "}
+              Full-stack,{" "}
               <span
                 // eslint-disable-next-line react/forbid-dom-props
                 className={styles.animatedGradient}
@@ -85,10 +85,11 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
                     action: "click",
                     label: "open-source",
                   });
+
                   router.push(thirdwebRepoUrl);
                 }}
               >
-                open source <GithubIcon />
+                open-source <GithubIcon />
               </span>{" "}
               web3 development platform
             </Heading>
@@ -97,13 +98,44 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
             Frontend, backend and onchain tools for building web3 apps that work
             on any EVM chain.
           </Text>
-          <LandingCTAButtons
-            ctaText="Get started"
-            ctaLink="/dashboard"
-            noContactUs
-            trackingCategory={TRACKING_CATEGORY}
-            alignLeft
-          />
+
+          <Flex
+            flexDirection={{ base: "column", sm: "row" }}
+            gap={{ base: 4, md: 6 }}
+          >
+            <TrackedLinkButton
+              leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
+              py={6}
+              px={8}
+              w="full"
+              bgColor="white"
+              _hover={{
+                bgColor: "white",
+                opacity: 0.8,
+              }}
+              color="black"
+              href="/dashboard"
+              category={TRACKING_CATEGORY}
+              label="get-started"
+              fontWeight="bold"
+              maxW={{ base: "full", sm: "fit-content" }}
+            >
+              Get started
+            </TrackedLinkButton>
+
+            <TrackedLinkButton
+              variant="outline"
+              w="full"
+              py={6}
+              px={8}
+              href="https://portal.thirdweb.com"
+              category={TRACKING_CATEGORY}
+              label="see-docs"
+              maxW={{ base: "full", sm: "fit-content" }}
+            >
+              See the docs
+            </TrackedLinkButton>
+          </Flex>
         </Flex>
         <Flex
           minW={{ base: "auto", md: "420px" }}
