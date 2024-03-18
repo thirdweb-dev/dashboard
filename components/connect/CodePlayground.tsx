@@ -36,8 +36,6 @@ export default function Component() {
   const { contract } = useContract("{{contract_address}}");
   const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
 }`,
-    python: `data = contract.call("{{function}}", {{args}})`,
-    go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   write: {
     javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
@@ -85,8 +83,6 @@ export default function Component() {
     </Web3Button>
   )
 }`,
-    python: `data = contract.call("{{function}}", {{args}})`,
-    go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   events: {
     javascript: `// You can get a specific event
@@ -117,8 +113,6 @@ export default function Component() {
   // By default, you set up a listener for all events, but you can disable it
   const { data: eventWithoutListener } = useContractEvents(contract, undefined, { subscribe: false })
 }`,
-    python: `events = contract.get_events("{{function}}", {{args}})`,
-    go: `events, err := contract.GetEvents("{{function}}", {{args}})`,
   },
 } as Record<"read" | "write" | "events", Record<CodeOptions, string>>;
 
