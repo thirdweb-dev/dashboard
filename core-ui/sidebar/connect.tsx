@@ -33,16 +33,7 @@ const links: Route[] = [
     title: "Account Abstraction",
     name: "account-abstraction",
   },
-  {
-    path: "/dashboard/payments/contracts",
-    title: "Checkouts Contracts",
-    name: "payments-contracts",
-  },
-  {
-    path: "/dashboard/payments/settings",
-    title: "Checkouts Settings",
-    name: "payments-settings",
-  },
+
   {
     path: "/dashboard/connect/pay",
     title: "Pay",
