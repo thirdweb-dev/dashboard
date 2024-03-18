@@ -96,26 +96,9 @@ function RadioCard(props: UseRadioProps & BoxProps) {
   );
 }
 
-const DashboardConnectPay: ThirdwebNextPage = () => {
-  const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
-
-  const [configOption, setConfigOption] = useState<"pay" | "checkout">("pay");
-  const radioOptions = ["pay", "checkout"].filter((option) => {
-    return (
-      option === "pay" ||
-      (option === "checkout" && paymentEnabledContracts?.length)
-    );
-  });
-  const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "config",
-    defaultValue: "pay",
-    onChange: (value: "pay" | "checkout") => setConfigOption(value),
-  });
-
-  // Pay setting api key configuration
+const usePayConfig = () => {
   const router = useRouter();
   const defaultClientId = router.query.clientId?.toString();
-  const { isLoggedIn } = useLoggedInUser();
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
 
@@ -125,7 +108,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
   const apiKeysData = (keysQuery?.data ?? []).filter((key) => {
     return !!(key.services ?? []).find((srv) => srv.name === "pay");
   });
-  const hasApiKeys = apiKeysData.length > 0;
+  const hasPayApiKeys = apiKeysData.length > 0;
 
   useEffect(() => {
     // query rehydrates from cache leading to stale results if user refreshes shortly after updating their dashboard.
@@ -150,6 +133,54 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
     );
   }, [selectedKey, defaultClientId, apiKeysData]);
 
+  return {
+    hasPayApiKeys,
+    selectedKey,
+    setSelectedKey,
+    apiKeysData,
+    hasApiKeys: !!keysQuery.data?.length,
+  };
+};
+
+const useOldPaymentConfig = () => {
+  const [tabIndex, setTabIndex] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.tab === "contract-settings") {
+      setTabIndex(2);
+    }
+  }, [router.query.tab]);
+
+  const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
+  const radioOptions = ["pay", "checkout"].filter((option) => {
+    return (
+      option === "pay" ||
+      (option === "checkout" && paymentEnabledContracts?.length)
+    );
+  });
+  return { tabIndex, setTabIndex, radioOptions };
+};
+
+const DashboardConnectPay: ThirdwebNextPage = () => {
+  const [configOption, setConfigOption] = useState<"pay" | "checkout">("pay");
+  const { tabIndex, setTabIndex, radioOptions } = useOldPaymentConfig();
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "config",
+    defaultValue: "pay",
+    onChange: (value: "pay" | "checkout") => setConfigOption(value),
+  });
+
+  const { isLoggedIn } = useLoggedInUser();
+  const {
+    hasApiKeys,
+    hasPayApiKeys,
+    selectedKey,
+    setSelectedKey,
+    apiKeysData,
+  } = usePayConfig();
+  // Pay setting api key configuration
+
   if (!isLoggedIn) {
     return (
       <ConnectWalletPrompt description="manage Pay in Connect configuration" />
@@ -158,25 +189,25 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
 
   let ConfigurationControls = (
     <>
-      {!hasApiKeys && (
+      {!hasPayApiKeys && (
         <NoApiKeys
           service="Pay in Connect"
-          buttonTextOverride={keysQuery.data?.length ? "Enable Pay" : undefined}
+          buttonTextOverride={hasApiKeys ? "Enable Pay" : undefined}
           copyOverride={
-            keysQuery.data?.length
+            hasApiKeys
               ? "You'll need to enable pay as a service in an API Key to use Pay."
               : undefined
           }
         />
       )}
 
-      {hasApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
+      {hasPayApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
     </>
   );
 
   if (configOption === "checkout") {
     ConfigurationControls = (
-      <Tabs>
+      <Tabs index={tabIndex} onChange={setTabIndex}>
         <TabList>
           <Tab>Payments Enabled</Tab>
           <Tab>All Contracts</Tab>
@@ -214,7 +245,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
           <Text maxW="xl">Configure your developer settings for payments </Text>
         </Flex>
 
-        {hasApiKeys && configOption === "pay" && (
+        {hasPayApiKeys && configOption === "pay" && (
           <HStack gap={3}>
             {selectedKey && (
               <ApiKeysMenu
