@@ -26,15 +26,30 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
         placeItems="center"
       >
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
-          <Flex flexDir="column" gap={4}>
-            <Heading as="h1" size="title.2xl" px={{ base: 2, md: 0 }}>
+          <Flex flexDir="column" gap={4} bg="red" position="relative">
+            <ChakraNextImage
+              position="absolute"
+              top={0}
+              right={0}
+              zIndex={2}
+              src={require("public/assets/landingpage/icons/github.svg")}
+              alt="github"
+            />
+            <Heading
+              as="h1"
+              size="title.2xl"
+              fontWeight={800}
+              background="linear-gradient(88deg, #FFF 40.51%, #9786DF 55.97%, #FFF 72.39%)"
+              backgroundClip="text"
+              px={{ base: 2, md: 0 }}
+              fontSize={{ base: "32px", md: "48px" }}
+            >
               Full stack, open source web3 development platform
             </Heading>
           </Flex>
           <Text size="body.xl" mr={6}>
-            Onboard users with wallets, build & deploy smart contracts, accept
-            fiat & crypto payments, and scale your app with infrastructure — on
-            any EVM chain.
+            Frontend, backend and onchain tools for building web3 apps that work
+            on any EVM chain.
           </Text>
           <LandingCTAButtons
             ctaText="Get started"

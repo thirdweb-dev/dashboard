@@ -60,10 +60,10 @@ const HomePageCard = ({
           order={{ base: 2, md: 1 }}
         >
           <Flex flexDir="column" gap={4}>
-            <Flex gap="12px">
+            <Flex gap="12px" alignItems="center">
               <ChakraNextImage
-                height="52px"
-                width="52px"
+                height="28px"
+                width="28px"
                 src={miniImage}
                 alt=""
               />
