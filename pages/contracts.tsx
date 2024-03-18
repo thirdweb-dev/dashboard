@@ -44,8 +44,7 @@ const caseStudies = [
 
 export const metrics = [
   {
-    title:
-      "Base",
+    title: "Base",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
@@ -91,8 +90,7 @@ export const metrics = [
     hoverBackground: "#622AFF",
   },
   {
-    title:
-      "Layer3",
+    title: "Layer3",
     description: "[Placeholder]",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
@@ -151,7 +149,7 @@ const Contracts: ThirdwebNextPage = () => {
           ctaLink="/thirdweb.eth/LoyaltyCard"
           ctaText="Get started"
           contactUsTitle="Book a demo"
-          gradient="linear(to-r, #9786DF, #9786DF)"
+          gradient="linear(to-r, #F257FF, #F257FF)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
           miniImage={require("public/assets/product-icons/contracts.png")}
@@ -172,7 +170,7 @@ const Contracts: ThirdwebNextPage = () => {
           gap="27px"
         >
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Any smart contract, on any EVM chain
+            Build with a powerful Solidity SDK
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
