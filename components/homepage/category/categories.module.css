@@ -139,7 +139,7 @@
   background: linear-gradient(88deg, #fff 0%, #9786df 50%, #fff 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: transparent;
   background-size: 200% 100%;
   animation: slideGradient 3s linear infinite;
   transition: background-color 0.5s ease;
@@ -147,7 +147,7 @@
 
 .animatedGradient:hover {
   background: none;
-  -webkit-text-fill-color: #9786df;
+  color: #9786df;
 }
 
 .githubIcon {
