@@ -136,6 +136,38 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
             <Flex flexDir={{ base: "column", lg: "row" }} gap={6} w="full">
               <FormControl
                 isInvalid={
+                  !!form.getFieldState(`developerFeeBPS`, form.formState).error
+                }
+                as={Flex}
+                flexDir="column"
+                gap={1}
+              >
+                <FormLabel size="label.md">Transaction Fee</FormLabel>
+
+                <InputGroup>
+                  <Input
+                    placeholder="0.01"
+                    type="text"
+                    {...form.register(`developerFeeBPS`)}
+                  />
+                  <InputRightElement>%</InputRightElement>
+                </InputGroup>
+                {form.getFieldState(`developerFeeBPS`, form.formState).error ? (
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState(`developerFeeBPS`, form.formState)
+                        .error?.message
+                    }
+                  </FormErrorMessage>
+                ) : (
+                  <FormHelperText>
+                    Set your transaction fee percentage
+                  </FormHelperText>
+                )}
+              </FormControl>
+
+              <FormControl
+                isInvalid={
                   !!form.getFieldState(`payoutAddress`, form.formState).error
                 }
                 as={Flex}
@@ -158,38 +190,8 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                   </FormErrorMessage>
                 ) : (
                   <FormHelperText>
-                    Collected fees will be sent to this address.
+                    Collected transaction fees will be sent to this address.
                   </FormHelperText>
-                )}
-              </FormControl>
-
-              <FormControl
-                isInvalid={
-                  !!form.getFieldState(`developerFeeBPS`, form.formState).error
-                }
-                as={Flex}
-                flexDir="column"
-                gap={1}
-              >
-                <FormLabel size="label.md">Swap Fee</FormLabel>
-
-                <InputGroup>
-                  <Input
-                    placeholder="0.01"
-                    type="text"
-                    {...form.register(`developerFeeBPS`)}
-                  />
-                  <InputRightElement>%</InputRightElement>
-                </InputGroup>
-                {form.getFieldState(`developerFeeBPS`, form.formState).error ? (
-                  <FormErrorMessage>
-                    {
-                      form.getFieldState(`developerFeeBPS`, form.formState)
-                        .error?.message
-                    }
-                  </FormErrorMessage>
-                ) : (
-                  <FormHelperText>Set your fee percentage </FormHelperText>
                 )}
               </FormControl>
             </Flex>
