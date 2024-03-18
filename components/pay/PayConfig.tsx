@@ -190,7 +190,8 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                   </FormErrorMessage>
                 ) : (
                   <FormHelperText>
-                    Collected transaction fees will be sent to this address.
+                    The percentage fee that your application will collect on
+                    each Buy With Crypto transaction.
                   </FormHelperText>
                 )}
               </FormControl>
