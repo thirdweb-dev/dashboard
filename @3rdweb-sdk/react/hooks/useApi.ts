@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
@@ -232,7 +237,7 @@ interface WalletStats {
   }[];
 }
 
-export interface BillingProduct {
+interface BillingProduct {
   name: string;
   id: string;
 }
@@ -248,7 +253,21 @@ export interface BillingCredit {
   redeemedAt: string;
 }
 
-export function useAccount() {
+export interface UseAccountInput {
+  refetchInterval?:
+    | number
+    | ((
+        data: Account | undefined,
+        query: Query<
+          Account,
+          unknown,
+          Account,
+          readonly ["account", string, "me"]
+        >,
+      ) => number | false);
+}
+
+export function useAccount({ refetchInterval }: UseAccountInput = {}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
@@ -269,7 +288,10 @@ export function useAccount() {
 
       return json.data as Account;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    {
+      enabled: !!user?.address && isLoggedIn,
+      refetchInterval: refetchInterval ?? false,
+    },
   );
 }
 
@@ -386,41 +408,6 @@ export function useUpdateAccount() {
       onSuccess: () => {
         return queryClient.invalidateQueries(
           accountKeys.me(user?.address as string),
-        );
-      },
-    },
-  );
-}
-
-export function useGrantCredits() {
-  const { user } = useLoggedInUser();
-  const queryClient = useQueryClient();
-
-  return useMutationWithInvalidate(
-    async (input: { customPromoType: string }) => {
-      invariant(user?.address, "walletAddress is required");
-
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/grantCredits`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      });
-
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.error.message);
-      }
-
-      return json.data.credits as BillingCredit[];
-    },
-    {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
-          accountKeys.credits(user?.address as string),
         );
       },
     },
