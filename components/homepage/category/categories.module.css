@@ -120,3 +120,77 @@
     display: none;
   }
 }
+
+/* App.css */
+@keyframes slideGradient {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: -200% 50%;
+  }
+}
+
+.animatedGradient {
+  cursor: pointer;
+  position: relative;
+  transition: 250ms ease;
+  display: inline-block; /* Use inline-block for better control */
+  background: linear-gradient(88deg, #fff 0%, #9786df 50%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  animation: slideGradient 3s linear infinite;
+  transition: background-color 0.5s ease;
+}
+
+.animatedGradient:hover {
+  background: none;
+  -webkit-text-fill-color: #9786df;
+}
+
+.githubIcon {
+  position: absolute;
+  top: 4px;
+  right: -24px;
+}
+
+.animatedGradient:hover > .githubIcon > g > path {
+  fill: #9786df;
+}
+
+@media screen and (max-width: 1173px) {
+  .githubIcon {
+    top: -10px;
+    right: -12px;
+  }
+}
+
+@media screen and (max-width: 738px) {
+  .githubIcon {
+    top: 4px;
+    right: -24px;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .githubIcon {
+    top: -10px;
+    right: -12px;
+  }
+}
+
+/* @media screen and (max-width: 487px) {
+  .githubIcon {
+    top: 4px;
+    right: -24px;
+  }
+}
+ */
+@media screen and (max-width: 459px) {
+  .githubIcon {
+    top: -13px;
+    right: -12px;
+  }
+}
