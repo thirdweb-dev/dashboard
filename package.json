@@ -82,7 +82,7 @@
     "remark-gfm": "^4.0.0",
     "spdx-correct": "^3.2.0",
     "swagger-ui-react": "^5.12.0",
-    "thirdweb": "1.0.0-beta-a154db0db4c2c10b848c1a8c5bb66d496623fefe-20240319193442",
+    "thirdweb": "1.0.0-beta-18642062760960430a3760610edda49f9f3f308f-20240229175442",
     "tiny-invariant": "^1.3.3",
     "zksync-web3": "^0.14.4",
     "zod": "^3.22.4"
