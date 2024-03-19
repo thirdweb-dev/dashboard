@@ -156,7 +156,8 @@ const useOldPaymentConfig = () => {
   const radioOptions = ["pay", "checkout"].filter((option) => {
     return (
       option === "pay" ||
-      (option === "checkout" && paymentEnabledContracts?.length)
+      (option === "checkout" && paymentEnabledContracts) ||
+      []?.length > 0
     );
   });
   return { tabIndex, setTabIndex, radioOptions };
@@ -184,48 +185,6 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
   if (!isLoggedIn) {
     return (
       <ConnectWalletPrompt description="manage Pay in Connect configuration" />
-    );
-  }
-
-  let ConfigurationControls = (
-    <>
-      {!hasPayApiKeys && (
-        <NoApiKeys
-          service="Pay in Connect"
-          buttonTextOverride={hasApiKeys ? "Enable Pay" : undefined}
-          copyOverride={
-            hasApiKeys
-              ? "You'll need to enable pay as a service in an API Key to use Pay."
-              : undefined
-          }
-        />
-      )}
-
-      {hasPayApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
-    </>
-  );
-
-  if (configOption === "checkout") {
-    ConfigurationControls = (
-      <Tabs index={tabIndex} onChange={setTabIndex}>
-        <TabList>
-          <Tab>Payments Enabled</Tab>
-          <Tab>All Contracts</Tab>
-          <Tab>Settings</Tab>
-        </TabList>
-
-        <TabPanels>
-          <TabPanel>
-            <EnabledContracts />
-          </TabPanel>
-          <TabPanel>
-            <PaymentContracts />
-          </TabPanel>
-          <TabPanel>
-            <OldPaySetting />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
     );
   }
 
@@ -265,7 +224,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
               const radio = getRadioProps({ value });
               return (
                 <RadioCard key={value} {...radio}>
-                  {value}
+                  {value === "pay" ? "Pay" : "Checkouts"}
                 </RadioCard>
               );
             })}
@@ -273,7 +232,43 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
         </FormControl>
       )}
 
-      {ConfigurationControls}
+      {configOption === "checkout" ? (
+        <Tabs index={tabIndex} onChange={setTabIndex}>
+          <TabList>
+            <Tab>Payments Enabled</Tab>
+            <Tab>All Contracts</Tab>
+            <Tab>Settings</Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel>
+              <EnabledContracts />
+            </TabPanel>
+            <TabPanel>
+              <PaymentContracts />
+            </TabPanel>
+            <TabPanel>
+              <OldPaySetting />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      ) : (
+        <>
+          {!hasPayApiKeys && (
+            <NoApiKeys
+              service="Pay in Connect"
+              buttonTextOverride={hasApiKeys ? "Enable Pay" : undefined}
+              copyOverride={
+                hasApiKeys
+                  ? "You'll need to enable pay as a service in an API Key to use Pay."
+                  : undefined
+              }
+            />
+          )}
+
+          {hasPayApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
+        </>
+      )}
     </Flex>
   );
 };

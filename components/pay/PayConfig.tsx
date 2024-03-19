@@ -18,6 +18,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 interface PayConfigProps {
   apiKey: ApiKey;
@@ -120,23 +121,22 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
               >
                 <FormLabel size="label.md">Recipient address</FormLabel>
 
-                <Input
+                <SolidityInput
+                  solidityType="address"
+                  formContext={form}
                   placeholder="0x..."
                   type="text"
                   {...form.register(`payoutAddress`)}
                 />
-                {form.getFieldState(`payoutAddress`, form.formState).error ? (
-                  <FormErrorMessage>
-                    {
-                      form.getFieldState(`payoutAddress`, form.formState).error
-                        ?.message
-                    }
-                  </FormErrorMessage>
-                ) : (
-                  <FormHelperText>
-                    Shared fees will be sent to this address.
-                  </FormHelperText>
-                )}
+                <FormErrorMessage>
+                  {
+                    form.getFieldState(`payoutAddress`, form.formState).error
+                      ?.message
+                  }
+                </FormErrorMessage>
+                <FormHelperText>
+                  Shared fees will be sent to this address.
+                </FormHelperText>
               </FormControl>
             </Flex>
 
