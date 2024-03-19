@@ -79,7 +79,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const trackEvent = useTrack();
 
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
-  const defaultForwarders = useDefaultForwarders();
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
@@ -102,9 +101,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       : compilerMetadata.data?.abi,
     fullPublishMetadata.data?.deployType === "customFactory"
       ? fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
-          ?.factoryFunction || "deployProxyByImplementation"
+        ?.factoryFunction || "deployProxyByImplementation"
       : fullPublishMetadata.data?.factoryDeploymentData
-          ?.implementationInitializerFunction || "initialize",
+        ?.implementationInitializerFunction || "initialize",
   );
 
   const isFactoryDeployment =
@@ -134,7 +133,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             fullPublishMetadata.data?.constructorParams?.[param.name]
               ?.defaultValue
               ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                  ?.defaultValue || ""
+                ?.defaultValue || ""
               : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
                 ? "0"
                 : "",
@@ -234,7 +233,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         (paramKey === "_platformFeeBps" ||
           paramKey === "_platformFeeRecipient")) ||
       paramKey === "_defaultAdmin" ||
-      (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
+      (isSplit && (paramKey === "_payees" || paramKey === "_shares")) ||
+      paramKey === "_trustedForwarders"
     ) {
       return true;
     }
@@ -336,9 +336,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
-                  publisherAndContractName: `${
-                    fullPublishMetadata.data?.publisher || "deploy-form"
-                  }/${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${fullPublishMetadata.data?.publisher || "deploy-form"
+                    }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
@@ -396,7 +395,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasTrustedForwarders && (
                 <TrustedForwardersFieldset
                   form={form}
-                  forwarders={defaultForwarders}
                 />
               )}
               {Object.keys(formDeployParams).map((paramKey) => {
@@ -409,8 +407,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
                 if (
                   shouldHide(paramKey) ||
-                  extraMetadataParam?.hidden ||
-                  paramKey === "_trustedForwarders"
+                  extraMetadataParam?.hidden
                 ) {
                   return null;
                 }
@@ -585,11 +582,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             }}
             networksEnabled={
               fullPublishMetadata.data?.name === "AccountFactory" ||
-              fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
-              !fullPublishMetadata.data?.networksForDeployment
+                fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
+                !fullPublishMetadata.data?.networksForDeployment
                 ? undefined
                 : fullPublishMetadata.data?.networksForDeployment
-                    ?.networksEnabled
+                  ?.networksEnabled
             }
           />
           <TransactionButton
