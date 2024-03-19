@@ -16,7 +16,7 @@ import {
 } from "components/settings/ApiKeys/validations";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 interface PayConfigProps {
@@ -28,21 +28,15 @@ const TRACKING_CATEGORY = "pay";
 export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   const payService = apiKey.services?.find((service) => service.name === "pay");
 
+  const transformedQueryData = useMemo(
+    () => ({ payoutAddress: payService?.payoutAddress ?? "" }),
+    [payService],
+  );
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
-    defaultValues: {
-      payoutAddress: payService?.payoutAddress,
-    },
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
   });
-
-  useEffect(() => {
-    // Clear out any existing values
-    form.reset();
-    // Set the form values
-    form.reset({
-      payoutAddress: payService?.payoutAddress,
-    });
-  }, [form, payService]);
 
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
