@@ -48,8 +48,6 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     "ERC721ClaimCustom",
   ]);
 
-  console.log(isOnlyNumbers(tokenId));
-
   if (tokenId && isOnlyNumbers(tokenId)) {
     return (
       <TokenIdPage
