@@ -223,8 +223,10 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   _hover={{ bg: "accent.100" }}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
+                    const tokenId = row.original.id;
+                    if (!tokenId) return;
                     router.push(
-                      `${router.asPath}/${row.original.id.toString()}`,
+                      `${router.asPath}/${tokenId.toString()}`,
                       undefined,
                       {
                         scroll: true,

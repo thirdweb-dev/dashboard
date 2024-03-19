@@ -58,8 +58,7 @@ function usePinnedFilesQuery({
         throw new Error("No token");
       }
       const res = await fetch(
-        `${DASHBOARD_STORAGE_URL}/ipfs/pinned?limit=${pageSize}${
-          offset ? `&offset=${offset}` : ``
+        `${DASHBOARD_STORAGE_URL}/ipfs/pinned?limit=${pageSize}${offset ? `&offset=${offset}` : ``
         }`,
         {
           headers: {
@@ -79,7 +78,7 @@ function useUnpinFileMutation() {
   const { token } = useApiAuthToken();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ cid }: { cid: string }) => {
+    mutationFn: async ({ cid }: { cid: string; }) => {
       if (!token) {
         throw new Error("No token");
       }
@@ -123,7 +122,7 @@ const columns = [
       );
     },
   }),
-  columnHelper.accessor((row) => toSize(BigInt(row.fileSizeBytes), "MB"), {
+  columnHelper.accessor((row) => toSize(BigInt(row.fileSizeBytes || 0), "MB"), {
     header: "File Size",
     cell: ({ cell }) => <Text fontFamily="mono">{cell.getValue()}</Text>,
   }),
@@ -155,7 +154,7 @@ const columns = [
   }),
 ];
 
-const UnpinButton: React.FC<{ cid: string }> = ({ cid }) => {
+const UnpinButton: React.FC<{ cid: string; }> = ({ cid }) => {
   const { mutateAsync, isLoading } = useUnpinFileMutation();
   return (
     <Button

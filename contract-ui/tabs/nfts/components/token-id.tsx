@@ -80,7 +80,12 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   );
 
   if (!nft) {
-    return null;
+    return (
+      <Text>
+        No NFT found with token ID {tokenId}. Please check the token ID and try
+        again.
+      </Text>
+    );
   }
 
   // in the case we have an invalid url, we want to remove it
@@ -235,7 +240,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
               <Card as={Flex} flexDir="column" gap={4}>
                 <Heading size="label.md">Properties</Heading>
                 {Array.isArray(properties) &&
-                String(properties[0]?.value) !== "undefined" ? (
+                  String(properties[0]?.value) !== "undefined" ? (
                   <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
                     {properties.map((property: any, idx) => (
                       <NftProperty key={idx} property={property} />
