@@ -1,5 +1,4 @@
 import {
-  Card,
   Flex,
   FormControl,
   InputGroup,
@@ -9,7 +8,7 @@ import {
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 import { UseFormReturn } from "react-hook-form";
-import { Button, FormErrorMessage, Heading, Text } from "tw-components";
+import { Button, FormErrorMessage, Heading, Text, Card } from "tw-components";
 import { useDefaultForwarders } from "../hooks";
 
 interface TrustedForwardersFieldsetProps {
