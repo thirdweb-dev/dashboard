@@ -1,4 +1,11 @@
-import { Card, Flex, FormControl, InputGroup, InputRightElement, Tooltip } from "@chakra-ui/react";
+import {
+  Card,
+  Flex,
+  FormControl,
+  InputGroup,
+  InputRightElement,
+  Tooltip,
+} from "@chakra-ui/react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 import { UseFormReturn } from "react-hook-form";
@@ -55,10 +62,7 @@ export const TrustedForwardersFieldset: React.FC<
                   bgColor="backgroundHighlight"
                   mr={10}
                 >
-                  <Text>
-                    Click to
-                    apply.
-                  </Text>
+                  <Text>Click to apply.</Text>
                 </Card>
               }
             >
@@ -87,7 +91,6 @@ export const TrustedForwardersFieldset: React.FC<
             </Tooltip>
           </InputRightElement>
         </InputGroup>
-
 
         <FormErrorMessage>
           {

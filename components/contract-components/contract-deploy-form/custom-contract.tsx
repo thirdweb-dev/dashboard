@@ -101,9 +101,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       : compilerMetadata.data?.abi,
     fullPublishMetadata.data?.deployType === "customFactory"
       ? fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
-        ?.factoryFunction || "deployProxyByImplementation"
+          ?.factoryFunction || "deployProxyByImplementation"
       : fullPublishMetadata.data?.factoryDeploymentData
-        ?.implementationInitializerFunction || "initialize",
+          ?.implementationInitializerFunction || "initialize",
   );
 
   const isFactoryDeployment =
@@ -133,7 +133,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             fullPublishMetadata.data?.constructorParams?.[param.name]
               ?.defaultValue
               ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                ?.defaultValue || ""
+                  ?.defaultValue || ""
               : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
                 ? "0"
                 : "",
@@ -336,8 +336,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
-                  publisherAndContractName: `${fullPublishMetadata.data?.publisher || "deploy-form"
-                    }/${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${
+                    fullPublishMetadata.data?.publisher || "deploy-form"
+                  }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
@@ -393,9 +394,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
               {isSplit && <SplitFieldset form={form} />}
               {hasTrustedForwarders && (
-                <TrustedForwardersFieldset
-                  form={form}
-                />
+                <TrustedForwardersFieldset form={form} />
               )}
               {Object.keys(formDeployParams).map((paramKey) => {
                 const deployParam = deployParams.find(
@@ -405,10 +404,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   fullPublishMetadata.data?.constructorParams || {};
                 const extraMetadataParam = contructorParams[paramKey];
 
-                if (
-                  shouldHide(paramKey) ||
-                  extraMetadataParam?.hidden
-                ) {
+                if (shouldHide(paramKey) || extraMetadataParam?.hidden) {
                   return null;
                 }
 
@@ -582,11 +578,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             }}
             networksEnabled={
               fullPublishMetadata.data?.name === "AccountFactory" ||
-                fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
-                !fullPublishMetadata.data?.networksForDeployment
+              fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
+              !fullPublishMetadata.data?.networksForDeployment
                 ? undefined
                 : fullPublishMetadata.data?.networksForDeployment
-                  ?.networksEnabled
+                    ?.networksEnabled
             }
           />
           <TransactionButton
