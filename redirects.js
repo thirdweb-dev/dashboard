@@ -115,11 +115,6 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/template/nft-drop",
-      destination: "/template/erc721",
-      permanent: false,
-    },
-    {
       source: "/abuse",
       destination: "https://forms.gle/v9UJtHbVw8fXypcd7",
       permanent: false,
