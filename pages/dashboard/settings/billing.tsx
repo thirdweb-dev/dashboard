@@ -1,52 +1,58 @@
 import { AppLayout } from "components/app-layouts/app";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
+import { ThirdwebNextPage } from "utils/types";
 import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Billing } from "components/settings/Account/Billing";
+import { BillingConnectWalletPrompt } from "components/settings/Account/Billing/ConnectWallet";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
-  const { isLoggedIn } = useLoggedInUser();
-  const meQuery = useAccount();
+  const { isLoggedIn, isLoading } = useLoggedInUser();
+  const meQuery = useAccount({
+    refetchInterval: (account) =>
+      account?.status !== AccountStatus.ValidPayment &&
+      account?.status !== AccountStatus.InvalidPayment
+        ? 1000
+        : false,
+  });
+
   const router = useRouter();
   const { data: account } = meQuery;
+  const { claimGrowth: claimGrowthQuery } = router.query;
+  const [claimedGrowth, setClaimedGrowth] = useLocalStorage(
+    "claim-growth-trial",
+    false,
+    true,
+  );
 
   useEffect(() => {
-    let refetchInterval: ReturnType<typeof setInterval> | undefined;
-
-    if (
-      [AccountStatus.NoPayment, AccountStatus.PaymentVerification].includes(
-        account?.status as AccountStatus,
-      )
-    ) {
-      refetchInterval = setInterval(() => {
-        meQuery.refetch();
-      }, 3000);
-    } else if (refetchInterval) {
-      clearTimeout(refetchInterval);
+    if (claimGrowthQuery !== undefined && !account?.trialPeriodEndedAt) {
+      setClaimedGrowth(true);
+    } else {
+      setClaimedGrowth(false);
     }
-
-    return () => {
-      if (refetchInterval) {
-        clearTimeout(refetchInterval);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [account?.trialPeriodEndedAt, claimGrowthQuery, router, setClaimedGrowth]);
 
   useEffect(() => {
     const { payment_intent, source_redirect_slug } = router.query;
+
     if (payment_intent || source_redirect_slug) {
       router.replace("/dashboard/settings/billing");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  if (!isLoggedIn) {
-    return <ConnectWalletPrompt description="manage your billing account" />;
+  if (!isLoading && !isLoggedIn) {
+    return claimedGrowth ? (
+      <BillingConnectWalletPrompt />
+    ) : (
+      <ConnectWalletPrompt />
+    );
   }
 
   if (!account) {

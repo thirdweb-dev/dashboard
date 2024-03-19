@@ -15,8 +15,9 @@ import {
 } from "components/pages/publish";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishedContracts } from "data/explore";
+import { getAddress, isAddress } from "ethers/lib/utils";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -63,14 +64,19 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
     };
   }
 
-  const polygonSdk = getEVMThirdwebSDK(
+  const polygonSdk = getThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
   );
 
+  const lowercaseAddress = authorAddress.toLowerCase();
+  const checksummedAddress = isAddress(lowercaseAddress)
+    ? getAddress(lowercaseAddress)
+    : lowercaseAddress;
+
   const queryClient = new QueryClient();
   const { address, ensName } = await queryClient.fetchQuery(
-    ensQuery(authorAddress),
+    ensQuery(checksummedAddress),
   );
 
   if (!address) {
@@ -99,7 +105,7 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   const publishedContract =
     allVersions.find((v) => v.version === version) || allVersions[0];
 
-  const ensQueries = [queryClient.prefetchQuery(ensQuery(address))];
+  const ensQueries = [queryClient.prefetchQuery(ensQuery(checksummedAddress))];
   if (ensName) {
     ensQueries.push(queryClient.prefetchQuery(ensQuery(ensName)));
   }
@@ -121,7 +127,7 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
 
   const props: PublishPageProps = {
     dehydratedState: dehydrate(queryClient),
-    author: authorAddress,
+    author: checksummedAddress,
     contractName,
     version,
   };

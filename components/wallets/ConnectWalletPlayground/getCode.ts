@@ -19,6 +19,7 @@ type WalletSetupOptions = {
     welcomeScreen?: string;
     termsOfServiceUrl?: string;
     privacyPolicyUrl?: string;
+    showThirdwebBranding?: string;
   };
   baseTheme: "light" | "dark";
   colorOverrides: Record<string, string>;
@@ -60,7 +61,7 @@ ${
 
 export default function App() {
   return (
-    <ThirdwebProvider activeChain="mumbai" clientId="YOUR_CLIENT_ID" ${renderProps(
+    <ThirdwebProvider activeChain="sepolia" clientId="YOUR_CLIENT_ID" ${renderProps(
       options.thirdwebProvider,
     )} >
       <ConnectWallet ${renderProps(options.connectWallet)}   />

@@ -5,7 +5,6 @@ import {
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
   useCustomFactoryAbi,
-  useDefaultForwarders,
   useEns,
   useFunctionParamsFromABI,
   useTransactionsForDeploy,
@@ -50,6 +49,10 @@ import {
   TrackedLink,
 } from "tw-components";
 import { TrustedForwardersFieldset } from "./trusted-forwarders-fieldset";
+import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
+import { Chain } from "@thirdweb-dev/chains";
+import { useMemo } from "react";
+import { verifyContract } from "contract-ui/tabs/sources/page";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -69,14 +72,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   walletAddress,
 }) => {
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
-
   const networkInfo = useSupportedChain(selectedChain || -1);
   const ensQuery = useEns(walletAddress);
   const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
 
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
-  const defaultForwarders = useDefaultForwarders();
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
@@ -119,32 +120,52 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     !isFactoryDeployment &&
     (fullPublishMetadata.data?.name.includes("AccountFactory") || false);
 
-  const parseDeployParams = {
-    ...deployParams.reduce(
-      (acc, param) => {
-        if (!param.name) {
-          param.name = "*";
-        }
+  const parsedDeployParams = useMemo(
+    () => ({
+      ...deployParams.reduce(
+        (acc, param) => {
+          if (!param.name) {
+            param.name = "*";
+          }
 
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue
-            ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                ?.defaultValue || ""
-            : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-              ? "0"
-              : "",
-          param.type,
-          {
-            connectedWallet,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      },
-      {} as Record<string, string>,
-    ),
-  };
+          acc[param.name] = replaceTemplateValues(
+            fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue
+              ? fullPublishMetadata.data?.constructorParams?.[param.name]
+                  ?.defaultValue || ""
+              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+                ? "0"
+                : "",
+            param.type,
+            {
+              connectedWallet,
+              chainId: selectedChain,
+            },
+          );
+          return acc;
+        },
+        {} as Record<string, string>,
+      ),
+    }),
+    [
+      deployParams,
+      fullPublishMetadata.data?.constructorParams,
+      connectedWallet,
+      selectedChain,
+    ],
+  );
+
+  const transformedQueryData = useMemo(
+    () => ({
+      addToDashboard: true,
+      deployDeterministic: isAccountFactory,
+      saltForCreate2: "",
+      signerAsSalt: true,
+      deployParams: parsedDeployParams,
+      recipients: [{ address: connectedWallet || "", sharesBps: 10000 }],
+    }),
+    [parsedDeployParams, isAccountFactory, connectedWallet],
+  );
 
   const form = useForm<{
     addToDashboard: boolean;
@@ -160,20 +181,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     };
     recipients?: Recipient[];
   }>({
-    defaultValues: {
-      addToDashboard: true,
-      deployDeterministic: isAccountFactory,
-      saltForCreate2: "",
-      signerAsSalt: true,
-      deployParams: parseDeployParams,
-    },
-    values: {
-      addToDashboard: true,
-      deployDeterministic: isAccountFactory,
-      saltForCreate2: "",
-      signerAsSalt: true,
-      deployParams: parseDeployParams,
-    },
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
     resetOptions: {
       keepDirty: true,
       keepDirtyValues: true,
@@ -223,7 +232,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         (paramKey === "_platformFeeBps" ||
           paramKey === "_platformFeeRecipient")) ||
       paramKey === "_defaultAdmin" ||
-      (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
+      (isSplit && (paramKey === "_payees" || paramKey === "_shares")) ||
+      paramKey === "_trustedForwarders"
     ) {
       return true;
     }
@@ -305,6 +315,16 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   address: deployedContractAddress,
                 });
 
+                try {
+                  // we don't await this, just kick it off and be done with it
+                  verifyContract({
+                    contractAddress: deployedContractAddress,
+                    chainId: selectedChain,
+                  });
+                } catch (e) {
+                  // ignore
+                }
+
                 trackEvent({
                   category: "custom-contract",
                   action: "deploy",
@@ -373,10 +393,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
               {isSplit && <SplitFieldset form={form} />}
               {hasTrustedForwarders && (
-                <TrustedForwardersFieldset
-                  form={form}
-                  forwarders={defaultForwarders}
-                />
+                <TrustedForwardersFieldset form={form} />
               )}
               {Object.keys(formDeployParams).map((paramKey) => {
                 const deployParam = deployParams.find(
@@ -386,11 +403,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   fullPublishMetadata.data?.constructorParams || {};
                 const extraMetadataParam = contructorParams[paramKey];
 
-                if (
-                  shouldHide(paramKey) ||
-                  extraMetadataParam?.hidden ||
-                  paramKey === "_trustedForwarders"
-                ) {
+                if (shouldHide(paramKey) || extraMetadataParam?.hidden) {
                   return null;
                 }
 
@@ -479,7 +492,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           <Text>
             Import so I can find it in the list of my contracts at{" "}
             <TrackedLink
-              href="https://thirdweb.com/dashboard"
+              href="/dashboard"
               isExternal
               category="custom-contract"
               label="visit-dashboard"
@@ -585,6 +598,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             Deploy Now
           </TransactionButton>
         </Flex>
+        <DeprecatedAlert chain={networkInfo as Chain} />
       </Flex>
     </FormProvider>
   );

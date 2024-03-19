@@ -1,13 +1,16 @@
 import { useToast } from "@chakra-ui/react";
 import { useErrorHandler } from "contexts/error-handler";
 import { useCallback } from "react";
+import { useInvalidateContractQuery } from "thirdweb/react";
 
 export function useTxNotifications(
   successMessage: string,
   errorMessage: string,
+  contract?: any,
 ) {
   const toast = useToast();
   const { onError } = useErrorHandler();
+  const invalidateContractQuery = useInvalidateContractQuery();
 
   const onSuccess = useCallback(() => {
     toast({
@@ -19,6 +22,12 @@ export function useTxNotifications(
       duration: 5000,
       isClosable: true,
     });
+    if (contract) {
+      invalidateContractQuery({
+        chainId: contract.chainId,
+        contractAddress: contract.getAddress(),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [successMessage]);
 

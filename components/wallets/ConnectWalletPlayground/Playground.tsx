@@ -1,4 +1,3 @@
-/* eslint-disable inclusive-language/use-inclusive-words */
 import {
   Box,
   Flex,
@@ -12,6 +11,10 @@ import {
   Icon,
   Select,
   FormControl,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
 } from "@chakra-ui/react";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
@@ -22,7 +25,7 @@ import {
   FormLabel,
   CodeBlock,
   TrackedLink,
-  ChakraNextLink,
+  Link,
 } from "tw-components";
 import { ChakraNextImage } from "components/Image";
 import { format } from "prettier/standalone";
@@ -52,7 +55,8 @@ import { PreviewThirdwebProvider } from "./PreviewThirdwebProvider";
 import { usePlaygroundWallets } from "./usePlaygroundWallets";
 import { usePlaygroundTheme } from "./usePlaygroundTheme";
 import { useTrack } from "hooks/analytics/useTrack";
-import { GatedSwitch } from "components/settings/Account/Billing/GatedSwitch";
+
+const TRACKING_CATEGORY = "connect-wallet-playground";
 
 type OptionalUrl = { url: string; enabled: boolean };
 export const ConnectWalletPlayground: React.FC<{
@@ -85,7 +89,24 @@ export const ConnectWalletPlayground: React.FC<{
     useState<OptionalUrl>(defaultOptionalUrl);
   const [modalTitleIconUrl, setModalTitleIconUrl] =
     useState<OptionalUrl>(defaultOptionalUrl);
-  const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
+  const [showThirdwebBranding, setShowThirdwebBranding] =
+    useState<boolean>(true);
+
+  const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    if (welcomeScreen) {
+      if (
+        !welcomeScreen.img &&
+        !welcomeScreen.title &&
+        !welcomeScreen.subtitle
+      ) {
+        setWelcomeScreen(undefined);
+      }
+    }
+  }, [welcomeScreen]);
 
   const { colorMode, toggleColorMode } = useColorMode();
   const selectedTheme = colorMode === "light" ? "light" : "dark";
@@ -202,10 +223,11 @@ export const ConnectWalletPlayground: React.FC<{
         auth: authEnabled ? "{ loginOptional: false }" : undefined,
         switchToActiveChain: switchToActiveChain ? "true" : undefined,
         modalSize: `"${modalSize}"`,
-        welcomeScreen:
-          Object.keys(welcomeScreen).length > 0
+        welcomeScreen: welcomeScreen
+          ? Object.keys(welcomeScreen).length > 0
             ? JSON.stringify(welcomeScreen)
-            : undefined,
+            : undefined
+          : undefined,
         modalTitleIconUrl: modalTitleIconUrl.enabled
           ? `"${modalTitleIconUrl.url}"`
           : undefined,
@@ -213,6 +235,8 @@ export const ConnectWalletPlayground: React.FC<{
         privacyPolicyUrl: privacyPolicyUrl.enabled
           ? `"${privacyPolicyUrl.url}"`
           : undefined,
+        showThirdwebBranding:
+          showThirdwebBranding === false ? "false" : undefined,
       },
     });
 
@@ -239,6 +263,7 @@ export const ConnectWalletPlayground: React.FC<{
     privacyPolicyUrl,
     locale,
     socialOptions,
+    showThirdwebBranding,
   ]);
 
   const welcomeScreenContent = (
@@ -254,7 +279,7 @@ export const ConnectWalletPlayground: React.FC<{
             trackCustomize("welcome-screen-title");
           }}
           placeholder="Your gateway to the decentralized world"
-          value={welcomeScreen.title}
+          value={welcomeScreen?.title}
           onChange={(e) => {
             setWelcomeScreen({
               ...welcomeScreen,
@@ -271,7 +296,7 @@ export const ConnectWalletPlayground: React.FC<{
             trackCustomize("welcome-screen-subtitle");
           }}
           placeholder="Connect a wallet to get started"
-          value={welcomeScreen.subtitle}
+          value={welcomeScreen?.subtitle}
           onChange={(e) => {
             setWelcomeScreen({
               ...welcomeScreen,
@@ -286,15 +311,15 @@ export const ConnectWalletPlayground: React.FC<{
         label="Splash Image"
         addOn={
           <Flex gap={3} alignItems="center">
-            <Text>{welcomeScreen.img ? "Custom" : "Default"}</Text>
+            <Text>{welcomeScreen?.img ? "Custom" : "Default"}</Text>
             <Switch
               size="lg"
-              isChecked={!!welcomeScreen.img}
+              isChecked={!!welcomeScreen?.img}
               onChange={() => {
                 trackCustomize("splash-image-switch");
                 setWelcomeScreen({
                   ...welcomeScreen,
-                  img: welcomeScreen.img
+                  img: welcomeScreen?.img
                     ? undefined
                     : {
                         src: "",
@@ -307,7 +332,7 @@ export const ConnectWalletPlayground: React.FC<{
           </Flex>
         }
       >
-        {welcomeScreen.img && (
+        {welcomeScreen?.img && (
           <Flex flexDir="column" gap={3}>
             <Box>
               <FormLabel m={0} mb={2}>
@@ -597,6 +622,7 @@ export const ConnectWalletPlayground: React.FC<{
               privacyPolicyUrl={
                 privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
               }
+              showThirdwebBranding={showThirdwebBranding}
             />
           </PreviewThirdwebProvider>
         </Box>
@@ -635,6 +661,7 @@ export const ConnectWalletPlayground: React.FC<{
                 privacyPolicyUrl={
                   privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
                 }
+                showThirdwebBranding={showThirdwebBranding}
               />
             )}
 
@@ -748,10 +775,10 @@ export const ConnectWalletPlayground: React.FC<{
       <Box borderTop="1px solid" borderColor="borderColor" />
       <Spacer height={5} />
 
-      {/* Smart wallet */}
+      {/* Account Abstraction */}
       <SwitchFormItem
-        label="Smart Wallets"
-        description="Use ERC-4337 (Account Abstraction) compatible smart wallets. Enabling this will connect user to the associated smart wallet"
+        label="Sponsor gas fees with Account Abstraction"
+        description="Abstract away gas fees for users of your app. Uses ERC-4337 (Account Abstraction) compatible smart accounts"
         onCheck={(_isChecked) => {
           if (_isChecked) {
             trackCustomize("smart-wallet");
@@ -763,6 +790,33 @@ export const ConnectWalletPlayground: React.FC<{
         }}
         isChecked={enabledWallets.length > 0 && smartWalletOptions.enabled}
       />
+      <Alert
+        status="info"
+        borderRadius="lg"
+        backgroundColor="backgroundCardHighlight"
+        borderLeftColor="blue.500"
+        borderLeftWidth={4}
+        as={Flex}
+        gap={1}
+        mt={4}
+      >
+        <AlertIcon />
+        <Flex flexDir="column">
+          <AlertTitle>
+            We highly recommend setting sponsorship rules to prevent abuse
+          </AlertTitle>
+          <AlertDescription as={Text}>
+            You can set rules in the{" "}
+            <Link
+              href={`/dashboard/connect/account-abstraction?tab=1`}
+              color="blue.500"
+            >
+              configuration page
+            </Link>
+            .
+          </AlertDescription>
+        </Flex>
+      </Alert>
 
       {enabledWallets.length === 0 && (
         <>
@@ -770,7 +824,7 @@ export const ConnectWalletPlayground: React.FC<{
           <Flex alignItems="center" gap={2}>
             <Icon as={AiOutlineWarning} color="orange.500" />
             <Text color="orange.500">
-              Enable at least one wallet to use smart wallet
+              Enable at least one wallet to use account abstraction
             </Text>
           </Flex>
         </>
@@ -862,9 +916,7 @@ export const ConnectWalletPlayground: React.FC<{
             addOn={
               <Flex gap={3} alignItems="center">
                 <Text>{modalTitleIconUrl.enabled ? "Custom" : "Default"}</Text>
-                <GatedSwitch
-                  togglable
-                  trackingLabel="customConnect"
+                <Switch
                   size="lg"
                   isChecked={modalTitleIconUrl.enabled}
                   onChange={() => {
@@ -896,6 +948,27 @@ export const ConnectWalletPlayground: React.FC<{
                 }}
               />
             )}
+          </FormItem>
+
+          {/* Show Thirdweb Branding */}
+          <FormItem
+            label="thirdweb Branding"
+            description="Hide/Show 'Powered by thirdweb' branding at the bottom of the modal"
+            addOn={
+              <Switch
+                size="lg"
+                isChecked={showThirdwebBranding === true}
+                onChange={() => {
+                  if (showThirdwebBranding) {
+                    trackCustomize("modal-tw-branding-switch");
+                  }
+
+                  setShowThirdwebBranding((c) => !c);
+                }}
+              />
+            }
+          >
+            {null}
           </FormItem>
         </Flex>
 
@@ -1233,40 +1306,53 @@ export const ConnectWalletPlayground: React.FC<{
             <CodeBlock
               language="jsx"
               code={code}
-              maxH="400px"
+              maxH="300px"
               overflowY="auto"
               onClick={() => {
                 trackCustomize("code");
               }}
             />
-            <Spacer height={2} />
-            <Box
+
+            <Flex
               as="article"
-              bg="bgWhite"
-              border="1px solid"
-              borderColor="borderColor"
-              borderRadius="lg"
-              overflow="hidden"
-              py="8"
-              px="8"
+              justifyContent="space-between"
+              alignItems="center"
+              flexDir={{ base: "column", md: "row" }}
+              py="2"
+              px="4"
             >
-              <Heading fontSize={20}>Try it out on mobile</Heading>
-              <Heading as="label" size="label.sm">
-                (iOS demo app coming soon)
-              </Heading>
-              <Spacer height={2} />
-              <ChakraNextLink
+              <Heading size={"title.sm"}>Try it out on mobile</Heading>
+              <TrackedLink
+                isExternal
+                noIcon
                 href={
                   "https://play.google.com/store/search?q=thirdweb&c=apps&hl=en_US&gl=US"
                 }
-                isExternal
+                bg="transparent"
+                category={TRACKING_CATEGORY}
+                label="google-play-button"
               >
                 <ChakraNextImage
                   alt=""
                   src={require("public/assets/connect-wallet/google-play-button.svg")}
                 />
-              </ChakraNextLink>
-            </Box>
+              </TrackedLink>
+              <TrackedLink
+                isExternal
+                noIcon
+                href={
+                  "https://apps.apple.com/us/app/thirdweb-connect/id6471451064"
+                }
+                bg="transparent"
+                category={TRACKING_CATEGORY}
+                label="apple-store-button"
+              >
+                <ChakraNextImage
+                  alt=""
+                  src={require("public/assets/connect-wallet/apple-store-button.svg")}
+                />
+              </TrackedLink>
+            </Flex>
           </Box>
         </GridItem>
       </Grid>

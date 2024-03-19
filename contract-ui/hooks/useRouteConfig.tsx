@@ -1,12 +1,10 @@
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { useEns } from "components/contract-components/hooks";
-import { CustomContractOverviewPage } from "contract-ui/tabs/overview/page";
+import { ContractOverviewPage } from "contract-ui/tabs/overview/page";
 import { EnhancedRoute } from "contract-ui/types/types";
 import dynamic from "next/dynamic";
 
-// evm
 const LazyContractExplorerPage = dynamic(() =>
   import("../tabs/explorer/page").then(
     ({ ContractExplorerPage }) => ContractExplorerPage,
@@ -81,32 +79,31 @@ const LazyContractPermissionsPage = dynamic(() =>
     ({ ContractPermissionsPage }) => ContractPermissionsPage,
   ),
 );
-const LazyCustomContractEmbedPage = dynamic(() =>
+const LazyContractEmbedPage = dynamic(() =>
   import("../tabs/embed/page").then(
-    ({ CustomContractEmbedPage }) => CustomContractEmbedPage,
+    ({ ContractEmbedPage }) => ContractEmbedPage,
   ),
 );
 const LazyContractCodePage = dynamic(() =>
   import("../tabs/code/page").then(({ ContractCodePage }) => ContractCodePage),
 );
-const LazyCustomContractSettingsPage = dynamic(() =>
+const LazyContractSettingsPage = dynamic(() =>
   import("../tabs/settings/page").then(
-    ({ CustomContractSettingsPage }) => CustomContractSettingsPage,
+    ({ ContractSettingsPage }) => ContractSettingsPage,
   ),
 );
-const LazyCustomContractSourcesPage = dynamic(() =>
+const LazyContractSourcesPage = dynamic(() =>
   import("../tabs/sources/page").then(
-    ({ CustomContractSourcesPage }) => CustomContractSourcesPage,
+    ({ ContractSourcesPage }) => ContractSourcesPage,
   ),
 );
-// end evm
+
 export function useContractRouteConfig(
   contractAddress: string,
 ): EnhancedRoute[] {
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
   const contractTypeQuery = contractType.useQuery(contractAddress);
-  const { data: account } = useAccount();
 
   const claimconditionExtensionDetection = extensionDetectedState({
     contractQuery,
@@ -129,7 +126,7 @@ export function useContractRouteConfig(
       title: "Overview",
       path: "overview",
       // not lazy because this is typically the landing spot so we want it to always be there immediately
-      component: CustomContractOverviewPage,
+      component: ContractOverviewPage,
       isDefault: true,
     },
     {
@@ -202,8 +199,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "marketplace"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractListingsPage,
     },
     {
@@ -212,8 +209,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "split"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractSplitPage,
     },
     {
@@ -222,8 +219,8 @@ export function useContractRouteConfig(
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "vote"
-        ? "enabled"
-        : "disabled",
+          ? "enabled"
+          : "disabled",
       component: LazyContractProposalsPage,
     },
     {
@@ -272,49 +269,49 @@ export function useContractRouteConfig(
     {
       title: "Embed",
       path: "embed",
-      component: LazyCustomContractEmbedPage,
+      component: LazyContractEmbedPage,
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : contractTypeQuery.data === "marketplace"
-        ? "enabled"
-        : extensionDetectedState({
-            contractQuery,
-            matchStrategy: "any",
-            feature: [
-              // erc 721
-              "ERC721ClaimPhasesV1",
-              "ERC721ClaimPhasesV2",
-              "ERC721ClaimConditionsV1",
-              "ERC721ClaimConditionsV2",
+          ? "enabled"
+          : extensionDetectedState({
+              contractQuery,
+              matchStrategy: "any",
+              feature: [
+                // erc 721
+                "ERC721ClaimPhasesV1",
+                "ERC721ClaimPhasesV2",
+                "ERC721ClaimConditionsV1",
+                "ERC721ClaimConditionsV2",
 
-              // erc 1155
-              "ERC1155ClaimPhasesV1",
-              "ERC1155ClaimPhasesV2",
-              "ERC1155ClaimConditionsV1",
-              "ERC1155ClaimConditionsV2",
+                // erc 1155
+                "ERC1155ClaimPhasesV1",
+                "ERC1155ClaimPhasesV2",
+                "ERC1155ClaimConditionsV1",
+                "ERC1155ClaimConditionsV2",
 
-              // erc 20
-              "ERC20ClaimConditionsV1",
-              "ERC20ClaimConditionsV2",
-              "ERC20ClaimPhasesV1",
-              "ERC20ClaimPhasesV2",
+                // erc 20
+                "ERC20ClaimConditionsV1",
+                "ERC20ClaimConditionsV2",
+                "ERC20ClaimPhasesV1",
+                "ERC20ClaimPhasesV2",
 
-              // marketplace v3
-              "DirectListings",
-              "EnglishAuctions",
-            ],
-          }),
+                // marketplace v3
+                "DirectListings",
+                "EnglishAuctions",
+              ],
+            }),
     },
     {
       title: "Settings",
       path: "settings",
-      component: LazyCustomContractSettingsPage,
+      component: LazyContractSettingsPage,
       isDefault: true,
     },
     {
       title: "Sources",
       path: "sources",
-      component: LazyCustomContractSourcesPage,
+      component: LazyContractSourcesPage,
       isDefault: true,
     },
   ];

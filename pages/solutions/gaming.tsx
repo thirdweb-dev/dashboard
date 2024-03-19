@@ -66,7 +66,7 @@ const SELECTOR_ITEMS = [
       "Give a unified interface to users to login across your gaming ecosystem with the flexibility to import/export their digital assets",
     steps: [
       "User logs in using existing game login",
-      "Game links User's gaming wallet to game issued Smart Wallet",
+      "Game links User's gaming wallet to game issued account",
       "User selects assets they want to import and gives game scoped access to use assets for duration of game play",
     ],
     products: ["auth", "smart-wallet", "engine"],
@@ -348,11 +348,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               description="Integrate web3-powered features into your game with best-in-class SDKs and APIs for any platform — including Unity & Unreal Engine."
             />
           </SolutionsGamingCard>
-          <SolutionsGamingCard
-            p={8}
-            label="connect-wallet"
-            href="https://thirdweb.com/connect"
-          >
+          <SolutionsGamingCard p={8} label="connect-wallet" href="/connect">
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-smart-wallet.svg")}
               title="Connect"
@@ -362,7 +358,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="embedded-wallet"
-            href="https://thirdweb.com/embedded-wallets"
+            href="/embedded-wallets"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-email-signin.svg")}
@@ -373,19 +369,15 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="smart-wallet"
-            href="https://thirdweb.com/account-abstraction"
+            href="/account-abstraction"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-verified.svg")}
-              title="Smart Wallet"
+              title="Account Abstraction"
               description="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
             />
           </SolutionsGamingCard>
-          <SolutionsGamingCard
-            p={8}
-            label="unreal"
-            href="https://thirdweb.com/checkout"
-          >
+          <SolutionsGamingCard p={8} label="unreal" href="/checkout">
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-credit.svg")}
               title="NFT Checkout"
@@ -395,7 +387,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
           <SolutionsGamingCard
             p={8}
             label="sponsored-transaction"
-            href="https://thirdweb.com/sponsored-transactions"
+            href="/sponsored-transactions"
           >
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-fee.svg")}
@@ -403,11 +395,7 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               description="Create seamless web3 UX by sponsoring users' gas fees — for any & all transactions. No more disruptive transaction popups or bridging & swapping funds."
             />
           </SolutionsGamingCard>
-          <SolutionsGamingCard
-            p={8}
-            label="api"
-            href="https://thirdweb.com/engine"
-          >
+          <SolutionsGamingCard p={8} label="api" href="/engine">
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-build.svg")}
               title="Engine"
@@ -416,22 +404,14 @@ const SolutionsGaming: ThirdwebNextPage = () => {
               and managed infrastructure."
             />
           </SolutionsGamingCard>
-          <SolutionsGamingCard
-            p={8}
-            label="web3-wallets"
-            href="https://thirdweb.com/connect"
-          >
+          <SolutionsGamingCard p={8} label="web3-wallets" href="/connect">
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-verified-user.svg")}
               title="Auth"
               description="Easy auth for the most popular web3 wallets and web2 login flows — so you can verify your users' identities & prove wallet ownership to off-chain systems."
             />
           </SolutionsGamingCard>
-          <SolutionsGamingCard
-            p={8}
-            label="smart-contract"
-            href="https://thirdweb.com/explore"
-          >
+          <SolutionsGamingCard p={8} label="smart-contract" href="/explore">
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/icons/icon-tool.svg")}
               title="Interact"

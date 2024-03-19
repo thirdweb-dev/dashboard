@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useContract } from "@thirdweb-dev/react";
 import { BatchLazyMintButton } from "./components/batch-lazy-mint-button";
 import { NFTClaimButton } from "./components/claim-button";
 import { NFTLazyMintButton } from "./components/lazy-mint-button";
@@ -8,29 +9,28 @@ import { NFTSharedMetadataButton } from "./components/shared-metadata-button";
 import { SupplyCards } from "./components/supply-cards";
 import { NFTGetAllTable } from "./components/table";
 import { Box, Flex } from "@chakra-ui/react";
-import { NFTContract, useContract, useNFT } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
-import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
+import type { ThirdwebContract } from "thirdweb";
 import { TokenIdPage } from "./components/token-id";
 
 interface NftOverviewPageProps {
-  contractAddress?: string;
+  contractAddress: string;
+  contract: ThirdwebContract;
+}
+
+function isOnlyNumbers(str: string) {
+  return /^\d+$/.test(str);
 }
 
 export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   contractAddress,
+  contract,
 }) => {
   const contractQuery = useContract(contractAddress);
+
   const router = useRouter();
-
   const tokenId = router.query?.paths?.[2];
-
-  const { data: nft } = useNFT(contractQuery.contract, tokenId);
-  const tabs = useNFTDrawerTabs(
-    contractQuery.contract as NFTContract,
-    nft || null,
-  );
 
   const detectedState = detectFeatures(contractQuery?.contract, [
     "ERC721Enumerable",
@@ -48,19 +48,20 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     "ERC721ClaimCustom",
   ]);
 
+  if (tokenId && isOnlyNumbers(tokenId)) {
+    return (
+      <TokenIdPage
+        contractQueryV4={contractQuery}
+        contract={contract}
+        tokenId={tokenId}
+        isErc721={isErc721}
+      />
+    );
+  }
+
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
-  }
-
-  if (!contractQuery?.contract) {
-    return null;
-  }
-
-  if (tokenId) {
-    return (
-      <TokenIdPage nft={nft} tabs={tabs} contractAddress={contractAddress} />
-    );
   }
 
   return (
@@ -100,10 +101,13 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
         </Card>
       ) : (
         <>
-          {isErc721Claimable && (
-            <SupplyCards contract={contractQuery.contract} />
+          {isErc721Claimable && contract && <SupplyCards contract={contract} />}
+          {contract && contractQuery.contract && (
+            <NFTGetAllTable
+              contract={contract}
+              oldContract={contractQuery.contract}
+            />
           )}
-          <NFTGetAllTable contract={contractQuery.contract} />
         </>
       )}
     </Flex>

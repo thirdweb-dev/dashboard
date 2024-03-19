@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-smart-w-allet", false, true);
+    useLocalStorage("dismissed-op-superchain", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -26,7 +26,11 @@ export const AnnouncementBanner = () => {
         px={4}
       >
         <Box display={{ base: "none", md: "block" }} />
-        <TrackedLink href="/engine" category="announcement" label="engine">
+        <TrackedLink
+          href="/grant/superchain"
+          category="announcement"
+          label="op-superchain-banner"
+        >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
               cursor="pointer"
@@ -42,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing Engine: The open-source HTTP server for scalable
-                web3 apps. Spin up an instance
+                Introducing the Superchain App Accelerator — a $3M fund for
+                Superchain apps. Apply for credits.
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

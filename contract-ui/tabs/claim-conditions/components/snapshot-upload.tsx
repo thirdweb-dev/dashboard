@@ -43,7 +43,7 @@ import { Column, usePagination, useTable } from "react-table";
 import { Button, Drawer, Heading, Text } from "tw-components";
 import { csvMimeTypes } from "utils/batch";
 
-export interface SnapshotAddressInput {
+interface SnapshotAddressInput {
   address: string;
   maxClaimable?: string;
   price?: string;
@@ -496,8 +496,8 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
           return maxClaimable === "0" || !maxClaimable
             ? "Default"
             : maxClaimable === "unlimited"
-            ? "Unlimited"
-            : maxClaimable;
+              ? "Unlimited"
+              : maxClaimable;
         },
       },
     ] as Column<SnapshotAddressInput>[];
@@ -510,8 +510,8 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
             return price === "0"
               ? "Free"
               : !price || price === "unlimited"
-              ? "Default"
-              : price;
+                ? "Default"
+                : price;
           },
         },
         {
@@ -566,12 +566,10 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
       <TableContainer>
         <Table {...getTableProps()}>
           <Thead>
-            {headerGroups.map((headerGroup) => (
-              // eslint-disable-next-line react/jsx-key
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()}>
+            {headerGroups.map((headerGroup, headerGroupIndex) => (
+              <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroupIndex}>
+                {headerGroup.headers.map((column, columnIndex) => (
+                  <Th {...column.getHeaderProps()} key={columnIndex}>
                     <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
@@ -581,15 +579,13 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {page.map((row) => {
+            {page.map((row, rowIndex) => {
               prepareRow(row);
               return (
-                // eslint-disable-next-line react/jsx-key
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
+                <Tr {...row.getRowProps()} key={rowIndex}>
+                  {row.cells.map((cell, cellIndex) => {
                     return (
-                      // eslint-disable-next-line react/jsx-key
-                      <Td {...cell.getCellProps()} borderColor="borderColor">
+                      <Td {...cell.getCellProps()} borderColor="borderColor" key={cellIndex}>
                         {cell.render("Cell")}
                       </Td>
                     );

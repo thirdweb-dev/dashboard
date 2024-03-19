@@ -8,7 +8,7 @@ import {
   Flex,
   SkeletonText,
 } from "@chakra-ui/react";
-import { NFT } from "@thirdweb-dev/sdk";
+import { NFT } from "thirdweb";
 import { WalletNFT } from "lib/wallet/nfts/types";
 import { useMemo } from "react";
 import {
@@ -19,18 +19,25 @@ import {
   Text,
 } from "tw-components";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
+import { useChainSlug } from "hooks/chains/chainSlug";
 
 const dummyMetadata: (idx: number) => NFT = (idx) => ({
+  id: BigInt(idx || 0),
+  tokenURI: `1-0x123-${idx}`,
   metadata: {
     name: "Loading...",
     description: "lorem ipsum loading sit amet",
-    id: `${idx}`,
+    id: BigInt(idx || 0),
     uri: `1-0x123-${idx}`,
   },
   owner: `0x_fake_${idx}`,
   type: "ERC721",
-  supply: "1",
+  supply: 1n,
 });
+
+function isOnlyNumbers(str: string) {
+  return /^\d+$/.test(str);
+}
 
 interface NFTCardsProps {
   nfts: NFT[] | WalletNFT[];
@@ -56,51 +63,60 @@ export const NFTCards: React.FC<NFTCardsProps> = ({
     }).map((_, idx) => dummyMetadata(idx));
   }, [nfts.length, isMobile, allNfts]);
 
+  const chainSlug = useChainSlug(chainId || 1);
+
   return (
     <SimpleGrid
       gap={{ base: 3, md: 6 }}
       columns={allNfts ? { base: 2, md: 4 } : { base: 2, md: 3 }}
     >
-      {(isLoading ? dummyData : nfts).map((token) => (
-        <GridItem
-          key={`${chainId}-${
-            (token as WalletNFT)?.contractAddress || contractAddress
-          }-${(token as WalletNFT).tokenId || token.metadata.id}}`}
-          as={TrackedLink}
-          category={trackingCategory}
-          href={`/${chainId}/${
-            (token as WalletNFT)?.contractAddress || contractAddress
-          }/nfts/${(token as WalletNFT).tokenId || token.metadata.id}`}
-          _hover={{ opacity: 0.75, textDecoration: "none" }}
-        >
-          <Card p={0} h="full">
-            <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
-              <Skeleton isLoaded={!isLoading}>
-                <NFTMediaWithEmptyState
-                  metadata={token.metadata}
-                  requireInteraction
-                  width="100%"
-                  height="100%"
-                />
-              </Skeleton>
-            </AspectRatio>
-            <Flex p={4} pb={3} gap={3} direction="column">
-              <Skeleton w={!isLoading ? "100%" : "50%"} isLoaded={!isLoading}>
-                <Heading size="label.md">{token.metadata.name}</Heading>
-              </Skeleton>
-              <SkeletonText isLoaded={!isLoading}>
-                <Text noOfLines={3}>
-                  {token.metadata.description ? (
-                    token.metadata.description
-                  ) : (
-                    <i>No description</i>
-                  )}
-                </Text>
-              </SkeletonText>
-            </Flex>
-          </Card>
-        </GridItem>
-      ))}
+      {(isLoading ? dummyData : nfts).map((token) => {
+        const tokenId = (token as WalletNFT)?.tokenId || (token as NFT).id;
+        const ctrAddress =
+          (token as WalletNFT)?.contractAddress || contractAddress;
+
+        if (!tokenId || !isOnlyNumbers(tokenId.toString())) {
+          return null;
+        }
+
+        return (
+          <GridItem
+            key={`${chainId}-${ctrAddress}-${tokenId}`}
+            as={TrackedLink}
+            category={trackingCategory}
+            href={`/${chainSlug}/${ctrAddress}/nfts/${tokenId.toString()}`}
+            _hover={{ opacity: 0.75, textDecoration: "none" }}
+          >
+            <Card p={0} h="full">
+              <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
+                <Skeleton isLoaded={!isLoading}>
+                  <NFTMediaWithEmptyState
+                    // @ts-expect-error types are not up to date
+                    metadata={token.metadata}
+                    requireInteraction
+                    width="100%"
+                    height="100%"
+                  />
+                </Skeleton>
+              </AspectRatio>
+              <Flex p={4} pb={3} gap={3} direction="column">
+                <Skeleton w={!isLoading ? "100%" : "50%"} isLoaded={!isLoading}>
+                  <Heading size="label.md">{token.metadata.name}</Heading>
+                </Skeleton>
+                <SkeletonText isLoaded={!isLoading}>
+                  <Text noOfLines={3}>
+                    {token.metadata.description ? (
+                      token.metadata.description
+                    ) : (
+                      <i>No description</i>
+                    )}
+                  </Text>
+                </SkeletonText>
+              </Flex>
+            </Card>
+          </GridItem>
+        );
+      })}
     </SimpleGrid>
   );
 };

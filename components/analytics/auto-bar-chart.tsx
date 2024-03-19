@@ -14,7 +14,7 @@ type GenericDataType = Record<string, string | number>;
 
 type IndexType = "date";
 
-export interface AutoBarChartProps<
+interface AutoBarChartProps<
   TData extends GenericDataType,
   TIndexKey extends keyof TData,
 > extends BoxProps {
@@ -183,14 +183,9 @@ export const AutoBarChart = <
                 return null;
               }
 
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const { time, ...values } = payload[0].payload;
               return (
-                <StackToolTip
-                  time={payload[0]?.payload?.time}
-                  values={values}
-                  hoverKey={hoverKey}
-                />
+                <StackToolTip time={time} values={values} hoverKey={hoverKey} />
               );
             }}
             cursor={

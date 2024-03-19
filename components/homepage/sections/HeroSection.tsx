@@ -1,170 +1,202 @@
+import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { Aurora } from "../Aurora";
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Icon,
-  LightMode,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { useTrack } from "hooks/analytics/useTrack";
-import { BsLightningCharge } from "react-icons/bs";
-import { ChakraNextLink, Heading, LinkButton } from "tw-components";
+import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
+import { ChakraNextImage } from "components/Image";
+import styles from "../category/categories.module.css";
+import { BsFillLightningChargeFill } from "react-icons/bs";
 
-export const HeroSection = () => {
-  const trackEvent = useTrack();
+interface HeroSectionProps {
+  TRACKING_CATEGORY: string;
+}
+const thirdwebRepoUrl = "https://github.com/thirdweb-dev";
 
-  const images = [
-    {
-      src: require("public/assets/landingpage/homepage-wallets.png"),
-      href: "/connect",
-      background: "linear-gradient(218deg, #95BBF2 -6.46%, #3385FF 93.97%)",
-    },
-    {
-      src: require("public/assets/landingpage/homepage-contracts.png"),
-      href: "/smart-contracts",
-      background: "linear-gradient(218deg, #F5B7FF -6.46%, #C04DCA 93.97%)",
-    },
-    {
-      src: require("public/assets/landingpage/homepage-payments.png"),
-      href: "/checkout",
-      background:
-        "linear-gradient(43deg, #2E938C 14.8%, #4BB8B1 63.81%, #B8EEE8 104.19%)",
-    },
-    {
-      src: require("public/assets/landingpage/homepage-engine.png"),
-      href: "/engine",
-      background: "linear-gradient(218deg, #946CBA -6.46%, #9444D3 93.97%)",
-    },
-  ];
-
+const GithubIcon = () => {
   return (
-    <HomepageSection id="home" bottomPattern>
-      {/* right */}
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 21 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      // eslint-disable-next-line react/forbid-dom-props
+      className={styles.githubIcon}
+    >
+      <g id="github-mark-white 1" clipPath="url(#clip0_3418_4084)">
+        <path
+          id="Vector"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M10.3538 0.537842C4.62843 0.537842 0 5.20039 0 10.9686C0 15.5794 2.96559 19.4824 7.07966 20.8638C7.59402 20.9676 7.78243 20.6394 7.78243 20.3632C7.78243 20.1214 7.76547 19.2925 7.76547 18.4289C4.88529 19.0507 4.28552 17.1855 4.28552 17.1855C3.82265 15.9766 3.13684 15.6659 3.13684 15.6659C2.19415 15.0269 3.2055 15.0269 3.2055 15.0269C4.25118 15.096 4.79988 16.0976 4.79988 16.0976C5.7254 17.6863 7.21678 17.2374 7.81676 16.961C7.90238 16.2875 8.17684 15.8212 8.46825 15.5623C6.17109 15.3204 3.7542 14.4225 3.7542 10.4159C3.7542 9.27609 4.16535 8.34358 4.81684 7.61834C4.71405 7.35936 4.35397 6.28846 4.91984 4.85515C4.91984 4.85515 5.79406 4.57879 7.76526 5.92584C8.6092 5.69752 9.47954 5.58137 10.3538 5.58039C11.2281 5.58039 12.1192 5.7014 12.9422 5.92584C14.9136 4.57879 15.7878 4.85515 15.7878 4.85515C16.3537 6.28846 15.9934 7.35936 15.8906 7.61834C16.5592 8.34358 16.9534 9.27609 16.9534 10.4159C16.9534 14.4225 14.5366 15.3031 12.2222 15.5623C12.5995 15.8903 12.925 16.5119 12.925 17.4964C12.925 18.8951 12.9081 20.0178 12.9081 20.363C12.9081 20.6394 13.0967 20.9676 13.6108 20.864C17.7249 19.4822 20.6905 15.5794 20.6905 10.9686C20.7074 5.20039 16.0621 0.537842 10.3538 0.537842Z"
+          fill="white"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_3418_4084">
+          <rect
+            width="20.7695"
+            height="20.3457"
+            fill="white"
+            transform="translate(0 0.537842)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
+  return (
+    <HomepageSection id="home">
+      {/* top */}
       <Aurora
-        pos={{ left: "80%", top: "40%" }}
-        size={{ width: "1400px", height: "1400px" }}
-        color="hsl(260deg 78% 35% / 30%)"
+        pos={{ left: "50%", top: "0%" }}
+        size={{ width: "2400px", height: "1400px" }}
+        color="hsl(260deg 78% 35% / 40%)"
       />
 
-      {/* left */}
-      <Aurora
-        pos={{ left: "30%", top: "20%" }}
-        size={{ width: "1800px", height: "1800px" }}
-        color="hsl(290deg 92% 54% / 30%)"
-      />
-
-      <Grid
-        pt={{
-          base: 8,
-          md: 16,
-          lg: 24,
-        }}
-        templateColumns={{ base: "1fr", lg: "1fr auto" }}
-        gap={{ base: 6, lg: 8 }}
-        mb={{ base: 8, md: 0 }}
+      <SimpleGrid
+        columns={{ base: 1, md: 2 }}
+        gap={{ base: 12, md: 8 }}
+        mt={{ base: 4, md: 20 }}
+        placeItems="center"
       >
-        <Flex
-          flexDir="column"
-          gap={{ base: 6, md: 8 }}
-          align={{ base: "center", lg: "start" }}
-        >
-          <Heading
-            as="h2"
-            letterSpacing="-0.04em"
-            lineHeight={1.1}
-            fontWeight={700}
-            fontSize={{ base: "36px", md: "52px", lg: "64px" }}
-            textAlign={{ base: "center", lg: "left" }}
-          >
-            The complete web3
-            <br />
-            development toolkit
-          </Heading>
-          <Heading
-            as="h3"
-            size="subtitle.md"
-            textAlign={{ base: "center", lg: "left" }}
-            maxW="500px"
-          >
-            Onboard users with wallets, build & deploy smart contracts, accept
-            fiat with payments, and scale apps with infrastructure — on any EVM
-            chain.
-          </Heading>
-
-          <LightMode>
-            <Flex
-              flexDirection={{ base: "column", md: "row" }}
-              gap={4}
-              mt={{ base: 8, md: 0 }}
+        <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
+          <Flex flexDir="column" gap={4}>
+            <Heading
+              as="h1"
+              size="title.2xl"
+              fontWeight={900}
+              px={{ base: 2, md: 0 }}
+              fontSize={{ base: "36px", sm: "45px" }}
             >
-              <Flex flexDir="column" gap={3} flexGrow={1} minW={300}>
-                <LinkButton
-                  href="/dashboard"
-                  onClick={() =>
-                    trackEvent({
-                      category: "cta-button",
-                      action: "click",
-                      label: "start",
-                      title: "Start building",
-                      experiment: "open_dashboard",
-                    })
-                  }
-                  px={4}
-                  py={7}
-                  // h={{ base: "48px", md: "68px" }}
-                  fontSize="20px"
-                  leftIcon={<Icon as={BsLightningCharge} color="black" />}
-                  color="black"
-                  flexShrink={0}
-                  background="rgba(255,255,255,1)"
-                  _hover={{
-                    background: "rgba(255,255,255,0.9)!important",
-                  }}
+              Full-stack,{" "}
+              <TrackedLink
+                label="open-source"
+                category={TRACKING_CATEGORY}
+                href={thirdwebRepoUrl}
+                isExternal
+              >
+                <span
+                  // eslint-disable-next-line react/forbid-dom-props
+                  className={styles.animatedGradient}
                 >
-                  Get Started
-                </LinkButton>
-              </Flex>
-              {/*  <AnimatedCLICommand /> */}
-            </Flex>
-          </LightMode>
-        </Flex>
+                  open-source <GithubIcon />
+                </span>
+              </TrackedLink>{" "}
+              web3 development platform
+            </Heading>
+          </Flex>
+          <Text size="body.xl" mr={6}>
+            Frontend, backend, and onchain tools to build complete web3 apps —
+            on any EVM chain.
+          </Text>
 
-        <SimpleGrid
-          columns={2}
-          gap={6}
-          justifyItems={"center"}
-          maxW={{ base: "384px", lg: "100%" }}
-          mx="auto"
-          marginTop={{ base: 5, lg: "0" }}
+          <Flex
+            flexDirection={{ base: "column", sm: "row" }}
+            gap={{ base: 4, md: 6 }}
+          >
+            <TrackedLinkButton
+              leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
+              py={6}
+              px={8}
+              w="full"
+              bgColor="white"
+              _hover={{
+                bgColor: "white",
+                opacity: 0.8,
+              }}
+              color="black"
+              href="/dashboard"
+              category={TRACKING_CATEGORY}
+              label="get-started"
+              fontWeight="bold"
+              maxW={{ base: "full", sm: "fit-content" }}
+            >
+              Get started
+            </TrackedLinkButton>
+
+            <TrackedLinkButton
+              variant="outline"
+              w="full"
+              py={6}
+              px={8}
+              href="https://portal.thirdweb.com"
+              category={TRACKING_CATEGORY}
+              label="see-docs"
+              maxW={{ base: "full", sm: "fit-content" }}
+              isExternal
+            >
+              See the docs
+            </TrackedLinkButton>
+          </Flex>
+        </Flex>
+        <Flex
+          minW={{ base: "auto", md: "420px" }}
+          maxW={{ base: "280px", sm: "400px", md: "500px" }}
+          position="relative"
+          className={styles.heroContainer}
         >
-          {images.map((image, index) => {
-            return (
-              <GridItem key={index} maxW={{ base: "100%", lg: "180px" }}>
-                <ChakraNextLink href={image.href}>
-                  <Box
-                    transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
-                    _hover={{
-                      borderColor: "blue.500",
-                      transform: "scale(1.05)",
-                      boxShadow: "0 0 20px hsl(215deg 100% 60% / 50%)",
-                    }}
-                    borderWidth="thin"
-                    background={image.background}
-                    borderRadius="lg"
-                    borderColor="borderColor"
-                  >
-                    <ChakraNextImage alt="" src={image.src} />
-                  </Box>
-                </ChakraNextLink>
-              </GridItem>
-            );
-          })}
-        </SimpleGrid>
-      </Grid>
+          <TrackedLink
+            href="/connect"
+            category={TRACKING_CATEGORY}
+            label="connect-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-frontend.png")}
+              alt="icon-frontend"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              zIndex={2}
+              cursor="pointer"
+              className={styles.connect}
+            />
+          </TrackedLink>
+
+          <TrackedLink
+            href="/engine"
+            category={TRACKING_CATEGORY}
+            label="backend-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-backend.png")}
+              alt="icon-backend"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              position="absolute"
+              zIndex={2}
+              cursor="pointer"
+              className={styles.backend}
+            />
+          </TrackedLink>
+
+          <TrackedLink
+            href="/explore"
+            category={TRACKING_CATEGORY}
+            label="onchain-icon"
+          >
+            <ChakraNextImage
+              src={require("public/assets/landingpage/desktop/icon-onchain.png")}
+              alt="icon-onchain"
+              maxW={{ base: "45px", sm: "60px", md: "75px" }}
+              position="absolute"
+              zIndex={2}
+              cursor="pointer"
+              className={styles.onchain}
+            />
+          </TrackedLink>
+
+          <ChakraNextImage
+            src={require("public/assets/landingpage/desktop/hero-homepage.png")}
+            alt="hero-image"
+            className={styles.heroImageV1}
+          />
+
+          <ChakraNextImage
+            src={require("public/assets/landingpage/desktop/hero-homepage-v2.png")}
+            alt="hero-image"
+            className={styles.heroImageV2}
+          />
+        </Flex>
+      </SimpleGrid>
     </HomepageSection>
   );
 };

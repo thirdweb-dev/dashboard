@@ -5,10 +5,11 @@ import {
   AddContractInput,
   ValidContractInstance,
   isExtensionEnabled,
+  detectFeatures as detectFeaturesFromSdk,
 } from "@thirdweb-dev/sdk";
 import { Signer } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 
 export function detectFeatures<TContract extends ValidContractInstance | null>(
   contract: ValidContractInstance | null | undefined,
@@ -22,19 +23,21 @@ export function detectFeatures<TContract extends ValidContractInstance | null>(
     return false;
   }
 
+  const extensions = detectFeaturesFromSdk(contract.abi as Abi);
+
   if (strategy === "any") {
     return features.some((feature) =>
-      isExtensionEnabled(contract.abi as Abi, feature),
+      isExtensionEnabled(contract.abi as Abi, feature, extensions),
     );
   }
 
   return features.every((feature) =>
-    isExtensionEnabled(contract.abi as Abi, feature),
+    isExtensionEnabled(contract.abi as Abi, feature, extensions),
   );
 }
 
 export function getGaslessPolygonSDK(signer?: Signer) {
-  const polygonSDK = getEVMThirdwebSDK(
+  const polygonSDK = getThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
     {

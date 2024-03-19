@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js/pure";
 import { Elements } from "@stripe/react-stripe-js";
 import { OnboardingPaymentForm } from "./PaymentForm";
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { Flex, FocusLock, useColorMode } from "@chakra-ui/react";
 import { OnboardingTitle } from "./Title";
-import { Stripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useQueryClient } from "@tanstack/react-query";
+import { accountKeys } from "@3rdweb-sdk/react/cache-keys";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? "");
 
 interface OnboardingBillingProps {
   onSave: () => void;
@@ -18,10 +21,9 @@ export const OnboardingBilling: React.FC<OnboardingBillingProps> = ({
   onCancel,
 }) => {
   const { colorMode } = useColorMode();
-  const [stripePromise, setStripePromise] = useState<
-    Promise<Stripe | null> | undefined
-  >();
   const trackEvent = useTrack();
+  const queryClient = useQueryClient();
+  const { user } = useLoggedInUser();
 
   const mutation = useUpdateAccount();
 
@@ -58,42 +60,43 @@ export const OnboardingBilling: React.FC<OnboardingBillingProps> = ({
     onCancel();
   };
 
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_STRIPE_KEY) {
-      const init = async () => {
-        setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? ""));
-      };
-      init();
-    }
-  }, []);
-
   return (
-    <Flex flexDir="column" gap={8}>
-      <OnboardingTitle
-        heading="Add a payment method"
-        description="thirdweb is free to get started with monthly usage credits. Add a payment method to ensure you experience no interruptions after exceeding credits."
-      />
+    <FocusLock>
       <Flex flexDir="column" gap={8}>
-        {stripePromise && (
-          <Elements
-            stripe={stripePromise}
-            options={{
-              mode: "setup",
-              paymentMethodCreation: "manual",
-              currency: "usd",
-              paymentMethodConfiguration:
-                process.env.NEXT_PUBLIC_STRIPE_PAYMENT_METHOD_CFG_ID,
-              appearance: {
-                theme: colorMode === "dark" ? "night" : "stripe",
-                ...appearance,
-              },
-            }}
-          >
-            <OnboardingPaymentForm onSave={onSave} onCancel={handleCancel} />
-          </Elements>
-        )}
+        <OnboardingTitle
+          heading="Add a payment method"
+          description="thirdweb is free to get started with monthly usage credits. Add a payment method to ensure you experience no interruptions after exceeding credits."
+        />
+        <Flex flexDir="column" gap={8}>
+          {stripePromise && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                mode: "setup",
+                paymentMethodCreation: "manual",
+                currency: "usd",
+                paymentMethodConfiguration:
+                  process.env.NEXT_PUBLIC_STRIPE_PAYMENT_METHOD_CFG_ID,
+                appearance: {
+                  theme: colorMode === "dark" ? "night" : "stripe",
+                  ...appearance,
+                },
+              }}
+            >
+              <OnboardingPaymentForm
+                onSave={() => {
+                  queryClient.invalidateQueries(
+                    accountKeys.me(user?.address as string),
+                  );
+                  onSave();
+                }}
+                onCancel={handleCancel}
+              />
+            </Elements>
+          )}
+        </Flex>
       </Flex>
-    </Flex>
+    </FocusLock>
   );
 };
 
@@ -108,9 +111,7 @@ const appearance = {
   rules: {
     ".Input": {
       boxShadow: "none",
-      background: "transparent",
       backgroundColor: "transparent",
-      height: "40px",
     },
     ".Input:hover": {
       borderColor: "rgb(51, 133, 255)",

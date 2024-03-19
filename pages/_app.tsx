@@ -2,12 +2,14 @@ import chakraTheme from "../theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import type { DehydratedState } from "@tanstack/react-query";
-import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { ProgressBar } from "components/shared/ProgressBar";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
-import { IBM_Plex_Mono, Inter } from "next/font/google";
+import {
+  IBM_Plex_Mono as ibmPlexMonoConstructor,
+  Inter as interConstructor,
+} from "next/font/google";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import posthogOpenSource from "posthog-js-opensource";
@@ -16,17 +18,17 @@ import { memo, useEffect, useMemo, useRef } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import type { ThirdwebNextPage } from "utils/types";
 import "../css/swagger-ui.css";
+import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
+import { useBuildId } from "hooks/useBuildId";
 
-// eslint-disable-next-line new-cap
-const inter = Inter({
+const inter = interConstructor({
   subsets: ["latin"],
   display: "swap",
   fallback: ["system-ui", "Helvetica Neue", "Arial", "sans-serif"],
   adjustFontFallback: true,
 });
 
-// eslint-disable-next-line new-cap
-const ibmPlexMono = IBM_Plex_Mono({
+const ibmPlexMono = ibmPlexMonoConstructor({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -54,6 +56,21 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
   pageProps,
 }) => {
   const router = useRouter();
+  const { shouldReload } = useBuildId();
+
+  useEffect(() => {
+    const handleRouteChange = async () => {
+      if (shouldReload()) {
+        router.reload();
+      }
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router, shouldReload]);
 
   useEffect(() => {
     // Taken from StackOverflow. Trying to detect both Safari desktop and mobile.

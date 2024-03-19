@@ -5,7 +5,7 @@ import {
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
-import { format } from "date-fns";
+import { format } from "date-fns/format";
 import { useState } from "react";
 import { Button, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -127,7 +127,8 @@ export const AuthorizedWalletsTable: ComponentWithChildren<
       });
       toast({
         title: "Something went wrong while revoking the device",
-        description: "Please contact us at https://discord.gg/thirdweb",
+        description:
+          "Something went wrong while revoking the device. Please visit our support site: https://thirdweb.com/support",
         status: "error",
         duration: 5000,
         isClosable: true,

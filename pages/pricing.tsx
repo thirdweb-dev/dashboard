@@ -10,15 +10,16 @@ import {
 } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import { Card, Heading, Text } from "tw-components";
+import { Card, Heading, Link, Text, TrackedIconButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { LandingFAQ } from "components/landing-pages/faq";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PricingSection } from "components/homepage/sections/PricingSection";
-import { FAQ_GENERAL, FAQ_PRICING, SECTIONS } from "utils/pricing";
+import { FAQ_GENERAL, FAQ_PRICING, PRICING_SECTIONS } from "utils/pricing";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { FiExternalLink } from "react-icons/fi";
 
 const TRACKING_CATEGORY = "pricing-page";
 
@@ -28,7 +29,7 @@ const Pricing: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       seo={{
-        title: "thirdweb Pro: Build production-grade web3 apps at scale",
+        title: "thirdweb Growth: Build production-grade web3 apps at scale",
         description:
           "The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
         openGraph: {
@@ -49,27 +50,30 @@ const Pricing: ThirdwebNextPage = () => {
         flexDir="column"
         gap={{ base: "80px", lg: "120px" }}
       >
-        <PricingSection trackingCategory={TRACKING_CATEGORY} />
+        <PricingSection
+          trackingCategory={TRACKING_CATEGORY}
+          canTrialGrowth={true}
+        />
 
         <Flex flexDir="column" gap={20}>
-          {SECTIONS.map((section) => (
+          {PRICING_SECTIONS.map((section) => (
             <Flex flexDir="column" key={section.title} gap={4}>
               <SimpleGrid columns={isMobile ? 2 : 4}>
                 <Flex gap={2} alignItems="center" pl={4}>
-                  <Text color="white" size="body.lg">
+                  <Text color="white" size="body.xl">
                     {section.title}
                   </Text>
                 </Flex>
 
                 {!isMobile && (
                   <>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Starter
                     </Text>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Growth
                     </Text>
-                    <Text size="body.lg" color="gray.600" textAlign="center">
+                    <Text size="body.xl" color="white" textAlign="center">
                       Pro
                     </Text>
                   </>
@@ -100,11 +104,30 @@ const Pricing: ThirdwebNextPage = () => {
                             gap={2}
                             h={isMobile ? "auto" : 6}
                             flexDir={isMobile ? "column" : "row"}
+                            alignItems="center"
                           >
                             <Text color="white" size="body.md" noOfLines={1}>
                               {item.title}
                             </Text>
-                            {(item as any)?.hint && (
+                            {item?.learnMore && (
+                              <TrackedIconButton
+                                as={Link}
+                                href={item.learnMore}
+                                isExternal
+                                color="primary.500"
+                                category="pricing-page"
+                                label="learn-more"
+                                trackingProps={{
+                                  title: item.title,
+                                }}
+                                icon={<Icon as={FiExternalLink} />}
+                                variant="ghost"
+                                aria-label="Learn More"
+                              >
+                                Learn More
+                              </TrackedIconButton>
+                            )}
+                            {item?.hint && (
                               <>
                                 {isMobile ? (
                                   <Text color="gray.700">{item.hint}</Text>
@@ -136,11 +159,6 @@ const Pricing: ThirdwebNextPage = () => {
                                   </Tooltip>
                                 )}
                               </>
-                            )}
-                            {(item as any)?.comingSoon && (
-                              <Text color="gray.800" size="body.md">
-                                Coming Soon
-                              </Text>
                             )}
                           </Flex>
                         </Card>

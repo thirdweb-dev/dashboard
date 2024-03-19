@@ -8,20 +8,21 @@ import { THIRDWEB_API_HOST } from "constants/urls";
 import { useLoggedInUser } from "./useLoggedInUser";
 
 // Engine instances
-export interface EngineInstance {
+export type EngineInstance = {
   id: string;
   accountId: string;
   name: string;
   url: string;
   lastAccessedAt: string;
-}
+  cloudDeployedAt: string;
+  status: "active" | "pending" | "requested";
+};
 
 export function useEngineInstances() {
-  const { token } = useApiAuthToken();
-  const { user } = useLoggedInUser();
+  const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    engineKeys.instances(user?.address ?? ""),
+    engineKeys.instances(user?.address as string),
     async (): Promise<EngineInstance[]> => {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine`, {
         method: "GET",
@@ -35,11 +36,20 @@ export function useEngineInstances() {
       }
 
       const json = await res.json();
-      return json.data?.instances || [];
+      const instances = (json.data?.instances as EngineInstance[]) || [];
+
+      return instances.map((instance) => {
+        // Sanitize: Add trailing slash if not present.
+        const url = instance.url.endsWith("/")
+          ? instance.url
+          : `${instance.url}/`;
+        return {
+          ...instance,
+          url,
+        };
+      });
     },
-    {
-      enabled: !!user && !!token,
-    },
+    { enabled: !!user?.address && isLoggedIn },
   );
 }
 
@@ -77,6 +87,61 @@ export function useEngineBackendWallets(instance: string) {
     },
     { enabled: !!instance && !!token },
   );
+}
+
+export function useEngineCurrentVersion(instance: string) {
+  return useQuery(
+    engineKeys.currentVersion(instance),
+    async () => {
+      const res = await fetch(`${instance}system/health`);
+      if (!res.ok) {
+        throw new Error(`Unexpected status ${res.status}`);
+      }
+      const json = await res.json();
+      return json.engineVersion as string;
+    },
+    { enabled: !!instance },
+  );
+}
+
+export function useEngineLatestVersion() {
+  return useQuery(engineKeys.latestVersion(), async () => {
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine/latest-version`, {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!res.ok) {
+      throw new Error(`Unexpected status ${res.status}`);
+    }
+    const json = await res.json();
+    return json.data.version as string;
+  });
+}
+
+interface UpdateVersionInput {
+  engineId: string;
+}
+
+export function useEngineUpdateVersion() {
+  return useMutation(async (input: UpdateVersionInput) => {
+    invariant(input.engineId, "engineId is required");
+
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine/update-version`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        engineId: input.engineId,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error(`Unexpected status ${res.status}`);
+    }
+    // The response body is unused if 2xx.
+    res.body?.cancel();
+  });
 }
 
 export type Transaction = {
@@ -125,7 +190,7 @@ export type Transaction = {
   functionArgs?: string | null;
 };
 
-export type TransactionResponse = {
+type TransactionResponse = {
   transactions: Transaction[];
   totalCount: number;
 };
@@ -162,7 +227,7 @@ export function useEngineTransactions(instance: string, autoUpdate: boolean) {
   );
 }
 
-export type WalletConfig =
+type WalletConfig =
   | {
       type: "local";
     }
@@ -203,7 +268,7 @@ export function useEngineWalletConfig(instance: string) {
   );
 }
 
-export type CurrencyValue = {
+type CurrencyValue = {
   name: string;
   symbol: string;
   decimals: number;
@@ -379,7 +444,7 @@ export function useEngineCreateRelayer(instance: string) {
   );
 }
 
-export type RevokeRelayerInput = {
+type RevokeRelayerInput = {
   id: string;
 };
 
@@ -761,7 +826,7 @@ export function useEngineRevokePermissions(instance: string) {
   );
 }
 
-export type CreateAccessTokenResponse = AccessToken & {
+type CreateAccessTokenResponse = AccessToken & {
   accessToken: string;
 };
 

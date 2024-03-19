@@ -4,22 +4,22 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { DASHBOARD_STORAGE_URL } from "lib/sdk";
 import { Button, Card, Heading, Text, TrackedCopyButton } from "tw-components";
-import { formatDistance } from "date-fns";
+import { formatDistance } from "date-fns/formatDistance";
 import { useCallback, useState } from "react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { toSize } from "utils/number";
 import { TWQueryTable } from "components/shared/TWQueryTable";
 
-export interface PinnedFilesResponse {
+interface PinnedFilesResponse {
   result: PinnedFilesResult;
 }
 
-export interface PinnedFilesResult {
+interface PinnedFilesResult {
   pinnedFiles: PinnedFile[];
   count: number;
 }
 
-export interface PinnedFile {
+interface PinnedFile {
   ipfsHash: string;
   fileSizeBytes: string;
   pinnedAt: string;
@@ -123,7 +123,7 @@ const columns = [
       );
     },
   }),
-  columnHelper.accessor((row) => toSize(BigInt(row.fileSizeBytes), "MB"), {
+  columnHelper.accessor((row) => toSize(BigInt(row.fileSizeBytes || 0), "MB"), {
     header: "File Size",
     cell: ({ cell }) => <Text fontFamily="mono">{cell.getValue()}</Text>,
   }),

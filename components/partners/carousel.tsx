@@ -5,7 +5,7 @@ import { ComponentWithChildren } from "types/component-with-children";
 
 const gap = { base: "40px", lg: "60px" };
 
-export const MarqueeGroup: ComponentWithChildren<{
+const MarqueeGroup: ComponentWithChildren<{
   ariaHidden: boolean;
   animationDirection?: "normal" | "reverse";
 }> = ({ ariaHidden, children, animationDirection = "normal" }) => {
@@ -55,7 +55,7 @@ export const PartnerCarousel: React.FC = () => {
       sx={{
         maskImage: `linear-gradient(to right, hsl(0 0% 0% / 0), hsl(0 0% 0% / 1) 10%, hsl(0 0% 0% / 1) 90%, hsl(0 0% 0% / 0));`,
       }}
-      pt={10}
+      pt={20}
       mb={{ base: 20, md: 24 }}
     >
       {/* desktop - 1 row with all logos */}
@@ -64,14 +64,20 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="polygon" />
         <PartnerLogo partner="aws" />
         <PartnerLogo partner="rarible" />
+        <PartnerLogo partner="treasure" />
+        <PartnerLogo partner="pixels" />
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="avacloud" />
         <PartnerLogo partner="animoca" />
+        <PartnerLogo partner="mcfarlane" />
+        <PartnerLogo partner="coolcats" />
         <PartnerLogo partner="courtyard" />
-        <PartnerLogo partner="pixels" />
+        <PartnerLogo partner="aavegotchi" />
+        <PartnerLogo partner="infinigods" />
         <PartnerLogo partner="nyfw" />
         <PartnerLogo partner="fractal" />
-        <PartnerLogo partner="buildspace" />
+        <PartnerLogo partner="ztx" />
+        <PartnerLogo partner="torque" />
         <PartnerLogo partner="gala_games" />
         <PartnerLogo partner="mirror" />
         <PartnerLogo partner="layer3" />
@@ -83,9 +89,12 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="polygon" />
         <PartnerLogo partner="aws" />
         <PartnerLogo partner="rarible" />
+        <PartnerLogo partner="coolcats" />
         <PartnerLogo partner="courtyard" />
+        <PartnerLogo partner="aavegotchi" />
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="avacloud" />
+        <PartnerLogo partner="infinigods" />
         <PartnerLogo partner="paradigm" />
       </Marquee>
 
@@ -94,12 +103,15 @@ export const PartnerCarousel: React.FC = () => {
         display={{ base: "flex", lg: "none" }}
       >
         <PartnerLogo partner="animoca" />
+        <PartnerLogo partner="treasure" />
         <PartnerLogo partner="pixels" />
+        <PartnerLogo partner="mcfarlane" />
         <PartnerLogo partner="nyfw" />
         <PartnerLogo partner="gala_games" />
         <PartnerLogo partner="mirror" />
         <PartnerLogo partner="fractal" />
-        <PartnerLogo partner="buildspace" />
+        <PartnerLogo partner="ztx" />
+        <PartnerLogo partner="torque" />
         <PartnerLogo partner="layer3" />
       </Marquee>
     </Box>

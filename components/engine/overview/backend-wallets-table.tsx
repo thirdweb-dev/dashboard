@@ -26,10 +26,13 @@ import {
 } from "@chakra-ui/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { shortenString, useChain } from "@thirdweb-dev/react";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import QRCode from "qrcode";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { BiExport, BiImport, BiPencil } from "react-icons/bi";
 import {
   Badge,
@@ -40,10 +43,8 @@ import {
   Text,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
-import QRCode from "qrcode";
-import { ChainIcon } from "components/icons/ChainIcon";
-import { useForm } from "react-hook-form";
 import { prettyPrintCurrency } from "../utils";
+import { utils } from "ethers";
 
 interface BackendWalletsTableProps {
   wallets: BackendWallet[];
@@ -64,7 +65,11 @@ const setColumns = (instanceUrl: string) => [
     cell: (cell) => {
       const address = cell.getValue();
       return (
-        <AddressCopyButton address={address} shortenAddress={false} size="xs" />
+        <AddressCopyButton
+          address={utils.getAddress(address)}
+          shortenAddress={false}
+          size="xs"
+        />
       );
     },
   }),
@@ -383,9 +388,10 @@ const SendFundsModal = ({
     fromWallet.address,
   );
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully sent a request to send funds",
-    "Failed to send tokens",
+    "Successfully sent a request to send funds.",
+    "Failed to send tokens.",
   );
+  const toWalletDisclosure = useDisclosure();
 
   const onSubmit = async (data: SendFundsInput) => {
     if (!chain) {
@@ -420,23 +426,44 @@ const SendFundsModal = ({
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>From</FormLabel>
-              <Text>{fromWallet.address}</Text>
+              <Text fontFamily="mono">{fromWallet.address}</Text>
             </FormControl>
             <FormControl isRequired>
               <FormLabel>To</FormLabel>
-              <Select {...form.register("toAddress", { required: true })}>
-                <option value="" disabled selected hidden>
-                  Select a backend wallet to send funds to
-                </option>
-                {backendWallets
-                  .filter((wallet) => wallet.address !== fromWallet.address)
-                  .map((wallet) => (
-                    <option key={wallet.address} value={wallet.address}>
-                      {shortenString(wallet.address, false)}
-                      {wallet.label && ` (${wallet.label})`}
-                    </option>
-                  ))}
-              </Select>
+              {toWalletDisclosure.isOpen ? (
+                <Input
+                  {...form.register("toAddress", { required: true })}
+                  placeholder="Enter a wallet address"
+                />
+              ) : (
+                <Select {...form.register("toAddress", { required: true })}>
+                  <option value="" disabled selected hidden>
+                    Select a backend wallet
+                  </option>
+                  {backendWallets
+                    .filter((wallet) => wallet.address !== fromWallet.address)
+                    .map((wallet) => (
+                      <option key={wallet.address} value={wallet.address}>
+                        {shortenString(wallet.address, false)}
+                        {wallet.label && ` (${wallet.label})`}
+                      </option>
+                    ))}
+                </Select>
+              )}
+              <FormHelperText textAlign="right">
+                <Button
+                  onClick={() => {
+                    form.resetField("toAddress");
+                    toWalletDisclosure.onToggle();
+                  }}
+                  variant="link"
+                  size="xs"
+                >
+                  {toWalletDisclosure.isOpen
+                    ? "Or send to a backend wallet"
+                    : "Or send to a different wallet"}
+                </Button>
+              </FormHelperText>
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Amount</FormLabel>

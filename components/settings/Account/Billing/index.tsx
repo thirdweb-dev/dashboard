@@ -19,12 +19,15 @@ import { BillingPricing } from "./Pricing";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
 import { FiExternalLink } from "react-icons/fi";
+import { useLocalStorage } from "hooks/useLocalStorage";
+import { BillingPlanCard } from "./PlanCard";
 
 interface BillingProps {
   account: Account;
 }
 
 export const Billing: React.FC<BillingProps> = ({ account }) => {
+  const [claimedGrowth] = useLocalStorage("claim-growth-trial", false, true);
   const updatePlanMutation = useUpdateAccountPlan();
   const {
     isOpen: isPaymentMethodOpen,
@@ -50,11 +53,10 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     "Failed to change your billing plan.",
   );
 
-  const validPayment =
-    account.status === AccountStatus.ValidPayment &&
-    !account.paymentAttemptCount;
+  const validPayment = account.status === AccountStatus.ValidPayment;
   const paymentVerification =
     account.status === AccountStatus.PaymentVerification;
+  const invalidPayment = account.status === AccountStatus.InvalidPayment;
 
   const handleUpdatePlan = (plan: AccountPlan, feedback?: string) => {
     const action = downgradePlan ? "downgradePlan" : "upgradePlan";
@@ -70,6 +72,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
       {
         plan,
         feedback,
+        useTrial: !!claimedGrowth && validPayment,
       },
       {
         onSuccess: () => {
@@ -100,6 +103,10 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
   };
 
   const handlePlanSelect = (plan: AccountPlan) => {
+    if (invalidPayment || paymentVerification) {
+      return;
+    }
+
     if (!validPayment) {
       setSelectedPlan(plan);
       onPaymentMethodOpen();
@@ -179,11 +186,11 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         ),
       },
     ];
-  }, [account, stepsCompleted, paymentMethodSaving, onPaymentMethodOpen]);
+  }, [account, onPaymentMethodOpen, paymentMethodSaving, stepsCompleted]);
 
   useEffect(() => {
     if (account) {
-      const paymentCompleted = validPayment || paymentVerification;
+      const paymentCompleted = validPayment;
 
       setStepsCompleted({
         account: !!account.email,
@@ -201,16 +208,19 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
           handleUpdatePlan(selectedPlan);
           setSelectedPlan(undefined);
         }
+      }
 
+      if (paymentCompleted || paymentVerification) {
         setPaymentMethodSaving(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, validPayment, paymentVerification]);
+  }, [account, validPayment, paymentVerification, invalidPayment]);
 
   const showSteps = [
     AccountStatus.NoCustomer,
     AccountStatus.NoPayment,
+    AccountStatus.InvalidPayment,
   ].includes(account.status);
 
   return (
@@ -235,15 +245,20 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
             validPayment={validPayment}
             paymentVerification={paymentVerification}
           />
+          <BillingPlanCard />
           <AccountForm account={account} disableUnchanged showBillingButton />
         </>
       )}
 
       <BillingPricing
-        account={account}
-        onSelect={handlePlanSelect}
+        plan={account.plan}
         validPayment={validPayment}
+        paymentVerification={paymentVerification}
+        invalidPayment={invalidPayment}
         loading={paymentMethodSaving || updatePlanMutation.isLoading}
+        canTrialGrowth={!!claimedGrowth}
+        trialPeriodEndedAt={account.trialPeriodEndedAt}
+        onSelect={handlePlanSelect}
       />
 
       <TrackedLink

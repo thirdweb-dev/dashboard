@@ -1,6 +1,6 @@
 import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
-  ButtonGroup,
+  Box,
   Flex,
   GridItem,
   Icon,
@@ -15,7 +15,6 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import type { Chain } from "@thirdweb-dev/chains";
-import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 
@@ -23,7 +22,7 @@ import Fuse from "fuse.js";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { memo, useDeferredValue, useMemo, useState } from "react";
+import { Suspense, memo, useDeferredValue, useMemo, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   Card,
@@ -36,6 +35,19 @@ import {
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains";
+
+export const OPSponsoredChains = [
+  // Optimism
+  10,
+  // Base
+  8453,
+  // Zora
+  7777777,
+  // Mode
+  34443,
+  // Frax
+  252,
+];
 
 export const ChainsLanding: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -107,7 +119,7 @@ export const ChainsLanding: ThirdwebNextPage = (
               spellCheck="false"
               autoComplete="off"
               bg="transparent"
-              placeholder="Chain name or chain id"
+              placeholder="Chain name or chain ID"
               borderColor="borderColor"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -126,7 +138,9 @@ export const ChainsLanding: ThirdwebNextPage = (
         </Card>
       </Flex>
 
-      <SearchResults chains={filteredChains} />
+      <Suspense fallback={<Box h="100vh" />}>
+        <SearchResults chains={filteredChains} />
+      </Suspense>
     </Flex>
   );
 };
@@ -207,6 +221,9 @@ export const SearchResults: React.FC<{
 const SearchResult: React.FC<{
   chain: MinimalRPCChain;
 }> = memo(function SearchResult({ chain }) {
+  const isDeprecated = chain.status === "deprecated";
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
+
   return (
     <LinkBox
       position="relative"
@@ -248,16 +265,58 @@ const SearchResult: React.FC<{
                 {chain.name}
               </Heading>
             </LinkOverlay>
+            {isDeprecated && (
+              <Flex
+                borderRadius="full"
+                align="center"
+                border="1px solid"
+                borderColor="borderColor"
+                overflow="hidden"
+                flexShrink={0}
+                py={{ base: 1.5, md: 1 }}
+                px={{ base: 1.5, md: 2 }}
+                gap={3}
+              >
+                <Heading size="label.sm" as="label">
+                  Deprecated
+                </Heading>
+              </Flex>
+            )}
+            {isSponsored && (
+              <Flex
+                borderRadius="full"
+                align="center"
+                overflow="hidden"
+                flexShrink={0}
+                py={{ base: 1.5, md: 1 }}
+                px={{ base: 1.5, md: 2 }}
+                gap={3}
+                bgGradient="linear(to-r, #701953, #5454B2)"
+              >
+                <Heading size="label.sm" as="label" color="#fff">
+                  Sponsored
+                </Heading>
+              </Flex>
+            )}
           </Flex>
         </Flex>
-
         <Flex flexDir="column" gap={1}>
-          <Text pointerEvents="none" opacity={0.6}>
+          <Text
+            pointerEvents="none"
+            opacity={0.6}
+            color={isDeprecated ? "faded" : "bgBlack"}
+          >
             RPC URL
           </Text>
-          {chain.hasRpc ? (
+          {chain.hasRpc && chain.chainId && !isDeprecated ? (
             <InputGroup>
-              <Input readOnly value={`${chain.slug}.rpc.thirdweb.com`} />
+              <Input
+                readOnly
+                value={`${chain.chainId}.rpc.thirdweb.com`}
+                isDisabled={isDeprecated}
+                borderColor="borderColor"
+                color="bgBlack"
+              />
               <InputRightElement>
                 <TrackedCopyButton
                   category={TRACKING_CATEGORY}
@@ -265,7 +324,7 @@ const SearchResult: React.FC<{
                   aria-label="Copy RPC url"
                   size="sm"
                   colorScheme={undefined}
-                  value={`${chain.slug}.rpc.thirdweb.com`}
+                  value={`${chain.chainId}.rpc.thirdweb.com`}
                 />
               </InputRightElement>
             </InputGroup>
@@ -274,19 +333,27 @@ const SearchResult: React.FC<{
               readOnly
               isDisabled
               pointerEvents="none"
-              value="Coming Soon"
+              value="Unavailable"
             />
           )}
         </Flex>
 
         <SimpleGrid pointerEvents="none" gap={12} columns={2}>
           <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6}>Chain ID</Text>
-            <Text size="label.md">{chain.chainId}</Text>
+            <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
+              Chain ID
+            </Text>
+            <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
+              {chain.chainId}
+            </Text>
           </Flex>
           <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6}>Native Token</Text>
-            <Text size="label.md">{chain.symbol}</Text>
+            <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
+              Native Token
+            </Text>
+            <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
+              {chain.symbol}
+            </Text>
           </Flex>
         </SimpleGrid>
       </Card>
@@ -298,7 +365,7 @@ ChainsLanding.getLayout = (page, props) => (
   <AppLayout {...props}>{page}</AppLayout>
 );
 
-type MinimalRPCChain = Pick<Chain, "slug" | "name" | "chainId"> & {
+type MinimalRPCChain = Pick<Chain, "slug" | "name" | "chainId" | "status"> & {
   iconUrl: string;
   symbol: string;
   hasRpc: boolean;
@@ -333,6 +400,7 @@ export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
         chainId: chain.chainId,
         iconUrl: chain?.icon?.url || "",
         symbol: chain.nativeCurrency.symbol,
+        status: chain?.status || "active",
         hasRpc,
       };
     });

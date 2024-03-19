@@ -10,6 +10,7 @@ export interface SectionProps {
 
 export interface SectionItemProps {
   name: string;
+  dashboardName?: string;
   label: string;
   description: string;
   link: string;
@@ -20,7 +21,7 @@ export interface SectionItemProps {
   inLandingPage?: boolean;
   section:
     | "contracts"
-    | "wallets"
+    | "connect"
     | "infrastructure"
     | "payments"
     | "solutions"

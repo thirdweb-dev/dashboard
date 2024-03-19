@@ -74,9 +74,41 @@ const PARTNER_LOGO_MAP = {
     img: require("./logos/courtyard.png"),
     filter: "brightness(0) invert(1)",
   },
+  infinigods: {
+    img: require("./logos/infinigods.png"),
+    filter: "grayscale(1)",
+  },
+  revv: {
+    img: require("./logos/revv.png"),
+    filter: "grayscale(1)",
+  },
+  torque: {
+    img: require("./logos/torque.png"),
+    filter: undefined,
+  },
+  ztx: {
+    img: require("./logos/ztx.png"),
+    filter: undefined,
+  },
+  aavegotchi: {
+    img: require("./logos/aavegotchi.png"),
+    filter: undefined,
+  },
+  coolcats: {
+    img: require("./logos/coolcats.png"),
+    filter: undefined,
+  },
+  mcfarlane: {
+    img: require("./logos/mcfarlane.png"),
+    filter: undefined,
+  },
+  treasure: {
+    img: require("./logos/treasure.png"),
+    filter: undefined,
+  },
 } as const;
 
-export type Partner = keyof typeof PARTNER_LOGO_MAP;
+type Partner = keyof typeof PARTNER_LOGO_MAP;
 
 interface PartnerLogoProps {
   partner: Partner;

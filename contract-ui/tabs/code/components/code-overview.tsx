@@ -49,7 +49,6 @@ import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
-import { WALLETS_SNIPPETS } from "pages/dashboard/wallets/wallet-sdk";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
@@ -242,6 +241,99 @@ export default function Component() {
   },
 };
 
+const WALLETS_SNIPPETS = [
+  {
+    id: "smart-wallet",
+    name: "Account Abstraction",
+    description: "Deploy accounts for your users",
+    iconUrl:
+      "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/smart-wallet.svg",
+    link: "https://portal.thirdweb.com/references/wallets/latest/SmartWallet",
+    supportedLanguages: {
+      javascript: `import {{chainName}} from "@thirdweb-dev/chains";
+import { LocalWallet, SmartWallet } from "@thirdweb-dev/wallets";
+
+// First, connect the personal wallet, which can be any wallet (metamask, walletconnect, etc.)
+// Here we're just generating a new local wallet which can be saved later
+const personalWallet = new LocalWallet();
+await personalWallet.generate();
+
+// Setup the Account Abstraction configuration
+const config = {
+  chain: {{chainName}}, // the chain where your account will be or is deployed
+  factoryAddress: "{{factory_address}}", // your own deployed account factory address
+  clientId: "YOUR_CLIENT_ID", // or use secretKey for backend/node scripts
+  gasless: true, // enable or disable gasless transactions
+};
+
+// Then, connect the Account
+const wallet = new SmartWallet(config);
+await wallet.connect({
+  personalWallet,
+});`,
+      react: `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react";
+
+export default function App() {
+return (
+    <ThirdwebProvider
+      clientId="YOUR_CLIENT_ID"
+      activeChain={{chainName}}
+      supportedWallets={[
+        smartWallet({
+          factoryAddress: "{{factory_address}}",
+          gasless: true,
+          personalWallets={[...]}
+        })
+      ]}
+    >
+      <ConnectWallet />
+    </ThirdwebProvider>
+  );
+}`,
+      "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react-native";
+
+export default function App() {
+return (
+    <ThirdwebProvider
+      clientId="YOUR_CLIENT_ID"
+      activeChain={{chainName}}
+      supportedWallets={[
+        smartWallet({
+          factoryAddress: "{{factory_address}}",
+          gasless: true,
+          personalWallets={[...]}
+        })
+      ]}
+    >
+      <ConnectWallet />
+    </ThirdwebProvider>
+  );
+}`,
+      unity: `using Thirdweb;
+
+public async void ConnectWallet()
+{
+    // Reference to your Thirdweb SDK
+    var sdk = ThirdwebManager.Instance.SDK;
+
+    // Configure the connection
+    var connection = new WalletConnection(
+      provider: WalletProvider.SmartWallet,        // The wallet provider you want to connect to (Required)
+      chainId: 1,                                  // The chain you want to connect to (Required)
+      password: "myEpicPassword",                  // If using a local wallet as personal wallet (Optional)
+      email: "email@email.com",                    // If using an email wallet as personal wallet (Optional)
+      personalWallet: WalletProvider.LocalWallet   // The personal wallet you want to use with your Account (Optional)
+    );
+
+    // Connect the wallet
+    string address = await sdk.wallet.Connect(connection);
+}`,
+    },
+  },
+];
+
 function getExportName(slug: string) {
   let exportName = slug
     .split("-")
@@ -265,7 +357,7 @@ interface SnippetOptions {
   clientId?: string;
 }
 
-export function formatSnippet(
+function formatSnippet(
   snippet: Record<CodeEnvironment, any>,
   {
     contractAddress,
@@ -292,19 +384,18 @@ export function formatSnippet(
         'import {{chainName}} from "@thirdweb-dev/chains";',
         preSupportedSlugs.includes(chainName as any)
           ? ""
-          : `import ${
-              env === "javascript" ? "{ {{chainName}} }" : "{{chainName}}"
-            } from "@thirdweb-dev/chains";`,
+          : `import ${env === "javascript" ? "{ {{chainName}} }" : "{{chainName}}"
+          } from "@thirdweb-dev/chains";`,
       )
       ?.replace(
         /{{chainName}}/gm,
         !chainName || chainName?.startsWith("0x") || chainName?.endsWith(".eth")
           ? '"ethereum"'
           : preSupportedSlugs.includes(chainName as any)
-          ? `"${chainName}"`
-          : env === "javascript"
-          ? getExportName(chainName)
-          : `{ ${getExportName(chainName)} }`,
+            ? `"${chainName}"`
+            : env === "javascript"
+              ? getExportName(chainName)
+              : `{ ${getExportName(chainName)} }`,
       )
       ?.replace(/{{function}}/gm, fn || "")
       ?.replace(
@@ -312,10 +403,10 @@ export function formatSnippet(
         preSupportedSlugs.includes(chainName as any)
           ? chainName
           : rpcUrl?.replace(
-              // eslint-disable-next-line no-template-curly-in-string
-              "${THIRDWEB_API_KEY}",
-              DASHBOARD_THIRDWEB_CLIENT_ID,
-            ) || "",
+            // eslint-disable-next-line no-template-curly-in-string
+            "${THIRDWEB_API_KEY}",
+            DASHBOARD_THIRDWEB_CLIENT_ID,
+          ) || "",
       );
 
     if (args && args?.some((arg) => arg)) {
@@ -413,7 +504,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           <Flex flexDirection="column" gap={4}>
             <Flex flexDir="column" gap={6} id="integrate-smart-wallet">
               <Heading size="title.md">
-                Integrate your smart wallet factory
+                Integrate your account factory
               </Heading>
               <Alert
                 status="info"
@@ -425,7 +516,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               >
                 <Flex justifyContent="start">
                   <AlertIcon />
-                  <AlertTitle>Smart Wallet Factory</AlertTitle>
+                  <AlertTitle>Account Factory</AlertTitle>
                 </Flex>
                 <AlertDescription>
                   The recommended way to use account factories is to integrate
@@ -468,8 +559,8 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               {isAccountFactory
                 ? "Direct contract interaction (advanced)"
                 : chain
-                ? `Getting Started with ${chain.name}`
-                : "Getting Started"}
+                  ? `Getting Started with ${chain.name}`
+                  : "Getting Started"}
             </Heading>
           </Flex>
           {(noSidebar || isMobile) && (
@@ -627,148 +718,148 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                   <List height="100%" overflowX="hidden">
                     {((writeFunctions || []).length > 0 ||
                       (readFunctions || []).length > 0) && (
-                      <Tabs
-                        colorScheme="gray"
-                        h="100%"
-                        position="relative"
-                        display="flex"
-                        flexDir="column"
-                      >
-                        <TabList as={Flex}>
-                          {(writeFunctions || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Write
-                              </Heading>
-                            </Tab>
-                          )}
-                          {(readFunctions || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Read
-                              </Heading>
-                            </Tab>
-                          )}
-                          {(events || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Events
-                              </Heading>
-                            </Tab>
-                          )}
-                        </TabList>
-                        <TabPanels h="auto" overflow="auto">
-                          <TabPanel>
-                            {writeFunctions?.map((fn) => (
-                              <ListItem my={0.5} key={fn.signature}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "write" &&
-                                    (write as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "write" &&
-                                    (write as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("write");
-                                    setWrite(fn);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {fn.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                          <TabPanel>
-                            {readFunctions?.map((fn) => (
-                              <ListItem my={0.5} key={fn.signature}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "read" &&
-                                    (read as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "read" &&
-                                    (read as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("read");
-                                    setRead(fn);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {fn.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                          <TabPanel>
-                            {events?.map((ev) => (
-                              <ListItem my={0.5} key={ev.name}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "events" &&
-                                    (event as AbiEvent).name ===
-                                      (ev as AbiEvent).name
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "events" &&
-                                    (event as AbiEvent).name ===
-                                      (ev as AbiEvent).name
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("events");
-                                    setEvent(ev);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {ev.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                        </TabPanels>
-                      </Tabs>
-                    )}
+                        <Tabs
+                          colorScheme="gray"
+                          h="100%"
+                          position="relative"
+                          display="flex"
+                          flexDir="column"
+                        >
+                          <TabList as={Flex}>
+                            {(writeFunctions || []).length > 0 && (
+                              <Tab gap={2} flex={"1 1 0"}>
+                                <Heading color="inherit" my={1} size="label.md">
+                                  Write
+                                </Heading>
+                              </Tab>
+                            )}
+                            {(readFunctions || []).length > 0 && (
+                              <Tab gap={2} flex={"1 1 0"}>
+                                <Heading color="inherit" my={1} size="label.md">
+                                  Read
+                                </Heading>
+                              </Tab>
+                            )}
+                            {(events || []).length > 0 && (
+                              <Tab gap={2} flex={"1 1 0"}>
+                                <Heading color="inherit" my={1} size="label.md">
+                                  Events
+                                </Heading>
+                              </Tab>
+                            )}
+                          </TabList>
+                          <TabPanels h="auto" overflow="auto">
+                            <TabPanel>
+                              {writeFunctions?.map((fn) => (
+                                <ListItem my={0.5} key={fn.signature}>
+                                  <Button
+                                    size="sm"
+                                    fontWeight={
+                                      tab === "write" &&
+                                        (write as AbiFunction).signature ===
+                                        (fn as AbiFunction).signature
+                                        ? 600
+                                        : 400
+                                    }
+                                    opacity={
+                                      tab === "write" &&
+                                        (write as AbiFunction).signature ===
+                                        (fn as AbiFunction).signature
+                                        ? 1
+                                        : 0.65
+                                    }
+                                    onClick={() => {
+                                      setTab("write");
+                                      setWrite(fn);
+                                    }}
+                                    color="heading"
+                                    _hover={{
+                                      opacity: 1,
+                                      textDecor: "underline",
+                                    }}
+                                    variant="link"
+                                    fontFamily="mono"
+                                  >
+                                    {fn.name}
+                                  </Button>
+                                </ListItem>
+                              ))}
+                            </TabPanel>
+                            <TabPanel>
+                              {readFunctions?.map((fn) => (
+                                <ListItem my={0.5} key={fn.signature}>
+                                  <Button
+                                    size="sm"
+                                    fontWeight={
+                                      tab === "read" &&
+                                        (read as AbiFunction).signature ===
+                                        (fn as AbiFunction).signature
+                                        ? 600
+                                        : 400
+                                    }
+                                    opacity={
+                                      tab === "read" &&
+                                        (read as AbiFunction).signature ===
+                                        (fn as AbiFunction).signature
+                                        ? 1
+                                        : 0.65
+                                    }
+                                    onClick={() => {
+                                      setTab("read");
+                                      setRead(fn);
+                                    }}
+                                    color="heading"
+                                    _hover={{
+                                      opacity: 1,
+                                      textDecor: "underline",
+                                    }}
+                                    variant="link"
+                                    fontFamily="mono"
+                                  >
+                                    {fn.name}
+                                  </Button>
+                                </ListItem>
+                              ))}
+                            </TabPanel>
+                            <TabPanel>
+                              {events?.map((ev) => (
+                                <ListItem my={0.5} key={ev.name}>
+                                  <Button
+                                    size="sm"
+                                    fontWeight={
+                                      tab === "events" &&
+                                        (event as AbiEvent).name ===
+                                        (ev as AbiEvent).name
+                                        ? 600
+                                        : 400
+                                    }
+                                    opacity={
+                                      tab === "events" &&
+                                        (event as AbiEvent).name ===
+                                        (ev as AbiEvent).name
+                                        ? 1
+                                        : 0.65
+                                    }
+                                    onClick={() => {
+                                      setTab("events");
+                                      setEvent(ev);
+                                    }}
+                                    color="heading"
+                                    _hover={{
+                                      opacity: 1,
+                                      textDecor: "underline",
+                                    }}
+                                    variant="link"
+                                    fontFamily="mono"
+                                  >
+                                    {ev.name}
+                                  </Button>
+                                </ListItem>
+                              ))}
+                            </TabPanel>
+                          </TabPanels>
+                        </Tabs>
+                      )}
                   </List>
                 </GridItem>
                 <GridItem
@@ -788,13 +879,13 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                           tab === "read"
                             ? read?.name
                             : tab === "write"
-                            ? write?.name
-                            : event?.name,
+                              ? write?.name
+                              : event?.name,
                         args: (tab === "read"
                           ? readFunctions
                           : tab === "write"
-                          ? writeFunctions
-                          : events
+                            ? writeFunctions
+                            : events
                         )
                           ?.find(
                             (f) =>
@@ -802,8 +893,8 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                               (tab === "read"
                                 ? read?.name
                                 : tab === "write"
-                                ? write?.name
-                                : event?.name),
+                                  ? write?.name
+                                  : event?.name),
                           )
                           ?.inputs?.map((i) => i.name),
                         chainName,

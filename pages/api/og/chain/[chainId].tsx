@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/forbid-dom-props */
+/* eslint-disable react/no-unknown-property */
 import { ImageResponse } from "@vercel/og";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextRequest } from "next/server";
@@ -118,19 +120,18 @@ export default async function handler(req: NextRequest) {
     (
       <div
         tw="w-full h-full flex justify-center py-20 px-16"
-        // eslint-disable-next-line react/forbid-dom-props
         style={{
           background: "#0D0D12",
           fontFamily: "Inter",
         }}
       >
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <img
           // @ts-expect-error - this works fine
           src={imageData}
           width="1200px"
           height="630px"
           tw="absolute"
+          alt=""
         />
         {/* the actual component starts here */}
 
@@ -139,7 +140,6 @@ export default async function handler(req: NextRequest) {
             alt=""
             src={optimizedIconUrl}
             tw="absolute rounded-full"
-            // eslint-disable-next-line react/forbid-dom-props
             style={{
               top: 240,
               right: -2,

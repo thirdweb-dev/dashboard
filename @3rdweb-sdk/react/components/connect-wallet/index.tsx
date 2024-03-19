@@ -46,12 +46,18 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({ auth }) => {
         },
         renderChain: CustomChainRenderer,
       }}
+      showThirdwebBranding={false}
     />
   );
 };
 
-function ConnectWalletWelcomeScreen(props: { theme: "light" | "dark" }) {
+export function ConnectWalletWelcomeScreen(props: {
+  theme: "light" | "dark";
+  subtitle?: string;
+}) {
   const fontColor = props.theme === "light" ? "black" : "white";
+  const subtitle = props.subtitle ?? "Connect your wallet to get started";
+
   return (
     <Flex
       h="full"
@@ -89,7 +95,7 @@ function ConnectWalletWelcomeScreen(props: { theme: "light" | "dark" }) {
             fontWeight={500}
             textAlign="center"
           >
-            Connect your wallet to get started
+            {subtitle}
           </Text>
         </Box>
       </Flex>

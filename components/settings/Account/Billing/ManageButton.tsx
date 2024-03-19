@@ -1,5 +1,4 @@
-import { useTrack } from "hooks/analytics/useTrack";
-import { Button } from "tw-components";
+import { TrackedLinkButton } from "tw-components";
 import { MouseEvent, useEffect, useState } from "react";
 import {
   Account,
@@ -20,46 +19,24 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   loadingText,
   onClick,
 }) => {
-  const trackEvent = useTrack();
   const [sessionUrl, setSessionUrl] = useState();
-  const paymentVerification =
-    account?.status === AccountStatus.PaymentVerification &&
-    account.stripePaymentActionUrl;
-  const validPayment =
-    account?.status === AccountStatus.ValidPayment &&
-    !account.paymentAttemptCount;
-
   const mutation = useCreateBillingSession();
+  const validPayment = account.status === AccountStatus.ValidPayment;
+  const paymentVerification =
+    account.status === AccountStatus.PaymentVerification;
+  const invalidPayment = account.status === AccountStatus.InvalidPayment;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    if (paymentVerification) {
-      window.open(account.stripePaymentActionUrl);
-
-      trackEvent({
-        category: "billingAccount",
-        action: "click",
-        label: "verifyPaymentMethod",
-      });
-
-      return;
-    } else if (onClick) {
-      onClick();
-      return;
+    if (onClick || loading || !sessionUrl) {
+      e.preventDefault();
+      if (onClick) {
+        onClick();
+      }
     }
-
-    window.open(sessionUrl);
-
-    trackEvent({
-      category: "billingAccount",
-      action: "click",
-      label: "manage",
-    });
   };
 
   useEffect(() => {
-    if (!paymentVerification) {
+    if (!onClick) {
       mutation.mutate(undefined, {
         onSuccess: (data) => {
           setSessionUrl(data.url);
@@ -67,24 +44,32 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentVerification]);
+  }, [onClick]);
 
   return (
-    <Button
-      variant="link"
-      isDisabled={loading || (!sessionUrl && !paymentVerification)}
+    <TrackedLinkButton
+      variant="outline"
+      isDisabled={loading || (!onClick && !sessionUrl)}
+      href={sessionUrl || ""}
       isLoading={loading}
+      category="billingAccount"
+      label={
+        paymentVerification || invalidPayment
+          ? "addAnotherPayment"
+          : onClick
+            ? "addPayment"
+            : "manage"
+      }
       loadingText={loadingText}
       onClick={handleClick}
-      colorScheme={loading ? "gray" : "blue"}
-      size="sm"
-      fontWeight="normal"
+      color={loading ? "gray" : "blue.500"}
+      fontSize="small"
     >
       {validPayment
         ? "Manage billing"
-        : paymentVerification
-          ? "Verify payment method →"
+        : paymentVerification || invalidPayment
+          ? "Add another payment method →"
           : "Add payment method →"}
-    </Button>
+    </TrackedLinkButton>
   );
 };

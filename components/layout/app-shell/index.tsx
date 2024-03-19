@@ -1,24 +1,29 @@
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
-  Box,
   ButtonGroup,
   Container,
   Flex,
   Grid,
   GridItem,
   Icon,
-  IconButton,
 } from "@chakra-ui/react";
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { BillingAlert } from "components/settings/Account/Billing/Alert";
+import { CreditsButton } from "components/settings/Account/Billing/CreditsButton";
 import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
 import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { FiHelpCircle } from "react-icons/fi";
-import { Button, Link, LinkButton, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Link,
+  LinkButton,
+  Text,
+  TrackedIconButton,
+  TrackedLink,
+} from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export interface AppShellProps {
@@ -84,7 +89,6 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
 
 const AppHeader: React.FC = () => {
   const { pathname, route } = useRouter();
-  const trackEvent = useTrack();
 
   return (
     <GridItem
@@ -109,9 +113,10 @@ const AppHeader: React.FC = () => {
           <CmdKSearch />
         </Flex>
         <Flex align="center" gap={4} marginLeft="auto">
-          <Box display={{ base: "none", md: "block" }}>
+          <Flex display={{ base: "none", md: "flex" }} gap={2}>
+            <CreditsButton />
             <UpgradeButton />
-          </Box>
+          </Flex>
           <Button
             as={TrackedLink}
             variant="link"
@@ -126,22 +131,32 @@ const AppHeader: React.FC = () => {
           >
             Docs
           </Button>
-
-          <IconButton
-            bg="transparent"
+          <Button
+            as={TrackedLink}
+            variant="link"
+            href="/support"
+            category="header"
+            label="docs"
+            color="bgBlack"
+            display={{ base: "none", md: "block" }}
             size="sm"
-            aria-label="get-help"
-            icon={<Icon as={FiHelpCircle} />}
-            onClick={() => {
-              trackEvent({
-                category: "header",
-                action: "click",
-                label: "support",
-              });
+            mx={1.5}
+          >
+            Support
+          </Button>
 
-              window.open("https://support.thirdweb.com", "_blank");
-            }}
-          />
+          <Flex display={{ base: "flex", md: "none" }}>
+            <TrackedIconButton
+              bg="transparent"
+              size="sm"
+              aria-label="get-help"
+              icon={<Icon as={FiHelpCircle} />}
+              category="header"
+              label="support"
+              as={LinkButton}
+              href="/support"
+            />
+          </Flex>
 
           <ColorModeToggle />
 
@@ -169,15 +184,18 @@ const AppHeader: React.FC = () => {
             Home
           </LinkButton>
           <LinkButton
-            href="/dashboard/wallets/connect"
-            isActive={pathname.startsWith("/dashboard/wallets")}
+            href="/dashboard/connect/playground"
+            isActive={
+              pathname.startsWith("/dashboard/connect") ||
+              pathname.startsWith("/dashboard/payments")
+            }
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
             }}
             rounded="lg"
           >
-            Wallets
+            Connect
           </LinkButton>
           <LinkButton
             href="/dashboard/contracts/deploy"
@@ -194,28 +212,6 @@ const AppHeader: React.FC = () => {
             Contracts
           </LinkButton>
           <LinkButton
-            href="/dashboard/payments/contracts"
-            rounded="lg"
-            isActive={pathname.startsWith("/dashboard/payments")}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
-          >
-            Payments
-          </LinkButton>
-          <LinkButton
-            href="/dashboard/infrastructure/storage"
-            isActive={pathname.startsWith("/dashboard/infrastructure")}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
-            rounded="lg"
-          >
-            Infrastructure
-          </LinkButton>
-          <LinkButton
             href="/dashboard/engine"
             isActive={pathname.startsWith("/dashboard/engine")}
             _active={{
@@ -227,7 +223,7 @@ const AppHeader: React.FC = () => {
             Engine
           </LinkButton>
           <LinkButton
-            href="/dashboard/settings"
+            href="/dashboard/settings/api-keys"
             isActive={pathname.startsWith("/dashboard/settings")}
             _active={{
               bg: "bgBlack",

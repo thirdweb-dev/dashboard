@@ -16,6 +16,7 @@ import {
 
 import {
   useAddress,
+  useChain,
   useChainId,
   useInstalledWallets,
   useWallet,
@@ -26,8 +27,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import { FiInfo } from "react-icons/fi";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
 
-export interface TransactionButtonProps
-  extends Omit<ConnectWalletProps, "leftIcon"> {
+interface TransactionButtonProps extends Omit<ConnectWalletProps, "leftIcon"> {
   transactionCount: number;
   isLoading: boolean;
   isGasless?: boolean;
@@ -36,7 +36,7 @@ export interface TransactionButtonProps
 }
 
 // this is in react-package as well
-export function useWalletRequiresConfirmation() {
+function useWalletRequiresConfirmation() {
   const activeWallet = useWallet();
   const installedWallets = useInstalledWallets();
 
@@ -67,6 +67,12 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   const activeWallet = useWallet();
   const walletRequiresExternalConfirmation = useWalletRequiresConfirmation();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
+
+  const chain = useChain();
+  const isChainDeprecated = useMemo(
+    () => chain?.status === "deprecated",
+    [chain],
+  );
 
   const ColorModeComp =
     colorMode.colorMode === "dark" ? DarkMode : React.Fragment;
@@ -114,6 +120,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
                   size === "sm" ? 3 : size === "lg" ? 6 : size === "xs" ? 2 : 4
                 }))`
           }
+          isDisabled={isChainDeprecated}
         >
           {children}
           <Tooltip
@@ -122,14 +129,25 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
             p={0}
             w="auto"
             label={
-              <ColorModeComp>
-                <Card w="auto" py={2} bgColor="backgroundHighlight">
-                  <Text>
-                    This action will trigger {transactionCount}{" "}
-                    {transactionCount > 1 ? "transactions" : "transaction"}.
-                  </Text>
-                </Card>
-              </ColorModeComp>
+              isChainDeprecated ? (
+                <ColorModeComp>
+                  <Card w="auto" py={2} bgColor="backgroundHighlight">
+                    <Text>
+                      This chain is deprecated so you cannot execute
+                      transactions on it.
+                    </Text>
+                  </Card>
+                </ColorModeComp>
+              ) : (
+                <ColorModeComp>
+                  <Card w="auto" py={2} bgColor="backgroundHighlight">
+                    <Text>
+                      This action will trigger {transactionCount}{" "}
+                      {transactionCount > 1 ? "transactions" : "transaction"}.
+                    </Text>
+                  </Card>
+                </ColorModeComp>
+              )
             }
           >
             <Center
@@ -194,7 +212,7 @@ interface ExternalApprovalNoticeProps {
   initialFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
-export const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
+const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
   walletId,
   initialFocusRef,
 }) => {

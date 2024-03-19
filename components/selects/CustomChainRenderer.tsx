@@ -6,8 +6,9 @@ import {
   useSetEditChain,
   useSetIsNetworkConfigModalOpen,
 } from "hooks/networkConfigModal";
+import { OPSponsoredChains } from "pages/chainlist";
 import { RxGear } from "react-icons/rx";
-import { Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
   chain,
@@ -19,6 +20,9 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
   const setIsOpenNetworkConfigModal = useSetIsNetworkConfigModalOpen();
   const addRecentlyUsedChain = useAddRecentlyUsedChainId();
   const setEditChain = useSetEditChain();
+
+  const isDeprecated = chain.status === "deprecated";
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
 
   return (
     <Flex
@@ -35,15 +39,58 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
       <Flex role="group" flexGrow={1} alignItems="center">
         <Flex
           onClick={() => {
-            switchChain();
+            if (!isDeprecated) {
+              switchChain();
+            }
           }}
           flexGrow={1}
           gap={4}
           alignItems="center"
+          cursor={isDeprecated ? "not-allowed" : "pointer"}
         >
           <ChainIcon ipfsSrc={chain.icon?.url} size={32} />
           <Flex gap={1} flexDir="column" alignItems="start">
-            <Text fontWeight={500}>{chain.name}</Text>
+            <Flex gap={2}>
+              <Text fontWeight={500} color={isDeprecated ? "faded" : "bgBlack"}>
+                {chain.name}
+              </Text>
+              {isDeprecated && (
+                <Flex alignItems="center">
+                  <Flex
+                    borderRadius="full"
+                    align="center"
+                    border="1px solid"
+                    borderColor="borderColor"
+                    overflow="hidden"
+                    flexShrink={0}
+                    py={{ base: 1.5, md: 1 }}
+                    px={{ base: 1.5, md: 2 }}
+                    gap={3}
+                    cursor="not-allowed"
+                  >
+                    <Heading size="label.sm" as="label" cursor="not-allowed">
+                      Deprecated
+                    </Heading>
+                  </Flex>
+                </Flex>
+              )}
+              {isSponsored && (
+                <Flex
+                  borderRadius="full"
+                  align="center"
+                  overflow="hidden"
+                  flexShrink={0}
+                  py={{ base: 1.5, md: 1 }}
+                  px={{ base: 1.5, md: 2 }}
+                  gap={3}
+                  bgGradient="linear(to-r, #701953, #5454B2)"
+                >
+                  <Heading size="label.sm" as="label" color="#fff">
+                    Sponsored
+                  </Heading>
+                </Flex>
+              )}
+            </Flex>
             {switching && (
               <Flex
                 color="blue.500"

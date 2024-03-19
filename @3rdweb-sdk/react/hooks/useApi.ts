@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
@@ -60,7 +65,7 @@ export type Account = {
   };
 };
 
-export interface UpdateAccountInput {
+interface UpdateAccountInput {
   name?: string;
   email?: string;
   plan?: AccountPlan;
@@ -69,23 +74,57 @@ export interface UpdateAccountInput {
   onboardSkipped?: boolean;
 }
 
-export interface UpdateAccountNotificationsInput {
+interface UpdateAccountNotificationsInput {
   billing: "email" | "none";
   updates: "email" | "none";
 }
 
-export interface ConfirmEmailInput {
+interface ConfirmEmailInput {
   confirmationToken: string;
 }
 
-export type ApiKeyRecoverShareManagement = "AWS_MANAGED" | "USER_MANAGED";
-export type ApiKeyCustomAuthentication = {
+type ApiKeyRecoverShareManagement = "AWS_MANAGED" | "USER_MANAGED";
+type ApiKeyCustomAuthentication = {
   jwksUri: string;
   aud: string;
 };
-export type ApiKeyCustomAuthEndpoint = {
+type ApiKeyCustomAuthEndpoint = {
   authEndpoint: string;
   customHeaders: { key: string; value: string }[];
+};
+
+// MAP to api-server types in PolicyService.ts
+export type ApiKeyServicePolicy = {
+  allowedChainIds?: number[] | null;
+  allowedContractAddresses?: string[] | null;
+  allowedWallets?: string[] | null;
+  blockedWallets?: string[] | null;
+  bypassWallets?: string[] | null;
+  serverVerifier?: {
+    url: string;
+    headers: { key: string; value: string }[] | null;
+  } | null;
+  limits?: ApiKeyServicePolicyLimits | null;
+};
+
+export type ApiKeyServicePolicyLimits = {
+  global?: {
+    // in dollars or ETH
+    maxSpend: string;
+    maxSpendUnit: "usd" | "native";
+  } | null;
+  // ----------------------
+  // TODO implement perUser limits
+  perUserSpend?: {
+    // in dollars or ETH
+    maxSpend: string | null;
+    maxSpendUnit: "usd" | "native";
+    maxSpendPeriod: "day" | "week" | "month";
+  } | null;
+  perUserTransactions?: {
+    maxTransactions: number;
+    maxTransactionsPeriod: "day" | "week" | "month";
+  } | null;
 };
 
 export type ApiKeyService = {
@@ -120,13 +159,13 @@ export type ApiKey = {
   services?: ApiKeyService[];
 };
 
-export interface UpdateKeyServiceInput {
+interface UpdateKeyServiceInput {
   name: string;
   targetAddresses: string[];
   actions?: string[];
 }
 
-export interface CreateKeyInput {
+interface CreateKeyInput {
   name?: string;
   domains?: string[];
   bundleIds?: string[];
@@ -134,7 +173,7 @@ export interface CreateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
-export interface UpdateKeyInput {
+interface UpdateKeyInput {
   id: string;
   name: string;
   domains: string[];
@@ -143,20 +182,20 @@ export interface UpdateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
-export interface UsageBundler {
+interface UsageBundler {
   chainId: number;
-  sumTransactionFee: number;
+  sumTransactionFee: string;
 }
 
-export interface UsageStorage {
+interface UsageStorage {
   sumFileSizeBytes: number;
 }
 
-export interface UsageEmbeddedWallets {
+interface UsageEmbeddedWallets {
   countWalletAddresses: number;
 }
 
-export interface UsageCheckout {
+interface UsageCheckout {
   sumTransactionFeeUsd: number;
 }
 
@@ -188,7 +227,7 @@ export interface UsageBillableByService {
   };
 }
 
-export interface WalletStats {
+interface WalletStats {
   timeSeries: {
     dayTime: string;
     clientId: string;
@@ -198,7 +237,37 @@ export interface WalletStats {
   }[];
 }
 
-export function useAccount() {
+interface BillingProduct {
+  name: string;
+  id: string;
+}
+
+export interface BillingCredit {
+  originalGrantUsdCents: number;
+  remainingValueUsdCents: number;
+  name: string;
+  couponId: string;
+  products: BillingProduct[];
+  expiresAt: string;
+  promotionCodeId: string;
+  redeemedAt: string;
+}
+
+export interface UseAccountInput {
+  refetchInterval?:
+    | number
+    | ((
+        data: Account | undefined,
+        query: Query<
+          Account,
+          unknown,
+          Account,
+          readonly ["account", string, "me"]
+        >,
+      ) => number | false);
+}
+
+export function useAccount({ refetchInterval }: UseAccountInput = {}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
@@ -219,7 +288,10 @@ export function useAccount() {
 
       return json.data as Account;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    {
+      enabled: !!user?.address && isLoggedIn,
+      refetchInterval: refetchInterval ?? false,
+    },
   );
 }
 
@@ -243,6 +315,37 @@ export function useAccountUsage() {
       }
 
       return json.data as UsageBillableByService;
+    },
+    { enabled: !!user?.address && isLoggedIn },
+  );
+}
+
+export function useAccountCredits() {
+  const { user, isLoggedIn } = useLoggedInUser();
+
+  return useQuery(
+    accountKeys.credits(user?.address as string),
+    async () => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/credits`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      const credits = (json.data as BillingCredit[]).filter(
+        (credit) =>
+          credit.remainingValueUsdCents > 0 &&
+          credit.expiresAt > new Date().toISOString(),
+      );
+
+      return credits;
     },
     { enabled: !!user?.address && isLoggedIn },
   );
@@ -316,7 +419,7 @@ export function useUpdateAccountPlan() {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: { plan: string; feedback?: string }) => {
+    async (input: { plan: string; feedback?: string; useTrial?: boolean }) => {
       invariant(user?.address, "walletAddress is required");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/plan`, {
@@ -444,6 +547,35 @@ export function useConfirmEmail() {
       },
     },
   );
+}
+
+export interface CreateTicketInput {
+  markdown: string;
+  product: string;
+}
+
+export function useCreateTicket() {
+  const { user } = useLoggedInUser();
+
+  return useMutationWithInvalidate(async (input: CreateTicketInput) => {
+    invariant(user?.address, "walletAddress is required");
+
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(input),
+    });
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
+
+    return json.data;
+  });
 }
 
 export function useConfirmEmbeddedWallet() {
@@ -689,7 +821,7 @@ export function useRevokeApiKey() {
   );
 }
 
-export function useGenerateApiKey() {
+function useGenerateApiKey() {
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
 
@@ -722,6 +854,59 @@ export function useGenerateApiKey() {
     },
   );
 }
+
+export const usePolicies = (serviceId?: string) => {
+  return useQuery({
+    queryKey: ["policies", serviceId],
+    queryFn: async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/policies?serviceId=${serviceId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+    enabled: !!serviceId,
+  });
+};
+
+export const useUpdatePolicies = () => {
+  const queryClient = useQueryClient();
+  return useMutationWithInvalidate(
+    async (input: { serviceId: string; data: ApiKeyServicePolicy }) => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/policies`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          serviceId: input.serviceId,
+          data: input.data,
+        }),
+      });
+      const json = await res.json();
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+      return json.data as ApiKeyServicePolicy;
+    },
+    {
+      onSuccess: (_, variables) => {
+        return queryClient.invalidateQueries(["policies", variables.serviceId]);
+      },
+    },
+  );
+};
 
 export function useAuthorizeWalletWithAccount() {
   const { user } = useLoggedInUser();
@@ -920,7 +1105,7 @@ export function useApiAuthToken() {
 /**
  * @deprecated
  */
-export async function fetchApiKeyAvailability(name: string) {
+async function fetchApiKeyAvailability(name: string) {
   const res = await fetch(
     `${THIRDWEB_API_HOST}/v1/keys/availability?name=${name}`,
     {
@@ -944,9 +1129,12 @@ export async function fetchApiKeyAvailability(name: string) {
  *
  */
 export async function fetchChainsFromApi() {
-  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains`, {
+  // always fetch from prod for chains for now
+  // TODO: re-visit this
+  const res = await fetch(`https://api.thirdweb.com/v1/chains`, {
     method: "GET",
-    credentials: "include",
+    // do not inclue credentials for chains endpoint
+    // credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

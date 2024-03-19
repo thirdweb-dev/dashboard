@@ -1,67 +1,85 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import { Account, AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
+import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useMemo } from "react";
 import { CONTACT_US_URL } from "utils/pricing";
+import { remainingDays } from "utils/date-utils";
 
 interface BillingPricingProps {
-  account: Account;
-  onSelect: (plan: AccountPlan) => void;
+  plan: AccountPlan;
   validPayment: boolean;
+  paymentVerification: boolean;
+  invalidPayment: boolean;
   loading: boolean;
+  canTrialGrowth?: boolean;
+  trialPeriodEndedAt?: string;
+  onSelect: (plan: AccountPlan) => void;
 }
 
 export const BillingPricing: React.FC<BillingPricingProps> = ({
-  account,
-  onSelect,
+  plan,
   validPayment,
+  paymentVerification,
+  invalidPayment,
+  trialPeriodEndedAt,
   loading,
+  canTrialGrowth,
+  onSelect,
 }) => {
-  const isPro = [AccountPlan.Pro, AccountPlan.Enterprise].includes(
-    account.plan,
-  );
+  const isPro = [AccountPlan.Pro, AccountPlan.Enterprise].includes(plan);
 
   const freeCtaTitle = useMemo(() => {
     if (!validPayment) {
-      return "Add payment method";
+      return "Get started for free";
     }
-    if (account.plan !== AccountPlan.Free) {
+    if (plan !== AccountPlan.Free) {
       return "Downgrade";
     }
-  }, [account, validPayment]);
+  }, [plan, validPayment]);
 
   const growthCtaTitle = useMemo(() => {
+    const trialTitle = "Claim your 1-month free";
+
     if (!validPayment) {
-      return "Get started";
+      return canTrialGrowth ? trialTitle : "Get started";
     }
     // pro/enterprise cant change plan
     if (isPro) {
       return "Contact us";
     }
 
-    if (account.plan === AccountPlan.Free) {
-      return "Upgrade";
+    if (plan === AccountPlan.Free) {
+      return canTrialGrowth ? trialTitle : "Upgrade";
     }
-  }, [account, validPayment, isPro]);
+  }, [validPayment, isPro, plan, canTrialGrowth]);
 
-  const proCtaTitle = useMemo(() => {
-    if (!validPayment) {
-      return "Add payment method";
+  const trialPeriodDays = useMemo(() => {
+    let days = undefined;
+
+    // can trial growth and not pro
+    if (canTrialGrowth && !isPro) {
+      days = 30;
+    }
+    // already has trial period
+    else if (trialPeriodEndedAt && plan === AccountPlan.Growth) {
+      days = remainingDays(trialPeriodEndedAt);
     }
 
-    if (!isPro) {
-      return "Contact us";
+    if (!days) {
+      return undefined;
     }
-  }, [isPro, validPayment]);
 
-  const handleSelect = (plan: AccountPlan) => {
-    onSelect(plan);
+    return `Your free trial will end in ${days} days.`;
+  }, [canTrialGrowth, isPro, plan, trialPeriodEndedAt]);
+
+  const handleSelect = (newPlan: AccountPlan) => {
+    onSelect(newPlan);
   };
 
   return (
     <SimpleGrid columns={{ base: 1, xl: 3 }} gap={{ base: 6, xl: 8 }}>
       <PricingCard
-        current={account.plan === AccountPlan.Free}
+        current={plan === AccountPlan.Free}
         size="sm"
         name={AccountPlan.Free}
         ctaTitle={freeCtaTitle}
@@ -71,51 +89,49 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
             handleSelect(AccountPlan.Free);
           },
           isLoading: loading,
-          isDisabled: loading,
+          isDisabled: loading || invalidPayment || paymentVerification,
           category: "account",
           label: "freePlan",
           href: "/pricing",
         }}
+        onDashboard
       />
 
       <PricingCard
-        current={account.plan === AccountPlan.Growth}
+        current={plan === AccountPlan.Growth}
         size="sm"
         name={AccountPlan.Growth}
         ctaTitle={growthCtaTitle}
+        ctaHint={trialPeriodDays}
+        canTrialGrowth={canTrialGrowth}
         ctaProps={{
           onClick: (e) => {
             e.preventDefault();
             handleSelect(AccountPlan.Growth);
           },
           isLoading: loading,
-          isDisabled: loading,
+          isDisabled: loading || invalidPayment || paymentVerification,
           category: "account",
-          label: "growthPlan",
+          label: canTrialGrowth ? "claimGrowthTrial" : "growthPlan",
           href: "/pricing",
           variant: "solid",
           colorScheme: "blue",
         }}
+        onDashboard
       />
 
       <PricingCard
         current={isPro}
         size="sm"
         name={AccountPlan.Pro}
-        ctaTitle={proCtaTitle}
+        ctaTitle="Contact us"
         ctaProps={{
           category: "account",
-          label: "growthPlan",
+          label: "proPlan",
           href: CONTACT_US_URL,
-          ...(validPayment
-            ? { isExternal: true }
-            : {
-                onClick: (e) => {
-                  e.preventDefault();
-                  handleSelect(AccountPlan.Pro);
-                },
-              }),
+          isExternal: true,
         }}
+        onDashboard
       />
     </SimpleGrid>
   );

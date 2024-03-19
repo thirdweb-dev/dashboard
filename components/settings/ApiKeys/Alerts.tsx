@@ -37,28 +37,6 @@ export const FieldAlert = ({
   );
 };
 
-export const NoTargetAddressesAlert = ({
-  serviceName,
-  serviceDesc,
-}: {
-  serviceName: string;
-  serviceDesc: string;
-}) => {
-  return (
-    <Alert status="warning" variant="left-accent">
-      <Flex direction="column" gap={2}>
-        <Heading size="label.md" as={AlertTitle}>
-          No Contract Addresses Configured
-        </Heading>
-        <Text size="body.sm" as={AlertDescription}>
-          Your key will not be able to use {serviceName} - {serviceDesc}. Either
-          disable a service or specify allowed contract addresses.
-        </Text>
-      </Flex>
-    </Alert>
-  );
-};
-
 export const SmartWalletsBillingAlert = ({
   dismissable = false,
 }: {
@@ -88,11 +66,11 @@ export const SmartWalletsBillingAlert = ({
       <Flex>
         <AlertIcon boxSize={4} mt={1} ml={1} />
         <Flex flexDir="column" gap={1} pl={1}>
-          <AlertTitle>Smart Wallets on Mainnet</AlertTitle>
+          <AlertTitle>Account Abstraction on Mainnet</AlertTitle>
           <AlertDescription>
             <Text as="span" pr={1}>
-              You&apos;ve enabled Smart Wallets for one of your API keys and
-              haven&apos;t added a payment method.
+              You&apos;ve enabled Account Abstraction for one of your API keys
+              and haven&apos;t added a payment method.
               <br />
               To use them on Mainnet,
             </Text>

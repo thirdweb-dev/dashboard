@@ -26,7 +26,7 @@ const GUIDES = [
     link: "https://catattack.thirdweb.com",
   },
   {
-    title: "Quick-Start Template: Embedded + Smart Wallets",
+    title: "Quick-Start Template: Embedded Wallet + Account Abstraction",
     image: require("/public/assets/product-pages/smart-wallet/get-started.png"),
     link: "https://github.com/thirdweb-example/embedded-smart-wallet",
   },
@@ -223,7 +223,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             image={require("public/assets/landingpage/desktop/analytics.png")}
             mobileImage={require("public/assets/landingpage/mobile/analytics.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://thirdweb.com/dashboard/wallets/analytics"
+            href="/dashboard/wallets/analytics"
             colSpan={1}
           />
         </LandingGridSection>

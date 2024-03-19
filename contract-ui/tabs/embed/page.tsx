@@ -3,12 +3,12 @@ import { Flex } from "@chakra-ui/react";
 import { getErcs, useContract, useContractType } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 
-interface CustomContractEmbedPageProps {
+interface ContractEmbedPageProps {
   contractAddress?: string;
 }
 
-export const CustomContractEmbedPage: React.FC<
-  CustomContractEmbedPageProps
+export const ContractEmbedPage: React.FC<
+  ContractEmbedPageProps
 > = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress);
   const { data: contractType } = useContractType(contractAddress);
@@ -24,14 +24,14 @@ export const CustomContractEmbedPage: React.FC<
     contractType === "marketplace"
       ? "marketplace"
       : isMarketplaceV3
-      ? "marketplace-v3"
-      : erc20
-      ? "erc20"
-      : erc1155
-      ? "erc1155"
-      : erc721
-      ? "erc721"
-      : null;
+        ? "marketplace-v3"
+        : erc20
+          ? "erc20"
+          : erc1155
+            ? "erc1155"
+            : erc721
+              ? "erc721"
+              : null;
 
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
