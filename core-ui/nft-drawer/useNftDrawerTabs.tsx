@@ -8,7 +8,6 @@ import {
   useAddress,
 } from "@thirdweb-dev/react/evm";
 import { detectFeatures } from "components/contract-components/utils";
-import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type { ThirdwebContract } from "thirdweb";
@@ -37,8 +36,10 @@ const BurnTab = dynamic(
 const MintSupplyTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/mint-supply-tab"),
 );
-const ClaimConditionTab = dynamic(
-  () => import("contract-ui/tabs/claim-conditions/components/claim-conditions"),
+const ClaimConditionTab = dynamic(() =>
+  import("contract-ui/tabs/claim-conditions/components/claim-conditions").then(
+    ({ ClaimConditions }) => ClaimConditions,
+  ),
 );
 const ClaimTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/claim-tab"),
@@ -57,7 +58,7 @@ export function useNFTDrawerTabs({
   const balanceOfQuery = useReadContract(balanceOf, {
     contract,
     owner: address || "",
-    id: BigInt(tokenId || 0),
+    tokenId: BigInt(tokenId || 0),
   });
 
   const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
@@ -103,7 +104,8 @@ export function useNFTDrawerTabs({
     ]);
 
     const isOwner =
-      (isERC1155 && BigNumber.from(balanceOfQuery?.data || 0).gt(0)) ||
+      (isERC1155 && balanceOfQuery?.data) ||
+      0 > 0 ||
       (isERC721 && nft?.owner === address);
 
     const { erc1155 } = getErcs(oldContract);

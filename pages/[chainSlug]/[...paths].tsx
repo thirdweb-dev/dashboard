@@ -173,6 +173,14 @@ const ContractPage: ThirdwebNextPage = () => {
     [activeTab, routes],
   );
 
+  if (!contractInfo) {
+    return (
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
+
   if (chainNotFound) {
     return (
       <HomepageSection maxW="container.md" mx="auto">

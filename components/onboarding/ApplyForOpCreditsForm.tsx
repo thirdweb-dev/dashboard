@@ -14,7 +14,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Button, FormLabel } from "tw-components";
+import { Button, FormHelperText, FormLabel } from "tw-components";
 import { PlanToCreditsRecord } from "./ApplyForOpCreditsModal";
 import { ChakraNextImage } from "components/Image";
 import { useLocalStorage } from "hooks/useLocalStorage";
@@ -26,9 +26,11 @@ interface FormSchema {
   thirdweb_account_id: string;
   plan_type: string;
   email: string;
-  "0-2/name": string;
-  "0-2/superchain_verticals": string;
-  "0-2/superchain_chain": string;
+  company: string;
+  website: string;
+  twitterhandle: string;
+  superchain_verticals: string;
+  superchain_chain: string;
   what_would_you_like_to_meet_about_: string;
 }
 
@@ -51,9 +53,11 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
       thirdweb_account_id: account?.id || "",
       plan_type: PlanToCreditsRecord[account?.plan || AccountPlan.Free].title,
       email: account?.email || "",
-      "0-2/name": "",
-      "0-2/superchain_verticals": "",
-      "0-2/superchain_chain": "",
+      company: "",
+      website: "",
+      twitterhandle: "",
+      superchain_verticals: "",
+      superchain_chain: "",
       what_would_you_like_to_meet_about_: "",
     }),
     [account],
@@ -158,7 +162,20 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         </Flex>
         <FormControl gap={6} isRequired>
           <FormLabel>Company Name</FormLabel>
-          <Input {...form.register("0-2/name", { required: true })} />
+          <Input {...form.register("company", { required: true })} />
+        </FormControl>
+        <FormControl gap={6} isRequired>
+          <FormLabel>Company Website</FormLabel>
+          <Input type="url" {...form.register("website", { required: true })} />
+          <FormHelperText>URL should start with https://</FormHelperText>
+        </FormControl>
+        <FormControl gap={6} isRequired>
+          <FormLabel>Company Social Account</FormLabel>
+          <Input
+            type="url"
+            {...form.register("twitterhandle", { required: true })}
+          />
+          <FormHelperText>URL should start with https://</FormHelperText>
         </FormControl>
         <FormControl gap={6} isRequired>
           <FormLabel>Industry</FormLabel>
@@ -179,11 +196,11 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
               value:
                 vertical === "Payments & Finance (DeFi)" ? "DeFi" : vertical,
             }))}
-            placeholder="Select vertical"
+            placeholder="Select industry"
             isRequired
             onChange={(value) => {
               if (value?.value) {
-                form.setValue("0-2/superchain_verticals", value.value);
+                form.setValue("superchain_verticals", value.value);
               }
             }}
           />
@@ -199,7 +216,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
             )}
             onChange={(values) => {
               form.setValue(
-                "0-2/superchain_chain",
+                "superchain_chain",
                 values.map(({ value }) => value).join(";"),
               );
             }}
@@ -211,7 +228,11 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         </FormControl>
         <FormControl gap={6}>
           <FormLabel>Tell us more about your project</FormLabel>
-          <Textarea {...form.register("what_would_you_like_to_meet_about_")} />
+          <Textarea
+            {...form.register("what_would_you_like_to_meet_about_")}
+            placeholder="Tell us more about your project -- the more you share, the easier you make the approval process."
+          />
+          <FormHelperText>Minimum 150 characters recommended.</FormHelperText>
         </FormControl>
       </ModalBody>
       <ModalFooter>
