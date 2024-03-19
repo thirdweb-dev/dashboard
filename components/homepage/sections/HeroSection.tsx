@@ -4,8 +4,6 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { ChakraNextImage } from "components/Image";
 import styles from "../category/categories.module.css";
-import { useRouter } from "next/router";
-import { useTrack } from "hooks/analytics/useTrack";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 
 interface HeroSectionProps {
@@ -76,26 +74,24 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
               fontSize={{ base: "36px", sm: "45px" }}
             >
               Full-stack,{" "}
-              <span
-                // eslint-disable-next-line react/forbid-dom-props
-                className={styles.animatedGradient}
-                onClick={() => {
-                  trackEvent({
-                    category: TRACKING_CATEGORY,
-                    action: "click",
-                    label: "open-source",
-                  });
-
-                  router.push(thirdwebRepoUrl);
-                }}
+              <TrackedLink
+                label="open-source"
+                category={TRACKING_CATEGORY}
+                href={thirdwebRepoUrl}
+                isExternal
               >
-                open-source <GithubIcon />
-              </span>{" "}
+                <span
+                  // eslint-disable-next-line react/forbid-dom-props
+                  className={styles.animatedGradient}
+                >
+                  open-source <GithubIcon />
+                </span>
+              </TrackedLink>{" "}
               web3 development platform
             </Heading>
           </Flex>
           <Text size="body.xl" mr={6}>
-            Frontend, backend and onchain tools for building web3 apps that work
+            Frontend, backend, and onchain tools to build complete web3 apps —
             on any EVM chain.
           </Text>
 
@@ -132,6 +128,7 @@ export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
               category={TRACKING_CATEGORY}
               label="see-docs"
               maxW={{ base: "full", sm: "fit-content" }}
+              isExternal
             >
               See the docs
             </TrackedLinkButton>

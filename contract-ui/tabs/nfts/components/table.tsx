@@ -30,7 +30,7 @@ import { CellProps, Column, usePagination, useTable } from "react-table";
 import type { NFT, ThirdwebContract } from "thirdweb";
 import {
   getNFTs as getErc721NFTs,
-  totalSupply,
+  totalSupply as erc721TotalSupply,
 } from "thirdweb/extensions/erc721";
 import { getNFTs as getErc1155NFTs } from "thirdweb/extensions/erc1155";
 import { useReadContract } from "thirdweb/react";
@@ -64,10 +64,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         Header: "Media",
         accessor: (row) => row.metadata,
         Cell: (
-          cell: CellProps<
-            NFT,
-            NFT["metadata"]
-          >,
+          cell: CellProps<NFT, NFT["metadata"]>,
           // @ts-expect-error - types are not compatible yet until we have NFTRenderer in v5
         ) => <MediaCell cell={cell} />,
       },
@@ -115,7 +112,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
               </Text>
             );
           }
-        }
+        },
       });
     }
     return cols;
@@ -133,10 +130,10 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     },
   );
 
-  const totalCountQuery = useReadContract(totalSupply, {
+  // TODO: Add support for ERC1155 total circulating supply
+  const totalCountQuery = useReadContract(erc721TotalSupply, {
     contract,
   });
-
   // Anything bigger and the table breaks
   const safeTotalCount = useMemo(
     () =>
@@ -201,7 +198,11 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
             {headerGroups.map((headerGroup, headerGroupIndex) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroupIndex}>
                 {headerGroup.headers.map((column, columnIndex) => (
-                  <Th {...column.getHeaderProps()} border="none" key={columnIndex}>
+                  <Th
+                    {...column.getHeaderProps()}
+                    border="none"
+                    key={columnIndex}
+                  >
                     <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
@@ -223,8 +224,12 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   _hover={{ bg: "accent.100" }}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
+                    const tokenId = row.original.id;
+                    if (!tokenId && tokenId !== 0n) {
+                      return;
+                    }
                     router.push(
-                      `${router.asPath}/${row.original.id.toString()}`,
+                      `${router.asPath}/${tokenId.toString()}`,
                       undefined,
                       {
                         scroll: true,

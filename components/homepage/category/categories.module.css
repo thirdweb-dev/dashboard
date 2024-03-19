@@ -121,7 +121,6 @@
   }
 }
 
-/* App.css */
 @keyframes slideGradient {
   from {
     background-position: 0% 50%;
@@ -134,15 +133,13 @@
 .animatedGradient {
   cursor: pointer;
   position: relative;
-  transition: 250ms ease;
   display: inline-block; /* Use inline-block for better control */
-  background: linear-gradient(88deg, #fff 0%, #9786df 50%, #fff 100%);
+  background: linear-gradient(88deg, #fff 0%, #fff 50%, #9786df 60%, #fff 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   background-size: 200% 100%;
-  animation: slideGradient 5s linear infinite;
-  transition: background-color 0.5s ease;
+  animation: slideGradient 4s linear infinite;
 }
 
 .animatedGradient:hover {
