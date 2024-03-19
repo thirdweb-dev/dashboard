@@ -1,4 +1,4 @@
-import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
+import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import {
   Button,
   Card,
