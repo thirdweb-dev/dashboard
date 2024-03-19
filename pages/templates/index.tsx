@@ -3,18 +3,30 @@ import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { TEMPLATE_DATA } from "./data/_templates";
 import TemplateWrapper from "./Wrapper";
+import { useRouter } from "next/router";
+import { TemplateTagId, TemplateTags } from "./data/_tags";
+import { useState } from "react";
 
 const title = "Web3 Templates for Websites & Apps";
 const description =
   "Start building with a library of quick-start templates for web3 apps and websites — for NFTs, marketplaces, and more. Get started.";
 
 const Templates: ThirdwebNextPage = () => {
+  const router = useRouter();
+  const query = router.query as { tags: string }  
+  const queriedTags: string[] = query.tags
+    ? query.tags
+        .split(",")
+        // Remove any strings that are not valid tag ids
+        .filter((tag) => TemplateTags.find((o) => o.id === tag))
+    : [];
+  const templates = queriedTags.length
+    ? TEMPLATE_DATA.filter((item) =>
+        queriedTags.every((_tag) => item.tags.includes(_tag as TemplateTagId)),
+      )
+    : TEMPLATE_DATA;
   return (
-    <TemplateWrapper
-      title={title}
-      description={description}
-      data={TEMPLATE_DATA}
-    >
+    <TemplateWrapper title={title} description={description} data={templates}>
       <Heading
         as="h1"
         fontSize={{ base: "64px", md: "64px" }}
