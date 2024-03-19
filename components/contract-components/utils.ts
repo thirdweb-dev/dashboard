@@ -44,7 +44,7 @@ export function getGaslessPolygonSDK(signer?: Signer) {
       gasless: {
         engine: {
           relayerUrl:
-            "http://localhost:3005/relayer/813ec596-2187-41fc-93b9-d8deeeb946b3", // replace with engine relayer before merge
+            "https://checkout.engine.thirdweb.com/relayer/0c2bdd3a-307f-4243-b6e5-5ba495222d2b",
           relayerForwarderAddress: "0x409d530a6961297ece29121dbee2c917c3398659",
         },
         experimentalChainlessSupport: true,
