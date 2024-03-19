@@ -149,7 +149,6 @@ export const apiKeyEmbeddedWalletsValidationSchema = z.object({
 });
 
 export const apiKeyPayConfigValidationSchema = z.object({
-  developerFeeBPS: developerFeeBpsValidation,
   payoutAddress: payoutAddressValidation,
 });
 

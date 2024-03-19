@@ -135,7 +135,6 @@ export type ApiKeyService = {
   applicationName?: string;
   applicationImageUrl?: string;
   // PAY
-  developerFeeBPS?: number;
   payoutAddress?: string;
 };
 

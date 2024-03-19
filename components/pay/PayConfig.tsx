@@ -1,11 +1,4 @@
-import {
-  Divider,
-  Flex,
-  FormControl,
-  Input,
-  InputGroup,
-  InputRightElement,
-} from "@chakra-ui/react";
+import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import {
   Button,
   Card,
@@ -19,7 +12,6 @@ import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ApiKeyPayConfigValidationSchema,
-  PERCENTAGE_TO_BPS,
   apiKeyPayConfigValidationSchema,
 } from "components/settings/ApiKeys/validations";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -39,10 +31,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   const form = useForm<ApiKeyPayConfigValidationSchema>({
     resolver: zodResolver(apiKeyPayConfigValidationSchema),
     defaultValues: {
-      developerFeeBPS:
-        typeof payService?.developerFeeBPS === "number"
-          ? (payService?.developerFeeBPS ?? 0.0) / PERCENTAGE_TO_BPS
-          : undefined,
       payoutAddress: payService?.payoutAddress,
     },
   });
@@ -52,10 +40,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
     form.reset();
     // Set the form values
     form.reset({
-      developerFeeBPS:
-        typeof payService?.developerFeeBPS === "number"
-          ? (payService?.developerFeeBPS ?? 0) / PERCENTAGE_TO_BPS
-          : undefined,
       payoutAddress: payService?.payoutAddress,
     });
   }, [form, payService]);
@@ -74,7 +58,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
       throw new Error("Bad state: Missing services");
     }
 
-    const { developerFeeBPS, payoutAddress } = values;
+    const { payoutAddress } = values;
 
     const newServices = services.map((service) => {
       if (service.name !== "pay") {
@@ -83,7 +67,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
 
       return {
         ...service,
-        developerFeeBPS,
         payoutAddress,
       };
     });
@@ -101,7 +84,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
           action: "configuration-update",
           label: "success",
           data: {
-            developerFeeBPS,
             payoutAddress,
           },
         });
@@ -134,38 +116,6 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
         >
           <Flex flexDir={"column"} gap={7} alignItems={"end"}>
             <Flex flexDir={{ base: "column", lg: "row" }} gap={6} w="full">
-              <FormControl
-                isInvalid={
-                  !!form.getFieldState(`developerFeeBPS`, form.formState).error
-                }
-                as={Flex}
-                flexDir="column"
-                gap={1}
-              >
-                <FormLabel size="label.md">Transaction Fee</FormLabel>
-
-                <InputGroup>
-                  <Input
-                    placeholder="0.01"
-                    type="text"
-                    {...form.register(`developerFeeBPS`)}
-                  />
-                  <InputRightElement>%</InputRightElement>
-                </InputGroup>
-                {form.getFieldState(`developerFeeBPS`, form.formState).error ? (
-                  <FormErrorMessage>
-                    {
-                      form.getFieldState(`developerFeeBPS`, form.formState)
-                        .error?.message
-                    }
-                  </FormErrorMessage>
-                ) : (
-                  <FormHelperText>
-                    Set your transaction fee percentage
-                  </FormHelperText>
-                )}
-              </FormControl>
-
               <FormControl
                 isInvalid={
                   !!form.getFieldState(`payoutAddress`, form.formState).error
