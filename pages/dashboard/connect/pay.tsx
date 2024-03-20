@@ -226,7 +226,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
                   {...radio}
                   isChecked={value === tabOption}
                 >
-                  {value === "pay" ? "Pay" : "Checkouts"}
+                  {value.charAt(0).toUpperCase() + value.slice(1)}
                 </RadioCard>
               );
             })}
