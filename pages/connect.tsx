@@ -1,11 +1,4 @@
-import {
-  Center,
-  Container,
-  Flex,
-  Icon,
-  SimpleGrid,
-  Spacer,
-} from "@chakra-ui/react";
+import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
@@ -25,8 +18,8 @@ import { ChakraNextImage } from "components/Image";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
-import { PlaygroundMenu } from "components/connect/PlaygroundMenu";
-import { useCallback, useEffect, useState } from "react";
+import Carousel from "components/connect/Carousel";
+import Head from "next/head";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -109,53 +102,7 @@ const GUIDES = [
   },
 ];
 
-const showcaseImages = [
-  require("public/assets/product-pages/connect/pay.png"),
-  require("public/assets/product-pages/connect/connect.png"),
-  require("public/assets/product-pages/connect/account-abstraction.png"),
-];
-
-const showcaseMenus = [
-  {
-    id: "pay-icon",
-    title: "Pay",
-    description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
-    image: require("public/assets/product-pages/connect/icon-pay.png"),
-  },
-  {
-    id: "connect-icon",
-    title: "Connect",
-    description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
-    image: require("public/assets/product-pages/connect/icon-connect.png"),
-  },
-  {
-    id: "account-abstraction-icon",
-    title: "Account Abstraction + In-app Wallets",
-    description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
-    image: require("public/assets/product-pages/connect/icon-aa.png"),
-  },
-];
-
 const ConnectLanding: ThirdwebNextPage = () => {
-  const [selectedShowCaseIdx, setSelectedShowCaseIdx] = useState(0);
-  const [hoveredCard, setHoveredCard] = useState(false);
-
-  const increment = () => {
-    setSelectedShowCaseIdx((idx) => (idx === 2 ? 0 : idx + 1));
-  };
-
-  useEffect(() => {
-    if (!hoveredCard) {
-      const timer = setInterval(increment, 3500);
-
-      return () => clearInterval(timer);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hoveredCard]);
-
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -175,6 +122,28 @@ const ConnectLanding: ThirdwebNextPage = () => {
         },
       }}
     >
+      <Head>
+        <style>
+          {`
+          .slider {
+            padding: 12px 0 !important;
+          }
+          
+           .slide:first-child, .slide:nth-child(2) {
+            padding-right: 16px !important;
+          }
+
+         .slide:nth-child(3) {
+            padding-right: 6px !important;
+          }
+
+          .slide:nth-child(1) {
+            padding-left: 6px !important;
+          }
+          `}
+        </style>
+      </Head>
+
       <Container
         maxW="container.page"
         as={Flex}
@@ -206,45 +175,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
             Title here
           </Heading>
-
-          <Flex
-            flexDir={{ base: "column", md: "row" }}
-            gap={{ base: "24px", md: 0 }}
-            alignItems="stretch"
-            w="full"
-          >
-            <SimpleGrid
-              columns={1}
-              marginRight={{ base: "0", md: "24px" }}
-              width="full"
-              maxW={{ base: "full", md: "330px" }}
-              gap="24px"
-            >
-              {showcaseMenus.map(({ id, title, description, image }, idx) => (
-                <PlaygroundMenu
-                  key={id}
-                  isSelected={idx === selectedShowCaseIdx}
-                  label={id}
-                  title={title}
-                  description={description}
-                  image={image}
-                  TRACKING_CATEGORY={TRACKING_CATEGORY}
-                  onMouseOver={() => {
-                    setSelectedShowCaseIdx(idx);
-                    setHoveredCard(true);
-                  }}
-                  onMouseOut={() => setHoveredCard(false)}
-                />
-              ))}
-            </SimpleGrid>
-            <Flex width="full" maxW="686px">
-              <ChakraNextImage
-                width="full"
-                src={showcaseImages[selectedShowCaseIdx]}
-                alt=""
-              />
-            </Flex>
-          </Flex>
+          <Carousel TRACKING_CATEGORY={TRACKING_CATEGORY} />
         </Flex>
 
         <Flex
