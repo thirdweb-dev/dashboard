@@ -156,7 +156,7 @@ const useTabConfig = () => {
   const radioOptions = ["pay", "checkouts"].filter((option) => {
     return (
       option === "pay" ||
-      (option === "checkouts" && (paymentEnabledContracts || [])?.length > 0)
+      (option === "checkout" && paymentEnabledContracts?.length)
     );
   });
   return { tabOption, setTabOption, radioOptions };
