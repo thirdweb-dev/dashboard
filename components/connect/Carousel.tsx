@@ -52,7 +52,6 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
 
       return () => clearInterval(timer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hoveredCard]);
 
   return (
@@ -92,7 +91,6 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
               description={description}
               image={image}
               onClick={() => {
-                console.log("clicked!?");
                 setSelectedShowCaseIdx(idx);
                 setHoveredCard(true);
               }}
