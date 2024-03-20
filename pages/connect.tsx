@@ -1,4 +1,11 @@
-import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
+import {
+  Center,
+  Container,
+  Flex,
+  Icon,
+  SimpleGrid,
+  Spacer,
+} from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
@@ -18,6 +25,8 @@ import { ChakraNextImage } from "components/Image";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
+import { PlaygroundMenu } from "components/connect/PlaygroundMenu";
+import { useState } from "react";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -100,7 +109,39 @@ const GUIDES = [
   },
 ];
 
+const showcaseImages = [
+  require("public/assets/product-pages/connect/pay.png"),
+  require("public/assets/product-pages/connect/connect.png"),
+  require("public/assets/product-pages/connect/account-abstraction.png"),
+];
+
+const showcaseMenus = [
+  {
+    id: "pay-icon",
+    title: "Pay",
+    description:
+      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+    image: require("public/assets/product-pages/connect/icon-pay.png"),
+  },
+  {
+    id: "connect-icon",
+    title: "Connect",
+    description:
+      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+    image: require("public/assets/product-pages/connect/icon-connect.png"),
+  },
+  {
+    id: "account-abstraction-icon",
+    title: "Account Abstraction + In-app Wallets",
+    description:
+      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+    image: require("public/assets/product-pages/connect/icon-aa.png"),
+  },
+];
+
 const ConnectLanding: ThirdwebNextPage = () => {
+  const [selectedShowCaseIdx, setSelectedShowCaseIdx] = useState(0);
+
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -140,6 +181,54 @@ const ConnectLanding: ThirdwebNextPage = () => {
           image={require("public/assets/product-pages/hero/desktop-hero-connect-wallet.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
         />
+
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          gap="24px"
+        >
+          {/* Title and Description */}
+          <Heading fontSize={[30, 40]} color="white" textAlign="center">
+            Title here
+          </Heading>
+
+          <Flex
+            flexDir={{ base: "column", md: "row" }}
+            gap={{ base: "24px", md: 0 }}
+            alignItems="stretch"
+            w="full"
+          >
+            <SimpleGrid
+              columns={1}
+              marginRight={{ base: "0", md: "24px" }}
+              width="full"
+              maxW={{ base: "full", md: "330px" }}
+              gap="24px"
+            >
+              {showcaseMenus.map(({ id, title, description, image }, idx) => (
+                <PlaygroundMenu
+                  key={id}
+                  label={id}
+                  title={title}
+                  description={description}
+                  image={image}
+                  TRACKING_CATEGORY={TRACKING_CATEGORY}
+                  onMouseOver={() => {
+                    setSelectedShowCaseIdx(idx);
+                  }}
+                />
+              ))}
+            </SimpleGrid>
+            <Flex width="full" maxW="686px">
+              <ChakraNextImage
+                width="full"
+                src={showcaseImages[selectedShowCaseIdx]}
+                alt=""
+              />
+            </Flex>
+          </Flex>
+        </Flex>
 
         <Flex
           flexDir="column"
