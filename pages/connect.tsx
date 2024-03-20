@@ -26,7 +26,7 @@ import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
 import { PlaygroundMenu } from "components/connect/PlaygroundMenu";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -141,6 +141,20 @@ const showcaseMenus = [
 
 const ConnectLanding: ThirdwebNextPage = () => {
   const [selectedShowCaseIdx, setSelectedShowCaseIdx] = useState(0);
+  const [hoveredCard, setHoveredCard] = useState(false);
+
+  const increment = () => {
+    setSelectedShowCaseIdx((idx) => (idx === 2 ? 0 : idx + 1));
+  };
+
+  useEffect(() => {
+    if (!hoveredCard) {
+      const timer = setInterval(increment, 3500);
+
+      return () => clearInterval(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hoveredCard]);
 
   return (
     <LandingLayout
@@ -209,6 +223,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
               {showcaseMenus.map(({ id, title, description, image }, idx) => (
                 <PlaygroundMenu
                   key={id}
+                  isSelected={idx === selectedShowCaseIdx}
                   label={id}
                   title={title}
                   description={description}
@@ -216,7 +231,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
                   TRACKING_CATEGORY={TRACKING_CATEGORY}
                   onMouseOver={() => {
                     setSelectedShowCaseIdx(idx);
+                    setHoveredCard(true);
                   }}
+                  onMouseOut={() => setHoveredCard(false)}
                 />
               ))}
             </SimpleGrid>

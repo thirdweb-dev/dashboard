@@ -8,6 +8,7 @@ interface PlaygroundMenuProps extends BoxProps {
   title: string;
   description: string;
   label: string;
+  isSelected: boolean;
   image: StaticImageData;
   TRACKING_CATEGORY: string;
 }
@@ -17,6 +18,7 @@ export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
   description,
   image,
   label,
+  isSelected,
   TRACKING_CATEGORY,
   ...rest
 }) => {
@@ -37,7 +39,7 @@ export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
         overflow="hidden"
         bgColor="backgroundCardHighlight"
         borderWidth={1}
-        borderColor="borderColor"
+        borderColor={isSelected ? "#3385FF" : "borderColor"}
         transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
         _hover={{
           borderColor: "#3385FF",
