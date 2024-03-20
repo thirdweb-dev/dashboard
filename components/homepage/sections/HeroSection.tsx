@@ -46,9 +46,6 @@ const GithubIcon = () => {
 };
 
 export const HeroSection = ({ TRACKING_CATEGORY }: HeroSectionProps) => {
-  const router = useRouter();
-  const trackEvent = useTrack();
-
   return (
     <HomepageSection id="home">
       {/* top */}
