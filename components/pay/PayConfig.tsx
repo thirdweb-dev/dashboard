@@ -98,7 +98,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
     <Card>
       <Flex flexDir="column" gap={7}>
         <Heading size="title.md" as="h2">
-          Fee Settings
+          Fee
         </Heading>
 
         <form
@@ -119,6 +119,10 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
                 gap={1}
               >
                 <FormLabel size="label.md">Recipient address</FormLabel>
+                <FormHelperText>
+                  Thirdweb shares 30% of its base fee across all Pay features
+                  with you.
+                </FormHelperText>
 
                 <Input
                   placeholder="0x..."
