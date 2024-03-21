@@ -252,7 +252,6 @@ export interface BillingCredit {
   couponId: string;
   products: BillingProduct[];
   expiresAt: string;
-  promotionCodeId: string;
   redeemedAt: string;
 }
 
