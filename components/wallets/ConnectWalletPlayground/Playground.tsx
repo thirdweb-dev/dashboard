@@ -56,7 +56,7 @@ import { usePlaygroundWallets } from "./usePlaygroundWallets";
 import { usePlaygroundTheme } from "./usePlaygroundTheme";
 import { useTrack } from "hooks/analytics/useTrack";
 
-type OptionalUrl = { url: string; enabled: boolean; };
+type OptionalUrl = { url: string; enabled: boolean };
 export const ConnectWalletPlayground: React.FC<{
   trackingCategory: string;
 }> = ({ trackingCategory }) => {
@@ -158,8 +158,8 @@ export const ConnectWalletPlayground: React.FC<{
             return `safeWallet({
               ${recommended ? "recommended: true," : ""}
               personalWallets: ${getSupportedWalletsCode(
-              walletIds.filter((w) => w !== "Safe"),
-            )}
+                walletIds.filter((w) => w !== "Safe"),
+              )}
             })`;
           }
 
@@ -201,8 +201,8 @@ export const ConnectWalletPlayground: React.FC<{
       ),
       smartWalletOptions: smartWalletOptions.enabled
         ? {
-          gasless: smartWalletOptions.gasless,
-        }
+            gasless: smartWalletOptions.gasless,
+          }
         : undefined,
       thirdwebProvider: {
         locale: `${locale}()`,
@@ -330,10 +330,10 @@ export const ConnectWalletPlayground: React.FC<{
                   img: welcomeScreen?.img
                     ? undefined
                     : {
-                      src: "",
-                      width: 150,
-                      height: 150,
-                    },
+                        src: "",
+                        width: 150,
+                        height: 150,
+                      },
                 });
               }}
             />
@@ -799,8 +799,6 @@ export const ConnectWalletPlayground: React.FC<{
         isChecked={enabledWallets.length > 0 && smartWalletOptions.enabled}
       />
       {enabledWallets.length > 0 && smartWalletOptions.enabled && (
-
-
         <Alert
           status="info"
           borderRadius="lg"
@@ -1074,7 +1072,7 @@ export const ConnectWalletPlayground: React.FC<{
     </Box>
   );
 
-  type ColorMeta = { key: keyof (typeof themeObj)["colors"]; name: string; };
+  type ColorMeta = { key: keyof (typeof themeObj)["colors"]; name: string };
 
   const renderColorList = (sectionName: string, _colorList: ColorMeta[]) => (
     <Box>
