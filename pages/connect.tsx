@@ -1,4 +1,4 @@
-import { Center, Container, Flex, Icon, Spacer } from "@chakra-ui/react";
+import { Center, Container, Flex, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
@@ -9,13 +9,10 @@ import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/M
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Heading, Text, TrackedLinkButton } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import connectLottie from "../public/assets/product-pages/connect/connect-lottie.json";
 import checkoutLottie from "../public/assets/product-pages/checkout/checkout.json";
-import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
-import { ChakraNextImage } from "components/Image";
-import { BsFillLightningChargeFill } from "react-icons/bs";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
 import Carousel from "components/connect/Carousel";
@@ -188,12 +185,11 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
             The gateway to web3
           </Heading>
-          <Spacer h={.5} />
+          <Spacer h={0.5} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
             Customiazble drag-and-drop components for seamless user onboarding,
             onchain interactions, and rendering IPFS media.
           </Text>
-         </Flex>
 
           {/* Supported platforms */}
           <Flex alignItems="center" gap={2} justifyContent={"center"}>
@@ -236,7 +232,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
           noContactUs
         />
-          
+
         <LandingHeroWithSideImage
           miniTitle="Pay"
           miniImage={require("public/assets/product-icons/payments.png")}
