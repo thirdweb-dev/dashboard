@@ -79,10 +79,10 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
 
   console.log({ erc20Supply });
 
-  const batchesToReveal = useBatchesToReveal(oldContract);
   const accounts = useAccounts(oldContract);
   const sharedMetadata = useSharedMetadata(oldContract);
   const claimConditions = useClaimConditions(oldContract);
+  const batchesToReveal = useBatchesToReveal(oldContract);
 
   const steps: Step[] = [
     {
