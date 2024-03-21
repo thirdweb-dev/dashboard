@@ -103,7 +103,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
             Fee Sharing
           </Heading>
           <Text size="label.md" as="h3">
-            Thirdweb shares 30% of its base fee across all Pay features
+            thirdweb shares 30% of its base fee across all Pay features
           </Text>
         </Flex>
 
