@@ -253,6 +253,7 @@ export interface BillingCredit {
   products: BillingProduct[];
   expiresAt: string;
   redeemedAt: string;
+  isActive: boolean;
 }
 
 export interface UseAccountInput {
@@ -344,7 +345,8 @@ export function useAccountCredits() {
       const credits = (json.data as BillingCredit[]).filter(
         (credit) =>
           credit.remainingValueUsdCents > 0 &&
-          credit.expiresAt > new Date().toISOString(),
+          credit.expiresAt > new Date().toISOString() &&
+          credit.isActive,
       );
 
       return credits;
