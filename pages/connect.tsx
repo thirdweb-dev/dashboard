@@ -152,10 +152,10 @@ const ConnectLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Connect"
-          title="Build web3 apps"
+          title="Client-side SDKs for"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
-          titleWithGradient="that anyone can use"
-          subtitle="Onboard every user, connect to any wallet, and build seamless apps — with in-app wallets, smart accounts, and onchain payments."
+          titleWithGradient="connecting users to web3"
+          subtitle="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
           contactUsTitle="Book Demo"
@@ -173,7 +173,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Title here
+            Every frontend component for your web3 app
           </Heading>
           <Carousel TRACKING_CATEGORY={TRACKING_CATEGORY} />
         </Flex>
@@ -186,12 +186,12 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            A fully customizable Connect Wallet component
+            The gateway to web3
           </Heading>
-          <Spacer h={1} />
+          <Spacer h={.5} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
-            Drag-and-drop components for seamless user onboarding, onchain
-            interactions, and rendering IPFS media.
+            Customiazble drag-and-drop components for seamless user onboarding,
+            onchain interactions, and rendering IPFS media.
           </Text>
 
           {/* Supported platforms */}
@@ -228,54 +228,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
           justifyContent="center"
           gap={6}
         >
-          <Heading
-            fontSize={[30, 40]}
-            color="white"
-            textAlign="center"
-            maxW="900px"
-          >
-            Plug smart contracts into your apps, seamlessly
-          </Heading>
-          <Spacer h={6} />
-          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            The complete SDK to add any smart contract into your app — and call
-            functions for any type of onchain interaction.
-          </Text>
-
-          {/* Supported platforms */}
-          <Flex alignItems="center" gap={2} justifyContent={"center"}>
-            <Text mr={2} display={["none", "block"]} fontSize={12}>
-              Supports
-            </Text>
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="React"
-              href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
-            />
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="React Native"
-              href="https://portal.thirdweb.com/react-native/latest/components/ConnectWallet"
-            />
-            <SupportedPlatformLink
-              trackingCategory={TRACKING_CATEGORY}
-              size="sm"
-              platform="Unity"
-              href="https://portal.thirdweb.com/unity/wallets/prefab"
-            />
-          </Flex>
-
-          <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
-        </Flex>
-
-        <Flex
-          flexDir="column"
-          alignItems="center"
-          justifyContent="center"
-          gap={6}
-        >
           <ChakraNextImage
             src={require("public/assets/product-pages/connect/onboarding-icon.png")}
             maxW="109px"
@@ -299,25 +251,32 @@ const ConnectLanding: ThirdwebNextPage = () => {
             maxW={{ base: "100%", md: "60%" }}
           />
 
-          <TrackedLinkButton
-            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
-            py={6}
-            px={8}
-            bgColor="white"
-            _hover={{
-              bgColor: "white",
-              opacity: 0.8,
-            }}
-            mt={12}
-            color="black"
-            href="https://portal.thirdweb.com/connect/embedded-wallet/overview"
-            category={TRACKING_CATEGORY}
-            label="add-to-app"
-            fontWeight="bold"
-          >
-            Add to your app
-          </TrackedLinkButton>
-        </Flex>
+        <LandingHeroWithSideImage
+          miniTitle="In-App Wallets"
+          miniImage={require("public/assets/product-icons/embedded-wallet.png")}
+          title="Onboard all of your users,"
+          titleWithGradient="instantly"
+          subtitle="Onboard anyone with an email or social account in 1 click — with flexible auth options, secure account recovery, and account abstraction integration."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://portal.thirdweb.com/connect/embedded-wallet/overview"
+          gradient="linear(to-r, #4490FF, #4490FF)"
+          image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallets.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
+          noContactUs
+        />
+          
+        <LandingHeroWithSideImage
+          miniTitle="Pay"
+          miniImage={require("public/assets/product-icons/payments.png")}
+          title="End-to-end payments with"
+          titleWithGradient="fiat & cross-chain crypto"
+          subtitle="The easiest way for users to transact in your app — with automatic bridging & swapping buit-in."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://portal.thirdweb.com/payments"
+          gradient="linear(to-r, #4490FF, #4490FF)"
+          lottie={checkoutLottie}
+          noContactUs
+        />
 
         <Flex flexDir="column" gap={6}>
           <LandingGridSection
@@ -396,18 +355,28 @@ const ConnectLanding: ThirdwebNextPage = () => {
           </LandingGridSection>
         </Flex>
 
-        <LandingHeroWithSideImage
-          miniTitle="Pay"
-          miniImage={require("public/assets/product-icons/payments.png")}
-          title="Powerful NFT checkouts,"
-          titleWithGradient="with fiat & crypto payments"
-          subtitle="Sell assets to users with a credit card — all of the onramp, offramp and bridging complexity handled."
-          trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/payments"
-          gradient="linear(to-r, #4490FF, #4490FF)"
-          lottie={checkoutLottie}
-          noContactUs
-        />
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={6}
+        >
+          <Heading
+            fontSize={[30, 40]}
+            color="white"
+            textAlign="center"
+            maxW="900px"
+          >
+            Plug smart contracts into your apps, seamlessly
+          </Heading>
+          <Spacer h={1} />
+          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
+            The complete SDK to add any smart contract into your app — and call
+            functions for any type of onchain interaction.
+          </Text>
+
+          <CodePlayground TRACKING_CATEGORY={TRACKING_CATEGORY} />
+        </Flex>
 
         <LandingCardWithMetrics
           title={
