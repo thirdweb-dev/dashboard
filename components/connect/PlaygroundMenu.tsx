@@ -1,22 +1,29 @@
 import { Flex, BoxProps } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
+import { useRouter } from "next/router";
 import { Card, Text } from "tw-components";
 
 interface PlaygroundMenuProps extends BoxProps {
   title: string;
   description: string;
+  href: string;
   isSelected: boolean;
+  onClick: () => void;
   image: StaticImageData;
 }
 
 export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
   title,
   description,
+  href,
   image,
   isSelected,
+  onClick,
   ...rest
 }) => {
+  const router = useRouter();
+
   return (
     <Card
       w="full"
@@ -34,6 +41,10 @@ export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
       }}
       cursor="pointer"
       height="full"
+      onClick={() => {
+        onClick();
+        router.push(href);
+      }}
       {...rest}
     >
       <Flex flexDir="column">

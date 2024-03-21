@@ -11,6 +11,7 @@ const showcaseMenus = [
   {
     id: "pay-icon",
     title: "Pay",
+    href: "/dashboard",
     description:
       "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
     image: require("public/assets/product-pages/connect/icon-pay.png"),
@@ -18,6 +19,7 @@ const showcaseMenus = [
   {
     id: "connect-icon",
     title: "Connect",
+    href: "/dashboard",
     description:
       "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
     image: require("public/assets/product-pages/connect/icon-connect.png"),
@@ -25,6 +27,7 @@ const showcaseMenus = [
   {
     id: "account-abstraction-icon",
     title: "Account Abstraction",
+    href: "/dashboard",
     description:
       "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
     image: require("public/assets/product-pages/connect/icon-aa.png"),
@@ -40,6 +43,8 @@ const showcaseImages = [
 const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
   const [selectedShowCaseIdx, setSelectedShowCaseIdx] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(false);
+  const [canAnimate, setCanAnimate] = useState(false);
+
   const trackEvent = useTrack();
 
   const increment = () => {
@@ -53,6 +58,12 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
       return () => clearInterval(timer);
     }
   }, [hoveredCard]);
+
+  useEffect(() => {
+    if (selectedShowCaseIdx > 0 && !canAnimate) {
+      setCanAnimate(true);
+    }
+  }, [selectedShowCaseIdx, canAnimate]);
 
   return (
     <Flex
@@ -76,6 +87,9 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
           showStatus={false}
           showIndicators={false}
           selectedItem={selectedShowCaseIdx}
+          onChange={(idx) => {
+            setSelectedShowCaseIdx(idx);
+          }}
           onSwipeMove={() => {
             if (!hoveredCard) {
               setHoveredCard(true);
@@ -83,13 +97,14 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
             return true;
           }}
         >
-          {showcaseMenus.map(({ id, title, description, image }, idx) => (
+          {showcaseMenus.map(({ id, title, description, href, image }, idx) => (
             <PlaygroundMenu
               key={id}
-              isSelected={idx === selectedShowCaseIdx}
               title={title}
               description={description}
               image={image}
+              href={href}
+              isSelected={idx === selectedShowCaseIdx}
               onClick={() => {
                 setSelectedShowCaseIdx(idx);
                 setHoveredCard(true);
@@ -107,38 +122,56 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
         gap="24px"
         display={{ base: "none", md: "grid" }}
       >
-        {showcaseMenus.map(({ id, title, description, image }, idx) => (
-          <PlaygroundMenu
-            key={id}
-            isSelected={idx === selectedShowCaseIdx}
-            title={title}
-            description={description}
-            image={image}
-            onMouseOver={() => {
-              setSelectedShowCaseIdx(idx);
-              setHoveredCard(true);
-            }}
-            onMouseOut={() => {
-              setHoveredCard(false);
-            }}
-            onClick={() => {
-              setSelectedShowCaseIdx(idx);
-              setHoveredCard(true);
-              trackEvent({
-                category: TRACKING_CATEGORY,
-                action: "click",
-                label: id,
-              });
-            }}
-          />
-        ))}
+        {showcaseMenus.map(({ id, title, description, image, href }, idx) => {
+          return (
+            <PlaygroundMenu
+              key={id}
+              title={title}
+              description={description}
+              image={image}
+              href={href}
+              isSelected={idx === selectedShowCaseIdx}
+              onMouseOver={() => {
+                setSelectedShowCaseIdx(idx);
+                setHoveredCard(true);
+              }}
+              onMouseOut={() => {
+                setHoveredCard(false);
+              }}
+              onClick={() => {
+                setSelectedShowCaseIdx(idx);
+                setHoveredCard(true);
+                trackEvent({
+                  category: TRACKING_CATEGORY,
+                  action: "click",
+                  label: id,
+                });
+              }}
+            />
+          );
+        })}
       </SimpleGrid>
       <Flex width="full" maxW="686px">
-        <ChakraNextImage
-          width="full"
-          src={showcaseImages[selectedShowCaseIdx]}
-          alt=""
-        />
+        {showcaseImages.map((img, idx) => (
+          <ChakraNextImage
+            key={idx}
+            width="full"
+            src={img}
+            display={idx === selectedShowCaseIdx ? "block" : "none"}
+            sx={{
+              "@keyframes fadeIn": {
+                from: { opacity: 0 },
+                to: { opacity: 1 },
+              },
+              animation:
+                idx === selectedShowCaseIdx && canAnimate
+                  ? "fadeIn 0.75s ease-in-out"
+                  : "none",
+            }}
+            alt=""
+            priority
+          />
+        ))}
       </Flex>
     </Flex>
   );
