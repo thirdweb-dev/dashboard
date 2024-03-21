@@ -193,6 +193,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
             Customiazble drag-and-drop components for seamless user onboarding,
             onchain interactions, and rendering IPFS media.
           </Text>
+         </Flex>
 
           {/* Supported platforms */}
           <Flex alignItems="center" gap={2} justifyContent={"center"}>
@@ -221,35 +222,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
           <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Flex>
-
-        <Flex
-          flexDir="column"
-          alignItems="center"
-          justifyContent="center"
-          gap={6}
-        >
-          <ChakraNextImage
-            src={require("public/assets/product-pages/connect/onboarding-icon.png")}
-            maxW="109px"
-            alt="connect-icon"
-          />
-          <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Instant onboarding with in-app wallets
-          </Heading>
-          <Spacer h={6} />
-          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
-            Onboard anyone with an email, Google, or social account — with
-            1-click login flows, flexible auth options, and secure account
-            recovery. Plus, first-class integration with smart accounts.
-          </Text>
-
-          <Spacer h={8} />
-          <LandingDesktopMobileImage
-            image={require("public/assets/product-pages/connect/desktop-onboarding.png")}
-            mobileImage={require("public/assets/product-pages/connect/mobile-onboarding.png")}
-            alt="connect"
-            maxW={{ base: "100%", md: "60%" }}
-          />
 
         <LandingHeroWithSideImage
           miniTitle="In-App Wallets"
