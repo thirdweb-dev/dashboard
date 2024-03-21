@@ -94,7 +94,7 @@ interface ConnectorModalProps {
 }
 
 const VerifyContractModal: React.FC<
-  ConnectorModalProps & { resetSignal: number; }
+  ConnectorModalProps & { resetSignal: number }
 > = ({ isOpen, onClose, contractAddress, resetSignal }) => {
   const { data: verifyResult, isLoading: verifying } = useVerifyCall(
     isOpen,
@@ -136,35 +136,35 @@ const VerifyContractModal: React.FC<
 
             {verifyResult?.results
               ? verifyResult?.results.map(
-                (result: VerificationResult, index: number) => (
-                  <Flex key={index} gap={2} align="center" mb={4}>
-                    {result.success && (
-                      <>
-                        <Icon as={FiCheckCircle} color="green.600" />
-                        {result.alreadyVerified && (
+                  (result: VerificationResult, index: number) => (
+                    <Flex key={index} gap={2} align="center" mb={4}>
+                      {result.success && (
+                        <>
+                          <Icon as={FiCheckCircle} color="green.600" />
+                          {result.alreadyVerified && (
+                            <Heading size="label.md">
+                              {" "}
+                              {result.explorerUrl}: Already verified
+                            </Heading>
+                          )}
+                          {!result.alreadyVerified && (
+                            <Heading size="label.md">
+                              {result.explorerUrl}: Verification successful
+                            </Heading>
+                          )}
+                        </>
+                      )}
+                      {!result.success && (
+                        <>
+                          <Icon as={FiXCircle} color="red.600" />
                           <Heading size="label.md">
-                            {" "}
-                            {result.explorerUrl}: Already verified
+                            {`${result.explorerUrl}: Verification failed`}
                           </Heading>
-                        )}
-                        {!result.alreadyVerified && (
-                          <Heading size="label.md">
-                            {result.explorerUrl}: Verification successful
-                          </Heading>
-                        )}
-                      </>
-                    )}
-                    {!result.success && (
-                      <>
-                        <Icon as={FiXCircle} color="red.600" />
-                        <Heading size="label.md">
-                          {`${result.explorerUrl}: Verification failed`}
-                        </Heading>
-                      </>
-                    )}
-                  </Flex>
-                ),
-              )
+                        </>
+                      )}
+                    </Flex>
+                  ),
+                )
               : null}
           </Flex>
         </ModalBody>
