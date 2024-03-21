@@ -1,3 +1,4 @@
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { AnalyticsOverview } from "./components/Analytics";
 import { BuildYourApp } from "./components/BuildYourApp";
 import { ContractChecklist } from "./components/ContractChecklist";
@@ -39,6 +40,8 @@ export const ContractOverviewPage: React.FC<ContractOverviewPageProps> = ({
     [detectedFeatureNames, contractTypeData],
   );
 
+  const chainId = useDashboardEVMChainId();
+
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
@@ -46,7 +49,13 @@ export const ContractOverviewPage: React.FC<ContractOverviewPageProps> = ({
   return (
     <SimpleGrid columns={{ base: 1, xl: 10 }} gap={20}>
       <GridItem as={Flex} colSpan={{ xl: 7 }} direction="column" gap={16}>
-        {contract && <ContractChecklist contract={contract} />}
+        {contract && chainId && contractAddress && (
+          <ContractChecklist
+            oldContract={contract}
+            chainId={chainId}
+            contractAddress={contractAddress}
+          />
+        )}
         {contract && (
           <AnalyticsOverview
             contractAddress={contractAddress}
