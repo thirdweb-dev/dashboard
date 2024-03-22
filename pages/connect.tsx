@@ -183,11 +183,11 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            The gateway to web3
+            Your customizable gateway to web3
           </Heading>
           <Spacer h={0.5} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
-            Customiazble drag-and-drop components for seamless user onboarding,
+            Powerful drag-and-drop components for seamless user onboarding,
             onchain interactions, and rendering IPFS media.
           </Text>
 
@@ -232,13 +232,27 @@ const ConnectLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
           noContactUs
         />
+        
+        <LandingHeroWithSideImage
+          miniTitle="Account Abstraction"
+          miniImage={require("public/assets/product-icons/smart-wallet.png")}
+          title="Give users the power of"
+          titleWithGradient="smart accounts"
+          subtitle="The complete toolkit to integrate account abstraction into your app — for signless transactions, custom token spending, & more."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://portal.thirdweb.com/payments"
+          gradient="linear(to-r, #4490FF, #4490FF)"
+          image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
+          mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
+          noContactUs
+        />
 
         <LandingHeroWithSideImage
           miniTitle="Pay"
           miniImage={require("public/assets/product-icons/payments.png")}
-          title="End-to-end payments with"
-          titleWithGradient="fiat & cross-chain crypto"
-          subtitle="The easiest way for users to transact in your app — with automatic bridging & swapping buit-in."
+          title="Fiat & cross-chain crypto payments,"
+          titleWithGradient="made easy"
+          subtitle="The easiest way for users to transact in your app — with automatic bridging & swapping built in."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/payments"
           gradient="linear(to-r, #4490FF, #4490FF)"
