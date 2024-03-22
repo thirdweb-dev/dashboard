@@ -13,7 +13,6 @@ import {
 } from "components/landing-pages/card-with-image";
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
-import LandingImageSectionItem from "components/landing-pages/image-section-item";
 import { ChakraNextImage } from "components/Image";
 import LandingTwitterCard from "components/landing-pages/twitter-card";
 
