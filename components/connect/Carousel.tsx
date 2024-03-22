@@ -13,7 +13,7 @@ const showcaseMenus = [
     title: "Pay",
     href: "https://portal.thirdweb.com/connect/pay/buy-with-crypto",
     description:
-      "The easiest way for users to transact in your app using fiat and cross-chain crypto — with automatic bridging & swapping built in.",
+      "The easiest way for users to transact in your app with fiat & cross-chain crypto.",
     image: require("public/assets/product-pages/connect/icon-pay.png"),
   },
   {
@@ -21,7 +21,7 @@ const showcaseMenus = [
     title: "Connect",
     href: "/dashboard/connect/playground",
     description:
-      "Flexible frontend components for your app — with customizable Connect Wallet flows, IPFS media rendering, and buttons for onchain interactions.",
+      "Frontend components for Connect Wallet flows, IPFS media, & onchain interactions.",
     image: require("public/assets/product-pages/connect/icon-connect.png"),
   },
   {
@@ -29,7 +29,7 @@ const showcaseMenus = [
     title: "In-App Wallets",
     href: "https://portal.thirdweb.com/connect/account-abstraction",
     description:
-      "Onboard anyone with an email or social account in 1 click — with flexible auth options, secure account recovery, and account abstraction integration.",
+      "Onboard anyone with flexible auth options, account recovery, & account abstraction.",
     image: require("public/assets/product-pages/connect/icon-aa.png"),
   },
 ];
