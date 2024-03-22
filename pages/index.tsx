@@ -45,7 +45,7 @@ const HomePage: ThirdwebNextPage = () => {
           <HomePageCard
             title="Client-side SDKs to connect users to web3"
             description="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments."
-            miniTitle="Frontend"
+            miniTitle="Connect"
             miniImage={require("public/assets/landingpage/connect-icon.png")}
             ctaText="Get started"
             ctaLink="/connect"
@@ -56,7 +56,7 @@ const HomePage: ThirdwebNextPage = () => {
           <HomePageCard
             title="Dedicated APIs for web3 apps & games"
             description="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
-            miniTitle="Backend"
+            miniTitle="Engine"
             miniImage={require("public/assets/landingpage/engine-icon.png")}
             ctaText="Get started"
             ctaLink="/engine"
@@ -67,7 +67,7 @@ const HomePage: ThirdwebNextPage = () => {
           <HomePageCard
             title="End-to-end tools for smart contracts"
             description="Trusted and modular smart contracts that can be deployed securely on any EVM chain."
-            miniTitle="Onchain"
+            miniTitle="Contracts"
             miniImage={require("public/assets/landingpage/contracts-icon.png")}
             ctaText="Get started"
             ctaLink="/contracts"

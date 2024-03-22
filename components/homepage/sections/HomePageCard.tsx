@@ -68,7 +68,7 @@ const HomePageCard = ({
               />
 
               <Flex flexDir="column">
-                <Text size="body.xl" fontWeight={600} color="#fff">
+                <Text fontSize="16px" fontWeight={600} color="#fff">
                   {miniTitle}
                 </Text>
               </Flex>
@@ -81,7 +81,7 @@ const HomePageCard = ({
               {title}
             </Heading>
           </Flex>
-          <Text size="body.lg" mr={6}>
+          <Text size="body.xl" mr={6}>
             {description}
           </Text>
 
@@ -147,7 +147,7 @@ const HomePageCard = ({
         >
           <LandingDesktopMobileImage
             w="full"
-            maxW={"515px"}
+            maxW={"446px"}
             image={image}
             mobileImage={mobileImage}
           />
