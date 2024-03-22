@@ -204,33 +204,6 @@ const EngineLanding: ThirdwebNextPage = () => {
           />
         </LandingGridSection>
 
-        <LandingGridSection desktopColumns={3}>
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/mobile/backend-list.png")}
-            mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
-            title="Backend Wallets"
-            description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
-            justifyContent="flex-end"
-            pr="0!important"
-            pl="36px!important"
-            maxHeightImage={{ base: "100%", md: "327px" }}
-          />
-
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/desktop/web3warriors.png")}
-            mobileImage={require("public/assets/landingpage/desktop/web3warriors.png")}
-            title="Seamless UX"
-            description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
-          />
-
-          <LandingImageSectionItem
-            image={require("public/assets/landingpage/desktop/infra.png")}
-            mobileImage={require("public/assets/landingpage/desktop/infra.png")}
-            title="Infrastructure handled"
-            description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
-          />
-        </LandingGridSection>
-
         <LandingImages
           title={
             <LandingSectionHeading
