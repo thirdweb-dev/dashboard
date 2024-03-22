@@ -183,12 +183,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
         >
           {/* Title and Description */}
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Your customizable gateway to web3
+            The best way to connect a wallet
           </Heading>
           <Spacer h={0.5} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
-            Powerful drag-and-drop components for seamless user onboarding,
-            onchain interactions, and rendering IPFS media.
+            Create a login experience that's tailor-made for your app. Add
+            your wallets of choice, enable web2 sign-in options and create
+            a modal that fits your brand.
           </Text>
 
           {/* Supported platforms */}
