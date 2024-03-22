@@ -240,7 +240,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           titleWithGradient="smart accounts"
           subtitle="The complete toolkit to integrate account abstraction into your app — for signless transactions, custom token spending, & more."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/payments"
+          ctaLink="https://portal.thirdweb.com/connect/account-abstraction"
           gradient="linear(to-r, #4490FF, #4490FF)"
           image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
