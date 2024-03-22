@@ -206,30 +206,6 @@ const Contracts: ThirdwebNextPage = () => {
             display={{ base: "none", md: "flex" }}
           >
             <ChakraNextImage
-              src={require("public/assets/contracts/black-gradient-right.png")}
-              position="absolute"
-              zIndex={2}
-              top={0}
-              right="-80px"
-              bottom={0}
-              height="100%"
-              maxWidth="fit-content"
-              alt=""
-            />
-
-            <ChakraNextImage
-              src={require("public/assets/contracts/black-gradient-left.png")}
-              position="absolute"
-              zIndex={2}
-              top={0}
-              left="-80px"
-              bottom={0}
-              height="100%"
-              maxWidth="fit-content"
-              alt=""
-            />
-
-            <ChakraNextImage
               src={require("public/assets/contracts/contracts-scroll.png")}
               alt=""
             />
@@ -263,27 +239,6 @@ const Contracts: ThirdwebNextPage = () => {
             alt=""
             display={{ base: "inline", md: "none" }}
           />
-
-          <TrackedLinkButton
-            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
-            py={6}
-            px={8}
-            position="relative"
-            zIndex={4}
-            bgColor="white"
-            _hover={{
-              bgColor: "white",
-              opacity: 0.8,
-            }}
-            mt={{ base: 8, md: 12 }}
-            color="black"
-            href="https://portal.thirdweb.com/contracts/build/get-started"
-            category={TRACKING_CATEGORY}
-            label="publish-your-contract-cta"
-            fontWeight="bold"
-          >
-            Get started
-          </TrackedLinkButton>
         </Flex>
 
         <LandingGridSection desktopColumns={4}>
