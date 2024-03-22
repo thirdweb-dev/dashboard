@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
@@ -128,11 +133,14 @@ export type ApiKeyService = {
   targetAddresses: string[];
   actions: string[];
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
+  // EMBEDDED WALLET
   recoveryShareManagement?: ApiKeyRecoverShareManagement;
   customAuthentication?: ApiKeyCustomAuthentication;
   customAuthEndpoint?: ApiKeyCustomAuthEndpoint;
   applicationName?: string;
   applicationImageUrl?: string;
+  // PAY
+  payoutAddress?: string;
 };
 
 export type ApiKey = {
@@ -232,7 +240,7 @@ interface WalletStats {
   }[];
 }
 
-export interface BillingProduct {
+interface BillingProduct {
   name: string;
   id: string;
 }
@@ -244,11 +252,25 @@ export interface BillingCredit {
   couponId: string;
   products: BillingProduct[];
   expiresAt: string;
-  promotionCodeId: string;
   redeemedAt: string;
+  isActive: boolean;
 }
 
-export function useAccount() {
+export interface UseAccountInput {
+  refetchInterval?:
+    | number
+    | ((
+        data: Account | undefined,
+        query: Query<
+          Account,
+          unknown,
+          Account,
+          readonly ["account", string, "me"]
+        >,
+      ) => number | false);
+}
+
+export function useAccount({ refetchInterval }: UseAccountInput = {}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
@@ -269,7 +291,10 @@ export function useAccount() {
 
       return json.data as Account;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    {
+      enabled: !!user?.address && isLoggedIn,
+      refetchInterval: refetchInterval ?? false,
+    },
   );
 }
 
@@ -320,7 +345,8 @@ export function useAccountCredits() {
       const credits = (json.data as BillingCredit[]).filter(
         (credit) =>
           credit.remainingValueUsdCents > 0 &&
-          credit.expiresAt > new Date().toISOString(),
+          credit.expiresAt > new Date().toISOString() &&
+          credit.isActive,
       );
 
       return credits;
@@ -386,41 +412,6 @@ export function useUpdateAccount() {
       onSuccess: () => {
         return queryClient.invalidateQueries(
           accountKeys.me(user?.address as string),
-        );
-      },
-    },
-  );
-}
-
-export function useGrantCredits() {
-  const { user } = useLoggedInUser();
-  const queryClient = useQueryClient();
-
-  return useMutationWithInvalidate(
-    async (input: { customPromoType: string }) => {
-      invariant(user?.address, "walletAddress is required");
-
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/grantCredits`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      });
-
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.error.message);
-      }
-
-      return json.data.credits as BillingCredit[];
-    },
-    {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
-          accountKeys.credits(user?.address as string),
         );
       },
     },
@@ -709,7 +700,6 @@ export function useCreatePaymentMethod() {
 
 export function useApiKeys() {
   const { user, isLoggedIn } = useLoggedInUser();
-
   return useQuery(
     apiKeys.keys(user?.address as string),
     async () => {
@@ -725,7 +715,6 @@ export function useApiKeys() {
       if (json.error) {
         throw new Error(json.error.message);
       }
-
       return json.data as ApiKey[];
     },
     { enabled: !!user?.address && isLoggedIn },
@@ -782,6 +771,7 @@ export function useUpdateApiKey() {
         },
         body: JSON.stringify(input),
       });
+
       const json = await res.json();
 
       if (json.error) {

@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Flex,
   HStack,
   ListItem,
@@ -93,11 +97,11 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
 
   const seo = {
     title: "The Complete Account Abstraction Toolkit | thirdweb",
-    desc: "Add smart wallets to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Get started.",
+    desc: "Add account abstraction to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Get started.",
   };
 
   if (!isLoggedIn) {
-    return <ConnectWalletPrompt description="manage smart wallets" />;
+    return <ConnectWalletPrompt description="manage accounts" />;
   }
 
   return (
@@ -126,7 +130,11 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         justifyContent={"space-between"}
       >
         <Flex flexDir="column" gap={4}>
-          <Flex gap={8} alignItems={"center"}>
+          <Flex
+            gap={8}
+            alignItems={"center"}
+            flexDir={{ base: "column", md: "row" }}
+          >
             <Heading size="title.lg" as="h1">
               Account Abstraction
             </Heading>
@@ -158,11 +166,33 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         )}
       </Flex>
 
-      {isLoggedIn && hasSmartWalletsWithoutBilling && (
+      {isLoggedIn && hasSmartWalletsWithoutBilling ? (
         <SmartWalletsBillingAlert />
+      ) : (
+        <Alert
+          status="info"
+          borderRadius="lg"
+          backgroundColor="backgroundCardHighlight"
+          borderLeftColor="blue.500"
+          borderLeftWidth={4}
+          as={Flex}
+          gap={1}
+        >
+          <AlertIcon />
+          <Flex flexDir="column">
+            <AlertTitle>
+              Using the gas credits for OP chain paymaster
+            </AlertTitle>
+            <AlertDescription as={Text}>
+              Credits will automatically be applied to cover gas fees for any
+              onchain activity across thirdweb services. <br />
+              Eligible chains: OP Mainnet, Base, Zora, Frax, Mode.
+            </AlertDescription>
+          </Flex>
+        </Alert>
       )}
 
-      {!hasApiKeys && <NoApiKeys service="smart wallets" />}
+      {!hasApiKeys && <NoApiKeys service="Account Abstraction" />}
 
       {hasApiKeys && selectedKey && (
         <SmartWallets
@@ -206,7 +236,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  Using Smart Wallet in React
+                  Using Account Abstraction in React
                 </TrackedLink>
               </Text>
               <Text as={ListItem} color="blue.500">
@@ -218,7 +248,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  Using Smart Wallet with the Typescript SDK
+                  Using Account Abstraction with the Typescript SDK
                 </TrackedLink>
               </Text>
             </UnorderedList>
@@ -235,7 +265,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         >
           <Flex flexDir={"column"} gap={2}>
             <Heading size="title.sm" as="h1">
-              Smart Wallet Guides
+              Account Abstraction Guides
             </Heading>
             <UnorderedList>
               <Text as={ListItem} color="blue.500">
@@ -247,7 +277,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  How to Deploy a Smart Wallet (ERC-4337)
+                  How to Deploy an Smart Account (ERC-4337)
                 </TrackedLink>
               </Text>
               <Text as={ListItem} color="blue.500">
@@ -259,7 +289,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  How to Extend the Base Smart Wallet Contracts Using the
+                  How to Extend the Base Account Abstraction Contracts Using the
                   Solidity SDK
                 </TrackedLink>
               </Text>
@@ -272,7 +302,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  Batch Transactions with the Smart Wallet
+                  Batch Transactions with Account Abstraction
                 </TrackedLink>
               </Text>
             </UnorderedList>
@@ -289,7 +319,7 @@ const DashboardConnectAccountAbstraction: ThirdwebNextPage = () => {
         >
           <Flex flexDir={"column"} gap={2}>
             <Heading size="title.sm" as="h1">
-              Smart Wallet Templates
+              Account Abstraction Templates
             </Heading>
             <UnorderedList>
               <Text as={ListItem} color="blue.500">

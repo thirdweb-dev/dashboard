@@ -6,7 +6,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:@next/next/recommended",
-    "next/core-web-vitals",
+    "plugin:promise/recommended",
   ],
   rules: {
     // typescript
@@ -153,7 +153,14 @@ module.exports = {
     ],
   },
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "import", "inclusive-language", "react"],
+  plugins: [
+    "@typescript-eslint",
+    "import",
+    "inclusive-language",
+    "react",
+    "react-hooks",
+    "promise",
+  ],
   parserOptions: {
     ecmaVersion: 2019,
     ecmaFeatures: {

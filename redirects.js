@@ -224,6 +224,26 @@ function redirects() {
       destination: "/hackathon/consumer-crypto",
       permanent: false,
     },
+    {
+      source: "/bear-market-airdrop",
+      destination: "/",
+      permanent: false,
+    },
+    {
+      source: "/drops/optimism",
+      destination: "/optimism",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/settings",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/contracts",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
   ];
 }
 

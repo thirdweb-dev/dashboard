@@ -10,10 +10,13 @@ import {
   ModalBody,
   Flex,
   ModalFooter,
+  Box,
 } from "@chakra-ui/react";
 import { Button, Card, Text } from "tw-components";
 import { CreditsItem } from "./CreditsItem";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useRouter } from "next/router";
+import { useMemo, useState } from "react";
 
 export const formatToDollars = (cents: number) => {
   const dollars = cents / 100;
@@ -27,11 +30,21 @@ export const CreditsButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const trackEvent = useTrack();
 
+  const router = useRouter();
+  const { fromOpCredits: fromOpCreditsQuery } = router.query;
+
+  const shouldShowTooltip = useMemo(
+    () => fromOpCreditsQuery !== undefined,
+    [fromOpCreditsQuery],
+  );
+
+  const [shouldClose, setShouldClose] = useState(false);
+
   const { isLoggedIn } = useLoggedInUser();
   const { data: credits } = useAccountCredits();
   const meQuery = useAccount();
   const totalCreditBalance = credits?.reduce(
-    (acc, crd) => acc + crd.remainingValueUsdCents,
+    (acc, credit) => acc + credit.remainingValueUsdCents,
     0,
   );
 
@@ -39,27 +52,51 @@ export const CreditsButton = () => {
     return null;
   }
 
-  const credit = credits?.find((crd) => crd.name.startsWith("OP -"));
+  const opCredit = credits?.find((crd) => crd.name.startsWith("OP -"));
+  const restCredits = credits?.filter((crd) => !crd.name.startsWith("OP -"));
 
   return (
     <>
-      <Button
-        onClick={() => {
-          trackEvent({
-            category: "credits",
-            action: "button",
-            label: "view-credits",
-          });
-          onOpen();
-        }}
-        variant="outline"
-        colorScheme="blue"
-        size="sm"
-      >
-        <Text color="bgBlack" fontWeight="bold">
-          Credits: {formatToDollars(totalCreditBalance || 0)}
-        </Text>
-      </Button>
+      <Box position="relative">
+        <Button
+          onClick={() => {
+            trackEvent({
+              category: "credits",
+              action: "button",
+              label: "view-credits",
+            });
+            onOpen();
+          }}
+          variant="outline"
+          colorScheme="blue"
+          size="sm"
+        >
+          <Text color="bgBlack" fontWeight="bold">
+            Credits: {formatToDollars(totalCreditBalance || 0)}
+          </Text>
+        </Button>
+
+        <Card
+          position="absolute"
+          bg="backgroundBody"
+          display={shouldShowTooltip && !shouldClose ? "block" : "none"}
+          w="300px"
+          mt={2}
+          zIndex="popover"
+        >
+          <Text mb={4}>
+            You can view how many credits you have here at any time.
+          </Text>
+
+          <Button
+            onClick={() => setShouldClose(true)}
+            variant="outline"
+            size="sm"
+          >
+            Got it
+          </Button>
+        </Card>
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -67,9 +104,18 @@ export const CreditsButton = () => {
           <ModalHeader>Credits Balance</ModalHeader>
           <ModalBody>
             <Flex flexDir="column" gap={4}>
-              <Card p={6} as={Flex} flexDir="column" gap={3}>
-                <CreditsItem credit={credit} onCreditsButton={true} />
-              </Card>
+              <CreditsItem
+                credit={opCredit}
+                onCreditsButton={true}
+                isOpCreditDefault={true}
+              />
+              {restCredits?.map((credit) => (
+                <CreditsItem
+                  key={credit.couponId}
+                  credit={credit}
+                  onCreditsButton={true}
+                />
+              ))}
             </Flex>
           </ModalBody>
           <ModalFooter />
