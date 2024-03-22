@@ -187,8 +187,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
           </Heading>
           <Spacer h={0.5} />
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
-            Create a login experience that's tailor-made for your app. Add
-            your wallets of choice, enable web2 sign-in options and create
+            Create a login experience tailor-made for your app. Add your
+            wallets of choice, enable web2 sign-in options and create
             a modal that fits your brand.
           </Text>
 
