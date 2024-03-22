@@ -9,14 +9,6 @@ import { useTrack } from "hooks/analytics/useTrack";
 
 const showcaseMenus = [
   {
-    id: "pay-icon",
-    title: "Pay",
-    href: "https://portal.thirdweb.com/connect/pay/buy-with-crypto",
-    description:
-      "The easiest way for users to transact in your app with fiat & cross-chain crypto.",
-    image: require("public/assets/product-pages/connect/icon-pay.png"),
-  },
-  {
     id: "connect-icon",
     title: "Connect",
     href: "/dashboard/connect/playground",
@@ -32,12 +24,20 @@ const showcaseMenus = [
       "Onboard anyone with flexible auth options, account recovery, & account abstraction.",
     image: require("public/assets/product-pages/connect/icon-aa.png"),
   },
+  {
+    id: "pay-icon",
+    title: "Pay",
+    href: "https://portal.thirdweb.com/connect/pay/buy-with-crypto",
+    description:
+      "The easiest way for users to transact in your app with fiat & cross-chain crypto.",
+    image: require("public/assets/product-pages/connect/icon-pay.png"),
+  },
 ];
 
 const showcaseImages = [
-  require("public/assets/product-pages/connect/pay.png"),
   require("public/assets/product-pages/connect/connect.png"),
   require("public/assets/product-pages/connect/account-abstraction.png"),
+  require("public/assets/product-pages/connect/pay.png"),
 ];
 
 const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {

@@ -314,6 +314,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
               mobileImage={require("public/assets/product-pages/connect/mobile-authenticate.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/dashboard/connect/playground"
+              direction="horizontal"
             />
           </LandingGridSection>
           <LandingGridSection desktopColumns={4}>

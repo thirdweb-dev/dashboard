@@ -68,6 +68,7 @@ export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
           opacity={0.7}
           maxW="fit-content"
           textAlign="left"
+          wordBreak="break-word"
         >
           {description}
         </Text>
