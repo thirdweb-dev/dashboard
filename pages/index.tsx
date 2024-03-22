@@ -44,9 +44,8 @@ const HomePage: ThirdwebNextPage = () => {
           <StatsSection />
           <HomePageCard
             title="Client-side SDKs to connect users to web3"
-            description="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments"
+            description="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments."
             miniTitle="Frontend"
-            miniDescription="CONNECT"
             miniImage={require("public/assets/landingpage/connect-icon.png")}
             ctaText="Get started"
             ctaLink="/connect"
@@ -58,7 +57,6 @@ const HomePage: ThirdwebNextPage = () => {
             title="Dedicated APIs for web3 apps & games"
             description="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
             miniTitle="Backend"
-            miniDescription="ENGINE"
             miniImage={require("public/assets/landingpage/engine-icon.png")}
             ctaText="Get started"
             ctaLink="/engine"
@@ -70,7 +68,6 @@ const HomePage: ThirdwebNextPage = () => {
             title="End-to-end tools for smart contracts"
             description="Trusted and modular smart contracts that can be deployed securely on any EVM chain."
             miniTitle="Onchain"
-            miniDescription="CONTRACTS"
             miniImage={require("public/assets/landingpage/contracts-icon.png")}
             ctaText="Get started"
             ctaLink="/contracts"
@@ -87,7 +84,7 @@ const HomePage: ThirdwebNextPage = () => {
                     Trusted by the best
                   </Heading>
 
-                  <Text size="body.lg" mt={6}>
+                  <Text fontSize={[16, 20]} mt={6}>
                     Powering web3 apps across verticals — from onchain games to
                     creator platforms.
                   </Text>

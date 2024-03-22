@@ -1,8 +1,9 @@
-import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Container, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
 import { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
+import { BsFillLightningChargeFill } from "react-icons/bs";
 import { ButtonProps, Heading, Text, TrackedLinkButton } from "tw-components";
 
 interface HomePageCardProps {
@@ -10,7 +11,6 @@ interface HomePageCardProps {
   description: string;
   miniImage: StaticImageData;
   miniTitle: string;
-  miniDescription: string;
   ctaLink: string;
   ctaText: string;
   contactUsButtonMaxWidth?: ButtonProps["maxWidth"];
@@ -27,7 +27,6 @@ const HomePageCard = ({
   description,
   miniImage,
   miniTitle,
-  miniDescription,
   image,
   mobileImage,
   ctaLink,
@@ -69,16 +68,16 @@ const HomePageCard = ({
               />
 
               <Flex flexDir="column">
-                <Text fontSize="21px" fontWeight={600} color="#fff">
+                <Text size="body.xl" fontWeight={600} color="#fff">
                   {miniTitle}
-                </Text>
-
-                <Text fontSize="14px" fontWeight={700} color="#646D7A">
-                  {miniDescription}
                 </Text>
               </Flex>
             </Flex>
-            <Heading as="h1" size="title.2xl">
+            <Heading
+              as="h1"
+              fontWeight={800}
+              fontSize={{ base: "36px", md: "45px" }}
+            >
               {title}
             </Heading>
           </Flex>
@@ -101,6 +100,7 @@ const HomePageCard = ({
               label={ctaText.replaceAll(" ", "-").toLowerCase()}
               fontWeight="bold"
               maxW="190px"
+              leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
             >
               {ctaText}
             </TrackedLinkButton>
