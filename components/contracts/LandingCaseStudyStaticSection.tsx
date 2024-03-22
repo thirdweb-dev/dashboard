@@ -124,12 +124,12 @@ const LandingCaseStudyStaticSection = ({
         gap={{ base: "24px", md: 0 }}
       >
         <Heading
-          maxW={{ base: "100%", md: "608px" }}
+          maxW={{ base: "100%", md: "558px" }}
           fontSize={[30, 40]}
           color="white"
           textAlign={{ base: "center", md: "left" }}
         >
-          Smart contracts for every web3 use case
+          Smart contracts for every use case
         </Heading>
 
         <Flex alignItems="center" gap="16px">

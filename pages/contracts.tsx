@@ -1,4 +1,4 @@
-import { Center, Container, Flex } from "@chakra-ui/react";
+import { Center, Container, Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { ContractInteractionSection } from "components/contracts/ContractInteractionSection";
 import LandingCaseStudyStaticSection from "components/contracts/LandingCaseStudyStaticSection";
@@ -11,7 +11,8 @@ import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-sid
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Heading, Text } from "tw-components";
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "contracts";
@@ -214,6 +215,25 @@ const Contracts: ThirdwebNextPage = () => {
               alt=""
             />
           </Flex>
+
+          <TrackedLinkButton
+            leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
+            py={6}
+            px={8}
+            bgColor="white"
+            _hover={{
+              bgColor: "white",
+              opacity: 0.8,
+            }}
+            mt={{ base: 2, md: 16 }}
+            color="black"
+            href="/explore"
+            category={TRACKING_CATEGORY}
+            label="explore"
+            fontWeight="bold"
+          >
+            Explore
+          </TrackedLinkButton>
         </Flex>
 
         <Flex
