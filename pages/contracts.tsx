@@ -153,7 +153,7 @@ const Contracts: ThirdwebNextPage = () => {
           ctaLink="/explore"
           ctaText="Get started"
           contactUsTitle="Book a demo"
-          gradient="linear(to-r, #F213A4, #F97CCE)"
+          gradient="linear(to-r, #F97CCE, #F213A4)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
           miniImage={require("public/assets/product-icons/contracts.png")}
