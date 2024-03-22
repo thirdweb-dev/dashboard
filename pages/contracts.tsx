@@ -23,23 +23,31 @@ const caseStudies = [
     description:
       "Build a drop where users can claim NFTs. Determine who and when can claim the drop and configure advanced features such as delayed reveal.",
     image: require("public/assets/contracts/build-nft-drop.png"),
+    label: "build-nft",
+    href: "/explore/nft",
   },
   {
     title: "Build a marketplace",
     description:
       "Build an NFT marketplace where users can buy, sell or trade digital assets with crypto or fiat currency.",
     image: require("public/assets/contracts/build-marketplace.png"),
+    label: "build-marketplace",
+    href: "/explore/marketplace",
   },
   {
     title: "Build a token airdrop",
     description: "Let users claim an allocation of ERC20 tokens.",
     image: require("public/assets/contracts/build-token-airdrop.png"),
+    label: "token-airdrop",
+    href: "/explore/airdrop",
   },
   {
     title: "Build a loyalty program with evolving NFTs",
     description:
       "Give your loyal customers an NFT that evolves based on other asset holdings in user's wallet. Create an NFT that dynamically updates through different membership tiers.",
     image: require("public/assets/contracts/build-loyalty-program.png"),
+    label: "build-loyalty",
+    href: "/thirdweb.eth/LoyaltyCard",
   },
 ];
 
@@ -335,7 +343,10 @@ const Contracts: ThirdwebNextPage = () => {
             Smart contracts for every web3 use case
           </Heading>
 
-          <LandingCaseStudyStaticSection studies={caseStudies} />
+          <LandingCaseStudyStaticSection
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            studies={caseStudies}
+          />
         </Flex>
 
         <LandingCardWithMetrics
