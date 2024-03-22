@@ -44,31 +44,31 @@ const caseStudies = [
 
 export const metrics = [
   {
-    title: "Base",
-    description: "[Placeholder]",
+    title: "Onchain Summer",
+    description: "Powering an onchain festival to celebrate the launch of Base Mainnet – with daily mints in collaboration with 50+ of the world's leading brands, creators, & artists.",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
     items: [
       {
-        title: "$3.7M+",
-        description: "GMV",
+        title: "$2.4M+",
+        description: "Generated for creators",
       },
       {
-        title: "215K+",
-        description: "Users",
+        title: "25%",
+        description: "Active wallets on Base",
         colSpan: 2,
       },
       {
-        title: "79K+",
-        description: "Transactions",
+        title: "1M+",
+        description: "Total Transactions",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/base-builder-quest-brings-developers-onchain/",
+    href: "https://twitter.com/thirdweb/status/1719736720865001723",
     hoverBackground: "#0053FF",
   },
   {
     title: "Pixels",
-    description: "[Placeholder]",
+    description: "Building a thriving in-game economy with VIP memberships, in-game tokens, and digital assets that users own — all onchain.",
     image: require("public/assets/landingpage/pixels.png"),
     mobileImage: require("public/assets/landingpage/mobile-pixels.png"),
     items: [
@@ -82,7 +82,7 @@ export const metrics = [
         colSpan: 2,
       },
       {
-        title: "11k+",
+        title: "10k+",
         description: "VIP Members",
       },
     ],
@@ -91,22 +91,22 @@ export const metrics = [
   },
   {
     title: "Layer3",
-    description: "[Placeholder]",
+    description: "Creating the most engaging way to explore crypto — with gamified experiences, immersive quests, and NFT rewards.",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
     items: [
       {
-        title: "$3.7M+",
-        description: "GMV",
+        title: "$16.7M+",
+        description: "Total Transactions",
       },
       {
-        title: "215K+",
-        description: "Users",
+        title: "685K+",
+        description: "Total Users",
         colSpan: 2,
       },
       {
-        title: "79K+",
-        description: "Transactions",
+        title: "20+",
+        description: "Chains",
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
@@ -141,15 +141,15 @@ const Contracts: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          titleWithGradient="smart contract development"
+          titleWithGradient="for smart contract development"
           miniTitle="Contracts"
-          title="End-to-end tools for"
+          title="End-to-end tools"
           subtitle="Trusted and modular smart contracts that can be deployed securely on any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="/thirdweb.eth/LoyaltyCard"
+          ctaLink="/explore"
           ctaText="Get started"
           contactUsTitle="Book a demo"
-          gradient="linear(to-r, #F257FF, #F257FF)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/contracts/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/contracts/mobile-hero.png")}
           miniImage={require("public/assets/product-icons/contracts.png")}
@@ -170,7 +170,7 @@ const Contracts: ThirdwebNextPage = () => {
           gap="27px"
         >
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
-            Build with a powerful Solidity SDK
+            Any smart contract, on any EVM chain
           </Heading>
 
           <Text fontSize={[16, 20]} textAlign="center" maxW="720px">
@@ -348,6 +348,13 @@ const Contracts: ThirdwebNextPage = () => {
           desktopColumns={3}
           TRACKING_CATEGORY={TRACKING_CATEGORY}
           metrics={metrics}
+        />
+        <LandingEndCTA
+          title="Start building"
+          titleWithGradient="today."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://portal.thirdweb.com/contracts/deploy/overview"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>
