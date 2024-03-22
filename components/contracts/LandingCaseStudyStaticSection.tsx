@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Icon, useBreakpointValue } from "@chakra-ui/react";
 import CaseStudyStatic, { CaseStudyStaticProps } from "./CaseStudyStatic";
 import { Heading } from "tw-components";
 
@@ -25,17 +25,17 @@ const ArrowRight = ({
         r="23"
         transform="rotate(-180 24 24)"
         stroke={isFocused ? "#0E0E0E" : "#626262"}
-        stroke-width="2"
+        strokeWidth="2"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M23.2929 31.7071C22.9024 31.3166 22.9024 30.6834 23.2929 30.2929L29.5858 24L23.2929 17.7071C22.9024 17.3166 22.9024 16.6834 23.2929 16.2929C23.6834 15.9024 24.3166 15.9024 24.7071 16.2929L31.7071 23.2929C32.0976 23.6834 32.0976 24.3166 31.7071 24.7071L24.7071 31.7071C24.3166 32.0976 23.6834 32.0976 23.2929 31.7071Z"
         fill={isFocused ? "#000" : "#626262"}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M32 24C32 24.5523 31.5523 25 31 25L17 25C16.4477 25 16 24.5523 16 24C16 23.4477 16.4477 23 17 23L31 23C31.5523 23 32 23.4477 32 24Z"
         fill={isFocused ? "#000" : "#626262"}
       />
@@ -64,17 +64,17 @@ const ArrowLeft = ({
         cy="24.0869"
         r="23"
         stroke={isFocused ? "#0E0E0E" : "#626262"}
-        stroke-width="2"
+        strokeWidth="2"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M24.7071 16.3798C25.0976 16.7703 25.0976 17.4035 24.7071 17.794L18.4142 24.0869L24.7071 30.3798C25.0976 30.7703 25.0976 31.4035 24.7071 31.794C24.3166 32.1845 23.6834 32.1845 23.2929 31.794L16.2929 24.794C15.9024 24.4035 15.9024 23.7703 16.2929 23.3798L23.2929 16.3798C23.6834 15.9893 24.3166 15.9893 24.7071 16.3798Z"
         fill={isFocused ? "#000" : "#626262"}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M16 24.0869C16 23.5346 16.4477 23.0869 17 23.0869H31C31.5523 23.0869 32 23.5346 32 24.0869C32 24.6392 31.5523 25.0869 31 25.0869H17C16.4477 25.0869 16 24.6392 16 24.0869Z"
         fill={isFocused ? "#000" : "#626262"}
       />
@@ -86,9 +86,8 @@ interface LandingCaseStudyStaticSectionProps {
   studies: Omit<CaseStudyStaticProps, "TRACKING_CATEGORY">[];
   TRACKING_CATEGORY: string;
 }
-// Assume each card has a fixed width and a fixed gap between them
-const CARD_WIDTH = 341; // width of each card in pixels
-const GAP = 24; // gap between cards in pixels
+const CARD_WIDTH = 341;
+const GAP = 24;
 
 const LandingCaseStudyStaticSection = ({
   studies,
@@ -102,7 +101,6 @@ const LandingCaseStudyStaticSection = ({
   const scroll = (direction: "right" | "left") => {
     const container = containerRef.current;
     if (container) {
-      // Calculate the scroll distance (one card width plus the gap)
       const scrollDistance = CARD_WIDTH + GAP + (!isTablet ? 16 : 0);
       const currentScroll = container.scrollLeft;
 
@@ -112,7 +110,7 @@ const LandingCaseStudyStaticSection = ({
           : currentScroll + scrollDistance;
       container.scrollTo({
         left: newScroll,
-        behavior: "smooth", // Smooth scroll
+        behavior: "smooth",
       });
     }
   };
