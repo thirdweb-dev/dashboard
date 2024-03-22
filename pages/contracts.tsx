@@ -232,7 +232,7 @@ const Contracts: ThirdwebNextPage = () => {
             label="explore"
             fontWeight="bold"
           >
-            Explore
+            Explore contracts
           </TrackedLinkButton>
         </Flex>
 
