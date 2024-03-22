@@ -43,7 +43,7 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <StatsSection />
           <HomePageCard
-            title="Client-side SDKs to connect users to web3"
+            title="Client SDKs to connect users to web3"
             description="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments."
             miniTitle="Connect"
             miniImage={require("public/assets/landingpage/connect-icon.png")}
