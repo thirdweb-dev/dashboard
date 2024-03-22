@@ -19,7 +19,6 @@ import { ThirdwebNextPage } from "utils/types";
 import { metrics } from "components/product-pages/common/nav/data";
 import { Heading, Text } from "tw-components";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
-import { AnimatedCLICommand } from "../components/homepage/AnimatedCLICommand/AnimatedCLICommand";
 
 const TRACKING_CATEGORY = "homepage";
 
@@ -45,43 +44,36 @@ const HomePage: ThirdwebNextPage = () => {
           <StatsSection />
           <HomePageCard
             title="Client-side SDKs to connect users to web3"
-            description="Onboard any user, connect to any wallet, and facilitate any transaction. Generate revenue with payments and build seamless apps with Account Abstraction."
+            description="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments"
             miniTitle="Frontend"
             miniDescription="CONNECT"
             miniImage={require("public/assets/landingpage/connect-icon.png")}
-            customContactUsComponent={<AnimatedCLICommand />}
-            ctaText="Learn more"
+            ctaText="Get started"
             ctaLink="/connect"
             image={require("public/assets/landingpage/connect-hero.png")}
             mobileImage={require("public/assets/landingpage/connect-hero.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
-            title="Complete, scalable web3 backend"
-            description="Scalable smart contract APIs backed by secure wallets. Create and interact with backend developer wallets, enabling high throughput with automatic nonce and gas management."
+            title="Dedicated APIs for web3 apps & games"
+            description="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
             miniTitle="Backend"
             miniDescription="ENGINE"
             miniImage={require("public/assets/landingpage/engine-icon.png")}
-            ctaText="Learn more"
-            ctaLink="/connect"
-            contactUsText="Dashboard"
-            contactUsLink="/dashboard"
-            contactUsButtonMaxWidth="186px"
+            ctaText="Get started"
+            ctaLink="/engine"
             image={require("public/assets/landingpage/engine-hero.png")}
             mobileImage={require("public/assets/landingpage/engine-hero.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
             title="End-to-end tools for smart contracts"
-            description="Everything you need to build, deploy and integrate smart contracts into your app. Browse the largest library of published smart contracts and securely deploy to any EVM chain."
+            description="Trusted and modular smart contracts that can be deployed securely on any EVM chain."
             miniTitle="Onchain"
             miniDescription="CONTRACTS"
             miniImage={require("public/assets/landingpage/contracts-icon.png")}
-            ctaText="Learn more"
-            ctaLink="/connect"
-            contactUsText="Explore Contracts"
-            contactUsLink="/contracts"
-            contactUsButtonMaxWidth="254px"
+            ctaText="Get started"
+            ctaLink="/contracts"
             image={require("public/assets/landingpage/contracts-hero.png")}
             mobileImage={require("public/assets/landingpage/contracts-hero.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
