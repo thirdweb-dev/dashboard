@@ -55,8 +55,8 @@ export const metrics = [
     title: "Onchain Summer",
     description:
       "Powering an onchain festival to celebrate the launch of Base Mainnet – with daily mints in collaboration with 50+ of the world's leading brands, creators, & artists.",
-    image: require("public/assets/landingpage/case-study-coinbase.png"),
-    mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
+    image: require("public/assets/landingpage/case-study-onchain-summer.png"),
+    mobileImage: require("public/assets/landingpage/case-study-onchain-summer.png"),
     items: [
       {
         title: "$2.4M+",
