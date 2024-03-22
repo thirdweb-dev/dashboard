@@ -18,7 +18,8 @@ const LandingCaseStudyStaticSection = ({
       overflowX="auto"
       overflowY="hidden"
       maxW="container.page"
-      py={2}
+      py={4}
+      px={4}
       w="full"
     >
       {studies.map(({ title, description, image, href, label }, idx) => (
