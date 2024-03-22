@@ -133,11 +133,14 @@ export type ApiKeyService = {
   targetAddresses: string[];
   actions: string[];
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
+  // EMBEDDED WALLET
   recoveryShareManagement?: ApiKeyRecoverShareManagement;
   customAuthentication?: ApiKeyCustomAuthentication;
   customAuthEndpoint?: ApiKeyCustomAuthEndpoint;
   applicationName?: string;
   applicationImageUrl?: string;
+  // PAY
+  payoutAddress?: string;
 };
 
 export type ApiKey = {
@@ -249,8 +252,8 @@ export interface BillingCredit {
   couponId: string;
   products: BillingProduct[];
   expiresAt: string;
-  promotionCodeId: string;
   redeemedAt: string;
+  isActive: boolean;
 }
 
 export interface UseAccountInput {
@@ -342,7 +345,8 @@ export function useAccountCredits() {
       const credits = (json.data as BillingCredit[]).filter(
         (credit) =>
           credit.remainingValueUsdCents > 0 &&
-          credit.expiresAt > new Date().toISOString(),
+          credit.expiresAt > new Date().toISOString() &&
+          credit.isActive,
       );
 
       return credits;
@@ -696,7 +700,6 @@ export function useCreatePaymentMethod() {
 
 export function useApiKeys() {
   const { user, isLoggedIn } = useLoggedInUser();
-
   return useQuery(
     apiKeys.keys(user?.address as string),
     async () => {
@@ -712,7 +715,6 @@ export function useApiKeys() {
       if (json.error) {
         throw new Error(json.error.message);
       }
-
       return json.data as ApiKey[];
     },
     { enabled: !!user?.address && isLoggedIn },
@@ -769,6 +771,7 @@ export function useUpdateApiKey() {
         },
         body: JSON.stringify(input),
       });
+
       const json = await res.json();
 
       if (json.error) {

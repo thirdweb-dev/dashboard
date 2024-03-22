@@ -229,6 +229,16 @@ function redirects() {
       destination: "/optimism",
       permanent: false,
     },
+    {
+      source: "/dashboard/payments/settings",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/contracts",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
   ];
 }
 
