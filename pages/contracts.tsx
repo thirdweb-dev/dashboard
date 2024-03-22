@@ -1,10 +1,11 @@
 import { Center, Container, Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { ContractInteractionSection } from "components/contracts/ContractInteractionSection";
 import LandingCaseStudyStaticSection from "components/contracts/LandingCaseStudyStaticSection";
 import Stats from "components/contracts/Stats";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
-import { LandingDesktopMobileImage } from "components/landing-pages/desktop-mobile-image";
+import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingLayout } from "components/landing-pages/layout";
@@ -45,7 +46,8 @@ const caseStudies = [
 export const metrics = [
   {
     title: "Onchain Summer",
-    description: "Powering an onchain festival to celebrate the launch of Base Mainnet – with daily mints in collaboration with 50+ of the world's leading brands, creators, & artists.",
+    description:
+      "Powering an onchain festival to celebrate the launch of Base Mainnet – with daily mints in collaboration with 50+ of the world's leading brands, creators, & artists.",
     image: require("public/assets/landingpage/case-study-coinbase.png"),
     mobileImage: require("public/assets/landingpage/case-study-coinbase.png"),
     items: [
@@ -68,7 +70,8 @@ export const metrics = [
   },
   {
     title: "Pixels",
-    description: "Building a thriving in-game economy with VIP memberships, in-game tokens, and digital assets that users own — all onchain.",
+    description:
+      "Building a thriving in-game economy with VIP memberships, in-game tokens, and digital assets that users own — all onchain.",
     image: require("public/assets/landingpage/pixels.png"),
     mobileImage: require("public/assets/landingpage/mobile-pixels.png"),
     items: [
@@ -91,7 +94,8 @@ export const metrics = [
   },
   {
     title: "Layer3",
-    description: "Creating the most engaging way to explore crypto — with gamified experiences, immersive quests, and NFT rewards.",
+    description:
+      "Creating the most engaging way to explore crypto — with gamified experiences, immersive quests, and NFT rewards.",
     image: require("public/assets/landingpage/case-study-layer3.png"),
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
     items: [
@@ -244,10 +248,12 @@ const Contracts: ThirdwebNextPage = () => {
             a set of pre-built base contracts and extensions.
           </Text>
 
-          <LandingDesktopMobileImage
-            image={require("public/assets/contracts/complete-solidity.png")}
-            mobileImage={require("public/assets/contracts/mobile-complete-solidity.png")}
-            mt="50px"
+          <ContractInteractionSection />
+          <ChakraNextImage
+            src={require("public/assets/contracts/mobile-complete-solidity.png")}
+            priority
+            alt=""
+            display={{ base: "inline", md: "none" }}
           />
 
           <TrackedLinkButton
