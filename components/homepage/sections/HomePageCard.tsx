@@ -123,21 +123,6 @@ const HomePageCard = ({
 
             {customContactUsComponent && customContactUsComponent}
           </Flex>
-
-          {/*   <Text
-            fontSize={"14px"}
-            color={"#646D7A"}
-            fontWeight={600}
-            letterSpacing={"1.4px"}
-          >
-            TRUSTED BY
-          </Text>
-
-          <SimpleGrid columns={{ base: 1, md: 3 }} gap="50px">
-            {partnersImages.map((img, idx) => {
-              return <ChakraNextImage key={idx} src={img} alt="" />;
-            })}
-          </SimpleGrid> */}
         </Flex>
 
         <Flex
