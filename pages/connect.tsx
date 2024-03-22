@@ -185,7 +185,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Heading fontSize={[30, 40]} color="white" textAlign="center">
             The best way to connect a wallet
           </Heading>
-          <Spacer h={0.5} />
+
           <Text fontSize={[16, 20]} textAlign="center" maxW="743px" m="0 auto">
             Create a login experience tailor-made for your app. Add your wallets
             of choice, enable web2 sign-in options and create a modal that fits
