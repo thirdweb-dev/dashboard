@@ -232,7 +232,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
           noContactUs
         />
-        
+
         <LandingHeroWithSideImage
           miniTitle="Account Abstraction"
           miniImage={require("public/assets/product-icons/smart-wallet.png")}
