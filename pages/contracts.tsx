@@ -61,16 +61,16 @@ export const metrics = [
     items: [
       {
         title: "$2.4M+",
-        description: "Generated for creators",
+        description: "For Creators",
       },
       {
         title: "25%",
-        description: "Active wallets on Base",
+        description: "Active Wallets on Base",
         colSpan: 2,
       },
       {
         title: "1M+",
-        description: "Total Transactions",
+        description: "Transactions",
       },
     ],
     href: "https://twitter.com/thirdweb/status/1719736720865001723",
@@ -108,8 +108,8 @@ export const metrics = [
     mobileImage: require("public/assets/landingpage/case-study-layer3.png"),
     items: [
       {
-        title: "$16.7M+",
-        description: "Total Transactions",
+        title: "16.7M+",
+        description: "Transactions",
       },
       {
         title: "685K+",
@@ -232,7 +232,7 @@ const Contracts: ThirdwebNextPage = () => {
             label="explore"
             fontWeight="bold"
           >
-            Explore
+            Explore contracts
           </TrackedLinkButton>
         </Flex>
 
