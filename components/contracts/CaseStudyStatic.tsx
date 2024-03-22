@@ -28,6 +28,7 @@ const CaseStudyStatic = ({
       label={label}
       textDecoration="none"
       _hover={{ textDecoration: "none" }}
+      userSelect="none"
     >
       <Flex
         flexDir="column"
