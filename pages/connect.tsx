@@ -249,7 +249,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
         <LandingHeroWithSideImage
           miniTitle="Pay"
-          miniImage={require("public/assets/product-icons/payments.png")}
+          miniImage={require("public/assets/product-pages/connect/icon-pay.png")}
           title="Fiat & cross-chain crypto payments,"
           titleWithGradient="made easy"
           subtitle="The easiest way for users to transact in your app — with automatic bridging & swapping built in."
