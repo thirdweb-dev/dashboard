@@ -11,25 +11,25 @@ const showcaseMenus = [
   {
     id: "pay-icon",
     title: "Pay",
-    href: "/dashboard",
+    href: "https://portal.thirdweb.com/connect/pay/buy-with-crypto",
     description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+      "The easiest way for users to transact in your app using fiat and cross-chain crypto — with automatic bridging & swapping built in.",
     image: require("public/assets/product-pages/connect/icon-pay.png"),
   },
   {
     id: "connect-icon",
     title: "Connect",
-    href: "/dashboard",
+    href: "/dashboard/connect/playground",
     description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+      "Flexible frontend components for your app — with customizable Connect Wallet flows, IPFS media rendering, and buttons for onchain interactions.",
     image: require("public/assets/product-pages/connect/icon-connect.png"),
   },
   {
     id: "account-abstraction-icon",
-    title: "Account Abstraction",
-    href: "/dashboard",
+    title: "In-App Wallets",
+    href: "https://portal.thirdweb.com/connect/account-abstraction",
     description:
-      "[Short desc - onboard users with fiat or crypto at any web3 point of sale]",
+      "Onboard anyone with an email or social account in 1 click — with flexible auth options, secure account recovery, and account abstraction integration.",
     image: require("public/assets/product-pages/connect/icon-aa.png"),
   },
 ];
