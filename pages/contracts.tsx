@@ -61,7 +61,7 @@ export const metrics = [
     items: [
       {
         title: "$2.4M+",
-        description: "for Creators",
+        description: "For Creators",
       },
       {
         title: "25%",
