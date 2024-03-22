@@ -136,7 +136,7 @@ const Contracts: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/build.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/contracts.png`,
               width: 1200,
               height: 630,
               alt: "thirdweb Smart Contracts",
