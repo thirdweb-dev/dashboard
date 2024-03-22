@@ -14,7 +14,6 @@ export const ContractInteractionSection = () => {
         opacity={contractStateOne ? 1 : 0}
         transition="500ms ease"
       >
-        {/* Desktop */}
         <Box
           top="8.5%"
           right="48%"
@@ -33,8 +32,6 @@ export const ContractInteractionSection = () => {
           priority
           alt=""
         />
-
-        {/* Mobile */}
       </Box>
 
       <Box
@@ -49,7 +46,6 @@ export const ContractInteractionSection = () => {
         opacity={contractStateTwo ? 1 : 0}
         transition="500ms ease"
       >
-        {/* Desktop */}
         <Box
           top="23%"
           right="39%"
