@@ -18,7 +18,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Heading, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
@@ -35,7 +35,7 @@ import { PaymentContracts } from "components/payments/contracts/payment-contract
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
 
-// const TRACKING_CATEGORY = "pay";
+const TRACKING_CATEGORY = "pay";
 
 function RadioCard(props: UseRadioProps & BoxProps) {
   const { getInputProps, getRadioProps } = useRadio(props);
@@ -199,7 +199,19 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
           <Heading size="title.lg" as="h1">
             Pay Settings
           </Heading>
-          <Text maxW="xl">Configure your developer settings for payments </Text>
+          <Text maxW="xl">
+            Configure developer settings for all Pay features, including{" "}
+            <TrackedLink
+              isExternal
+              category={TRACKING_CATEGORY}
+              href="https://portal.thirdweb.com/connect/pay/buy-with-crypto"
+              label="buy-with-crypto-docs"
+              color="primary.500"
+            >
+              Buy With Crypto
+            </TrackedLink>
+            .
+          </Text>
         </Flex>
 
         {hasPayApiKeys && tabOption === "pay" && (
