@@ -71,6 +71,16 @@ export const PlaygroundMenu: React.FC<PlaygroundMenuProps> = ({
         >
           {description}
         </Text>
+
+        <Text
+          mt={3}
+          color="#fff"
+          fontSize="14px"
+          maxW="fit-content"
+          textAlign="left"
+        >
+          Learn more {`→`}
+        </Text>
       </Flex>
     </Card>
   );
