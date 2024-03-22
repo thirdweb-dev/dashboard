@@ -149,9 +149,9 @@ const ConnectLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Connect"
-          title="Client-side SDKs for"
+          title="Client SDKs to"
           miniImage={require("public/assets/product-icons/wallet-sdk.png")}
-          titleWithGradient="connecting users to web3"
+          titleWithGradient="connect users to web3"
           subtitle="Onboard every user, connect to any wallet, and build apps that anyone can use — with in-app wallets, account abstraction, and fiat & crypto payments."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/connect/playground"
