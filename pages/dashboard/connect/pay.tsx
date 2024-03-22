@@ -18,7 +18,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { ConnectSidebar } from "core-ui/sidebar/connect";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Heading, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { NoApiKeys } from "components/settings/ApiKeys/NoApiKeys";
@@ -35,7 +35,7 @@ import { PaymentContracts } from "components/payments/contracts/payment-contract
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
 
-// const TRACKING_CATEGORY = "pay";
+const TRACKING_CATEGORY = "pay";
 
 function RadioCard(props: UseRadioProps & BoxProps) {
   const { getInputProps, getRadioProps } = useRadio(props);
@@ -142,34 +142,32 @@ const usePayConfig = () => {
   };
 };
 
-const useOldPaymentConfig = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+const useTabConfig = () => {
+  const [tabOption, setTabOption] = useState<"pay" | "checkouts">("pay");
   const router = useRouter();
 
   useEffect(() => {
-    if (router.query.tab === "contract-settings") {
-      setTabIndex(2);
+    if (router.query.tab === "checkouts") {
+      setTabOption("checkouts");
     }
   }, [router.query.tab]);
 
   const { data: paymentEnabledContracts } = usePaymentsEnabledContracts();
-  const radioOptions = ["pay", "checkout"].filter((option) => {
+  const radioOptions = ["pay", "checkouts"].filter((option) => {
     return (
       option === "pay" ||
-      (option === "checkout" && paymentEnabledContracts) ||
-      []?.length > 0
+      (option === "checkouts" && (paymentEnabledContracts || [])?.length > 0)
     );
   });
-  return { tabIndex, setTabIndex, radioOptions };
+  return { tabOption, setTabOption, radioOptions };
 };
 
 const DashboardConnectPay: ThirdwebNextPage = () => {
-  const [configOption, setConfigOption] = useState<"pay" | "checkout">("pay");
-  const { tabIndex, setTabIndex, radioOptions } = useOldPaymentConfig();
+  const { tabOption, setTabOption, radioOptions } = useTabConfig();
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "config",
     defaultValue: "pay",
-    onChange: (value: "pay" | "checkout") => setConfigOption(value),
+    onChange: (value: "pay" | "checkouts") => setTabOption(value),
   });
 
   const { isLoggedIn } = useLoggedInUser();
@@ -201,10 +199,22 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
           <Heading size="title.lg" as="h1">
             Pay Settings
           </Heading>
-          <Text maxW="xl">Configure your developer settings for payments </Text>
+          <Text maxW="xl">
+            Configure developer settings for all Pay features, including{" "}
+            <TrackedLink
+              isExternal
+              category={TRACKING_CATEGORY}
+              href="https://portal.thirdweb.com/connect/pay/buy-with-crypto"
+              label="buy-with-crypto-docs"
+              color="primary.500"
+            >
+              Buy With Crypto
+            </TrackedLink>
+            .
+          </Text>
         </Flex>
 
-        {hasPayApiKeys && configOption === "pay" && (
+        {hasPayApiKeys && tabOption === "pay" && (
           <HStack gap={3}>
             {selectedKey && (
               <ApiKeysMenu
@@ -223,8 +233,12 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
             {radioOptions.map((value) => {
               const radio = getRadioProps({ value });
               return (
-                <RadioCard key={value} {...radio}>
-                  {value === "pay" ? "Pay" : "Checkouts"}
+                <RadioCard
+                  key={value}
+                  {...radio}
+                  isChecked={value === tabOption}
+                >
+                  {value.charAt(0).toUpperCase() + value.slice(1)}
                 </RadioCard>
               );
             })}
@@ -232,8 +246,8 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
         </FormControl>
       )}
 
-      {configOption === "checkout" ? (
-        <Tabs index={tabIndex} onChange={setTabIndex}>
+      {tabOption === "checkouts" ? (
+        <Tabs>
           <TabList>
             <Tab>Payments Enabled</Tab>
             <Tab>All Contracts</Tab>

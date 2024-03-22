@@ -1,4 +1,4 @@
-import { Divider, Flex, FormControl } from "@chakra-ui/react";
+import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import {
   Button,
   Card,
@@ -6,6 +6,7 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  Text,
 } from "tw-components";
 
 import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
@@ -18,7 +19,6 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 interface PayConfigProps {
   apiKey: ApiKey;
@@ -98,9 +98,14 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
   return (
     <Card>
       <Flex flexDir="column" gap={7}>
-        <Heading size="title.md" as="h2">
-          Fee Settings
-        </Heading>
+        <Flex flexDir={"column"} gap={3}>
+          <Heading size="title.md" as="h2">
+            Fee Sharing
+          </Heading>
+          <Text size="label.md" as="h3">
+            thirdweb shares 30% of its base fee across all Pay features
+          </Text>
+        </Flex>
 
         <form
           onSubmit={(e) => {
@@ -121,9 +126,7 @@ export const PayConfig: React.FC<PayConfigProps> = ({ apiKey }) => {
               >
                 <FormLabel size="label.md">Recipient address</FormLabel>
 
-                <SolidityInput
-                  solidityType="address"
-                  formContext={form}
+                <Input
                   placeholder="0x..."
                   type="text"
                   {...form.register(`payoutAddress`)}
