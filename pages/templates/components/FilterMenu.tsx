@@ -5,11 +5,12 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Checkbox,
   Flex,
 } from "@chakra-ui/react";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Checkbox } from "tw-components";
+import { useRouter } from "next/router";
 
 type FilterItem = {
   label: string;
@@ -88,14 +89,29 @@ const FilterMenu: React.FC<FilterProps> = ({
   expandAll,
   setSelectedTags,
 }: FilterProps) => {
+  const router = useRouter();
   const handleToggleTag = (
     event: ChangeEvent<HTMLInputElement>,
     tagId: TemplateTagId,
   ) => {
     const isSelected = event.target.checked;
-    if (isSelected) queriedTags.push(tagId);
-    else queriedTags = queriedTags.filter((id) => id !== tagId);
+    if (isSelected) {
+      queriedTags.push(tagId);
+    } else {
+      queriedTags = queriedTags.filter((id) => id !== tagId);
+    }
     setSelectedTags([...queriedTags]);
+    if (!router) {
+      return;
+    }
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queriedTags.length) {
+      queryParams.set("tags", queriedTags.join(","));
+      router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
+    } else {
+      queryParams.delete("tags");
+      router.push("", undefined, { shallow: true });
+    }
   };
   return (
     <Flex flexDir={"column"} minW={"180px"}>

@@ -3,35 +3,23 @@ import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { TEMPLATE_DATA } from "./data/_templates";
 import TemplateWrapper from "./components/Wrapper";
-import { useRouter } from "next/router";
 import { TemplateTagId, TemplateTags } from "./data/_tags";
-import { useState } from "react";
+import { GetServerSidePropsContext } from "next";
 
 const title = "Web3 Templates for Websites & Apps";
 const description =
   "Start building with a library of quick-start templates for web3 apps and websites — for NFTs, marketplaces, and more. Get started.";
 
-const Templates: ThirdwebNextPage = () => {
-  const router = useRouter();
-  const query = router.query as { tags: string };
-  const queriedTags: string[] = query.tags
-    ? query.tags
-        .split(",")
-        // Remove any strings that are not valid tag ids
-        .filter((tag) => TemplateTags.find((o) => o.id === tag))
-    : [];
-  const templates = queriedTags.length
-    ? TEMPLATE_DATA.filter((item) =>
-        queriedTags.every((_tag) => item.tags.includes(_tag as TemplateTagId)),
-      )
-    : TEMPLATE_DATA;
+const Templates: ThirdwebNextPage = (props: TemplatePageProps) => {
+  const { _defaultTagIds, _defaultTemplates } = props;
   return (
     <>
       <TemplateWrapper
         title={title}
         description={description}
-        data={templates}
+        data={_defaultTemplates}
         showFilterMenu={true}
+        _defaultTagIds={_defaultTagIds}
       >
         <Heading
           as="h1"
@@ -71,3 +59,32 @@ const Templates: ThirdwebNextPage = () => {
 Templates.pageId = PageId.Templates;
 
 export default Templates;
+
+type TemplatePageProps = {
+  _defaultTagIds: TemplateTagId[];
+  _defaultTemplates: (typeof TEMPLATE_DATA)[number][];
+};
+
+export async function getServerSideProps<TemplatePageProps>(
+  context: GetServerSidePropsContext,
+) {
+  const { tags } = context.query;
+  const _defaultTagIds = tags
+    ? ((tags as string)
+        .split(",")
+        .filter((tag) =>
+          TemplateTags.find((o) => o.id === tag),
+        ) as TemplateTagId[])
+    : [];
+  const _defaultTemplates = _defaultTagIds.length
+    ? TEMPLATE_DATA.filter((item) =>
+        _defaultTagIds.every((tagId) => item.tags.includes(tagId)),
+      )
+    : TEMPLATE_DATA;
+  return {
+    props: {
+      _defaultTagIds,
+      _defaultTemplates,
+    },
+  };
+}

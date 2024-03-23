@@ -14,11 +14,10 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { TemplateCardProps } from "../data/_templates";
+import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import FilterMenu from "./FilterMenu";
-import { useRouter } from "next/router";
 
 type TemplateWrapperProps = {
   title: string;
@@ -26,44 +25,21 @@ type TemplateWrapperProps = {
   data: TemplateCardProps[];
   children: ReactNode;
   showFilterMenu?: boolean;
+  _defaultTagIds: TemplateTagId[];
 };
 
 export default function TemplateWrapper(props: TemplateWrapperProps) {
-  const { title, description, data, children, showFilterMenu } = props;
-  const router = useRouter();
-  const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>([]);
+  const { title, description, data, children, showFilterMenu, _defaultTagIds } =
+    props;
+  const [selectedTags, setSelectedTags] =
+    useState<TemplateTagId[]>(_defaultTagIds);
   const templates = showFilterMenu
     ? selectedTags.length
       ? data.filter((item) =>
           selectedTags.every((tagId) => item.tags.includes(tagId)),
         )
-      : data
+      : TEMPLATE_DATA
     : data;
-
-  // Load selected tags from URL params
-  useEffect(() => {
-    if (!showFilterMenu) return;
-    if (!router || !router.query || !router.query.tags) return;
-    const query = router.query as { tags: string };
-    const queriedTags = query.tags
-      .split(",")
-      .filter((tag) => TemplateTags.find((o) => o.id === tag));
-    setSelectedTags(queriedTags as TemplateTagId[]);
-  }, [router]);
-
-  // Update URL Params on filters change
-  useEffect(() => {
-    if (!showFilterMenu) return;
-    if (!router) return;
-    const queryParams = new URLSearchParams(window.location.search);
-    if (selectedTags.length) {
-      queryParams.set("tags", selectedTags.join(","));
-      router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
-    } else {
-      queryParams.delete("tags");
-      router.push("", undefined, { shallow: true });
-    }
-  }, [router, selectedTags]);
 
   return (
     <DarkMode>
