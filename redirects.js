@@ -93,11 +93,6 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/contracts",
-      destination: "/explore",
-      permanent: false,
-    },
-    {
       source: "/settings",
       destination: "/dashboard/settings/api-keys",
       permanent: false,
@@ -227,6 +222,16 @@ function redirects() {
     {
       source: "/drops/optimism",
       destination: "/optimism",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/settings",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/contracts",
+      destination: "/dashboard/connect/pay?tab=checkouts",
       permanent: false,
     },
   ];

@@ -91,6 +91,9 @@ export enum PageId {
   // thirdweb.com/web3-dashboard
   DashboardLanding = "dashboard-landing",
 
+  // thirdweb.com/cointracts
+  ContractsLanding = "contracts-landing",
+
   // thirdweb.com/web3-storage
   StorageLanding = "storage-landing",
 
@@ -130,6 +133,8 @@ export enum PageId {
   DashboardConnectEmbeddedWallets = "dashboard-wallets-embedded",
   // thirdweb.com/dashboard/connect/analytics
   DashboardConnectAnalytics = "dashboard-wallets-analytics",
+  // thirdweb.com/dashboard/connect/pay
+  DashboardConnectPay = "dashboard-wallets-pay",
 
   // thirdweb.com/dashboard/contracts/build
   DashboardContractsBuild = "dashboard-contracts-build",
