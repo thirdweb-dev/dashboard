@@ -6,8 +6,10 @@ import {
   AccordionPanel,
   Box,
   Checkbox,
+  Flex,
 } from "@chakra-ui/react";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 type FilterItem = {
   label: string;
@@ -77,14 +79,32 @@ const filterItems: FilterItem[] = [
 
 type FilterProps = {
   queriedTags: TemplateTagId[];
+  expandAll?: boolean;
+  setSelectedTags: Dispatch<SetStateAction<TemplateTagId[]>>;
 };
 
-export default function FilterMenu(props: FilterProps) {
-  const { queriedTags } = props;
+const FilterMenu: React.FC<FilterProps> = ({
+  queriedTags,
+  expandAll,
+  setSelectedTags,
+}: FilterProps) => {
+  const handleToggleTag = (
+    event: ChangeEvent<HTMLInputElement>,
+    tagId: TemplateTagId,
+  ) => {
+    const isSelected = event.target.checked;
+    if (isSelected) queriedTags.push(tagId);
+    else queriedTags = queriedTags.filter((id) => id !== tagId);
+    setSelectedTags([...queriedTags]);
+  };
   return (
-    <>
+    <Flex flexDir={"column"} minW={"180px"}>
       {filterItems.map((item) => (
-        <Accordion allowMultiple key={item.label}>
+        <Accordion
+          defaultIndex={expandAll ? [0] : undefined}
+          allowMultiple
+          key={item.label}
+        >
           <AccordionItem>
             <h2>
               <AccordionButton>
@@ -98,7 +118,11 @@ export default function FilterMenu(props: FilterProps) {
               {item.tags.map((tag) => {
                 const selected = queriedTags.includes(tag.id);
                 return (
-                  <Checkbox defaultChecked={selected} key={tag.id}>
+                  <Checkbox
+                    isChecked={selected}
+                    key={tag.id}
+                    onChange={(e) => handleToggleTag(e, tag.id)}
+                  >
                     {tag.displayValue}
                   </Checkbox>
                 );
@@ -108,6 +132,8 @@ export default function FilterMenu(props: FilterProps) {
         </Accordion>
       ))}
       <br />
-    </>
+    </Flex>
   );
-}
+};
+
+export default FilterMenu;

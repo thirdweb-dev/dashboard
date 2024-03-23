@@ -16,7 +16,7 @@ import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
 import { TemplateCardProps } from "../data/_templates";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { useRouter } from "next/router";
 
@@ -31,19 +31,40 @@ type TemplateWrapperProps = {
 export default function TemplateWrapper(props: TemplateWrapperProps) {
   const { title, description, data, children, showFilterMenu } = props;
   const router = useRouter();
-  const query = router.query as { tags: string };
-  const queriedTags: string[] =
-    query && query.tags && showFilterMenu
-      ? query.tags
-          .split(",")
-          // Remove any strings that are not valid tag ids
-          .filter((tag) => TemplateTags.find((o) => o.id === tag))
-      : [];
-  const templates = queriedTags.length
-    ? data.filter((item) =>
-        queriedTags.every((_tag) => item.tags.includes(_tag as TemplateTagId)),
-      )
+  const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>([]);
+  const templates = showFilterMenu
+    ? selectedTags.length
+      ? data.filter((item) =>
+          selectedTags.every((tagId) => item.tags.includes(tagId)),
+        )
+      : data
     : data;
+
+  // Load selected tags from URL params
+  useEffect(() => {
+    if (!showFilterMenu) return;
+    if (!router || !router.query || !router.query.tags) return;
+    const query = router.query as { tags: string };
+    const queriedTags = query.tags
+      .split(",")
+      .filter((tag) => TemplateTags.find((o) => o.id === tag));
+    setSelectedTags(queriedTags as TemplateTagId[]);
+  }, [router]);
+
+  // Update URL Params on filters change
+  useEffect(() => {
+    if (!showFilterMenu) return;
+    if (!router) return;
+    const queryParams = new URLSearchParams(window.location.search);
+    if (selectedTags.length) {
+      queryParams.set("tags", selectedTags.join(","));
+      router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
+    } else {
+      queryParams.delete("tags");
+      router.push("", undefined, { shallow: true });
+    }
+  }, [router, selectedTags]);
+
   return (
     <DarkMode>
       <NextSeo
@@ -69,17 +90,37 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
         <HomepageSection py={24} ml="auto" mr="auto">
           {children}
           {showFilterMenu && (
-            <FilterMenu queriedTags={queriedTags as TemplateTagId[]} />
+            <Box display={{ base: "block", lg: "none" }}>
+              <FilterMenu
+                queriedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
+              />
+            </Box>
           )}
-          <SimpleGrid
-            columns={{ lg: 3, md: 2, base: 1 }}
-            gap={6}
-            margin="0 auto"
-          >
-            {templates.map((template, idx) => (
-              <TemplateCard key={template.title + idx} {...template} />
-            ))}
-          </SimpleGrid>
+          <Flex direction={{ base: "column", lg: "row" }} gap={4}>
+            {showFilterMenu && (
+              <Box
+                display={{ base: "none", lg: "block" }}
+                // position="sticky"
+                // top="40"
+              >
+                <FilterMenu
+                  queriedTags={selectedTags}
+                  expandAll={true}
+                  setSelectedTags={setSelectedTags}
+                />
+              </Box>
+            )}
+            <SimpleGrid
+              columns={{ lg: 3, md: 2, base: 1 }}
+              gap={6}
+              margin="0 auto"
+            >
+              {templates.map((template, idx) => (
+                <TemplateCard key={template.title + idx} {...template} />
+              ))}
+            </SimpleGrid>
+          </Flex>
         </HomepageSection>
       </Flex>
       <GetStartedSection />
