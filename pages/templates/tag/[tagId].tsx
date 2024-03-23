@@ -3,7 +3,7 @@ import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { ThirdwebNextPage } from "utils/types";
 import { PageId } from "page-id";
-import TemplateWrapper from "../Wrapper";
+import TemplateWrapper from "../components/Wrapper";
 import { Heading, Text } from "tw-components";
 
 type TagPageProps = {

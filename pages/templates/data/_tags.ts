@@ -1,3 +1,5 @@
+type Tag = { id: string; displayValue: string };
+
 export const TemplateTags = [
   {
     id: "engine",
@@ -95,6 +97,26 @@ export const TemplateTags = [
     id: "buy-&-sell",
     displayValue: "Buy & Sell",
   },
-] as const satisfies { id: string; displayValue: string }[];
+  {
+    id: "contract",
+    displayValue: "Contract",
+  },
+  {
+    id: "connect",
+    displayValue: "Connect",
+  },
+  {
+    id: "phygital",
+    displayValue: "Phygital",
+  },
+  {
+    id: "dao",
+    displayValue: "DAO",
+  },
+  {
+    id: "react-native",
+    displayValue: "React Native",
+  },
+] as const satisfies Tag[];
 
 export type TemplateTagId = (typeof TemplateTags)[number]["id"];

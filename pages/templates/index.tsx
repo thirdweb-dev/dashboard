@@ -2,7 +2,7 @@ import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { TEMPLATE_DATA } from "./data/_templates";
-import TemplateWrapper from "./Wrapper";
+import TemplateWrapper from "./components/Wrapper";
 import { useRouter } from "next/router";
 import { TemplateTagId, TemplateTags } from "./data/_tags";
 import { useState } from "react";
@@ -13,7 +13,7 @@ const description =
 
 const Templates: ThirdwebNextPage = () => {
   const router = useRouter();
-  const query = router.query as { tags: string }  
+  const query = router.query as { tags: string };
   const queriedTags: string[] = query.tags
     ? query.tags
         .split(",")
@@ -26,38 +26,45 @@ const Templates: ThirdwebNextPage = () => {
       )
     : TEMPLATE_DATA;
   return (
-    <TemplateWrapper title={title} description={description} data={templates}>
-      <Heading
-        as="h1"
-        fontSize={{ base: "64px", md: "64px" }}
-        fontWeight={700}
-        letterSpacing="-0.04em"
-        mb={4}
-        textAlign="center"
+    <>
+      <TemplateWrapper
+        title={title}
+        description={description}
+        data={templates}
+        showFilterMenu={true}
       >
-        Explore{" "}
-        <Text
+        <Heading
+          as="h1"
           fontSize={{ base: "64px", md: "64px" }}
           fontWeight={700}
           letterSpacing="-0.04em"
-          as="span"
-          bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
-          bgClip="text"
+          mb={4}
+          textAlign="center"
         >
-          templates
+          Explore{" "}
+          <Text
+            fontSize={{ base: "64px", md: "64px" }}
+            fontWeight={700}
+            letterSpacing="-0.04em"
+            as="span"
+            bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+            bgClip="text"
+          >
+            templates
+          </Text>
+          .
+        </Heading>
+        <Text
+          fontSize="20px"
+          textAlign="center"
+          size="body.lg"
+          mb={14}
+          fontWeight={500}
+        >
+          Kickstart your development process with ready-to-ship repositories.
         </Text>
-        .
-      </Heading>
-      <Text
-        fontSize="20px"
-        textAlign="center"
-        size="body.lg"
-        mb={14}
-        fontWeight={500}
-      >
-        Kickstart your development process with ready-to-ship repositories.
-      </Text>
-    </TemplateWrapper>
+      </TemplateWrapper>
+    </>
   );
 };
 

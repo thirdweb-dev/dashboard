@@ -18,7 +18,7 @@ import {
   TrackedLinkButton,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { getDisplayTagFromTagId } from "./Wrapper";
+import { getDisplayTagFromTagId } from "./components/Wrapper";
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 
 type TemplateContentsProps = {

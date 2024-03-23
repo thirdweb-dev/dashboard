@@ -14,19 +14,36 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { TemplateCardProps } from "./data/_templates";
-import { TemplateTagId, TemplateTags } from "./data/_tags";
+import { TemplateCardProps } from "../data/_templates";
+import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ReactNode } from "react";
+import FilterMenu from "./FilterMenu";
+import { useRouter } from "next/router";
 
 type TemplateWrapperProps = {
   title: string;
   description: string;
   data: TemplateCardProps[];
   children: ReactNode;
+  showFilterMenu?: boolean;
 };
 
 export default function TemplateWrapper(props: TemplateWrapperProps) {
-  const { title, description, data, children } = props;
+  const { title, description, data, children, showFilterMenu } = props;
+  const router = useRouter();
+  const query = router.query as { tags: string };
+  const queriedTags: string[] =
+    query && query.tags && showFilterMenu
+      ? query.tags
+          .split(",")
+          // Remove any strings that are not valid tag ids
+          .filter((tag) => TemplateTags.find((o) => o.id === tag))
+      : [];
+  const templates = queriedTags.length
+    ? data.filter((item) =>
+        queriedTags.every((_tag) => item.tags.includes(_tag as TemplateTagId)),
+      )
+    : data;
   return (
     <DarkMode>
       <NextSeo
@@ -51,12 +68,15 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
         <HomepageTopNav />
         <HomepageSection py={24} ml="auto" mr="auto">
           {children}
+          {showFilterMenu && (
+            <FilterMenu queriedTags={queriedTags as TemplateTagId[]} />
+          )}
           <SimpleGrid
             columns={{ lg: 3, md: 2, base: 1 }}
             gap={6}
             margin="0 auto"
           >
-            {data.map((template, idx) => (
+            {templates.map((template, idx) => (
               <TemplateCard key={template.title + idx} {...template} />
             ))}
           </SimpleGrid>
@@ -147,6 +167,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
                   alignItems="center"
                   justifyContent="center"
                   href={`/templates/tag/${tag}`}
+                  _hover={{ borderColor: "white", "& > *": { opacity: 1 } }}
                 >
                   <Text
                     as="span"
