@@ -95,6 +95,6 @@ export const TemplateTags = [
     id: "buy-&-sell",
     displayValue: "Buy & Sell",
   },
-] as const;
+] as const satisfies { id: string; displayValue: string }[];
 
 export type TemplateTagId = (typeof TemplateTags)[number]["id"];

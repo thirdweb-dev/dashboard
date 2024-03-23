@@ -19,6 +19,7 @@ import {
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { getDisplayTagFromTagId } from "./Wrapper";
+import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 
 type TemplateContentsProps = {
   overview: React.ReactNode;
@@ -433,11 +434,12 @@ const templateContents: Record<
 
 type TemplatePageProps = {
   template: TemplateCardProps;
+  readmeContent: string;
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
-  const contents = templateContents[props.template.id];
-
+  const { readmeContent, template } = props;
+  const contents = templateContents[template.id];
   return (
     <DarkMode>
       <Flex
@@ -472,8 +474,8 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             top={{ base: "auto", md: 24 }}
           >
             <Image
-              src={props.template.img}
-              alt={`Screenshot of ${props.template.title} template`}
+              src={template.img}
+              alt={`Screenshot of ${template.title} template`}
               width="100%"
               height={{ base: "auto", md: 442 }}
               objectFit="cover"
@@ -483,7 +485,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             />
 
             <Heading as="h1" fontSize="48px" fontWeight={700}>
-              {props.template.title}
+              {template.title}
             </Heading>
             <Text
               mt={4}
@@ -493,7 +495,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
               opacity={0.7}
               color="whiteAlpha.900"
             >
-              {props.template.description}
+              {template.description}
             </Text>
             <Flex
               direction="row"
@@ -502,7 +504,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
               my={4}
               flexWrap="wrap"
             >
-              {props.template.tags.map((tag, idx) => (
+              {template.tags.map((tag, idx) => (
                 <Box
                   as="div"
                   key={idx}
@@ -543,8 +545,8 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
               </Text>
               <Flex direction="row" alignItems="center" mt={2}>
                 <Image
-                  src={props.template.authorIcon}
-                  alt={`Icon of ${props.template.authorENS}`}
+                  src={template.authorIcon}
+                  alt={`Icon of ${template.authorENS}`}
                   width="16px"
                   height="16px"
                   mr={1}
@@ -558,7 +560,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                   letterSpacing="-0.02em"
                   opacity={0.75}
                 >
-                  {props.template.authorENS}
+                  {template.authorENS}
                 </Text>
               </Flex>
             </Box>
@@ -566,7 +568,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             <Flex mt={8}>
               <ProductButton
                 title={"View Demo"}
-                href={props.template.homepage}
+                href={template.homepage}
                 color="blackAlpha.900"
                 bg="white"
                 height="44px"
@@ -584,7 +586,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                 py={"22px"}
                 textAlign="center"
                 borderRadius="md"
-                href={props.template.repo}
+                href={template.repo}
                 isExternal={true}
                 noIcon
                 height="44px"
@@ -609,8 +611,8 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             height={"100%"}
           >
             <Image
-              src={props.template.img}
-              alt={`Screenshot of ${props.template.title} template`}
+              src={template.img}
+              alt={`Screenshot of ${template.title} template`}
               width="100%"
               height={{ base: "auto", md: 442 }}
               objectFit="cover"
@@ -618,7 +620,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
               display={{ base: "none", md: "block" }}
             />
 
-            {props.template.contractLink && (
+            {template.contractLink && (
               <Flex
                 w="full"
                 border="1px solid rgba(255, 255, 255, 0.2)"
@@ -642,18 +644,18 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                   </Text>
 
                   <Link
-                    href={props.template.contractLink}
+                    href={template.contractLink}
                     isExternal
                     color="blue.300"
                     fontWeight={600}
                     fontSize={28}
                   >
-                    {props.template.contractName} Contract
+                    {template.contractName} Contract
                   </Link>
                 </Flex>
 
                 <TrackedLinkButton
-                  href={props.template.contractLink}
+                  href={template.contractLink}
                   category="template-page"
                   label="deploy-your-own"
                   bg="white"
@@ -684,10 +686,12 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             >
               Kick start your project by copying this command into your CLI.
             </Text>
-            <CodeBlock
-              text={`npx thirdweb create --template ${props.template.id}`}
-            />
+            <CodeBlock text={`npx thirdweb create --template ${template.id}`} />
             {contents}
+
+            {readmeContent && (
+              <MarkdownRenderer marginTop={20} markdownText={readmeContent}></MarkdownRenderer>
+            )}
           </Box>
         </Flex>
       </Flex>
@@ -714,9 +718,14 @@ export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
       };
     }
 
+    const readmeUrl = `https://raw.githubusercontent.com/thirdweb-example/${templateId}/main/README.md`;
+    const response = await fetch(readmeUrl);
+    const readmeContent = response.ok ? await response.text() : "";
+
     return {
       props: {
         template,
+        readmeContent,
       },
     };
   } catch (error) {
