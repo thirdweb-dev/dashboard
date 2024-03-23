@@ -144,7 +144,7 @@ export const TEMPLATE_DATA: TemplateCardProps[] = [
       "Allow users to scan a QR code received with a physical product to mint an NFT using thirdweb engine.",
     img: "/assets/templates/phygital-experience.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
-    tags: ["erc721", "engine"],
+    tags: ["erc721", "engine", "phygital"],
     authorENS: "thirdweb.eth",
     authorIcon: "/assets/templates/thirdweb-eth.png",
   },

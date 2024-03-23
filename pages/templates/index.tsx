@@ -65,9 +65,7 @@ type TemplatePageProps = {
   _defaultTemplates: (typeof TEMPLATE_DATA)[number][];
 };
 
-export async function getServerSideProps<TemplatePageProps>(
-  context: GetServerSidePropsContext,
-) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { tags } = context.query;
   const _defaultTagIds = tags
     ? ((tags as string)

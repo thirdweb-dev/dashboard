@@ -506,7 +506,8 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             >
               {template.tags.map((tag, idx) => (
                 <Box
-                  as="div"
+                  as="a"
+                  href={`/templates/tag/${tag}`}
                   key={idx}
                   color="whiteAlpha.700"
                   border="1px solid #383838"
@@ -517,6 +518,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                   alignItems={"center"}
                   justifyContent={"center"}
                   mt={1}
+                  _hover={{ borderColor: "white", "& > *": { opacity: 1 } }}
                 >
                   <Text
                     as="span"

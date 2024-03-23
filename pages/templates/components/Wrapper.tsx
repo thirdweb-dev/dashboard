@@ -18,6 +18,7 @@ import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ReactNode, useState } from "react";
 import FilterMenu from "./FilterMenu";
+import { FiSearch } from "react-icons/fi";
 
 type TemplateWrapperProps = {
   title: string;
@@ -35,7 +36,7 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
     useState<TemplateTagId[]>(_defaultTagIds);
   const templates = showFilterMenu
     ? selectedTags.length
-      ? data.filter((item) =>
+      ? TEMPLATE_DATA.filter((item) =>
           selectedTags.every((tagId) => item.tags.includes(tagId)),
         )
       : TEMPLATE_DATA
@@ -87,15 +88,26 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
                 />
               </Box>
             )}
-            <SimpleGrid
-              columns={{ lg: 3, md: 2, base: 1 }}
-              gap={6}
-              margin="0 auto"
-            >
-              {templates.map((template, idx) => (
-                <TemplateCard key={template.title + idx} {...template} />
-              ))}
-            </SimpleGrid>
+            {templates.length > 0 ? (
+              <SimpleGrid
+                columns={{ lg: 3, md: 2, base: 1 }}
+                gap={6}
+                margin="0 auto"
+              >
+                {templates.map((template, idx) => (
+                  <TemplateCard key={template.title + idx} {...template} />
+                ))}
+              </SimpleGrid>
+            ) : (
+              <Flex flexDir="column" justifyItems={"center"} width={"full"}>
+                <Box marginX={"auto"}>
+                  <FiSearch size={50} />
+                </Box>
+                <Text align={"center"} mt={"20px"}>
+                  No results found. Try adjusting your filters.
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </HomepageSection>
       </Flex>
