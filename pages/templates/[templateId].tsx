@@ -20,6 +20,7 @@ import {
 import { ThirdwebNextPage } from "utils/types";
 import { getDisplayTagFromTagId } from "./components/Wrapper";
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
+import { NextSeo } from "next-seo";
 
 type TemplateContentsProps = {
   overview: React.ReactNode;
@@ -440,8 +441,22 @@ type TemplatePageProps = {
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
   const { readmeContent, template } = props;
   const contents = templateContents[template.id];
+  const { title, description, img } = template;
   return (
     <DarkMode>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+          images: [
+            {
+              url: `https://thirdweb.com/${img}`,
+            },
+          ],
+        }}
+      />
       <Flex
         sx={{
           // overwrite the theme colors because the page is *always* in "dark mode"

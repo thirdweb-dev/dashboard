@@ -26,14 +26,14 @@ type TemplateWrapperProps = {
   data: TemplateCardProps[];
   children: ReactNode;
   showFilterMenu?: boolean;
-  _defaultTagIds: TemplateTagId[];
+  _defaultTagIds?: TemplateTagId[];
 };
 
 export default function TemplateWrapper(props: TemplateWrapperProps) {
   const { title, description, data, children, showFilterMenu, _defaultTagIds } =
     props;
   const [selectedTags, setSelectedTags] =
-    useState<TemplateTagId[]>(_defaultTagIds);
+    useState<TemplateTagId[]>(_defaultTagIds || []);
   const templates = showFilterMenu
     ? selectedTags.length
       ? TEMPLATE_DATA.filter((item) =>

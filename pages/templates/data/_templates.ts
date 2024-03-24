@@ -7,7 +7,7 @@ export interface TemplateCardProps {
   homepage: string;
   // Repo is usually just github.com/thirdweb-example/<id>, but just to be safe.
   repo: string;
-  description: React.ReactNode;
+  description: string;
   img: string;
   hoverBorderColor: string;
   tags: TemplateTagId[];
@@ -17,6 +17,7 @@ export interface TemplateCardProps {
   contractLink?: string;
 
   // Hidden on the front-end - for search purpose only
+  // To improve the search result, put as many relevant tagId in here as possible
   keywords?: TemplateTagId[];
 }
 
