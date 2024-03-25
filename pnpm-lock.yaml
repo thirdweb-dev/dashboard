@@ -74,8 +74,8 @@ dependencies:
     specifier: 0.4.22-nightly-663759975-20240319182005
     version: 0.4.22-nightly-663759975-20240319182005
   '@thirdweb-dev/storage':
-    specifier: 2.0.10
-    version: 2.0.10
+    specifier: 2.0.11
+    version: 2.0.11
   '@vercel/og':
     specifier: ^0.5.20
     version: 0.5.20
@@ -4153,7 +4153,6 @@ packages:
   /@noble/hashes@1.4.0:
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
     engines: {node: '>= 16'}
-    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5738,7 +5737,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.9
       '@noble/curves': 1.3.0
-      '@noble/hashes': 1.3.3
+      '@noble/hashes': 1.4.0
       '@solana/buffer-layout': 4.0.1
       agentkeepalive: 4.5.0
       bigint-buffer: 1.1.5
@@ -6461,8 +6460,16 @@ packages:
     resolution: {integrity: sha512-SYEkdtdhTOAcgGklqPrKgyIftA2x0WBTtpAEyJBTLCL1z+2IKvExWZyZn3Mx2cZ8skO3iAfGzC4Si2ORWBcS2g==}
     engines: {node: '>=18'}
     dependencies:
-      '@noble/hashes': 1.3.3
+      '@noble/hashes': 1.4.0
       js-sha3: 0.9.3
+
+  /@thirdweb-dev/crypto@0.2.2:
+    resolution: {integrity: sha512-jOwHtdViJYZ5015F3xZvwmnFZLrgTx2RkE7bAiG/N83f5TduwQBM3PAPTbW3aBOECaoSrbmgj/lQEOv7543z3Q==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@noble/hashes': 1.4.0
+      js-sha3: 0.9.3
+    dev: false
 
   /@thirdweb-dev/dynamic-contracts@1.2.5:
     resolution: {integrity: sha512-YVsz+jUWbwj+6aF2eTZGMfyw47a1HRmgNl4LQ3gW9gwYL5y5+OX/yOzv6aV5ibvoqCk/k10aIVK2eFrcpMubQA==}
@@ -6685,6 +6692,16 @@ packages:
       cid-tool: 3.0.0
       form-data: 4.0.0
       uuid: 9.0.1
+
+  /@thirdweb-dev/storage@2.0.11:
+    resolution: {integrity: sha512-gCe/Q6n7RATKz8tHI0fQL8u5u08MGakCh76ROmHAPEBzMUCEJFIO9278na7l3uWOJignQ5Ym5nf0zcIutuF7HQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@thirdweb-dev/crypto': 0.2.2
+      cid-tool: 3.0.0
+      form-data: 4.0.0
+      uuid: 9.0.1
+    dev: false
 
   /@thirdweb-dev/wallets@2.4.23-nightly-663759975-20240319182005(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.67)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.2)(zksync-web3@0.14.4):
     resolution: {integrity: sha512-EfO2lVpApjNiXxffEgZ7xtri87KOjq04XCGGPuuXvaPBjbjSYB3B8DC747mWirlGLciUyfoHf4ny6PqIXVhgjw==}
