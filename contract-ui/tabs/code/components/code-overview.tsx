@@ -62,77 +62,38 @@ interface CodeOverviewProps {
 
 const COMMANDS = {
   install: {
-    javascript: "npm install @thirdweb-dev/sdk ethers@5",
-    react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
-    "react-native": "React Native",
-    web3button: "",
-    python: "pip install thirdweb-sdk",
-    go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+    javascript: "npm i thirdweb",
+    react: "npm i thirdweb",
+    "react-native": "npm i thirdweb",
     unity: `// Download the .unitypackage from the latest release:
 // https://github.com/thirdweb-dev/unity-sdk/releases
 // and drag it into your project`,
   },
   setup: {
-    javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+    javascript: `import { createThirdwebClient, getContract } from "thirdweb";
+import { {{chainName}} } from "thirdweb/chains";
 
-// If used on the FRONTEND pass your 'clientId'
-const sdk = new ThirdwebSDK({{chainName}}, {
-  clientId: "YOUR_CLIENT_ID",
-});
-// --- OR ---
-// If used on the BACKEND pass your 'secretKey'
-const sdk = new ThirdwebSDK({{chainName}}, {
-  secretKey: "YOUR_SECRET_KEY",
-});
+// create the client with your clientId, or secretKey if in a server environment
+const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
 
-const contract = await sdk.getContract("{{contract_address}}");`,
-    react: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+// connect to your contract
+const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
+    react: `import { createThirdwebClient, getContract } from "thirdweb";
+import { {{chainName}} } from "thirdweb/chains";
 
-function App() {
-  return (
-    <ThirdwebProvider
-      activeChain={{chainName}}
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
-    >
-      <Component />
-    </ThirdwebProvider>
-  )
-}
+// create the client with your clientId, or secretKey if in a server environment
+const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
 
-function Component() {
-  const { contract, isLoading } = useContract("{{contract_address}}");
-}`,
-    "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
+// connect to your contract
+const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
+    "react-native": `import { createThirdwebClient, getContract } from "thirdweb";
+import { {{chainName}} } from "thirdweb/chains";
 
-function App() {
-  return (
-    <ThirdwebProvider
-      activeChain={{chainName}}
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
-    >
-      <Component />
-    </ThirdwebProvider>
-  )
-}
+// create the client with your clientId, or secretKey if in a server environment
+const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
 
-function Component() {
-  const { contract, isLoading } = useContract("{{contract_address}}");
-}`,
-    web3button: ``,
-    python: `from thirdweb import ThirdwebSDK
-
-sdk = ThirdwebSDK("{{chainNameOrRpc}}", options=SDKOptions(secret_key="YOUR_SECRET_KEY"))
-contract = sdk.get_contract("{{contract_address}}")`,
-    go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
-
-sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}", &thirdweb.SDKOptions{
-  SecretKey: "YOUR_SECRET_KEY",
-})
-contract, err := sdk.GetContract("{{contract_address}}")
-`,
+// connect to your contract
+const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
     unity: `using Thirdweb;
 
 // Reference the SDK
@@ -142,102 +103,129 @@ var sdk = ThirdwebManager.Instance.SDK;
 var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
-    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
-    react: `import { useContract, useContractRead } from "@thirdweb-dev/react";
+    javascript: `import { readContract } from "thirdweb";
+
+const data = await readContract({ 
+  contract, 
+  method: "{{function}}", 
+  params: [{{args}}] 
+})`,
+    react: `import { useReadContract } from "thirdweb/react";
 
 export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
+  const { data, isLoading } = useReadContract({ 
+    contract, 
+    method: "{{function}}", 
+    params: [{{args}}] 
+  });
 }`,
-    "react-native": `import { useContract, useContractRead } from "@thirdweb-dev/react-native";
+    "react-native": `import { useReadContract } from "thirdweb/react";
 
 export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
+  const { data, isLoading } = useReadContract({ 
+    contract, 
+    method: "{{function}}", 
+    params: [{{args}}] 
+  });
 }`,
-    python: `data = contract.call("{{function}}", {{args}})`,
-    go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   write: {
-    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
-    react: `import { useContract, useContractWrite } from "@thirdweb-dev/react";
+    javascript: `import { prepareContractCall, sendTransaction } from "thirdweb";
+
+const transaction = await prepareContractCall({ 
+  contract, 
+  method: "{{function}}", 
+  params: [{{args}}] 
+});
+const { transactionHash } = await sendTransaction({ 
+  transaction, 
+  account 
+})`,
+    react: `import { prepareContractCall } from "thirdweb"
+import { useSendTransaction } from "@thirdweb-dev/react";
 
 export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  const { mutateAsync: {{function}}, isLoading } = useContractWrite(contract, "{{function}}")
+  const { mutate: sendTransaction, isLoading, isError } = useSendTransaction();
 
   const call = async () => {
-    try {
-      const data = await {{function}}({ args: [{{args}}] });
-      console.info("contract call successs", data);
-    } catch (err) {
-      console.error("contract call failure", err);
-    }
+    const transaction = await prepareContractCall({ 
+      contract, 
+      method: "{{function}}", 
+      params: [{{args}}] 
+    });
+    const { transactionHash } = await sendTransaction(transaction);
   }
 }`,
-    "react-native": `import { useContract, useContractWrite } from "@thirdweb-dev/react-native";
-
+    "react-native": `import { prepareContractCall } from "thirdweb"
+import { useSendTransaction } from "@thirdweb-dev/react";
+    
 export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  const { mutateAsync: {{function}}, isLoading } = useContractWrite(contract, "{{function}}")
-
+  const { mutate: sendTransaction, isLoading, isError } = useSendTransaction();
+    
   const call = async () => {
-    try {
-      const data = await {{function}}({ args: [{{args}}] });
-      console.info("contract call successs", data);
-    } catch (err) {
-      console.error("contract call failure", err);
-    }
+    const transaction = await prepareContractCall({ 
+      contract, 
+      method: "{{function}}", 
+      params: [{{args}}] 
+    });
+    const { transactionHash } = await sendTransaction(transaction);
   }
 }`,
-    web3button: `import { Web3Button } from "@thirdweb-dev/react";
+    web3button: `import { TransactionButton } from "thirdweb/react";
 
 export default function Component() {
   return (
-    <Web3Button
-      contractAddress="{{contract_address}}"
-      action={(contract) => {
-        contract.call("{{function}}", [{{args}}])
-      }}
+    <TransactionButton
+      transaction={() => prepareContractCall({ 
+        contract, 
+        method: "{{function}}", 
+        params: [{{args}}] 
+      })}
     >
       {{function}}
-    </Web3Button>
+    </TransactionButton>
   )
 }`,
-    python: `data = contract.call("{{function}}", {{args}})`,
-    go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   events: {
-    javascript: `// You can get a specific event
-const events = await contract.events.getEvents("{{function}}")
-// All events
-const allEvents = await contract.events.getAllEvents();
-// Or set up a listener for all events
-const listener = await contract.events.listenToAllEvents();`,
-    react: `import { useContract, useContractEvents } from "@thirdweb-dev/react";
+    javascript: `import { prepareEvent, getContractEvents } from "thirdweb";
+
+const preparedEvent = prepareEvent({ 
+  contract, 
+  signature: "{{function}}" 
+});
+const events = await getContractEvents({ 
+  contract, 
+  events: [preparedEvent] 
+});`,
+    react: `import { prepareEvent } from "thirdweb";
+import { useContractEvents } from "thirdweb/react";
+
+const preparedEvent = prepareEvent({ 
+  contract, 
+  signature: "{{function}}" 
+});
 
 export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  // You can get a specific event
-  const { data: event } = useContractEvents(contract, "{{function}}")
-  // All events
-  const { data: allEvents } = useContractEvents(contract)
-  // By default, you set up a listener for all events, but you can disable it
-  const { data: eventWithoutListener } = useContractEvents(contract, undefined, { subscribe: false })
+  const { data: event } = useContractEvents({ 
+    contract, 
+    events: [preparedEvent] 
+  });
 }`,
-    "react-native": `import { useContract, useContractEvents } from "@thirdweb-dev/react-native";
-
-export default function Component() {
-  const { contract } = useContract("{{contract_address}}");
-  // You can get a specific event
-  const { data: event } = useContractEvents(contract, "{{function}}")
-  // All events
-  const { data: allEvents } = useContractEvents(contract)
-  // By default, you set up a listener for all events, but you can disable it
-  const { data: eventWithoutListener } = useContractEvents(contract, undefined, { subscribe: false })
-}`,
-    python: `events = contract.get_events("{{function}}", {{args}})`,
-    go: `events, err := contract.GetEvents("{{function}}", {{args}})`,
+    "react-native": `import { prepareEvent } from "thirdweb";
+    import { useContractEvents } from "thirdweb/react";
+    
+    const preparedEvent = prepareEvent({ 
+      contract, 
+      signature: "{{function}}" 
+    });
+    
+    export default function Component() {
+      const { data: event } = useContractEvents({ 
+        contract, 
+        events: [preparedEvent] 
+      });
+    }`,
   },
 };
 
@@ -355,6 +343,7 @@ interface SnippetOptions {
   rpcUrl?: string;
   address?: string;
   clientId?: string;
+  chainId?: number;
 }
 
 function formatSnippet(
@@ -364,6 +353,7 @@ function formatSnippet(
     fn,
     args,
     chainName,
+    chainId,
     rpcUrl,
     address,
     clientId,
@@ -381,21 +371,18 @@ function formatSnippet(
       ?.replace("YOUR_CLIENT_ID", clientId || "YOUR_CLIENT_ID")
 
       ?.replace(
-        'import {{chainName}} from "@thirdweb-dev/chains";',
+        'import { {{chainName}} } from "thirdweb/chains";',
         preSupportedSlugs.includes(chainName as any)
-          ? ""
-          : `import ${env === "javascript" ? "{ {{chainName}} }" : "{{chainName}}"
-          } from "@thirdweb-dev/chains";`,
+          ? `import { {{chainName}} } from "thirdweb/chains";`
+          : `import { defineChain } from "thirdweb";`,
       )
       ?.replace(
         /{{chainName}}/gm,
         !chainName || chainName?.startsWith("0x") || chainName?.endsWith(".eth")
-          ? '"ethereum"'
+          ? "ethereum"
           : preSupportedSlugs.includes(chainName as any)
-            ? `"${chainName}"`
-            : env === "javascript"
-              ? getExportName(chainName)
-              : `{ ${getExportName(chainName)} }`,
+            ? `${chainName}`
+            : `defineChain(${chainId})`,
       )
       ?.replace(/{{function}}/gm, fn || "")
       ?.replace(
@@ -403,10 +390,10 @@ function formatSnippet(
         preSupportedSlugs.includes(chainName as any)
           ? chainName
           : rpcUrl?.replace(
-            // eslint-disable-next-line no-template-curly-in-string
-            "${THIRDWEB_API_KEY}",
-            DASHBOARD_THIRDWEB_CLIENT_ID,
-          ) || "",
+              // eslint-disable-next-line no-template-curly-in-string
+              "${THIRDWEB_API_KEY}",
+              DASHBOARD_THIRDWEB_CLIENT_ID,
+            ) || "",
       );
 
     if (args && args?.some((arg) => arg)) {
@@ -423,7 +410,7 @@ function formatSnippet(
 
 export const CodeOverview: React.FC<CodeOverviewProps> = ({
   abi,
-  contractAddress = constants.AddressZero,
+  contractAddress = "0x...",
   onlyInstall = false,
   chain,
   noSidebar = false,
@@ -503,9 +490,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         {isAccountFactory && (
           <Flex flexDirection="column" gap={4}>
             <Flex flexDir="column" gap={6} id="integrate-smart-wallet">
-              <Heading size="title.md">
-                Integrate your account factory
-              </Heading>
+              <Heading size="title.md">Integrate your account factory</Heading>
               <Alert
                 status="info"
                 borderRadius="md"
@@ -612,6 +597,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               snippet={formatSnippet(COMMANDS.setup as any, {
                 contractAddress,
                 chainName,
+                chainId: chain?.chainId,
                 rpcUrl: rpc,
               })}
               hideTabs
@@ -718,148 +704,148 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                   <List height="100%" overflowX="hidden">
                     {((writeFunctions || []).length > 0 ||
                       (readFunctions || []).length > 0) && (
-                        <Tabs
-                          colorScheme="gray"
-                          h="100%"
-                          position="relative"
-                          display="flex"
-                          flexDir="column"
-                        >
-                          <TabList as={Flex}>
-                            {(writeFunctions || []).length > 0 && (
-                              <Tab gap={2} flex={"1 1 0"}>
-                                <Heading color="inherit" my={1} size="label.md">
-                                  Write
-                                </Heading>
-                              </Tab>
-                            )}
-                            {(readFunctions || []).length > 0 && (
-                              <Tab gap={2} flex={"1 1 0"}>
-                                <Heading color="inherit" my={1} size="label.md">
-                                  Read
-                                </Heading>
-                              </Tab>
-                            )}
-                            {(events || []).length > 0 && (
-                              <Tab gap={2} flex={"1 1 0"}>
-                                <Heading color="inherit" my={1} size="label.md">
-                                  Events
-                                </Heading>
-                              </Tab>
-                            )}
-                          </TabList>
-                          <TabPanels h="auto" overflow="auto">
-                            <TabPanel>
-                              {writeFunctions?.map((fn) => (
-                                <ListItem my={0.5} key={fn.signature}>
-                                  <Button
-                                    size="sm"
-                                    fontWeight={
-                                      tab === "write" &&
-                                        (write as AbiFunction).signature ===
-                                        (fn as AbiFunction).signature
-                                        ? 600
-                                        : 400
-                                    }
-                                    opacity={
-                                      tab === "write" &&
-                                        (write as AbiFunction).signature ===
-                                        (fn as AbiFunction).signature
-                                        ? 1
-                                        : 0.65
-                                    }
-                                    onClick={() => {
-                                      setTab("write");
-                                      setWrite(fn);
-                                    }}
-                                    color="heading"
-                                    _hover={{
-                                      opacity: 1,
-                                      textDecor: "underline",
-                                    }}
-                                    variant="link"
-                                    fontFamily="mono"
-                                  >
-                                    {fn.name}
-                                  </Button>
-                                </ListItem>
-                              ))}
-                            </TabPanel>
-                            <TabPanel>
-                              {readFunctions?.map((fn) => (
-                                <ListItem my={0.5} key={fn.signature}>
-                                  <Button
-                                    size="sm"
-                                    fontWeight={
-                                      tab === "read" &&
-                                        (read as AbiFunction).signature ===
-                                        (fn as AbiFunction).signature
-                                        ? 600
-                                        : 400
-                                    }
-                                    opacity={
-                                      tab === "read" &&
-                                        (read as AbiFunction).signature ===
-                                        (fn as AbiFunction).signature
-                                        ? 1
-                                        : 0.65
-                                    }
-                                    onClick={() => {
-                                      setTab("read");
-                                      setRead(fn);
-                                    }}
-                                    color="heading"
-                                    _hover={{
-                                      opacity: 1,
-                                      textDecor: "underline",
-                                    }}
-                                    variant="link"
-                                    fontFamily="mono"
-                                  >
-                                    {fn.name}
-                                  </Button>
-                                </ListItem>
-                              ))}
-                            </TabPanel>
-                            <TabPanel>
-                              {events?.map((ev) => (
-                                <ListItem my={0.5} key={ev.name}>
-                                  <Button
-                                    size="sm"
-                                    fontWeight={
-                                      tab === "events" &&
-                                        (event as AbiEvent).name ===
-                                        (ev as AbiEvent).name
-                                        ? 600
-                                        : 400
-                                    }
-                                    opacity={
-                                      tab === "events" &&
-                                        (event as AbiEvent).name ===
-                                        (ev as AbiEvent).name
-                                        ? 1
-                                        : 0.65
-                                    }
-                                    onClick={() => {
-                                      setTab("events");
-                                      setEvent(ev);
-                                    }}
-                                    color="heading"
-                                    _hover={{
-                                      opacity: 1,
-                                      textDecor: "underline",
-                                    }}
-                                    variant="link"
-                                    fontFamily="mono"
-                                  >
-                                    {ev.name}
-                                  </Button>
-                                </ListItem>
-                              ))}
-                            </TabPanel>
-                          </TabPanels>
-                        </Tabs>
-                      )}
+                      <Tabs
+                        colorScheme="gray"
+                        h="100%"
+                        position="relative"
+                        display="flex"
+                        flexDir="column"
+                      >
+                        <TabList as={Flex}>
+                          {(writeFunctions || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Write
+                              </Heading>
+                            </Tab>
+                          )}
+                          {(readFunctions || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Read
+                              </Heading>
+                            </Tab>
+                          )}
+                          {(events || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Events
+                              </Heading>
+                            </Tab>
+                          )}
+                        </TabList>
+                        <TabPanels h="auto" overflow="auto">
+                          <TabPanel>
+                            {writeFunctions?.map((fn) => (
+                              <ListItem my={0.5} key={fn.signature}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "write" &&
+                                    (write as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "write" &&
+                                    (write as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("write");
+                                    setWrite(fn);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {fn.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                          <TabPanel>
+                            {readFunctions?.map((fn) => (
+                              <ListItem my={0.5} key={fn.signature}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "read" &&
+                                    (read as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "read" &&
+                                    (read as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("read");
+                                    setRead(fn);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {fn.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                          <TabPanel>
+                            {events?.map((ev) => (
+                              <ListItem my={0.5} key={ev.name}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "events" &&
+                                    (event as AbiEvent).name ===
+                                      (ev as AbiEvent).name
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "events" &&
+                                    (event as AbiEvent).name ===
+                                      (ev as AbiEvent).name
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("events");
+                                    setEvent(ev);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {ev.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                        </TabPanels>
+                      </Tabs>
+                    )}
                   </List>
                 </GridItem>
                 <GridItem
@@ -898,6 +884,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                           )
                           ?.inputs?.map((i) => i.name),
                         chainName,
+                        chainId: chain?.chainId,
                       },
                     )}
                   />
