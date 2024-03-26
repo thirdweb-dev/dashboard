@@ -5,12 +5,11 @@ import {
   Icon,
   Divider,
   Input,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
-import { FormLabel } from "tw-components";
+import { FormLabel, FormErrorMessage } from "tw-components";
 
 interface ExternalLinksInputProps {
   index: number;
