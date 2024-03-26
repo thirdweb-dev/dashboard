@@ -73,51 +73,18 @@ Contract contract = sdk.GetContract("0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e"
 List<NFT> nfts = await contract.ERC721.GetAll()`,
 };
 
-const authSnippets = {
-  javascript: `import { createAuth } from "thirdweb/auth";
-
-const auth = createAuth({ domain: "example.com" });
-
-// 1. genererate a login payload for a client on the server side
-const loginPayload = await auth.generatePayload({ address: '0x123...' });
-// 2. send the login payload to the client
-// 3. verify the login payload that the client sends back later
-const verifiedPayload = await auth.verifyPayload({ payload: loginPayload, signature: '0x123...' });
-// 4. generate a JWT for the client
-const jwt = await auth.generateJWT({ payload: verifiedPayload });
-// 5. set the JWT as a cookie or otherwise provide it to the client
-// 6. authenticate the client based on the JWT on subsequent calls
- const { valid, parsedJWT } = await auth.verifyJWT({ jwt });
- `,
-  unity: `using Thirdweb;
-
-// Reference the SDK
-var sdk = ThirdwebManager.Instance.SDK;
-
-// Generate and sign
-LoginPayload data = await ThirdwebManager.Instance.SDK.wallet.Authenticate("example.com");
-
-// Verify
-string result = await ThirdwebManager.Instance.SDK.wallet.Verify(data);`,
-};
-
 export interface CodeSelectorProps {
   defaultLanguage?: CodeOptions;
-  snippets?: "landing" | "auth";
   docs?: string;
 }
 
 export const CodeSelector: React.FC<CodeSelectorProps> = ({
   defaultLanguage = "javascript",
-  snippets = "landing",
   docs = "https://portal.thirdweb.com/",
 }) => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>(defaultLanguage);
   const trackEvent = useTrack();
-
-  const actualSnippets =
-    snippets === "landing" ? landingSnippets : authSnippets;
 
   return (
     <>
@@ -135,8 +102,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
         maxW="calc(100% - 60px)"
         flexWrap="wrap"
       >
-        {Object.keys(actualSnippets).map((key) =>
-          actualSnippets[key as keyof typeof actualSnippets] ? (
+        {Object.keys(landingSnippets).map((key) =>
+          landingSnippets[key as keyof typeof landingSnippets] ? (
             <CodeOptionButton
               key={key}
               setActiveLanguage={setActiveLanguage}
@@ -170,7 +137,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
           w="full"
           py={6}
           pb={{ base: 12, md: 6 }}
-          code={actualSnippets[activeLanguage]}
+          code={landingSnippets[activeLanguage]}
           language={
             activeLanguage === "react" || activeLanguage === "react-native"
               ? "jsx"
@@ -198,20 +165,18 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
             }
           />
 
-          {snippets === "landing" && (
-            <CustomLinkButton
-              text="Run"
-              href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
-              icon={<Icon color={"white"} as={AiOutlineCode} />}
-              onClick={() =>
-                trackEvent({
-                  category: "code-selector",
-                  action: "click",
-                  label: "documentation",
-                })
-              }
-            />
-          )}
+          <CustomLinkButton
+            text="Run"
+            href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
+            icon={<Icon color={"white"} as={AiOutlineCode} />}
+            onClick={() =>
+              trackEvent({
+                category: "code-selector",
+                action: "click",
+                label: "documentation",
+              })
+            }
+          />
         </Flex>
       </Card>
     </>

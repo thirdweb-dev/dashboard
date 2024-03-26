@@ -74,26 +74,63 @@ const COMMANDS = {
 import { {{chainName}} } from "thirdweb/chains";
 
 // create the client with your clientId, or secretKey if in a server environment
-const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
+const client = createThirdwebClient({ 
+  clientId: "YOUR_CLIENT_ID"
+ });
 
 // connect to your contract
-const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
+const contract = getContract({ 
+  client, 
+  chain: {{chainName}}, 
+  address: "{{contract_address}}"
+});`,
     react: `import { createThirdwebClient, getContract } from "thirdweb";
 import { {{chainName}} } from "thirdweb/chains";
+import { ThirdwebProvider } from "thirdweb/react";
 
 // create the client with your clientId, or secretKey if in a server environment
-const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
+export const client = createThirdwebClient({ 
+  clientId: "YOUR_CLIENT_ID" 
+});
 
 // connect to your contract
-const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
+export const contract = getContract({ 
+  client, 
+  chain: {{chainName}}, 
+  address: "{{contract_address}}"
+});
+
+function App() {
+  return (
+    <ThirdwebProvider>
+      <Component />
+    </ThirdwebProvider>
+  )
+}`,
     "react-native": `import { createThirdwebClient, getContract } from "thirdweb";
 import { {{chainName}} } from "thirdweb/chains";
+import { ThirdwebProvider } from "thirdweb/react";
 
 // create the client with your clientId, or secretKey if in a server environment
-const client = createThirdwebClient({ clientId: "YOUR_CLIENT_ID" });
+export const client = createThirdwebClient({ 
+  clientId: "YOUR_CLIENT_ID" 
+});
 
 // connect to your contract
-const contract = getContract({ client, chain: {{chainName}}, address: "{{contract_address}}");`,
+export const contract = getContract({ 
+  client, 
+  chain: {{chainName}}, 
+  address: "{{contract_address}}",
+});
+
+function App() {
+  return (
+    <ThirdwebProvider>
+      <Component />
+    </ThirdwebProvider>
+  )
+}
+`,
     unity: `using Thirdweb;
 
 // Reference the SDK
@@ -915,8 +952,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               <option value="javascript">JavaScript</option>
               <option value="react">React</option>
               <option value="react-native">React Native</option>
-              <option value="python">Python</option>
-              <option value="go">Go</option>
               <option value="unity">Unity</option>
             </Select>
           </Flex>
