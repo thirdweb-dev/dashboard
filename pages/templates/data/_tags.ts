@@ -1,4 +1,4 @@
-type Tag = { id: string; displayValue: string };
+type Tag = { id: Lowercase<string>; displayValue: string };
 
 export const TemplateTags = [
   {

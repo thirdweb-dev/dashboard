@@ -121,7 +121,7 @@ const FilterMenu: React.FC<FilterProps> = ({
           allowMultiple
           key={item.label}
         >
-          <AccordionItem>
+          <AccordionItem borderBottom={"none"}>
             <h2>
               <AccordionButton>
                 <Box as="span" flex="1" textAlign="left">

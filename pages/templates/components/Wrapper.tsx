@@ -6,6 +6,10 @@ import {
   Image,
   Box,
   LinkOverlay,
+  InputGroup,
+  InputLeftElement,
+  Icon,
+  Input,
 } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
@@ -29,18 +33,42 @@ type TemplateWrapperProps = {
   _defaultTagIds?: TemplateTagId[];
 };
 
+function filterTemplates(
+  data: TemplateCardProps[],
+  tagIds: TemplateTagId[],
+  keyword: string,
+) {
+  let _templates = data;
+  if (tagIds.length) {
+    _templates = TEMPLATE_DATA.filter((item) =>
+      tagIds.every((tagId) => item.tags.includes(tagId)),
+    );
+  }
+
+  // Don't search if there's only one letter
+  if (keyword && keyword.length >= 2) {
+    const _keyword = keyword.toLowerCase();
+    _templates = _templates.filter(
+      (template) =>
+        template.tags.includes(_keyword as TemplateTagId) ||
+        template.keywords?.includes(_keyword as TemplateTagId) ||
+        template.title.toLowerCase().includes(_keyword) ||
+        template.description.toLowerCase().includes(_keyword),
+    );
+  }
+  return _templates;
+}
+
 export default function TemplateWrapper(props: TemplateWrapperProps) {
   const { title, description, data, children, showFilterMenu, _defaultTagIds } =
     props;
-  const [selectedTags, setSelectedTags] =
-    useState<TemplateTagId[]>(_defaultTagIds || []);
-  const templates = showFilterMenu
-    ? selectedTags.length
-      ? TEMPLATE_DATA.filter((item) =>
-          selectedTags.every((tagId) => item.tags.includes(tagId)),
-        )
-      : TEMPLATE_DATA
-    : data;
+  const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
+    _defaultTagIds || [],
+  );
+  const [keyword, setKeyword] = useState<string>("");
+
+  // might add debounce here idk
+  const templates = filterTemplates(data, selectedTags, keyword);
 
   return (
     <DarkMode>
@@ -74,6 +102,23 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
               />
             </Box>
           )}
+
+          <InputGroup mb={10}>
+            <InputLeftElement>
+              <Icon as={FiSearch} opacity={0.5} />
+            </InputLeftElement>
+            <Input
+              htmlSize={10}
+              variant="outline"
+              spellCheck="false"
+              autoComplete="off"
+              bg="transparent"
+              placeholder="Search by keywords"
+              borderColor="borderColor"
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+          </InputGroup>
+
           <Flex direction={{ base: "column", lg: "row" }} gap={4}>
             {showFilterMenu && (
               <Box
@@ -88,6 +133,7 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
                 />
               </Box>
             )}
+
             {templates.length > 0 ? (
               <SimpleGrid
                 columns={{ lg: 3, md: 2, base: 1 }}
