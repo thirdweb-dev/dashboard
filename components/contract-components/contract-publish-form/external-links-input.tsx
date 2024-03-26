@@ -58,9 +58,12 @@ export const ExternalLinksInput: React.FC<ExternalLinksInputProps> = ({
             placeholder="Provide URL to the resource page"
             {...form.register(`externalLinks.${index}.url`, {
               required: true,
-              pattern: {
-                value: /^https:\/\/[^\s/$.?#].[^\s]*$/,
-                message: "Please enter a valid URL",
+              validate: (value: string) => {
+                if (value.match(new RegExp(/^https:\/\/[^\s/$.?#].[^\s]*$/))) {
+                  return true;
+                } else {
+                  return "Provide a valid URL";
+                }
               },
             })}
           />
