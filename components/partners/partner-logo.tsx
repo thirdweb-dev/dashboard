@@ -105,6 +105,7 @@ const PARTNER_LOGO_MAP = {
   treasure: {
     img: require("./logos/treasure.png"),
     filter: undefined,
+  },
   xai: {
     img: require("./logos/xai.png"),
     filter: undefined,
