@@ -83,6 +83,8 @@ const Ambassadors: ThirdwebNextPage = () => {
               "Join thirdweb's ambassador program to build decentralized technologies, empower developer communities, and build your own brand.",
           }}
         >
+
+          {/* Header Section */}
           <HomepageSection pt="80px" pb={16}>
             <Flex
               pt={24}
@@ -99,7 +101,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                     bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                     bgClip={"text"}
                   >
-                    thirdweb <br /> Ambassador.
+                    thirdweb <br /> Architect.
                   </Heading>
                 </Heading>
                 <Heading
@@ -108,9 +110,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                   textAlign="center"
                   maxW="container.sm"
                 >
-                  Are you a builder, believer in decentralized technologies,
-                  want to empower the developer community, and build your own
-                  brand?
+                  Ignite, Influence, Innovate
                 </Heading>
               </Flex>
               <Flex
@@ -177,7 +177,9 @@ const Ambassadors: ThirdwebNextPage = () => {
               </Flex>
             </Flex>
           </HomepageSection>
-          <HomepageSection pb={32}>
+
+          {/* thirdweb mission */}
+          <HomepageSection pb={16}>
             <Flex
               pt={24}
               // mb={{ base: 24, md: -24 }}
@@ -186,37 +188,44 @@ const Ambassadors: ThirdwebNextPage = () => {
               align={{ base: "initial", md: "center" }}
             >
               <Flex flexDir="column" justify="center" align="center">
-                <Text
-                  size="label.xl"
-                  bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                <Heading as="h2" size="display.md" mb={4} textAlign="center"
+                  bgGradient="linear-gradient(243.9deg, #3385FF
+                    21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
                   bgClip={"text"}
-                  mb={4}
                 >
-                  Our Goal
-                </Text>
-                <Heading as="h2" size="display.md" mb={4} textAlign="center">
-                  We are{" "}
-                  <Heading
-                    size="display.md"
-                    as="span"
-                    bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
-                    bgClip={"text"}
-                  >
-                    developer obsessed.
-                  </Heading>
+                  Forge the future internet
                 </Heading>
+
                 <Heading
                   as="h3"
                   size="subtitle.md"
                   textAlign={{ base: "center" }}
                   maxW={800}
+                  pb={32}
                 >
-                  Providing incredible experiences for the developer community
-                  is one of the most rewarding things we do. Join us in our
-                  mission to grow web3 development.
+                  thirdweb is on a mission to make the internet more open and valueable for both builders and users. Be part of an elite group, with access to the latest
+                  tools and features, to bring awareness on a global scale.
                 </Heading>
               </Flex>
 
+
+            </Flex>
+          </HomepageSection>
+
+          {/* Characteristics Seciton*/}
+          <HomepageSection pb={32}>
+            <Flex
+              pt={24}
+              // mb={{ base: 24, md: -24 }}
+              flexDir="column"
+              gap={{ base: 6, md: 8 }}
+              align={{ base: "initial", md: "center" }}
+            >
+              <Heading as="h2" size="display.md" mb={4} textAlign="center" bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                bgClip={"text"}>
+                Architect Characteristics
+              </Heading>
+  
               <Flex flexDir="row" alignItems="center">
                 <SimpleGrid
                   // justifyContent="center"
@@ -229,23 +238,138 @@ const Ambassadors: ThirdwebNextPage = () => {
                   <AmbassadorCard
                     icon={require("/public/assets/ambassadors/card-1-icon.svg")}
                   >
-                    Share your knowledge on new groundbreaking web3 tools.
+                    You are insatiably curious regarding groundbreaking new web3 tools.
                   </AmbassadorCard>
                   <AmbassadorCard
                     icon={require("/public/assets/ambassadors/card-2-icon.svg")}
                   >
-                    Have fun creating and sharing the type of content you love
-                    the most.
+                    You revel in creating and sharing the type of content you love the most.
                   </AmbassadorCard>
                   <AmbassadorCard
                     icon={require("/public/assets/ambassadors/card-3-icon.svg")}
                   >
-                    Get rewarded with benefits exclusive to ambassadors.
+                    You are approachable and adept at forging connections across contexts. 
                   </AmbassadorCard>
                 </SimpleGrid>
               </Flex>
             </Flex>
           </HomepageSection>
+
+          {/* Architect responsibilites Seciton */}
+          <HomepageSection pb={16}>
+            <Flex
+              pt={24}
+              // mb={{ base: 24, md: -24 }}
+              flexDir="column"
+              gap={{ base: 6, md: 8 }}
+              align={{ base: "initial", md: "center" }}
+            >
+              <Flex flexDir="column" justify="center" align="center">
+                <Heading as="h2" size="display.md" mb={4} textAlign="center"
+                  bgGradient="linear-gradient(243.9deg, #3385FF
+                    21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
+                  bgClip={"text"}
+                >
+                  Architect Responsibilities
+                </Heading>
+              </Flex>
+
+              <Flex flexDir="row" alignItems="center">
+                <SimpleGrid
+                  justifyContent="center"
+                  w="100%"
+                  columns={{ sm: 3, base: 1, md: 4 }}
+                  gap={{ base: 12, md: 6 }}
+                >
+                  <ProductCard
+                    title="Be a thirdweb brand ambassador"
+                    icon={require("/public/assets/ambassadors/recognition-icon.svg")}
+                  >
+                    Advocate the thirdweb toolset and its role in web3.
+                  </ProductCard>
+                  <ProductCard
+                    title="Build your projcts. Share the results."
+                    icon={require("/public/assets/ambassadors/mentorship-icon.svg")}
+                  >
+                    Showcase your projects built using thirdweb through your favorite social media
+                  </ProductCard>
+                  <ProductCard
+                    title="Support the newcomers"
+                    icon={require("/public/assets/ambassadors/merch-icon.svg")}
+                  >
+                    Assist community members by answering questions, troubleshooting issues, and providing guidance.
+                  </ProductCard>
+                  <ProductCard
+                    title="Network"
+                    icon={require("/public/assets/ambassadors/network-icon.svg")}
+                  >
+                    Grow the community by welcoming new members, initiating discussions, and reaching out to potential individuals.
+                  </ProductCard>
+                  {/* <ProductCard
+                    title="Access"
+                    icon={require("/public/assets/ambassadors/access-icon.svg")}
+                  >
+                    Insider access to the team, roadmap, events.
+                  </ProductCard> */}
+                </SimpleGrid>
+              </Flex>
+
+
+            </Flex>
+          </HomepageSection>
+
+          {/* Ignite Seciton*/}
+          <HomepageSection pb={32}>
+            <Flex
+              pt={24}
+              // mb={{ base: 24, md: -24 }}
+              flexDir="column"
+              gap={{ base: 6, md: 8 }}
+              align={{ base: "initial", md: "center" }}
+            >
+              <Heading as="h2" size="display.md" mb={4} textAlign="center" bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                bgClip={"text"}>
+                Ignite
+              </Heading>
+              <Heading
+                as="h3"
+                size="subtitle.md"
+                textAlign={{ base: "center" }}
+                maxW={800}
+              >
+                Ignite your tech passion and contribute to the future of the web, all while enjoying exclusive rewards tailored to your dedication.
+
+              </Heading>
+              <Flex flexDir="row" alignItems="center">
+                <SimpleGrid
+                  // justifyContent="center"
+                  // justify="center"
+                  w="100%"
+                  columns={{ base: 1, md: 3 }}
+                  gap={{ base: 6, md: 12 }}
+                  placeItems="center"
+                >
+                  <AmbassadorCard
+                    icon={require("/public/assets/ambassadors/card-1-icon.svg")}
+                  >
+                    Enhance your skills with exclusive workshops and the latest in web3.
+                  </AmbassadorCard>
+                  <AmbassadorCard
+                    icon={require("/public/assets/ambassadors/card-2-icon.svg")}
+                  >
+                    Fuel your web3 passion with a platform to explore, create and innovate.
+                  </AmbassadorCard>
+                  <AmbassadorCard 
+                    icon={require("/public/assets/ambassadors/card-3-icon.svg")}
+                  >
+                    Get rewarded with exclusive benefits such as free thirdweb credits.
+                  </AmbassadorCard>
+                </SimpleGrid>
+              </Flex>
+            </Flex>
+          </HomepageSection>
+
+          {/* Influence Section */}
           <HomepageSection pb={32}>
             <Flex
               pt={24}
@@ -262,25 +386,27 @@ const Ambassadors: ThirdwebNextPage = () => {
                   size="label.xl"
                   mb={4}
                 >
-                  Benefits & Rewards
                 </Heading>
-                <Heading as="h2" size="display.md" mb={4} textAlign="center">
-                  <Heading
-                    size="display.md"
-                    as="span"
-                    bgGradient="linear-gradient(243.9deg, #3385FF
+                <Heading as="h2" size="display.md" mb={4} textAlign="center" bgGradient="linear-gradient(243.9deg, #3385FF
                     21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
-                    bgClip={"text"}
-                  >
-                    Exclusive benefits <br />
-                  </Heading>
-                  for Ambassadors.
+                  bgClip={"text"}>
+                  Influence <br />
                 </Heading>
+
+                <Heading
+                as="h3"
+                size="subtitle.md"
+                textAlign={{ base: "center" }}
+                maxW={800}
+              >
+                Influce the web3 community, inspire engagement, advocate for open internet, and shape the future of the web3 ecosystem.
+
+              </Heading>
               </Flex>
 
               <Flex flexDir="row" alignItems="center">
                 <SimpleGrid
-                  justifyContent="flex-start"
+                  justifyContent="center"
                   w="100%"
                   columns={{ sm: 3, base: 1, md: 5 }}
                   gap={{ base: 12, md: 6 }}
@@ -299,11 +425,11 @@ const Ambassadors: ThirdwebNextPage = () => {
                     topics.
                   </ProductCard>
                   <ProductCard
-                    title="Merch & Swag"
+                    title="Feedback Sessions"
                     icon={require("/public/assets/ambassadors/merch-icon.svg")}
                   >
-                    Receive exclusive thirdweb merch that identifies you as part
-                    of the team.
+                    Participate in feedback sessions that have a direct impact on the thirdweb toolset
+
                   </ProductCard>
                   <ProductCard
                     title="Network"
@@ -312,15 +438,72 @@ const Ambassadors: ThirdwebNextPage = () => {
                     Meet like-minded individuals and grow your network in web3.
                   </ProductCard>
                   <ProductCard
-                    title="Access"
+                    title="Become A Thought Leader"
                     icon={require("/public/assets/ambassadors/access-icon.svg")}
                   >
-                    Insider access to the team, roadmap, events.
+                    Establish yourself as a thought leader in the web3 industry.
                   </ProductCard>
                 </SimpleGrid>
               </Flex>
             </Flex>
           </HomepageSection>
+          
+          {/* Innovate Section */}
+          <HomepageSection pb={32}>
+            <Flex
+              pt={24}
+              // mb={{ base: 24, md: -24 }}
+              flexDir="column"
+              gap={{ base: 6, md: 8 }}
+              align={{ base: "initial", md: "center" }}
+            >
+              <Flex flexDir="column" justify="center" align="center">
+
+                <Heading as="h2" size="display.md" mb={4} textAlign="center" bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                  bgClip={"text"}>
+                  Innovate
+                </Heading>
+                <Heading
+                  as="h3"
+                  size="subtitle.md"
+                  textAlign={{ base: "center" }}
+                  maxW={800}
+                >
+                  Innovate through the latest tools and contribute to an ever evolving codebase.
+
+                </Heading>
+              </Flex>
+
+              <Flex flexDir="row" alignItems="center">
+                <SimpleGrid
+                  // justifyContent="center"
+                  // justify="center"
+                  w="100%"
+                  columns={{ base: 1, md: 3 }}
+                  gap={{ base: 6, md: 12 }}
+                  placeItems="center"
+                >
+                  <AmbassadorCard
+                    icon={require("/public/assets/ambassadors/card-1-icon.svg")}
+                  >
+                    Gain early access to the latest tools and experiment with cutting edge technology.
+                  </AmbassadorCard>
+                  <AmbassadorCard
+                    icon={require("/public/assets/ambassadors/card-2-icon.svg")}
+                  >
+                    Grow your professional skillset in a brand new competitive market.
+                  </AmbassadorCard>
+                  <AmbassadorCard
+                    icon={require("/public/assets/ambassadors/card-3-icon.svg")}
+                  >
+                    Be involved in stages of product design and direction.
+                  </AmbassadorCard>
+                </SimpleGrid>
+              </Flex>
+            </Flex>
+          </HomepageSection>
+
+          {/* Meet the Ambassadors Section */}
           <HomepageSection pb={32}>
             <Flex
               pt={24}
@@ -383,6 +566,8 @@ const Ambassadors: ThirdwebNextPage = () => {
               </Flex>
             </Flex>
           </HomepageSection>
+
+          {/* Join Today */}
           <HomepageSection pb={32}>
             <Flex
               pt={{ base: "0", md: "32" }}
@@ -393,14 +578,14 @@ const Ambassadors: ThirdwebNextPage = () => {
             >
               <Flex flexDir="column" gap={0}>
                 <Heading as="h2" size="display.md" mb={4} textAlign="center">
-                  Become an{" "}
+                  Ready to{" "}
                   <Heading
                     size="display.md"
                     as="span"
                     bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                     bgClip={"text"}
                   >
-                    Ambassador today.
+                    forge?
                   </Heading>
                 </Heading>
                 <Heading
