@@ -14,7 +14,7 @@ const BaseFramePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("https://warpcast.com");
+    router.push("https://blog.thirdweb.com/guides/farcaster-transaction-frame");
   }, [router]);
 
   return (
