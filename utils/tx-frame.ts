@@ -1,15 +1,15 @@
+import { FrameValidationData } from "@coinbase/onchainkit";
 import { Base } from "@thirdweb-dev/chains";
-import { SmartContract, ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { BaseContract } from "ethers";
+import { SmartContract } from "@thirdweb-dev/sdk";
+import { BaseContract, Wallet } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getThirdwebSDK } from "lib/sdk";
 
-export const getContractForErc721OpenEdition = async () => {
-  // Create a signer. Required to encode the contract data
-  const signer = ThirdwebSDK.fromPrivateKey(
-    process.env.RANDOM_PV_KEY as string,
-    "base",
-  ).getSigner();
+export const getContractForErc721OpenEdition = async (
+  contractAddress: string,
+) => {
+  // Create a reandom signer. This is required to encode erc721 tx data
+  const signer = Wallet.createRandom();
 
   // Initalize sdk
   const sdk = getThirdwebSDK(
@@ -19,45 +19,30 @@ export const getContractForErc721OpenEdition = async () => {
     signer,
   );
 
-  // Get contract
-  const contract = await sdk.getContract(
-    "0xB6606041437BCBD727373ffF037dDa0247771184",
-  );
+  // Get contract instance
+  const contract = await sdk.getContract(contractAddress);
 
-  // Return contract
+  // Return contract instance
   return contract;
 };
 
-export const getEncodedDataForTransaction = async (
+export const getErc721PreparedEncodedData = async (
   walletAddress: string,
   contract: SmartContract<BaseContract>,
 ) => {
-  // Contract proof
-  const proof = [
-    ["0x0000000000000000000000000000000000000000000000000000000000000000"],
-    "115792089237316195423570985008687907853269984665640564039457584007913129639935",
-    "0",
-    "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-  ];
+  // Prepare erc721 transaction data. Takes in destination address and quantity as parameters
+  const transaction = await contract.erc721.claimTo.prepare(walletAddress, 1);
 
-  const tx = contract.prepare("claim", [
-    // reciever address
-    walletAddress,
-    // quantity
-    "1",
-    // native token address
-    "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    // price
-    "0",
-    // proof
-    proof,
-    // data
-    "0x",
-  ]);
+  // Encode transaction data
+  const encodedTransactionData = await transaction.encode();
 
-  const data = await tx.encode();
+  // Return encoded transaction data
+  return encodedTransactionData;
+};
 
-  await tx.simulate();
-
-  return data;
+export const getFarcasterAccountAddress = (
+  interactor: FrameValidationData["interactor"],
+) => {
+  // Get the first verified account or custody account if first verified account doesn't exist
+  return interactor.verified_accounts[0] ?? interactor.custody_address;
 };
