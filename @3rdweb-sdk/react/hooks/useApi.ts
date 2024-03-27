@@ -556,6 +556,11 @@ export function useConfirmEmail() {
 export interface CreateTicketInput {
   markdown: string;
   product: string;
+  files?: {
+    id: string;
+    file: File;
+  }[];
+  attachments?: File[];
 }
 
 export function useCreateTicket() {
@@ -568,7 +573,7 @@ export function useCreateTicket() {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
       body: JSON.stringify(input),
     });
