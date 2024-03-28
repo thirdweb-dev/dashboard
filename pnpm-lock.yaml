@@ -50,8 +50,8 @@ dependencies:
     specifier: ^3.0.10
     version: 3.0.10
   '@tanstack/query-async-storage-persister':
-    specifier: ^4.36.1
-    version: 4.36.1
+    specifier: ^5.28.8
+    version: 5.28.8
   '@tanstack/react-query':
     specifier: ^4.36.1
     version: 4.36.1(react-dom@18.2.0)(react@18.2.0)
@@ -6298,10 +6298,10 @@ packages:
     dependencies:
       tslib: 2.6.2
 
-  /@tanstack/query-async-storage-persister@4.36.1:
-    resolution: {integrity: sha512-mk9A/2S3VZ3V6aKW0D3LwIHZqxw1hIL9I+wiB1cG2bftW78pWF9DCTXmON8KGku9bxfRGYEXzIxleh0Ujic0uA==}
+  /@tanstack/query-async-storage-persister@5.28.8:
+    resolution: {integrity: sha512-mYibc1vDIQ+Xb9HaFqKxR1grI1R5rKG45TDBY7/Iv2KqA99wlHQ9bL7X7pzgEZd6ZYyidbVw2couhq8505tgZA==}
     dependencies:
-      '@tanstack/query-persist-client-core': 4.36.1
+      '@tanstack/query-persist-client-core': 5.28.8
     dev: false
 
   /@tanstack/query-core@4.36.1:
@@ -6312,10 +6312,20 @@ packages:
     resolution: {integrity: sha512-uQZqOFqLWUvXNIQZ63XdKzg22NtHzgCBUfDmjDHi3BoF+nUYeBNvMi/xFPtFrMhqRzG2Ir4mYaGsWZzmiEjXpA==}
     dev: false
 
+  /@tanstack/query-core@5.28.8:
+    resolution: {integrity: sha512-cx64XHeB0kvKxFt22ibvegPeOxnaWVFUbAuhXoIrb7+XePEexHWoB9Kq5n9qroNPkRwQZwgFAP9HNbQz5ohoIg==}
+    dev: false
+
   /@tanstack/query-persist-client-core@4.36.1:
     resolution: {integrity: sha512-eocgCeI7D7TRv1IUUBMfVwOI0wdSmMkBIbkKhqEdTrnUHUQEeOaYac8oeZk2cumAWJdycu6P/wB+WqGynTnzXg==}
     dependencies:
       '@tanstack/query-core': 4.36.1
+    dev: false
+
+  /@tanstack/query-persist-client-core@5.28.8:
+    resolution: {integrity: sha512-NeSfge/YWH3btIECRu38RkEI/+8ho/MRSmD/SKlgkd4yH9RGFFoKUUZdEg1sNzXUdh17L8XKx4zwVYp3mDuxsg==}
+    dependencies:
+      '@tanstack/query-core': 5.28.8
     dev: false
 
   /@tanstack/react-query-persist-client@4.36.1(@tanstack/react-query@4.36.1):
@@ -8323,7 +8333,7 @@ packages:
     engines: {pnpm: '>=7'}
     peerDependencies:
       typescript: '>=4.7.4'
-      zod: '>=3.19.1'
+      zod: ^3.19.1
     peerDependenciesMeta:
       zod:
         optional: true
@@ -8335,7 +8345,7 @@ packages:
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
+      zod: ^3.19.1
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -8350,7 +8360,7 @@ packages:
     resolution: {integrity: sha512-NMeMah//6bJ56H5XRj8QCV4AwuW6hB6zqz2LnhhLdcWVQOsXki6/Pn3APeqxCma62nXIcmZWdu1DlHWS74umVQ==}
     peerDependencies:
       typescript: '>=5.0.4'
-      zod: ^3 >=3.22.0
+      zod: ^3.19.1
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -11618,7 +11628,7 @@ packages:
     resolution: {integrity: sha512-Ztnu1ZWJEKJouZvdTyfgjuVqS+A4JLoCbWBvFqFhfnrg6YQvEvW+5cJvP98kNbuV5gjfpWmHSOTi3BpkidJPQg==}
     peerDependencies:
       fastify: ^4.0.0
-      zod: ^3.14.2
+      zod: ^3.19.1
     dependencies:
       fastify: 4.26.2
       zod: 3.22.4
@@ -19497,7 +19507,7 @@ packages:
   /zod-to-json-schema@3.22.4(zod@3.22.4):
     resolution: {integrity: sha512-2Ed5dJ+n/O3cU383xSY28cuVi0BCQhF8nYqWU5paEpl7fVdqdAmiLdqLyfblbNdfOFwFfi/mqU4O1pwc60iBhQ==}
     peerDependencies:
-      zod: ^3.22.4
+      zod: ^3.19.1
     dependencies:
       zod: 3.22.4
     dev: false
@@ -19506,7 +19516,7 @@ packages:
     resolution: {integrity: sha512-cETTrcMq3Ze58vhdR0zD37uJm/694I6mAxcf/ei5bl89cC++fBNxrC2z8lkFze/8hVMPwrbtrwXHR2LB50fpHw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      zod: ^3.18.0
+      zod: ^3.19.1
     dependencies:
       zod: 3.22.4
     dev: true
