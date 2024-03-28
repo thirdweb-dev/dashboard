@@ -98,7 +98,7 @@ export function useEngineCurrentVersion(instance: string) {
         throw new Error(`Unexpected status ${res.status}`);
       }
       const json = await res.json();
-      return json.engineVersion as string;
+      return (json.engineVersion as string) ?? "N/A";
     },
     { enabled: !!instance },
   );
@@ -373,6 +373,105 @@ export function useEngineAccessTokens(instance: string) {
   );
 }
 
+export type Keypair = {
+  hash: string;
+  publicKey: string;
+  createdAt: string;
+};
+
+export function useEngineKeypairs(instance: string) {
+  const { token } = useApiAuthToken();
+
+  return useQuery(
+    engineKeys.keypairs(instance),
+    async () => {
+      const res = await fetch(`${instance}auth/keypair/get-all`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as Keypair[]) || [];
+    },
+    { enabled: !!instance && !!token },
+  );
+}
+
+type ImportKeypairInput = {
+  publicKey: string;
+};
+
+export function useEngineImportKeypair(instance: string) {
+  const { token } = useApiAuthToken();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: ImportKeypairInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/keypair/import`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.keypairs(instance));
+      },
+    },
+  );
+}
+
+type RevokeKeypairInput = {
+  hash: string;
+};
+
+export function useEngineRevokeKeypair(instance: string) {
+  const { token } = useApiAuthToken();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: RevokeKeypairInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}auth/keypair/revoke`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.keypairs(instance));
+      },
+    },
+  );
+}
+
 export type EngineRelayer = {
   id: string;
   name?: string;
@@ -431,7 +530,7 @@ export function useEngineCreateRelayer(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -467,7 +566,7 @@ export function useEngineRevokeRelayer(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -508,7 +607,7 @@ export function useEngineUpdateRelayer(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -614,7 +713,7 @@ export function useEngineSetWalletConfig(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -650,7 +749,7 @@ export function useEngineCreateBackendWallet(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -689,7 +788,7 @@ export function useEngineUpdateBackendWallet(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -743,7 +842,7 @@ export function useEngineImportBackendWallet(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -777,7 +876,7 @@ export function useEngineGrantPermissions(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -813,7 +912,7 @@ export function useEngineRevokePermissions(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -849,7 +948,7 @@ export function useEngineCreateAccessToken(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result as CreateAccessTokenResponse;
@@ -885,7 +984,7 @@ export function useEngineRevokeAccessToken(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -922,7 +1021,7 @@ export function useEngineUpdateAccessToken(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -960,7 +1059,7 @@ export function useEngineCreateWebhook(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -996,7 +1095,7 @@ export function useEngineRevokeWebhook(instance: string) {
       const json = await res.json();
 
       if (json.error) {
-        throw new Error(json.message);
+        throw new Error(json.error.message);
       }
 
       return json.result;
@@ -1042,9 +1141,66 @@ export function useEngineSendTokens(instance: string) {
     const json = await res.json();
 
     if (json.error) {
-      throw new Error(json.message);
+      throw new Error(json.error.message);
     }
 
     return json.result;
   });
+}
+
+export function useEngineCorsConfiguration(instance: string) {
+  const { token } = useApiAuthToken();
+
+  return useQuery(
+    engineKeys.corsUrls(instance),
+    async () => {
+      const res = await fetch(`${instance}configuration/cors`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const json = await res.json();
+
+      return (json.result as string[]) || [];
+    },
+    { enabled: !!instance && !!token },
+  );
+}
+
+export interface SetCorsUrlInput {
+  urls: string[];
+}
+
+export function useEngineSetCorsConfiguration(instance: string) {
+  const queryClient = useQueryClient();
+  const { token } = useApiAuthToken();
+
+  return useMutation(
+    async (input: SetCorsUrlInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(`${instance}configuration/cors`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(engineKeys.corsUrls(instance));
+      },
+    },
+  );
 }

@@ -68,7 +68,7 @@ export const LocalConfig: React.FC<LocalConfigProps> = ({ instance }) => {
             );
           }}
         >
-          {isLoading ? "Saving..." : "Save Changes"}
+          {isLoading ? "Saving..." : "Save"}
         </Button>
       </Flex>
     </Flex>
