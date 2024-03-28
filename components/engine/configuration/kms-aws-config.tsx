@@ -117,7 +117,7 @@ export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
           px={12}
           type="submit"
         >
-          {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
+          {form.formState.isSubmitting ? "Saving..." : "Save"}
         </Button>
       </Flex>
     </Flex>

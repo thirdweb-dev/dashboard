@@ -92,7 +92,7 @@ export const AccessTokensTable: React.FC<AccessTokensTableProps> = ({
   return (
     <>
       <TWTable
-        title="Access Tokens"
+        title="access tokens"
         data={accessTokens}
         columns={columns}
         isLoading={isLoading}
