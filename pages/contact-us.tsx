@@ -269,7 +269,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   <Select
                     h={14}
                     borderColor="gray.300"
-                    placeholder="What industry is your company most closely aligned with? *"
+                    placeholder="What industry best aligns with your business? *"
                     color="black"
                     {...form.register("0-2/product_type", { required: true })}
                   >
