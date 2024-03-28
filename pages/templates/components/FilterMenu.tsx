@@ -107,14 +107,13 @@ const FilterMenu: React.FC<FilterProps> = ({
     const queryParams = new URLSearchParams(window.location.search);
     if (queriedTags.length) {
       queryParams.set("tags", queriedTags.join(","));
-      router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
     } else {
       queryParams.delete("tags");
-      router.push("", undefined, { shallow: true });
     }
+    router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
   };
   return (
-    <Flex flexDir={"column"} minW={"180px"}>
+    <Flex flexDir={"column"} minW={"180px"} mr={{ lg: "30px" }}>
       {filterItems.map((item) => (
         <Accordion
           defaultIndex={expandAll ? [0] : undefined}

@@ -10,6 +10,8 @@ import {
   InputLeftElement,
   Icon,
   Input,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
@@ -22,7 +24,8 @@ import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ReactNode, useState } from "react";
 import FilterMenu from "./FilterMenu";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiX } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 type TemplateWrapperProps = {
   title: string;
@@ -31,14 +34,11 @@ type TemplateWrapperProps = {
   children: ReactNode;
   showFilterMenu?: boolean;
   _defaultTagIds?: TemplateTagId[];
+  _defaultKeyword?: string;
 };
 
-function filterTemplates(
-  data: TemplateCardProps[],
-  tagIds: TemplateTagId[],
-  keyword: string,
-) {
-  let _templates = data;
+export function filterTemplates(tagIds: TemplateTagId[], keyword: string) {
+  let _templates = TEMPLATE_DATA;
   if (tagIds.length) {
     _templates = TEMPLATE_DATA.filter((item) =>
       tagIds.every((tagId) => item.tags.includes(tagId)),
@@ -52,23 +52,42 @@ function filterTemplates(
       (template) =>
         template.tags.includes(_keyword as TemplateTagId) ||
         template.keywords?.includes(_keyword as TemplateTagId) ||
-        template.title.toLowerCase().includes(_keyword) ||
-        template.description.toLowerCase().includes(_keyword),
+        template.title.toLowerCase().split(" ").includes(_keyword) ||
+        template.description.toLowerCase().split(" ").includes(_keyword),
     );
   }
   return _templates;
 }
 
 export default function TemplateWrapper(props: TemplateWrapperProps) {
-  const { title, description, data, children, showFilterMenu, _defaultTagIds } =
-    props;
+  const {
+    title,
+    description,
+    data,
+    children,
+    showFilterMenu,
+    _defaultTagIds,
+    _defaultKeyword,
+  } = props;
+  const router = useRouter();
   const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
     _defaultTagIds || [],
   );
-  const [keyword, setKeyword] = useState<string>("");
+  const [keyword, setKeyword] = useState<string>(_defaultKeyword || "");
+
+  const updateKeyword = (newValue: string) => {
+    setKeyword(newValue);
+    const queryParams = new URLSearchParams(window.location.search);
+    if (newValue) {
+      queryParams.set("keyword", newValue);
+    } else {
+      queryParams.delete("keyword");
+    }
+    router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
+  };
 
   // might add debounce here idk
-  const templates = filterTemplates(data, selectedTags, keyword);
+  const templates = filterTemplates(selectedTags, keyword);
 
   return (
     <DarkMode>
@@ -92,7 +111,64 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
         as="main"
       >
         <HomepageTopNav />
-        <HomepageSection py={24} ml="auto" mr="auto">
+        <Flex
+          minH={275}
+          w={"full"}
+          bgImage="url('/assets/templates/template_banner.png')"
+          bgSize="cover"
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          flexDir={"column"}
+          justifyContent={"start"}
+          pl={{ base: "20px", lg: "100px" }}
+          pt="30px"
+          px="20px"
+          mb={20}
+          gap={4}
+        >
+          <Heading
+            fontSize={{ base: "48px", md: "48px" }}
+            fontWeight={700}
+            letterSpacing="-0.04em"
+          >
+            Code Exchange
+          </Heading>
+          <Text maxW={"820px"} fontSize={"16px"}>
+            Discover a comprehensive web3 developer resource that combines
+            Connect, Contracts and Engine projects on top of the advanced
+            thirdweb platform. Enhance your skills and stay ahead of the curve
+            with the latest advancements in web3 technology.
+          </Text>
+          <InputGroup mb={10} w={"500px"} maxW={"90vw"}>
+            <InputLeftElement>
+              <Icon as={FiSearch} opacity={0.5} />
+            </InputLeftElement>
+            <Input
+              htmlSize={10}
+              variant="outline"
+              spellCheck="false"
+              autoComplete="off"
+              bg="black"
+              placeholder="Search by keywords"
+              borderColor="borderColor"
+              onChange={(e) => updateKeyword(e.target.value)}
+              defaultValue={_defaultKeyword || ""}
+              value={keyword}
+            />
+            {keyword && (
+              <InputRightElement>
+                <IconButton
+                  size="sm"
+                  aria-label="Clear search"
+                  variant="ghost"
+                  icon={<Icon as={FiX} />}
+                  onClick={() => updateKeyword("")}
+                />
+              </InputRightElement>
+            )}
+          </InputGroup>
+        </Flex>
+        <HomepageSection pb={24} ml="auto" mr="auto">
           {children}
           {showFilterMenu && (
             <Box display={{ base: "block", lg: "none" }}>
@@ -102,22 +178,6 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
               />
             </Box>
           )}
-
-          <InputGroup mb={10}>
-            <InputLeftElement>
-              <Icon as={FiSearch} opacity={0.5} />
-            </InputLeftElement>
-            <Input
-              htmlSize={10}
-              variant="outline"
-              spellCheck="false"
-              autoComplete="off"
-              bg="transparent"
-              placeholder="Search by keywords"
-              borderColor="borderColor"
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </InputGroup>
 
           <Flex direction={{ base: "column", lg: "row" }} gap={4}>
             {showFilterMenu && (
