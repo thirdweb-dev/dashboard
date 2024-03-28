@@ -32,7 +32,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const plan = PLANS[name];
-  const account = useAccount();
+  const account = useAccount({ refetchInterval: () => 1000 });
   const trackEvent = useTrack();
 
   // We close the modal when the user is on the Growth plan successfully
