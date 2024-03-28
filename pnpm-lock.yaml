@@ -59,8 +59,8 @@ dependencies:
     specifier: ^4.36.1
     version: 4.36.1(@tanstack/react-query@4.36.1)
   '@tanstack/react-table':
-    specifier: ^8.14.0
-    version: 8.14.0(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^8.15.0
+    version: 8.15.0(react-dom@18.2.0)(react@18.2.0)
   '@thirdweb-dev/chains':
     specifier: 0.1.82-nightly-436d9baba-20240326210214
     version: 0.1.82-nightly-436d9baba-20240326210214
@@ -6354,12 +6354,12 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tanstack/react-table@8.14.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-l9iwO99oz/azy5RT5VkVRsHHuy7o//fiXgLxzl3fad8qf7Bj+9ihsfmE6Q+BNjH4wHbxZkahwxtb3ngGq9FQxA==}
+  /@tanstack/react-table@8.15.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-8K4RSROUtXUtfiezV6Ehl8z99axFrkQnxXi0vjWBJv3Tsm5x4EyrgXI7d2tOOMoANykKZLB6S1sGZGemoMRt7Q==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
+      react: '>=16.8'
+      react-dom: '>=16.8'
     dependencies:
       '@tanstack/table-core': 8.14.0
       react: 18.2.0
@@ -8323,7 +8323,7 @@ packages:
     engines: {pnpm: '>=7'}
     peerDependencies:
       typescript: '>=4.7.4'
-      zod: '>=3.19.1'
+      zod: ^3.19.1
     peerDependenciesMeta:
       zod:
         optional: true
@@ -8335,7 +8335,7 @@ packages:
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
+      zod: ^3.19.1
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -8350,7 +8350,7 @@ packages:
     resolution: {integrity: sha512-NMeMah//6bJ56H5XRj8QCV4AwuW6hB6zqz2LnhhLdcWVQOsXki6/Pn3APeqxCma62nXIcmZWdu1DlHWS74umVQ==}
     peerDependencies:
       typescript: '>=5.0.4'
-      zod: ^3 >=3.22.0
+      zod: ^3.19.1
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -11618,7 +11618,7 @@ packages:
     resolution: {integrity: sha512-Ztnu1ZWJEKJouZvdTyfgjuVqS+A4JLoCbWBvFqFhfnrg6YQvEvW+5cJvP98kNbuV5gjfpWmHSOTi3BpkidJPQg==}
     peerDependencies:
       fastify: ^4.0.0
-      zod: ^3.14.2
+      zod: ^3.19.1
     dependencies:
       fastify: 4.26.2
       zod: 3.22.4
@@ -19497,7 +19497,7 @@ packages:
   /zod-to-json-schema@3.22.4(zod@3.22.4):
     resolution: {integrity: sha512-2Ed5dJ+n/O3cU383xSY28cuVi0BCQhF8nYqWU5paEpl7fVdqdAmiLdqLyfblbNdfOFwFfi/mqU4O1pwc60iBhQ==}
     peerDependencies:
-      zod: ^3.22.4
+      zod: ^3.19.1
     dependencies:
       zod: 3.22.4
     dev: false
@@ -19506,7 +19506,7 @@ packages:
     resolution: {integrity: sha512-cETTrcMq3Ze58vhdR0zD37uJm/694I6mAxcf/ei5bl89cC++fBNxrC2z8lkFze/8hVMPwrbtrwXHR2LB50fpHw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      zod: ^3.18.0
+      zod: ^3.19.1
     dependencies:
       zod: 3.22.4
     dev: true
