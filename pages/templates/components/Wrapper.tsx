@@ -83,11 +83,24 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
     } else {
       queryParams.delete("keyword");
     }
-    router.push(`?${queryParams.toString()}`, undefined, { shallow: true });
+    const path = router.asPath.split("?")[0];
+    if (path.startsWith("/templates/tag/")) {
+      router.push(
+        { pathname: path, query: queryParams.toString() },
+        undefined,
+        { shallow: true },
+      );
+    } else {
+      router.push(`?${queryParams.toString()}`, undefined, {
+        shallow: true,
+      });
+    }
   };
 
   // might add debounce here idk
-  const templates = filterTemplates(selectedTags, keyword);
+  const templates = showFilterMenu
+    ? filterTemplates(selectedTags, keyword)
+    : data;
 
   return (
     <DarkMode>

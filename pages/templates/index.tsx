@@ -1,5 +1,4 @@
 import { PageId } from "page-id";
-import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { TEMPLATE_DATA } from "./data/_templates";
 import TemplateWrapper, { filterTemplates } from "./components/Wrapper";
