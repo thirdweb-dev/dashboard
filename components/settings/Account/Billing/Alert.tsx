@@ -11,14 +11,18 @@ import {
   AlertTitle,
   Flex,
   IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
 
 import { Heading, Text, TrackedLinkButton } from "tw-components";
+import { ManageBillingButton } from "./ManageButton";
+import { OnboardingBilling } from "components/onboarding/Billing";
+import { OnboardingModal } from "components/onboarding/Modal";
 
 enum DismissedStorageType {
   Usage_50 = "usage_50",
@@ -245,6 +249,23 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
   ctaHref = "/dashboard/settings/billing",
   label = "addPaymentAlert",
 }) => {
+  const [paymentMethodSaving, setPaymentMethodSaving] = useState(false);
+  const meQuery = useAccount();
+  const { data: account } = meQuery;
+
+  const {
+    onOpen: onPaymentMethodOpen,
+    onClose: onPaymentMethodClose,
+    isOpen: isPaymentMethodOpen,
+  } = useDisclosure();
+
+  const handlePaymentAdded = () => {
+    setPaymentMethodSaving(true);
+    onPaymentMethodClose();
+  };
+
+  const isBilling = ctaHref === "/dashboard/settings/billing";
+
   return (
     <Alert
       status={status}
@@ -256,6 +277,18 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
       variant="left-accent"
       bg="backgroundCardHighlight"
     >
+      <>
+        <OnboardingModal
+          isOpen={isPaymentMethodOpen}
+          onClose={onPaymentMethodClose}
+        >
+          <OnboardingBilling
+            onSave={handlePaymentAdded}
+            onCancel={onPaymentMethodClose}
+          />
+        </OnboardingModal>
+      </>
+
       <Flex>
         <AlertIcon boxSize={4} mt={1} ml={1} />
         <Flex flexDir="column" gap={1} pl={1}>
@@ -266,16 +299,25 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
             <Text as="span">{description}</Text>
           </AlertTitle>
           <AlertDescription my={2}>
-            <TrackedLinkButton
-              href={ctaHref}
-              category="billing"
-              label={label}
-              fontWeight="medium"
-              colorScheme="blue"
-              size="sm"
-            >
-              {ctaText}
-            </TrackedLinkButton>
+            {isBilling && account ? (
+              <ManageBillingButton
+                account={account}
+                loading={paymentMethodSaving}
+                loadingText="Verifying payment method"
+                onClick={onPaymentMethodOpen}
+              />
+            ) : (
+              <TrackedLinkButton
+                href={ctaHref}
+                category="billing"
+                label={label}
+                fontWeight="medium"
+                colorScheme="blue"
+                size="sm"
+              >
+                {ctaText}
+              </TrackedLinkButton>
+            )}
           </AlertDescription>
         </Flex>
       </Flex>

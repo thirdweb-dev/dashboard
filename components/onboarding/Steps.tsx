@@ -205,7 +205,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         description:
           "Add your payment method to ensure no disruption to thirdweb services when you exceed free monthly limits.",
         cta: "Add payment",
-        href: "/dashboard/settings/billing",
+        href: `/dashboard/settings/billing${meQuery.data && !meQuery.data.trialPeriodEndedAt && "?claimGrowth"}`,
         canSkip: true,
       },
       {
