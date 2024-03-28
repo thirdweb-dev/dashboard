@@ -1,3 +1,4 @@
+"use client";
 import {
   AccountStatus,
   useAccount,
@@ -15,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { Button, Card, Heading, LinkButton, Text, Link } from "tw-components";
 import { ApplyForOpCreditsModal } from "./ApplyForOpCreditsModal";
@@ -56,7 +57,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
   const apiKeysQuery = useApiKeys();
-  const router = useRouter();
+  // const router = useRouter();
   const trackEvent = useTrack();
   const {
     isOpen: isClaimCreditsOpen,
@@ -147,13 +148,13 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
       return;
     }
 
-    if (!isSkip && href) {
-      if (!href.startsWith("http")) {
-        router.push(href);
-      } else {
-        window.open(href, "_blank");
-      }
-    }
+    // if (!isSkip && href) {
+    //   if (!href.startsWith("http")) {
+    //     router.push(href);
+    //   } else {
+    //     window.open(href, "_blank");
+    //   }
+    // }
 
     if (!isSkip && onClick) {
       onClick();

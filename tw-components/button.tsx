@@ -1,3 +1,4 @@
+"use client";
 import { ChakraNextLink } from "./link";
 import { convertFontSizeToCSSVar } from "./utils/typography";
 import {

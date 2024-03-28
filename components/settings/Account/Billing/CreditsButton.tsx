@@ -15,7 +15,7 @@ import {
 import { Button, Card, Text } from "tw-components";
 import { CreditsItem } from "./CreditsItem";
 import { useTrack } from "hooks/analytics/useTrack";
-import { useRouter } from "next/router";
+
 import { useMemo, useState } from "react";
 
 export const formatToDollars = (cents: number) => {
@@ -26,16 +26,15 @@ export const formatToDollars = (cents: number) => {
   }).format(dollars);
 };
 
-export const CreditsButton = () => {
+export const CreditsButton: React.FC<{ fromOpCredits?: boolean }> = ({
+  fromOpCredits,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const trackEvent = useTrack();
 
-  const router = useRouter();
-  const { fromOpCredits: fromOpCreditsQuery } = router.query;
-
   const shouldShowTooltip = useMemo(
-    () => fromOpCreditsQuery !== undefined,
-    [fromOpCreditsQuery],
+    () => fromOpCredits !== undefined,
+    [fromOpCredits],
   );
 
   const [shouldClose, setShouldClose] = useState(false);
