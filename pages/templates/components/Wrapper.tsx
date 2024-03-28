@@ -22,7 +22,7 @@ import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
 import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { TemplateTagId, TemplateTags } from "../data/_tags";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
@@ -37,9 +37,14 @@ type TemplateWrapperProps = {
   _defaultKeyword?: string;
 };
 
-export function filterTemplates(tagIds: TemplateTagId[], keyword: string) {
-  let _templates = TEMPLATE_DATA;
-  if (tagIds.length) {
+export function filterTemplates(
+  tagIds: TemplateTagId[],
+  keyword: string,
+  skipTagCheck?: boolean,
+  defaultData?: TemplateCardProps[],
+) {
+  let _templates = defaultData || TEMPLATE_DATA;
+  if (tagIds.length && !skipTagCheck) {
     _templates = TEMPLATE_DATA.filter((item) =>
       tagIds.every((tagId) => item.tags.includes(tagId)),
     );
@@ -70,11 +75,11 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
     _defaultKeyword,
   } = props;
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
     _defaultTagIds || [],
   );
   const [keyword, setKeyword] = useState<string>(_defaultKeyword || "");
-
   const updateKeyword = (newValue: string) => {
     setKeyword(newValue);
     const queryParams = new URLSearchParams(window.location.search);
@@ -98,9 +103,12 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
   };
 
   // might add debounce here idk
-  const templates = showFilterMenu
-    ? filterTemplates(selectedTags, keyword)
-    : data;
+  const templates = filterTemplates(
+    selectedTags,
+    keyword,
+    showFilterMenu,
+    data,
+  );
 
   return (
     <DarkMode>
@@ -166,7 +174,8 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
               borderColor="borderColor"
               onChange={(e) => updateKeyword(e.target.value)}
               defaultValue={_defaultKeyword || ""}
-              value={keyword}
+              // value={keyword}
+              ref={inputRef}
             />
             {keyword && (
               <InputRightElement>
@@ -175,7 +184,12 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
                   aria-label="Clear search"
                   variant="ghost"
                   icon={<Icon as={FiX} />}
-                  onClick={() => updateKeyword("")}
+                  onClick={() => {
+                    updateKeyword("");
+                    if (inputRef.current) {
+                      inputRef.current.value = "";
+                    }
+                  }}
                 />
               </InputRightElement>
             )}
