@@ -72,7 +72,6 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
         });
       },
       onError: (error: any) => {
-        console.log({ error });
         const message =
           "message" in error
             ? error.message
