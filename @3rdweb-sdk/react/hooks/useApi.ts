@@ -443,6 +443,7 @@ export function useUpdateAccountPlan(waitForWebhook?: boolean) {
       }
 
       // Wait for account plan to update via stripe webhook
+      // TODO: find a better way to notify the client that the plan has been updated
       if (waitForWebhook) {
         await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
       }

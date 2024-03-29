@@ -45,6 +45,15 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({
   const isTwCredit = credit?.name.startsWith("TW -");
   const isStartupCredit = credit?.name.startsWith("SU -");
 
+  let creditTitle = credit?.name ?? "thirdweb credits";
+  if (isOpCredit) {
+    creditTitle = "Optimism sponsorship credits";
+  } else if (isTwCredit) {
+    creditTitle = "thirdweb credits";
+  } else if (isStartupCredit) {
+    creditTitle = "Startup grant credits";
+  }
+
   return (
     <Card p={6} as={Flex} flexDir="column" gap={3}>
       <Flex flexDir="column" gap={4}>
@@ -66,15 +75,7 @@ export const CreditsItem: React.FC<CreditsItemProps> = ({
               objectFit="contain"
             />
           ) : null}
-          <Text color="bgBlack">
-            {isOpCredit
-              ? "Sponsorship credit balance"
-              : isTwCredit
-                ? "thirdweb credits"
-                : isStartupCredit
-                  ? "Startup grant credits"
-                  : credit?.name}
-          </Text>
+          <Text color="bgBlack">{creditTitle}</Text>
           {!hasAppliedForOpGrant && isOpCredit && (
             <Button
               size="xs"

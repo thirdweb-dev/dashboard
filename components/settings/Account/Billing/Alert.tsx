@@ -37,7 +37,16 @@ type DismissedStorage = {
 export const BillingAlert = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
-  const meQuery = useAccount({ refetchInterval: 1000 });
+  const meQuery = useAccount({
+    refetchInterval: (account) =>
+      [
+        AccountStatus.InvalidPayment,
+        AccountStatus.InvalidPaymentMethod,
+        AccountStatus.PaymentVerification,
+      ].includes(account?.status as AccountStatus)
+        ? 1000
+        : false,
+  });
   const router = useRouter();
 
   const [dismissedAlert, setDismissedAlert] = useLocalStorage<
@@ -260,6 +269,8 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
   ctaHref = "/dashboard/settings/billing",
   label = "addPaymentAlert",
 }) => {
+  // TODO: We should find a way to move this deeper into the
+  // TODO: ManageBillingButton component and set an optional field to override
   const [paymentMethodSaving, setPaymentMethodSaving] = useState(false);
   const meQuery = useAccount();
   const { data: account } = meQuery;
