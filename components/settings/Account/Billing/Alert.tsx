@@ -169,6 +169,17 @@ export const BillingAlert = () => {
     );
   }
 
+  if (status === AccountStatus.InvalidPaymentMethod) {
+    // Todo: add reason for failure here.
+    return (
+      <BillingTypeAlert
+        title="Your payment method is invalid"
+        description="To continue using thirdweb services without interruption, please add your payment method."
+        status="error"
+      />
+    );
+  }
+
   if (
     status !== AccountStatus.ValidPayment &&
     exceededUsage_50 &&
