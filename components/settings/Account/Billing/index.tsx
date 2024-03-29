@@ -58,7 +58,11 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     account.status === AccountStatus.PaymentVerification;
   const invalidPayment = account.status === AccountStatus.InvalidPayment;
 
-  const handleUpdatePlan = (plan: AccountPlan, feedback?: string) => {
+  const handleUpdatePlan = (
+    plan: AccountPlan,
+    feedback?: string,
+    handleClose?: () => void,
+  ) => {
     const action = downgradePlan ? "downgradePlan" : "upgradePlan";
     setDowngradePlan(undefined);
 
@@ -87,6 +91,8 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
               feedback,
             },
           });
+
+          handleClose?.();
         },
         onError: (error) => {
           onError(error);
@@ -102,7 +108,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     );
   };
 
-  const handlePlanSelect = (plan: AccountPlan) => {
+  const handlePlanSelect = (plan: AccountPlan, onClose?: () => void) => {
     if (invalidPayment || paymentVerification) {
       return;
     }
@@ -116,7 +122,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     if (plan === AccountPlan.Free || account.plan === AccountPlan.Growth) {
       setDowngradePlan(plan);
     } else {
-      handleUpdatePlan(plan);
+      handleUpdatePlan(plan, undefined, onClose);
     }
   };
 

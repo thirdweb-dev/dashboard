@@ -13,7 +13,7 @@ interface BillingPricingProps {
   loading: boolean;
   canTrialGrowth?: boolean;
   trialPeriodEndedAt?: string;
-  onSelect: (plan: AccountPlan) => void;
+  onSelect: (plan: AccountPlan, onClose?: () => void) => void;
 }
 
 export const BillingPricing: React.FC<BillingPricingProps> = ({
@@ -72,8 +72,8 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
     return `Your free trial will end in ${days} days.`;
   }, [canTrialGrowth, isPro, plan, trialPeriodEndedAt]);
 
-  const handleSelect = (newPlan: AccountPlan) => {
-    onSelect(newPlan);
+  const handleSelect = (newPlan: AccountPlan, onClose?: () => void) => {
+    onSelect(newPlan, onClose);
   };
 
   return (
@@ -83,6 +83,10 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         size="sm"
         name={AccountPlan.Free}
         ctaTitle={freeCtaTitle}
+        ctaOnClick={(onClose) => {
+          handleSelect(AccountPlan.Free, onClose);
+          onClose();
+        }}
         ctaProps={{
           onClick: (e) => {
             e.preventDefault();
@@ -104,6 +108,9 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         ctaTitle={growthCtaTitle}
         ctaHint={trialPeriodDays}
         canTrialGrowth={canTrialGrowth}
+        ctaOnClick={(onClose) => {
+          handleSelect(AccountPlan.Growth, onClose);
+        }}
         ctaProps={{
           onClick: (e) => {
             e.preventDefault();
@@ -125,7 +132,15 @@ export const BillingPricing: React.FC<BillingPricingProps> = ({
         size="sm"
         name={AccountPlan.Pro}
         ctaTitle="Contact us"
+        ctaOnClick={(onClose) => {
+          handleSelect(AccountPlan.Pro, onClose);
+          onClose();
+        }}
         ctaProps={{
+          onClick: (e) => {
+            e.preventDefault();
+            handleSelect(AccountPlan.Pro);
+          },
           category: "account",
           label: "proPlan",
           href: CONTACT_US_URL,

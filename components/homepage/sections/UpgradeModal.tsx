@@ -20,6 +20,7 @@ interface UpgradeModalProps {
   ctaTitle?: string;
   ctaHint?: string;
   ctaProps: TrackedLinkButtonProps;
+  ctaOnClick?: (onClose: () => void) => void;
   canTrialGrowth?: boolean;
 }
 
@@ -28,6 +29,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
   ctaTitle,
   ctaHint,
   ctaProps,
+  ctaOnClick,
   canTrialGrowth,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -106,7 +108,21 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
             <Button onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button {...ctaProps}>Upgrade</Button>
+            <Button
+              {...{
+                ...ctaProps,
+                ...(ctaOnClick
+                  ? {
+                      onClick: (e) => {
+                        e.preventDefault();
+                        ctaOnClick(onClose);
+                      },
+                    }
+                  : { onClick: ctaProps?.onClick }),
+              }}
+            >
+              Upgrade
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
