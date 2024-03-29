@@ -11,12 +11,17 @@ interface ManageBillingButtonProps {
   loading?: boolean;
   loadingText?: string;
   onClick?: () => void;
+  buttonProps?: {
+    variant?: "outline" | "solid";
+    colorScheme?: "primary";
+  };
 }
 
 export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   account,
   loading,
   loadingText,
+  buttonProps = { variant: "outline", color: loading ? "gray" : "blue.500" },
   onClick,
 }) => {
   const [sessionUrl, setSessionUrl] = useState();
@@ -48,7 +53,7 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
 
   return (
     <TrackedLinkButton
-      variant="outline"
+      {...buttonProps}
       isDisabled={loading || (!onClick && !sessionUrl)}
       href={sessionUrl || ""}
       isLoading={loading}
@@ -62,7 +67,6 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       }
       loadingText={loadingText}
       onClick={handleClick}
-      color={loading ? "gray" : "blue.500"}
       fontSize="small"
     >
       {validPayment

@@ -304,6 +304,7 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
                 account={account}
                 loading={paymentMethodSaving}
                 loadingText="Verifying payment method"
+                buttonProps={{ colorScheme: "primary" }}
                 onClick={onPaymentMethodOpen}
               />
             ) : (
@@ -318,6 +319,18 @@ const BillingTypeAlert: React.FC<BillingTypeAlertProps> = ({
                 {ctaText}
               </TrackedLinkButton>
             )}
+            <TrackedLinkButton
+              ml="4"
+              variant="outline"
+              href="/support"
+              category="billing"
+              label="support"
+              color="blue.500"
+              fontSize="small"
+              isExternal
+            >
+              Contact Support
+            </TrackedLinkButton>
           </AlertDescription>
         </Flex>
       </Flex>
