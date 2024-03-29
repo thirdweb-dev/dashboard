@@ -168,8 +168,8 @@ Apply here!`,
                       the billing page.
                     </Text>
                     <Text color="faded">
-                      Credits are applicable across the following chains:
-                      OP Mainnet, Base, Zora, Frax, Mode.
+                      Credits are applicable across the following chains: OP
+                      Mainnet, Base, Zora, Frax, Mode.
                     </Text>
                   </Flex>
                 </AccordionPanel>
