@@ -152,7 +152,7 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
             fontWeight={700}
             letterSpacing="-0.04em"
           >
-            Code Exchange
+            Templates
           </Heading>
           <Text maxW={"820px"} fontSize={"16px"}>
             Discover a comprehensive web3 developer resource that combines
