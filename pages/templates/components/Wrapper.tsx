@@ -40,11 +40,11 @@ type TemplateWrapperProps = {
 export function filterTemplates(
   tagIds: TemplateTagId[],
   keyword: string,
-  skipTagCheck?: boolean,
+  showFilterMenu?: boolean,
   defaultData?: TemplateCardProps[],
 ) {
   let _templates = defaultData || TEMPLATE_DATA;
-  if (tagIds.length && !skipTagCheck) {
+  if (tagIds.length && showFilterMenu) {
     _templates = TEMPLATE_DATA.filter((item) =>
       tagIds.every((tagId) => item.tags.includes(tagId)),
     );
@@ -57,8 +57,8 @@ export function filterTemplates(
       (template) =>
         template.tags.includes(_keyword as TemplateTagId) ||
         template.keywords?.includes(_keyword as TemplateTagId) ||
-        template.title.toLowerCase().split(" ").includes(_keyword) ||
-        template.description.toLowerCase().split(" ").includes(_keyword),
+        template.title.toLowerCase().includes(_keyword) ||
+        template.description.toLowerCase().includes(_keyword),
     );
   }
   return _templates;
