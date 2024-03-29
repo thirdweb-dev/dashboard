@@ -108,7 +108,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   ? links.map(({ path, subActivePath, title: linkTitle }) => (
                       <NavLink
                         key={path}
-                        href={`${path}${path.includes("billing") && !account?.trialPeriodEndedAt && "?claimGrowth"}`}
+                        href={`${path}${
+                          path.includes("billing") &&
+                          !account?.trialPeriodEndedAt
+                            ? "?claimGrowth"
+                            : ""
+                        }`}
                         subActivePath={subActivePath}
                       >
                         {linkTitle}
