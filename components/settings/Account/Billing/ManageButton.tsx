@@ -29,7 +29,10 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   const validPayment = account.status === AccountStatus.ValidPayment;
   const paymentVerification =
     account.status === AccountStatus.PaymentVerification;
-  const invalidPayment = account.status === AccountStatus.InvalidPayment;
+  const invalidPayment = [
+    AccountStatus.InvalidPayment,
+    AccountStatus.InvalidPaymentMethod,
+  ].includes(account.status);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (onClick || loading || !sessionUrl) {

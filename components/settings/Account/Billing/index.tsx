@@ -223,6 +223,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     AccountStatus.NoCustomer,
     AccountStatus.NoPayment,
     AccountStatus.InvalidPayment,
+    AccountStatus.InvalidPaymentMethod,
   ].includes(account.status);
 
   return (

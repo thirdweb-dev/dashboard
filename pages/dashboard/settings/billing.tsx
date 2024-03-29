@@ -15,7 +15,12 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
   const { isLoggedIn, isLoading } = useLoggedInUser();
   const meQuery = useAccount({
     refetchInterval: (account) =>
-      account?.status !== AccountStatus.InvalidPayment ? 1000 : false,
+      [
+        AccountStatus.InvalidPayment,
+        AccountStatus.InvalidPaymentMethod,
+      ].includes(account?.status as AccountStatus)
+        ? 1000
+        : false,
   });
 
   const router = useRouter();
