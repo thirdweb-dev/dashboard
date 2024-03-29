@@ -30,7 +30,7 @@ const SDKTypeMap: Record<
     icon: SiJavascript,
     color: "#f7df1e",
     ghUrl:
-      "https://github.com/thirdweb-dev/js/releases/tag/%40thirdweb-dev%2Fsdk%40",
+      "https://github.com/thirdweb-dev/js/releases",
   },
   unity: {
     icon: SiUnity,
