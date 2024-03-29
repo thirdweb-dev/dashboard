@@ -174,7 +174,7 @@ export const BillingAlert = () => {
     return (
       <BillingTypeAlert
         title="Your payment method is invalid"
-        description="To continue using thirdweb services without interruption, please add your payment method."
+        description="To use thirdweb services without interruption, please add your payment method."
         status="error"
       />
     );
