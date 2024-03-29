@@ -37,7 +37,7 @@ type DismissedStorage = {
 export const BillingAlert = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
-  const meQuery = useAccount();
+  const meQuery = useAccount({ refetchInterval: 1000 });
   const router = useRouter();
 
   const [dismissedAlert, setDismissedAlert] = useLocalStorage<

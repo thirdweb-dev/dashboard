@@ -21,6 +21,7 @@ export enum AccountStatus {
   PaymentVerification = "paymentVerification",
   ValidPayment = "validPayment",
   InvalidPayment = "invalidPayment",
+  InvalidPaymentMethod = "invalidPaymentMethod",
 }
 
 export enum AccountPlan {
