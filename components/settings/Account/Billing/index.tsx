@@ -28,7 +28,9 @@ interface BillingProps {
 
 export const Billing: React.FC<BillingProps> = ({ account }) => {
   const [claimedGrowth] = useLocalStorage("claim-growth-trial", false, true);
-  const updatePlanMutation = useUpdateAccountPlan();
+  const updatePlanMutation = useUpdateAccountPlan(
+    account?.plan === AccountPlan.Free,
+  );
   const {
     isOpen: isPaymentMethodOpen,
     onOpen: onPaymentMethodOpen,
@@ -58,11 +60,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     account.status === AccountStatus.PaymentVerification;
   const invalidPayment = account.status === AccountStatus.InvalidPayment;
 
-  const handleUpdatePlan = (
-    plan: AccountPlan,
-    feedback?: string,
-    handleClose?: () => void,
-  ) => {
+  const handleUpdatePlan = (plan: AccountPlan, feedback?: string) => {
     const action = downgradePlan ? "downgradePlan" : "upgradePlan";
     setDowngradePlan(undefined);
 
@@ -91,8 +89,6 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
               feedback,
             },
           });
-
-          handleClose?.();
         },
         onError: (error) => {
           onError(error);
@@ -108,7 +104,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     );
   };
 
-  const handlePlanSelect = (plan: AccountPlan, onClose?: () => void) => {
+  const handlePlanSelect = (plan: AccountPlan) => {
     if (invalidPayment || paymentVerification) {
       return;
     }
@@ -122,7 +118,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     if (plan === AccountPlan.Free || account.plan === AccountPlan.Growth) {
       setDowngradePlan(plan);
     } else {
-      handleUpdatePlan(plan, undefined, onClose);
+      handleUpdatePlan(plan);
     }
   };
 

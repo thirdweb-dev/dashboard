@@ -16,7 +16,6 @@ import { UpgradeModal } from "./UpgradeModal";
 interface PricingCardProps {
   name: AccountPlan;
   ctaProps: TrackedLinkButtonProps;
-  ctaOnClick?: (onClose: () => void) => void;
   ctaTitle?: string;
   ctaHint?: string;
   onDashboard?: boolean;
@@ -32,7 +31,6 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   ctaTitle,
   ctaHint,
   ctaProps,
-  ctaOnClick,
   cardProps,
   onDashboard,
   size = "lg",
@@ -115,7 +113,6 @@ export const PricingCard: React.FC<PricingCardProps> = ({
         <UpgradeModal
           name={name}
           ctaProps={ctaProps}
-          ctaOnClick={ctaOnClick}
           ctaTitle={ctaTitle}
           ctaHint={ctaHint}
           canTrialGrowth={canTrialGrowth}

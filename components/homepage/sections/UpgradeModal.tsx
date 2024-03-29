@@ -20,7 +20,6 @@ interface UpgradeModalProps {
   ctaTitle?: string;
   ctaHint?: string;
   ctaProps: TrackedLinkButtonProps;
-  ctaOnClick?: (onClose: () => void) => void;
   canTrialGrowth?: boolean;
 }
 
@@ -29,12 +28,11 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
   ctaTitle,
   ctaHint,
   ctaProps,
-  ctaOnClick,
   canTrialGrowth,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const plan = PLANS[name];
-  const account = useAccount({ refetchInterval: () => 1000 });
+  const account = useAccount();
   const trackEvent = useTrack();
 
   // We close the modal when the user is on the Growth plan successfully
@@ -108,21 +106,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
             <Button onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button
-              {...{
-                ...ctaProps,
-                ...(ctaOnClick
-                  ? {
-                      onClick: (e) => {
-                        e.preventDefault();
-                        ctaOnClick(onClose);
-                      },
-                    }
-                  : { onClick: ctaProps?.onClick }),
-              }}
-            >
-              Upgrade
-            </Button>
+            <Button {...ctaProps}>Upgrade</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

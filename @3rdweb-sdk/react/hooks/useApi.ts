@@ -418,7 +418,7 @@ export function useUpdateAccount() {
   );
 }
 
-export function useUpdateAccountPlan() {
+export function useUpdateAccountPlan(waitForWebhook?: boolean) {
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
 
@@ -441,6 +441,11 @@ export function useUpdateAccountPlan() {
         throw new Error(json.error.message);
       }
 
+      // Wait for account plan to update via stripe webhook
+      if (waitForWebhook) {
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
+      }
+
       return json.data;
     },
     {
@@ -448,7 +453,7 @@ export function useUpdateAccountPlan() {
         // invalidate usage data as limits are different
         queryClient.invalidateQueries(accountKeys.me(user?.address as string));
 
-        return queryClient.invalidateQueries(
+        queryClient.invalidateQueries(
           accountKeys.usage(user?.address as string),
         );
       },
