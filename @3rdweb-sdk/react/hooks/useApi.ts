@@ -453,7 +453,7 @@ export function useUpdateAccountPlan(waitForWebhook?: boolean) {
         // invalidate usage data as limits are different
         queryClient.invalidateQueries(accountKeys.me(user?.address as string));
 
-        queryClient.invalidateQueries(
+        return queryClient.invalidateQueries(
           accountKeys.usage(user?.address as string),
         );
       },
