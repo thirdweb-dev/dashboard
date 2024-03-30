@@ -26,7 +26,7 @@ const MarqueeGroup: ComponentWithChildren<{
   );
 };
 
-export const Marquee: ComponentWithChildren<{
+const Marquee: ComponentWithChildren<{
   animationDirection?: "normal" | "reverse";
   display?: LayoutProps["display"];
 }> = ({ children, display, animationDirection }) => {
@@ -71,6 +71,7 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="animoca" />
         <PartnerLogo partner="mcfarlane" />
         <PartnerLogo partner="coolcats" />
+        <PartnerLogo partner="xai" />
         <PartnerLogo partner="courtyard" />
         <PartnerLogo partner="aavegotchi" />
         <PartnerLogo partner="infinigods" />
@@ -90,6 +91,7 @@ export const PartnerCarousel: React.FC = () => {
         <PartnerLogo partner="aws" />
         <PartnerLogo partner="rarible" />
         <PartnerLogo partner="coolcats" />
+        <PartnerLogo partner="xai" />
         <PartnerLogo partner="courtyard" />
         <PartnerLogo partner="aavegotchi" />
         <PartnerLogo partner="shopify" />
