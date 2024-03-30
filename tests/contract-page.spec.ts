@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getBaseURL } from "./setup";
+import { getBaseURL, waitForPageLoad } from "./setup";
 
 test.beforeEach(async ({ page, baseURL }) => {
   await page.goto(
@@ -10,7 +10,10 @@ test.beforeEach(async ({ page, baseURL }) => {
 test.describe("Contract Page", () => {
   test("BAYC", async ({ page }) => {
     // give it some time to load
-    await wait(10000);
+    await waitForPageLoad(page, {
+      loadTimeout: 10000,
+      waitAfterLoad: 5000,
+    });
     // Expect the page to have the correct title.
     expect(await page.title()).toBe(
       "BoredApeYachtClub (BAYC) | Ethereum Smart Contract | thirdweb",
@@ -23,7 +26,3 @@ test.describe("Contract Page", () => {
     expect(await nftTabLinkEl.textContent()).toBe("NFTs");
   });
 });
-
-async function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
