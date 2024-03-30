@@ -1,6 +1,8 @@
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import TemplateWrapper, { filterTemplates } from "../../components/templates/Wrapper";
+import TemplateWrapper, {
+  filterTemplates,
+} from "../../components/templates/Wrapper";
 import { GetServerSidePropsContext } from "next";
 import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
 import { TEMPLATE_DATA } from "data/templates/templates";
