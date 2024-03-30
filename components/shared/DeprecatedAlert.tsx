@@ -85,7 +85,7 @@ export const DeprecatedAlert: React.FC<DeprecatedAlertProps> = ({ chain }) => {
               <br />
               We recommend switching to{" "}
               <Link href={recommendedChain.slug} color="primary.500">
-                {recommendedChain?.name}
+                {recommendedChain.name}
               </Link>{" "}
               to continue testing your smart contracts.
             </>

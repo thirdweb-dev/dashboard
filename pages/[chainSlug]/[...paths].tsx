@@ -40,7 +40,6 @@ import { shortenIfAddress } from "utils/usedapp-external";
 import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
-import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
 import { getContract } from "thirdweb";
 import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
 
