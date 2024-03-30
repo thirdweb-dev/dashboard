@@ -1,10 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { getBaseURL } from "./setup";
 
 test.beforeEach(async ({ page, baseURL }) => {
   await page.goto(
-    baseURL
-      ? `${baseURL}/1/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D`
-      : "/1/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+    `${getBaseURL(baseURL)}/1/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D`,
   );
 });
 
