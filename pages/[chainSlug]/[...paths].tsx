@@ -40,10 +40,9 @@ import { shortenIfAddress } from "utils/usedapp-external";
 import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
-import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
-import { Chain } from "@thirdweb-dev/chains";
 import { getContract } from "thirdweb";
 import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { DeprecatedAlert } from "../../components/shared/DeprecatedAlert";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -64,7 +63,7 @@ const ContractPage: ThirdwebNextPage = () => {
 
   const contractInfo = useEVMContractInfo();
 
-  const chain = contractInfo?.chain || null;
+  const chain = contractInfo?.chain ?? undefined;
   const chainSlug = contractInfo?.chainSlug;
   const contractAddress = contractInfo?.contractAddress || "";
 
@@ -251,10 +250,7 @@ const ContractPage: ThirdwebNextPage = () => {
               />
               <PrimaryDashboardButton contractAddress={contractAddress} />
             </Flex>
-            <DeprecatedAlert
-              chain={chain as Chain}
-              description="You can't interact with this contract through the dashboard as this chain has been deprecated."
-            />
+            <DeprecatedAlert chain={chain} />
           </Flex>
         </Container>
       </Box>
