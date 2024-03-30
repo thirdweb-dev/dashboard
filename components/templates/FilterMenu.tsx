@@ -7,15 +7,14 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Checkbox } from "tw-components";
 import { useRouter } from "next/router";
-import { useTrack } from "hooks/analytics/useTrack";
+import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
 
 type FilterItem = {
   label: string;
-  tags: (typeof TemplateTags)[number][];
+  tags: (typeof TEMPLATE_TAGS)[number][];
 };
 const filterItems: FilterItem[] = [
   {
@@ -91,7 +90,7 @@ const FilterMenu: React.FC<FilterProps> = ({
   setSelectedTags,
 }: FilterProps) => {
   const router = useRouter();
-  const trackEvent = useTrack();
+  // const trackEvent = useTrack();
   const handleToggleTag = (
     event: ChangeEvent<HTMLInputElement>,
     tagId: TemplateTagId,

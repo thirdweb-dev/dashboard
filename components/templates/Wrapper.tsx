@@ -20,12 +20,12 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
-import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ReactNode, useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
+import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
+import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
 
 type TemplateWrapperProps = {
   title: string;
@@ -263,7 +263,7 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
 
 export const getDisplayTagFromTagId = (tagId: TemplateTagId) => {
   // "loyalty-card" -> "Loyalty Card"
-  return TemplateTags.find((item) => item.id === tagId)?.displayValue || "";
+  return TEMPLATE_TAGS.find((item) => item.id === tagId)?.displayValue || "";
 };
 
 const TemplateCard: React.FC<TemplateCardProps> = ({

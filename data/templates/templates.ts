@@ -1,4 +1,4 @@
-import { TemplateTagId } from "./_tags";
+import { TemplateTagId } from "./tags";
 
 export interface TemplateCardProps {
   id: string;

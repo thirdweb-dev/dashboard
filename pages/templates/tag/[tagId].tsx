@@ -1,13 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { TemplateTagId, TemplateTags } from "../data/_tags";
-import { TEMPLATE_DATA, TemplateCardProps } from "../data/_templates";
 import { ThirdwebNextPage } from "utils/types";
 import { PageId } from "page-id";
-import TemplateWrapper from "../components/Wrapper";
+import TemplateWrapper from "../../../components/templates/Wrapper";
 import { useRouter } from "next/router";
+import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
+import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 
 type TagPageProps = {
-  tag: (typeof TemplateTags)[number];
+  tag: (typeof TEMPLATE_TAGS)[number];
   templates: TemplateCardProps[];
 };
 
@@ -16,7 +16,7 @@ const TemplateTagPage: ThirdwebNextPage = (props: TagPageProps) => {
   const keyword = (router?.query?.keyword as string) || "";
   return (
     <TemplateWrapper
-      key={router.isReady ? "true" : "false"}
+      key={String(router.isReady)}
       title={`${props.tag.displayValue} templates`}
       description={`Explore ${props.tag.displayValue} templates`}
       data={props.templates}
@@ -33,7 +33,7 @@ TemplateTagPage.pageId = PageId.TemplateTagPage;
 export const getStaticProps: GetStaticProps<TagPageProps> = async (ctx) => {
   try {
     const { tagId } = ctx.params as { tagId: TemplateTagId };
-    const tag = TemplateTags.find((t) => t.id === tagId);
+    const tag = TEMPLATE_TAGS.find((t) => t.id === tagId);
     if (!tag) {
       return {
         notFound: true,
@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps<TagPageProps> = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     fallback: false,
-    paths: TemplateTags.map((tag) => ({
+    paths: TEMPLATE_TAGS.map((tag) => ({
       params: {
         tagId: tag.id,
       },

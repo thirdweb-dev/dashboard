@@ -1,12 +1,12 @@
 There are a few ways you can contribute to this project.
 
 # Add new tags
-1. Go to ./pages/templates/data/_tags.ts
-2. Add new items to `TemplateTags`
+1. Go to ./data/templates/tags.ts
+2. Add new items to `TEMPLATE_TAGS`
   2.1 Make sure the `id` is unique and in lowercase
 
 # Add new templates
-1. Go to ./pages/templates/data/_templates.ts
+1. Go to ./data/templates/templates.ts
 2. Add new items to `TEMPLATE_DATA`
   2.1 Each templates must have a public github repo.
       Should you (as an external contributor) want to contribute your own repo,

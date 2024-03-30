@@ -1,6 +1,6 @@
 type Tag = { id: Lowercase<string>; displayValue: string };
 
-export const TemplateTags = [
+export const TEMPLATE_TAGS = [
   {
     id: "engine",
     displayValue: "Engine",
@@ -119,4 +119,4 @@ export const TemplateTags = [
   },
 ] as const satisfies Tag[];
 
-export type TemplateTagId = (typeof TemplateTags)[number]["id"];
+export type TemplateTagId = (typeof TEMPLATE_TAGS)[number]["id"];

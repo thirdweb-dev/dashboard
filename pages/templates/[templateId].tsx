@@ -4,10 +4,7 @@ import { ProductButton } from "components/product-pages/common/ProductButton";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PageId } from "page-id";
-import {
-  TEMPLATE_DATA,
-  TemplateCardProps,
-} from "pages/templates/data/_templates";
+import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 import React from "react";
 import {
   Heading,
@@ -18,7 +15,7 @@ import {
   TrackedLinkButton,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { getDisplayTagFromTagId } from "./components/Wrapper";
+import { getDisplayTagFromTagId } from "../../components/templates/Wrapper";
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 import { NextSeo } from "next-seo";
 

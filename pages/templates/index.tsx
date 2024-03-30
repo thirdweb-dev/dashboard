@@ -1,9 +1,9 @@
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { TEMPLATE_DATA } from "./data/_templates";
-import TemplateWrapper, { filterTemplates } from "./components/Wrapper";
-import { TemplateTagId, TemplateTags } from "./data/_tags";
+import TemplateWrapper, { filterTemplates } from "../../components/templates/Wrapper";
 import { GetServerSidePropsContext } from "next";
+import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
+import { TEMPLATE_DATA } from "data/templates/templates";
 
 const title = "Web3 Templates for Websites & Apps";
 const description =
@@ -46,7 +46,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           .split(",")
           // Remove invalid tags
           .filter((tag) =>
-            TemplateTags.find((o) => o.id === tag),
+            TEMPLATE_TAGS.find((o) => o.id === tag),
           ) as TemplateTagId[])
       : [];
   }
