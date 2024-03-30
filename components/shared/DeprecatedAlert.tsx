@@ -39,9 +39,12 @@ const RECOMMENDED_CHAINS: Record<number, Chain> = {
 };
 
 export const DeprecatedAlert: React.FC<DeprecatedAlertProps> = ({ chain }) => {
+  if (!chain) {
+    return null;
+  }
   // the chain can *somehow* be `null` here!
-  const recommendedChain = RECOMMENDED_CHAINS[chain?.chainId || -1];
-  const tobeDeprecatedChain = TO_BE_DEPRECATED_CHAINS[chain?.chainId || -1];
+  const recommendedChain = RECOMMENDED_CHAINS[chain.chainId];
+  const tobeDeprecatedChain = TO_BE_DEPRECATED_CHAINS[chain.chainId];
 
   if (
     (chain?.status !== "deprecated" && !tobeDeprecatedChain) ||
