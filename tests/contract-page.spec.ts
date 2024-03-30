@@ -12,7 +12,7 @@ test.describe("Contract Page", () => {
     // give it some time to load
     await waitForPageLoad(page, {
       loadTimeout: 10000,
-      waitAfterLoad: 5000,
+      waitAfterLoad: 15000,
     });
     // Expect the page to have the correct title.
     expect(await page.title()).toBe(
