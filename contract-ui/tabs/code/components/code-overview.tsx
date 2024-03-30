@@ -45,7 +45,6 @@ import {
   SnippetApiResponse,
 } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
-import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
@@ -59,6 +58,8 @@ interface CodeOverviewProps {
   chain?: Chain;
   noSidebar?: boolean;
 }
+
+// TODO replace `resolveMethod` with the fn actual signatures
 
 const COMMANDS = {
   install: {
@@ -84,7 +85,7 @@ const contract = getContract({
   chain: {{chainName}}, 
   address: "{{contract_address}}"
 });`,
-    react: `import { createThirdwebClient, getContract } from "thirdweb";
+    react: `import { createThirdwebClient, getContract, resolveMethod } from "thirdweb";
 import { {{chainName}} } from "thirdweb/chains";
 import { ThirdwebProvider } from "thirdweb/react";
 
@@ -107,7 +108,7 @@ function App() {
     </ThirdwebProvider>
   )
 }`,
-    "react-native": `import { createThirdwebClient, getContract } from "thirdweb";
+    "react-native": `import { createThirdwebClient, getContract, resolveMethod } from "thirdweb";
 import { {{chainName}} } from "thirdweb/chains";
 import { ThirdwebProvider } from "thirdweb/react";
 
@@ -140,19 +141,20 @@ var sdk = ThirdwebManager.Instance.SDK;
 var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
-    javascript: `import { readContract } from "thirdweb";
+    javascript: `import { readContract, resolveMethod } from "thirdweb";
 
 const data = await readContract({ 
   contract, 
-  method: "{{function}}", 
+  method: resolveMethod("{{function}}"), 
   params: [{{args}}] 
 })`,
-    react: `import { useReadContract } from "thirdweb/react";
+    react: `import { resolveMethod } from "thirdweb";
+    import { useReadContract } from "thirdweb/react";
 
 export default function Component() {
   const { data, isLoading } = useReadContract({ 
     contract, 
-    method: "{{function}}", 
+    method: resolveMethod("{{function}}"), 
     params: [{{args}}] 
   });
 }`,
@@ -161,24 +163,24 @@ export default function Component() {
 export default function Component() {
   const { data, isLoading } = useReadContract({ 
     contract, 
-    method: "{{function}}", 
+    method: resolveMethod("{{function}}"), 
     params: [{{args}}] 
   });
 }`,
   },
   write: {
-    javascript: `import { prepareContractCall, sendTransaction } from "thirdweb";
+    javascript: `import { prepareContractCall, sendTransaction, resolveMethod } from "thirdweb";
 
 const transaction = await prepareContractCall({ 
   contract, 
-  method: "{{function}}", 
+  method: resolveMethod("{{function}}"), 
   params: [{{args}}] 
 });
 const { transactionHash } = await sendTransaction({ 
   transaction, 
   account 
 })`,
-    react: `import { prepareContractCall } from "thirdweb"
+    react: `import { prepareContractCall, resolveMethod } from "thirdweb"
 import { useSendTransaction } from "@thirdweb-dev/react";
 
 export default function Component() {
@@ -187,7 +189,7 @@ export default function Component() {
   const call = async () => {
     const transaction = await prepareContractCall({ 
       contract, 
-      method: "{{function}}", 
+      method: resolveMethod("{{function}}"), 
       params: [{{args}}] 
     });
     const { transactionHash } = await sendTransaction(transaction);
@@ -202,7 +204,7 @@ export default function Component() {
   const call = async () => {
     const transaction = await prepareContractCall({ 
       contract, 
-      method: "{{function}}", 
+      method: resolveMethod("{{function}}"), 
       params: [{{args}}] 
     });
     const { transactionHash } = await sendTransaction(transaction);
@@ -215,7 +217,7 @@ export default function Component() {
     <TransactionButton
       transaction={() => prepareContractCall({ 
         contract, 
-        method: "{{function}}", 
+        method: resolveMethod("{{function}}"), 
         params: [{{args}}] 
       })}
     >
@@ -275,64 +277,41 @@ const WALLETS_SNIPPETS = [
       "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/smart-wallet.svg",
     link: "https://portal.thirdweb.com/references/wallets/latest/SmartWallet",
     supportedLanguages: {
-      javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { LocalWallet, SmartWallet } from "@thirdweb-dev/wallets";
+      javascript: `import {{chainName}} from "thirdweb/chains";
+import { embeddedWallet, smartWallet } from "thirdweb/wallets";
 
-// First, connect the personal wallet, which can be any wallet (metamask, walletconnect, etc.)
-// Here we're just generating a new local wallet which can be saved later
-const personalWallet = new LocalWallet();
-await personalWallet.generate();
+// First, connect the personal wallet, which can be any wallet (metamask, embedded, etc.)
+const personalWallet = embeddedWallet();
+coonst peronalAccount = await personalWallet.connect({
+  client,
+  chain,
+  strategy: "google",
+});
 
-// Setup the Account Abstraction configuration
-const config = {
+// Then, connect the Smart Account
+const wallet = smartWallet({
   chain: {{chainName}}, // the chain where your account will be or is deployed
   factoryAddress: "{{factory_address}}", // your own deployed account factory address
-  clientId: "YOUR_CLIENT_ID", // or use secretKey for backend/node scripts
   gasless: true, // enable or disable gasless transactions
-};
-
-// Then, connect the Account
-const wallet = new SmartWallet(config);
-await wallet.connect({
+});
+const smartAccount = await wallet.connect({
+  client,
   personalWallet,
 });`,
-      react: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react";
+      react: `import {{chainName}} from "thirdweb/chains";
+import { ThirdwebProvider, ConnectButton } from "thirdweb/react";
 
 export default function App() {
 return (
-    <ThirdwebProvider
-      clientId="YOUR_CLIENT_ID"
-      activeChain={{chainName}}
-      supportedWallets={[
-        smartWallet({
+    <ThirdwebProvider>
+      <ConnectWallet 
+        client={client}
+        accountAbstraction={{
+          chain: {{chainName}},
           factoryAddress: "{{factory_address}}",
           gasless: true,
-          personalWallets={[...]}
-        })
-      ]}
-    >
-      <ConnectWallet />
-    </ThirdwebProvider>
-  );
-}`,
-      "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebProvider, ConnectWallet, smartWallet } from "@thirdweb-dev/react-native";
-
-export default function App() {
-return (
-    <ThirdwebProvider
-      clientId="YOUR_CLIENT_ID"
-      activeChain={{chainName}}
-      supportedWallets={[
-        smartWallet({
-          factoryAddress: "{{factory_address}}",
-          gasless: true,
-          personalWallets={[...]}
-        })
-      ]}
-    >
-      <ConnectWallet />
+        }}
+      />
     </ThirdwebProvider>
   );
 }`,
@@ -358,19 +337,6 @@ public async void ConnectWallet()
     },
   },
 ];
-
-function getExportName(slug: string) {
-  let exportName = slug
-    .split("-")
-    .map((s) => s[0].toUpperCase() + s.slice(1))
-    .join("");
-
-  // if chainName starts with a number, prepend an underscore
-  if (exportName.match(/^[0-9]/)) {
-    exportName = `_${exportName}`;
-  }
-  return exportName;
-}
 
 interface SnippetOptions {
   contractAddress?: string;
