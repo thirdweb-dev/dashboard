@@ -250,7 +250,7 @@ const ContractPage: ThirdwebNextPage = () => {
               />
               <PrimaryDashboardButton contractAddress={contractAddress} />
             </Flex>
-            <DeprecatedAlert chain={chain} />
+            {/* <DeprecatedAlert chain={chain} /> */}
           </Flex>
         </Container>
       </Box>
