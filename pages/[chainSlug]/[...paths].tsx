@@ -42,6 +42,7 @@ import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { getContract } from "thirdweb";
 import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { DeprecatedAlert } from "../../components/shared/DeprecatedAlert";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -249,7 +250,7 @@ const ContractPage: ThirdwebNextPage = () => {
               />
               <PrimaryDashboardButton contractAddress={contractAddress} />
             </Flex>
-            {/* <DeprecatedAlert chain={chain} /> */}
+            <DeprecatedAlert chain={chain} />
           </Flex>
         </Container>
       </Box>
