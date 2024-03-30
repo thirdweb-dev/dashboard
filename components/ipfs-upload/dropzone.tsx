@@ -19,7 +19,7 @@ import {
   useAddress,
   useStorageUpload,
 } from "@thirdweb-dev/react";
-import { UploadProgressEvent } from "@thirdweb-dev/storage";
+import type { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { PINNED_FILES_QUERY_KEY_ROOT } from "components/storage/your-files";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -40,7 +40,7 @@ import {
 
 const TRACKING_CATEGORY = "ipfs_uploader";
 
-export interface IpfsUploadDropzoneProps {}
+interface IpfsUploadDropzoneProps {}
 
 export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = () => {
   const address = useAddress();
@@ -133,6 +133,8 @@ interface FileUploadProps {
   updateFiles: Dispatch<SetStateAction<File[]>>;
 }
 
+const filesPerPage = 20;
+
 const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
   const trackEvent = useTrack();
   const address = useAddress();
@@ -152,6 +154,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
   const [ipfsHashes, setIpfsHashes] = useState<string[]>([]);
   const { onError } = useErrorHandler();
 
+  const [page, setPage] = useState(0);
+
   const progressPercent = (progress.progress / progress.total) * 100;
 
   const mainIpfsUri = useMemo(() => {
@@ -166,6 +170,17 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
     return `https://ipfs.io/ipfs/${ipfsHashes[0].split("ipfs://")[1]}`;
   }, [ipfsHashes]);
 
+  const filesToShow = useMemo(() => {
+    const start = page * filesPerPage;
+    return files.slice(start, start + filesPerPage);
+  }, [files, page]);
+
+  const lastPage = Math.ceil(files.length / filesPerPage);
+
+  const showNextButton = page < lastPage - 1;
+  const showPrevButton = page > 0;
+  const showPagination = (showNextButton || showPrevButton) && lastPage > 1;
+
   return (
     <Flex direction="column" w="full" h="full" justify="space-between">
       <SimpleGrid
@@ -174,7 +189,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
         gap={{ base: 1.5, md: 3 }}
         overflow="auto"
       >
-        {files.map((file, index) => {
+        {filesToShow.map((file, index) => {
           const ipfsHash = ipfsHashes[index];
           return (
             <GridItem colSpan={1} key={`${file.name}_${index}`}>
@@ -316,6 +331,37 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
           );
         })}
       </SimpleGrid>
+
+      {showPagination && (
+        <Flex
+          gap={2}
+          py={5}
+          justifyContent="center"
+          borderTop="1px solid"
+          borderColor="borderColor"
+        >
+          <Button
+            isDisabled={!showPrevButton}
+            variant="inverted"
+            onClick={() => {
+              setPage(page - 1);
+            }}
+          >
+            Previous
+          </Button>
+
+          <Button
+            isDisabled={!showNextButton}
+            variant="inverted"
+            onClick={() => {
+              setPage(page + 1);
+            }}
+          >
+            Next
+          </Button>
+        </Flex>
+      )}
+
       <Flex direction="column">
         <Divider flexShrink={0} />
         <Flex

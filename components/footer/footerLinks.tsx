@@ -38,11 +38,6 @@ export const SDKs: FooterLinkInfo[] = [
     name: "React",
     link: "https://portal.thirdweb.com/react/latest",
   },
-  // {
-  //   label: "python",
-  //   name: "Python",
-  //   link: "https://portal.thirdweb.com/python",
-  // },
   {
     label: "contracts",
     name: "Contracts",
@@ -87,7 +82,7 @@ export const COMPANY: FooterLinkInfo[] = [
   {
     name: "Press Kit",
     label: "press-kit",
-    link: "https://ipfs.io/ipfs/QmTWMy6Dw1PDyMxHxNcmDmPE8zqFCQMfD6m2feHVY89zgu/",
+    link: "https://thirdweb.notion.site/00605c7c37a74141967cfe68262baefa?v=18a8db229e094fc2884e75be86825e7d&pvs=4",
   },
   {
     name: "Privacy Policy",

@@ -43,17 +43,14 @@ export const SettingsPlatformFees = <
   const mutation = useUpdatePlatformFees(contract);
   const form = useForm<z.input<typeof CommonPlatformFeeSchema>>({
     resolver: zodResolver(CommonPlatformFeeSchema),
+    defaultValues: query.data,
+    values: query.data,
   });
-  useEffect(() => {
-    if (query.data && !form.formState.isDirty) {
-      form.reset(query.data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data, form.formState.isDirty]);
 
   const { onSuccess, onError } = useTxNotifications(
     "Platform fee settings updated",
     "Error updating platform fee settings",
+    contract,
   );
 
   return (

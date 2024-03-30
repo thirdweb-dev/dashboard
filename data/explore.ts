@@ -1,7 +1,7 @@
-import type { QueryClient } from "@tanstack/query-core";
+import type { QueryClient } from "@tanstack/react-query";
 import { publishedContractQuery } from "components/explore/contract-card";
 
-export type PublishedContractID = `${string}/${string}`;
+type PublishedContractID = `${string}/${string}`;
 
 export interface ExploreCategory {
   id: string;
@@ -34,15 +34,15 @@ const NFTS = {
   description:
     "NFT Collections, Editions, Drops and everything else NFT-related.",
   contracts: [
-    "thirdweb.eth/LoyaltyCard",
-    "doubledev.eth/ERC4907",
+    "thirdweb.eth/DropERC721",
+    "thirdweb.eth/OpenEditionERC721",
     "thirdweb.eth/TokenERC721",
+    "thirdweb.eth/DropERC1155",
     "thirdweb.eth/TokenERC1155",
     "thirdweb.eth/Pack",
-    "thirdweb.eth/OpenEditionERC721",
     "flairsdk.eth/ERC721CommunityStream",
-    "thirdweb.eth/DropERC721",
-    "thirdweb.eth/DropERC1155",
+    "thirdweb.eth/LoyaltyCard",
+    "doubledev.eth/ERC4907",
     "thirdweb.eth/Multiwrap",
     "kronickatz.eth/ERC721NESDrop",
   ],
@@ -161,15 +161,14 @@ const STAKING = {
 
 const SMART_WALLET = {
   id: "smart-wallet",
-  name: "Smart Wallet",
-  displayName: "Smart Wallet",
+  name: "Account Abstraction",
+  displayName: "Account Abstraction",
   description:
-    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users. Not sure which factory is right for you?",
+    "Account factories that let you spin up Account Abstraction (ERC-4337) wallets for your users. Not sure which factory is right for you?",
   learnMore:
     "https://portal.thirdweb.com/wallets/smart-wallet/get-started#1-deploy-a-smart-wallet-factory-contract",
   contracts: [
     "thirdweb.eth/AccountFactory",
-    "thirdweb.eth/DynamicAccountFactory",
     "thirdweb.eth/ManagedAccountFactory",
   ],
   showInExplore: true,
@@ -196,11 +195,9 @@ export function getCategory(id: string): ExploreCategory | null {
   return null;
 }
 
-export type ExploreCategoryName = keyof typeof CATEGORIES;
+type ExploreCategoryName = keyof typeof CATEGORIES;
 
-export function isExploreCategory(
-  category: string,
-): category is ExploreCategoryName {
+function isExploreCategory(category: string): category is ExploreCategoryName {
   return category in CATEGORIES;
 }
 

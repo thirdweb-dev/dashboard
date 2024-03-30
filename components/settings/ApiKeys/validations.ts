@@ -63,6 +63,10 @@ const applicationImageUrlValidation = z.union([
   ),
 ]);
 
+const payoutAddressValidation = z
+  .string()
+  .regex(/(\b0x[a-fA-F0-9]{40}\b)/, "Please enter a valid address");
+
 const servicesValidation = z.optional(
   z
     .array(
@@ -126,6 +130,10 @@ export const apiKeyEmbeddedWalletsValidationSchema = z.object({
   redirectUrls: z.union([z.undefined(), z.string()]),
 });
 
+export const apiKeyPayConfigValidationSchema = z.object({
+  payoutAddress: payoutAddressValidation,
+});
+
 export type ApiKeyCreateValidationSchema = z.infer<
   typeof apiKeyCreateValidationSchema
 >;
@@ -134,6 +142,10 @@ export type ApiKeyValidationSchema = z.infer<typeof apiKeyValidationSchema>;
 
 export type ApiKeyEmbeddedWalletsValidationSchema = z.infer<
   typeof apiKeyEmbeddedWalletsValidationSchema
+>;
+
+export type ApiKeyPayConfigValidationSchema = z.infer<
+  typeof apiKeyPayConfigValidationSchema
 >;
 
 // FIXME: Remove

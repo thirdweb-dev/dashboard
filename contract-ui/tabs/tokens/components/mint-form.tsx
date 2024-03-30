@@ -33,6 +33,7 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
 
   return (
     <TokenMintFormLayout
+      contract={contract}
       mintQuery={mint}
       decimals={decimals.data}
       address={address}
@@ -40,11 +41,12 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
   );
 };
 
-export const TokenMintFormLayout: React.FC<{
+const TokenMintFormLayout: React.FC<{
+  contract: TokenContract;
   mintQuery: UseMutationResult<unknown, unknown, TokenParams>;
   decimals: number | undefined;
   address: string | undefined;
-}> = ({ mintQuery, decimals, address }) => {
+}> = ({ contract, mintQuery, decimals, address }) => {
   const trackEvent = useTrack();
   const {
     register,
@@ -55,6 +57,7 @@ export const TokenMintFormLayout: React.FC<{
   const { onSuccess, onError } = useTxNotifications(
     "Tokens minted successfully",
     "Failed to mint tokens",
+    contract,
   );
   return (
     <>

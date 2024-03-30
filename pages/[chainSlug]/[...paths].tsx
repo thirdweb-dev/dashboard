@@ -12,7 +12,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
-import { useContract, useContractMetadata } from "@thirdweb-dev/react";
 import { detectContractFeature } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
@@ -22,13 +21,13 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { SupportedChainsReadyContext } from "contexts/configured-chains";
 import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
-import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
+import { ContractSidebar } from "core-ui/sidebar/detail-page";
 import {
   useSupportedChainsRecord,
   useSupportedChainsSlugRecord,
 } from "hooks/chains/configureChains";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -40,8 +39,10 @@ import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
-import { getAddress } from "ethers/lib/utils";
-import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
+import { getAddress, isAddress } from "ethers/lib/utils";
+import { getContract } from "thirdweb";
+import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { DeprecatedAlert } from "../../components/shared/DeprecatedAlert";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -55,15 +56,14 @@ type EVMContractProps = {
   detectedExtension: "erc20" | "erc721" | "erc1155" | "unknown";
 };
 
-const EVMContractPage: ThirdwebNextPage = () => {
+const ContractPage: ThirdwebNextPage = () => {
   // show optimistic UI first - assume chain is configured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
   const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
 
   const contractInfo = useEVMContractInfo();
 
-  const chain = contractInfo?.chain || null;
-  const isChainDeprecated = chain?.status === "deprecated";
+  const chain = contractInfo?.chain ?? undefined;
   const chainSlug = contractInfo?.chainSlug;
   const contractAddress = contractInfo?.contractAddress || "";
 
@@ -153,14 +153,32 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const router = useRouter();
 
   const activeTab = router.query?.paths?.[1] || "overview";
-  const contractQuery = useContract(contractAddress);
-  const contractMetadataQuery = useContractMetadata(contractQuery.contract);
+
+  const contract = useMemo(() => {
+    if (!contractAddress || !chain?.chainId) {
+      return null;
+    }
+    return getContract({
+      address: contractAddress,
+      client: thirdwebClient,
+      chain: defineDashboardChain(chain?.chainId),
+    });
+  }, [contractAddress, chain?.chainId]);
+
   const routes = useContractRouteConfig(contractAddress);
 
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === activeTab),
     [activeTab, routes],
   );
+
+  if (!contractInfo) {
+    return (
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
 
   if (chainNotFound) {
     return (
@@ -228,38 +246,34 @@ const EVMContractPage: ThirdwebNextPage = () => {
             >
               <ContractMetadata
                 contractAddress={contractAddress}
-                metadataQuery={contractMetadataQuery}
                 chain={chain}
               />
               <PrimaryDashboardButton contractAddress={contractAddress} />
             </Flex>
-            {chain?.name && isChainDeprecated && (
-              <DeprecatedAlert
-                chainName={chain.name}
-                description="You can't interact with this contract through the dashboard as this chain has been deprecated."
-              />
-            )}
+            <DeprecatedAlert chain={chain} />
           </Flex>
         </Container>
       </Box>
-      <ContractProgramSidebar
-        address={contractAddress}
-        metadataQuery={contractMetadataQuery}
+      <ContractSidebar
+        contractAddress={contractAddress}
         routes={routes}
         activeRoute={activeRoute}
       />
       <Container pt={8} maxW="container.page">
-        {activeRoute?.component && (
-          <activeRoute.component contractAddress={contractAddress} />
+        {activeRoute?.component && contractAddress && contract && (
+          <activeRoute.component
+            contractAddress={contractAddress}
+            contract={contract}
+          />
         )}
       </Container>
     </Flex>
   );
 };
 
-export default EVMContractPage;
-EVMContractPage.pageId = PageId.DeployedContract;
-EVMContractPage.getLayout = (page, props: EVMContractProps) => {
+export default ContractPage;
+ContractPage.pageId = PageId.DeployedContract;
+ContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
     shortenIfAddress(props.contractInfo?.contractAddress) ||
@@ -349,7 +363,7 @@ function PageSkeleton() {
 }
 
 // app layout has to come first in both getLayout and fallback
-EVMContractPage.fallback = (
+ContractPage.fallback = (
   <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
     <PageSkeleton />
   </AppLayout>
@@ -365,13 +379,13 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const queryClient = new QueryClient();
 
   const lowercaseAddress = contractAddress.toLowerCase();
-  const checksummedAdress = lowercaseAddress.endsWith("eth")
-    ? lowercaseAddress
-    : getAddress(lowercaseAddress);
+  const checksummedAddress = isAddress(lowercaseAddress)
+    ? getAddress(lowercaseAddress)
+    : lowercaseAddress;
 
   try {
     const queryResult = await queryClient.fetchQuery(
-      ensQuery(checksummedAdress),
+      ensQuery(checksummedAddress),
     );
     address = queryResult?.address;
   } catch {
@@ -392,10 +406,10 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
 
   let detectedExtension: EVMContractProps["detectedExtension"] = "unknown";
 
-  if (chain) {
+  if (chain && chain.chainId) {
     try {
       // create the SDK on the chain
-      const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+      const sdk = getThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
       // get the contract
       const contract = await sdk.getContract(address);
       // extract the abi to detect extensions
@@ -430,7 +444,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
       dehydratedState: dehydrate(queryClient),
       contractInfo: {
         chainSlug,
-        contractAddress: checksummedAdress,
+        contractAddress: checksummedAddress,
         chain,
       },
       detectedExtension,

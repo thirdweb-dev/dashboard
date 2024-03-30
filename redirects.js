@@ -93,18 +93,7 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/contracts",
-      destination: "/explore",
-      permanent: false,
-    },
-    // temp until we have settings overview
-    {
       source: "/settings",
-      destination: "/dashboard/settings",
-      permanent: false,
-    },
-    {
-      source: "/dashboard/settings",
       destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
@@ -137,7 +126,7 @@ function redirects() {
     },
     {
       source: "/dashboard/wallet",
-      destination: "/dashboard/wallets",
+      destination: "/dashboard/connect/playground",
       permanent: false,
     },
     {
@@ -162,12 +151,42 @@ function redirects() {
     },
     {
       source: "/dashboard/wallets",
-      destination: "/dashboard/wallets/connect",
+      destination: "/dashboard/connect/playground",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets/analytics",
+      destination: "/dashboard/connect/analytics",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets/embedded",
+      destination: "/dashboard/connect/embedded-wallets",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets/smart-wallet",
+      destination: "/dashboard/connect/account-abstraction",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets/connect",
+      destination: "/dashboard/connect/playground",
       permanent: false,
     },
     {
       source: "/dashboard/infrastructure",
-      destination: "/dashboard/infrastructure/storage",
+      destination: "/dashboard/settings/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure/storage",
+      destination: "/dashboard/settings/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure/rpc-edge",
+      destination: "/chainlist",
       permanent: false,
     },
     {
@@ -198,6 +217,26 @@ function redirects() {
     {
       source: "/hackathon/base-consumer-crypto",
       destination: "/hackathon/consumer-crypto",
+      permanent: false,
+    },
+    {
+      source: "/bear-market-airdrop",
+      destination: "/",
+      permanent: false,
+    },
+    {
+      source: "/drops/optimism",
+      destination: "/optimism",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/settings",
+      destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/payments/contracts",
+      destination: "/dashboard/connect/pay?tab=checkouts",
       permanent: false,
     },
   ];

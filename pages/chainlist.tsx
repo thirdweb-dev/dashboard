@@ -1,5 +1,6 @@
 import { fetchChainsFromApi } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Box,
   Flex,
   GridItem,
   Icon,
@@ -21,7 +22,7 @@ import Fuse from "fuse.js";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { memo, useDeferredValue, useMemo, useState } from "react";
+import { Suspense, memo, useDeferredValue, useMemo, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   Card,
@@ -34,6 +35,19 @@ import {
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains";
+
+export const OPSponsoredChains = [
+  // Optimism
+  10,
+  // Base
+  8453,
+  // Zora
+  7777777,
+  // Mode
+  34443,
+  // Frax
+  252,
+];
 
 export const ChainsLanding: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -124,7 +138,9 @@ export const ChainsLanding: ThirdwebNextPage = (
         </Card>
       </Flex>
 
-      <SearchResults chains={filteredChains} />
+      <Suspense fallback={<Box h="100vh" />}>
+        <SearchResults chains={filteredChains} />
+      </Suspense>
     </Flex>
   );
 };
@@ -206,6 +222,7 @@ const SearchResult: React.FC<{
   chain: MinimalRPCChain;
 }> = memo(function SearchResult({ chain }) {
   const isDeprecated = chain.status === "deprecated";
+  const isSponsored = OPSponsoredChains.includes(chain?.chainId);
 
   return (
     <LinkBox
@@ -265,23 +282,40 @@ const SearchResult: React.FC<{
                 </Heading>
               </Flex>
             )}
+            {isSponsored && (
+              <Flex
+                borderRadius="full"
+                align="center"
+                overflow="hidden"
+                flexShrink={0}
+                py={{ base: 1.5, md: 1 }}
+                px={{ base: 1.5, md: 2 }}
+                gap={3}
+                bgGradient="linear(to-r, #701953, #5454B2)"
+              >
+                <Heading size="label.sm" as="label" color="#fff">
+                  Sponsored
+                </Heading>
+              </Flex>
+            )}
           </Flex>
         </Flex>
-
         <Flex flexDir="column" gap={1}>
           <Text
             pointerEvents="none"
             opacity={0.6}
-            color={isDeprecated ? "faded" : "inherit"}
+            color={isDeprecated ? "faded" : "bgBlack"}
           >
             RPC URL
           </Text>
-          {chain.hasRpc && !isDeprecated ? (
+          {chain.hasRpc && chain.chainId && !isDeprecated ? (
             <InputGroup>
               <Input
                 readOnly
-                value={`${chain.slug}.rpc.thirdweb.com`}
+                value={`${chain.chainId}.rpc.thirdweb.com`}
                 isDisabled={isDeprecated}
+                borderColor="borderColor"
+                color="bgBlack"
               />
               <InputRightElement>
                 <TrackedCopyButton
@@ -290,7 +324,7 @@ const SearchResult: React.FC<{
                   aria-label="Copy RPC url"
                   size="sm"
                   colorScheme={undefined}
-                  value={`${chain.slug}.rpc.thirdweb.com`}
+                  value={`${chain.chainId}.rpc.thirdweb.com`}
                 />
               </InputRightElement>
             </InputGroup>
@@ -306,18 +340,18 @@ const SearchResult: React.FC<{
 
         <SimpleGrid pointerEvents="none" gap={12} columns={2}>
           <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6} color={isDeprecated ? "faded" : "inherit"}>
+            <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
               Chain ID
             </Text>
-            <Text size="label.md" color={isDeprecated ? "faded" : "inherit"}>
+            <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
               {chain.chainId}
             </Text>
           </Flex>
           <Flex as={GridItem} flexDir="column" gap={1}>
-            <Text opacity={0.6} color={isDeprecated ? "faded" : "inherit"}>
+            <Text opacity={0.6} color={isDeprecated ? "faded" : "bgBlack"}>
               Native Token
             </Text>
-            <Text size="label.md" color={isDeprecated ? "faded" : "inherit"}>
+            <Text size="label.md" color={isDeprecated ? "faded" : "bgBlack"}>
               {chain.symbol}
             </Text>
           </Flex>

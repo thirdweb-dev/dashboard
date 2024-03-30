@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { accountKeys, apiKeys, authorizedWallets } from "../cache-keys";
@@ -16,6 +21,7 @@ export enum AccountStatus {
   PaymentVerification = "paymentVerification",
   ValidPayment = "validPayment",
   InvalidPayment = "invalidPayment",
+  InvalidPaymentMethod = "invalidPaymentMethod",
 }
 
 export enum AccountPlan {
@@ -60,7 +66,7 @@ export type Account = {
   };
 };
 
-export interface UpdateAccountInput {
+interface UpdateAccountInput {
   name?: string;
   email?: string;
   plan?: AccountPlan;
@@ -69,21 +75,21 @@ export interface UpdateAccountInput {
   onboardSkipped?: boolean;
 }
 
-export interface UpdateAccountNotificationsInput {
+interface UpdateAccountNotificationsInput {
   billing: "email" | "none";
   updates: "email" | "none";
 }
 
-export interface ConfirmEmailInput {
+interface ConfirmEmailInput {
   confirmationToken: string;
 }
 
-export type ApiKeyRecoverShareManagement = "AWS_MANAGED" | "USER_MANAGED";
-export type ApiKeyCustomAuthentication = {
+type ApiKeyRecoverShareManagement = "AWS_MANAGED" | "USER_MANAGED";
+type ApiKeyCustomAuthentication = {
   jwksUri: string;
   aud: string;
 };
-export type ApiKeyCustomAuthEndpoint = {
+type ApiKeyCustomAuthEndpoint = {
   authEndpoint: string;
   customHeaders: { key: string; value: string }[];
 };
@@ -92,6 +98,9 @@ export type ApiKeyCustomAuthEndpoint = {
 export type ApiKeyServicePolicy = {
   allowedChainIds?: number[] | null;
   allowedContractAddresses?: string[] | null;
+  allowedWallets?: string[] | null;
+  blockedWallets?: string[] | null;
+  bypassWallets?: string[] | null;
   serverVerifier?: {
     url: string;
     headers: { key: string; value: string }[] | null;
@@ -125,11 +134,14 @@ export type ApiKeyService = {
   targetAddresses: string[];
   actions: string[];
   // If updating here, need to update validation logic in `validation.ts` as well for recoveryShareManagement
+  // EMBEDDED WALLET
   recoveryShareManagement?: ApiKeyRecoverShareManagement;
   customAuthentication?: ApiKeyCustomAuthentication;
   customAuthEndpoint?: ApiKeyCustomAuthEndpoint;
   applicationName?: string;
   applicationImageUrl?: string;
+  // PAY
+  payoutAddress?: string;
 };
 
 export type ApiKey = {
@@ -151,13 +163,13 @@ export type ApiKey = {
   services?: ApiKeyService[];
 };
 
-export interface UpdateKeyServiceInput {
+interface UpdateKeyServiceInput {
   name: string;
   targetAddresses: string[];
   actions?: string[];
 }
 
-export interface CreateKeyInput {
+interface CreateKeyInput {
   name?: string;
   domains?: string[];
   bundleIds?: string[];
@@ -165,7 +177,7 @@ export interface CreateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
-export interface UpdateKeyInput {
+interface UpdateKeyInput {
   id: string;
   name: string;
   domains: string[];
@@ -174,20 +186,20 @@ export interface UpdateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
-export interface UsageBundler {
+interface UsageBundler {
   chainId: number;
   sumTransactionFee: string;
 }
 
-export interface UsageStorage {
+interface UsageStorage {
   sumFileSizeBytes: number;
 }
 
-export interface UsageEmbeddedWallets {
+interface UsageEmbeddedWallets {
   countWalletAddresses: number;
 }
 
-export interface UsageCheckout {
+interface UsageCheckout {
   sumTransactionFeeUsd: number;
 }
 
@@ -219,7 +231,7 @@ export interface UsageBillableByService {
   };
 }
 
-export interface WalletStats {
+interface WalletStats {
   timeSeries: {
     dayTime: string;
     clientId: string;
@@ -229,7 +241,37 @@ export interface WalletStats {
   }[];
 }
 
-export function useAccount() {
+interface BillingProduct {
+  name: string;
+  id: string;
+}
+
+export interface BillingCredit {
+  originalGrantUsdCents: number;
+  remainingValueUsdCents: number;
+  name: string;
+  couponId: string;
+  products: BillingProduct[];
+  expiresAt: string;
+  redeemedAt: string;
+  isActive: boolean;
+}
+
+interface UseAccountInput {
+  refetchInterval?:
+    | number
+    | ((
+        data: Account | undefined,
+        query: Query<
+          Account,
+          unknown,
+          Account,
+          readonly ["account", string, "me"]
+        >,
+      ) => number | false);
+}
+
+export function useAccount({ refetchInterval }: UseAccountInput = {}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
@@ -250,7 +292,10 @@ export function useAccount() {
 
       return json.data as Account;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    {
+      enabled: !!user?.address && isLoggedIn,
+      refetchInterval: refetchInterval ?? false,
+    },
   );
 }
 
@@ -274,6 +319,38 @@ export function useAccountUsage() {
       }
 
       return json.data as UsageBillableByService;
+    },
+    { enabled: !!user?.address && isLoggedIn },
+  );
+}
+
+export function useAccountCredits() {
+  const { user, isLoggedIn } = useLoggedInUser();
+
+  return useQuery(
+    accountKeys.credits(user?.address as string),
+    async () => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/credits`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      const credits = (json.data as BillingCredit[]).filter(
+        (credit) =>
+          credit.remainingValueUsdCents > 0 &&
+          credit.expiresAt > new Date().toISOString() &&
+          credit.isActive,
+      );
+
+      return credits;
     },
     { enabled: !!user?.address && isLoggedIn },
   );
@@ -342,7 +419,7 @@ export function useUpdateAccount() {
   );
 }
 
-export function useUpdateAccountPlan() {
+export function useUpdateAccountPlan(waitForWebhook?: boolean) {
   const { user } = useLoggedInUser();
   const queryClient = useQueryClient();
 
@@ -363,6 +440,12 @@ export function useUpdateAccountPlan() {
 
       if (json.error) {
         throw new Error(json.error.message);
+      }
+
+      // Wait for account plan to update via stripe webhook
+      // TODO: find a better way to notify the client that the plan has been updated
+      if (waitForWebhook) {
+        await new Promise((resolve) => setTimeout(resolve, 1000 * 10));
       }
 
       return json.data;
@@ -624,7 +707,6 @@ export function useCreatePaymentMethod() {
 
 export function useApiKeys() {
   const { user, isLoggedIn } = useLoggedInUser();
-
   return useQuery(
     apiKeys.keys(user?.address as string),
     async () => {
@@ -640,7 +722,6 @@ export function useApiKeys() {
       if (json.error) {
         throw new Error(json.error.message);
       }
-
       return json.data as ApiKey[];
     },
     { enabled: !!user?.address && isLoggedIn },
@@ -697,6 +778,7 @@ export function useUpdateApiKey() {
         },
         body: JSON.stringify(input),
       });
+
       const json = await res.json();
 
       if (json.error) {
@@ -725,40 +807,6 @@ export function useRevokeApiKey() {
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/revoke`, {
         method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      });
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.error.message);
-      }
-
-      return json.data;
-    },
-    {
-      onSuccess: () => {
-        return queryClient.invalidateQueries(
-          apiKeys.keys(user?.address as string),
-        );
-      },
-    },
-  );
-}
-
-export function useGenerateApiKey() {
-  const { user } = useLoggedInUser();
-  const queryClient = useQueryClient();
-
-  return useMutationWithInvalidate(
-    async (id: string) => {
-      invariant(user?.address, "walletAddress is required");
-
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/generate`, {
-        method: "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -997,8 +1045,10 @@ export function useApiAuthToken() {
       inflightPromise = fetchAuthToken(user.address, abortController);
     }
 
+    // eslint-disable-next-line promise/catch-or-return
     inflightPromise
       .then((t) => {
+        // eslint-disable-next-line promise/always-return
         if (mounted) {
           setToken(t.jwt);
           if (t.paymentsSellerId) {
@@ -1028,29 +1078,6 @@ export function useApiAuthToken() {
   }, [user?.address]);
 
   return { error, isLoading, token, paymentsSellerId };
-}
-
-/**
- * @deprecated
- */
-export async function fetchApiKeyAvailability(name: string) {
-  const res = await fetch(
-    `${THIRDWEB_API_HOST}/v1/keys/availability?name=${name}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  const json = await res.json();
-
-  if (json.error) {
-    throw new Error(json.error.message);
-  }
-
-  return !!json.data.available;
 }
 
 /**

@@ -1,4 +1,3 @@
-/* eslint-disable inclusive-language/use-inclusive-words */
 import {
   Box,
   Flex,
@@ -12,6 +11,10 @@ import {
   Icon,
   Select,
   FormControl,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
 } from "@chakra-ui/react";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
@@ -51,8 +54,6 @@ import { PreviewThirdwebProvider } from "./PreviewThirdwebProvider";
 import { usePlaygroundWallets } from "./usePlaygroundWallets";
 import { usePlaygroundTheme } from "./usePlaygroundTheme";
 import { useTrack } from "hooks/analytics/useTrack";
-
-const TRACKING_CATEGORY = "connect-wallet-playground";
 
 type OptionalUrl = { url: string; enabled: boolean };
 export const ConnectWalletPlayground: React.FC<{
@@ -236,13 +237,23 @@ export const ConnectWalletPlayground: React.FC<{
       },
     });
 
-    format(_code, {
-      parser: "babel",
-      plugins: [parserBabel, estree],
-      printWidth: 50,
-    }).then((formattedCode) => {
-      setCode(formattedCode);
-    });
+    async function formatCodeAndSetState(
+      unformattedCode: string,
+    ): Promise<string> {
+      try {
+        const formattedCode = await format(unformattedCode, {
+          parser: "babel",
+          plugins: [parserBabel, estree],
+          printWidth: 50,
+        });
+        setCode(formattedCode);
+        return formattedCode;
+      } catch (error) {
+        throw new Error(`Error formatting the code: ${error}`);
+      }
+    }
+
+    formatCodeAndSetState(_code);
   }, [
     authEnabled,
     btnTitle,
@@ -771,10 +782,10 @@ export const ConnectWalletPlayground: React.FC<{
       <Box borderTop="1px solid" borderColor="borderColor" />
       <Spacer height={5} />
 
-      {/* Smart wallet */}
+      {/* Account Abstraction */}
       <SwitchFormItem
-        label="Smart Wallets"
-        description="Use ERC-4337 (Account Abstraction) compatible smart wallets. Enabling this will connect user to the associated smart wallet"
+        label="Sponsor gas fees with Account Abstraction"
+        description="Abstract away gas fees for users of your app. Uses ERC-4337 (Account Abstraction) compatible smart accounts"
         onCheck={(_isChecked) => {
           if (_isChecked) {
             trackCustomize("smart-wallet");
@@ -786,6 +797,37 @@ export const ConnectWalletPlayground: React.FC<{
         }}
         isChecked={enabledWallets.length > 0 && smartWalletOptions.enabled}
       />
+      {enabledWallets.length > 0 && smartWalletOptions.enabled && (
+        <Alert
+          status="info"
+          borderRadius="lg"
+          backgroundColor="backgroundCardHighlight"
+          borderLeftColor="blue.500"
+          borderLeftWidth={4}
+          as={Flex}
+          gap={1}
+          mt={4}
+        >
+          <AlertIcon />
+          <Flex flexDir="column">
+            <AlertTitle>
+              We highly recommend setting sponsorship rules to prevent abuse
+            </AlertTitle>
+            <AlertDescription as={Text}>
+              You can set rules in the{" "}
+              <TrackedLink
+                href={`/dashboard/connect/account-abstraction?tab=1`}
+                color="blue.500"
+                category={trackingCategory}
+                label="sponsorship-rules-config"
+              >
+                configuration page
+              </TrackedLink>
+              .
+            </AlertDescription>
+          </Flex>
+        </Alert>
+      )}
 
       {enabledWallets.length === 0 && (
         <>
@@ -793,7 +835,7 @@ export const ConnectWalletPlayground: React.FC<{
           <Flex alignItems="center" gap={2}>
             <Icon as={AiOutlineWarning} color="orange.500" />
             <Text color="orange.500">
-              Enable at least one wallet to use smart wallet
+              Enable at least one wallet to use account abstraction
             </Text>
           </Flex>
         </>
@@ -1298,7 +1340,7 @@ export const ConnectWalletPlayground: React.FC<{
                   "https://play.google.com/store/search?q=thirdweb&c=apps&hl=en_US&gl=US"
                 }
                 bg="transparent"
-                category={TRACKING_CATEGORY}
+                category={trackingCategory}
                 label="google-play-button"
               >
                 <ChakraNextImage
@@ -1313,7 +1355,7 @@ export const ConnectWalletPlayground: React.FC<{
                   "https://apps.apple.com/us/app/thirdweb-connect/id6471451064"
                 }
                 bg="transparent"
-                category={TRACKING_CATEGORY}
+                category={trackingCategory}
                 label="apple-store-button"
               >
                 <ChakraNextImage

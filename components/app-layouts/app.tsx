@@ -34,6 +34,7 @@ import { bigNumberReplacer } from "utils/bignumber";
 import { isBrowser } from "utils/isBrowser";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { isProd } from "constants/rpc";
+import { OpCreditsGrantedModalWrapper } from "components/onboarding/OpCreditsGrantedModalWrapper";
 
 const apolloClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_PAYMENTS_API,
@@ -79,7 +80,6 @@ function getStorage() {
     },
     setItem: set,
     removeItem: del,
-    // eslint-disable-next-line prettier/prettier
   } as AsyncStorage;
   return currStorage;
 }
@@ -103,9 +103,7 @@ const persister: Persister = createAsyncStoragePersister({
   key: `tw-query-cache`,
 });
 
-export interface AppLayoutProps
-  extends AppShellProps,
-    DashboardThirdwebProviderProps {
+interface AppLayoutProps extends AppShellProps, DashboardThirdwebProviderProps {
   dehydratedState?: DehydratedState;
 }
 
@@ -159,6 +157,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
                         <ConfigModal />
 
                         <OnboardingModal />
+                        <OpCreditsGrantedModalWrapper />
 
                         <AppShell {...props} />
                       </SanctionedAddressesChecker>

@@ -8,63 +8,49 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Billing } from "components/settings/Account/Billing";
-import { useLocalStorage } from "hooks/useLocalStorage";
 import { BillingConnectWalletPrompt } from "components/settings/Account/Billing/ConnectWallet";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
   const { isLoggedIn, isLoading } = useLoggedInUser();
-  const meQuery = useAccount();
+  const meQuery = useAccount({
+    refetchInterval: (account) =>
+      [
+        AccountStatus.InvalidPayment,
+        AccountStatus.InvalidPaymentMethod,
+      ].includes(account?.status as AccountStatus)
+        ? 1000
+        : false,
+  });
+
   const router = useRouter();
   const { data: account } = meQuery;
-  const [claimGrowth, setClaimGrowth] = useLocalStorage(
+  const { claimGrowth: claimGrowthQuery } = router.query;
+  const [claimedGrowth, setClaimedGrowth] = useLocalStorage(
     "claim-growth-trial",
     false,
     true,
   );
 
   useEffect(() => {
-    let refetchInterval: ReturnType<typeof setInterval> | undefined;
-
-    if (
-      [AccountStatus.NoPayment, AccountStatus.PaymentVerification].includes(
-        account?.status as AccountStatus,
-      )
-    ) {
-      refetchInterval = setInterval(() => {
-        meQuery.refetch();
-      }, 3000);
-    } else if (refetchInterval) {
-      clearTimeout(refetchInterval);
+    if (claimGrowthQuery !== undefined && !account?.trialPeriodEndedAt) {
+      setClaimedGrowth(true);
+    } else {
+      setClaimedGrowth(false);
     }
-
-    return () => {
-      if (refetchInterval) {
-        clearTimeout(refetchInterval);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [account?.trialPeriodEndedAt, claimGrowthQuery, router, setClaimedGrowth]);
 
   useEffect(() => {
-    const {
-      payment_intent,
-      source_redirect_slug,
-      claimGrowth: claimGrowthQuery,
-    } = router.query;
-    const hasClaimGrowth = claimGrowthQuery !== undefined;
+    const { payment_intent, source_redirect_slug } = router.query;
 
-    if (hasClaimGrowth) {
-      setClaimGrowth(true);
-    }
-
-    if (payment_intent || source_redirect_slug || hasClaimGrowth) {
+    if (payment_intent || source_redirect_slug) {
       router.replace("/dashboard/settings/billing");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   if (!isLoading && !isLoggedIn) {
-    return claimGrowth ? (
+    return claimedGrowth ? (
       <BillingConnectWalletPrompt />
     ) : (
       <ConnectWalletPrompt />

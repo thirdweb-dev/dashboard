@@ -1,60 +1,83 @@
+import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { NFTDrawerTab } from "./types";
 import {
   DropContract,
   NFTContract,
+  SmartContract,
   getErcs,
   useAddress,
-  useNFTBalance,
 } from "@thirdweb-dev/react/evm";
-import type { NFT } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
-import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import type { ThirdwebContract } from "thirdweb";
+import { getNFT as getErc721NFT } from "thirdweb/extensions/erc721";
+import {
+  balanceOf,
+  getNFT as getErc1155NFT,
+} from "thirdweb/extensions/erc1155";
+import { useReadContract } from "thirdweb/react";
 
-type UseNFTDrawerTabsParams = [contract: NFTContract, token: NFT | null];
+type UseNFTDrawerTabsParams = {
+  contract: ThirdwebContract;
+  oldContract?: NFTContract;
+  tokenId: string;
+};
 
-const EVMTransferTab = dynamic(
+const TransferTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/transfer-tab"),
 );
-const EVMAirdropTab = dynamic(
+const AirdropTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/airdrop-tab"),
 );
-const EVMBurnTab = dynamic(
+const BurnTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/burn-tab"),
 );
-
-const EVMMintSupplyTab = dynamic(
+const MintSupplyTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/mint-supply-tab"),
 );
-const EVMClaimConditionTab = dynamic(
-  () => import("contract-ui/tabs/claim-conditions/components/claim-conditions"),
+const ClaimConditionTab = dynamic(() =>
+  import("contract-ui/tabs/claim-conditions/components/claim-conditions").then(
+    ({ ClaimConditions }) => ClaimConditions,
+  ),
 );
-const EVMClaimTab = dynamic(
+const ClaimTab = dynamic(
   () => import("contract-ui/tabs/nfts/components/claim-tab"),
 );
+const UpdateMetadataTab = dynamic(
+  () => import("contract-ui/tabs/nfts/components/update-metadata-tab"),
+);
 
-export function useNFTDrawerTabs(
-  ...args: UseNFTDrawerTabsParams
-): NFTDrawerTab[] {
-  const [contract, token] = args;
-
-  const tokenId = token?.metadata.id || "";
-
-  // this is ok because ecosystem can never change!
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export function useNFTDrawerTabs({
+  contract,
+  oldContract,
+  tokenId,
+}: UseNFTDrawerTabsParams): NFTDrawerTab[] {
   const address = useAddress();
-  // this is ok because ecosystem can never change!
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const balanceOf = useNFTBalance(contract, address, token?.metadata.id);
 
-  // this is ok because ecosystem can never change!
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const balanceOfQuery = useReadContract(balanceOf, {
+    contract,
+    owner: address || "",
+    tokenId: BigInt(tokenId || 0),
+  });
+
+  const isERC1155 = detectFeatures(oldContract, ["ERC1155"]);
+  const isERC721 = detectFeatures(oldContract, ["ERC721"]);
+
+  const { data: nft } = useReadContract(
+    isERC721 ? getErc721NFT : getErc1155NFT,
+    {
+      contract,
+      tokenId: BigInt(tokenId || 0),
+      includeOwner: true,
+    },
+  );
+
+  const isMinterRole = useIsMinter(oldContract);
+
   return useMemo(() => {
-    const isERC1155 = detectFeatures(contract, ["ERC1155"]);
-    const isERC721 = detectFeatures(contract, ["ERC721"]);
-    const isMintable = detectFeatures(contract, ["ERC1155Mintable"]);
-    const isClaimable = detectFeatures<DropContract>(contract, [
+    const isMintable = detectFeatures(oldContract, ["ERC1155Mintable"]);
+    const isClaimable = detectFeatures<DropContract>(oldContract, [
       // erc1155
       "ERC1155ClaimPhasesV1",
       "ERC1155ClaimPhasesV2",
@@ -62,22 +85,30 @@ export function useNFTDrawerTabs(
       "ERC1155ClaimConditionsV2",
       "ERC1155ClaimCustom",
     ]);
-    const hasClaimConditions = detectFeatures<DropContract>(contract, [
+    const hasClaimConditions = detectFeatures<DropContract>(oldContract, [
       // erc1155
       "ERC1155ClaimPhasesV1",
       "ERC1155ClaimPhasesV2",
       "ERC1155ClaimConditionsV1",
       "ERC1155ClaimConditionsV2",
     ]);
-    const isBurnable = detectFeatures(contract, [
+    const isBurnable = detectFeatures(oldContract, [
       "ERC721Burnable",
       "ERC1155Burnable",
     ]);
-    const isOwner =
-      (isERC1155 && BigNumber.from(balanceOf?.data || 0).gt(0)) ||
-      (isERC721 && token?.owner === address);
+    const isUpdatable = detectFeatures(oldContract, [
+      "ERC721UpdatableMetadata",
+      "ERC1155UpdatableMetadata",
+      "ERC1155LazyMintableV2",
+      "ERC721LazyMintable",
+    ]);
 
-    const { erc1155 } = getErcs(contract);
+    const isOwner =
+      (isERC1155 && balanceOfQuery?.data) ||
+      0 > 0 ||
+      (isERC721 && nft?.owner === address);
+
+    const { erc1155 } = getErcs(oldContract);
     let tabs: NFTDrawerTab[] = [];
     if (hasClaimConditions && isERC1155) {
       tabs = tabs.concat([
@@ -85,8 +116,8 @@ export function useNFTDrawerTabs(
           title: "Claim Conditions",
           isDisabled: false,
           children: (
-            <EVMClaimConditionTab
-              contract={contract}
+            <ClaimConditionTab
+              contract={oldContract}
               tokenId={tokenId}
               isColumn
             />
@@ -94,23 +125,25 @@ export function useNFTDrawerTabs(
         },
       ]);
     }
-    tabs = tabs.concat([
-      {
-        title: "Transfer",
-        isDisabled: !isOwner,
-        disabledText: erc1155
-          ? "You don't own any copy of this NFT"
-          : "You don't own this NFT",
-        children: <EVMTransferTab contract={contract} tokenId={tokenId} />,
-      },
-    ]);
+    if (oldContract) {
+      tabs = tabs.concat([
+        {
+          title: "Transfer",
+          isDisabled: !isOwner,
+          disabledText: erc1155
+            ? "You don't own any copy of this NFT"
+            : "You don't own this NFT",
+          children: <TransferTab contract={oldContract} tokenId={tokenId} />,
+        },
+      ]);
+    }
     if (erc1155) {
       tabs = tabs.concat([
         {
           title: "Airdrop",
           isDisabled: !isOwner,
           disabledText: "You don't own any copy of this NFT",
-          children: <EVMAirdropTab contract={erc1155} tokenId={tokenId} />,
+          children: <AirdropTab contract={erc1155} tokenId={tokenId} />,
         },
       ]);
     }
@@ -120,7 +153,7 @@ export function useNFTDrawerTabs(
           title: "Burn",
           isDisabled: !isOwner,
           disabledText: "You don't own this NFT",
-          children: <EVMBurnTab contract={contract} tokenId={tokenId} />,
+          children: <BurnTab contract={oldContract} tokenId={tokenId} />,
         },
       ]);
     }
@@ -130,7 +163,7 @@ export function useNFTDrawerTabs(
           title: "Mint",
           isDisabled: false,
           disabledText: "You don't have minter permissions",
-          children: <EVMMintSupplyTab contract={erc1155} tokenId={tokenId} />,
+          children: <MintSupplyTab contract={erc1155} tokenId={tokenId} />,
         },
       ]);
     }
@@ -139,11 +172,36 @@ export function useNFTDrawerTabs(
         {
           title: "Claim",
           isDisabled: false,
-          children: <EVMClaimTab contract={contract} tokenId={tokenId} />,
+          children: <ClaimTab contract={oldContract} tokenId={tokenId} />,
+        },
+      ]);
+    }
+    if (isUpdatable && nft) {
+      tabs = tabs.concat([
+        {
+          title: "Update Metadata",
+          isDisabled: !isMinterRole,
+          disabledText:
+            "You don't have minter permissions to be able to update metadata",
+          children: (
+            <UpdateMetadataTab
+              contract={oldContract as SmartContract}
+              nft={nft}
+            />
+          ),
         },
       ]);
     }
 
     return tabs;
-  }, [address, balanceOf?.data, contract, token?.owner, tokenId]);
+  }, [
+    oldContract,
+    isERC1155,
+    balanceOfQuery?.data,
+    isERC721,
+    nft,
+    address,
+    tokenId,
+    isMinterRole,
+  ]);
 }

@@ -47,7 +47,7 @@ import {
 } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BiPencil } from "react-icons/bi";
-import { Checkout } from "graphql/generated_types";
+import { Checkout } from "graphql/generated";
 import { ApiKeysMenu } from "components/settings/ApiKeys/Menu";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { PaymentsSettingsFileUploader } from "components/payments/settings/payment-settings-file-uploader";
@@ -398,7 +398,10 @@ export const CreateUpdateCheckoutButton: React.FC<
       currencySymbol:
         checkout?.contract_args?.mintMethod?.payment?.currency || "ETH",
     },
-    mintFunctionName: checkout?.contract_args?.mintMethod?.name || "",
+    mintFunctionName:
+      checkout?.contract_args?.mintMethod?.name ||
+      defaultMintFunctionName ||
+      "",
     mintFunctionArgs: checkout?.contract_args?.mintMethod?.args || {},
   };
 
@@ -757,8 +760,7 @@ export const CreateUpdateCheckoutButton: React.FC<
                                 />
                               </Box>
                             ) : field.type === "abiSelector" ? (
-                              <PaymentsMintMethodInput
-                                defaultValue={defaultMintFunctionName}
+                                    <PaymentsMintMethodInput
                                 form={form}
                                 abi={contract?.abi as Abi}
                               />
@@ -782,7 +784,6 @@ export const CreateUpdateCheckoutButton: React.FC<
                                         val,
                                       )
                                     }
-                                    placeholder="0"
                                   />
                                 </Box>
                                 <CurrencySelector

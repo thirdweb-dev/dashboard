@@ -6,7 +6,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:@next/next/recommended",
-    "next/core-web-vitals",
+    "plugin:promise/recommended",
   ],
   rules: {
     // typescript
@@ -159,6 +159,7 @@ module.exports = {
     "inclusive-language",
     "react",
     "react-hooks",
+    "promise",
   ],
   parserOptions: {
     ecmaVersion: 2019,

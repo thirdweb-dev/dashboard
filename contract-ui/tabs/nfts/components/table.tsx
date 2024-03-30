@@ -14,11 +14,9 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
-import { NFT } from "@thirdweb-dev/sdk";
+import type { NFTContract } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
-import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
@@ -29,24 +27,33 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { CellProps, Column, usePagination, useTable } from "react-table";
+import type { NFT, ThirdwebContract } from "thirdweb";
+import {
+  getNFTs as getErc721NFTs,
+  totalSupply as erc721TotalSupply,
+} from "thirdweb/extensions/erc721";
+import { getNFTs as getErc1155NFTs } from "thirdweb/extensions/erc1155";
+import { useReadContract } from "thirdweb/react";
 import { Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface ContractOverviewNFTGetAllProps {
-  contract: NFTContract;
+  oldContract: NFTContract;
+  contract: ThirdwebContract;
 }
 export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
+  oldContract,
   contract,
 }) => {
-  const isErc721 = detectFeatures(contract, ["ERC721"]);
-  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+  const isErc721 = detectFeatures(oldContract, ["ERC721"]);
+  const isErc1155 = detectFeatures(oldContract, ["ERC1155"]);
   const router = useRouter();
 
   const tableColumns = useMemo(() => {
     const cols: Column<NFT>[] = [
       {
         Header: "Token Id",
-        accessor: (row) => row.metadata.id,
+        accessor: (row) => row.id?.toString(),
         Cell: (cell: CellProps<NFT, string>) => (
           <Text size="body.md" fontFamily="mono">
             {cell.value}
@@ -56,9 +63,10 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       {
         Header: "Media",
         accessor: (row) => row.metadata,
-        Cell: (cell: CellProps<NFT, NFT["metadata"]>) => (
-          <MediaCell cell={cell} />
-        ),
+        Cell: (
+          cell: CellProps<NFT, NFT["metadata"]>,
+          // @ts-expect-error - types are not compatible yet until we have NFTRenderer in v5
+        ) => <MediaCell cell={cell} />,
       },
       {
         Header: "Name",
@@ -95,26 +103,47 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     if (isErc1155) {
       cols.push({
         Header: "Supply",
-        accessor: (row) => row.supply,
-        Cell: (cell: CellProps<NFT, number>) => (
-          <Text noOfLines={4} size="body.md" fontFamily="mono">
-            {cell.value}
-          </Text>
-        ),
+        accessor: (row) => row,
+        Cell: (cell: CellProps<NFT, number>) => {
+          if (cell.row.original.type === "ERC1155") {
+            return (
+              <Text noOfLines={4} size="body.md" fontFamily="mono">
+                {cell.row.original.supply.toString()}
+              </Text>
+            );
+          }
+        },
       });
     }
     return cols;
   }, [isErc721, isErc1155]);
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
-  const getAllQueryResult = useNFTs(contract, queryParams);
-  const totalCountQuery = useTotalCount(contract);
 
-  // any higher and the useTable breaks
-  let safeTotalCount = BigNumber.from(totalCountQuery.data || 0);
-  if (safeTotalCount.gte(1_000_000)) {
-    safeTotalCount = BigNumber.from(1_000_000);
-  }
+  const getNFTsQuery = useReadContract(
+    isErc1155 ? getErc1155NFTs : getErc721NFTs,
+    {
+      contract,
+      start: queryParams.start,
+      count: queryParams.count,
+      includeOwners: true,
+    },
+  );
+
+  // TODO: Add support for ERC1155 total circulating supply
+  const totalCountQuery = useReadContract(erc721TotalSupply, {
+    contract,
+  });
+  // Anything bigger and the table breaks
+  const safeTotalCount = useMemo(
+    () =>
+      totalCountQuery?.data
+        ? totalCountQuery?.data > 1_000_000n
+          ? 1_000_000
+          : Number(totalCountQuery.data)
+        : 0,
+    [totalCountQuery?.data],
+  );
 
   const {
     getTableProps,
@@ -134,14 +163,14 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   } = useTable(
     {
       columns: tableColumns,
-      data: getAllQueryResult.data || [],
+      data: getNFTsQuery.data || [],
       initialState: {
         pageSize: queryParams.count,
         pageIndex: 0,
       },
       manualPagination: true,
       pageCount: Math.max(
-        Math.ceil(safeTotalCount.toNumber() / (queryParams.count || 1)),
+        Math.ceil(safeTotalCount / (queryParams.count || 1)),
         1,
       ),
     },
@@ -155,7 +184,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   return (
     <Flex gap={4} direction="column">
       <TableContainer maxW="100%">
-        {getAllQueryResult.isFetching && (
+        {getNFTsQuery.isFetching && (
           <Spinner
             color="primary"
             size="xs"
@@ -166,58 +195,62 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         )}
         <Table {...getTableProps()}>
           <Thead>
-            {headerGroups.map((headerGroup) => (
-              // eslint-disable-next-line react/jsx-key
-              <Tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()} border="none">
+            {headerGroups.map((headerGroup, headerGroupIndex) => (
+              <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroupIndex}>
+                {headerGroup.headers.map((column, columnIndex) => (
+                  <Th
+                    {...column.getHeaderProps()}
+                    border="none"
+                    key={columnIndex}
+                  >
                     <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
                   </Th>
                 ))}
-                {/* // Need to add an empty header for the drawer button */}
+                {/* Need to add an empty header for the drawer button */}
                 <Th border="none" />
               </Tr>
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()} position="relative">
-            {page.map((row) => {
-              const failedToLoad = !row.original.metadata.uri;
+            {page.map((row, rowIndex) => {
+              const failedToLoad = !row.original.tokenURI;
               prepareRow(row);
               return (
-                // eslint-disable-next-line react/jsx-key
                 <Tr
                   {...row.getRowProps()}
                   role="group"
                   _hover={{ bg: "accent.100" }}
-                  // this is a hack to get around the fact that safari does not handle position: relative on table rows
                   style={{ cursor: "pointer" }}
                   onClick={() => {
+                    const tokenId = row.original.id;
+                    if (!tokenId && tokenId !== 0n) {
+                      return;
+                    }
                     router.push(
-                      `${router.asPath}/${row.original.metadata.id}`,
+                      `${router.asPath}/${tokenId.toString()}`,
                       undefined,
                       {
                         scroll: true,
                       },
                     );
                   }}
-                  // end hack
                   borderBottomWidth={1}
                   _last={{ borderBottomWidth: 0 }}
                   pointerEvents={failedToLoad ? "none" : "auto"}
                   opacity={failedToLoad ? 0.3 : 1}
                   cursor={failedToLoad ? "not-allowed" : "pointer"}
                   borderColor="borderColor"
+                  key={rowIndex}
                 >
-                  {row.cells.map((cell) => (
-                    // eslint-disable-next-line react/jsx-key
+                  {row.cells.map((cell, cellIndex) => (
                     <Td
                       {...cell.getCellProps()}
                       borderBottomWidth="inherit"
                       borderColor="borderColor"
                       maxW="sm"
+                      key={cellIndex}
                     >
                       {cell.render("Cell")}
                     </Td>
@@ -228,7 +261,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                 </Tr>
               );
             })}
-            {getAllQueryResult.isPreviousData && (
+            {getNFTsQuery.isPlaceholderData && (
               <Flex
                 zIndex="above"
                 position="absolute"

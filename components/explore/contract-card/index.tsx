@@ -7,12 +7,15 @@ import {
   Skeleton,
   SkeletonText,
 } from "@chakra-ui/react";
-import { QueryClient } from "@tanstack/query-core";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  type QueryClient,
+} from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ensQuery } from "components/contract-components/hooks";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
+import { getThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";
 import { BsShieldCheck } from "react-icons/bs";
 import invariant from "tiny-invariant";
@@ -198,7 +201,7 @@ export const ContractCard: React.FC<ContractCardProps> = ({
 };
 
 // data fetching
-export type PublishedContractId =
+type PublishedContractId =
   | `${string}/${string}`
   | `${string}/${string}/${string}`;
 
@@ -208,7 +211,7 @@ async function publishedContractQueryFn(
   version = "latest",
   queryClient: QueryClient,
 ) {
-  const polygonSdk = getEVMThirdwebSDK(
+  const polygonSdk = getThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
   );
@@ -271,11 +274,9 @@ export function publishedContractQuery(
   };
 }
 
-export type PublishedContract = Awaited<
-  ReturnType<typeof publishedContractQueryFn>
->;
+type PublishedContract = Awaited<ReturnType<typeof publishedContractQueryFn>>;
 
-export function usePublishedContract(publishedContractId: PublishedContractId) {
+function usePublishedContract(publishedContractId: PublishedContractId) {
   const queryClient = useQueryClient();
   return useQuery(publishedContractQuery(publishedContractId, queryClient));
 }

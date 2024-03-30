@@ -28,23 +28,32 @@ import {
 } from "../ConnectWalletPlayground/walletInfoRecord";
 import { replaceIpfsUrl } from "lib/sdk";
 
-import { Londrina_Solid, Source_Serif_4 } from "next/font/google";
+import {
+  Londrina_Solid as londrinaSolidConstructor,
+  Source_Serif_4 as sourceSerif4Constructor,
+} from "next/font/google";
 import { ChakraNextImage } from "components/Image";
 import { FiChevronRight } from "react-icons/fi";
 import { useTrack } from "hooks/analytics/useTrack";
+import { socialIconMapV2 } from "../ConnectWalletPlayground/WalletButton";
 
 // If loading a variable font, you don't need to specify the font weight
-// eslint-disable-next-line new-cap
-const nounsDaoFont = Londrina_Solid({
+const nounsDaoFont = londrinaSolidConstructor({
   subsets: ["latin"],
   weight: ["900", "400"],
 });
 
-// eslint-disable-next-line new-cap
-const web3WarriorsFont = Source_Serif_4({
+const web3WarriorsFont = sourceSerif4Constructor({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
+
+function addOrRemoveFromList<T>(list: T[], item: T) {
+  if (list.includes(item)) {
+    return list.filter((x) => x !== item);
+  }
+  return [...list, item];
+}
 
 export const MiniPlayground: React.FC<{
   trackingCategory: string;
@@ -55,22 +64,27 @@ export const MiniPlayground: React.FC<{
   const isMobile = useBreakpointValue({ base: true, md: false }, { ssr: true });
   const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
 
-  const { supportedWallets, walletSelection, setWalletSelection } =
-    usePlaygroundWallets({
-      MetaMask: true,
-      Coinbase: true,
-      WalletConnect: true,
-      Safe: false,
-      "Guest Mode": false,
-      "Email Wallet": false,
-      Trust: true,
-      Zerion: true,
-      Blocto: false,
-      "Magic Link": false,
-      Frame: false,
-      Rainbow: true,
-      Phantom: true,
-    });
+  const {
+    supportedWallets,
+    walletSelection,
+    setWalletSelection,
+    socialOptions,
+    setSocialOptions,
+  } = usePlaygroundWallets({
+    MetaMask: true,
+    Coinbase: "recommended",
+    WalletConnect: true,
+    Safe: false,
+    "Guest Mode": true,
+    "Email Wallet": true,
+    Trust: false,
+    Zerion: false,
+    Blocto: false,
+    "Magic Link": false,
+    Frame: false,
+    Rainbow: false,
+    Phantom: false,
+  });
   const walletIds = supportedWallets.map((x) => x.id) as WalletId[];
   const canShowInlineModal = useCanShowInlineModal(walletIds);
 
@@ -131,8 +145,37 @@ export const MiniPlayground: React.FC<{
 
   const trackEvent = useTrack();
 
+  const socialLoginMethods = [
+    {
+      name: "Sign in with Email",
+      key: "email",
+    },
+    {
+      name: "Sign in with Google",
+      key: "google",
+    },
+    {
+      name: "Sign in with Apple",
+      key: "apple",
+    },
+    {
+      name: "Sign in with Facebook",
+      key: "facebook",
+    },
+  ] as const;
+
+  const trackCustomize = (input: string, data: Record<string, string> = {}) => {
+    trackEvent({
+      action: "click",
+      category: trackingCategory,
+      label: "customize",
+      input,
+      ...data,
+    });
+  };
+
   return (
-    <Box>
+    <Box w="full">
       <Grid templateColumns={["1fr", "300px 1fr"]} gap={5}>
         {/* Left */}
         <Flex flexDir="column" gap={10} order={[1, 0]}>
@@ -237,7 +280,7 @@ export const MiniPlayground: React.FC<{
 
             <Flex alignItems="center" gap={1}>
               <TrackedLink
-                href="/dashboard/wallets/connect"
+                href="/dashboard/connect/playground"
                 color="blue.500"
                 category={trackingCategory}
                 label="see-all-wallets"
@@ -251,54 +294,33 @@ export const MiniPlayground: React.FC<{
           {/* Social Logins */}
           <FormItem label="Email & Social Logins">
             <Flex flexWrap="wrap" gap={3}>
-              {(Object.keys(walletInfoRecord) as WalletId[])
-                .filter((key) => walletInfoRecord[key].type === "social")
-                .map((key) => {
-                  const walletId = key as WalletId;
-                  const walletInfo = walletInfoRecord[walletId];
-                  const selection = walletSelection[walletId];
+              {socialLoginMethods.map((x) => {
+                const icon = socialIconMapV2[x.key];
+                return (
+                  <ImageIconButton
+                    name={x.name}
+                    iconUrl={icon}
+                    isSelected={socialOptions.includes(x.key)}
+                    key={x.key}
+                    onClick={() => {
+                      trackCustomize("socialLogin", {
+                        option: x.key,
+                      });
 
-                  const name =
-                    walletInfo.component.id === "embeddedWallet"
-                      ? "Embedded Wallet"
-                      : "Magic Link";
-
-                  const otherSocialWalletId =
-                    walletId === "Email Wallet" ? "Magic Link" : "Email Wallet";
-
-                  const getUrl = () => {
-                    try {
-                      return replaceIpfsUrl(walletInfo.component.meta.iconURL);
-                    } catch {
-                      return walletInfo.component.meta.iconURL;
-                    }
-                  };
-
-                  return (
-                    <ImageIconButton
-                      name={name}
-                      iconUrl={getUrl()}
-                      isSelected={!!selection}
-                      key={walletInfo.component.id}
-                      onClick={() => {
-                        trackEvent({
-                          action: "click",
-                          category: trackingCategory,
-                          label: "wallet",
-                          walletName: walletInfo.component.meta.name,
-                        });
-
-                        setWalletSelection({
-                          ...walletSelection,
-                          [walletId]: !selection,
-                          [otherSocialWalletId]: !selection
-                            ? false
-                            : walletSelection[otherSocialWalletId],
-                        });
-                      }}
-                    />
-                  );
-                })}
+                      // do not allow to unselect all
+                      if (
+                        socialOptions.length === 1 &&
+                        socialOptions[0] === x.key
+                      ) {
+                        return;
+                      }
+                      setSocialOptions(
+                        addOrRemoveFromList(socialOptions, x.key),
+                      );
+                    }}
+                  />
+                );
+              })}
             </Flex>
           </FormItem>
 
@@ -420,7 +442,7 @@ export const MiniPlayground: React.FC<{
 
                 <Button
                   as={Link}
-                  href="/dashboard/wallets/connect"
+                  href="/dashboard/connect/playground"
                   fontSize={20}
                   leftIcon={<Icon as={MdOutlineElectricBolt} />}
                   color="black"
@@ -476,7 +498,7 @@ export const MiniPlayground: React.FC<{
                     as={TrackedLink}
                     category={trackingCategory}
                     label="build-your-own"
-                    href="/dashboard/wallets/connect"
+                    href="/dashboard/connect/playground"
                     fontSize={20}
                     leftIcon={<Icon as={MdOutlineElectricBolt} />}
                     color="black"

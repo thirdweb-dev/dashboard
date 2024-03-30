@@ -1,35 +1,45 @@
 import { MetadataHeader } from "./metadata-header";
 import { Chain } from "@thirdweb-dev/chains";
-import type { useContractMetadata } from "@thirdweb-dev/react";
+import { useContract, useContractMetadata } from "@thirdweb-dev/react";
+import { usePublishedContractsFromDeploy } from "components/contract-components/hooks";
 import { useEffect, useState } from "react";
 
 interface ContractMetadataProps {
   contractAddress: string;
-  metadataQuery: ReturnType<typeof useContractMetadata>;
-  chain: Chain | null;
+  chain: Chain | undefined;
 }
 
 export const ContractMetadata: React.FC<ContractMetadataProps> = ({
-  metadataQuery,
   chain,
   contractAddress,
 }) => {
   const [wasError, setWasError] = useState(false);
+
+  const contractQuery = useContract(contractAddress);
+  const contractMetadataQuery = useContractMetadata(contractQuery.contract);
+
+  const publishedContractsFromDeploy = usePublishedContractsFromDeploy(
+    contractAddress,
+    chain?.chainId,
+  );
+  const latestPublished = publishedContractsFromDeploy.data?.slice(-1)[0];
+
   useEffect(() => {
-    if (metadataQuery.isError) {
+    if (contractMetadataQuery.isError) {
       setWasError(true);
-    } else if (metadataQuery.isSuccess) {
+    } else if (contractMetadataQuery.isSuccess) {
       setWasError(false);
     }
-  }, [metadataQuery.isError, metadataQuery.isSuccess]);
+  }, [contractMetadataQuery.isError, contractMetadataQuery.isSuccess]);
 
   return (
     <MetadataHeader
-      isError={metadataQuery.isError || wasError}
-      isLoaded={metadataQuery.isSuccess}
-      data={metadataQuery.data}
-      chain={chain || undefined}
+      isError={contractMetadataQuery.isError || wasError}
+      isLoaded={contractMetadataQuery.isSuccess}
+      data={contractMetadataQuery.data}
+      chain={chain}
       address={contractAddress}
+      externalLinks={latestPublished?.externalLinks}
     />
   );
 };

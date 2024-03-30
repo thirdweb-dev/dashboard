@@ -37,12 +37,6 @@ const LoginPage: ThirdwebNextPage = () => {
   const [isBrave, setIsBrave] = useState<boolean>(false);
   const [hasRemovedShield, setHasRemovedShield] = useState<boolean>(false);
 
-  const detectBrave = async () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - brave is not in the types
-    return (navigator?.brave && (await navigator?.brave.isBrave())) || false;
-  };
-
   const { isLoggedIn } = useLoggedInUser();
   const auth = useAuth();
 
@@ -53,9 +47,12 @@ const LoginPage: ThirdwebNextPage = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    detectBrave().then((res) => {
-      setIsBrave(res);
-    });
+    (async () => {
+      const isBraveInNavigator =
+        // @ts-expect-error - brave is not in the types
+        navigator?.brave && (await navigator?.brave.isBrave());
+      setIsBrave(!!isBraveInNavigator);
+    })();
   }, []);
 
   const generateToken = async () => {

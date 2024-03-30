@@ -6,10 +6,15 @@ export interface SectionProps {
   label: string;
   description: string;
   icon?: StaticImageData;
+  link?: string;
+  section?: "contracts-v2" | "connect-v2" | "engine-v2";
+  iconType?: IconType;
+  comingSoon?: boolean;
 }
 
 export interface SectionItemProps {
   name: string;
+  dashboardName?: string;
   label: string;
   description: string;
   link: string;
@@ -20,7 +25,7 @@ export interface SectionItemProps {
   inLandingPage?: boolean;
   section:
     | "contracts"
-    | "wallets"
+    | "connect"
     | "infrastructure"
     | "payments"
     | "solutions"

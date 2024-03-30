@@ -8,12 +8,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Card, Text } from "tw-components";
-import { SectionItemProps } from "./types";
+import { SectionItemProps, SectionProps } from "./types";
 import { useEffect, useRef, useState } from "react";
 
 interface HoverMenuProps {
   title: string;
-  items: SectionItemProps[];
+  items: SectionItemProps[] | SectionProps[];
   columns?: 1 | 2;
 }
 
@@ -29,31 +29,28 @@ export const HoverMenu: React.FC<HoverMenuProps> = ({
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const width = columns === 2 ? 660 : 336;
 
-  const updateOffset = () => {
-    const el = triggerRef.current;
-
-    if (el && isOpen) {
-      const { right } = el.getBoundingClientRect();
-      const isOverflowing = right + width > window.innerWidth;
-      const newOffset = isOverflowing
-        ? window.innerWidth - (right + width - 48)
-        : DEFAULT_OFFSET;
-      setOffset(newOffset);
-    }
-  };
-
   useEffect(() => {
+    const updateOffset = () => {
+      const el = triggerRef.current;
+      if (el && isOpen) {
+        const { right } = el.getBoundingClientRect();
+        const isOverflowing = right + width > window.innerWidth;
+        const newOffset = isOverflowing
+          ? window.innerWidth - (right + width - 48)
+          : DEFAULT_OFFSET;
+        setOffset(newOffset);
+      }
+    };
+
     updateOffset();
 
     if (typeof window !== "undefined") {
       window.addEventListener("resize", updateOffset);
-
       return () => {
         window.removeEventListener("resize", updateOffset);
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, triggerRef, width, setOffset]);
 
   return (
     <Box onMouseLeave={onClose}>

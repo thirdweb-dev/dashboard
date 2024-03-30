@@ -59,6 +59,7 @@ export const BasisPointsInput: React.FC<BasisPointsInputProps> = ({
             setStringValue("0.00");
           }
         }}
+        maxLength={5}
       />
       <InputRightAddon children="%" />
     </InputGroup>

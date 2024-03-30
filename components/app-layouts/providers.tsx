@@ -5,7 +5,7 @@ import {
 import { useApiAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  ThirdwebProvider,
+  ThirdwebProvider as ThirdwebProviderOld,
   coin98Wallet,
   coinbaseWallet,
   coreWallet,
@@ -38,6 +38,8 @@ import { StorageSingleton } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
+import { ThirdwebProvider } from "thirdweb/react";
+import { useRouter } from "next/router";
 
 export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
@@ -72,7 +74,7 @@ const personalWallets = [
   oneKeyWallet(),
 ];
 
-export const dashboardSupportedWallets = [
+const dashboardSupportedWallets = [
   ...personalWallets,
   safeWallet({
     personalWallets,
@@ -101,32 +103,48 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
     };
   }, [chain]);
 
+  const router = useRouter();
+
+  const isChainSlugPage = router.pathname === "/[chainSlug]";
+
+  const chainByChainSlug = supportedChains.find(
+    (supportedChain) => supportedChain.slug === router.asPath.split("/")[1],
+  );
+
   return (
-    <ThirdwebProvider
-      queryClient={queryClient}
-      dAppMeta={{
-        name: "thirdweb",
-        logoUrl: "https://thirdweb.com/favicon.ico",
-        isDarkMode: false,
-        url: "https://thirdweb.com",
-      }}
-      activeChain={chain === null ? undefined : chain}
-      supportedChains={supportedChains}
-      sdkOptions={{
-        gasSettings: { maxPriceInGwei: 650 },
-        readonlySettings,
-      }}
-      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
-      secretKey={DASHBOARD_THIRDWEB_SECRET_KEY}
-      supportedWallets={dashboardSupportedWallets}
-      storageInterface={StorageSingleton}
-      authConfig={{
-        domain: THIRDWEB_DOMAIN,
-        authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
-      }}
-    >
-      <GlobalAuthTokenProvider />
-      {children}
+    <ThirdwebProvider>
+      <ThirdwebProviderOld
+        queryClient={queryClient}
+        dAppMeta={{
+          name: "thirdweb",
+          logoUrl: "https://thirdweb.com/favicon.ico",
+          isDarkMode: false,
+          url: "https://thirdweb.com",
+        }}
+        activeChain={
+          chain === null
+            ? undefined
+            : isChainSlugPage
+              ? chainByChainSlug
+              : chain
+        }
+        supportedChains={supportedChains}
+        sdkOptions={{
+          gasSettings: { maxPriceInGwei: 650 },
+          readonlySettings,
+        }}
+        clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
+        secretKey={DASHBOARD_THIRDWEB_SECRET_KEY}
+        supportedWallets={dashboardSupportedWallets}
+        storageInterface={StorageSingleton}
+        authConfig={{
+          domain: THIRDWEB_DOMAIN,
+          authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
+        }}
+      >
+        <GlobalAuthTokenProvider />
+        {children}
+      </ThirdwebProviderOld>
     </ThirdwebProvider>
   );
 };

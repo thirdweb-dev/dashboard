@@ -1,15 +1,16 @@
 import { getAbsoluteUrl } from "./vercel-utils";
-import { ThirdwebSDK as EVMThirdwebSDK, SDKOptions } from "@thirdweb-dev/sdk";
+import { ThirdwebSDK, type SDKOptions } from "@thirdweb-dev/sdk";
 import {
-  IStorageDownloader,
+  type IStorageDownloader,
+  type GatewayUrls,
+  type SingleDownloadOptions,
   StorageDownloader,
   ThirdwebStorage,
-  GatewayUrls,
-  SingleDownloadOptions,
 } from "@thirdweb-dev/storage";
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
   DASHBOARD_THIRDWEB_SECRET_KEY,
+  isProd,
 } from "constants/rpc";
 import type { Signer } from "ethers";
 
@@ -91,33 +92,51 @@ export const StorageSingleton = new ThirdwebStorage({
   secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
   uploadServerUrl: DASHBOARD_STORAGE_URL,
   downloader: new SpecialDownloader(),
-});
+}) as ThirdwebStorage;
 
 // EVM SDK
-const EVM_SDK_MAP = new Map<string, EVMThirdwebSDK>();
+const EVM_SDK_MAP = new Map<string, ThirdwebSDK>();
 
-export function getEVMThirdwebSDK(
+export function getThirdwebSDK(
   chainId: number,
   rpcUrl: string,
   sdkOptions?: SDKOptions,
   signer?: Signer,
-): EVMThirdwebSDK {
-  // PERF ISSUE - if the sdkOptions is a huge object, stringify will be slow
-  const sdkKey = chainId + (sdkOptions ? JSON.stringify(sdkOptions) : "");
+): ThirdwebSDK {
+  try {
+    new URL(rpcUrl);
+  } catch (e) {
+    console.error("Invalid rpcUrl", e, rpcUrl);
+    // overwrite the rpcUrl with a valid one!
+    if (isProd) {
+      rpcUrl = `https://${chainId}.rpc.thirdweb.com/${DASHBOARD_THIRDWEB_CLIENT_ID}`;
+    } else {
+      rpcUrl = `https://${chainId}.rpc.thirdweb-dev.com/${DASHBOARD_THIRDWEB_CLIENT_ID}`;
+    }
+  }
 
-  let sdk: EVMThirdwebSDK | null = null;
+  const readonlySettings =
+    chainId && rpcUrl
+      ? {
+          chainId,
+          rpcUrl,
+        }
+      : undefined;
+
+  // PERF ISSUE - if the sdkOptions is a huge object, stringify will be slow
+  const sdkKey =
+    chainId + rpcUrl + (sdkOptions ? JSON.stringify(sdkOptions) : "");
+
+  let sdk: ThirdwebSDK | null = null;
 
   if (EVM_SDK_MAP.has(sdkKey)) {
-    sdk = EVM_SDK_MAP.get(sdkKey) as EVMThirdwebSDK;
+    sdk = EVM_SDK_MAP.get(sdkKey) as ThirdwebSDK;
   } else {
-    sdk = new EVMThirdwebSDK(
+    sdk = new ThirdwebSDK(
       rpcUrl,
       {
-        readonlySettings: {
-          rpcUrl,
-          chainId,
-        },
         ...sdkOptions,
+        readonlySettings,
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
         secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
       },

@@ -20,14 +20,17 @@ import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
 import { FiExternalLink } from "react-icons/fi";
 import { useLocalStorage } from "hooks/useLocalStorage";
+import { BillingPlanCard } from "./PlanCard";
 
 interface BillingProps {
   account: Account;
 }
 
 export const Billing: React.FC<BillingProps> = ({ account }) => {
-  const [claimGrowth] = useLocalStorage("claim-growth-trial", false, true);
-  const updatePlanMutation = useUpdateAccountPlan();
+  const [claimedGrowth] = useLocalStorage("claim-growth-trial", false, true);
+  const updatePlanMutation = useUpdateAccountPlan(
+    account?.plan === AccountPlan.Free,
+  );
   const {
     isOpen: isPaymentMethodOpen,
     onOpen: onPaymentMethodOpen,
@@ -71,7 +74,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
       {
         plan,
         feedback,
-        useTrial: !!claimGrowth && validPayment,
+        useTrial: !!claimedGrowth && validPayment,
       },
       {
         onSuccess: () => {
@@ -220,6 +223,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     AccountStatus.NoCustomer,
     AccountStatus.NoPayment,
     AccountStatus.InvalidPayment,
+    AccountStatus.InvalidPaymentMethod,
   ].includes(account.status);
 
   return (
@@ -244,6 +248,7 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
             validPayment={validPayment}
             paymentVerification={paymentVerification}
           />
+          <BillingPlanCard />
           <AccountForm account={account} disableUnchanged showBillingButton />
         </>
       )}
@@ -254,7 +259,9 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         paymentVerification={paymentVerification}
         invalidPayment={invalidPayment}
         loading={paymentMethodSaving || updatePlanMutation.isLoading}
-        canTrialGrowth={!!claimGrowth}
+        canTrialGrowth={
+          !!claimedGrowth && account && !account?.trialPeriodEndedAt
+        }
         trialPeriodEndedAt={account.trialPeriodEndedAt}
         onSelect={handlePlanSelect}
       />

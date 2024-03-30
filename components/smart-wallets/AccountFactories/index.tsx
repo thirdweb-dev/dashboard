@@ -1,14 +1,15 @@
-import { ContractWithMetadata, useSupportedChains } from "@thirdweb-dev/react";
+import { useSupportedChains } from "@thirdweb-dev/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { getDashboardChainRpc } from "lib/rpc";
-import { getEVMThirdwebSDK } from "lib/sdk";
+import { getThirdwebSDK } from "lib/sdk";
 import invariant from "tiny-invariant";
 import { useQuery } from "@tanstack/react-query";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { Heading, TrackedLinkButton, Text } from "tw-components";
 import { FiPlus } from "react-icons/fi";
 import { FactoryContracts } from "./factory-contracts";
+import { BasicContract } from "contract-ui/types/types";
 
 const useFactories = () => {
   const { user, isLoggedIn } = useLoggedInUser();
@@ -22,7 +23,7 @@ const useFactories = () => {
     ],
     async () => {
       invariant(user?.address, "user should be logged in");
-      const polygonSDK = getEVMThirdwebSDK(
+      const polygonSDK = getThirdwebSDK(
         Polygon.chainId,
         getDashboardChainRpc(Polygon),
       );
@@ -88,7 +89,7 @@ export const AccountFactories: React.FC<AccountFactoriesProps> = ({
         <Spinner />
       ) : (
         <FactoryContracts
-          contracts={(factories.data || []) as ContractWithMetadata[]}
+          contracts={(factories.data || []) as BasicContract[]}
           isLoading={factories.isLoading}
           isFetched={factories.isFetched}
         />

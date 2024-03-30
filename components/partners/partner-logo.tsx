@@ -84,11 +84,35 @@ const PARTNER_LOGO_MAP = {
   },
   torque: {
     img: require("./logos/torque.png"),
-    filter: "grayscale(1)",
+    filter: undefined,
+  },
+  ztx: {
+    img: require("./logos/ztx.png"),
+    filter: undefined,
+  },
+  aavegotchi: {
+    img: require("./logos/aavegotchi.png"),
+    filter: undefined,
+  },
+  coolcats: {
+    img: require("./logos/coolcats.png"),
+    filter: undefined,
+  },
+  mcfarlane: {
+    img: require("./logos/mcfarlane.png"),
+    filter: undefined,
+  },
+  treasure: {
+    img: require("./logos/treasure.png"),
+    filter: undefined,
+  },
+  xai: {
+    img: require("./logos/xai.png"),
+    filter: undefined,
   },
 } as const;
 
-export type Partner = keyof typeof PARTNER_LOGO_MAP;
+type Partner = keyof typeof PARTNER_LOGO_MAP;
 
 interface PartnerLogoProps {
   partner: Partner;

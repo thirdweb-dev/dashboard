@@ -1,26 +1,45 @@
 import { Flex, useBreakpointValue } from "@chakra-ui/react";
-import { useNFTs } from "@thirdweb-dev/react";
-import { SmartContract } from "@thirdweb-dev/sdk";
 import { SupplyCards } from "contract-ui/tabs/nfts/components/supply-cards";
 import { useTabHref } from "contract-ui/utils";
 import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 import { NFTCards } from "./NFTCards";
+import { getContract } from "thirdweb";
+import { useMemo } from "react";
+import { useReadContract } from "thirdweb/react";
+import { getNFTs } from "thirdweb/extensions/erc721";
+import { defineDashboardChain, thirdwebClient } from "../../../../lib/thirdweb-client";
 
 interface NFTDetailsProps {
-  contract: SmartContract;
+  contractAddress: string;
+  chainId: number;
   trackingCategory: TrackedLinkProps["category"];
   features: string[];
 }
 
 export const NFTDetails: React.FC<NFTDetailsProps> = ({
-  contract,
+  contractAddress,
+  chainId,
   trackingCategory,
   features,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const nftsHref = useTabHref("nfts");
 
-  const nftQuery = useNFTs(contract, { count: 5 });
+  const contract = useMemo(
+    () =>
+      getContract({
+        client: thirdwebClient,
+        address: contractAddress,
+        chain: defineDashboardChain(chainId),
+      }),
+    [contractAddress, chainId],
+  );
+
+  const nftQuery = useReadContract(getNFTs, {
+    contract,
+    count: 5,
+    includeOwners: true,
+  });
 
   const displayableNFTs =
     nftQuery.data
@@ -37,7 +56,7 @@ export const NFTDetails: React.FC<NFTDetailsProps> = ({
 
   return displayableNFTs.length === 0 &&
     !showSupplyCards &&
-    !nftQuery.isInitialLoading ? null : (
+    !nftQuery.isLoading ? null : (
     <Flex direction="column" gap={{ base: 3, md: 6 }}>
       <Flex align="center" justify="space-between" w="full">
         <Heading size="title.sm">NFT Details</Heading>
@@ -54,9 +73,9 @@ export const NFTDetails: React.FC<NFTDetailsProps> = ({
           View all -&gt;
         </TrackedLink>
       </Flex>
-      {showSupplyCards && <SupplyCards contract={contract} />}
+      {showSupplyCards && contract && <SupplyCards contract={contract} />}
       <NFTCards
-        contractAddress={contract.getAddress()}
+        contractAddress={contractAddress}
         nfts={displayableNFTs}
         trackingCategory={trackingCategory}
         isLoading={nftQuery.isLoading}

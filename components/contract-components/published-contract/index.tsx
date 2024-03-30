@@ -27,6 +27,7 @@ import {
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk";
+import type { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
@@ -55,7 +56,7 @@ import {
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
-export interface ExtendedPublishedContract extends PublishedContractType {
+interface ExtendedPublishedContract extends PublishedContractType {
   name: string;
   displayName?: string;
   description: string;
@@ -193,7 +194,7 @@ Deploy it in one click`,
               sources: contractPublishMetadata.data.compilerMetadata.sources,
             },
           } as unknown as PublishedMetadata,
-          StorageSingleton,
+          StorageSingleton as ThirdwebStorage,
         )
       )
         .map((source) => {

@@ -5,6 +5,7 @@ import { FTUX } from "components/FTUX/FTUX";
 import { AppLayout } from "components/app-layouts/app";
 import { Changelog, ChangelogItem } from "components/dashboard/Changelog";
 import { HomeProductCard } from "components/dashboard/HomeProductCard";
+import { DelayedDisplay } from "components/delayed-display/delayed-display";
 import { OnboardingSteps } from "components/onboarding/Steps";
 import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
@@ -35,9 +36,11 @@ const Dashboard: ThirdwebNextPage = (
                 <FTUX />
               ) : (
                 <VStack gap={10} w="full">
-                  <OnboardingSteps />
+                  <DelayedDisplay delay={1000}>
+                    <OnboardingSteps />
+                  </DelayedDisplay>
                   <Flex flexDir="column" gap={10} w="full">
-                    {["wallets", "contracts", "infrastructure", "payments"].map(
+                    {["connect", "contracts", "infrastructure"].map(
                       (section) => {
                         const products = PRODUCTS.filter(
                           (p) => p.section === section && !!p.dashboardLink,
@@ -50,7 +53,9 @@ const Dashboard: ThirdwebNextPage = (
                               textTransform="capitalize"
                               color="faded"
                             >
-                              {section}
+                              {section === "infrastructure"
+                                ? "Engine"
+                                : section}
                             </Heading>
                             <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
                               {products.map((product) => (
