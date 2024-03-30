@@ -11,6 +11,7 @@ import { TemplateTagId, TemplateTags } from "../data/_tags";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Checkbox } from "tw-components";
 import { useRouter } from "next/router";
+import { useTrack } from "hooks/analytics/useTrack";
 
 type FilterItem = {
   label: string;
@@ -90,6 +91,7 @@ const FilterMenu: React.FC<FilterProps> = ({
   setSelectedTags,
 }: FilterProps) => {
   const router = useRouter();
+  const trackEvent = useTrack();
   const handleToggleTag = (
     event: ChangeEvent<HTMLInputElement>,
     tagId: TemplateTagId,

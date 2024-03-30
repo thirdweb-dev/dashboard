@@ -134,66 +134,76 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
         <HomepageTopNav />
         <Flex
           minH={275}
+          pt="20px"
           w={"full"}
-          bgImage="url('/assets/templates/template_banner.png')"
+          bgImage="url('/assets/templates/template_banner.jpg')"
           bgSize="cover"
           bgPosition="center"
           bgRepeat="no-repeat"
-          flexDir={"column"}
-          justifyContent={"start"}
-          pl={{ base: "20px", lg: "100px" }}
-          pt="30px"
-          px="20px"
           mb={20}
-          gap={4}
         >
-          <Heading
-            fontSize={{ base: "48px", md: "48px" }}
-            fontWeight={700}
-            letterSpacing="-0.04em"
+          <Flex
+            flexDir={{ base: "column", lg: "row" }}
+            m={"auto"}
+            justifyContent={"space-between"}
+            w={"92vw"}
+            maxW={"1150px"}
           >
-            Templates
-          </Heading>
-          <Text maxW={"820px"} fontSize={"16px"}>
-            Discover a comprehensive web3 developer resource that combines
-            Connect, Contracts and Engine projects on top of the advanced
-            thirdweb platform. Enhance your skills and stay ahead of the curve
-            with the latest advancements in web3 technology.
-          </Text>
-          <InputGroup mb={10} w={"500px"} maxW={"90vw"}>
-            <InputLeftElement>
-              <Icon as={FiSearch} opacity={0.5} />
-            </InputLeftElement>
-            <Input
-              htmlSize={10}
-              variant="outline"
-              spellCheck="false"
-              autoComplete="off"
-              bg="black"
-              placeholder="Search by keywords"
-              borderColor="borderColor"
-              onChange={(e) => updateKeyword(e.target.value)}
-              defaultValue={_defaultKeyword || ""}
-              // value={keyword}
-              ref={inputRef}
-            />
-            {keyword && (
-              <InputRightElement>
-                <IconButton
-                  size="sm"
-                  aria-label="Clear search"
-                  variant="ghost"
-                  icon={<Icon as={FiX} />}
-                  onClick={() => {
-                    updateKeyword("");
-                    if (inputRef.current) {
-                      inputRef.current.value = "";
-                    }
-                  }}
+            <Flex flexDir={"column"} gap={4}>
+              <Heading
+                fontSize={{ base: "48px", md: "48px" }}
+                fontWeight={700}
+                letterSpacing="-0.04em"
+              >
+                Templates
+              </Heading>
+              <Text maxW={"820px"} fontSize={"16px"}>
+                Discover a comprehensive web3 developer resource that combines
+                Connect, Contracts and Engine projects on top of the advanced
+                thirdweb platform. Enhance your skills and stay ahead of the
+                curve with the latest advancements in web3 technology.
+              </Text>
+              <InputGroup mb={10} w={"500px"} maxW={"90vw"}>
+                <InputLeftElement>
+                  <Icon as={FiSearch} opacity={0.5} />
+                </InputLeftElement>
+                <Input
+                  htmlSize={10}
+                  variant="outline"
+                  spellCheck="false"
+                  autoComplete="off"
+                  bg="black"
+                  placeholder="Search by keywords"
+                  borderColor="borderColor"
+                  onChange={(e) => updateKeyword(e.target.value)}
+                  defaultValue={_defaultKeyword || ""}
+                  // value={keyword}
+                  ref={inputRef}
                 />
-              </InputRightElement>
-            )}
-          </InputGroup>
+                {keyword && (
+                  <InputRightElement>
+                    <IconButton
+                      size="sm"
+                      aria-label="Clear search"
+                      variant="ghost"
+                      icon={<Icon as={FiX} />}
+                      onClick={() => {
+                        updateKeyword("");
+                        if (inputRef.current) {
+                          inputRef.current.value = "";
+                        }
+                      }}
+                    />
+                  </InputRightElement>
+                )}
+              </InputGroup>
+            </Flex>
+            <Image
+              display={{ base: "none", lg: "block" }}
+              src="/assets/templates/template_side_img.png"
+              style={{ height: "200px", width: "auto" }}
+            ></Image>
+          </Flex>
         </Flex>
         <HomepageSection pb={24} ml="auto" mr="auto">
           {children}
