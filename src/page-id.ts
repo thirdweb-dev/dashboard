@@ -1,6 +1,4 @@
 export enum PageId {
-  // unknown page id (default)
-  Unknown = "unknown",
   // none case (for previous page id)
   None = "none",
 
@@ -38,7 +36,7 @@ export enum PageId {
   CliLoginPage = "cli-login-page",
 
   // thirdweb.com/contract-extensions
-  ContractExtensionsLanding = "contract-extensions-landing",
+  // ContractExtensionsLanding = "contract-extensions-landing",
 
   // thirdweb.com/web3-sdk
   Web3SDKLanding = "web3-sdk-landing",
@@ -81,18 +79,11 @@ export enum PageId {
 
   // thirdweb.com/engine
   EngineLanding = "engine-landing",
-
-  // thirdweb.com/pre-built-contracts
-  PreBuiltContractsLanding = "pre-built-contracts-landing",
-
   // thirdweb.com/web3-dashboard
   DashboardLanding = "dashboard-landing",
 
   // thirdweb.com/cointracts
   ContractsLanding = "contracts-landing",
-
-  // thirdweb.com/web3-storage
-  StorageLanding = "storage-landing",
 
   // thirdweb.com/ui-components
   UIComponentsLanding = "ui-components-landing",
@@ -113,15 +104,9 @@ export enum PageId {
   // thirdweb.com/dashboard
   Dashboard = "dashboard",
 
-  // thirdweb.com/dashboard/infrastructure
-  DashboardInfrastructure = "dashboard-infrastructure",
   // thirdweb.com/dashboard/infrastructure/storage
   DashboardSettingsStorage = "dashboard-storage",
-  // thirdweb.com/dashboard/infastucture/rpc-edge
-  DashboardRPC = "dashboard-rpc",
 
-  // thirdweb.com/dashboard/connect
-  DashboardWallets = "dashboard-wallets",
   // thirdweb.com/dashboard/connect/playground
   DashboardConnectPlayground = "dashboard-wallets-connect",
   // thirdweb.com/dashboard/connect/smart-wallet
@@ -170,8 +155,6 @@ export enum PageId {
   // ---------------------------------------------------------------------------
   //  settings pages
   // ---------------------------------------------------------------------------
-  // thirdweb.com/dashboard/settings
-  Settings = "settings",
 
   // thirdweb.com/dashboard/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
@@ -181,10 +164,6 @@ export enum PageId {
 
   // thirdweb.com/dashboard/settings/devices
   SettingsDevices = "settings-devices",
-
-  // thirdweb.com/dashboard/settings/billing
-  SettingsBilling = "settings-billing",
-
   // thirdweb.com/dashboard/settings/usage
   SettingsUsage = "settings-usage",
 
@@ -197,10 +176,8 @@ export enum PageId {
   SolutionsCommerce = "solutions-commerce",
   SolutionsGaming = "solutions-gaming",
   SolutionsMinting = "solutions-minting",
-  SolutionsLoyalty = "solutions-loyalty",
   SolutionsMarketplace = "solutions-marketplace",
   SolutionsChains = "solutions-chains",
-  SolutionsAppChainApi = "solutions-appchain-api",
   SolutionsWeb2Onboarding = "solutions-web2-onboarding",
 
   // ---------------------------------------------------------------------------
@@ -236,15 +213,6 @@ export enum PageId {
   // thirdweb.com/:network
   // example: thirdweb.com/ethereum
   ChainLanding = "chain-landing",
-
-  // ---------------------------------------------------------------------------
-  // "payments" product pages
-  // ---------------------------------------------------------------------------
-
-  PaymentsPurchases = "payments-purchases",
-  PaymentsPurchasesDetail = "payments-purchases-detail",
-  PaymentsContracts = "payments-contracts",
-  PaymentsSettings = "payments-settings",
 
   // ---------------------------------------------------------------------------
   //  community pages

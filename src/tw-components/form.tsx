@@ -19,7 +19,7 @@ import {
 } from "theme/typography";
 import { ComponentWithChildren } from "types/component-with-children";
 
-export interface FormLabelProps extends Omit<ChakraFormLabelprops, "size"> {
+interface FormLabelProps extends Omit<ChakraFormLabelprops, "size"> {
   size?: LabelSizes;
 }
 
@@ -40,8 +40,7 @@ export const FormLabel: ComponentWithChildren<FormLabelProps> = ({
   );
 };
 
-export interface FormHelperTextProps
-  extends Omit<ChakraHelperTextProps, "size"> {
+interface FormHelperTextProps extends Omit<ChakraHelperTextProps, "size"> {
   size?: BodySizes;
 }
 
@@ -62,7 +61,7 @@ export const FormHelperText: ComponentWithChildren<FormHelperTextProps> = ({
   );
 };
 
-export interface FormErrorMessageProps
+interface FormErrorMessageProps
   extends Omit<ChakraFormErrorMessageProps, "size"> {
   size?: BodySizes;
 }

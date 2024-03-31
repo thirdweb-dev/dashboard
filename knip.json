@@ -3,6 +3,5 @@
   "next": true,
   "ignore": ["src/graphql/**", "src/theme/*"],
   "project": ["src/**"],
-  "ignoreBinaries": ["only-allow"],
-  "ignoreDependencies": ["prismjs"]
+  "ignoreBinaries": ["only-allow"]
 }

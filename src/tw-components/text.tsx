@@ -13,7 +13,7 @@ import {
 } from "theme/typography";
 import { ComponentWithChildren } from "types/component-with-children";
 
-export interface TextProps extends Omit<ChakraTextProps, "size"> {
+interface TextProps extends Omit<ChakraTextProps, "size"> {
   size?: TextSizes;
 }
 

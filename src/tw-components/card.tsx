@@ -1,6 +1,4 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import { createContext, useContext } from "react";
-import { ComponentWithChildren } from "types/component-with-children";
 
 type DefaultedBoxProps = Pick<
   BoxProps,
@@ -24,17 +22,6 @@ const borderRadiusMap = {
   md: "sm",
   sm: "none",
   none: "none",
-};
-
-const CardStackContext = createContext(0);
-
-export const CardElevationWrapper: ComponentWithChildren = ({ children }) => {
-  const elevation = useContext(CardStackContext);
-  return (
-    <CardStackContext.Provider value={elevation + 1}>
-      {children}
-    </CardStackContext.Provider>
-  );
 };
 
 export interface CardProps extends BoxProps {

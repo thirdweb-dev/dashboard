@@ -1,50 +1,14 @@
 import { PossibleButtonSize, buttonSizesMap } from "./button";
 import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
-  MenuGroup as ChakraMenuGroup,
-  MenuGroupProps as ChakraMenuGroupProps,
   MenuItem as ChakraMenuItem,
   MenuItemProps as ChakraMenuItemProps,
   forwardRef,
   useButtonGroup,
 } from "@chakra-ui/react";
-import {
-  LabelBase,
-  LabelSizes,
-  TypographySize,
-  fontWeights,
-  letterSpacings,
-  lineHeights,
-} from "theme/typography";
-import { ComponentWithChildren } from "types/component-with-children";
+import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 
-export interface MenuGroupProps
-  extends Omit<ChakraMenuGroupProps, "size" | "title"> {
-  size?: LabelSizes;
-  title: JSX.Element;
-}
-
-export const MenuGroup: ComponentWithChildren<MenuGroupProps> = ({
-  size = "label.lg",
-  title,
-  ...restProps
-}) => {
-  const [base] = size.split(".") as [LabelBase, TypographySize];
-
-  return (
-    <ChakraMenuGroup
-      fontSize={convertFontSizeToCSSVar(size)}
-      fontWeight={fontWeights[base]}
-      lineHeight={lineHeights[base]}
-      letterSpacing={letterSpacings[base]}
-      // trick chakra, this works fine
-      title={title as unknown as string}
-      {...restProps}
-    />
-  );
-};
-
-export interface MenuItemProps extends Omit<ChakraMenuItemProps, "size"> {
+interface MenuItemProps extends Omit<ChakraMenuItemProps, "size"> {
   size?: Exclude<PossibleButtonSize, "xs">;
 }
 

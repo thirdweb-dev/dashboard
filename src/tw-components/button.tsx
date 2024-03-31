@@ -146,7 +146,7 @@ export const TrackedLinkButton = forwardRef<TrackedLinkButtonProps, "button">(
 
 TrackedLinkButton.displayName = "TrackedLinkButton";
 
-export interface TrackedIconButtonProps extends IconButtonProps {
+interface TrackedIconButtonProps extends IconButtonProps {
   category: string;
   label?: string;
   trackingProps?: Record<string, string>;

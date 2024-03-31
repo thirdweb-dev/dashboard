@@ -38,7 +38,7 @@ const GetAllABI = {
   stateMutability: "view",
 } as const;
 
-export type GetAllMultichainRegistryParams = {
+type GetAllMultichainRegistryParams = {
   address: string;
 };
 

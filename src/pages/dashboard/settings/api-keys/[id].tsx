@@ -53,6 +53,6 @@ SettingsApiKeyPage.getLayout = (page, props) => (
   </AppLayout>
 );
 
-SettingsApiKeyPage.pageId = PageId.SettingsApiKeys;
+SettingsApiKeyPage.pageId = PageId.SettingsApiKey;
 
 export default SettingsApiKeyPage;
