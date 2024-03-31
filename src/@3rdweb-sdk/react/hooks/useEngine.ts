@@ -1169,7 +1169,7 @@ export function useEngineCorsConfiguration(instance: string) {
   );
 }
 
-export interface SetCorsUrlInput {
+interface SetCorsUrlInput {
   urls: string[];
 }
 
