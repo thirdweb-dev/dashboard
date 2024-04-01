@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiFilePlus } from "react-icons/fi";
-import { isAddress } from "thirdweb";
+import { getAddress } from "thirdweb";
 import { Button, FormErrorMessage, Heading, Text } from "tw-components";
 
 type ImportModalProps = {
@@ -56,10 +56,11 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
           if (!chainId) {
             throw new Error("No chain ID");
           }
+          let contractAddress: string;
 
-          const contractAddress = data.contractAddress;
-
-          if (!isAddress(contractAddress)) {
+          try {
+            contractAddress = getAddress(data.contractAddress);
+          } catch {
             form.setError("contractAddress", {
               message: "Invalid contract address",
             });
