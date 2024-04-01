@@ -63,8 +63,8 @@ dependencies:
     specifier: ^8.15.3
     version: 8.15.3(react-dom@18.2.0)(react@18.2.0)
   '@thirdweb-dev/chains':
-    specifier: 0.1.84
-    version: 0.1.84
+    specifier: 0.1.85
+    version: 0.1.85
   '@thirdweb-dev/react':
     specifier: 4.4.28
     version: 4.4.28(@babel/core@7.24.3)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.54)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-web3@0.14.4)
@@ -6538,11 +6538,6 @@ packages:
       - zksync-web3
     dev: false
 
-  /@thirdweb-dev/chains@0.1.84:
-    resolution: {integrity: sha512-/Au6V4x/BUeIYv0whE20E8m4Gz8rvvqn2rrEHjGTxY6Z6jJQchSY2SqS/4U3AVOQ6WOrfUqVXo2SM/kGrJfe/g==}
-    engines: {node: '>=18'}
-    dev: false
-
   /@thirdweb-dev/chains@0.1.85:
     resolution: {integrity: sha512-jm3YAjYohClLsz89kLaTLxKZE9gcsElFzoW7UT9w1W5wNSFbS1L4Wq5PqlQX/XrtCGFE7xOBzPeWQ753JH2Pcg==}
     engines: {node: '>=18'}
@@ -11062,7 +11057,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
-    bundledDependencies: false
 
   /event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
