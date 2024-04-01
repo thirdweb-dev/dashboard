@@ -1,0 +1,180 @@
+.connect {
+  position: absolute;
+  top: 12%;
+  left: 12%;
+  transition: 250ms ease;
+}
+
+.backend {
+  position: absolute;
+  top: 26%;
+  right: 8%;
+  transition: 250ms ease;
+}
+
+.onchain {
+  position: absolute;
+  bottom: 0%;
+  left: 30%;
+  transition: 250ms ease;
+}
+
+.connect:hover,
+.backend:hover,
+.onchain:hover {
+  transform: scale(1.15);
+}
+
+.heroContainer {
+}
+
+.heroImageV1 {
+}
+
+.heroImageV2 {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .connect {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+  }
+
+  .backend {
+    position: absolute;
+    top: 110px;
+    right: 30px;
+  }
+
+  .onchain {
+    position: absolute;
+    top: 320px;
+    left: 125px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .connect {
+    position: absolute;
+    top: 35px;
+    left: 35px;
+  }
+
+  .backend {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+  }
+
+  .onchain {
+    position: absolute;
+    top: 230px;
+    left: 80px;
+  }
+}
+
+@media screen and (max-width: 309px) {
+  .connect {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+  }
+
+  .backend {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+  }
+
+  .onchain {
+    position: absolute;
+    top: 190px;
+    left: 70px;
+  }
+
+  .heroContainer {
+    max-width: 240px !important;
+  }
+}
+
+@media screen and (max-width: 263px) {
+  .connect {
+    display: none;
+  }
+
+  .backend {
+    display: none;
+  }
+
+  .onchain {
+    display: none;
+  }
+
+  .heroImageV2 {
+    display: block;
+  }
+
+  .heroImageV1 {
+    display: none;
+  }
+}
+
+@keyframes slideGradient {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: -200% 50%;
+  }
+}
+
+.animatedGradient {
+  cursor: pointer;
+  position: relative;
+  display: inline-block; /* Use inline-block for better control */
+  background: linear-gradient(88deg, #fff 0%, #fff 50%, #9786df 60%, #fff 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: slideGradient 4s linear infinite;
+}
+
+.animatedGradient:hover {
+  background: none;
+  color: #9786df;
+}
+
+.githubIcon {
+  position: absolute;
+  top: 4px;
+  right: -24px;
+}
+
+.animatedGradient:hover > .githubIcon > g > path {
+  fill: #9786df;
+}
+
+@media screen and (max-width: 1166px) {
+  .githubIcon {
+    top: -10px;
+    right: -12px;
+  }
+}
+
+@media screen and (max-width: 611px) {
+  .githubIcon {
+    top: -10px;
+    right: -12px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .githubIcon {
+    width: 16px;
+    height: 16px;
+    top: -8px;
+    right: -8px;
+  }
+}

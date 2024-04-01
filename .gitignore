@@ -69,11 +69,9 @@ public/sitemap*.xml
 .vscode
 
 
-
-# future_app dir
-future_app/
-
-# generated files
-graphql/**/__generated__/
 # Sentry Config File
 .sentryclirc
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
