@@ -234,6 +234,11 @@ function redirects() {
       destination: "/dashboard/connect/pay?tab=checkouts",
       permanent: false,
     },
+    {
+      source: "/template/:match*",
+      destination: "/templates/:match*",
+      permanent: true,
+    },
   ];
 }
 
