@@ -26,7 +26,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/styled-system": "^2.9.2",
     "@chakra-ui/theme-tools": "^2.1.2",
-    "@coinbase/onchainkit": "^0.10.2",
+    "@coinbase/onchainkit": "^0.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.3.4",
@@ -45,7 +45,7 @@
     "@thirdweb-dev/service-utils": "0.4.24",
     "@thirdweb-dev/storage": "2.0.12",
     "@thirdweb-dev/wallets": "^2.4.30",
-    "@vercel/og": "^0.5.20",
+    "@vercel/og": "^0.6.2",
     "airtable": "^0.12.2",
     "chakra-react-select": "^4.7.6",
     "color": "^4.2.3",
@@ -53,14 +53,14 @@
     "date-fns": "^3.6.0",
     "ethers": "^5.7.2",
     "flat": "^6.0.1",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "^11.0.24",
     "fuse.js": "^7.0.0",
     "graphql": "^16.8.1",
     "idb-keyval": "^6.2.1",
     "lottie-react": "^2.4.0",
     "next": "^14.1.4",
     "next-plausible": "^3.12.0",
-    "next-seo": "^5.15.0",
+    "next-seo": "^6.5.0",
     "papaparse": "^5.4.1",
     "pluralize": "^8.0.0",
     "posthog-js": "^1.116.6",
@@ -130,7 +130,8 @@
     "overrides": {
       "bn.js": "^5.2.1",
       "zod": "^3.19.1",
-      "xml2js": "0.6.2"
+      "xml2js": "0.6.2",
+      "axios@<0.28": "^0.28.0"
     }
   },
   "next-unused": {
