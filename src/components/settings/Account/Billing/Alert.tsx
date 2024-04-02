@@ -16,12 +16,14 @@ import {
   AlertTitle,
   AlertDescription,
   IconButton,
+  Stack,
 } from "@chakra-ui/react";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
 import { FiX } from "react-icons/fi";
 import { Text, Heading, TrackedLinkButton } from "tw-components";
 import { ManageBillingButton } from "./ManageButton";
+import { BillingRecurringPaymentNotification } from "./BillingRecurringPaymentNotification";
 
 type AlertConditionType = {
   shouldShowAlert: boolean;
@@ -29,6 +31,7 @@ type AlertConditionType = {
   title: string;
   description: string;
   status: "error" | "warning";
+  componentType: "recurringPayment" | "usage";
 };
 
 export const BillingAlerts = () => {
@@ -38,9 +41,9 @@ export const BillingAlerts = () => {
   const router = useRouter();
   const trackEvent = useTrack();
 
-  const [dismissedAlerts, setDismissedAlerts] = useLocalStorage<{
-    [key in string]: number;
-  }>("dismissed-billing-alerts", {});
+  const [dismissedAlerts, setDismissedAlerts] = useLocalStorage<
+    Record<string, number> | undefined
+  >(`dismissed-billing-alert-${meQuery?.data?.id}`, undefined, {});
 
   const handleDismiss = useCallback(
     (key: string) => {
@@ -93,6 +96,7 @@ export const BillingAlerts = () => {
         description:
           "Please verify your payment method to continue using our services without interruption.",
         status: "warning",
+        componentType: "usage",
       },
       {
         shouldShowAlert:
@@ -102,6 +106,7 @@ export const BillingAlerts = () => {
         description:
           "Your current payment method is invalid. Please update your payment method to continue using our services.",
         status: "error",
+        componentType: "usage",
       },
       {
         shouldShowAlert: meQuery.data?.status === AccountStatus.InvalidPayment,
@@ -110,6 +115,7 @@ export const BillingAlerts = () => {
         description:
           "You have an overdue invoice. To continue using our services, please update your payment method.",
         status: "error",
+        componentType: "usage",
       },
       // Usage and rate limit shouldShowAlerts
       {
@@ -119,6 +125,7 @@ export const BillingAlerts = () => {
         description:
           "You are approaching your free monthly credits. Consider monitoring your usage to avoid service interruptions.",
         status: "warning",
+        componentType: "usage",
       },
       {
         shouldShowAlert: !!exceededUsage_100,
@@ -127,6 +134,7 @@ export const BillingAlerts = () => {
         description:
           "You have exceeded your free monthly credits limit. Please upgrade your plan to continue using services without interruption.",
         status: "error",
+        componentType: "usage",
       },
       {
         shouldShowAlert: hasUsageData && !!rateLimitedAt?.rpc,
@@ -135,6 +143,7 @@ export const BillingAlerts = () => {
         description:
           "You have exceeded your RPC rate limit. Please consider upgrading your plan to avoid service interruptions.",
         status: "warning",
+        componentType: "usage",
       },
       {
         shouldShowAlert: hasUsageData && !!rateLimitedAt?.storage,
@@ -143,6 +152,7 @@ export const BillingAlerts = () => {
         description:
           "You have exceeded your Storage Gateway rate limit. Please consider upgrading your plan to avoid service interruptions.",
         status: "warning",
+        componentType: "usage",
       },
     ] satisfies AlertConditionType[];
   }, [meQuery.data, usageQuery.data]);
@@ -158,43 +168,49 @@ export const BillingAlerts = () => {
   ) {
     return null;
   }
-
-  return (
-    <>
-      {alertConditions.map((alert, index) => {
-        const shouldShowAlert = alert.shouldShowAlert;
-        const isDismissed = alert.key in dismissedAlerts;
-        const isDismissedMoreThanAWeekAgo =
-          (dismissedAlerts?.[alert.key] ?? 0) <
-          Date.now() - 1000 * 60 * 60 * 24 * 7;
-        if (shouldShowAlert && (!isDismissed || isDismissedMoreThanAWeekAgo)) {
-          return (
-            <Alert key={index} status={alert.status} mb={4} position="relative">
-              <AlertIcon />
-              <Flex direction="column">
-                <AlertTitle>
-                  <Heading as="span" size="subtitle.sm">
-                    {alert.title}
-                  </Heading>
-                </AlertTitle>
-                <AlertDescription>{alert.description}</AlertDescription>
-              </Flex>
-              <IconButton
-                aria-label="Close"
-                icon={<FiX />}
-                onClick={() => handleDismiss(alert.key)}
-                size="sm"
-                position="absolute"
-                right="8px"
-                top="8px"
+  const alerts = alertConditions
+    .map((alert, index) => {
+      const shouldShowAlert = alert.shouldShowAlert;
+      const isDismissed = alert.key in (dismissedAlerts ?? {});
+      const isDismissedMoreThanAWeekAgo =
+        (dismissedAlerts?.[alert.key] ?? 0) <
+        Date.now() - 1000 * 60 * 60 * 24 * 7;
+      if (shouldShowAlert && (!isDismissed || isDismissedMoreThanAWeekAgo)) {
+        switch (alert.componentType) {
+          case "recurringPayment": {
+            return (
+              <BillingRecurringPaymentNotification
+                key={index}
+                affectedServices={[]}
+                paymentFailureCode={alert.key}
+                onDismiss={() => handleDismiss(alert.key)}
               />
-            </Alert>
-          );
+            );
+          }
+          case "usage": {
+            return (
+              <BillingAlertNotification
+                key={index}
+                status={alert.status}
+                onDismiss={() => handleDismiss(alert.key)}
+                title={alert.title}
+                description={alert.description}
+                ctaText="Upgrade your plan"
+                ctaHref="/dashboard/settings/billing"
+                label="upgradePlanAlert"
+              />
+            );
+          }
         }
-        return <Fragment key={index} />;
-      })}
-    </>
-  );
+      }
+      return null;
+    })
+    .filter((v) => !!v);
+
+  if (alerts.length === 0) {
+    return null;
+  }
+  return <Stack mb={12}>{alerts}</Stack>;
 };
 
 type BillingAlertNotificationProps = {
