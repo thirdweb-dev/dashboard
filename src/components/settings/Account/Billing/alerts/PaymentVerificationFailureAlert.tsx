@@ -10,13 +10,13 @@ import { getBillingPaymentMethodVerificationFailureResponse } from "lib/billing"
 import { FiX } from "react-icons/fi";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 
-type BillingPaymentVerificationFailureNotificationProps = {
+type PaymentVerificationFailureAlertProps = {
   onDismiss?: () => void;
   paymentFailureCode: string;
 };
 
-export const BillingPaymentVerificationFailureNotification: React.FC<
-  BillingPaymentVerificationFailureNotificationProps
+export const PaymentVerificationFailureAlert: React.FC<
+  PaymentVerificationFailureAlertProps
 > = ({ onDismiss, paymentFailureCode = "generic_decline" }) => {
   const { title, reason, resolution } =
     getBillingPaymentMethodVerificationFailureResponse({ paymentFailureCode });

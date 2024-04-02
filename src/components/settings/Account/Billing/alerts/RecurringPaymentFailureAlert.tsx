@@ -13,17 +13,17 @@ import { OnboardingModal } from "components/onboarding/Modal";
 import { useState } from "react";
 import { FiX } from "react-icons/fi";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
-import { ManageBillingButton } from "./ManageButton";
+import { ManageBillingButton } from "../ManageButton";
 import { getRecurringPaymentFailureResponse } from "lib/billing";
 
-type BillingRecurringPaymentNotificationProps = {
+type RecurringPaymentFailureAlertProps = {
   onDismiss?: () => void;
   affectedServices?: string[];
   paymentFailureCode: string;
 };
 
-export const BillingRecurringPaymentNotification: React.FC<
-  BillingRecurringPaymentNotificationProps
+export const RecurringPaymentFailureAlert: React.FC<
+  RecurringPaymentFailureAlertProps
 > = ({
   onDismiss,
   affectedServices = [],

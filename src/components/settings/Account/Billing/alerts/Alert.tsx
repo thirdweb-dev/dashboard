@@ -22,8 +22,8 @@ import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
 import { FiX } from "react-icons/fi";
 import { Text, Heading, TrackedLinkButton } from "tw-components";
-import { ManageBillingButton } from "./ManageButton";
-import { BillingRecurringPaymentNotification } from "./BillingRecurringPaymentNotification";
+import { ManageBillingButton } from "../ManageButton";
+import { RecurringPaymentFailureAlert } from "./RecurringPaymentFailureAlert";
 
 type AlertConditionType = {
   shouldShowAlert: boolean;
@@ -179,7 +179,7 @@ export const BillingAlerts = () => {
         switch (alert.componentType) {
           case "recurringPayment": {
             return (
-              <BillingRecurringPaymentNotification
+              <RecurringPaymentFailureAlert
                 key={index}
                 affectedServices={[]}
                 paymentFailureCode={alert.key}

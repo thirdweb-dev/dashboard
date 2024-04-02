@@ -12,7 +12,7 @@ import {
   useStripe,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { BillingPaymentVerificationFailureNotification } from "components/settings/Account/Billing/BillingPaymentVerificationFailureNotification";
+import { PaymentVerificationFailureAlert } from "components/settings/Account/Billing/alerts/PaymentVerificationFailureAlert";
 import message from "components/settings/ApiKeys/message";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -116,7 +116,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
         ) : (
           <Flex flexDir="column" gap={4}>
             {paymentFailureCode ? (
-              <BillingPaymentVerificationFailureNotification
+              <PaymentVerificationFailureAlert
                 paymentFailureCode={paymentFailureCode}
               />
             ) : (
