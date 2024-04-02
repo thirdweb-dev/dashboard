@@ -6,121 +6,146 @@ import {
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { useCallback, useMemo } from "react";
+import { Fragment, useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { BillingAlertNotification } from "./BillingAlertNotification";
+import {
+  useDisclosure,
+  Alert,
+  Flex,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  IconButton,
+} from "@chakra-ui/react";
+import { OnboardingBilling } from "components/onboarding/Billing";
+import { OnboardingModal } from "components/onboarding/Modal";
+import { FiX } from "react-icons/fi";
+import { Text, Heading, TrackedLinkButton } from "tw-components";
+import { ManageBillingButton } from "./ManageButton";
 
-enum DismissedStorageType {
-  Usage_50 = "usage_50",
-  Usage_100 = "usage_100",
-  RateRpc = "rate_rpc",
-  RateStorage = "rate_storage",
-}
-
-type DismissedStorage = {
-  [T in DismissedStorageType]?: number;
+type AlertConditionType = {
+  shouldShowAlert: boolean;
+  key: string;
+  title: string;
+  description: string;
+  status: "error" | "warning";
 };
-export const BillingAlert = () => {
+
+export const BillingAlerts = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
-  const meQuery = useAccount({
-    refetchInterval: (account) =>
-      [
-        AccountStatus.InvalidPayment,
-        AccountStatus.InvalidPaymentMethod,
-        AccountStatus.PaymentVerification,
-      ].includes(account?.status as AccountStatus)
-        ? 1000
-        : false,
-  });
+  const meQuery = useAccount({ refetchInterval: 1000 });
   const router = useRouter();
-
-  const [dismissedAlert, setDismissedAlert] = useLocalStorage<
-    DismissedStorage | undefined
-  >(`dismissed-billing-alert-${meQuery?.data?.id}`, undefined, {
-    [DismissedStorageType.Usage_50]: 0,
-    [DismissedStorageType.Usage_100]: 0,
-    [DismissedStorageType.RateRpc]: 0,
-    [DismissedStorageType.RateStorage]: 0,
-  });
-
   const trackEvent = useTrack();
 
-  const exceededUsage_50 = useMemo(() => {
-    if (!usageQuery?.data) {
-      return false;
-    }
+  const [dismissedAlerts, setDismissedAlerts] = useLocalStorage<{
+    [key in string]: number;
+  }>("dismissed-billing-alerts", {});
 
-    const { usage, limits } = usageQuery.data;
-    return (
-      usage.embeddedWallets.countWalletAddresses >=
-        limits.embeddedWallets / 2 ||
-      usage.storage.sumFileSizeBytes >= limits.storage / 2
-    );
-  }, [usageQuery?.data]);
+  const handleDismiss = useCallback(
+    (key: string) => {
+      const currentDismissedAlerts = dismissedAlerts || {};
 
-  const exceededUsage_100 = useMemo(() => {
-    if (!usageQuery?.data) {
-      return false;
-    }
+      const updatedAlerts = {
+        ...currentDismissedAlerts,
+        [key]: Date.now(),
+      };
 
-    const { usage, limits } = usageQuery.data;
-    return (
-      usage.embeddedWallets.countWalletAddresses >= limits.embeddedWallets ||
-      usage.storage.sumFileSizeBytes >= limits.storage
-    );
-  }, [usageQuery?.data]);
+      setDismissedAlerts(updatedAlerts);
 
-  const exceededRateRpc = useMemo(() => {
-    if (!usageQuery?.data) {
-      return false;
-    }
-
-    return !!usageQuery.data.rateLimitedAt?.rpc;
-  }, [usageQuery?.data]);
-
-  const exceededRateStorage = useMemo(() => {
-    if (!usageQuery?.data) {
-      return false;
-    }
-
-    return !!usageQuery.data.rateLimitedAt?.storage;
-  }, [usageQuery?.data]);
-
-  const dismissedForThePeriod = useCallback(
-    (type: DismissedStorageType) => {
-      if (!meQuery?.data) {
-        return true;
-      }
-
-      if (!dismissedAlert) {
-        return false;
-      }
-
-      const startDate = new Date(meQuery.data.currentBillingPeriodStartsAt);
-
-      // backwards compatibility when dismissedAlert stored a single number value
-      if (typeof dismissedAlert === "number") {
-        return dismissedAlert > Math.floor(startDate.getTime());
-      }
-
-      return (dismissedAlert?.[type] || 0) > Math.floor(startDate.getTime());
+      trackEvent({
+        category: "billing",
+        action: "dismiss_alert",
+        label: key,
+      });
     },
-    [meQuery?.data, dismissedAlert],
+    [dismissedAlerts, setDismissedAlerts, trackEvent],
   );
 
-  const handleDismiss = (type: DismissedStorageType) => {
-    setDismissedAlert({
-      ...dismissedAlert,
-      [type]: Math.floor(Date.now()),
-    });
+  // Alert shouldShowAlerts based on the possible states of the account
+  const alertConditions = useMemo<AlertConditionType[]>(() => {
+    const hasUsageData = !!usageQuery.data;
+    const { usage, limits, rateLimitedAt } = usageQuery.data || {};
 
-    trackEvent({
-      category: "billing",
-      action: "dismiss_limit_alert",
-      type,
-    });
-  };
+    // Directly compute usage and rate limit shouldShowAlerts within useMemo
+    const exceededUsage_50 =
+      hasUsageData &&
+      usage &&
+      limits &&
+      (usage.embeddedWallets.countWalletAddresses >=
+        limits.embeddedWallets / 2 ||
+        usage.storage.sumFileSizeBytes >= limits.storage / 2);
+
+    const exceededUsage_100 =
+      hasUsageData &&
+      usage &&
+      limits &&
+      (usage.embeddedWallets.countWalletAddresses >= limits.embeddedWallets ||
+        usage.storage.sumFileSizeBytes >= limits.storage);
+
+    // Define alert shouldShowAlerts including the directly computed ones
+    return [
+      {
+        shouldShowAlert:
+          meQuery.data?.status === AccountStatus.PaymentVerification,
+        key: "verifyPaymentAlert",
+        title: "Your payment method requires verification",
+        description:
+          "Please verify your payment method to continue using our services without interruption.",
+        status: "warning",
+      },
+      {
+        shouldShowAlert:
+          meQuery.data?.status === AccountStatus.InvalidPaymentMethod,
+        key: "invalidPaymentMethodAlert",
+        title: "Your payment method is invalid",
+        description:
+          "Your current payment method is invalid. Please update your payment method to continue using our services.",
+        status: "error",
+      },
+      {
+        shouldShowAlert: meQuery.data?.status === AccountStatus.InvalidPayment,
+        key: "invalidPaymentAlert",
+        title: "Your payment method was declined",
+        description:
+          "You have an overdue invoice. To continue using our services, please update your payment method.",
+        status: "error",
+      },
+      // Usage and rate limit shouldShowAlerts
+      {
+        shouldShowAlert: !!(exceededUsage_50 && !exceededUsage_100),
+        key: "usage_50_alert",
+        title: "You are approaching your free monthly credits",
+        description:
+          "You are approaching your free monthly credits. Consider monitoring your usage to avoid service interruptions.",
+        status: "warning",
+      },
+      {
+        shouldShowAlert: !!exceededUsage_100,
+        key: "usage_100_alert",
+        title: "You have used all of your free monthly credits",
+        description:
+          "You have exceeded your free monthly credits limit. Please upgrade your plan to continue using services without interruption.",
+        status: "error",
+      },
+      {
+        shouldShowAlert: hasUsageData && !!rateLimitedAt?.rpc,
+        key: "rate_rpc_alert",
+        title: "You have exceeded your RPC rate limit",
+        description:
+          "You have exceeded your RPC rate limit. Please consider upgrading your plan to avoid service interruptions.",
+        status: "warning",
+      },
+      {
+        shouldShowAlert: hasUsageData && !!rateLimitedAt?.storage,
+        key: "rate_storage_alert",
+        title: "You have exceeded your Storage Gateway rate limit",
+        description:
+          "You have exceeded your Storage Gateway rate limit. Please consider upgrading your plan to avoid service interruptions.",
+        status: "warning",
+      },
+    ] satisfies AlertConditionType[];
+  }, [meQuery.data, usageQuery.data]);
 
   if (
     !isLoggedIn ||
@@ -128,110 +153,176 @@ export const BillingAlert = () => {
     !meQuery.data ||
     usageQuery.isLoading ||
     !usageQuery.data ||
-    router.pathname.includes("support")
+    router.pathname.includes("/support") ||
+    alertConditions.length === 0
   ) {
     return null;
   }
 
-  const { status, stripePaymentActionUrl } = meQuery.data;
+  return (
+    <>
+      {alertConditions.map((alert, index) => {
+        const shouldShowAlert = alert.shouldShowAlert;
+        const isDismissed = alert.key in dismissedAlerts;
+        const isDismissedMoreThanAWeekAgo =
+          (dismissedAlerts?.[alert.key] ?? 0) <
+          Date.now() - 1000 * 60 * 60 * 24 * 7;
+        if (shouldShowAlert && (!isDismissed || isDismissedMoreThanAWeekAgo)) {
+          return (
+            <Alert key={index} status={alert.status} mb={4} position="relative">
+              <AlertIcon />
+              <Flex direction="column">
+                <AlertTitle>
+                  <Heading as="span" size="subtitle.sm">
+                    {alert.title}
+                  </Heading>
+                </AlertTitle>
+                <AlertDescription>{alert.description}</AlertDescription>
+              </Flex>
+              <IconButton
+                aria-label="Close"
+                icon={<FiX />}
+                onClick={() => handleDismiss(alert.key)}
+                size="sm"
+                position="absolute"
+                right="8px"
+                top="8px"
+              />
+            </Alert>
+          );
+        }
+        return <Fragment key={index} />;
+      })}
+    </>
+  );
+};
 
-  if (status === "paymentVerification") {
-    const message = stripePaymentActionUrl?.startsWith(
-      "https://payments.stripe.com/microdeposit",
-    )
-      ? "To verify your bank account, we've deposited $0.01 and it should arrive within 1-2 working days."
-      : "Your card requires further verification.";
+type BillingAlertNotificationProps = {
+  status: "error" | "warning";
+  onDismiss?: () => void;
+  title: string;
+  description?: string;
+  showCTAs?: boolean;
+  ctaText?: string;
+  ctaHref?: string;
+  label?: string;
+};
 
-    return (
-      <BillingAlertNotification
-        title="Your payment method is not verified"
-        description={message}
-        status="warning"
-        label="verifyPaymentAlert"
-        ctaHref={stripePaymentActionUrl}
-        ctaText="Verify your payment method"
-      />
-    );
-  }
+export const BillingAlertNotification: React.FC<
+  BillingAlertNotificationProps
+> = ({
+  status,
+  onDismiss,
+  title,
+  description = "To ensure there are no future interruptions to your services, please add your payment method.",
+  ctaText = "Add a payment method",
+  ctaHref = "/dashboard/settings/billing",
+  label = "addPaymentAlert",
+  showCTAs = true,
+}) => {
+  // TODO: We should find a way to move this deeper into the
+  // TODO: ManageBillingButton component and set an optional field to override
+  const [paymentMethodSaving, setPaymentMethodSaving] = useState(false);
+  const meQuery = useAccount();
+  const { data: account } = meQuery;
 
-  if (status === AccountStatus.InvalidPayment) {
-    return (
-      <BillingAlertNotification
-        title="Your payment method was declined"
-        description="You have an overdue invoice. To continue using thirdweb services without interruption, please add your payment method."
-        status="error"
-      />
-    );
-  }
+  const {
+    onOpen: onPaymentMethodOpen,
+    onClose: onPaymentMethodClose,
+    isOpen: isPaymentMethodOpen,
+  } = useDisclosure();
 
-  if (status === AccountStatus.InvalidPaymentMethod) {
-    // Todo: add reason for failure here.
-    return (
-      <BillingAlertNotification
-        title="Your payment method is invalid"
-        description="To use thirdweb services without interruption, please add your payment method."
-        status="error"
-      />
-    );
-  }
+  const handlePaymentAdded = () => {
+    setPaymentMethodSaving(true);
+    onPaymentMethodClose();
+  };
 
-  if (
-    status !== AccountStatus.ValidPayment &&
-    exceededUsage_50 &&
-    !exceededUsage_100 &&
-    !dismissedForThePeriod(DismissedStorageType.Usage_50)
-  ) {
-    return (
-      <BillingAlertNotification
-        title="You are approaching your free monthly credits"
-        status="warning"
-        onDismiss={() => handleDismiss(DismissedStorageType.Usage_50)}
-      />
-    );
-  }
+  const isBilling = ctaHref === "/dashboard/settings/billing";
 
-  if (
-    status !== AccountStatus.ValidPayment &&
-    exceededUsage_100 &&
-    !dismissedForThePeriod(DismissedStorageType.Usage_100)
-  ) {
-    return (
-      <BillingAlertNotification
-        title="You have used all of your free monthly credits"
-        status="error"
-        onDismiss={() => handleDismiss(DismissedStorageType.Usage_100)}
-      />
-    );
-  }
+  return (
+    <Alert
+      status={status}
+      borderRadius="md"
+      as={Flex}
+      alignItems="start"
+      justifyContent="space-between"
+      variant="left-accent"
+      bg="backgroundCardHighlight"
+    >
+      <>
+        <OnboardingModal
+          isOpen={isPaymentMethodOpen}
+          onClose={onPaymentMethodClose}
+        >
+          <OnboardingBilling
+            onSave={handlePaymentAdded}
+            onCancel={onPaymentMethodClose}
+          />
+        </OnboardingModal>
+      </>
 
-  if (exceededRateRpc && !dismissedForThePeriod(DismissedStorageType.RateRpc)) {
-    return (
-      <BillingAlertNotification
-        title="You have exceeded your RPC rate limit"
-        description={`You have exceeded your RPC rate limit (${usageQuery.data.rateLimits.rpc} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Growth by visiting your Billing settings.`}
-        ctaText="Go to Billing"
-        status="warning"
-        label="exceededRpcLimitAlert"
-        onDismiss={() => handleDismiss(DismissedStorageType.RateRpc)}
-      />
-    );
-  }
+      <Flex>
+        <AlertIcon boxSize={4} mt={1} ml={1} />
+        <Flex flexDir="column" pl={1}>
+          <AlertTitle>
+            <Heading as="span" size="subtitle.sm">
+              {title}
+            </Heading>
+          </AlertTitle>
+          <AlertDescription mb={2} as={Flex} direction="column">
+            <Text mb={showCTAs ? "4" : "0"}>{description}</Text>
+            {showCTAs && (
+              <Flex>
+                {isBilling && account ? (
+                  <ManageBillingButton
+                    account={account}
+                    loading={paymentMethodSaving}
+                    loadingText="Verifying payment method"
+                    buttonProps={{ colorScheme: "primary" }}
+                    onClick={onPaymentMethodOpen}
+                  />
+                ) : (
+                  <TrackedLinkButton
+                    href={ctaHref}
+                    category="billing"
+                    label={label}
+                    fontWeight="medium"
+                    colorScheme="blue"
+                    size="sm"
+                  >
+                    {ctaText}
+                  </TrackedLinkButton>
+                )}
+                <TrackedLinkButton
+                  ml="4"
+                  variant="outline"
+                  href="/support"
+                  category="billing"
+                  label="support"
+                  color="blue.500"
+                  fontSize="small"
+                  isExternal
+                >
+                  Contact Support
+                </TrackedLinkButton>
+              </Flex>
+            )}
+          </AlertDescription>
+        </Flex>
+      </Flex>
 
-  if (
-    exceededRateStorage &&
-    !dismissedForThePeriod(DismissedStorageType.RateStorage)
-  ) {
-    return (
-      <BillingAlertNotification
-        title="You have exceeded your Storage Gateway rate limit"
-        description={`You have exceeded your Storage Gateway rate limit (${usageQuery.data.rateLimits.storage} requests per second). Please add your payment method and upgrade your plan to continue using thirdweb services without interruption. You can upgrade to thirdweb Growth by visiting your Billing settings.`}
-        ctaText="Go to Billing"
-        status="warning"
-        label="exceededGatewayLimitAlert"
-        onDismiss={() => handleDismiss(DismissedStorageType.RateStorage)}
-      />
-    );
-  }
-
-  return null;
+      {onDismiss && (
+        <IconButton
+          size="xs"
+          aria-label="Close announcement"
+          icon={<FiX />}
+          color="bgBlack"
+          variant="ghost"
+          opacity={0.6}
+          _hover={{ opacity: 1 }}
+          onClick={onDismiss}
+        />
+      )}
+    </Alert>
+  );
 };
