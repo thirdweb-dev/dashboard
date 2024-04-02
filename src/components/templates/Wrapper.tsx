@@ -20,27 +20,19 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
-import { ComponentWithChildren } from "types/component-with-children";
 
 type TemplateWrapperProps = {
   title: string;
   description: string;
   data: TemplateCardProps[];
   showFilterMenu?: boolean;
-};
-
-const debounce = (fn: (...args: any[]) => void, ms = 300) => {
-  let timeoutId: ReturnType<typeof setTimeout>;
-  return function (this: any, ...args: any[]) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn.apply(this, args), ms);
-  };
+  children?: ReactNode;
 };
 
 export function filterTemplates(
@@ -70,15 +62,9 @@ export function filterTemplates(
   return _templates;
 }
 
-const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
-  title,
-  description,
-  data,
-  children,
-  showFilterMenu,
-}) => {
+const TemplateWrapper = (props: TemplateWrapperProps) => {
   const router = useRouter();
-  const _defaultKeyword = (router?.query?.keyword as string) || "";
+  const _defaultKeywords = (router?.query?.keyword as string) || "";
   const _defaultTagIds = router?.query?.tags
     ? ((router.query.tags as string)
         .split(",")
@@ -87,11 +73,40 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
           TEMPLATE_TAGS.find((o) => o.id === tag),
         ) as TemplateTagId[])
     : [];
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedTags, setSelectedTags] =
-    useState<TemplateTagId[]>(_defaultTagIds);
-  const [keyword, setKeyword] = useState<string>(_defaultKeyword);
 
+  return (
+    <Content
+      key={String(router.isReady)}
+      _defaultKeywords={_defaultKeywords}
+      _defaultTagIds={_defaultTagIds}
+      {...props}
+    />
+  );
+};
+
+export default TemplateWrapper;
+
+type TemplatesContentProps = {
+  _defaultKeywords?: string;
+  _defaultTagIds?: TemplateTagId[];
+} & TemplateWrapperProps;
+
+const Content = (props: TemplatesContentProps) => {
+  const router = useRouter();
+  const {
+    _defaultTagIds,
+    _defaultKeywords,
+    title,
+    description,
+    data,
+    showFilterMenu,
+    children,
+  } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
+    _defaultTagIds || [],
+  );
+  const [keyword, setKeyword] = useState<string>(_defaultKeywords || "");
   const updateKeyword = (newValue: string) => {
     setKeyword(newValue);
     const queryParams = new URLSearchParams(window.location.search);
@@ -186,10 +201,8 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
                   bg="black"
                   placeholder="Search by keywords"
                   borderColor="borderColor"
-                  onChange={(e) =>
-                    debounce(() => updateKeyword(e.target.value), 300)
-                  }
-                  defaultValue={_defaultKeyword || ""}
+                  onChange={(e) => updateKeyword(e.target.value)}
+                  defaultValue={_defaultKeywords || ""}
                   ref={inputRef}
                 />
                 {keyword && (
@@ -218,7 +231,7 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
           </Flex>
         </Flex>
         <HomepageSection pb={24} ml="auto" mr="auto">
-          {children}
+          {children || null}
           {showFilterMenu && (
             <Box display={{ base: "block", lg: "none" }}>
               <FilterMenu
@@ -276,8 +289,6 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
     </DarkMode>
   );
 };
-
-export default TemplateWrapper;
 
 export const getDisplayTagFromTagId = (tagId: TemplateTagId) => {
   // "loyalty-card" -> "Loyalty Card"
