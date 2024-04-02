@@ -254,15 +254,11 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
       )}
 
       <BillingPricing
-        plan={account.plan}
+        account={account}
         validPayment={validPayment}
         paymentVerification={paymentVerification}
         invalidPayment={invalidPayment}
         loading={paymentMethodSaving || updatePlanMutation.isLoading}
-        canTrialGrowth={
-          !!claimedGrowth && account && !account?.trialPeriodEndedAt
-        }
-        trialPeriodEndedAt={account.trialPeriodEndedAt}
         onSelect={handlePlanSelect}
       />
 

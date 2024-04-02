@@ -2,7 +2,11 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { OnboardingTitle } from "./Title";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useTrack } from "hooks/analytics/useTrack";
-import { AccountPlan, useUpdateAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import {
+  AccountPlan,
+  useAccount,
+  useUpdateAccount,
+} from "@3rdweb-sdk/react/hooks/useApi";
 
 interface OnboardingChoosePlanProps {
   onSave: () => void;
@@ -13,6 +17,8 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
 }) => {
   const trackEvent = useTrack();
   const mutation = useUpdateAccount();
+  const { data: account } = useAccount();
+  const canTrialGrowth = !account?.trialPeriodEndedAt;
 
   const handleSave = (plan: AccountPlan) => {
     trackEvent({
@@ -90,8 +96,12 @@ export const OnboardingChoosePlan: React.FC<OnboardingChoosePlanProps> = ({
 
         <PricingCard
           size="sm"
+          ctaTitle={canTrialGrowth ? "Claim your 1-month free" : "Get started"}
           name={AccountPlan.Growth}
-          ctaTitle={"Get started"}
+          ctaHint={
+            canTrialGrowth ? `Your free trial will end in 30 days.` : undefined
+          }
+          canTrialGrowth={canTrialGrowth}
           ctaProps={{
             category: "account",
             label: "growthPlan",
