@@ -71,7 +71,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         rowSpan={1}
         overflowX={noOverflowX ? undefined : "auto"}
       >
-        <Container maxW="container.page">
+        <Container maxW="container.page" mb={12}>
           <BillingAlert />
         </Container>
 

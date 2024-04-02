@@ -3,11 +3,8 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
   Center,
   Flex,
-  Heading,
-  IconButton,
   Spinner,
 } from "@chakra-ui/react";
 import {
@@ -15,13 +12,12 @@ import {
   useStripe,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import { ManageBillingButton } from "components/settings/Account/Billing/ManageButton";
+import { BillingPaymentVerificationFailureNotification } from "components/settings/Account/Billing/BillingPaymentVerificationFailureNotification";
+import message from "components/settings/ApiKeys/message";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
-import { title } from "process";
 import { FormEvent, useState } from "react";
-import { FiX } from "react-icons/fi";
-import { Button, Text, TrackedLinkButton } from "tw-components";
+import { Button, Text } from "tw-components";
 
 interface OnboardingPaymentForm {
   onSave: () => void;
@@ -36,6 +32,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
   const elements = useElements();
   const trackEvent = useTrack();
   const { onError } = useErrorHandler();
+  const [paymentFailureCode, setPaymentFailureCode] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -54,7 +51,11 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
     const { error: submitError } = await elements.submit();
     if (submitError) {
       setSaving(false);
-      return onError(submitError);
+      if (submitError.code) {
+        return setPaymentFailureCode(submitError.code);
+      } else {
+        return onError(submitError);
+      }
     }
 
     const { error: createError, paymentMethod } =
@@ -64,7 +65,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
 
     if (createError) {
       setSaving(false);
-      return onError(submitError);
+      return onError(createError);
     }
 
     trackEvent({
@@ -76,6 +77,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
     mutation.mutate(paymentMethod.id, {
       onSuccess: () => {
         onSave();
+        setPaymentFailureCode("");
         setSaving(false);
 
         trackEvent({
@@ -85,11 +87,8 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
         });
       },
       onError: (error: any) => {
-        const message =
-          "message" in error
-            ? error.message
-            : "Couldn't add a payment method. Try later!";
-        onError(message);
+        const failureCode = error?.message;
+        setPaymentFailureCode(failureCode || "generic_decline");
         setSaving(false);
 
         trackEvent({
@@ -107,11 +106,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
       <Flex flexDir="column" gap={8}>
         <PaymentElement
           onLoaderStart={() => setLoading(false)}
-          options={{
-            terms: {
-              card: "never",
-            },
-          }}
+          options={{ terms: { card: "never" } }}
         />
 
         {loading ? (
@@ -119,26 +114,32 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
             <Spinner size="sm" />
           </Center>
         ) : (
-          <Flex flexDir="column" gap={3}>
-            <Alert
-              status={"info"}
-              borderRadius="md"
-              as={Flex}
-              alignItems="start"
-              justifyContent="space-between"
-              variant="left-accent"
-              bg="inputBg"
-            >
-              <Flex>
-                <AlertIcon boxSize={4} mt={1} ml={1} />
-                <Flex flexDir="column" gap={1} pl={1}>
-                  <AlertDescription as={Text} fontSize="body.md">
-                    A temporary $5 hold will be placed and immediately released
-                    on your payment method.
-                  </AlertDescription>
+          <Flex flexDir="column" gap={4}>
+            {paymentFailureCode ? (
+              <BillingPaymentVerificationFailureNotification
+                paymentFailureCode={paymentFailureCode}
+              />
+            ) : (
+              <Alert
+                status={"info"}
+                borderRadius="md"
+                as={Flex}
+                alignItems="start"
+                justifyContent="space-between"
+                variant="left-accent"
+                bg="inputBg"
+              >
+                <Flex>
+                  <AlertIcon boxSize={4} mt={1} ml={1} />
+                  <Flex flexDir="column" gap={1} pl={1}>
+                    <AlertDescription as={Text} fontSize="body.md">
+                      A temporary $5 hold will be placed and immediately
+                      released on your payment method.
+                    </AlertDescription>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Alert>
+              </Alert>
+            )}
 
             <Button
               w="full"
