@@ -50,11 +50,11 @@ export function filterTemplates(
 
   // Don't search if there's only one letter
   if (keyword && keyword.length >= 2) {
-    const _keyword = keyword.toLowerCase();
+    const _keyword = keyword.toLowerCase() as TemplateTagId;
     _templates = _templates.filter(
       (template) =>
-        template.tags.includes(_keyword as TemplateTagId) ||
-        template.keywords?.includes(_keyword as TemplateTagId) ||
+        template.tags.includes(_keyword) ||
+        template.keywords?.includes(_keyword) ||
         template.title.toLowerCase().includes(_keyword) ||
         template.description.toLowerCase().includes(_keyword),
     );
