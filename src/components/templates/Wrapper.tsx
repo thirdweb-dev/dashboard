@@ -33,8 +33,6 @@ type TemplateWrapperProps = {
   description: string;
   data: TemplateCardProps[];
   showFilterMenu?: boolean;
-  _defaultTagIds?: TemplateTagId[];
-  _defaultKeyword?: string;
 };
 
 export function filterTemplates(
@@ -70,15 +68,22 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
   data,
   children,
   showFilterMenu,
-  _defaultTagIds,
-  _defaultKeyword,
 }) => {
   const router = useRouter();
+  const _defaultKeyword = (router?.query?.keyword as string) || "";
+  const _defaultTagIds = router?.query?.tags
+    ? ((router.query.tags as string)
+        .split(",")
+        // Remove invalid tags
+        .filter((tag) =>
+          TEMPLATE_TAGS.find((o) => o.id === tag),
+        ) as TemplateTagId[])
+    : [];
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
-    _defaultTagIds || [],
-  );
-  const [keyword, setKeyword] = useState<string>(_defaultKeyword || "");
+  const [selectedTags, setSelectedTags] =
+    useState<TemplateTagId[]>(_defaultTagIds);
+  const [keyword, setKeyword] = useState<string>(_defaultKeyword);
+
   const updateKeyword = (newValue: string) => {
     setKeyword(newValue);
     const queryParams = new URLSearchParams(window.location.search);
@@ -101,7 +106,6 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
     }
   };
 
-  // might add debounce here idk
   const templates = filterTemplates(
     selectedTags,
     keyword,
