@@ -35,6 +35,14 @@ type TemplateWrapperProps = {
   showFilterMenu?: boolean;
 };
 
+const debounce = (fn: Function, ms = 300) => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), ms);
+  };
+};
+
 export function filterTemplates(
   tagIds: TemplateTagId[],
   keyword: string,
@@ -178,9 +186,10 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
                   bg="black"
                   placeholder="Search by keywords"
                   borderColor="borderColor"
-                  onChange={(e) => updateKeyword(e.target.value)}
+                  onChange={(e) =>
+                    debounce(() => updateKeyword(e.target.value), 300)
+                  }
                   defaultValue={_defaultKeyword || ""}
-                  // value={keyword}
                   ref={inputRef}
                 />
                 {keyword && (
@@ -219,7 +228,11 @@ const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
             </Box>
           )}
 
-          <Flex direction={{ base: "column", lg: "row" }} gap={4}>
+          <Flex
+            key={String(router.isReady)}
+            direction={{ base: "column", lg: "row" }}
+            gap={4}
+          >
             {showFilterMenu && (
               <Box
                 display={{ base: "none", lg: "block" }}
