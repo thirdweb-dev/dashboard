@@ -1,5 +1,3 @@
-There are a few ways you can contribute to this project.
-
 # Add new tags
 1. Go to ./data/templates/tags.ts
 2. Add new items to `TEMPLATE_TAGS`

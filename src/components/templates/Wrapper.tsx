@@ -20,18 +20,18 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
+import { ComponentWithChildren } from "types/component-with-children";
 
 type TemplateWrapperProps = {
   title: string;
   description: string;
   data: TemplateCardProps[];
-  children: ReactNode;
   showFilterMenu?: boolean;
   _defaultTagIds?: TemplateTagId[];
   _defaultKeyword?: string;
@@ -64,16 +64,15 @@ export function filterTemplates(
   return _templates;
 }
 
-export default function TemplateWrapper(props: TemplateWrapperProps) {
-  const {
-    title,
-    description,
-    data,
-    children,
-    showFilterMenu,
-    _defaultTagIds,
-    _defaultKeyword,
-  } = props;
+const TemplateWrapper: ComponentWithChildren<TemplateWrapperProps> = ({
+  title,
+  description,
+  data,
+  children,
+  showFilterMenu,
+  _defaultTagIds,
+  _defaultKeyword,
+}) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedTags, setSelectedTags] = useState<TemplateTagId[]>(
@@ -259,7 +258,9 @@ export default function TemplateWrapper(props: TemplateWrapperProps) {
       <HomepageFooter />
     </DarkMode>
   );
-}
+};
+
+export default TemplateWrapper;
 
 export const getDisplayTagFromTagId = (tagId: TemplateTagId) => {
   // "loyalty-card" -> "Loyalty Card"

@@ -704,10 +704,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             {contents}
 
             {readmeContent && (
-              <MarkdownRenderer
-                marginTop={20}
-                markdownText={readmeContent}
-              ></MarkdownRenderer>
+              <MarkdownRenderer marginTop={20} markdownText={readmeContent} />
             )}
           </Box>
         </Flex>

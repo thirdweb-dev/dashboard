@@ -239,6 +239,11 @@ function redirects() {
       destination: "/templates/:match*",
       permanent: true,
     },
+    {
+      source: "/templates/nft-drop",
+      destination: "/templates/erc721",
+      permanent: false,
+    },
   ];
 }
 
