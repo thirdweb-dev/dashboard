@@ -35,7 +35,7 @@ type TemplateWrapperProps = {
   showFilterMenu?: boolean;
 };
 
-const debounce = (fn: Function, ms = 300) => {
+const debounce = (fn: (...args: any[]) => void, ms = 300) => {
   let timeoutId: ReturnType<typeof setTimeout>;
   return function (this: any, ...args: any[]) {
     clearTimeout(timeoutId);
