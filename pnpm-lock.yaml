@@ -72,11 +72,11 @@ dependencies:
     specifier: 4.0.56-nightly-9af85612845573b54b54cb72e55404aad2c74700-20240402165503
     version: 4.0.56-nightly-9af85612845573b54b54cb72e55404aad2c74700-20240402165503(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.6.0)
   '@thirdweb-dev/service-utils':
-    specifier: 0.4.24
-    version: 0.4.24
+    specifier: 0.4.25
+    version: 0.4.25
   '@thirdweb-dev/storage':
-    specifier: 2.0.12
-    version: 2.0.12
+    specifier: 2.0.13
+    version: 2.0.13
   '@thirdweb-dev/wallets':
     specifier: 2.4.32-nightly-9af85612845573b54b54cb72e55404aad2c74700-20240402165503
     version: 2.4.32-nightly-9af85612845573b54b54cb72e55404aad2c74700-20240402165503(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.6.0)
@@ -6572,14 +6572,6 @@ packages:
       erc721a-upgradeable: 3.3.0
     dev: false
 
-  /@thirdweb-dev/crypto@0.2.3:
-    resolution: {integrity: sha512-Jea3YXglGW4GNqOX4EkQp22sSL04jvVLeBmMuaDdlIXDOPJk9odBU/oTh2LcNpBRBMiclK/J/V1Eq6KaxXo1xA==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@noble/hashes': 1.4.0
-      js-sha3: 0.9.3
-    dev: false
-
   /@thirdweb-dev/crypto@0.2.4:
     resolution: {integrity: sha512-26kvfv9TciNPXWzNYzOqXA4NQyv2LnF7iiZybkuZUf/QquB00p6ZvcA4/ymN5PZlTXxgLYyGUnzQF5MOs067eA==}
     engines: {node: '>=18'}
@@ -6798,21 +6790,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@thirdweb-dev/service-utils@0.4.24:
-    resolution: {integrity: sha512-4iwb6EOzJHLG3TuS77Q/CJlp8TqNbh//y//9OIgK9JLM33fUK5Grm3m7PbJwRp91TmiGRaWMgWmDhYcHBcdtZA==}
+  /@thirdweb-dev/service-utils@0.4.25:
+    resolution: {integrity: sha512-dsCVllsWYMqAF5nKPc0vtWxQNYNY+yZf7iSRVwtWtD6k5A6ZqVtnUl9/w7fhzY5OZw6UaiPL12Rrcb6qyMNfmw==}
     dependencies:
       aws4fetch: 1.0.18
       zod: 3.22.4
-    dev: false
-
-  /@thirdweb-dev/storage@2.0.12:
-    resolution: {integrity: sha512-3C3VJ6yHa4EDfzhBNpLGp0+hu/twx9fTjhqNvkl+GLVx8GusSz/0bmTce3YhVySrpFTx1eopteayO+tcq5m61Q==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@thirdweb-dev/crypto': 0.2.3
-      cid-tool: 3.0.0
-      form-data: 4.0.0
-      uuid: 9.0.1
     dev: false
 
   /@thirdweb-dev/storage@2.0.13:
