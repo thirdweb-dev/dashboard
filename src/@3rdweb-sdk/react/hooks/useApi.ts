@@ -63,6 +63,11 @@ export type Account = {
     billing: "email" | "none";
     updates: "email" | "none";
   };
+  recurringPaymentFailures: {
+    subscriptionId: string;
+    subscriptionDescription: string;
+    paymentFailureCode: string;
+  }[];
 };
 
 interface UpdateAccountInput {

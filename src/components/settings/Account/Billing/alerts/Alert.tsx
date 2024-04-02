@@ -6,7 +6,7 @@ import {
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { Fragment, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import {
   useDisclosure,
@@ -38,12 +38,13 @@ export const BillingAlerts = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
   const meQuery = useAccount({ refetchInterval: 1000 });
+  const { data: account } = meQuery;
   const router = useRouter();
   const trackEvent = useTrack();
 
   const [dismissedAlerts, setDismissedAlerts] = useLocalStorage<
     Record<string, number> | undefined
-  >(`dismissed-billing-alert-${meQuery?.data?.id}`, undefined, {});
+  >(`dismissed-billing-alert-${account?.id}`, undefined, {});
 
   const handleDismiss = useCallback(
     (key: string) => {
@@ -70,6 +71,40 @@ export const BillingAlerts = () => {
     const hasUsageData = !!usageQuery.data;
     const { usage, limits, rateLimitedAt } = usageQuery.data || {};
 
+    // Define alert shouldShowAlerts including the directly computed ones
+    const paymentFailureAlerts: AlertConditionType[] = [
+      {
+        shouldShowAlert: account?.status === AccountStatus.PaymentVerification,
+        key: "verifyPaymentAlert",
+        title: "Your payment method requires verification",
+        description:
+          "Please verify your payment method to continue using our services without interruption.",
+        status: "warning",
+        componentType: "usage",
+      },
+      {
+        shouldShowAlert: account?.status === AccountStatus.InvalidPaymentMethod,
+        key: "invalidPaymentMethodAlert",
+        title: "Your payment method is invalid",
+        description:
+          "Your current payment method is invalid. Please update your payment method to continue using our services.",
+        status: "error",
+        componentType: "usage",
+      },
+      ...(account?.recurringPaymentFailures?.map(
+        (failure) =>
+          ({
+            shouldShowAlert: true,
+            key: failure.paymentFailureCode,
+            title: "Your payment method failed",
+            description:
+              "Your payment method failed. Please update your payment method to avoid service interruptions.",
+            status: "error",
+            componentType: "recurringPayment",
+          }) satisfies AlertConditionType,
+      ) ?? []),
+    ];
+
     // Directly compute usage and rate limit shouldShowAlerts within useMemo
     const exceededUsage_50 =
       hasUsageData &&
@@ -85,39 +120,7 @@ export const BillingAlerts = () => {
       limits &&
       (usage.embeddedWallets.countWalletAddresses >= limits.embeddedWallets ||
         usage.storage.sumFileSizeBytes >= limits.storage);
-
-    // Define alert shouldShowAlerts including the directly computed ones
-    return [
-      {
-        shouldShowAlert:
-          meQuery.data?.status === AccountStatus.PaymentVerification,
-        key: "verifyPaymentAlert",
-        title: "Your payment method requires verification",
-        description:
-          "Please verify your payment method to continue using our services without interruption.",
-        status: "warning",
-        componentType: "usage",
-      },
-      {
-        shouldShowAlert:
-          meQuery.data?.status === AccountStatus.InvalidPaymentMethod,
-        key: "invalidPaymentMethodAlert",
-        title: "Your payment method is invalid",
-        description:
-          "Your current payment method is invalid. Please update your payment method to continue using our services.",
-        status: "error",
-        componentType: "usage",
-      },
-      {
-        shouldShowAlert: meQuery.data?.status === AccountStatus.InvalidPayment,
-        key: "invalidPaymentAlert",
-        title: "Your payment method was declined",
-        description:
-          "You have an overdue invoice. To continue using our services, please update your payment method.",
-        status: "error",
-        componentType: "usage",
-      },
-      // Usage and rate limit shouldShowAlerts
+    const usageAlerts: AlertConditionType[] = [
       {
         shouldShowAlert: !!(exceededUsage_50 && !exceededUsage_100),
         key: "usage_50_alert",
@@ -154,13 +157,15 @@ export const BillingAlerts = () => {
         status: "warning",
         componentType: "usage",
       },
-    ] satisfies AlertConditionType[];
-  }, [meQuery.data, usageQuery.data]);
+    ];
+
+    return [...paymentFailureAlerts, ...usageAlerts];
+  }, [account, usageQuery.data]);
 
   if (
     !isLoggedIn ||
     meQuery.isLoading ||
-    !meQuery.data ||
+    !account ||
     usageQuery.isLoading ||
     !usageQuery.data ||
     router.pathname.includes("/support") ||

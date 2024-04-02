@@ -80,7 +80,7 @@ export const RecurringPaymentFailureAlert: React.FC<
               {title}
             </Heading>
           </AlertTitle>
-          <AlertDescription mb={2} as={Flex} direction="column">
+          <AlertDescription mb={2} as={Flex} direction="column" gridGap={4}>
             <Text>
               You have an overdue payment{" "}
               {affectedServices.length > 0 &&
