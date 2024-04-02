@@ -1,14 +1,27 @@
 import { useCreatePaymentMethod } from "@3rdweb-sdk/react/hooks/useApi";
-import { Center, Flex, Spinner } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Center,
+  Flex,
+  Heading,
+  IconButton,
+  Spinner,
+} from "@chakra-ui/react";
 import {
   useElements,
   useStripe,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import { ManageBillingButton } from "components/settings/Account/Billing/ManageButton";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
+import { title } from "process";
 import { FormEvent, useState } from "react";
-import { Button, Text } from "tw-components";
+import { FiX } from "react-icons/fi";
+import { Button, Text, TrackedLinkButton } from "tw-components";
 
 interface OnboardingPaymentForm {
   onSave: () => void;
@@ -92,7 +105,14 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <Flex flexDir="column" gap={8}>
-        <PaymentElement onLoaderStart={() => setLoading(false)} />
+        <PaymentElement
+          onLoaderStart={() => setLoading(false)}
+          options={{
+            terms: {
+              card: "never",
+            },
+          }}
+        />
 
         {loading ? (
           <Center pb={16}>
@@ -100,6 +120,26 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
           </Center>
         ) : (
           <Flex flexDir="column" gap={3}>
+            <Alert
+              status={"info"}
+              borderRadius="md"
+              as={Flex}
+              alignItems="start"
+              justifyContent="space-between"
+              variant="left-accent"
+              bg="inputBg"
+            >
+              <Flex>
+                <AlertIcon boxSize={4} mt={1} ml={1} />
+                <Flex flexDir="column" gap={1} pl={1}>
+                  <AlertDescription as={Text} fontSize="body.md">
+                    A temporary $5 hold will be placed and immediately released
+                    on your payment method.
+                  </AlertDescription>
+                </Flex>
+              </Flex>
+            </Alert>
+
             <Button
               w="full"
               size="lg"
@@ -111,6 +151,10 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
             >
               Add payment
             </Button>
+            <Text size="body.md" variant="subtle" mb="4">
+              By giving your card details, thirdweb can charge your card for
+              future payments according to their terms.
+            </Text>
             <Button
               size="lg"
               fontSize="sm"
