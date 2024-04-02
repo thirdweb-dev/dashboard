@@ -641,7 +641,6 @@ export function useCustomContractDeployMutation(
             zkSigner,
             StorageSingleton,
             chainId as number,
-            { compilerOptions: { compilerType: "zksolc" } },
           );
         } else {
           if (data.deployDeterministic) {
