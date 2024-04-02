@@ -7,6 +7,7 @@ import {
   AlertDescription,
   IconButton,
   AlertTitle,
+  Grid,
 } from "@chakra-ui/react";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
@@ -80,40 +81,45 @@ export const RecurringPaymentFailureAlert: React.FC<
               {title}
             </Heading>
           </AlertTitle>
-          <AlertDescription mb={2} as={Flex} direction="column" gridGap={4}>
-            <Text>
-              You have an overdue payment{" "}
-              {affectedServices.length > 0 &&
-                `for the following service 
+          <AlertDescription my={2}>
+            <Flex direction={"column"} gap={4}>
+              <Flex direction={"column"} gap={1}>
+                <Text>
+                  You have an overdue payment
+                  {affectedServices.length > 0 &&
+                    ` for the following service 
                 ${affectedServices.length > 1 ? "s" : ""}: ${" "}
                 ${affectedServices.join(", ")}
                 `}
-            </Text>
-            <Text>
-              {reason} {resolution}
-            </Text>
-            <Flex>
-              {account && (
-                <ManageBillingButton
-                  account={account}
-                  loading={paymentMethodSaving}
-                  loadingText="Verifying payment method"
-                  buttonProps={{ colorScheme: "primary" }}
-                  onClick={onPaymentMethodOpen}
-                />
-              )}
-              <TrackedLinkButton
-                ml="4"
-                variant="outline"
-                href="/support"
-                category="billing"
-                label="support"
-                color="blue.500"
-                fontSize="small"
-                isExternal
-              >
-                Contact Support
-              </TrackedLinkButton>
+                  .
+                </Text>
+                <Text>
+                  {reason} {resolution}
+                </Text>
+              </Flex>
+              <Flex>
+                {account && (
+                  <ManageBillingButton
+                    account={account}
+                    loading={paymentMethodSaving}
+                    loadingText="Verifying payment method"
+                    buttonProps={{ colorScheme: "primary" }}
+                    onClick={onPaymentMethodOpen}
+                  />
+                )}
+                <TrackedLinkButton
+                  ml="4"
+                  variant="outline"
+                  href="/support"
+                  category="billing"
+                  label="support"
+                  color="blue.500"
+                  fontSize="small"
+                  isExternal
+                >
+                  Contact Support
+                </TrackedLinkButton>
+              </Flex>
             </Flex>
           </AlertDescription>
         </Flex>
