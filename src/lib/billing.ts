@@ -140,6 +140,13 @@ export const getRecurringPaymentFailureResponse = (args: {
         reason: `We were unable to process your payment due to your bank declining the transaction`,
         resolution: `To continue using thirdweb services without interruption, please contact your bank or update your payment method`,
       };
+    case PaymentFailureCode.PROCESSING_ERROR:
+      return {
+        code: PaymentFailureCode.PROCESSING_ERROR,
+        title: `Processing Error`,
+        reason: `We were unable to process your payment due to a processing error`,
+        resolution: `To continue using thirdweb services without interruption, please contact us or update your payment method`,
+      };
     default:
       return {
         code: PaymentFailureCode.GENERIC_DECLINE,
