@@ -41,7 +41,8 @@ export const PaymentVerificationFailureAlert: React.FC<
           </AlertTitle>
           <AlertDescription mb={2} as={Flex} direction="column">
             <Text>
-              {reason}. {resolution}.
+              {reason ? `${reason}. ` : ""}
+              {resolution ? `${resolution}.` : ""}
             </Text>
             <Flex mt="4">
               <TrackedLinkButton

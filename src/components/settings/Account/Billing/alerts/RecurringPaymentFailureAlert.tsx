@@ -7,7 +7,6 @@ import {
   AlertDescription,
   IconButton,
   AlertTitle,
-  Grid,
 } from "@chakra-ui/react";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
@@ -94,7 +93,8 @@ export const RecurringPaymentFailureAlert: React.FC<
                   .
                 </Text>
                 <Text>
-                  {reason} {resolution}
+                  {reason ? `${reason}. ` : ""}
+                  {resolution ? `${resolution}.` : ""}
                 </Text>
               </Flex>
               <Flex>

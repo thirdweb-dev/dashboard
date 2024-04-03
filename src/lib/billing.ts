@@ -74,13 +74,6 @@ export const getBillingPaymentMethodVerificationFailureResponse = (args: {
         reason: `We are facing issues with this payment method`,
         resolution: `Please retry the payment method after a few moments or use a different payment method`,
       };
-    case PaymentFailureCode.CARD_VELOCITY_EXCEEDED:
-      return {
-        code: PaymentFailureCode.CARD_VELOCITY_EXCEEDED,
-        title: `Card Velocity Exceeded`,
-        reason: ``,
-        resolution: `Please try again later or use a different payment method`,
-      };
     case PaymentFailureCode.INCORRECT_CVC:
       return {
         code: PaymentFailureCode.INCORRECT_CVC,
