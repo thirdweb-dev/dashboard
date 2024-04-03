@@ -24,6 +24,8 @@ import { FiX } from "react-icons/fi";
 import { Text, Heading, TrackedLinkButton } from "tw-components";
 import { ManageBillingButton } from "../ManageButton";
 import { RecurringPaymentFailureAlert } from "./RecurringPaymentFailureAlert";
+import { format } from "date-fns";
+import { ServiceCutoffAlert } from "./ServiceCutoffAlert";
 
 type AlertConditionType = {
   shouldShowAlert: boolean;
@@ -31,7 +33,7 @@ type AlertConditionType = {
   title: string;
   description: string;
   status: "error" | "warning";
-  componentType: "recurringPayment" | "usage";
+  componentType: "serviceCutoff" | "recurringPayment" | "usage";
 };
 
 export const BillingAlerts = () => {
@@ -93,16 +95,20 @@ export const BillingAlerts = () => {
       },
       ...(account?.recurringPaymentFailures?.map((failure) => {
         const serviceCutoffDate = failure.serviceCutoffDate
-          ? new Date(failure.serviceCutoffDate).toLocaleString()
+          ? format(new Date(failure.serviceCutoffDate), "MMMM d, yyyy")
           : null;
 
+        const isPassedCutoff =
+          new Date(failure.serviceCutoffDate) < new Date("12/12/2024");
         return {
           shouldShowAlert: true,
           key: failure.paymentFailureCode,
-          title: "Your payment method failed",
-          description: `${failure.subscriptionDescription} ${serviceCutoffDate ? `(${serviceCutoffDate})` : ""}`,
+          title: isPassedCutoff
+            ? "Some of your services have been cancelled due to outstanding payments"
+            : "Your payment method failed",
+          description: `${failure.subscriptionDescription} ${failure.subscriptionDescription && serviceCutoffDate ? `(expires on ${serviceCutoffDate})` : ""}`,
           status: "error",
-          componentType: "recurringPayment",
+          componentType: isPassedCutoff ? "serviceCutoff" : "recurringPayment",
         } satisfies AlertConditionType;
       }) ?? []),
     ];
@@ -188,6 +194,15 @@ export const BillingAlerts = () => {
           case "recurringPayment": {
             return (
               <RecurringPaymentFailureAlert
+                key={index}
+                affectedServices={[alert.description]}
+                paymentFailureCode={alert.key}
+              />
+            );
+          }
+          case "serviceCutoff": {
+            return (
+              <ServiceCutoffAlert
                 key={index}
                 affectedServices={[alert.description]}
                 paymentFailureCode={alert.key}

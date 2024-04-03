@@ -17,15 +17,13 @@ import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { ManageBillingButton } from "../ManageButton";
 import { getRecurringPaymentFailureResponse } from "lib/billing";
 
-type RecurringPaymentFailureAlertProps = {
+type ServiceCutoffAlertProps = {
   onDismiss?: () => void;
   affectedServices?: string[];
   paymentFailureCode: string;
 };
 
-export const RecurringPaymentFailureAlert: React.FC<
-  RecurringPaymentFailureAlertProps
-> = ({
+export const ServiceCutoffAlert: React.FC<ServiceCutoffAlertProps> = ({
   onDismiss,
   affectedServices = [],
   paymentFailureCode = "bank_decline",
@@ -47,7 +45,7 @@ export const RecurringPaymentFailureAlert: React.FC<
     onPaymentMethodClose();
   };
 
-  const { title, reason, resolution } = getRecurringPaymentFailureResponse({
+  const { reason, resolution } = getRecurringPaymentFailureResponse({
     paymentFailureCode,
   });
 
@@ -78,7 +76,7 @@ export const RecurringPaymentFailureAlert: React.FC<
         <Flex flexDir="column" pl={1}>
           <AlertTitle>
             <Heading as="span" size="subtitle.sm">
-              {title}
+              You have lost access to some paid services
             </Heading>
           </AlertTitle>
           <AlertDescription mt={4} mb={2}>
@@ -86,8 +84,6 @@ export const RecurringPaymentFailureAlert: React.FC<
               <Text>
                 {reason ? `${reason}. ` : ""}
                 {resolution ? `${resolution}. ` : ""}
-                We will retry several times over the next 10 days after your
-                invoice date, after which you will lose access to your services.
               </Text>
               <Flex direction="column">
                 <Text>Affected services:</Text>
@@ -99,6 +95,7 @@ export const RecurringPaymentFailureAlert: React.FC<
                   ))}
                 </UnorderedList>
               </Flex>
+
               <Flex>
                 {account && (
                   <ManageBillingButton
