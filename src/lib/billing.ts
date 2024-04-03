@@ -147,44 +147,6 @@ export const getRecurringPaymentFailureResponse = (args: {
         reason: `We were unable to process your payment due to your bank declining the transaction`,
         resolution: `To continue using thirdweb services without interruption, please contact your bank or update your payment method`,
       };
-    case PaymentFailureCode.RULE:
-    case PaymentFailureCode.BLOCKLIST:
-    case PaymentFailureCode.HIGHEST_RISK_LEVEL:
-      return {
-        code: paymentFailureCode,
-        title: `Payment Method Flagged`,
-        reason: `We were unable to process your payment as your payment method was flagged for suspicious usage`,
-        resolution: `To continue using thirdweb services without interruption, please enter a different payment method`,
-      };
-    case PaymentFailureCode.CARD_VELOCITY_EXCEEDED:
-      return {
-        code: PaymentFailureCode.CARD_VELOCITY_EXCEEDED,
-        title: `Card Velocity Exceeded`,
-        reason: `We were unable to process your payment due to exceeding the allowed number of transactions`,
-        resolution: `To continue using thirdweb services without interruption, please contact your bank or update your payment method`,
-      };
-    case PaymentFailureCode.LOST_CARD:
-    case PaymentFailureCode.PICKUP_CARD:
-      return {
-        code: paymentFailureCode,
-        title: `Card Issue`,
-        reason: `We were unable to process your payment as this card has been reported lost/needs retrieval`,
-        resolution: `To continue using thirdweb services without interruption, please contact your bank or update your payment method`,
-      };
-    case PaymentFailureCode.PROCESSING_ERROR:
-      return {
-        code: PaymentFailureCode.PROCESSING_ERROR,
-        title: `Processing Error`,
-        reason: `We were unable to process your payment due to a processing error`,
-        resolution: `To continue using thirdweb services without interruption, please contact us or update your payment method`,
-      };
-    case PaymentFailureCode.REVOCATION_OF_ALL_AUTHORIZATIONS:
-      return {
-        code: PaymentFailureCode.REVOCATION_OF_ALL_AUTHORIZATIONS,
-        title: `Revocation of All Authorizations`,
-        reason: `We were unable to process your payment due to the revocation of all authorizations for this card`,
-        resolution: `To continue using thirdweb services without interruption, please contact your bank or update your payment method`,
-      };
     default:
       return {
         code: PaymentFailureCode.GENERIC_DECLINE,
