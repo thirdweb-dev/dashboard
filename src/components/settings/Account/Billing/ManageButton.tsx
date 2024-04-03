@@ -26,25 +26,48 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
 }) => {
   const [sessionUrl, setSessionUrl] = useState();
   const mutation = useCreateBillingSession();
-  const validPayment = account.status === AccountStatus.ValidPayment;
-  const paymentVerification =
-    account.status === AccountStatus.PaymentVerification;
-  const invalidPayment = [
-    AccountStatus.InvalidPayment,
-    AccountStatus.InvalidPaymentMethod,
-  ].includes(account.status);
+
+  let [buttonLabel, buttonText, buttonHref]: string[] = ["", "", ""];
+  switch (account.status) {
+    case AccountStatus.ValidPayment: {
+      buttonLabel = "manage";
+      buttonText = "Manage billing";
+      buttonHref = sessionUrl ?? "";
+      break;
+    }
+    case AccountStatus.PaymentVerification: {
+      buttonLabel = "verifyPaymentMethod";
+      buttonText = "Verify your payment method →";
+      buttonHref = account.stripePaymentActionUrl ?? "";
+      break;
+    }
+    case AccountStatus.InvalidPayment:
+    case AccountStatus.InvalidPaymentMethod: {
+      buttonLabel = "addAnotherPayment";
+      buttonText = "Add another payment method →";
+      break;
+    }
+    default: {
+      buttonLabel = "addPayment";
+      buttonText = "Add payment method";
+      break;
+    }
+  }
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (onClick || loading || !sessionUrl) {
+    if (loading) {
       e.preventDefault();
-      if (onClick) {
-        onClick();
-      }
+      return;
+    }
+
+    if (!["verifyPaymentMethod", "manage"].includes(buttonLabel)) {
+      e.preventDefault();
+      onClick?.();
     }
   };
 
   useEffect(() => {
-    if (!onClick) {
+    if (buttonLabel === "manage") {
       mutation.mutate(undefined, {
         onSuccess: (data) => {
           setSessionUrl(data.url);
@@ -54,29 +77,11 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClick]);
 
-  let buttonText = "Add payment method →";
-  if (validPayment) {
-    buttonText = "Manage billing";
-  } else if (paymentVerification) {
-    buttonText = "Verify your payment method →";
-  } else if (invalidPayment) {
-    buttonText = "Add another payment method →";
-  }
-
-  let buttonLabel = "addPayment";
-  if (validPayment) {
-    buttonLabel = "manage";
-  } else if (paymentVerification) {
-    buttonLabel = "verifyPaymentMethod";
-  } else if (invalidPayment) {
-    buttonLabel = "addAnotherPayment";
-  }
-
   return (
     <TrackedLinkButton
       {...buttonProps}
       isDisabled={loading || (!onClick && !sessionUrl)}
-      href={sessionUrl || ""}
+      href={buttonHref}
       isLoading={loading}
       category="billingAccount"
       label={buttonLabel}
