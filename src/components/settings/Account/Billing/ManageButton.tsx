@@ -24,24 +24,23 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   buttonProps = { variant: "outline", color: loading ? "gray" : "blue.500" },
   onClick,
 }) => {
-  const [sessionUrl, setSessionUrl] = useState();
+  const [sessionUrl, setSessionUrl] = useState<string | undefined>();
   const mutation = useCreateBillingSession();
 
-  let [buttonLabel, buttonText, buttonHref]: string[] = ["", "", ""];
+  let [buttonLabel, buttonText]: string[] = ["", ""];
   switch (account.status) {
+    case AccountStatus.InvalidPayment:
     case AccountStatus.ValidPayment: {
       buttonLabel = "manage";
       buttonText = "Manage billing";
-      buttonHref = sessionUrl ?? "";
       break;
     }
     case AccountStatus.PaymentVerification: {
       buttonLabel = "verifyPaymentMethod";
       buttonText = "Verify your payment method →";
-      buttonHref = account.stripePaymentActionUrl ?? "";
+      setSessionUrl(account.stripePaymentActionUrl ?? "");
       break;
     }
-    case AccountStatus.InvalidPayment:
     case AccountStatus.InvalidPaymentMethod: {
       buttonLabel = "addAnotherPayment";
       buttonText = "Add another payment method →";
@@ -75,13 +74,13 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onClick]);
+  }, [buttonLabel]);
 
   return (
     <TrackedLinkButton
       {...buttonProps}
       isDisabled={loading || (!onClick && !sessionUrl)}
-      href={buttonHref}
+      href={sessionUrl ?? ""}
       isLoading={loading}
       category="billingAccount"
       label={buttonLabel}
