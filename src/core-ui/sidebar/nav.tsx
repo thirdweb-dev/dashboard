@@ -1,4 +1,3 @@
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { NavLink } from "./nav-link";
 import { SIDEBAR_WIDTH, SideBarTunnel } from "./tunnel";
 import { Route } from "./types";

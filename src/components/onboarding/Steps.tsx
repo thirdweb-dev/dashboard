@@ -55,7 +55,6 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isLoggedIn } = useLoggedInUser();
   const meQuery = useAccount();
-  const { data: account } = meQuery;
   const apiKeysQuery = useApiKeys();
   const router = useRouter();
   const trackEvent = useTrack();
