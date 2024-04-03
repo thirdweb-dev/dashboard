@@ -24,7 +24,7 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   buttonProps = { variant: "outline", color: loading ? "gray" : "blue.500" },
   onClick,
 }) => {
-  const [sessionUrl, setSessionUrl] = useState<string | undefined>();
+  const [sessionUrl, setSessionUrl] = useState(account.stripePaymentActionUrl);
   const mutation = useCreateBillingSession();
 
   let [buttonLabel, buttonText]: string[] = ["", ""];
@@ -38,7 +38,6 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
     case AccountStatus.PaymentVerification: {
       buttonLabel = "verifyPaymentMethod";
       buttonText = "Verify your payment method →";
-      setSessionUrl(account.stripePaymentActionUrl ?? "");
       break;
     }
     case AccountStatus.InvalidPaymentMethod: {
@@ -66,7 +65,7 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   };
 
   useEffect(() => {
-    if (buttonLabel === "manage") {
+    if (buttonLabel === "manage" && !sessionUrl) {
       mutation.mutate(undefined, {
         onSuccess: (data) => {
           setSessionUrl(data.url);
