@@ -20,12 +20,13 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
+import { useDebounce } from "hooks/common/useDebounce";
 
 type TemplateWrapperProps = {
   title: string;
@@ -107,11 +108,13 @@ const Content = (props: TemplatesContentProps) => {
     _defaultTagIds || [],
   );
   const [keyword, setKeyword] = useState<string>(_defaultKeywords || "");
-  const updateKeyword = (newValue: string) => {
-    setKeyword(newValue);
+
+  const debouncedSearchValue = useDebounce(keyword, 100);
+
+  useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    if (newValue) {
-      queryParams.set("keyword", newValue);
+    if (debouncedSearchValue) {
+      queryParams.set("keyword", debouncedSearchValue);
     } else {
       queryParams.delete("keyword");
     }
@@ -127,11 +130,11 @@ const Content = (props: TemplatesContentProps) => {
         shallow: true,
       });
     }
-  };
+  }, [debouncedSearchValue]);
 
   const templates = filterTemplates(
     selectedTags,
-    keyword,
+    debouncedSearchValue,
     showFilterMenu,
     data,
   );
@@ -201,7 +204,7 @@ const Content = (props: TemplatesContentProps) => {
                   bg="black"
                   placeholder="Search by keywords"
                   borderColor="borderColor"
-                  onChange={(e) => updateKeyword(e.target.value)}
+                  onChange={(e) => setKeyword(e.target.value)}
                   defaultValue={_defaultKeywords || ""}
                   ref={inputRef}
                 />
@@ -213,7 +216,7 @@ const Content = (props: TemplatesContentProps) => {
                       variant="ghost"
                       icon={<Icon as={FiX} />}
                       onClick={() => {
-                        updateKeyword("");
+                        setKeyword("");
                         if (inputRef.current) {
                           inputRef.current.value = "";
                         }
