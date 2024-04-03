@@ -2,6 +2,7 @@ enum PaymentFailureCode {
   BLOCKLIST = `blocklist`,
   CARD_VELOCITY_EXCEEDED = `card_velocity_exceeded`,
   CASHAPP_PAYMENT_DECLINED = `cashapp_payment_declined`,
+  CARD_DECLINE = `card_decline`,
   DO_NOT_HONOR = `do_not_honor`,
   EXPIRED_CARD = `expired_card`,
   GENERIC_DECLINE = `generic_decline`,
@@ -61,6 +62,7 @@ export const getBillingPaymentMethodVerificationFailureResponse = (args: {
       };
     case PaymentFailureCode.GENERIC_DECLINE:
     case PaymentFailureCode.DO_NOT_HONOR:
+    case PaymentFailureCode.CARD_DECLINE:
       return {
         code: PaymentFailureCode.DO_NOT_HONOR,
         title: `Do Not Honour`,
@@ -134,6 +136,7 @@ export const getRecurringPaymentFailureResponse = (args: {
     case PaymentFailureCode.TRANSACTION_NOT_ALLOWED:
     case PaymentFailureCode.DO_NOT_HONOR:
     case PaymentFailureCode.GENERIC_DECLINE:
+    case PaymentFailureCode.CARD_DECLINE:
       return {
         code: paymentFailureCode,
         title: `Payment Declined`,
