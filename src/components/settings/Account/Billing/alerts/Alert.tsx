@@ -188,7 +188,6 @@ export const BillingAlerts = () => {
                 key={index}
                 affectedServices={[]}
                 paymentFailureCode={alert.key}
-                onDismiss={() => handleDismiss(alert.key)}
               />
             );
           }

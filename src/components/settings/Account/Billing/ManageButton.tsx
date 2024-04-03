@@ -54,6 +54,24 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClick]);
 
+  let buttonText = "Add payment method →";
+  if (validPayment) {
+    buttonText = "Manage billing";
+  } else if (paymentVerification) {
+    buttonText = "Verify your payment method →";
+  } else if (invalidPayment) {
+    buttonText = "Add another payment method →";
+  }
+
+  let buttonLabel = "addPayment";
+  if (validPayment) {
+    buttonLabel = "manage";
+  } else if (paymentVerification) {
+    buttonLabel = "verifyPaymentMethod";
+  } else if (invalidPayment) {
+    buttonLabel = "addAnotherPayment";
+  }
+
   return (
     <TrackedLinkButton
       {...buttonProps}
@@ -61,22 +79,12 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
       href={sessionUrl || ""}
       isLoading={loading}
       category="billingAccount"
-      label={
-        paymentVerification || invalidPayment
-          ? "addAnotherPayment"
-          : onClick
-            ? "addPayment"
-            : "manage"
-      }
+      label={buttonLabel}
       loadingText={loadingText}
       onClick={handleClick}
       fontSize="small"
     >
-      {validPayment
-        ? "Manage billing"
-        : paymentVerification || invalidPayment
-          ? "Add another payment method →"
-          : "Add payment method →"}
+      {buttonText}
     </TrackedLinkButton>
   );
 };

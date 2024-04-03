@@ -1,4 +1,4 @@
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   useDisclosure,
   Alert,
@@ -80,23 +80,21 @@ export const RecurringPaymentFailureAlert: React.FC<
               {title}
             </Heading>
           </AlertTitle>
-          <AlertDescription my={2}>
+          <AlertDescription mt={4} mb={2}>
             <Flex direction={"column"} gap={4}>
-              <Flex direction={"column"} gap={1}>
-                <Text>
-                  You have an overdue payment
-                  {affectedServices.length > 0 &&
-                    ` for the following service 
+              <Text>
+                You have an overdue payment
+                {affectedServices.length > 0 &&
+                  ` for the following service 
                 ${affectedServices.length > 1 ? "s" : ""}: ${" "}
                 ${affectedServices.join(", ")}
                 `}
-                  .
-                </Text>
-                <Text>
-                  {reason ? `${reason}. ` : ""}
-                  {resolution ? `${resolution}.` : ""}
-                </Text>
-              </Flex>
+                .
+              </Text>
+              <Text>
+                {reason ? `${reason}. ` : ""}
+                {resolution ? `${resolution}.` : ""}
+              </Text>
               <Flex>
                 {account && (
                   <ManageBillingButton
@@ -104,7 +102,14 @@ export const RecurringPaymentFailureAlert: React.FC<
                     loading={paymentMethodSaving}
                     loadingText="Verifying payment method"
                     buttonProps={{ colorScheme: "primary" }}
-                    onClick={onPaymentMethodOpen}
+                    onClick={
+                      [
+                        AccountStatus.ValidPayment,
+                        AccountStatus.InvalidPayment,
+                      ].includes(account.status)
+                        ? undefined
+                        : onPaymentMethodOpen
+                    }
                   />
                 )}
                 <TrackedLinkButton
