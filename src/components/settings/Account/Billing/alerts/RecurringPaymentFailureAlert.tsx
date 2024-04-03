@@ -7,6 +7,7 @@ import {
   AlertDescription,
   IconButton,
   AlertTitle,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { OnboardingBilling } from "components/onboarding/Billing";
 import { OnboardingModal } from "components/onboarding/Modal";
@@ -83,18 +84,22 @@ export const RecurringPaymentFailureAlert: React.FC<
           <AlertDescription mt={4} mb={2}>
             <Flex direction={"column"} gap={4}>
               <Text>
-                You have an overdue payment
-                {affectedServices.length > 0 &&
-                  ` for the following service 
-                ${affectedServices.length > 1 ? "s" : ""}: ${" "}
-                ${affectedServices.join(", ")}
-                `}
-                .
-              </Text>
-              <Text>
                 {reason ? `${reason}. ` : ""}
                 {resolution ? `${resolution}.` : ""}
               </Text>
+
+              <Text>
+                We will retry once a day for 5 days after your invoice date,
+                after which you will lose access to the following
+                {affectedServices.length > 1 ? " services" : " service"}:
+              </Text>
+              <UnorderedList mb={4}>
+                {affectedServices.map((service) => (
+                  <li key={service}>
+                    <Text>{service}</Text>
+                  </li>
+                ))}
+              </UnorderedList>
               <Flex>
                 {account && (
                   <ManageBillingButton

@@ -67,6 +67,7 @@ export type Account = {
     subscriptionId: string;
     subscriptionDescription: string;
     paymentFailureCode: string;
+    serviceCutoffDate: string;
   }[];
 };
 

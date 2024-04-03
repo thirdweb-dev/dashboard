@@ -91,18 +91,20 @@ export const BillingAlerts = () => {
         status: "error",
         componentType: "usage",
       },
-      ...(account?.recurringPaymentFailures?.map(
-        (failure) =>
-          ({
-            shouldShowAlert: true,
-            key: failure.paymentFailureCode,
-            title: "Your payment method failed",
-            description:
-              "Your payment method failed. Please update your payment method to avoid service interruptions.",
-            status: "error",
-            componentType: "recurringPayment",
-          }) satisfies AlertConditionType,
-      ) ?? []),
+      ...(account?.recurringPaymentFailures?.map((failure) => {
+        const serviceCutoffDate = failure.serviceCutoffDate
+          ? new Date(failure.serviceCutoffDate).toLocaleString()
+          : null;
+
+        return {
+          shouldShowAlert: true,
+          key: failure.paymentFailureCode,
+          title: "Your payment method failed",
+          description: `${failure.subscriptionDescription} ${serviceCutoffDate ? `(${serviceCutoffDate})` : ""}`,
+          status: "error",
+          componentType: "recurringPayment",
+        } satisfies AlertConditionType;
+      }) ?? []),
     ];
 
     // Directly compute usage and rate limit shouldShowAlerts within useMemo
@@ -173,6 +175,7 @@ export const BillingAlerts = () => {
   ) {
     return null;
   }
+
   const alerts = alertConditions
     .map((alert, index) => {
       const shouldShowAlert = alert.shouldShowAlert;
@@ -186,7 +189,7 @@ export const BillingAlerts = () => {
             return (
               <RecurringPaymentFailureAlert
                 key={index}
-                affectedServices={[]}
+                affectedServices={[alert.description]}
                 paymentFailureCode={alert.key}
               />
             );
