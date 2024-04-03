@@ -253,7 +253,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
         canSkip: true,
       },
     ],
-    [onClaimCreditsOpen, trackEvent, account],
+    [onClaimCreditsOpen, trackEvent],
   );
 
   if (!currentStep) {

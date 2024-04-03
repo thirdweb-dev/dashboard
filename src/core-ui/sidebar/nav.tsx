@@ -32,8 +32,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   zIndex = "sticky",
 }) => {
   const openState = useDisclosure();
-  const meQuery = useAccount();
-  const { data: account } = meQuery;
 
   const activeLink = useMemo(
     () =>
