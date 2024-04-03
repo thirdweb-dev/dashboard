@@ -95,13 +95,6 @@ export const getBillingPaymentMethodVerificationFailureResponse = (args: {
         reason: `We require a temporary hold for $${minimumCardBalanceUsd} which we immediately release, your bank has not allowed this`,
         resolution: `Please contact them or use a different payment method`,
       };
-    case PaymentFailureCode.REVOCATION_OF_ALL_AUTHORIZATIONS:
-      return {
-        code: PaymentFailureCode.REVOCATION_OF_ALL_AUTHORIZATIONS,
-        title: `Revocation of All Authorizations`,
-        reason: `All authorizations for this card are revoked`,
-        resolution: `Please contact your bank or use a different payment method`,
-      };
     case PaymentFailureCode.CASHAPP_PAYMENT_DECLINED:
       return {
         code: PaymentFailureCode.CASHAPP_PAYMENT_DECLINED,
