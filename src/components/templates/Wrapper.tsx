@@ -20,10 +20,10 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import FilterMenu from "./FilterMenu";
 import { FiSearch, FiX } from "react-icons/fi";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { TEMPLATE_DATA, TemplateCardProps } from "data/templates/templates";
 import { TEMPLATE_TAGS, TemplateTagId } from "data/templates/tags";
 import { useDebounce } from "hooks/common/useDebounce";
@@ -108,9 +108,9 @@ const Content = (props: TemplatesContentProps) => {
     _defaultTagIds || [],
   );
   const [keyword, setKeyword] = useState<string>(_defaultKeywords || "");
-
   const debouncedSearchValue = useDebounce(keyword, 100);
-
+  const path = router.asPath.split("?")[0];
+  const push = Router.push;
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     if (debouncedSearchValue) {
@@ -118,26 +118,25 @@ const Content = (props: TemplatesContentProps) => {
     } else {
       queryParams.delete("keyword");
     }
-    const path = router.asPath.split("?")[0];
     if (path.startsWith("/templates/tag/")) {
-      router.push(
-        { pathname: path, query: queryParams.toString() },
-        undefined,
-        { shallow: true },
-      );
+      push({ pathname: path, query: queryParams.toString() }, undefined, {
+        shallow: true,
+      });
     } else {
-      router.push(`?${queryParams.toString()}`, undefined, {
+      push(`?${queryParams.toString()}`, undefined, {
         shallow: true,
       });
     }
-  }, [debouncedSearchValue, router]);
+  }, [debouncedSearchValue, path, push]);
 
-  const templates = filterTemplates(
-    selectedTags,
-    debouncedSearchValue,
-    showFilterMenu,
-    data,
-  );
+  const templates = useMemo(() => {
+    return filterTemplates(
+      selectedTags,
+      debouncedSearchValue,
+      showFilterMenu,
+      data,
+    );
+  }, [selectedTags, debouncedSearchValue, showFilterMenu, data]);
 
   return (
     <DarkMode>
