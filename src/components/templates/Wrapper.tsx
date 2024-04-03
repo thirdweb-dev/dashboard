@@ -130,7 +130,7 @@ const Content = (props: TemplatesContentProps) => {
         shallow: true,
       });
     }
-  }, [debouncedSearchValue]);
+  }, [debouncedSearchValue, router]);
 
   const templates = filterTemplates(
     selectedTags,

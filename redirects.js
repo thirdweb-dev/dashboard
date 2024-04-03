@@ -234,16 +234,16 @@ function redirects() {
       destination: "/dashboard/connect/pay?tab=checkouts",
       permanent: false,
     },
-    {
-      source: "/template/:match*",
-      destination: "/templates/:match*",
-      permanent: true,
-    },
-    {
-      source: "/templates/nft-drop",
-      destination: "/templates/erc721",
-      permanent: false,
-    },
+    // {
+    //   source: "/template/:match*",
+    //   destination: "/templates/:match*",
+    //   permanent: true,
+    // },
+    // {
+    //   source: "/templates/nft-drop",
+    //   destination: "/templates/erc721",
+    //   permanent: false,
+    // },
   ];
 }
 
