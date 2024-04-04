@@ -50,14 +50,14 @@ export const getBillingPaymentMethodVerificationFailureResponse = (args: {
       return {
         code: PaymentFailureCode.INCORRECT_NUMBER,
         title: `Incorrect Number`,
-        reason: `This card can't be accepted: incorrect card number`,
+        reason: `This card can't be accepted: Incorrect card number`,
         resolution: `Check your card number for typos or try a different payment method`,
       };
     default:
       return {
         code: PaymentFailureCode.GENERIC_DECLINE,
         title: `Your payment method was declined`,
-        reason: `This card can't be accepted`,
+        reason: `This card can't be accepted: declined by bank`,
         resolution: `Please update your payment method or contact your bank`,
       };
   }
