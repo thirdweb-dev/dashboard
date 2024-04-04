@@ -133,8 +133,8 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
                   <AlertIcon boxSize={4} mt={1} ml={1} />
                   <Flex flexDir="column" gap={1} pl={1}>
                     <AlertDescription as={Text} fontSize="body.md">
-                      A temporary $5 hold will be placed and immediately
-                      released on your payment method.
+                      A temporary hold will be placed and immediately released
+                      on your payment method.
                     </AlertDescription>
                   </Flex>
                 </Flex>
