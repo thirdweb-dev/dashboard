@@ -33,7 +33,11 @@ type AlertConditionType = {
   title: string;
   description: string;
   status: "error" | "warning";
-  componentType: "serviceCutoff" | "recurringPayment" | "usage";
+  componentType:
+    | "serviceCutoff"
+    | "recurringPayment"
+    | "paymentVerification"
+    | "usage";
 };
 
 export const BillingAlerts = () => {
@@ -82,7 +86,7 @@ export const BillingAlerts = () => {
         description:
           "Please verify your payment method to continue using our services without interruption.",
         status: "warning",
-        componentType: "usage",
+        componentType: "paymentVerification",
       },
       {
         shouldShowAlert: account?.status === AccountStatus.InvalidPaymentMethod,
@@ -91,7 +95,7 @@ export const BillingAlerts = () => {
         description:
           "Your current payment method is invalid. Please update your payment method to continue using our services.",
         status: "error",
-        componentType: "usage",
+        componentType: "paymentVerification",
       },
       ...(account?.recurringPaymentFailures?.map((failure) => {
         const serviceCutoffDate = failure.serviceCutoffDate
@@ -205,6 +209,19 @@ export const BillingAlerts = () => {
                 key={index}
                 affectedServices={[alert.description]}
                 paymentFailureCode={alert.key}
+              />
+            );
+          }
+          case "paymentVerification": {
+            return (
+              <BillingAlertNotification
+                key={index}
+                status={alert.status}
+                title={alert.title}
+                description={alert.description}
+                ctaText="Verify payment method"
+                ctaHref="/dashboard/settings/billing"
+                label="verifyPaymentAlert"
               />
             );
           }
