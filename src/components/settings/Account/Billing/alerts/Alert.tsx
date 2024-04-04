@@ -85,7 +85,7 @@ export const BillingAlerts = () => {
         title: "Your payment method requires verification",
         description:
           "Please verify your payment method to continue using our services without interruption.",
-        status: "warning",
+        status: "error",
         componentType: "paymentVerification",
       },
       {

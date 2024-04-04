@@ -53,7 +53,7 @@ export const RecurringPaymentFailureAlert: React.FC<
 
   return (
     <Alert
-      status="warning"
+      status="error"
       borderRadius="md"
       as={Flex}
       alignItems="start"
@@ -89,16 +89,18 @@ export const RecurringPaymentFailureAlert: React.FC<
                 We will retry several times over the next 10 days after your
                 invoice date, after which you will lose access to your services.
               </Text>
-              <Flex direction="column">
-                <Text>Affected services:</Text>
-                <UnorderedList mb={4}>
-                  {affectedServices.map((service) => (
-                    <li key={service}>
-                      <Text>{service}</Text>
-                    </li>
-                  ))}
-                </UnorderedList>
-              </Flex>
+              {affectedServices.filter((v) => v.trim()).length > 0 && (
+                <Flex direction="column">
+                  <Text>Affected services:</Text>
+                  <UnorderedList mb={4}>
+                    {affectedServices.map((service) => (
+                      <li key={service}>
+                        <Text>{service}</Text>
+                      </li>
+                    ))}
+                  </UnorderedList>
+                </Flex>
+              )}
               <Flex>
                 {account && (
                   <ManageBillingButton
