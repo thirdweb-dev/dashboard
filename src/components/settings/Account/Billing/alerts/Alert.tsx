@@ -99,14 +99,14 @@ export const BillingAlerts = () => {
           : null;
 
         const isPassedCutoff =
-          new Date(failure.serviceCutoffDate) < new Date("12/12/2024");
+          new Date(failure.serviceCutoffDate) < new Date("june 9 2024");
         return {
           shouldShowAlert: true,
           key: failure.paymentFailureCode,
           title: isPassedCutoff
             ? "Some of your services have been cancelled due to outstanding payments"
             : "Your payment method failed",
-          description: `${failure.subscriptionDescription} ${failure.subscriptionDescription && serviceCutoffDate ? `(expires on ${serviceCutoffDate})` : ""}`,
+          description: `${failure.subscriptionDescription} ${failure.subscriptionDescription && serviceCutoffDate ? `(due by ${serviceCutoffDate})` : ""}`,
           status: "error",
           componentType: isPassedCutoff ? "serviceCutoff" : "recurringPayment",
         } satisfies AlertConditionType;
