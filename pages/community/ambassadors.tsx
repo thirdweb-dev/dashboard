@@ -335,7 +335,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                     title="Be a thirdweb brand ambassador"
                     icon={require("/public/assets/ambassadors/recognition-icon.svg")}
                   >
-                    Advocate for thirdweb's toolset and its role in web3.
+                    Advocate for thirdweb&apos;s toolset and its role in web3.
                   </ProductCard>
                   <ProductCard
                     title="Build your projcts. Share the results."
