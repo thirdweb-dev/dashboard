@@ -89,7 +89,7 @@ export const RecurringPaymentFailureAlert: React.FC<
                 We will retry several times over the next 10 days after your
                 invoice date, after which you will lose access to your services.
               </Text>
-              {affectedServices.filter((v) => v.trim()).length > 0 && (
+              {affectedServices.length > 0 && (
                 <Flex direction="column">
                   <Text>Affected services:</Text>
                   <UnorderedList mb={4}>

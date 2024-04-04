@@ -109,7 +109,9 @@ export const BillingAlerts = () => {
           title: isPassedCutoff
             ? "Some of your services have been cancelled due to outstanding payments"
             : "Your payment method failed",
-          description: `${failure.subscriptionDescription} ${failure.subscriptionDescription && serviceCutoffDate ? `(due by ${serviceCutoffDate})` : ""}`,
+          description: failure.subscriptionDescription
+            ? `${failure.subscriptionDescription} ${serviceCutoffDate ? `(due by ${serviceCutoffDate})` : ""}`
+            : "",
           status: "error",
           componentType: isPassedCutoff ? "serviceCutoff" : "recurringPayment",
         } satisfies AlertConditionType;
@@ -198,7 +200,7 @@ export const BillingAlerts = () => {
             return (
               <RecurringPaymentFailureAlert
                 key={index}
-                affectedServices={[alert.description]}
+                affectedServices={[alert.description].filter((v) => v)}
                 paymentFailureCode={alert.key}
               />
             );
@@ -207,7 +209,7 @@ export const BillingAlerts = () => {
             return (
               <ServiceCutoffAlert
                 key={index}
-                affectedServices={[alert.description]}
+                affectedServices={[alert.description].filter((v) => v)}
                 paymentFailureCode={alert.key}
               />
             );
