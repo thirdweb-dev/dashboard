@@ -152,14 +152,11 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
             >
               Add payment
             </Button>
-            <Text size="body.md" variant="subtle" mb="4">
-              By giving your card details, thirdweb can charge your card for
-              future payments according to their terms.
-            </Text>
             <Button
               size="lg"
               fontSize="sm"
               variant="link"
+              mt="4"
               onClick={onCancel}
               isDisabled={saving}
               colorScheme="blue"

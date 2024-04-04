@@ -3,11 +3,9 @@ import {
   Flex,
   AlertIcon,
   AlertDescription,
-  IconButton,
   AlertTitle,
 } from "@chakra-ui/react";
 import { getBillingPaymentMethodVerificationFailureResponse } from "lib/billing";
-import { FiX } from "react-icons/fi";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 
 type PaymentVerificationFailureAlertProps = {
@@ -17,7 +15,7 @@ type PaymentVerificationFailureAlertProps = {
 
 export const PaymentVerificationFailureAlert: React.FC<
   PaymentVerificationFailureAlertProps
-> = ({ onDismiss, paymentFailureCode = "generic_decline" }) => {
+> = ({ paymentFailureCode = "generic_decline" }) => {
   const { title, reason, resolution } =
     getBillingPaymentMethodVerificationFailureResponse({ paymentFailureCode });
 
@@ -60,19 +58,6 @@ export const PaymentVerificationFailureAlert: React.FC<
           </AlertDescription>
         </Flex>
       </Flex>
-
-      {onDismiss && (
-        <IconButton
-          size="xs"
-          aria-label="Close announcement"
-          icon={<FiX />}
-          color="bgBlack"
-          variant="ghost"
-          opacity={0.6}
-          _hover={{ opacity: 1 }}
-          onClick={onDismiss}
-        />
-      )}
     </Alert>
   );
 };

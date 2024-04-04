@@ -98,8 +98,7 @@ export const BillingAlerts = () => {
           ? format(new Date(failure.serviceCutoffDate), "MMMM d, yyyy")
           : null;
 
-        const isPassedCutoff =
-          new Date(failure.serviceCutoffDate) < new Date("june 9 2024");
+        const isPassedCutoff = new Date(failure.serviceCutoffDate) < new Date();
         return {
           shouldShowAlert: true,
           key: failure.paymentFailureCode,
