@@ -1,5 +1,5 @@
 import { TrackedLinkButton } from "tw-components";
-import { MouseEvent, useEffect, useMemo, useState } from "react";
+import { MouseEvent, useMemo } from "react";
 import {
   Account,
   AccountStatus,
@@ -24,9 +24,6 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   buttonProps = { variant: "outline", color: loading ? "gray" : "blue.500" },
   onClick,
 }) => {
-  const [sessionUrl, setSessionUrl] = useState(account.stripePaymentActionUrl);
-  const mutation = useCreateBillingSession();
-
   const [buttonLabel, buttonText] = useMemo(() => {
     switch (account.status) {
       case AccountStatus.InvalidPayment:
@@ -45,6 +42,27 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
     }
   }, [account.status]);
 
+  const query = useCreateBillingSession(buttonLabel === "manage");
+
+  const url = useMemo(() => {
+    if (query.isLoading) {
+      return undefined;
+    }
+
+    if (buttonLabel === "manage") {
+      return query.data?.url;
+    } else if (buttonLabel === "verifyPaymentMethod") {
+      return account.stripePaymentActionUrl;
+    } else {
+      return undefined;
+    }
+  }, [
+    query.isLoading,
+    query.data,
+    buttonLabel,
+    account.stripePaymentActionUrl,
+  ]);
+
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (loading) {
       e.preventDefault();
@@ -57,22 +75,11 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (buttonLabel === "manage" && !sessionUrl) {
-      mutation.mutate(undefined, {
-        onSuccess: (data) => {
-          setSessionUrl(data.url);
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buttonLabel]);
-
   return (
     <TrackedLinkButton
       {...buttonProps}
-      isDisabled={loading || (!onClick && !sessionUrl)}
-      href={sessionUrl ?? ""}
+      isDisabled={loading || (!onClick && !url)}
+      href={url ?? ""}
       isLoading={loading}
       category="billingAccount"
       label={buttonLabel}
