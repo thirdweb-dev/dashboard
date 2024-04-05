@@ -43,25 +43,14 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   }, [account.status]);
 
   const query = useCreateBillingSession(buttonLabel === "manage");
-
   const url = useMemo(() => {
-    if (query.isLoading) {
-      return undefined;
+    switch (buttonLabel) {
+      case "verifyPaymentMethod":
+        return account.stripePaymentActionUrl;
+      case "manage":
+        return query.data?.url;
     }
-
-    if (buttonLabel === "manage") {
-      return query.data?.url;
-    } else if (buttonLabel === "verifyPaymentMethod") {
-      return account.stripePaymentActionUrl;
-    } else {
-      return undefined;
-    }
-  }, [
-    query.isLoading,
-    query.data,
-    buttonLabel,
-    account.stripePaymentActionUrl,
-  ]);
+  }, [query.data, buttonLabel, account.stripePaymentActionUrl]);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (loading) {
