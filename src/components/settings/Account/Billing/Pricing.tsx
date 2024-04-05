@@ -1,12 +1,14 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import { Account, AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
+import { AccountPlan } from "@3rdweb-sdk/react/hooks/useApi";
 import { PricingCard } from "components/homepage/sections/PricingCard";
 import { useMemo } from "react";
 import { CONTACT_US_URL } from "utils/pricing";
 import { remainingDays } from "utils/date-utils";
 
 interface BillingPricingProps {
-  account: Account;
+  plan: string;
+  trialPeriodEndedAt: string | undefined;
+  canTrialGrowth: boolean;
   validPayment: boolean;
   paymentVerification: boolean;
   invalidPayment: boolean;
@@ -15,16 +17,18 @@ interface BillingPricingProps {
 }
 
 export const BillingPricing: React.FC<BillingPricingProps> = ({
-  account,
+  plan,
+  trialPeriodEndedAt,
+  canTrialGrowth,
   validPayment,
   paymentVerification,
   invalidPayment,
   loading,
   onSelect,
 }) => {
-  const { plan, trialPeriodEndedAt } = account ?? {};
-  const canTrialGrowth = !trialPeriodEndedAt;
-  const isPro = [AccountPlan.Pro, AccountPlan.Enterprise].includes(plan);
+  const isPro = [AccountPlan.Pro, AccountPlan.Enterprise].includes(
+    plan as AccountPlan,
+  );
 
   const freeCtaTitle = useMemo(() => {
     if (!validPayment) {

@@ -13,7 +13,6 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { PaymentVerificationFailureAlert } from "components/settings/Account/Billing/alerts/PaymentVerificationFailureAlert";
-import message from "components/settings/ApiKeys/message";
 import { useErrorHandler } from "contexts/error-handler";
 import { useTrack } from "hooks/analytics/useTrack";
 import { FormEvent, useState } from "react";
@@ -95,7 +94,7 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
           category: "account",
           action: "addPaymentMethod",
           label: "error",
-          error: message,
+          error: failureCode,
         });
       },
     });

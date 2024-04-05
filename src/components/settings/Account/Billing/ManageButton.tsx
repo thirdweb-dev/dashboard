@@ -1,5 +1,5 @@
 import { TrackedLinkButton } from "tw-components";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useMemo, useState } from "react";
 import {
   Account,
   AccountStatus,
@@ -27,30 +27,23 @@ export const ManageBillingButton: React.FC<ManageBillingButtonProps> = ({
   const [sessionUrl, setSessionUrl] = useState(account.stripePaymentActionUrl);
   const mutation = useCreateBillingSession();
 
-  let [buttonLabel, buttonText]: string[] = ["", ""];
-  switch (account.status) {
-    case AccountStatus.InvalidPayment:
-    case AccountStatus.ValidPayment: {
-      buttonLabel = "manage";
-      buttonText = "Manage billing";
-      break;
+  const [buttonLabel, buttonText] = useMemo(() => {
+    switch (account.status) {
+      case AccountStatus.InvalidPayment:
+      case AccountStatus.ValidPayment: {
+        return ["manage", "Manage billing"];
+      }
+      case AccountStatus.PaymentVerification: {
+        return ["verifyPaymentMethod", "Verify your payment method →"];
+      }
+      case AccountStatus.InvalidPaymentMethod: {
+        return ["addAnotherPayment", "Add another payment method →"];
+      }
+      default: {
+        return ["addPayment", "Add payment method"];
+      }
     }
-    case AccountStatus.PaymentVerification: {
-      buttonLabel = "verifyPaymentMethod";
-      buttonText = "Verify your payment method →";
-      break;
-    }
-    case AccountStatus.InvalidPaymentMethod: {
-      buttonLabel = "addAnotherPayment";
-      buttonText = "Add another payment method →";
-      break;
-    }
-    default: {
-      buttonLabel = "addPayment";
-      buttonText = "Add payment method";
-      break;
-    }
-  }
+  }, [account.status]);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (loading) {
