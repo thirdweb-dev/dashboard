@@ -5,11 +5,11 @@ import {
   redirectResponse,
   successHtmlResponse,
 } from "utils/api";
-import { getFarcasterAccountAddress } from "utils/tx-frame";
 import { ThirdwebDegenEngine } from "classes/ThirdwebDegenEngine";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextRequest } from "next/server";
 import { shortenAddress } from "utils/string";
+import { getFarcasterAccountAddress } from "utils/farcaster";
 
 const postUrl = `${getAbsoluteUrl()}/api/frame/degen/mint`;
 const imageUrl = `${getAbsoluteUrl()}/assets/og-image/degen-enchine-frame.png`;
