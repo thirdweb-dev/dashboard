@@ -6,7 +6,7 @@ import { ThirdwebDegenEngine } from "classes/ThirdwebDegenEngine";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { shortenAddress } from "@thirdweb-dev/react";
 import { NextApiRequest, NextApiResponse } from "next";
-import { claimTo } from "thirdweb";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

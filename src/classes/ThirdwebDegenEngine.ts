@@ -21,7 +21,7 @@ const thirdwebEngineWallet = process.env.THIRDWEB_ENGINE_WALLET;
 const thirdwebEngineAccessToken = process.env.THIRDWEB_ACCESS_TOKEN;
 
 const degenChainId = 666666666;
-const degenNftContractAddress = "0x9DbD184379643B58C0b135ce93AB8D5e452Bf661";
+const degenNftContractAddress = "0x1efacE838cdCD5B19d8D0CC4d22d7AEFdDfB0d6f";
 
 export class ThirdwebDegenEngine {
   public static mint = async (receiver: string) => {
@@ -42,7 +42,7 @@ export class ThirdwebDegenEngine {
     );
 
     const result = await response.json();
-    console.log(result);
+
     return mintResponseSchema.parse(result);
   };
 
