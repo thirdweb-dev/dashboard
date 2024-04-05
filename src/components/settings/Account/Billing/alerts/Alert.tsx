@@ -43,7 +43,16 @@ type AlertConditionType = {
 export const BillingAlerts = () => {
   const { isLoggedIn } = useLoggedInUser();
   const usageQuery = useAccountUsage();
-  const meQuery = useAccount({ refetchInterval: 1000 });
+  const meQuery = useAccount({
+    refetchInterval: (account) =>
+      [
+        AccountStatus.InvalidPayment,
+        AccountStatus.InvalidPaymentMethod,
+        AccountStatus.PaymentVerification,
+      ].includes(account?.status as AccountStatus)
+        ? 1000
+        : false,
+  });
   const { data: account } = meQuery;
   const router = useRouter();
   const trackEvent = useTrack();
