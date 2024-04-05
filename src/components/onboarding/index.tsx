@@ -127,7 +127,7 @@ export const Onboarding: React.FC = () => {
         {
           onSuccess: (data) => {
             if (!skipBilling(data as Account)) {
-              setState(account?.trialPeriodEndedAt ? "skipped" : "plan");
+              setState(data?.trialPeriodEndedAt ? "skipped" : "plan");
             }
             (window as any)[GLOBAL_EWS_AUTH_TOKEN_KEY] = undefined;
           },
