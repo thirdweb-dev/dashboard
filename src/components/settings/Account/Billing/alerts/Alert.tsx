@@ -25,7 +25,6 @@ import { Text, Heading, TrackedLinkButton } from "tw-components";
 import { ManageBillingButton } from "../ManageButton";
 import { RecurringPaymentFailureAlert } from "./RecurringPaymentFailureAlert";
 import { format } from "date-fns";
-import { ServiceCutoffAlert } from "./ServiceCutoffAlert";
 
 type AlertConditionType = {
   shouldShowAlert: boolean;
@@ -216,7 +215,8 @@ export const BillingAlerts = () => {
           }
           case "serviceCutoff": {
             return (
-              <ServiceCutoffAlert
+              <RecurringPaymentFailureAlert
+                isServiceCutoff={true}
                 key={index}
                 affectedServices={[alert.description].filter((v) => v)}
                 paymentFailureCode={alert.key}

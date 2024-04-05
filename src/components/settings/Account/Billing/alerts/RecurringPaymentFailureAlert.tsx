@@ -18,6 +18,7 @@ import { ManageBillingButton } from "../ManageButton";
 import { getRecurringPaymentFailureResponse } from "lib/billing";
 
 type RecurringPaymentFailureAlertProps = {
+  isServiceCutoff?: boolean;
   onDismiss?: () => void;
   affectedServices?: string[];
   paymentFailureCode: string;
@@ -26,6 +27,7 @@ type RecurringPaymentFailureAlertProps = {
 export const RecurringPaymentFailureAlert: React.FC<
   RecurringPaymentFailureAlertProps
 > = ({
+  isServiceCutoff = false,
   onDismiss,
   affectedServices = [],
   paymentFailureCode = "bank_decline",
@@ -50,6 +52,10 @@ export const RecurringPaymentFailureAlert: React.FC<
   const { title, reason, resolution } = getRecurringPaymentFailureResponse({
     paymentFailureCode,
   });
+
+  const header = isServiceCutoff
+    ? "You have lost access to some paid services"
+    : title;
 
   return (
     <Alert
@@ -78,7 +84,7 @@ export const RecurringPaymentFailureAlert: React.FC<
         <Flex flexDir="column" pl={1}>
           <AlertTitle>
             <Heading as="span" size="subtitle.sm">
-              {title}
+              {header}
             </Heading>
           </AlertTitle>
           <AlertDescription mt={4} mb={2}>
@@ -86,8 +92,9 @@ export const RecurringPaymentFailureAlert: React.FC<
               <Text>
                 {reason ? `${reason}. ` : ""}
                 {resolution ? `${resolution}. ` : ""}
-                We will retry several times over the next 10 days after your
-                invoice date, after which you will lose access to your services.
+                {isServiceCutoff
+                  ? ""
+                  : `We will retry several times over the next 10 days after your invoice date, after which you will lose access to your services.`}
               </Text>
               {affectedServices.length > 0 && (
                 <Flex direction="column">
