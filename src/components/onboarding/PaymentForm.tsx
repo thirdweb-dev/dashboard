@@ -41,11 +41,11 @@ export const OnboardingPaymentForm: React.FC<OnboardingPaymentForm> = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setSaving(true);
-
     if (!stripe || !elements) {
       return;
     }
+
+    setSaving(true);
 
     const { error: submitError } = await elements.submit();
     if (submitError) {
