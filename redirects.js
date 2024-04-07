@@ -237,11 +237,17 @@ function redirects() {
     {
       source: "/template/:match*",
       destination: "/templates/:match*",
-      permanent: true,
+      permanent: false,
     },
     {
       source: "/templates/nft-drop",
       destination: "/templates/erc721",
+      permanent: false,
+    },
+    //Redirecting as ambassadors lives in community now
+    {
+      source: "/ambassadors",
+      destination: "/community/ambassadors",
       permanent: false,
     },
   ];
