@@ -27,7 +27,7 @@ export const EngineAccessTokens: React.FC<EngineAccessTokensProps> = ({
         <Heading size="title.md">Access Tokens</Heading>
       </Flex>
 
-      {/* <ButtonGroup size="sm" variant="ghost" spacing={2}>
+      <ButtonGroup size="sm" variant="ghost" spacing={2}>
         <Button
           type="button"
           isActive={selected === "standard"}
@@ -52,7 +52,7 @@ export const EngineAccessTokens: React.FC<EngineAccessTokensProps> = ({
         >
           Restricted
         </Button>
-      </ButtonGroup> */}
+      </ButtonGroup>
 
       {selected === "standard" ? (
         <StandardAccessTokensPanel instanceUrl={instanceUrl} />

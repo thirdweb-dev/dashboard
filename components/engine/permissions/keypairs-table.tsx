@@ -71,7 +71,7 @@ export const KeypairsTable: React.FC<KeypairsTableProps> = ({
   return (
     <>
       <TWTable
-        title="keypairs"
+        title="public keys"
         data={keypairs}
         columns={columns}
         isLoading={isLoading}
