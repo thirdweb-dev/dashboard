@@ -66,10 +66,8 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
         </Heading>
       </Link>
       {data.benchmarks.map((item) => (
-        <Flex justifyContent="space-between">
-          <Tooltip
-            label={parseFunctionMeaning(item.functionName, data.contractName)}
-          >
+        <Flex justifyContent="space-between" key={item.functionName}>
+          <Tooltip label={parseFunctionMeaning(item.functionName)}>
             <Flex justifyContent="center" alignItems="center">
               <Text noOfLines={1} maxW={"150px"} mr={1}>
                 {item.functionName}:
@@ -101,7 +99,7 @@ const mapContractType = (contractName: string): string => {
  */
 const parseFunctionMeaning = (
   functionName: string,
-  contractName: string,
+  // contractName: string,
 ): string => {
   return functionName;
 };

@@ -33,7 +33,6 @@ const GasPage: ThirdwebNextPage = () => {
     () => parseGasBenchMark(gasBenchmark.data || ""),
     [gasBenchmark.data],
   );
-  console.log(gasItems);
   return (
     <>
       <NextSeo
@@ -76,7 +75,12 @@ const GasPage: ThirdwebNextPage = () => {
       </Flex>
       <SimpleGrid as={Card} p={0} columns={{ base: 1, md: 3, lg: 4 }}>
         {gasItems.map((item) => (
-          <GasEstimatorBox ethOrUsd={ethOrUsd} gasEstimate={data} data={item} />
+          <GasEstimatorBox
+            key={item.contractName}
+            ethOrUsd={ethOrUsd}
+            gasEstimate={data}
+            data={item}
+          />
         ))}
       </SimpleGrid>
       <Text mt={4} textAlign="center">
@@ -97,8 +101,10 @@ GasPage.pageId = PageId.GasEstimator;
 export default GasPage;
 
 const parseGasBenchMark = (content: string): BenchmarkItem[] => {
-  if (!content) return [];
-  let _data: BenchmarkItem[] = [];
+  if (!content) {
+    return [];
+  }
+  const _data: BenchmarkItem[] = [];
   const separator = "test_benchmark_";
   const lines = content
     .split("\n")
@@ -113,7 +119,9 @@ const parseGasBenchMark = (content: string): BenchmarkItem[] => {
     const gasCost = str2[1].replace(/[()\s:]/g, "");
 
     // There are some lines with "weird" result. we'll be filtering them
-    if (isNaN(Number(gasCost))) return;
+    if (isNaN(Number(gasCost))) {
+      return;
+    }
     const index = _data.findIndex((o) => o.contractName === contractName);
     if (index >= 0) {
       _data[index].benchmarks.push({ functionName, gasCost });
