@@ -64,8 +64,8 @@ dependencies:
     specifier: ^8.15.3
     version: 8.15.3(react-dom@18.2.0)(react@18.2.0)
   '@thirdweb-dev/chains':
-    specifier: 0.1.86
-    version: 0.1.86
+    specifier: 0.1.91
+    version: 0.1.91
   '@thirdweb-dev/react':
     specifier: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
     version: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
@@ -76,8 +76,8 @@ dependencies:
     specifier: 0.4.26
     version: 0.4.26
   '@thirdweb-dev/storage':
-    specifier: 2.0.13
-    version: 2.0.13
+    specifier: 2.0.14
+    version: 2.0.14
   '@thirdweb-dev/wallets':
     specifier: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
     version: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
@@ -6547,11 +6547,6 @@ packages:
       - zksync-ethers
     dev: false
 
-  /@thirdweb-dev/chains@0.1.86:
-    resolution: {integrity: sha512-FbeTLPTxgwuLn4ZTOnisJs7jVRH3wHIRTuIaf7GpJLxg35dAMfYKbK9v0eDmhaf4xKuaJkilgZOXhT4x4dqlIQ==}
-    engines: {node: '>=18'}
-    dev: false
-
   /@thirdweb-dev/chains@0.1.91:
     resolution: {integrity: sha512-LWsYYMd9tmJd8lzXxiMNera+EaAmX7A1kjHHuYhWHge4+pSJ3wPG4Ph2abFMk5dz31GrXKroE+zDHOffXJlsXQ==}
     engines: {node: '>=18'}
@@ -6574,14 +6569,6 @@ packages:
       '@openzeppelin/contracts-upgradeable': 4.9.6
       '@thirdweb-dev/dynamic-contracts': 1.2.5
       erc721a-upgradeable: 3.3.0
-    dev: false
-
-  /@thirdweb-dev/crypto@0.2.4:
-    resolution: {integrity: sha512-26kvfv9TciNPXWzNYzOqXA4NQyv2LnF7iiZybkuZUf/QquB00p6ZvcA4/ymN5PZlTXxgLYyGUnzQF5MOs067eA==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@noble/hashes': 1.4.0
-      js-sha3: 0.9.3
     dev: false
 
   /@thirdweb-dev/crypto@0.2.5:
@@ -6804,16 +6791,6 @@ packages:
     dependencies:
       aws4fetch: 1.0.18
       zod: 3.22.4
-    dev: false
-
-  /@thirdweb-dev/storage@2.0.13:
-    resolution: {integrity: sha512-m+q7RrI7c7G3XC/tmgdY23mAaYbLAIQN83ySpXSe/3Rrybg20EYofcvHVoMkRXSm5ojJvmwfE4SxiZfpsSsTHw==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@thirdweb-dev/crypto': 0.2.4
-      cid-tool: 3.0.0
-      form-data: 4.0.0
-      uuid: 9.0.1
     dev: false
 
   /@thirdweb-dev/storage@2.0.14:
