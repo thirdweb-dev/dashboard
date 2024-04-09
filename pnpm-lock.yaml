@@ -67,11 +67,11 @@ dependencies:
     specifier: 0.1.91
     version: 0.1.91
   '@thirdweb-dev/react':
-    specifier: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
-    version: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+    specifier: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656
+    version: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
   '@thirdweb-dev/sdk':
-    specifier: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
-    version: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
+    specifier: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656
+    version: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
   '@thirdweb-dev/service-utils':
     specifier: 0.4.26
     version: 0.4.26
@@ -79,8 +79,8 @@ dependencies:
     specifier: 2.0.14
     version: 2.0.14
   '@thirdweb-dev/wallets':
-    specifier: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
-    version: 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+    specifier: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656
+    version: 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
   '@vercel/og':
     specifier: ^0.6.2
     version: 0.6.2
@@ -6479,8 +6479,8 @@ packages:
     resolution: {integrity: sha512-P5XgYoAw/vfW65byBbJQCw+cagdXDT/qH6wmABiLt4v4YBT2q2vqCOhihe+D1Nt325F/S/0Tkv6C5z0Lv+VBQQ==}
     dev: false
 
-  /@thirdweb-dev/auth@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
-    resolution: {integrity: sha512-vM+pg1ogU+nLmJoyISVHvoQdDsgefVbxoYcU/G2XhLzWWF61W/8rfXEIk/LcDkS5VmHN+3uTgqMcBJ8+s4Y4AA==}
+  /@thirdweb-dev/auth@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
+    resolution: {integrity: sha512-p6X8jZTV8rGfDV+uQ+oBdABneaztJVrxWOFPbq7FXQDv4dV9FoqcwA4Hg9FHD1FSwQ3lSO4NYk9xvNXx1mTxIg==}
     engines: {node: '>=18'}
     peerDependencies:
       cookie-parser: ^1.4.6
@@ -6504,7 +6504,7 @@ packages:
         optional: true
     dependencies:
       '@fastify/cookie': 9.3.1
-      '@thirdweb-dev/wallets': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/wallets': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
       cookie: 0.6.0
       ethers: 5.7.2
       fastify: 4.26.2
@@ -6606,20 +6606,20 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@thirdweb-dev/react-core@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
-    resolution: {integrity: sha512-fa+dvhc7uNzxwCOA6+JktLZtn1+oVONwEe+cotkYouDmjCodSDVQKpkNBmVvlFmnzFVBpbqLzST9FZU+otgZKQ==}
+  /@thirdweb-dev/react-core@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
+    resolution: {integrity: sha512-OOn7mWh+VDAlM1v2FVb5vJIt0YhzjPmY7ruy3F0uaaETz/gVWWBJ5HyIUGCjTFUsVY3UmduHOIeVeVsPfKg+OA==}
     engines: {node: '>=18'}
     peerDependencies:
       ethers: '>=5.5.1'
       react: '>=18.0.0'
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
-      '@thirdweb-dev/auth': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/auth': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
       '@thirdweb-dev/chains': 0.1.91
       '@thirdweb-dev/generated-abis': 0.0.1
-      '@thirdweb-dev/sdk': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/sdk': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
       '@thirdweb-dev/storage': 2.0.14
-      '@thirdweb-dev/wallets': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/wallets': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
       ethers: 5.7.2
       mime: 3.0.0
       react: 18.2.0
@@ -6665,11 +6665,11 @@ packages:
       - zksync-ethers
     dev: false
 
-  /@thirdweb-dev/react@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
-    resolution: {integrity: sha512-HfTpaSMu+/x158/zqtRy6MRpH9BtQJk8mmayqiT1smvdJCQxDuOT1s11CSvw82KrNVkuf904djsDEELK0YiFVQ==}
+  /@thirdweb-dev/react@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@babel/core@7.23.9)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656)(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
+    resolution: {integrity: sha512-RTk6/u1Hvx9bWJSyAiUJ+ujIIKk7TvPPAqbvS1uvBw6Lxb6b9C+fpxrjGyvQ69CWcDMoNp8AY7ZK/jUCJA0Qmw==}
     engines: {node: '>=18'}
     peerDependencies:
-      '@thirdweb-dev/sdk': ^0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356
+      '@thirdweb-dev/sdk': ^0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656
       ethers: '>=5.5.1'
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -6689,9 +6689,9 @@ packages:
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@thirdweb-dev/chains': 0.1.91
       '@thirdweb-dev/payments': 1.0.4
-      '@thirdweb-dev/react-core': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
-      '@thirdweb-dev/sdk': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
-      '@thirdweb-dev/wallets': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/react-core': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(fastify@4.26.2)(localforage@1.10.0)(next@14.1.4)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/sdk': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/wallets': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0)
       buffer: 6.0.3
       copy-to-clipboard: 3.3.3
       detect-browser: 5.3.0
@@ -6743,8 +6743,8 @@ packages:
       - zksync-ethers
     dev: false
 
-  /@thirdweb-dev/sdk@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0):
-    resolution: {integrity: sha512-rYdz5jD3W0jZHbgkyy1jNRdg1TOwIjOWwbZjjSPttWV9Zw3DgHJdnDrBYbQ3LtOzzdtpuy8cCNMI0JpDeLGOEQ==}
+  /@thirdweb-dev/sdk@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0):
+    resolution: {integrity: sha512-GVl9UBpzVgQmcLG8724v9Y2EkgTIjKfUsP6CF1cYkccE7VME3pPSuambMEwnvyfDNYabqrObKIcxMTrowTAWwg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-secrets-manager': ^3.215.0
@@ -6803,8 +6803,8 @@ packages:
       uuid: 9.0.1
     dev: false
 
-  /@thirdweb-dev/wallets@0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
-    resolution: {integrity: sha512-VX9D+F8iyNmhf5QzfEEdSRiDgJ3ANhpcLqBJ2dYCNROzhx0igLvthoiTp2CWzoGq3tmKwQVbj1rpjHOackVTRQ==}
+  /@thirdweb-dev/wallets@0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react@18.2.73)(ethers@5.7.2)(localforage@1.10.0)(react@18.2.0)(typescript@5.4.3)(zksync-ethers@5.7.0):
+    resolution: {integrity: sha512-Syex5XQLuoMOAtNm91uY36mXkPywZeljuxNOE03B/vqgFojDOUEOP6tHWrJWayoSGEsgsoneRtR2kvO+EVD3nQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-secrets-manager': ^3.256.0
@@ -6840,7 +6840,7 @@ packages:
       '@thirdweb-dev/chains': 0.1.91
       '@thirdweb-dev/contracts-js': 1.3.21(ethers@5.7.2)
       '@thirdweb-dev/crypto': 0.2.5
-      '@thirdweb-dev/sdk': 0.0.0-dev-8ab24bfd737c64325ad5b41d7b876cdcb48c5d54-20240409151356(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
+      '@thirdweb-dev/sdk': 0.0.0-dev-5f79688b4685fed6fd01f2dadb7b6b7a790918c0-20240409215656(ethers@5.7.2)(typescript@5.4.3)(zksync-ethers@5.7.0)
       '@walletconnect/core': 2.12.1
       '@walletconnect/ethereum-provider': 2.12.1(@types/react@18.2.73)(react@18.2.0)
       '@walletconnect/jsonrpc-utils': 1.0.8
@@ -7485,7 +7485,7 @@ packages:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/logger': 2.0.1
+      '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
       '@walletconnect/utils': 2.12.1
       events: 3.3.0
