@@ -29,6 +29,47 @@ const GasPage: ThirdwebNextPage = () => {
       refetchInterval: 120_000,
     },
   );
+
+  const parseGasBenchMark = (content: string): BenchmarkItem[] => {
+    if (!content) {
+      return [];
+    }
+    const _data: BenchmarkItem[] = [];
+    const separator = "test_benchmark_";
+    const lines = content
+      .split("\n")
+      .filter((line) => line.trim() !== "" && line.includes(separator));
+    lines.forEach((line) => {
+      const str = line.split(separator)[1];
+      const str2 = str.split("(gas:");
+      const [contractName, ...functionParts] = str2[0]
+        .replace(/[()\s:]/g, "")
+        .split("_");
+      const functionName = functionParts.join("_");
+      const gasCost = str2[1].replace(/[()\s:]/g, "");
+
+      // There are some lines with "weird" result. we'll be filtering them
+      if (isNaN(Number(gasCost))) {
+        return;
+      }
+      const index = _data.findIndex((o) => o.contractName === contractName);
+      if (index >= 0) {
+        _data[index].benchmarks.push({ functionName, gasCost });
+      } else {
+        _data.push({
+          contractName,
+          benchmarks: [
+            {
+              functionName,
+              gasCost,
+            },
+          ],
+        });
+      }
+    });
+    return _data;
+  };
+
   const gasItems = useMemo(
     () => parseGasBenchMark(gasBenchmark.data || ""),
     [gasBenchmark.data],
@@ -99,43 +140,3 @@ GasPage.getLayout = function getLayout(page, props) {
 GasPage.pageId = PageId.GasEstimator;
 
 export default GasPage;
-
-const parseGasBenchMark = (content: string): BenchmarkItem[] => {
-  if (!content) {
-    return [];
-  }
-  const _data: BenchmarkItem[] = [];
-  const separator = "test_benchmark_";
-  const lines = content
-    .split("\n")
-    .filter((line) => line.trim() !== "" && line.includes(separator));
-  lines.forEach((line) => {
-    const str = line.split(separator)[1];
-    const str2 = str.split("(gas:");
-    const [contractName, ...functionParts] = str2[0]
-      .replace(/[()\s:]/g, "")
-      .split("_");
-    const functionName = functionParts.join("_");
-    const gasCost = str2[1].replace(/[()\s:]/g, "");
-
-    // There are some lines with "weird" result. we'll be filtering them
-    if (isNaN(Number(gasCost))) {
-      return;
-    }
-    const index = _data.findIndex((o) => o.contractName === contractName);
-    if (index >= 0) {
-      _data[index].benchmarks.push({ functionName, gasCost });
-    } else {
-      _data.push({
-        contractName,
-        benchmarks: [
-          {
-            functionName,
-            gasCost,
-          },
-        ],
-      });
-    }
-  });
-  return _data;
-};
