@@ -85,12 +85,13 @@ export class SuperChainFormFrame {
   };
 
   static getWebsiteUrl = (url: string) => {
+    let _url = url;
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
-      return `https://${url}`;
+      _url = `https://${url}`;
     }
     // Validate URL
-    new URL(url);
-    return url;
+    new URL(_url);
+    return _url;
   };
 
   public static htmlResponse = (frameMetaData: FrameMetadataType) => {
