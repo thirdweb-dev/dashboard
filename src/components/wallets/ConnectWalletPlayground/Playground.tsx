@@ -145,7 +145,6 @@ export const ConnectWalletPlayground: React.FC<{
 
       return `[${walletIds
         .map((walletId) => {
-          const wcId = walletInfoRecord[walletId].id;
           let walletCode = walletInfoRecord[walletId].code;
 
           if (walletId === "Email Wallet") {
@@ -161,10 +160,6 @@ export const ConnectWalletPlayground: React.FC<{
 
               walletCode = `inAppWallet(${JSON.stringify(options, null, 2)})`;
             }
-          }
-
-          if (wcId) {
-            walletCode = `createWallet("${wcId}")`;
           }
 
           return walletCode;

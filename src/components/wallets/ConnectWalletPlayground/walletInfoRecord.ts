@@ -11,7 +11,6 @@ import {
   rainbowWallet,
   WalletConfig,
 } from "@thirdweb-dev/react";
-import type { WalletId as AnyWalletId } from "thirdweb/wallets";
 
 const metamaskWalletConfig = metamaskWallet();
 const walletConnectConfig = walletConnect();
@@ -42,8 +41,7 @@ type WalletInfo = {
   code: string;
   component: WalletConfig<any>;
   import: string;
-  type?: "social" | "eoa" | "guest";
-  id?: AnyWalletId;
+  type?: "social" | "eoa";
 };
 
 export type WalletId =
@@ -64,14 +62,12 @@ export const walletInfoRecord: WalletInfoRecord = {
     component: metamaskWalletConfig,
     import: "createWallet",
     type: "eoa",
-    id: "io.metamask",
   },
   Coinbase: {
     code: `createWallet("com.coinbase.wallet")`,
     component: coinbaseWalletConfig,
     import: "createWallet",
     type: "eoa",
-    id: "com.coinbase.wallet",
   },
   WalletConnect: {
     code: `walletConnect()`,
@@ -84,28 +80,24 @@ export const walletInfoRecord: WalletInfoRecord = {
     component: trustWalletConfig,
     import: "createWallet",
     type: "eoa",
-    id: "com.trustwallet.app",
   },
   Rainbow: {
     code: `createWallet("me.rainbow")`,
     component: rainbowWalletConfig,
     import: "createWallet",
     type: "eoa",
-    id: "me.rainbow",
   },
   Zerion: {
     code: `createWallet("io.zerion.wallet")`,
     component: zerionWalletConfig,
     import: "createWallet",
     type: "eoa",
-    id: "io.zerion.wallet",
   },
   Phantom: {
     code: `createWallet("app.phantom")`,
     component: phantomConfig,
     import: "createWallet",
     type: "eoa",
-    id: "app.phantom",
   },
   "Email Wallet": {
     code: `inAppWallet()`,
