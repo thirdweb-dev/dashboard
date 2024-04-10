@@ -88,7 +88,7 @@ const AIRDROP = {
   name: "Airdrop",
   displayName: "Airdrops",
   description:
-    "Efficiently transfer large numbers of on-chain assets to a large number of recipients. The Airdrop contract supports push-based and claimable airdrops for ERC20 / ERC721 / ERC1155 token types. ",
+    "Efficiently transfer large numbers of on-chain assets to a large number of recipients.",
   contracts: ["thirdweb.eth/Airdrop"],
 } as const;
 
