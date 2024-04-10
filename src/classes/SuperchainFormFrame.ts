@@ -86,7 +86,7 @@ export class SuperChainFormFrame {
 
   static getWebsiteUrl = (url: string) => {
     let _url = url;
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    if (!_url.startsWith("http://") && !_url.startsWith("https://")) {
       _url = `https://${url}`;
     }
     // Validate URL
