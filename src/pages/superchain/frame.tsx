@@ -1,13 +1,21 @@
 import Head from "next/head";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const title = "Superchain form";
 const description = "Superchain form with farcaster frame";
 
-const ogImageUrl = `${getAbsoluteUrl()}/assets/og-image/degen-enchine-frame.png`;
+const ogImageUrl = `${getAbsoluteUrl()}/assets/superchain/frame-1.png`;
 
-const BaseFramePage = () => {
+const SuperChainFrame = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(`/dashboard`);
+  }, [router]);
+
   return (
     <>
       <NextSeo
@@ -29,19 +37,14 @@ const BaseFramePage = () => {
       <Head>
         <meta property="fc:frame" content="vNext" />
         <meta name="fc:frame:image" content={ogImageUrl} />
-        <meta property="fc:frame:button:1" content="Confirm" />
-        <meta property="fc:frame:button:1:action" content="post" />
+        <meta property="fc:frame:button:1" content="Apply" />
         <meta
-          property="fc:frame:input:text"
-          content="Base, Frax, Lisk, OP or Zora"
-        />
-        <meta
-          property="fc:frame:button:1:target"
-          content={`${getAbsoluteUrl()}/api/superchain/frame?type=chain`}
+          property="fc:frame:post_url"
+          content={`${getAbsoluteUrl()}/api/superchain/frame?type=apply`}
         />
       </Head>
     </>
   );
 };
 
-export default BaseFramePage;
+export default SuperChainFrame;

@@ -22,18 +22,19 @@ type HubspotFields = [
 ];
 
 const validChains = z.union([
-  z.literal("Base"),
-  z.literal("Frax"),
-  z.literal("Lisk"),
-  z.literal("Mode"),
-  z.literal("Optimism"),
-  z.literal("Zora"),
+  z.literal("base"),
+  z.literal("zora"),
+  z.literal("fraxtal"),
+  z.literal("op-mainnet"),
+  z.literal("mode"),
 ]);
 
 const validQueryType = z.union([
+  z.literal("apply"),
   z.literal("chain"),
   z.literal("email"),
   z.literal("website"),
+  z.literal("redirect"),
 ]);
 
 export class SuperChainFormFrame {
@@ -42,11 +43,41 @@ export class SuperChainFormFrame {
   };
 
   static getChain = (chain: string) => {
-    const lowercaseChain = chain.toLowerCase();
-    const capitalizedChain =
-      lowercaseChain.charAt(0).toUpperCase() + lowercaseChain.slice(1);
+    let lowercaseChain = chain.toLowerCase();
+    if (lowercaseChain === "op mainnet") {
+      lowercaseChain = "op-mainnet";
+    }
+    return validChains.parse(lowercaseChain);
+  };
 
-    return validChains.parse(capitalizedChain);
+  static getConvertedChain = (chain: string) => {
+    let convertedChain: string;
+
+    switch (chain) {
+      case "base":
+        convertedChain = "Base";
+        break;
+
+      case "fraxtal":
+        convertedChain = "Frax";
+        break;
+
+      case "mode":
+        convertedChain = "Mode";
+        break;
+
+      case "op-mainnet":
+        convertedChain = "Optimism";
+        break;
+
+      case "zora":
+        convertedChain = "Zora";
+        break;
+
+      default:
+        throw new Error("Valid chain not found");
+    }
+    return convertedChain;
   };
 
   static getEmail = (email: string) => {
@@ -84,7 +115,6 @@ export class SuperChainFormFrame {
 
     if (!response.ok) {
       const resp = await response.json();
-      console.log({ resp });
       const errMessage = `Failed to send form to email: ${fields[0].value} and farcaster handle: ${fields[3].value}`;
       Sentry.captureException(new Error(errMessage, { cause: resp }));
       throw new Error("Failed to send form");

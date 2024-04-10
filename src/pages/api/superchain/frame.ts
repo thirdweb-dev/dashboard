@@ -1,9 +1,14 @@
 import { NextRequest } from "next/server";
 import { FrameRequest } from "@coinbase/onchainkit";
 import { CoinbaseKit } from "classes/CoinbaseKit";
-import { errorResponse, successHtmlResponse } from "utils/api";
+import {
+  errorResponse,
+  redirectResponse,
+  successHtmlResponse,
+} from "utils/api";
 import { SuperChainFormFrame } from "classes/SuperchainFormFrame";
 import {
+  getApplyFrameMetaData,
   getEmailMetaData,
   getSuccessMetaData,
   getWebsiteMetaData,
@@ -13,6 +18,8 @@ import * as Sentry from "@sentry/nextjs";
 export const config = {
   runtime: "edge",
 };
+
+const dashboardUrl = "https://thirdweb.com/dashboard";
 
 export default async function handler(req: NextRequest) {
   if (req.method !== "POST") {
@@ -33,6 +40,14 @@ export default async function handler(req: NextRequest) {
     const queryType = searchParams.get("type");
 
     const type = SuperChainFormFrame.getQueryType(queryType as string);
+
+    if (type === "apply") {
+      const frameMetaData = getApplyFrameMetaData();
+      return successHtmlResponse(
+        SuperChainFormFrame.htmlResponse(frameMetaData),
+        200,
+      );
+    }
 
     if (type === "chain") {
       const chain = SuperChainFormFrame.getChain(message.input?.toLowerCase());
@@ -66,7 +81,10 @@ export default async function handler(req: NextRequest) {
 
       await SuperChainFormFrame.sendFormToHubspot([
         { name: "email", value: email },
-        { name: "superchain_chain", value: chain },
+        {
+          name: "superchain_chain",
+          value: SuperChainFormFrame.getConvertedChain(chain),
+        },
         { name: "website", value: website },
         {
           name: "farcaster_handle",
@@ -80,8 +98,13 @@ export default async function handler(req: NextRequest) {
         200,
       );
     }
+
+    if (type === "redirect") {
+      return redirectResponse(dashboardUrl, 302);
+    }
+
+    return errorResponse("Type not valid", 400);
   } catch (err) {
-    console.log("err", (err as any).message);
     const errMessage = `Superchain frame embedd form failed`;
     Sentry.captureException(new Error(errMessage, { cause: err }));
     return errorResponse("Something went wrong!", 500);
