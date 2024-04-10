@@ -105,7 +105,7 @@ export default async function handler(req: NextRequest) {
 
     return errorResponse("Type not valid", 400);
   } catch (err) {
-    const errMessage = `Superchain frame embedd form failed`;
+const errMessage = `Superchain frame embedded form failed`;
     Sentry.captureException(new Error(errMessage, { cause: err }));
     return errorResponse("Something went wrong!", 500);
   }
