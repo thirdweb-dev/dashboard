@@ -45,10 +45,10 @@ const MajorSection = () => {
               <Text size="body.xl" color="white" fontWeight="bold">
                 User experience
               </Text>
-              To interact with an onchain app, users must create a wallet,
-              store their private keys, purchase & transfer crypto, pay gas,
-              and sign a transaction for every action — creating a daunting
-              onboarding process that stifles adoption.
+              To interact with an onchain app, users must create a wallet, store
+              their private keys, purchase & transfer crypto, pay gas, and sign
+              a transaction for every action — creating a daunting onboarding
+              process that stifles adoption.
             </Flex>
           </Flex>
         </LandingGridSection>
