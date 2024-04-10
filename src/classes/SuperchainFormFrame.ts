@@ -85,12 +85,11 @@ export class SuperChainFormFrame {
   };
 
   static getWebsiteUrl = (url: string) => {
-    const regex =
-      // eslint-disable-next-line no-useless-escape
-      /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,})([\/\w \.-]*)*\/?$/;
-    if (!regex.test(url)) {
-      throw new Error("Invalid URL");
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      return `https://${url}`;
     }
+    // Validate URL
+    new URL(url);
     return url;
   };
 
