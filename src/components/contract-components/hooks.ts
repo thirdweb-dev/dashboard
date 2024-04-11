@@ -263,7 +263,15 @@ export async function fetchAllVersions(
   for (let i = 0; i < allVersions.length; i++) {
     const contractInfo = await sdk
       .getPublisher()
-      .fetchPublishedContractInfo(allVersions[i]);
+      .fetchPublishedContractInfo(allVersions[i])
+      .catch(() => {
+        console.error(
+          `failed to fetchPublishedContractInfo for metadataUri: ${allVersions[i].metadataUri} - ignoring version`,
+        );
+      });
+    if (!contractInfo) {
+      continue;
+    }
 
     publishedVersions.unshift({
       ...allVersions[i],
