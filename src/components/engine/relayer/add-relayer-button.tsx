@@ -1,203 +1,203 @@
 import {
-  CreateRelayerInput,
-  useEngineBackendWallets,
-  useEngineCreateRelayer,
+	type CreateRelayerInput,
+	useEngineBackendWallets,
+	useEngineCreateRelayer,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  Icon,
-  FormControl,
-  Input,
-  Select,
-  UseDisclosureReturn,
-  Textarea,
+	Flex,
+	FormControl,
+	Icon,
+	Input,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	Select,
+	Textarea,
+	type UseDisclosureReturn,
+	useDisclosure,
 } from "@chakra-ui/react";
-import { useTrack } from "hooks/analytics/useTrack";
-import { useTxNotifications } from "hooks/useTxNotifications";
-import { useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel } from "tw-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useAllChainsData } from "hooks/chains/allChains";
+import { shortenString } from "@thirdweb-dev/react";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { isAddress } from "ethers/lib/utils";
-import { shortenString } from "@thirdweb-dev/react";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useAllChainsData } from "hooks/chains/allChains";
+import { useTxNotifications } from "hooks/useTxNotifications";
+import { useForm } from "react-hook-form";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, FormHelperText, FormLabel } from "tw-components";
 
 interface AddRelayerButtonProps {
-  instanceUrl: string;
+	instanceUrl: string;
 }
 
 export const AddRelayerButton: React.FC<AddRelayerButtonProps> = ({
-  instanceUrl,
+	instanceUrl,
 }) => {
-  const disclosure = useDisclosure();
+	const disclosure = useDisclosure();
 
-  return (
-    <>
-      <Button
-        onClick={disclosure.onOpen}
-        variant="ghost"
-        size="sm"
-        leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
-        colorScheme="primary"
-        w="fit-content"
-      >
-        Add Relayer
-      </Button>
+	return (
+		<>
+			<Button
+				onClick={disclosure.onOpen}
+				variant="ghost"
+				size="sm"
+				leftIcon={<Icon as={AiOutlinePlusCircle} boxSize={6} />}
+				colorScheme="primary"
+				w="fit-content"
+			>
+				Add Relayer
+			</Button>
 
-      {disclosure.isOpen && (
-        <AddModal instanceUrl={instanceUrl} disclosure={disclosure} />
-      )}
-    </>
-  );
+			{disclosure.isOpen && (
+				<AddModal instanceUrl={instanceUrl} disclosure={disclosure} />
+			)}
+		</>
+	);
 };
 
 export interface AddModalInput {
-  chainId: number;
-  backendWalletAddress: string;
-  name?: string;
-  allowedContractsRaw: string;
-  allowedForwardersRaw: string;
+	chainId: number;
+	backendWalletAddress: string;
+	name?: string;
+	allowedContractsRaw: string;
+	allowedForwardersRaw: string;
 }
 
 const AddModal = ({
-  instanceUrl,
-  disclosure,
+	instanceUrl,
+	disclosure,
 }: {
-  instanceUrl: string;
-  disclosure: UseDisclosureReturn;
+	instanceUrl: string;
+	disclosure: UseDisclosureReturn;
 }) => {
-  const { mutate: createRelayer } = useEngineCreateRelayer(instanceUrl);
-  const { data: backendWallets } = useEngineBackendWallets(instanceUrl);
-  const { slugToChainRecord, chainIdToChainRecord } = useAllChainsData();
-  const trackEvent = useTrack();
-  const { onSuccess, onError } = useTxNotifications(
-    "Relayer created successfully.",
-    "Failed to create relayer.",
-  );
+	const { mutate: createRelayer } = useEngineCreateRelayer(instanceUrl);
+	const { data: backendWallets } = useEngineBackendWallets(instanceUrl);
+	const { slugToChainRecord, chainIdToChainRecord } = useAllChainsData();
+	const trackEvent = useTrack();
+	const { onSuccess, onError } = useTxNotifications(
+		"Relayer created successfully.",
+		"Failed to create relayer.",
+	);
 
-  const form = useForm<AddModalInput>({
-    defaultValues: {
-      chainId: slugToChainRecord["sepolia"].chainId,
-    },
-  });
+	const form = useForm<AddModalInput>({
+		defaultValues: {
+			chainId: slugToChainRecord.sepolia.chainId,
+		},
+	});
 
-  const onSubmit = (data: AddModalInput) => {
-    const createRelayerData: CreateRelayerInput = {
-      chain: chainIdToChainRecord[data.chainId].slug,
-      backendWalletAddress: data.backendWalletAddress,
-      name: data.name,
-      allowedContracts: parseAddressListRaw(data.allowedContractsRaw),
-      allowedForwarders: parseAddressListRaw(data.allowedForwardersRaw),
-    };
+	const onSubmit = (data: AddModalInput) => {
+		const createRelayerData: CreateRelayerInput = {
+			chain: chainIdToChainRecord[data.chainId].slug,
+			backendWalletAddress: data.backendWalletAddress,
+			name: data.name,
+			allowedContracts: parseAddressListRaw(data.allowedContractsRaw),
+			allowedForwarders: parseAddressListRaw(data.allowedForwardersRaw),
+		};
 
-    createRelayer(createRelayerData, {
-      onSuccess: () => {
-        onSuccess();
-        disclosure.onClose();
-        trackEvent({
-          category: "engine",
-          action: "create-relayer",
-          label: "success",
-          instance: instanceUrl,
-        });
-      },
-      onError: (error) => {
-        onError(error);
-        trackEvent({
-          category: "engine",
-          action: "create-relayer",
-          label: "error",
-          instance: instanceUrl,
-          error,
-        });
-      },
-    });
-  };
+		createRelayer(createRelayerData, {
+			onSuccess: () => {
+				onSuccess();
+				disclosure.onClose();
+				trackEvent({
+					category: "engine",
+					action: "create-relayer",
+					label: "success",
+					instance: instanceUrl,
+				});
+			},
+			onError: (error) => {
+				onError(error);
+				trackEvent({
+					category: "engine",
+					action: "create-relayer",
+					label: "error",
+					instance: instanceUrl,
+					error,
+				});
+			},
+		});
+	};
 
-  return (
-    <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
-      <ModalOverlay />
-      <ModalContent as="form" onSubmit={form.handleSubmit(onSubmit)}>
-        <ModalHeader>Add Relayer</ModalHeader>
-        <ModalCloseButton />
+	return (
+		<Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
+			<ModalOverlay />
+			<ModalContent as="form" onSubmit={form.handleSubmit(onSubmit)}>
+				<ModalHeader>Add Relayer</ModalHeader>
+				<ModalCloseButton />
 
-        <ModalBody>
-          <Flex flexDir="column" gap={4}>
-            <FormControl isRequired>
-              <FormLabel>Chain</FormLabel>
-              <NetworkDropdown
-                value={form.watch("chainId")}
-                onSingleChange={(val) => form.setValue("chainId", val)}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Backend Wallet</FormLabel>
-              <Select
-                {...form.register("backendWalletAddress", { required: true })}
-              >
-                <option value="" disabled selected hidden>
-                  Select a backend wallet to use as a relayer
-                </option>
-                {backendWallets?.map((wallet) => (
-                  <option key={wallet.address} value={wallet.address}>
-                    {shortenString(wallet.address, false)}
-                    {wallet.label && ` (${wallet.label})`}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Label</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter a description for this relayer"
-                {...form.register("name")}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Allowed Contracts</FormLabel>
-              <Textarea
-                {...form.register("allowedContractsRaw")}
-                placeholder="Enter a comma or newline-separated list of contract addresses"
-                rows={4}
-              />
-              <FormHelperText>Allow all contracts if omitted.</FormHelperText>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Allowed Forwarders</FormLabel>
-              <Textarea
-                {...form.register("allowedForwardersRaw")}
-                placeholder="Enter a comma or newline-separated list of forwarder addresses"
-                rows={4}
-              />
-              <FormHelperText>Allow all forwarders if omitted.</FormHelperText>
-            </FormControl>
-          </Flex>
-        </ModalBody>
+				<ModalBody>
+					<Flex flexDir="column" gap={4}>
+						<FormControl isRequired>
+							<FormLabel>Chain</FormLabel>
+							<NetworkDropdown
+								value={form.watch("chainId")}
+								onSingleChange={(val) => form.setValue("chainId", val)}
+							/>
+						</FormControl>
+						<FormControl isRequired>
+							<FormLabel>Backend Wallet</FormLabel>
+							<Select
+								{...form.register("backendWalletAddress", { required: true })}
+							>
+								<option value="" disabled selected hidden>
+									Select a backend wallet to use as a relayer
+								</option>
+								{backendWallets?.map((wallet) => (
+									<option key={wallet.address} value={wallet.address}>
+										{shortenString(wallet.address, false)}
+										{wallet.label && ` (${wallet.label})`}
+									</option>
+								))}
+							</Select>
+						</FormControl>
+						<FormControl>
+							<FormLabel>Label</FormLabel>
+							<Input
+								type="text"
+								placeholder="Enter a description for this relayer"
+								{...form.register("name")}
+							/>
+						</FormControl>
+						<FormControl>
+							<FormLabel>Allowed Contracts</FormLabel>
+							<Textarea
+								{...form.register("allowedContractsRaw")}
+								placeholder="Enter a comma or newline-separated list of contract addresses"
+								rows={4}
+							/>
+							<FormHelperText>Allow all contracts if omitted.</FormHelperText>
+						</FormControl>
+						<FormControl>
+							<FormLabel>Allowed Forwarders</FormLabel>
+							<Textarea
+								{...form.register("allowedForwardersRaw")}
+								placeholder="Enter a comma or newline-separated list of forwarder addresses"
+								rows={4}
+							/>
+							<FormHelperText>Allow all forwarders if omitted.</FormHelperText>
+						</FormControl>
+					</Flex>
+				</ModalBody>
 
-        <ModalFooter as={Flex} gap={3}>
-          <Button type="button" onClick={disclosure.onClose} variant="ghost">
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            colorScheme="primary"
-            isDisabled={!form.formState.isValid}
-          >
-            Add
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
+				<ModalFooter as={Flex} gap={3}>
+					<Button type="button" onClick={disclosure.onClose} variant="ghost">
+						Cancel
+					</Button>
+					<Button
+						type="submit"
+						colorScheme="primary"
+						isDisabled={!form.formState.isValid}
+					>
+						Add
+					</Button>
+				</ModalFooter>
+			</ModalContent>
+		</Modal>
+	);
 };
 
 /**
@@ -212,9 +212,9 @@ const AddModal = ({
  *  ]
  */
 export const parseAddressListRaw = (raw: string): string[] | undefined => {
-  const addresses = raw
-    .split(/[,\n]/)
-    .map((entry) => entry.trim())
-    .filter((entry) => isAddress(entry));
-  return addresses.length > 0 ? addresses : undefined;
+	const addresses = raw
+		.split(/[,\n]/)
+		.map((entry) => entry.trim())
+		.filter((entry) => isAddress(entry));
+	return addresses.length > 0 ? addresses : undefined;
 };

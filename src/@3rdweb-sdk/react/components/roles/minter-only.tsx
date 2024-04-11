@@ -1,18 +1,18 @@
 import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
-import { ComponentWithChildren } from "types/component-with-children";
+import type { ValidContractInstance } from "@thirdweb-dev/sdk";
+import type { ComponentWithChildren } from "types/component-with-children";
 
 interface IMinterOnlyProps {
-  contract?: ValidContractInstance;
+	contract?: ValidContractInstance;
 }
 
 export const MinterOnly: ComponentWithChildren<IMinterOnlyProps> = ({
-  children,
-  contract,
+	children,
+	contract,
 }) => {
-  const isMinter = useIsMinter(contract);
-  if (!isMinter) {
-    return null;
-  }
-  return <>{children}</>;
+	const isMinter = useIsMinter(contract);
+	if (!isMinter) {
+		return null;
+	}
+	return <>{children}</>;
 };

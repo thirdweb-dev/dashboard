@@ -7,22 +7,22 @@ import { PaymentsWebhooks } from "components/payments/settings/payment-webhooks"
 import { NoWalletConnectedPayments } from "contract-ui/tabs/payments/components/no-wallet-connected-payments";
 
 export const OldPaySetting = () => {
-  const { paymentsSellerId } = useApiAuthToken();
-  const { user } = useLoggedInUser();
+	const { paymentsSellerId } = useApiAuthToken();
+	const { user } = useLoggedInUser();
 
-  if (!user?.address) {
-    return <NoWalletConnectedPayments />;
-  }
+	if (!user?.address) {
+		return <NoWalletConnectedPayments />;
+	}
 
-  return (
-    <Flex flexDir="column" gap={8}>
-      {paymentsSellerId && (
-        <>
-          <PaymentsSettingsChecklist paymentsSellerId={paymentsSellerId} />
-          <PaymentsSettingsAccount paymentsSellerId={paymentsSellerId} />
-          <PaymentsWebhooks paymentsSellerId={paymentsSellerId} />
-        </>
-      )}
-    </Flex>
-  );
+	return (
+		<Flex flexDir="column" gap={8}>
+			{paymentsSellerId && (
+				<>
+					<PaymentsSettingsChecklist paymentsSellerId={paymentsSellerId} />
+					<PaymentsSettingsAccount paymentsSellerId={paymentsSellerId} />
+					<PaymentsWebhooks paymentsSellerId={paymentsSellerId} />
+				</>
+			)}
+		</Flex>
+	);
 };

@@ -1,19 +1,19 @@
 import useDelayedDisplay from "hooks/useDelayedDisplay";
-import { ComponentWithChildren } from "types/component-with-children";
+import type { ComponentWithChildren } from "types/component-with-children";
 
 interface DelayedDisplayProps {
-  delay: number;
+	delay: number;
 }
 
 export const DelayedDisplay: ComponentWithChildren<DelayedDisplayProps> = ({
-  delay,
-  children,
+	delay,
+	children,
 }) => {
-  const displayContent = useDelayedDisplay(delay);
+	const displayContent = useDelayedDisplay(delay);
 
-  if (!displayContent) {
-    return null;
-  }
+	if (!displayContent) {
+		return null;
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 };

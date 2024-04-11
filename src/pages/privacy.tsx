@@ -1,32 +1,32 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
+import type { ThirdwebNextPage } from "utils/types";
 import { MarkdownRenderer } from "../components/contract-components/published-contract/markdown-renderer";
 
 const Privacy: ThirdwebNextPage = () => {
-  return (
-    <LandingLayout
-      seo={{
-        title: "thirdweb's Privacy Policy",
-        description:
-          "The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
-      }}
-    >
-      <Container
-        maxW="container.page"
-        as={Flex}
-        flexDir="column"
-        gap={{ base: "80px", md: "120px" }}
-      >
-        <PrivacyPolicyMDX />
-      </Container>
-    </LandingLayout>
-  );
+	return (
+		<LandingLayout
+			seo={{
+				title: "thirdweb's Privacy Policy",
+				description:
+					"The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
+			}}
+		>
+			<Container
+				maxW="container.page"
+				as={Flex}
+				flexDir="column"
+				gap={{ base: "80px", md: "120px" }}
+			>
+				<PrivacyPolicyMDX />
+			</Container>
+		</LandingLayout>
+	);
 };
 
 const PrivacyPolicyMDX = () => {
-  return <MarkdownRenderer markdownText={PRIVACY_POLICY_TEXT} />;
+	return <MarkdownRenderer markdownText={PRIVACY_POLICY_TEXT} />;
 };
 
 const PRIVACY_POLICY_TEXT = `# thirdweb Privacy Policy

@@ -1,45 +1,45 @@
-import { isAddress, readContract, type BaseTransactionOptions } from "thirdweb";
+import { type BaseTransactionOptions, isAddress, readContract } from "thirdweb";
 import { isAddressZero } from "utils/zeroAddress";
 
 const GetAllABI = {
-  type: "function",
-  name: "getAll",
-  inputs: [
-    {
-      type: "address",
-      name: "_deployer",
-      internalType: "address",
-    },
-  ],
-  outputs: [
-    {
-      type: "tuple[]",
-      name: "allDeployments",
-      components: [
-        {
-          type: "address",
-          name: "deploymentAddress",
-          internalType: "address",
-        },
-        {
-          type: "uint256",
-          name: "chainId",
-          internalType: "uint256",
-        },
-        {
-          type: "string",
-          name: "metadataURI",
-          internalType: "string",
-        },
-      ],
-      internalType: "struct ITWMultichainRegistry.Deployment[]",
-    },
-  ],
-  stateMutability: "view",
+	type: "function",
+	name: "getAll",
+	inputs: [
+		{
+			type: "address",
+			name: "_deployer",
+			internalType: "address",
+		},
+	],
+	outputs: [
+		{
+			type: "tuple[]",
+			name: "allDeployments",
+			components: [
+				{
+					type: "address",
+					name: "deploymentAddress",
+					internalType: "address",
+				},
+				{
+					type: "uint256",
+					name: "chainId",
+					internalType: "uint256",
+				},
+				{
+					type: "string",
+					name: "metadataURI",
+					internalType: "string",
+				},
+			],
+			internalType: "struct ITWMultichainRegistry.Deployment[]",
+		},
+	],
+	stateMutability: "view",
 } as const;
 
 type GetAllMultichainRegistryParams = {
-  address: string;
+	address: string;
 };
 
 /**
@@ -53,27 +53,27 @@ type GetAllMultichainRegistryParams = {
  * ```
  */
 export async function getAllMultichainRegistry(
-  options: BaseTransactionOptions<GetAllMultichainRegistryParams>,
+	options: BaseTransactionOptions<GetAllMultichainRegistryParams>,
 ) {
-  const contracts = await readContract({
-    ...options,
-    method: GetAllABI,
-    params: [options.address],
-  });
+	const contracts = await readContract({
+		...options,
+		method: GetAllABI,
+		params: [options.address],
+	});
 
-  const contractsFiltered = [
-    ...contracts.filter(
-      ({ deploymentAddress, chainId }) =>
-        isAddress(deploymentAddress) &&
-        !isAddressZero(deploymentAddress.toLowerCase()) &&
-        chainId,
-    ),
-  ].reverse();
+	const contractsFiltered = [
+		...contracts.filter(
+			({ deploymentAddress, chainId }) =>
+				isAddress(deploymentAddress) &&
+				!isAddressZero(deploymentAddress.toLowerCase()) &&
+				chainId,
+		),
+	].reverse();
 
-  return contractsFiltered.map((contractFiltered) => {
-    return {
-      address: contractFiltered.deploymentAddress,
-      chainId: Number(contractFiltered.chainId),
-    };
-  });
+	return contractsFiltered.map((contractFiltered) => {
+		return {
+			address: contractFiltered.deploymentAddress,
+			chainId: Number(contractFiltered.chainId),
+		};
+	});
 }

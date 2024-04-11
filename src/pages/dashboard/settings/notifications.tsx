@@ -1,52 +1,52 @@
-import { AppLayout } from "components/app-layouts/app";
+import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import { Flex } from "@chakra-ui/react";
+import { AppLayout } from "components/app-layouts/app";
+import { Notifications } from "components/settings/Account/Notifications";
+import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
-import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { Heading, Text } from "tw-components";
-import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { Notifications } from "components/settings/Account/Notifications";
-import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
+import type { ThirdwebNextPage } from "utils/types";
 
 const SettingsNotificationsPage: ThirdwebNextPage = () => {
-  const { isLoggedIn } = useLoggedInUser();
-  const meQuery = useAccount();
+	const { isLoggedIn } = useLoggedInUser();
+	const meQuery = useAccount();
 
-  if (!isLoggedIn) {
-    return (
-      <ConnectWalletPrompt description="configure your notification preferences" />
-    );
-  }
+	if (!isLoggedIn) {
+		return (
+			<ConnectWalletPrompt description="configure your notification preferences" />
+		);
+	}
 
-  if (meQuery.isLoading || !meQuery.data) {
-    return null;
-  }
+	if (meQuery.isLoading || !meQuery.data) {
+		return null;
+	}
 
-  const account = meQuery.data;
+	const account = meQuery.data;
 
-  return (
-    <Flex flexDir="column" gap={8}>
-      <Flex direction="column" gap={2}>
-        <Heading size="title.lg" as="h1" h={10}>
-          Notification Settings
-        </Heading>
-        <Text size="body.md">
-          Configure your email notification preferences.
-        </Text>
-      </Flex>
+	return (
+		<Flex flexDir="column" gap={8}>
+			<Flex direction="column" gap={2}>
+				<Heading size="title.lg" as="h1" h={10}>
+					Notification Settings
+				</Heading>
+				<Text size="body.md">
+					Configure your email notification preferences.
+				</Text>
+			</Flex>
 
-      <Notifications account={account} />
-    </Flex>
-  );
+			<Notifications account={account} />
+		</Flex>
+	);
 };
 
 SettingsNotificationsPage.getLayout = (page, props) => (
-  <AppLayout {...props} hasSidebar={true}>
-    <SettingsSidebar activePage="notifications" />
+	<AppLayout {...props} hasSidebar={true}>
+		<SettingsSidebar activePage="notifications" />
 
-    {page}
-  </AppLayout>
+		{page}
+	</AppLayout>
 );
 
 SettingsNotificationsPage.pageId = PageId.SettingsNotifications;

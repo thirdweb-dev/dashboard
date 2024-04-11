@@ -1,11 +1,9 @@
-import { FrameRequest, getFrameMessage } from "@coinbase/onchainkit";
+import { type FrameRequest, getFrameMessage } from "@coinbase/onchainkit";
 
-export class CoinbaseKit {
-  public static validateMessage = async (body: FrameRequest) => {
-    const { isValid, message } = await getFrameMessage(body, {
-      neynarApiKey: process.env.NEYNAR_API_KEY,
-    });
+export async function validateMessage(body: FrameRequest) {
+	const { isValid, message } = await getFrameMessage(body, {
+		neynarApiKey: process.env.NEYNAR_API_KEY,
+	});
 
-    return { isValid, message };
-  };
+	return { isValid, message };
 }

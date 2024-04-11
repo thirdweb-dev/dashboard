@@ -1,15 +1,15 @@
 // handle old contract paths - redirect to /explore
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 export default function page() {
-  return null;
+	return null;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    redirect: {
-      destination: "/explore",
-      permanent: false,
-    },
-  };
+	return {
+		redirect: {
+			destination: "/explore",
+			permanent: false,
+		},
+	};
 };

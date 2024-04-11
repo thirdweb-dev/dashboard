@@ -1,7 +1,7 @@
-import { HomePageCodeBlock } from "../CodeBlock";
-import { KeyFeatureLayout } from "./key-features/KeyFeatureLayout";
 import { AspectRatio, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { themes } from "prism-react-renderer";
+import { HomePageCodeBlock } from "../CodeBlock";
+import { KeyFeatureLayout } from "./key-features/KeyFeatureLayout";
 
 const darkTheme = themes.vsDark;
 
@@ -104,51 +104,51 @@ async function getAll(paginationStart?: number, pageCount?: number) {
 const nfts = await getAll();`;
 
 export const WithoutThirdwebSection: React.FC = () => {
-  return (
-    <KeyFeatureLayout
-      title="Simple"
-      titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
-      headline="Web3 made easy."
-      description=""
-    >
-      <SimpleGrid columns={12} gap={8} w="full">
-        <GridItem colSpan={{ base: 12, md: 6 }}>
-          <AspectRatio ratio={16 / 10} w="full">
-            <HomePageCodeBlock
-              darkTheme={darkTheme}
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={withoutThirdwebCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="Without thirdweb (88 lines)"
-              titleColor="gray.600"
-              borderTopRadius={0}
-            />
-          </AspectRatio>
-        </GridItem>
-        <GridItem colSpan={{ base: 12, md: 6 }}>
-          <AspectRatio ratio={16 / 10} w="full">
-            <HomePageCodeBlock
-              darkTheme={darkTheme}
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={withThirdwebCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="With thirdweb (7 lines)"
-              titleColor="white"
-              borderTopRadius={0}
-            />
-          </AspectRatio>
-        </GridItem>
-      </SimpleGrid>
-    </KeyFeatureLayout>
-  );
+	return (
+		<KeyFeatureLayout
+			title="Simple"
+			titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
+			headline="Web3 made easy."
+			description=""
+		>
+			<SimpleGrid columns={12} gap={8} w="full">
+				<GridItem colSpan={{ base: 12, md: 6 }}>
+					<AspectRatio ratio={16 / 10} w="full">
+						<HomePageCodeBlock
+							darkTheme={darkTheme}
+							color="white"
+							fontSize={{ base: "12px", md: "14px" }}
+							borderWidth={0}
+							code={withoutThirdwebCode}
+							language="typescript"
+							overflow="auto"
+							autoType
+							typingSpeed={5}
+							title="Without thirdweb (88 lines)"
+							titleColor="gray.600"
+							borderTopRadius={0}
+						/>
+					</AspectRatio>
+				</GridItem>
+				<GridItem colSpan={{ base: 12, md: 6 }}>
+					<AspectRatio ratio={16 / 10} w="full">
+						<HomePageCodeBlock
+							darkTheme={darkTheme}
+							color="white"
+							fontSize={{ base: "12px", md: "14px" }}
+							borderWidth={0}
+							code={withThirdwebCode}
+							language="typescript"
+							overflow="auto"
+							autoType
+							typingSpeed={5}
+							title="With thirdweb (7 lines)"
+							titleColor="white"
+							borderTopRadius={0}
+						/>
+					</AspectRatio>
+				</GridItem>
+			</SimpleGrid>
+		</KeyFeatureLayout>
+	);
 };

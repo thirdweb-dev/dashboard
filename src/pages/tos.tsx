@@ -1,32 +1,32 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
+import type { ThirdwebNextPage } from "utils/types";
 import { MarkdownRenderer } from "../components/contract-components/published-contract/markdown-renderer";
 
 const ToS: ThirdwebNextPage = () => {
-  return (
-    <LandingLayout
-      seo={{
-        title: "thirdweb's Terms of Service",
-        description:
-          "The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
-      }}
-    >
-      <Container
-        maxW="container.page"
-        as={Flex}
-        flexDir="column"
-        gap={{ base: "80px", md: "120px" }}
-      >
-        <ToSMDX />
-      </Container>
-    </LandingLayout>
-  );
+	return (
+		<LandingLayout
+			seo={{
+				title: "thirdweb's Terms of Service",
+				description:
+					"The most efficient way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
+			}}
+		>
+			<Container
+				maxW="container.page"
+				as={Flex}
+				flexDir="column"
+				gap={{ base: "80px", md: "120px" }}
+			>
+				<ToSMDX />
+			</Container>
+		</LandingLayout>
+	);
 };
 
 const ToSMDX = () => {
-  return <MarkdownRenderer markdownText={TOS_TEXT} />;
+	return <MarkdownRenderer markdownText={TOS_TEXT} />;
 };
 
 const TOS_TEXT = `# thirdweb Terms of Service

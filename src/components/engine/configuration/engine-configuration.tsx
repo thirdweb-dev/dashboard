@@ -3,16 +3,16 @@ import { EngineWalletConfig } from "./engine-wallet-config";
 import { EngineWebhooks } from "./engine-webhooks";
 
 interface EngineConfigurationProps {
-  instance: string;
+	instance: string;
 }
 
 export const EngineConfiguration: React.FC<EngineConfigurationProps> = ({
-  instance,
+	instance,
 }) => {
-  return (
-    <Flex flexDir="column" gap={12}>
-      <EngineWalletConfig instance={instance} />
-      <EngineWebhooks instance={instance} />
-    </Flex>
-  );
+	return (
+		<Flex flexDir="column" gap={12}>
+			<EngineWalletConfig instance={instance} />
+			<EngineWebhooks instance={instance} />
+		</Flex>
+	);
 };

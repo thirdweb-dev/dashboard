@@ -2,15 +2,15 @@ import type { ExtensionDetectedState } from "components/buttons/ExtensionDetectB
 import type { ComponentType } from "react";
 
 export type EnhancedRoute<T = any> = {
-  title: string;
-  path: string;
-  isDefault?: true;
-  isBeta?: true;
-  isEnabled?: ExtensionDetectedState;
-  component: ComponentType<T>;
+	title: string;
+	path: string;
+	isDefault?: true;
+	isBeta?: true;
+	isEnabled?: ExtensionDetectedState;
+	component: ComponentType<T>;
 };
 
 export type BasicContract = {
-  chainId: number;
-  address: string;
+	chainId: number;
+	address: string;
 };

@@ -2,13 +2,13 @@ import { usePaymentsDetailedAnalytics } from "@3rdweb-sdk/react/hooks/usePayment
 import { Flex } from "@chakra-ui/react";
 
 interface PaymentsAnalyticsProps {
-  contractId: string;
+	contractId: string;
 }
 
 export const PaymentsAnalytics: React.FC<PaymentsAnalyticsProps> = ({
-  contractId,
+	contractId,
 }) => {
-  usePaymentsDetailedAnalytics(contractId);
+	usePaymentsDetailedAnalytics(contractId);
 
-  return <Flex flexDir="column" gap={12}></Flex>;
+	return <Flex flexDir="column" gap={12} />;
 };

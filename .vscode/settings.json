@@ -1,17 +1,10 @@
 {
-  "typescript.tsdk": "./node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": [
-    "chakra",
-    "dismissable",
-    "hookform",
-    "JWKS",
-    "onboarded",
-    "Posthog",
-    "rdweb",
-    "solana",
-    "tanstack",
-    "Thirdweb",
-    "usedapp"
-  ]
+	"typescript.tsdk": "./node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"quickfix.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	}
 }

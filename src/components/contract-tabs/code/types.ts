@@ -1,31 +1,31 @@
 export type CodeEnvironment =
-  | "javascript"
-  | "typescript"
-  | "react"
-  | "react-native"
-  | "unity";
+	| "javascript"
+	| "typescript"
+	| "react"
+	| "react-native"
+	| "unity";
 
 export interface SupportedEnvironment {
-  environment: CodeEnvironment;
-  title: string;
-  icon: React.FC;
-  colorScheme: string;
+	environment: CodeEnvironment;
+	title: string;
+	icon: React.FC;
+	colorScheme: string;
 }
 
 export type CodeSnippet = Partial<Record<CodeEnvironment, string>>;
 
 export interface SnippetSchema {
-  name: string;
-  summary: string | null;
-  remarks?: string | null;
-  examples: CodeSnippet;
-  reference: {
-    [key: string]: any;
-  };
-  methods?: SnippetSchema[];
-  properties?: SnippetSchema[];
+	name: string;
+	summary: string | null;
+	remarks?: string | null;
+	examples: CodeSnippet;
+	reference: {
+		[key: string]: any;
+	};
+	methods?: SnippetSchema[];
+	properties?: SnippetSchema[];
 }
 
 export interface SnippetApiResponse {
-  [key: string]: SnippetSchema;
+	[key: string]: SnippetSchema;
 }

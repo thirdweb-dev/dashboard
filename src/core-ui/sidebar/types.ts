@@ -1,6 +1,6 @@
 export interface Route {
-  name: string | string[];
-  path: string;
-  subActivePath?: boolean;
-  title: string;
+	name: string | string[];
+	path: string;
+	subActivePath?: boolean;
+	title: string;
 }
