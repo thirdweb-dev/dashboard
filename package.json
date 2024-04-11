@@ -84,7 +84,7 @@
     "remark-gfm": "^4.0.0",
     "spdx-correct": "^3.2.0",
     "swagger-ui-react": "^5.13.0",
-    "thirdweb": "5.5.0-nightly-c4d51e0b80e2d66fb85b8032dcc286f9cd164cd1-20240411053107",
+    "thirdweb": "5.1.0",
     "tiny-invariant": "^1.3.3",
     "zksync-ethers": "^5.7.0",
     "zod": "^3.22.4"
@@ -132,8 +132,7 @@
       "zod": "^3.19.1",
       "xml2js": "0.6.2",
       "axios@<0.28": "^0.28.0",
-      "es5-ext@^0.10.53": "0.10.53",
-      "@thirdweb-dev/sdk": "0.0.0-dev-38469bc3760145bd2a8a2aace1b65771bda476f9-20240411051025"
+      "es5-ext@^0.10.53": "0.10.53"
     }
   },
   "next-unused": {
