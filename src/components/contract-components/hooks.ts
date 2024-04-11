@@ -268,6 +268,7 @@ export async function fetchAllVersions(
         console.error(
           `failed to fetchPublishedContractInfo for metadataUri: ${allVersions[i].metadataUri} - ignoring version`,
         );
+        return null;
       });
     if (!contractInfo) {
       continue;
