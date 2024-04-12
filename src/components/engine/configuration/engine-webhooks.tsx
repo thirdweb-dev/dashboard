@@ -31,12 +31,12 @@ export const EngineWebhooks: React.FC<EngineWebhooksProps> = ({
         </Text>
       </Flex>
       <WebhooksTable
-        instance={instanceUrl}
+        instanceUrl={instanceUrl}
         webhooks={webhooks.data || []}
         isLoading={webhooks.isLoading}
         isFetched={webhooks.isFetched}
       />
-      <AddWebhookButton instance={instanceUrl} />
+      <AddWebhookButton instanceUrl={instanceUrl} />
     </Flex>
   );
 };

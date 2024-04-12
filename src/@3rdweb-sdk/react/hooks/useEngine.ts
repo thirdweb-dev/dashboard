@@ -379,13 +379,13 @@ export function useEngineAccessTokens(instance: string) {
   );
 }
 
-export type KeypairAlgorithms = "ES256" | "RS256" | "PS256";
+export type KeypairAlgorithm = "ES256" | "RS256" | "PS256";
 
 export type Keypair = {
   hash: string;
   label?: string;
   publicKey: string;
-  algorithm: KeypairAlgorithms;
+  algorithm: KeypairAlgorithm;
   createdAt: string;
   updatedAt: string;
 };
@@ -1182,7 +1182,7 @@ export function useEngineCorsConfiguration(instance: string) {
   );
 }
 
-export interface SetCorsUrlInput {
+interface SetCorsUrlInput {
   urls: string[];
 }
 

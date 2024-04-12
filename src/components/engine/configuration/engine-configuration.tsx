@@ -11,8 +11,8 @@ export const EngineConfiguration: React.FC<EngineConfigurationProps> = ({
   instanceUrl,
 }) => {
   return (
-    <Flex flexDir="column" gap={12} h="full">
-      <EngineWalletConfig instance={instanceUrl} />
+    <Flex flexDir="column" gap={12}>
+      <EngineWalletConfig instanceUrl={instanceUrl} />
       <EngineCorsConfig instanceUrl={instanceUrl} />
       <EngineSystem instanceUrl={instanceUrl} />
     </Flex>

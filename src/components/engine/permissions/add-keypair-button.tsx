@@ -1,5 +1,5 @@
 import {
-  KeypairAlgorithms,
+  KeypairAlgorithm,
   useEngineAddKeypair,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
@@ -26,7 +26,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Button, CodeBlock, FormLabel, Text } from "tw-components";
 
 const SUPPORTED_KEYPAIRS: Record<
-  KeypairAlgorithms,
+  KeypairAlgorithm,
   {
     name: string;
     privateKeyInstructions: string;
@@ -63,7 +63,7 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
   instanceUrl,
 }) => {
   const [publicKey, setPublicKey] = useState<string>("");
-  const [algorithm, setAlgorithm] = useState<string>("ES256");
+  const [algorithm, setAlgorithm] = useState<KeypairAlgorithm>("ES256");
   const [label, setLabel] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutateAsync: importKeypair } = useEngineAddKeypair(instanceUrl);
@@ -135,7 +135,9 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
                   <Select
                     w="fit-content"
                     value={algorithm}
-                    onChange={(e) => setAlgorithm(e.target.value)}
+                    onChange={(e) =>
+                      setAlgorithm(e.target.value as KeypairAlgorithm)
+                    }
                     fontSize="small"
                     size="sm"
                     variant="unstyled"
@@ -144,7 +146,9 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
                     color="primary.500"
                     mt="-1px"
                   >
-                    {Object.keys(SUPPORTED_KEYPAIRS).map((algorithm) => (
+                    {(
+                      Object.keys(SUPPORTED_KEYPAIRS) as KeypairAlgorithm[]
+                    ).map((algorithm) => (
                       <option value={algorithm}>
                         {algorithm} ({SUPPORTED_KEYPAIRS[algorithm].name})
                       </option>

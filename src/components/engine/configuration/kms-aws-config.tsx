@@ -10,12 +10,12 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useTrack } from "hooks/analytics/useTrack";
 
 interface KmsAwsConfigProps {
-  instance: string;
+  instanceUrl: string;
 }
 
-export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instance }) => {
-  const { mutate: setAwsKmsConfig } = useEngineSetWalletConfig(instance);
-  const { data: awsConfig } = useEngineWalletConfig(instance);
+export const KmsAwsConfig: React.FC<KmsAwsConfigProps> = ({ instanceUrl }) => {
+  const { mutate: setAwsKmsConfig } = useEngineSetWalletConfig(instanceUrl);
+  const { data: awsConfig } = useEngineWalletConfig(instanceUrl);
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
     "Configuration set successfully.",

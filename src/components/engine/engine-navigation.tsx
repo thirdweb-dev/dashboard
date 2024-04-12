@@ -1,16 +1,9 @@
 import { EngineInstance } from "@3rdweb-sdk/react/hooks/useEngine";
-import {
-  Box,
-  ButtonGroup,
-  Divider,
-  Flex,
-  Stack,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, ButtonGroup, Divider, Flex, Stack } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 import { EngineVersionBadge } from "./badges/version";
 import { EngineConfiguration } from "./configuration/engine-configuration";
 import { EngineWebhooks } from "./configuration/engine-webhooks";
@@ -32,11 +25,11 @@ export const EngineNavigation: React.FC<EngineNavigationProps> = ({
   const tabs = [
     {
       title: "Overview",
-      children: <EngineOverview instance={instance.url} />,
+      children: <EngineOverview instanceUrl={instance.url} />,
     },
     {
       title: "Explorer",
-      children: <EngineExplorer instance={instance.url} />,
+      children: <EngineExplorer instanceUrl={instance.url} />,
     },
     {
       title: "Relayers",
@@ -107,6 +100,7 @@ export const EngineNavigation: React.FC<EngineNavigationProps> = ({
           <ButtonGroup size="sm" variant="ghost" spacing={2}>
             {tabs.map((tb) => (
               <Button
+                key={tb.title}
                 type="button"
                 isActive={tab === tb.title}
                 _active={{

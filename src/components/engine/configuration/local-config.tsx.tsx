@@ -8,13 +8,13 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useTrack } from "hooks/analytics/useTrack";
 
 interface LocalConfigProps {
-  instance: string;
+  instanceUrl: string;
 }
 
-export const LocalConfig: React.FC<LocalConfigProps> = ({ instance }) => {
-  const { data: walletConfig } = useEngineWalletConfig(instance);
+export const LocalConfig: React.FC<LocalConfigProps> = ({ instanceUrl }) => {
+  const { data: walletConfig } = useEngineWalletConfig(instanceUrl);
   const { mutate: setLocalConfig, isLoading } =
-    useEngineSetWalletConfig(instance);
+    useEngineSetWalletConfig(instanceUrl);
 
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(

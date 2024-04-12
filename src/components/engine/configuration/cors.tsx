@@ -87,10 +87,10 @@ const parseOriginFromUrl = (url: string) => {
   try {
     const { protocol, origin } = new URL(url);
     if (!(protocol === "http:" || protocol === "https:")) {
-      throw "Missing or invalid protocol";
+      throw new Error("Missing or invalid protocol");
     }
     return origin;
   } catch (e) {
-    throw `Invalid URL: "${url}"`;
+    throw new Error(`Invalid URL: "${url}"`);
   }
 };

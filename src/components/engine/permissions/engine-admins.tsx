@@ -34,7 +34,7 @@ export const EngineAdmins: React.FC<EngineAdminsProps> = ({ instanceUrl }) => {
         isLoading={admins.isLoading}
         isFetched={admins.isFetched}
       />
-      <AddAdminButton instance={instanceUrl} />
+      <AddAdminButton instanceUrl={instanceUrl} />
     </Flex>
   );
 };
