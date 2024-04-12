@@ -1,10 +1,13 @@
 import { LandingCTAButtons } from "./cta-buttons";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import { Heading } from "tw-components";
+import { ReactNode } from "react";
+import { Heading, Text } from "tw-components";
 
 interface LandingEndCTAProps {
   title: string;
+  description?: string;
   titleWithGradient: string;
+  customEndCta?: ReactNode;
   gradient: string;
   ctaText?: string;
   ctaLink?: string;
@@ -17,7 +20,9 @@ interface LandingEndCTAProps {
 
 export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   title,
+  description,
   titleWithGradient,
+  customEndCta,
   gradient,
   ctaText,
   ctaLink,
@@ -38,17 +43,31 @@ export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
             </Box>
           )}
         </Heading>
-        <Flex justifyContent="center">
-          <LandingCTAButtons
-            ctaText={ctaText}
-            ctaLink={ctaLink}
-            noContactUs={noContactUs}
-            trackingCategory={trackingCategory}
-            noCta={noCta}
-            contactUsLink={contactUsLink}
-            contactUsTitle={contactUsTitle}
-          />
-        </Flex>
+        {title && (
+          <Text
+            size="body.xl"
+            textAlign="center"
+            color="rgba(255, 255, 255, 0.70) "
+          >
+            {description}
+          </Text>
+        )}
+
+        {customEndCta ? (
+          customEndCta
+        ) : (
+          <Flex justifyContent="center">
+            <LandingCTAButtons
+              ctaText={ctaText}
+              ctaLink={ctaLink}
+              noContactUs={noContactUs}
+              trackingCategory={trackingCategory}
+              noCta={noCta}
+              contactUsLink={contactUsLink}
+              contactUsTitle={contactUsTitle}
+            />
+          </Flex>
+        )}
       </Flex>
     </Container>
   );

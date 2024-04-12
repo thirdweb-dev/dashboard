@@ -1,16 +1,15 @@
-import { Box, Center, Container, Flex } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
-import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingPlan } from "components/landing-pages/plan";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
+import { Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains-landing";
@@ -43,8 +42,9 @@ const SolutionsChains: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Chains"
-          title="Instant developer tools on your chain"
-          titleWithGradient=""
+          miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
+          title="Infrastructure for your chain,"
+          titleWithGradient="instantly"
           subtitle="The easiest way for developers to build on your EVM chain — with wallets, contracts, payments, and infrastructure to scale their web3 apps."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/contact-us"
@@ -54,6 +54,94 @@ const SolutionsChains: ThirdwebNextPage = () => {
           image={require("../../../public/assets/product-pages/hero/desktop-hero-chains.png")}
           mobileImage={require("../../../public/assets/product-pages/hero/mobile-hero-chains.png")}
         />
+
+        <Flex position="relative" w="full">
+          <Box zIndex={1} position="relative">
+            <LandingGridSection>
+              <LandingIconSectionItem
+                icon={require("../../../public/assets/solutions-pages/icons/icon-grow.svg")}
+                title="Add to your stack easily"
+                description="Composable products that you can integrate flexibly. Use our production-grade managed infrastructure or bring your own permissioned RPCs."
+              />
+              <LandingIconSectionItem
+                icon={require("../../../public/assets/solutions-pages/icons/icon-scale.svg")}
+                title="Grow your ecosystem"
+                description="Empower developers to build on your chain with smart contracts, wallets, payments, infra, & everything they need to scale their web3 apps."
+              />
+              <LandingIconSectionItem
+                icon={require("../../../public/assets/solutions-pages/icons/icon-fee.svg")}
+                title="Offer the best DX"
+                description="SDKs in every language, personalized dashboards, and onchain analytics for developers to manage their web3 apps — out of the box."
+              />
+            </LandingGridSection>
+          </Box>
+        </Flex>
+
+        <LandingGridSection desktopColumns={3}>
+          <LandingPlan
+            title="Silver"
+            description="Support for thirdweb products with public infrastructure."
+            list={[
+              "Smart Contract Deployment",
+              "Cross-Platform Connect Integration",
+              "In-App Wallets: Email, Social, Phone",
+              "thirdweb Engine: Backend Wallets & Nonce Management",
+              <Text key="chainlist" size="body.lg" color="#646D7A">
+                Added to{" "}
+                <TrackedLink
+                  href="/chainlist"
+                  isExternal
+                  category={TRACKING_CATEGORY}
+                  label="thirdweb_chainlist"
+                  textDecoration="underline"
+                >
+                  thirdweb Chainlist
+                </TrackedLink>
+              </Text>,
+            ]}
+            btnTitle="Contact us"
+            btnHref="/contact-us"
+            iconImage={require("../../../public/assets/solutions-pages/chains/silver-tier.png")}
+            trackingCategory={TRACKING_CATEGORY}
+          />
+
+          <LandingPlan
+            title="Gold"
+            description="Production grade infrastructure to kickstart your chain & attract devs."
+            listTitle="Everything in Silver tier, plus:"
+            list={[
+              "Production-Grade Infrastructure",
+              "Higher Rate Limits for RPCs",
+              "Custom Technical Documentation",
+              "Smart Contract Analytics",
+              "thirdweb Startup Program For Your Ecosystem",
+              "App Chain Registry API",
+            ]}
+            btnTitle="Contact us"
+            btnHref="/contact-us"
+            iconImage={require("../../../public/assets/solutions-pages/chains/gold-tier.png")}
+            trackingCategory={TRACKING_CATEGORY}
+          />
+
+          <LandingPlan
+            title="Platinum"
+            description="The complete thirdweb product suite and first-class support for your chain."
+            listTitle="Everything in the Gold tier, plus?"
+            list={[
+              "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
+              "Point-of-Sale Payments: On-Ramp, Swap, Bridge, Checkout",
+              "99.9% Infrastructure uptime SLAs",
+              "24 hour customer support SLAs",
+              "Dedicated Slack support channel",
+              "Premium placements for your chain",
+              "thirdweb Indexer (Coming in Q2)",
+            ]}
+            btnTitle="Contact us"
+            btnHref="/contact-us"
+            iconImage={require("../../../public/assets/solutions-pages/chains/plat-tier.png")}
+            trackingCategory={TRACKING_CATEGORY}
+          />
+        </LandingGridSection>
 
         <LandingGridSection
           title={
@@ -65,7 +153,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               marginBottom="38px"
             >
               <LandingSectionHeading
-                title="Everything developers need to build apps"
+                title="Your chain's application layer, solved"
                 blackToWhiteTitle=""
               />
             </Box>
@@ -120,101 +208,42 @@ const SolutionsChains: ThirdwebNextPage = () => {
           />
         </LandingGridSection>
 
-        <LandingGridSection
-          desktopColumns={4}
-          title={
-            <Center marginBottom="38px">
-              <Heading
-                fontSize={{ base: 48, md: 56 }}
-                textAlign="center"
-                fontWeight={800}
-              >
-                Your chain&apos;s application layer, solved
-              </Heading>
-            </Center>
-          }
-        >
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("../../../public/assets/solutions-pages/icons/icon-ship.svg")}
-              title="Launch Ecosystem-Ready"
-              description="Give developers a full web3 developer stack and production-grade infrastructure to build apps and games on your chain, from day one."
-              shouldShowNoBorder
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("../../../public/assets/solutions-pages/icons/accility.svg")}
-              title="Accelerate Activity"
-              description="Grow active wallets & transaction activity on your chain. Reduce time-to-market for developers with and accelerate your ecosystem."
-              shouldShowNoBorder
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("../../../public/assets/solutions-pages/icons/support.svg")}
-              title="Expert Support"
-              description="Give developers access to best-in-class learning resources and support from professional web3 developers."
-              shouldShowNoBorder
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("../../../public/assets/solutions-pages/icons/worldclass.svg")}
-              title="Innovation, Built-In"
-              description="Don't let developers fall behind: Give them first access to new standards, infrastructure, and tools before anyone else."
-              shouldShowNoBorder
-            />
-          </Card>
-        </LandingGridSection>
-
-        <LandingCardWithImageBackground
-          image={require("../../../public/assets/landingpage/ava.png")}
-        >
-          <Flex flexDir="column" gap="16px" maxWidth="600px">
-            <ChakraNextImage
-              width={128}
-              height={38}
-              src={require("/public/assets/product-icons/avacloud_tw.svg")}
-              alt="avacloud"
-            />
-            <Heading fontSize="xx-large" fontWeight="600" color="white">
-              Launch Production-Ready Subnets with thirdweb and AvaCloud
-            </Heading>
-            <Text fontSize="medium" fontWeight="400" color="white">
-              thirdweb&apos;s integration into AvaCloud enables anyone to deploy
-              production-ready subnets — and empowers developers to build
-              end-to-end apps on them, from day one.
-            </Text>
-            <TrackedLinkButton
-              variant="outline"
-              isExternal
-              bgColor="#FFF"
-              color="#000"
-              border="none"
-              _hover={{
-                opacity: 0.9,
-              }}
-              py={6}
-              category={TRACKING_CATEGORY}
-              label="solutions-chain-case-study"
-              href="https://blog.thirdweb.com/partnering-with-avacloud/"
-              maxW="fit-content"
-              marginTop="10px"
-            >
-              Learn More
-            </TrackedLinkButton>
-          </Flex>
-        </LandingCardWithImageBackground>
-
-        <LandingEndCTA
-          title="Grow your ecosystem."
-          titleWithGradient=""
-          trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/unity"
-          gradient="linear(to-r, #F213A4, #F97CCE)"
-          noCta
-        />
+        <Flex flexDirection="column" alignItems="center">
+          <LandingEndCTA
+            title="Grow your ecosystem."
+            description="The complete SDK to add any smart contract into your app — and call functions for any type of onchain interaction."
+            titleWithGradient=""
+            trackingCategory={TRACKING_CATEGORY}
+            ctaLink="https://portal.thirdweb.com/unity"
+            gradient="linear(to-r, #F213A4, #F97CCE)"
+            noCta
+            noContactUs
+            customEndCta={
+              <Flex alignItems="center" justifyContent="center">
+                <TrackedLinkButton
+                  width="full"
+                  maxW="244px"
+                  colorScheme="primary"
+                  category={TRACKING_CATEGORY}
+                  label="contact_us_end_cta"
+                  href="/contact-us"
+                  borderRadius="lg"
+                  py={6}
+                  px={6}
+                  bgColor="white"
+                  _hover={{
+                    bgColor: "white",
+                    opacity: 0.8,
+                  }}
+                  size="md"
+                  color="black"
+                >
+                  Contact Us
+                </TrackedLinkButton>
+              </Flex>
+            }
+          />
+        </Flex>
       </Container>
     </LandingLayout>
   );
