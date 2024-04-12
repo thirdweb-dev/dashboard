@@ -1,5 +1,4 @@
 import { useEngineSystemHealth } from "@3rdweb-sdk/react/hooks/useEngine";
-import { Stack } from "@chakra-ui/react";
 import { Text } from "tw-components";
 
 interface EngineSystemProps {
