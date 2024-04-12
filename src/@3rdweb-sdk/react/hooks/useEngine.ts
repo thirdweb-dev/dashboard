@@ -89,18 +89,24 @@ export function useEngineBackendWallets(instance: string) {
   );
 }
 
-export function useEngineCurrentVersion(instance: string) {
+export interface EngineSystemHealth {
+  status: string;
+  engineVersion?: string;
+  features?: string[];
+}
+
+export function useEngineSystemHealth(instanceUrl: string) {
   return useQuery(
-    engineKeys.currentVersion(instance),
+    engineKeys.health(instanceUrl),
     async () => {
-      const res = await fetch(`${instance}system/health`);
+      const res = await fetch(`${instanceUrl}system/health`);
       if (!res.ok) {
         throw new Error(`Unexpected status ${res.status}`);
       }
-      const json = await res.json();
-      return (json.engineVersion as string) ?? "N/A";
+      const json = (await res.json()) as EngineSystemHealth;
+      return json;
     },
-    { enabled: !!instance },
+    { enabled: !!instanceUrl },
   );
 }
 
@@ -373,10 +379,15 @@ export function useEngineAccessTokens(instance: string) {
   );
 }
 
+export type KeypairAlgorithms = "ES256" | "RS256" | "PS256";
+
 export type Keypair = {
   hash: string;
+  label?: string;
   publicKey: string;
+  algorithm: KeypairAlgorithms;
   createdAt: string;
+  updatedAt: string;
 };
 
 export function useEngineKeypairs(instance: string) {
@@ -400,19 +411,21 @@ export function useEngineKeypairs(instance: string) {
   );
 }
 
-type ImportKeypairInput = {
+type AddKeypairInput = {
+  label?: string;
   publicKey: string;
+  algorithm: string;
 };
 
-export function useEngineImportKeypair(instance: string) {
+export function useEngineAddKeypair(instance: string) {
   const { token } = useApiAuthToken();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: ImportKeypairInput) => {
+    async (input: AddKeypairInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(`${instance}auth/keypair/import`, {
+      const res = await fetch(`${instance}auth/keypair/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -436,19 +449,19 @@ export function useEngineImportKeypair(instance: string) {
   );
 }
 
-type RevokeKeypairInput = {
+type RemoveKeypairInput = {
   hash: string;
 };
 
-export function useEngineRevokeKeypair(instance: string) {
+export function useEngineRemoveKeypair(instance: string) {
   const { token } = useApiAuthToken();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: RevokeKeypairInput) => {
+    async (input: RemoveKeypairInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(`${instance}auth/keypair/revoke`, {
+      const res = await fetch(`${instance}auth/keypair/remove`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -76,6 +76,7 @@ export const AddAccessTokenButton: React.FC<AddAccessTokenButtonProps> = ({
         isOpen={isOpen}
         onClose={onClose}
         closeOnOverlayClick={false}
+        closeOnEsc={false}
         isCentered
       >
         <ModalOverlay />

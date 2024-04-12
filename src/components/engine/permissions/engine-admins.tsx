@@ -18,7 +18,7 @@ export const EngineAdmins: React.FC<EngineAdminsProps> = ({ instanceUrl }) => {
         <Text>
           Admins are allowed to manage your Engine instance from the dashboard.{" "}
           <Link
-            href="https://portal.thirdweb.com/engine/features/permissions"
+            href="https://portal.thirdweb.com/engine/features/admins"
             color="primary.500"
             isExternal
           >

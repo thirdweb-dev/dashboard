@@ -1,6 +1,6 @@
 import {
   Keypair,
-  useEngineRevokeKeypair,
+  useEngineRemoveKeypair,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
@@ -17,12 +17,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { CopyApiKeyButton } from "components/settings/ApiKeys/CopyButton";
 import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { FiTrash } from "react-icons/fi";
-import { Button, FormLabel, Text } from "tw-components";
+import { Button, CodeBlock, FormLabel, Text } from "tw-components";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { toDateTimeLocal } from "utils/date-utils";
 
 interface KeypairsTableProps {
@@ -35,20 +37,22 @@ interface KeypairsTableProps {
 const columnHelper = createColumnHelper<Keypair>();
 
 const columns = [
+  columnHelper.accessor("label", {
+    header: "Label",
+    cell: (cell) => {
+      return <Text>{cell.getValue()}</Text>;
+    },
+  }),
   columnHelper.accessor("publicKey", {
     header: "Public Key",
     cell: (cell) => {
-      return (
-        <Text fontFamily="mono" fontSize="small" whiteSpace="pre-line">
-          {cell.getValue()}
-        </Text>
-      );
+      return <CodeBlock fontSize="small" code={cell.getValue()} w={560} />;
     },
   }),
-  columnHelper.accessor("createdAt", {
+  columnHelper.accessor("algorithm", {
     header: "Type",
     cell: (cell) => {
-      return <Text>ES256</Text>;
+      return <Text>{cell.getValue()}</Text>;
     },
   }),
   columnHelper.accessor("createdAt", {
@@ -109,7 +113,7 @@ const RemoveModal = ({
   disclosure: UseDisclosureReturn;
   instanceUrl: string;
 }) => {
-  const { mutate: revokeKeypair } = useEngineRevokeKeypair(instanceUrl);
+  const { mutate: revokeKeypair } = useEngineRemoveKeypair(instanceUrl);
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
     "Successfully removed public key",
@@ -152,15 +156,26 @@ const RemoveModal = ({
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={4}>
+            <Text>Are you sure you want to remove this keypair?</Text>
             <Text>
-              Are you sure you want to remove this keypair?
-              <br />
-              Signatures signed by this keypair will be rejected.
+              Access tokens signed by the private key for this keypair will no
+              longer be valid.
             </Text>
+
+            <FormControl>
+              <FormLabel>Label</FormLabel>
+              <Text>{keypair.label}</Text>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Type</FormLabel>
+              <Text>{keypair.algorithm}</Text>
+            </FormControl>
+
             <FormControl>
               <FormLabel>Public Key</FormLabel>
               <Flex overflowX="scroll">
-                <Text fontFamily="mono" size="body.sm" whiteSpace="pre-line">
+                <Text fontFamily="mono" fontSize="small" whiteSpace="pre-line">
                   {keypair.publicKey}
                 </Text>
               </Flex>

@@ -1,44 +1,59 @@
 import {
-  useEngineCreateAccessToken,
-  useEngineImportKeypair,
+  KeypairAlgorithms,
+  useEngineAddKeypair,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
+  Alert,
   Flex,
+  FormControl,
+  Icon,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Icon,
+  Select,
   Stack,
   Textarea,
-  FormControl,
-  Alert,
-  AlertTitle,
-  AlertDescription,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Code,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import {
-  Button,
-  Checkbox,
-  CodeBlock,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  Link,
-  Text,
-} from "tw-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, CodeBlock, FormLabel, Text } from "tw-components";
+
+const SUPPORTED_KEYPAIRS: Record<
+  KeypairAlgorithms,
+  {
+    name: string;
+    privateKeyInstructions: string;
+    publicKeyInstructions: string;
+  }
+> = {
+  ES256: {
+    name: "ECDSA",
+    privateKeyInstructions:
+      "openssl ecparam -name prime256v1 -genkey -noout -out private.key",
+    publicKeyInstructions: "openssl ec -in private.key -pubout -out public.key",
+  },
+  RS256: {
+    name: "RSASSA-PKCS1-v1_5",
+    privateKeyInstructions:
+      "openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048",
+    publicKeyInstructions:
+      "openssl rsa -pubout -in private.key -out public.key",
+  },
+  PS256: {
+    name: "RSASSA-PSS",
+    privateKeyInstructions:
+      "openssl genpkey -algorithm RSA-PSS -out private.key -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_pss_keygen_md:sha256",
+    publicKeyInstructions:
+      "openssl rsa -pubout -in private.key -out public.key",
+  },
+};
 
 interface AddKeypairButtonProps {
   instanceUrl: string;
@@ -48,22 +63,29 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
   instanceUrl,
 }) => {
   const [publicKey, setPublicKey] = useState<string>("");
+  const [algorithm, setAlgorithm] = useState<string>("ES256");
+  const [label, setLabel] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutateAsync: importKeypair } = useEngineImportKeypair(instanceUrl);
+  const { mutateAsync: importKeypair } = useEngineAddKeypair(instanceUrl);
   const trackEvent = useTrack();
 
   const { onSuccess, onError } = useTxNotifications(
-    "Public key imported successfully.",
-    "Failed to import public key.",
+    "Public key added successfully.",
+    "Failed to add public key.",
   );
 
   const onClick = async () => {
     try {
-      await importKeypair({ publicKey });
+      await importKeypair({
+        publicKey,
+        algorithm,
+        label,
+      });
+
       onSuccess();
       trackEvent({
         category: "engine",
-        action: "import-keypair",
+        action: "add-keypair",
         label: "success",
         instance: instanceUrl,
       });
@@ -73,7 +95,7 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
       onError(error);
       trackEvent({
         category: "engine",
-        action: "import-keypair",
+        action: "add-keypair",
         label: "error",
         instance: instanceUrl,
         error,
@@ -98,92 +120,106 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
         isOpen={isOpen}
         onClose={onClose}
         closeOnOverlayClick={false}
+        closeOnEsc={false}
         isCentered
         size="2xl"
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add Public Key</ModalHeader>
-          <ModalBody as={Flex} flexDir="column" gap={4}>
-            <Stack spacing={4}>
-              <FormControl>
-                <FormLabel>1. Generate a keypair</FormLabel>
-                <Tabs fontSize="small" mt={4}>
-                  <TabList>
-                    <Tab>Mac &amp; Linux</Tab>
-                    <Tab>Windows</Tab>
-                  </TabList>
+          <ModalBody as={Flex} flexDir="column" gap={8}>
+            <FormControl>
+              <Stack>
+                <Flex gap={2}>
+                  <Text>Create a private key using:</Text>
+                  <Select
+                    w="fit-content"
+                    value={algorithm}
+                    onChange={(e) => setAlgorithm(e.target.value)}
+                    fontSize="small"
+                    size="sm"
+                    variant="unstyled"
+                    // fontWeight="bold"
+                    fontFamily="mono"
+                    color="primary.500"
+                    mt="-1px"
+                  >
+                    {Object.keys(SUPPORTED_KEYPAIRS).map((algorithm) => (
+                      <option value={algorithm}>
+                        {algorithm} ({SUPPORTED_KEYPAIRS[algorithm].name})
+                      </option>
+                    ))}
+                  </Select>
+                </Flex>
 
-                  <TabPanels>
-                    <TabPanel p={4}>
-                      <Stack>
-                        <Text>
-                          Generate a ES256 private and public key in your
-                          terminal. Keep your private key secure.
-                        </Text>
-                        <CodeBlock
-                          fontSize="sm"
-                          code={`openssl ecparam -name prime256v1 -genkey -noout -out private.key && \
-openssl ec -in private.key -pubout -out public.key`}
-                          language="solidity"
-                        />
-                        <Text>Print the public key.</Text>
-                        <CodeBlock
-                          fontSize="sm"
-                          code={`cat public.key`}
-                          language="solidity"
-                        />
-                      </Stack>
-                    </TabPanel>
-                    <TabPanel p={4}>
-                      <Stack>
-                        <Text>Generate a keypair in your command line.</Text>
-                        <CodeBlock
-                          fontSize="sm"
-                          code={`openssl ecparam -name prime256v1 -genkey -noout -out private.key
-openssl ec -in private.key -pubout -out public.key`}
-                          language="solidity"
-                        />
-                      </Stack>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>2. Paste the public key</FormLabel>
-                <Textarea
-                  fontFamily="mono"
+                <CodeBlock
                   fontSize="small"
-                  value={publicKey}
-                  onChange={(e) => setPublicKey(e.target.value)}
-                  placeholder={
-                    "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----"
-                  }
+                  code={SUPPORTED_KEYPAIRS[algorithm].privateKeyInstructions}
+                  language="solidity"
                 />
-              </FormControl>
+                <Text>Extract the public key.</Text>
+                <CodeBlock
+                  fontSize="small"
+                  code={SUPPORTED_KEYPAIRS[algorithm].publicKeyInstructions}
+                  language="solidity"
+                />
+                <Text>Print the public key.</Text>
+                <CodeBlock
+                  fontSize="small"
+                  code={`cat public.key`}
+                  language="solidity"
+                />
+              </Stack>
+            </FormControl>
 
-              <Alert variant="left-accent">
-                <Stack>
-                  {/* <Heading size="label.lg"></Heading> */}
-                  <Text>
-                    Your backend will generate{" "}
-                    <strong>restricted access tokens</strong> signed with this
-                    private key.
-                    <br />
-                    Engine verifies each token with this public key.
-                  </Text>
-                </Stack>
-              </Alert>
-            </Stack>
+            <FormControl isRequired>
+              <FormLabel>
+                Public Key ({SUPPORTED_KEYPAIRS[algorithm].name})
+              </FormLabel>
+              <Textarea
+                fontFamily="mono"
+                value={publicKey}
+                onChange={(e) => setPublicKey(e.target.value)}
+                placeholder={
+                  "-----BEGIN PUBLIC KEY-----\n...\n...\n...\n...\n-----END PUBLIC KEY-----"
+                }
+                rows={6}
+                fontSize="small"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Label</FormLabel>
+              <Input
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+                placeholder="Enter a description for this keypair"
+              />
+            </FormControl>
+
+            <Alert variant="left-accent">
+              <Stack>
+                <Text>
+                  <strong>Keep your private key secure!</strong>
+                  <br />
+                  Your backend will sign access tokens with this private key
+                  which Engine verifies with this public key.
+                </Text>
+              </Stack>
+            </Alert>
           </ModalBody>
 
           <ModalFooter as={Flex} gap={3}>
             <Button variant="ghost" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" colorScheme="primary" onClick={onClick}>
-              Add
+            <Button
+              type="submit"
+              colorScheme="primary"
+              onClick={onClick}
+              isDisabled={!publicKey}
+            >
+              Add Public Key
             </Button>
           </ModalFooter>
         </ModalContent>

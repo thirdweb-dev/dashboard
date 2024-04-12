@@ -1,6 +1,7 @@
 import {
   useEngineAccessTokens,
   useEngineKeypairs,
+  useEngineSystemHealth,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import { ButtonGroup, Code, Flex } from "@chakra-ui/react";
 import { useState } from "react";
@@ -20,6 +21,10 @@ export const EngineAccessTokens: React.FC<EngineAccessTokensProps> = ({
   instanceUrl,
 }) => {
   const [selected, setSelected] = useState<AccessTokenType>("standard");
+  const health = useEngineSystemHealth(instanceUrl);
+
+  const hasFeatureKeypairAuthentication =
+    health.data?.features?.includes("KEYPAIR_AUTH");
 
   return (
     <Flex flexDir="column" gap={4}>
@@ -27,37 +32,39 @@ export const EngineAccessTokens: React.FC<EngineAccessTokensProps> = ({
         <Heading size="title.md">Access Tokens</Heading>
       </Flex>
 
-      <ButtonGroup size="sm" variant="ghost" spacing={2}>
-        <Button
-          type="button"
-          isActive={selected === "standard"}
-          _active={{
-            bg: "bgBlack",
-            color: "bgWhite",
-          }}
-          rounded="lg"
-          onClick={() => setSelected("standard")}
-        >
-          Standard
-        </Button>
-        <Button
-          type="button"
-          isActive={selected === "keypair"}
-          _active={{
-            bg: "bgBlack",
-            color: "bgWhite",
-          }}
-          rounded="lg"
-          onClick={() => setSelected("keypair")}
-        >
-          Restricted
-        </Button>
-      </ButtonGroup>
+      {hasFeatureKeypairAuthentication && (
+        <ButtonGroup size="sm" variant="ghost" spacing={2}>
+          <Button
+            type="button"
+            isActive={selected === "standard"}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+            onClick={() => setSelected("standard")}
+          >
+            Standard
+          </Button>
+          <Button
+            type="button"
+            isActive={selected === "keypair"}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+            onClick={() => setSelected("keypair")}
+          >
+            Keypair Authentication
+          </Button>
+        </ButtonGroup>
+      )}
 
       {selected === "standard" ? (
         <StandardAccessTokensPanel instanceUrl={instanceUrl} />
       ) : selected === "keypair" ? (
-        <RestrictedAccessTokensPanel instanceUrl={instanceUrl} />
+        <KeypairAuthenticationPanel instanceUrl={instanceUrl} />
       ) : null}
     </Flex>
   );
@@ -75,7 +82,7 @@ const StandardAccessTokensPanel = ({
       <Text>
         Access tokens allow API access to Engine.{" "}
         <Link
-          href="https://portal.thirdweb.com/engine/features/permissions#create-an-access-token"
+          href="https://portal.thirdweb.com/engine/features/access-tokens"
           color="primary.500"
           isExternal
         >
@@ -110,7 +117,7 @@ const StandardAccessTokensPanel = ({
   );
 };
 
-const RestrictedAccessTokensPanel = ({
+const KeypairAuthenticationPanel = ({
   instanceUrl,
 }: {
   instanceUrl: string;
@@ -120,17 +127,16 @@ const RestrictedAccessTokensPanel = ({
   return (
     <>
       <Text>
-        Restricted access tokens allow API access to Engine for a configurable
-        duration.
+        Keypair authentication allows your app to geneate short-lived access
+        tokens.
         <br />
-        They are securely signed by your backend and verified with a registered
-        public key.{" "}
+        They are securely signed by your backend and verified with a public key.{" "}
         <Link
-          href="https://portal.thirdweb.com/engine/features/permissions#create-an-access-token"
+          href="https://portal.thirdweb.com/engine/features/keypair-authentication"
           color="primary.500"
           isExternal
         >
-          Learn more about restricted access tokens
+          Learn more about keypair authentication
         </Link>
         .
       </Text>
@@ -144,34 +150,28 @@ const RestrictedAccessTokensPanel = ({
       <AddKeypairButton instanceUrl={instanceUrl} />
 
       <Flex direction="column" gap={2} mt={16}>
-        <Heading size="title.md">
-          Authenticate with your restricted access token
-        </Heading>
+        <Heading size="title.md">Authenticate with your access token</Heading>
 
         <Text>
-          Set the <Code>x-restricted-access-token</Code> header.
+          Set the <Code>authorization</Code> header.
         </Text>
         <CodeBlock
           language="typescript"
           code={`import jsonwebtoken from "jsonwebtoken";
 
-// Load the public and private keys.
-const publicKey = fs.readFileSync("public.key");
-const privateKey = fs.readFileSync("private.key");
-
-// Generate a restricted access token.
+// Generate an access token.
 const payload = {
   iss: publicKey,
 };
-const restrictedAccessToken = jsonwebtoken.sign(payload, privateKey, {
-  algorithm: "ES256",
-  expiresIn: "15s", // Invalidate after 15 seconds
+const accessToken = jsonwebtoken.sign(payload, privateKey, {
+  algorithm: "ES256",   // The keypair algorithm
+  expiresIn: "15s",     // Invalidate after 15 seconds
 });
 
 // Call Engine.
-const resp = fetch("<engine_host>/backend-wallet/get-all", {
+const resp = fetch("<engine_url>/backend-wallet/get-all", {
   headers: {
-    "x-restricted-access-token": restrictedAccessToken,
+    authorization: \`Bearer $\{restrictedAccessToken\}\`,
   },
 });`}
         />

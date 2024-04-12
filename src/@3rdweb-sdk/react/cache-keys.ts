@@ -76,8 +76,8 @@ export const engineKeys = {
     [...engineKeys.backendWallet(address, chainId), "balance"] as const,
   corsUrls: (instance: string) =>
     [...engineKeys.all, instance, "corsUrls"] as const,
-  currentVersion: (instance: string) =>
-    [...engineKeys.all, instance, "version"] as const,
+  health: (instance: string) =>
+    [...engineKeys.all, instance, "health"] as const,
   latestVersion: () => [...engineKeys.all, "latestVersion"] as const,
 };
 
