@@ -171,7 +171,7 @@ const accessToken = jsonwebtoken.sign(payload, privateKey, {
 // Call Engine.
 const resp = fetch("<engine_url>/backend-wallet/get-all", {
   headers: {
-    authorization: \`Bearer $\{restrictedAccessToken\}\`,
+    authorization: \`Bearer \${restrictedAccessToken}\`,
   },
 });`}
         />

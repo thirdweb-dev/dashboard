@@ -25,7 +25,7 @@ import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Button, CodeBlock, FormLabel, Text } from "tw-components";
 
-const SUPPORTED_KEYPAIRS: Record<
+const KEYPAIR_ALGORITHM_DETAILS: Record<
   KeypairAlgorithm,
   {
     name: string;
@@ -147,10 +147,12 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
                     mt="-1px"
                   >
                     {(
-                      Object.keys(SUPPORTED_KEYPAIRS) as KeypairAlgorithm[]
-                    ).map((algorithm) => (
-                      <option value={algorithm}>
-                        {algorithm} ({SUPPORTED_KEYPAIRS[algorithm].name})
+                      Object.keys(
+                        KEYPAIR_ALGORITHM_DETAILS,
+                      ) as KeypairAlgorithm[]
+                    ).map((key) => (
+                      <option key={key} value={key}>
+                        {key} ({KEYPAIR_ALGORITHM_DETAILS[key].name})
                       </option>
                     ))}
                   </Select>
@@ -158,13 +160,17 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
 
                 <CodeBlock
                   fontSize="small"
-                  code={SUPPORTED_KEYPAIRS[algorithm].privateKeyInstructions}
+                  code={
+                    KEYPAIR_ALGORITHM_DETAILS[algorithm].privateKeyInstructions
+                  }
                   language="solidity"
                 />
                 <Text>Extract the public key.</Text>
                 <CodeBlock
                   fontSize="small"
-                  code={SUPPORTED_KEYPAIRS[algorithm].publicKeyInstructions}
+                  code={
+                    KEYPAIR_ALGORITHM_DETAILS[algorithm].publicKeyInstructions
+                  }
                   language="solidity"
                 />
                 <Text>Print the public key.</Text>
@@ -178,7 +184,7 @@ export const AddKeypairButton: React.FC<AddKeypairButtonProps> = ({
 
             <FormControl isRequired>
               <FormLabel>
-                Public Key ({SUPPORTED_KEYPAIRS[algorithm].name})
+                Public Key ({KEYPAIR_ALGORITHM_DETAILS[algorithm].name})
               </FormLabel>
               <Textarea
                 fontFamily="mono"

@@ -17,14 +17,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { CopyApiKeyButton } from "components/settings/ApiKeys/CopyButton";
 import { TWTable } from "components/shared/TWTable";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { FiTrash } from "react-icons/fi";
 import { Button, CodeBlock, FormLabel, Text } from "tw-components";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { toDateTimeLocal } from "utils/date-utils";
 
 interface KeypairsTableProps {
