@@ -1,5 +1,4 @@
 import { Box, Container, Flex } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
@@ -151,7 +150,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               <LandingPlan
                 title="Platinum"
                 description="The complete thirdweb product suite and first-class support for your chain."
-                listTitle="Everything in the Gold tier, plus?"
+                listTitle="Everything in the Gold tier, plus:"
                 list={[
                   "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
                   "Point-of-Sale Payments: On-Ramp, Swap, Bridge, Checkout",

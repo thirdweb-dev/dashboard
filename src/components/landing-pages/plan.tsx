@@ -43,13 +43,13 @@ export const LandingPlan = ({
           </Heading>
         </Flex>
 
-        <Text size="body.lg" marginTop="14px" color="#646D7A">
+        <Text size="body.lg" marginTop="14px" color="#B1B1B1">
           {description}
         </Text>
 
-        <Flex marginTop="49px" flexDir="column" color="#646D7A" gap="16px">
+        <Flex marginTop="49px" flexDir="column" gap="16px">
           {listTitle && (
-            <Text size="body.lg" color="#646D7A">
+            <Text size="body.lg" color="#fff" fontWeight="bold">
               {listTitle}
             </Text>
           )}
@@ -64,7 +64,7 @@ export const LandingPlan = ({
                   alt=""
                 />
                 {typeof listItem === "string" ? (
-                  <Text size="body.lg" color="#646D7A">
+                  <Text size="body.lg" color="#B1B1B1">
                     {listItem}
                   </Text>
                 ) : (
