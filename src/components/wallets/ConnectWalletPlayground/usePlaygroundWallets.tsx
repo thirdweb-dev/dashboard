@@ -1,9 +1,4 @@
-import {
-  WalletConfig,
-  embeddedWallet,
-  safeWallet,
-  smartWallet,
-} from "@thirdweb-dev/react";
+import { WalletConfig, embeddedWallet, smartWallet } from "@thirdweb-dev/react";
 import { useState } from "react";
 import { walletInfoRecord, WalletId } from "./walletInfoRecord";
 import { isProd } from "constants/rpc";
@@ -67,16 +62,6 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         : walletConfig;
     },
   );
-
-  if (walletSelection["Safe"]) {
-    const safeId = walletInfoRecord["Safe"].component.id;
-    const safeWalletIndex = supportedWallets.findIndex((w) => w.id === safeId);
-    const personalWallets = supportedWallets.filter((w) => w.id !== safeId);
-
-    supportedWallets[safeWalletIndex] = safeWallet({
-      personalWallets: personalWallets.length ? personalWallets : undefined,
-    });
-  }
 
   return {
     walletSelection,
