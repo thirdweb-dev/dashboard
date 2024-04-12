@@ -13,9 +13,10 @@ export const EngineSystem: React.FC<EngineSystemProps> = ({ instanceUrl }) => {
   }
 
   return (
-    <Stack fontFamily="mono" fontSize="small" opacity={0.5}>
-      <Text>Version: {data.engineVersion ?? "..."}</Text>
-      <Text>Enabled: {data.features?.join(", ")}</Text>
-    </Stack>
+    <Text fontSize="x-small" fontFamily="mono" opacity={0.5} gap={0}>
+      Version: {data.engineVersion ?? "..."}
+      <br />
+      Enabled: {data.features?.join(", ")}
+    </Text>
   );
 };
