@@ -43,7 +43,7 @@ export const LandingPlan = ({
           </Heading>
         </Flex>
 
-        <Text size="body.lg" marginTop="19px" color="#646D7A">
+        <Text size="body.lg" marginTop="14px" color="#646D7A">
           {description}
         </Text>
 
