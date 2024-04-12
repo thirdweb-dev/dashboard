@@ -59,17 +59,17 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <Box zIndex={1} position="relative">
             <LandingGridSection>
               <LandingIconSectionItem
-                icon={require("../../../public/assets/solutions-pages/icons/icon-grow.svg")}
+                icon={require("../../../public/assets/solutions-pages/chains/stack.svg")}
                 title="Add to your stack easily"
                 description="Composable products that you can integrate flexibly. Use our production-grade managed infrastructure or bring your own permissioned RPCs."
               />
               <LandingIconSectionItem
-                icon={require("../../../public/assets/solutions-pages/icons/icon-scale.svg")}
+                icon={require("../../../public/assets/solutions-pages/chains/rocket.svg")}
                 title="Grow your ecosystem"
                 description="Empower developers to build on your chain with smart contracts, wallets, payments, infra, & everything they need to scale their web3 apps."
               />
               <LandingIconSectionItem
-                icon={require("../../../public/assets/solutions-pages/icons/icon-fee.svg")}
+                icon={require("../../../public/assets/solutions-pages/chains/pencil.svg")}
                 title="Offer the best DX"
                 description="SDKs in every language, personalized dashboards, and onchain analytics for developers to manage their web3 apps — out of the box."
               />
