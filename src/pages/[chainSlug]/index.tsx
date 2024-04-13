@@ -20,6 +20,7 @@ import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { OnboardingSteps } from "components/onboarding/Steps";
 import { DeprecatedAlert } from "components/shared/DeprecatedAlert";
+import { THIRDWEB_API_HOST } from "constants/urls";
 import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
 import { ExploreCategory, prefetchCategory } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -606,9 +607,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
     };
   }
 
-  // always fetch from prod for chains for now
-  // TODO: re-visit this
-  const res = await fetch(`https://api.thirdweb.com/v1/chains/${chainSlug}`);
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${chainSlug}`);
   const chain = (await res.json()).data as Chain | null;
 
   if (!chain) {

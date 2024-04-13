@@ -1,13 +1,12 @@
 import type { Chain } from "@thirdweb-dev/chains";
+import { THIRDWEB_API_HOST } from "constants/urls";
 
 export async function fetchChain(
   chainIdOrSlug: string | number,
 ): Promise<Chain | null> {
   // always fetch from prod for chains for now
   // TODO: re-visit this
-  const res = await fetch(
-    `https://api.thirdweb.com/v1/chains/${chainIdOrSlug}`,
-  );
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${chainIdOrSlug}`);
   if (res.ok) {
     try {
       return (await res.json()).data as Chain;
@@ -19,9 +18,7 @@ export async function fetchChain(
 }
 
 export async function fetchAllChains() {
-  // always fetch from prod for chains for now
-  // TODO: re-visit this
-  const res = await fetch(`https://api.thirdweb.com/v1/chains`);
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains`);
   if (res.ok) {
     try {
       return (await res.json()).data as Chain[];
