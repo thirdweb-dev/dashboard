@@ -6,6 +6,7 @@ import { Heading, Text } from "tw-components";
 interface LandingEndCTAProps {
   title: string;
   description?: string;
+  colorDescription?: string;
   titleWithGradient: string;
   customEndCta?: ReactNode;
   gradient: string;
@@ -21,6 +22,7 @@ interface LandingEndCTAProps {
 export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   title,
   description,
+  colorDescription,
   titleWithGradient,
   customEndCta,
   gradient,
@@ -43,11 +45,11 @@ export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
             </Box>
           )}
         </Heading>
-        {title && (
+        {description && (
           <Text
             size="body.xl"
             textAlign="center"
-            color="rgba(255, 255, 255, 0.70) "
+            color={colorDescription || "rgba(255, 255, 255, 0.70)"}
           >
             {description}
           </Text>

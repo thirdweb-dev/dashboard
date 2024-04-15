@@ -78,18 +78,21 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   bg="rgba(15, 12, 22, 0.80)"
                   title="Add to your stack easily"
                   description="Composable products that you can integrate flexibly. Use our production-grade managed infrastructure or bring your own permissioned RPCs."
+                  descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/rocket.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
                   title="Grow your ecosystem"
                   description="Empower developers to build on your chain with smart contracts, wallets, payments, infra, & everything they need to scale their web3 apps."
+                  descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/pencil.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
                   title="Offer the best DX"
                   description="SDKs in every language, personalized dashboards, and onchain analytics for developers to manage their web3 apps — out of the box."
+                  descriptionColor="white"
                 />
               </LandingGridSection>
             </Box>
@@ -110,7 +113,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   "Cross-Platform Connect Integration",
                   "In-App Wallets: Email, Social, Phone",
                   "thirdweb Engine: Backend Wallets & Nonce Management",
-                  <Text key="chainlist" size="body.lg" color="#646D7A">
+                  <Text key="chainlist" size="body.lg" color="#B1B1B1">
                     Added to{" "}
                     <TrackedLink
                       href="/chainlist"
@@ -123,8 +126,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
                     </TrackedLink>
                   </Text>,
                 ]}
-                btnTitle="Contact us"
-                btnHref="/contact-us"
+                btnTitle="Get started"
+                btnHref="https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-add-your-evm-chain-to-thirdweb%E2%80%99s-chainlist-/3HMqrwyxXUFxQYaudDJffT"
                 iconImage={require("../../../public/assets/solutions-pages/chains/silver-tier.png")}
                 trackingCategory={TRACKING_CATEGORY}
               />
@@ -243,6 +246,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               title="Grow your ecosystem."
               description="The complete SDK to add any smart contract into your app — and call functions for any type of onchain interaction."
               titleWithGradient=""
+              colorDescription="#fff"
               trackingCategory={TRACKING_CATEGORY}
               ctaLink="https://portal.thirdweb.com/unity"
               gradient="linear(to-r, #F213A4, #F97CCE)"
@@ -278,7 +282,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
         <Box
           position="absolute"
-          top={-100}
+          top={100}
           left={0}
           right={0}
           height="2286px"

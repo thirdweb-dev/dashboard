@@ -9,6 +9,7 @@ interface LandingIconSectionItemProps {
   title: string;
   bg?: FlexProps["bg"];
   description?: ReactNode;
+  descriptionColor?: string;
   customDescription?: ReactNode;
   shouldShowNoBorder?: boolean;
   iconWidth?: string;
@@ -19,6 +20,7 @@ export const LandingIconSectionItem: React.FC<LandingIconSectionItemProps> = ({
   title,
   bg,
   description,
+  descriptionColor,
   customDescription,
   shouldShowNoBorder,
   iconWidth,
@@ -44,7 +46,11 @@ export const LandingIconSectionItem: React.FC<LandingIconSectionItemProps> = ({
           {title}
         </Text>
         {customDescription && customDescription}
-        {description && <Text size="body.lg">{description}</Text>}
+        {description && (
+          <Text size="body.lg" color={descriptionColor}>
+            {description}
+          </Text>
+        )}
       </Flex>
     </Flex>
   );
