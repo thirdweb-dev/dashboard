@@ -28,7 +28,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/chains-solutions.png`,
               width: 1200,
               height: 630,
-              alt: "Instant Dev Tools & Infrastructure on your Chain",
+              alt: "Developer Tools & Infrastructure on your Chain",
             },
           ],
         },
@@ -78,22 +78,22 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/stack.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Launch, production-ready"
+                  title="Grow your chain from day one"
                   description="Empower developers on your chain with frontend, backend, and onchain tools for full-stack web3 apps — from day one."
                   descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/rocket.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="All the infrastructure you need"
-                  description="Get account abstraction infrastructure, RPCs with high limits, onchain payments, and more — in one platform."
+                  title="Let us handle your infrastructure"
+                  description="Get account abstraction infrastructure, fiat & crypto payments, RPCs with high limits, and more from one platform."
                   descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/pencil.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Be production-ready from day one"
-                  description="Get featured placements on our Chainlist and priority support with 24-hour SLAs."
+                  title="Tap into our ecosystem & expertise"
+                  description="Get featured placements on our Chainlist, custom technical documentation, and priority support with 24-hour SLAs."
                   descriptionColor="white"
                 />
               </LandingGridSection>
@@ -102,7 +102,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
-              title="Unlock your chain's potential"
+              title="Unlock your chain's full potential"
               blackToWhiteTitle=""
             />
 
@@ -245,8 +245,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex flexDirection="column" alignItems="center">
             <LandingEndCTA
-              title="More builders, more users"
-              description="Launch your chain with world-class developer tools, production-grade infrastructure, and thirdweb's ecosystem."
+              title="Bring developers on your chain"
+              description="Launch your network with world-class developer tools, production-grade infrastructure, and thirdweb's ecosystem."
               titleWithGradient=""
               colorDescription="#fff"
               containerMaxWidth="900px"
