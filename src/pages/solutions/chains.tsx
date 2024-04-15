@@ -55,9 +55,11 @@ const SolutionsChains: ThirdwebNextPage = () => {
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
             title="Infrastructure for your chain,"
             titleWithGradient="instantly"
-            subtitle="The easiest way for developers to build on your EVM chain — with wallets, contracts, payments, and infrastructure to scale their web3 apps."
+            subtitle="Empower developers on your chain with full-stack web3 development tools & infrastructure — from day one."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/contact-us"
+            fontSize="48px"
+            fontWeight={900}
             noContactUs
             gradient="linear(to-r,  #F856C8, #F856C8)"
             ctaText="Contact Us"
@@ -76,22 +78,22 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/stack.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Add to your stack easily"
-                  description="Composable products that you can integrate flexibly. Use our production-grade managed infrastructure or bring your own permissioned RPCs."
+                  title="Launch, production-ready"
+                  description="Empower developers on your chain with frontend, backend, and onchain tools for full-stack web3 apps — from day one."
                   descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/rocket.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Grow your ecosystem"
-                  description="Empower developers to build on your chain with smart contracts, wallets, payments, infra, & everything they need to scale their web3 apps."
+                  title="All the infrastructure you need"
+                  description="Get account abstraction infrastructure, RPCs with high limits, onchain payments, and more — in one platform."
                   descriptionColor="white"
                 />
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/pencil.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Offer the best DX"
-                  description="SDKs in every language, personalized dashboards, and onchain analytics for developers to manage their web3 apps — out of the box."
+                  title="Be production-ready from day one"
+                  description="Get featured placements on our Chainlist and priority support with 24-hour SLAs."
                   descriptionColor="white"
                 />
               </LandingGridSection>
@@ -100,7 +102,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
-              title="Unlock your chain's potential with all the infrastructure your developers need"
+              title="Unlock your chain's potential"
               blackToWhiteTitle=""
             />
 
@@ -243,10 +245,11 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex flexDirection="column" alignItems="center">
             <LandingEndCTA
-              title="Grow your ecosystem."
-              description="The complete SDK to add any smart contract into your app — and call functions for any type of onchain interaction."
+              title="More builders, more users"
+              description="Launch your chain with world-class developer tools, production-grade infrastructure, and thirdweb's ecosystem."
               titleWithGradient=""
               colorDescription="#fff"
+              containerMaxWidth="900px"
               trackingCategory={TRACKING_CATEGORY}
               ctaLink="https://portal.thirdweb.com/unity"
               gradient="linear(to-r, #F213A4, #F97CCE)"

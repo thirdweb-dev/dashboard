@@ -9,6 +9,8 @@ interface LandingHeroWithSideImageProps {
   title: string;
   titleWithGradient: string;
   subtitle: string;
+  fontSize?: string;
+  fontWeight?: number;
   miniTitle?: string;
   trackingCategory: string;
   ctaText?: string;
@@ -29,6 +31,8 @@ export const LandingHeroWithSideImage: React.FC<
   title,
   titleWithGradient,
   subtitle,
+  fontSize,
+  fontWeight,
   miniTitle,
   trackingCategory,
   ctaText,
@@ -61,7 +65,14 @@ export const LandingHeroWithSideImage: React.FC<
               </Heading>
             )}
           </Flex>
-          <Heading as="h1" size="display.sm" px={{ base: 2, md: 0 }} mr={6}>
+          <Heading
+            as="h1"
+            {...(fontSize ? { fontSize } : {})}
+            {...(fontWeight ? { fontWeight } : {})}
+            size={!fontSize ? "display.sm" : undefined}
+            px={{ base: 2, md: 0 }}
+            mr={6}
+          >
             {title}{" "}
             <Box as="span" bgGradient={gradient} bgClip="text">
               {titleWithGradient}

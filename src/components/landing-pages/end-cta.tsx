@@ -1,5 +1,5 @@
 import { LandingCTAButtons } from "./cta-buttons";
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Box, Container, ContainerProps, Flex } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Heading, Text } from "tw-components";
 
@@ -7,6 +7,7 @@ interface LandingEndCTAProps {
   title: string;
   description?: string;
   colorDescription?: string;
+  containerMaxWidth?: ContainerProps["maxW"];
   titleWithGradient: string;
   customEndCta?: ReactNode;
   gradient: string;
@@ -22,6 +23,7 @@ interface LandingEndCTAProps {
 export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   title,
   description,
+  containerMaxWidth,
   colorDescription,
   titleWithGradient,
   customEndCta,
@@ -35,7 +37,7 @@ export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   trackingCategory,
 }) => {
   return (
-    <Container maxW="container.md">
+    <Container maxW={containerMaxWidth || "container.md"}>
       <Flex flexDir="column" gap={12}>
         <Heading pt={{ base: 20, md: 0 }} size="display.md" textAlign="center">
           {title}{" "}
