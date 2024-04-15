@@ -145,7 +145,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   "App Chain Registry API",
                 ]}
                 btnTitle="Contact us"
-                btnHref="/contact-us"
+                btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
                 iconImage={require("../../../public/assets/solutions-pages/chains/gold-tier.png")}
                 trackingCategory={TRACKING_CATEGORY}
               />
@@ -164,7 +164,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   "thirdweb Indexer (Coming in Q2)",
                 ]}
                 btnTitle="Contact us"
-                btnHref="/contact-us"
+                btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
                 iconImage={require("../../../public/assets/solutions-pages/chains/plat-tier.png")}
                 trackingCategory={TRACKING_CATEGORY}
               />
@@ -260,7 +260,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                     colorScheme="primary"
                     category={TRACKING_CATEGORY}
                     label="contact_us_end_cta"
-                    href="/contact-us"
+                    href="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
                     borderRadius="lg"
                     py={6}
                     px={6}
