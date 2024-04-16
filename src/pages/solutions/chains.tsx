@@ -53,13 +53,11 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <LandingHeroWithSideImage
             miniTitle="Chains"
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
-            title="Infrastructure for your chain,"
-            titleWithGradient="instantly"
-            subtitle="Empower developers on your chain with full-stack web3 development tools & infrastructure — from day one."
+            title="Bring developers to your chain,"
+            titleWithGradient="from day one"
+            subtitle="Grow your chain with full-stack web3 development tools, production-grade infrastructure, and the thirdweb team at your side — from day one."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/contact-us"
-            fontSize="48px"
-            fontWeight={900}
             noContactUs
             gradient="linear(to-r,  #F856C8, #F856C8)"
             ctaText="Contact Us"
@@ -86,7 +84,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   icon={require("../../../public/assets/solutions-pages/chains/rocket.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
                   title="Let us handle your infrastructure"
-                  description="Get account abstraction infrastructure, fiat & crypto payments, RPCs with high limits, and more from one platform."
+                  description="Get account abstraction infrastructure, fiat & crypto payments, RPCs with high limits, and more — from one platform."
                   descriptionColor="white"
                 />
                 <LandingIconSectionItem
