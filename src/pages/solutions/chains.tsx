@@ -55,7 +55,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
             title="Brings developers & apps,"
             titleWithGradient="to your chain"
-            subtitle="Full-stack web3 development tools, production-grade infrastructure, and thirdweb's resources — for your L2, L3, or appchain."
+            subtitle="Full-stack web3 development tools, production-grade infrastructure, and thirdweb's resources — so that developers can build on your chain from day one."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/contact-us"
             noContactUs
@@ -67,7 +67,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex position="relative" width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
-              title="Everything you need to accelerate your ecosystem"
+              title="Accelerate your L2, L3, or appchain"
               blackToWhiteTitle=""
             />
 
@@ -106,7 +106,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
             <LandingGridSection desktopColumns={2}>
               <LandingPlan
-                title="Open Source Developer Tools"
+                title="Open-Source Developer Tools"
                 description="Support for thirdweb products with public infrastructure."
                 list={[
                   "Smart Contract Deployment",
@@ -133,10 +133,10 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 active
                 title="Managed Ecosystem Services"
                 description="Full-stack development tools & production-ready infra."
-                listTitle="Everything in Silver tier, plus:"
+                listTitle="Everything in the Open-Source tier, plus:"
                 list={[
                   "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
-                  "Point-of-Sale Payments: On-Ramp, Swap, Bridge, Checkout",
+                  "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
                   "99.9% Infrastructure uptime SLAs",
                   "24 hour customer support SLAs",
                   "Dedicated Slack support channel",
@@ -210,7 +210,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
             />
             <LandingCardWithImage
               title="Account Abstraction"
-              description="A best-in-class SDK, full wallet customizability, and managed infra for ERC-4337."
+              description="A best-in-class SDK, gasless transactions, smart account customizability, and managed infrastructure with bundler & paymaster."
               image={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
               mobileImage={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -222,8 +222,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex flexDirection="column" alignItems="center">
             <LandingEndCTA
-              title="More developers, more users"
-              description="Grow your ecosystem with tools for developers, production-grade infrastructure, and thirdweb's resources & expertise — from day one."
+              title="More developers, more apps, more users"
+              description="Grow your ecosystem with full-stack tools for developers, production-grade infrastructure, and thirdweb's resources & expertise — from day one."
               titleWithGradient=""
               colorDescription="#fff"
               containerMaxWidth="900px"
