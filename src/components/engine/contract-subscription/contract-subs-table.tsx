@@ -24,7 +24,6 @@ import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { Button, FormLabel, Text } from "tw-components";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { FiTrash } from "react-icons/fi";
 
 interface ContractSubscriptionTableProps {
