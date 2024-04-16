@@ -54,7 +54,7 @@ function setOverrides() {
 
   setThirdwebDomains({
     rpc: process.env.NEXT_PUBLIC_RPC_URL || "rpc.thirdweb-dev.com",
-    embeddedWallet:
+    inAppWallet:
       process.env.NEXT_PUBLIC_IN_APP_WALLET_URL ||
       "embedded-wallet.thirdweb-dev.com",
     pay: process.env.NEXT_PUBLIC_PAY_URL || "pay.thirdweb-dev.com",
