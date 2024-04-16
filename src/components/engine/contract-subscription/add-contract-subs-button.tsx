@@ -103,7 +103,7 @@ const AddModal = ({
         onError(error);
         trackEvent({
           category: "engine",
-          action: "create-relayer",
+          action: "add-contract-subscription",
           label: "error",
           instance: instanceUrl,
           error,
