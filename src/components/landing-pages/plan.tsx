@@ -1,24 +1,23 @@
 import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 
 interface LandingPlanProps {
   title: string;
+  active?: boolean;
   description: string;
-  iconImage: StaticImageData;
   listTitle?: string;
   list: (string | ReactNode)[];
-  btnHref: string;
-  btnTitle: string;
+  btnHref?: string;
+  btnTitle?: string;
   trackingCategory: string;
 }
 
 export const LandingPlan = ({
   title,
+  active,
   description,
-  iconImage,
   listTitle,
   list,
   btnHref,
@@ -31,17 +30,18 @@ export const LandingPlan = ({
       borderRadius="12px"
       border="1px solid #26282F"
       background="#000001"
-      padding="32px"
+      padding={{ base: "32px 36px", md: "49px 52px" }}
       minH={{ base: "auto", md: "714px" }}
+      boxShadow={
+        active
+          ? "0px 7.768px 15.537px 0px rgba(202, 51, 255, 0.45), 0px -7.768px 15.537px 0px rgba(51, 133, 255, 0.45)"
+          : ""
+      }
     >
       <Flex flexDir="column" flex={1}>
-        <Flex alignItems="center" gap="13px">
-          <ChakraNextImage src={iconImage} height="50px" width="36px" alt="" />
-
-          <Heading as="label" size="title.lg">
-            {title}
-          </Heading>
-        </Flex>
+        <Heading as="label" size="title.lg">
+          {title}
+        </Heading>
 
         <Text size="body.lg" marginTop="14px" color="#B1B1B1">
           {description}
@@ -76,25 +76,32 @@ export const LandingPlan = ({
         </Flex>
       </Flex>
 
-      <TrackedLinkButton
-        marginTop="130px"
-        colorScheme="primary"
-        category={trackingCategory}
-        label={`contact_us_${title.replace(" ", "_").toLowerCase()}`}
-        href={btnHref}
-        borderRadius="lg"
-        py={6}
-        px={6}
-        bgColor="white"
-        _hover={{
-          bgColor: "white",
-          opacity: 0.8,
-        }}
-        size="md"
-        color="black"
-      >
-        {btnTitle}
-      </TrackedLinkButton>
+      {btnTitle && (
+        <Flex w="full" alignItems="center" justifyContent="center">
+          <TrackedLinkButton
+            marginTop="130px"
+            colorScheme="primary"
+            category={trackingCategory}
+            label={`contact_us_${title.replace(" ", "_").toLowerCase()}`}
+            href={btnHref ?? "/"}
+            borderRadius="lg"
+            py={6}
+            px={6}
+            bgColor="white"
+            _hover={{
+              bgColor: "white",
+              opacity: 0.8,
+            }}
+            size="md"
+            color="black"
+            maxW="320px"
+            minH="56px"
+            w="full"
+          >
+            {btnTitle}
+          </TrackedLinkButton>
+        </Flex>
+      )}
     </Flex>
   );
 };

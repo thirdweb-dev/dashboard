@@ -104,9 +104,9 @@ const SolutionsChains: ThirdwebNextPage = () => {
               blackToWhiteTitle=""
             />
 
-            <LandingGridSection desktopColumns={3}>
+            <LandingGridSection desktopColumns={2}>
               <LandingPlan
-                title="Silver"
+                title="Open Sourced Developer Tools"
                 description="Support for thirdweb products with public infrastructure."
                 list={[
                   "Smart Contract Deployment",
@@ -126,15 +126,13 @@ const SolutionsChains: ThirdwebNextPage = () => {
                     </TrackedLink>
                   </Text>,
                 ]}
-                btnTitle="Get started"
-                btnHref="https://support.thirdweb.com/other-faqs/tFbbEYCSbJ1GTeXoPs4QFw/how-to-add-your-evm-chain-to-thirdweb%E2%80%99s-chainlist-/3HMqrwyxXUFxQYaudDJffT"
-                iconImage={require("../../../public/assets/solutions-pages/chains/silver-tier.png")}
                 trackingCategory={TRACKING_CATEGORY}
               />
 
               <LandingPlan
-                title="Gold"
-                description="Production grade infrastructure to kickstart your chain & attract devs."
+                active
+                title="Managed Ecosystem Services"
+                description="Full-stack development tools & production-ready infra."
                 listTitle="Everything in Silver tier, plus:"
                 list={[
                   "Production-Grade Infrastructure",
@@ -146,26 +144,6 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 ]}
                 btnTitle="Contact us"
                 btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
-                iconImage={require("../../../public/assets/solutions-pages/chains/gold-tier.png")}
-                trackingCategory={TRACKING_CATEGORY}
-              />
-
-              <LandingPlan
-                title="Platinum"
-                description="The complete thirdweb product suite and first-class support for your chain."
-                listTitle="Everything in the Gold tier, plus:"
-                list={[
-                  "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
-                  "Point-of-Sale Payments: On-Ramp, Swap, Bridge, Checkout",
-                  "99.9% Infrastructure uptime SLAs",
-                  "24 hour customer support SLAs",
-                  "Dedicated Slack support channel",
-                  "Premium placements for your chain",
-                  "thirdweb Indexer (Coming in Q2)",
-                ]}
-                btnTitle="Contact us"
-                btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
-                iconImage={require("../../../public/assets/solutions-pages/chains/plat-tier.png")}
                 trackingCategory={TRACKING_CATEGORY}
               />
             </LandingGridSection>
