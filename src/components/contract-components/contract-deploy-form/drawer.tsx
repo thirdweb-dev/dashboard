@@ -8,7 +8,7 @@ import { Button, Drawer } from "tw-components";
 
 interface DeployFormDrawerProps {
   contractId: ContractId;
-  version: string;
+  version?: string;
   chainId?: number;
   onSuccessCallback?: (contractAddress: string) => void;
   onDrawerVisibilityChanged?: (isVisible: boolean) => void;

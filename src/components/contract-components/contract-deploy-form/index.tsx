@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 interface ContractDeployFormProps {
   contractId: ContractId;
-  version: string;
+  version?: string;
   chainId?: number;
   onSuccessCallback?: (contractAddress: string) => void;
   isImplementationDeploy?: true;
