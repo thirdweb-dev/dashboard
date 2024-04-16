@@ -1217,3 +1217,154 @@ export function useEngineSetCorsConfiguration(instance: string) {
     },
   );
 }
+
+interface SetContractSubscriptionInput {
+  chainId: string;
+  contractAddress: string;
+}
+
+export type EngineContractSubscription = {
+  id: string;
+  chainId: string;
+  contractAddress: string;
+  lastIndexedBlock: string;
+  createdAt: Date;
+};
+
+export type CreateEngineContractSubscription = {
+  chainId: string;
+  contractAddress: string;
+};
+
+export function useEngineContractSubscription(instance: string) {
+  const { token } = useApiAuthToken();
+  return useQuery(
+    engineKeys.contractSubscriptions(instance),
+    async () => {
+      const res = await fetch(`${instance}contract/subscriptions/get-all`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const json = await res.json();
+      const subscriptions = (json.result as {
+        contracts: EngineContractSubscription[];
+      }) || { contracts: [] };
+
+      return subscriptions.contracts;
+    },
+    {
+      enabled: !!instance && !!token,
+    },
+  );
+}
+
+export function useEngineAddContractSubscription(instance: string) {
+  const queryClient = useQueryClient();
+  const { token } = useApiAuthToken();
+
+  return useMutation(
+    async (input: SetContractSubscriptionInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(
+        `${instance}contract/${input.chainId}/${input.contractAddress}/subscriptions/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          engineKeys.contractSubscriptions(instance),
+        );
+      },
+    },
+  );
+}
+
+export function useEngineUnsubcribeContractSubscription(instance: string) {
+  const queryClient = useQueryClient();
+  const { token } = useApiAuthToken();
+
+  return useMutation(
+    async (input: SetContractSubscriptionInput) => {
+      invariant(instance, "instance is required");
+
+      const res = await fetch(
+        `${instance}contract/${input.chainId}/${input.contractAddress}/subscriptions/unsubscribe`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error.message);
+      }
+
+      return json.result;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          engineKeys.contractSubscriptions(instance),
+        );
+      },
+    },
+  );
+}
+
+export function useEngineChainIndexer(
+  instance: string,
+  chains: string[],
+  autoUpdate: boolean,
+) {
+  const { token } = useApiAuthToken();
+  return useQuery(
+    engineKeys.chainIndexer(instance),
+    async () => {
+      return await Promise.all(
+        chains.map(async (chain) => {
+          const response = await fetch(
+            `${instance}contract/subscriptions/get-last-block?chain=${chain}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+
+          const json = await response.json();
+          return {
+            chainId: chain,
+            lastIndexedBlock: json.result.lastIndexedBlock,
+          };
+        }),
+      );
+    },
+    {
+      enabled: !!instance && !!token,
+      refetchInterval: autoUpdate ? 5_000 : false,
+    },
+  );
+}

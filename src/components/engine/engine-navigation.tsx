@@ -12,6 +12,7 @@ import { EngineOverview } from "./overview/engine-overview";
 import { EngineAccessTokens } from "./permissions/engine-access-tokens";
 import { EngineAdmins } from "./permissions/engine-admins";
 import { EngineRelayer } from "./relayer/engine-relayer";
+import { EngineContractSubscriptions } from "./contract-subscription/engine-contract-subscription";
 
 interface EngineNavigationProps {
   instance: EngineInstance;
@@ -34,6 +35,10 @@ export const EngineNavigation: React.FC<EngineNavigationProps> = ({
     {
       title: "Relayers",
       children: <EngineRelayer instanceUrl={instance.url} />,
+    },
+    {
+      title: "Contract Subscriptions",
+      children: <EngineContractSubscriptions instanceUrl={instance.url} />,
     },
     {
       title: "Admins",
