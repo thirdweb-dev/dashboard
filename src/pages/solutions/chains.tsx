@@ -53,7 +53,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <LandingHeroWithSideImage
             miniTitle="Chains"
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
-            title="Brings developers & apps,"
+            title="Brings developers & apps"
             titleWithGradient="to your chain"
             subtitle="Full-stack web3 development tools, production-grade infrastructure, and thirdweb's resources — for your L2, L3, or appchain."
             trackingCategory={TRACKING_CATEGORY}
