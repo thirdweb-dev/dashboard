@@ -19,12 +19,12 @@ import {
 import { createColumnHelper } from "@tanstack/react-table";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useAllChainsData } from "hooks/chains/allChains";
-import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
-import { Button, FormLabel, Text } from "tw-components";
+import { Button, FormLabel, LinkButton, Text } from "tw-components";
 import { FiTrash } from "react-icons/fi";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
 
 interface ContractSubscriptionTableProps {
   instanceUrl: string;
@@ -63,7 +63,21 @@ export const ContractSubscriptionTable: React.FC<
     columnHelper.accessor("contractAddress", {
       header: "Contract Address",
       cell: (cell) => {
-        return cell.getValue();
+        const { chainId } = cell.row.original;
+        const chain = chainIdToChainRecord[parseInt(chainId)];
+        const explorer = chain?.explorers?.[0];
+
+        return (
+          <LinkButton
+            variant="ghost"
+            isExternal
+            size="xs"
+            href={explorer ? `${explorer.url}/address/${cell.getValue()}` : "#"}
+            maxW="100%"
+          >
+            {cell.getValue()}
+          </LinkButton>
+        );
       },
     }),
     columnHelper.accessor("lastIndexedBlock", {
