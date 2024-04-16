@@ -53,9 +53,9 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <LandingHeroWithSideImage
             miniTitle="Chains"
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
-            title="Bring developers to your chain,"
-            titleWithGradient="from day one"
-            subtitle="Grow your chain with full-stack web3 development tools, production-grade infrastructure, and the thirdweb team at your side — from day one."
+            title="Brings developers & apps,"
+            titleWithGradient="to your chain"
+            subtitle="Full-stack web3 development tools, production-grade infrastructure, and thirdweb's resources — for your L2, L3, or appchain."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/contact-us"
             noContactUs
@@ -67,7 +67,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex position="relative" width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
-              title="Everything developers need to build apps"
+              title="Everything you need to accelerate your ecosystem"
               blackToWhiteTitle=""
             />
 
@@ -76,7 +76,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/stack.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Grow your chain from day one"
+                  title="Grow your ecosystem from day one"
                   description="Empower developers on your chain with frontend, backend, and onchain tools for full-stack web3 apps — from day one."
                   descriptionColor="white"
                 />
@@ -90,7 +90,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 <LandingIconSectionItem
                   icon={require("../../../public/assets/solutions-pages/chains/pencil.svg")}
                   bg="rgba(15, 12, 22, 0.80)"
-                  title="Tap into our ecosystem & expertise"
+                  title="Tap into our resources & expertise"
                   description="Get featured placements on our Chainlist, custom technical documentation, and priority support with 24-hour SLAs."
                   descriptionColor="white"
                 />
@@ -106,7 +106,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
             <LandingGridSection desktopColumns={2}>
               <LandingPlan
-                title="Open Sourced Developer Tools"
+                title="Open Source Developer Tools"
                 description="Support for thirdweb products with public infrastructure."
                 list={[
                   "Smart Contract Deployment",
@@ -135,12 +135,13 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 description="Full-stack development tools & production-ready infra."
                 listTitle="Everything in Silver tier, plus:"
                 list={[
-                  "Production-Grade Infrastructure",
-                  "Higher Rate Limits for RPCs",
-                  "Custom Technical Documentation",
-                  "Smart Contract Analytics",
-                  "thirdweb Startup Program For Your Ecosystem",
-                  "App Chain Registry API",
+                  "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
+                  "Point-of-Sale Payments: On-Ramp, Swap, Bridge, Checkout",
+                  "99.9% Infrastructure uptime SLAs",
+                  "24 hour customer support SLAs",
+                  "Dedicated Slack support channel",
+                  "Premium placements for your chain",
+                  "thirdweb Indexer (Coming in Q2)",
                 ]}
                 btnTitle="Contact us"
                 btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
@@ -188,8 +189,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             />
 
             <LandingCardWithImage
-              title="Gasless Transactions"
-              description="Onboard users in an instant & create seamless web3 UX by sponsoring gas fees — for any & all transactions."
+              title="Payments"
+              description="Point-of-sale tools for fiat & crypto payments — with onramp, swapping, & bridging."
               image={require("../../../public/assets/landingpage/transaction-fee-desktop.png")}
               mobileImage={require("../../../public/assets/landingpage/transaction-fee-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -221,8 +222,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex flexDirection="column" alignItems="center">
             <LandingEndCTA
-              title="Bring developers on your chain"
-              description="Launch your network with world-class developer tools, production-grade infrastructure, and thirdweb's ecosystem."
+              title="More developers, more users"
+              description="Grow your ecosystem with tools for developers, production-grade infrastructure, and thirdweb's resources & expertise — from day one."
               titleWithGradient=""
               colorDescription="#fff"
               containerMaxWidth="900px"

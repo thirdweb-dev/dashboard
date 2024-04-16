@@ -31,7 +31,7 @@ export const LandingPlan = ({
       border="1px solid #26282F"
       background="#000001"
       padding={{ base: "32px 36px", md: "49px 52px" }}
-      minH={{ base: "auto", md: "714px" }}
+      minH={{ base: "auto", md: "665px" }}
       boxShadow={
         active
           ? "0px 7.768px 15.537px 0px rgba(202, 51, 255, 0.45), 0px -7.768px 15.537px 0px rgba(51, 133, 255, 0.45)"
@@ -79,7 +79,7 @@ export const LandingPlan = ({
       {btnTitle && (
         <Flex w="full" alignItems="center" justifyContent="center">
           <TrackedLinkButton
-            marginTop="130px"
+            marginTop="48px"
             colorScheme="primary"
             category={trackingCategory}
             label={`contact_us_${title.replace(" ", "_").toLowerCase()}`}
@@ -94,7 +94,7 @@ export const LandingPlan = ({
             }}
             size="md"
             color="black"
-            maxW="320px"
+            maxW="380px"
             minH="56px"
             w="full"
           >
