@@ -27,7 +27,7 @@ dependencies:
     version: 2.1.2(@chakra-ui/styled-system@2.9.2)
   '@coinbase/onchainkit':
     specifier: ^0.11.0
-    version: 0.11.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.9.9)
+    version: 0.11.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.9.16)
   '@emotion/react':
     specifier: ^11.11.4
     version: 11.11.4(@types/react@18.2.73)(react@18.2.0)
@@ -201,7 +201,7 @@ dependencies:
     version: 5.13.0(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
   thirdweb:
     specifier: 5.6.0
-    version: 5.6.0(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zod@3.22.4)
+    version: 5.6.0(@types/react-dom@18.2.25)(@types/react@18.2.73)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zod@3.22.4)
   tiny-invariant:
     specifier: ^1.3.3
     version: 1.3.3
@@ -2090,7 +2090,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@coinbase/onchainkit@0.11.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.9.9):
+  /@coinbase/onchainkit@0.11.0(@tanstack/react-query@4.36.1)(@xmtp/frames-validator@0.5.2)(graphql-request@6.1.0)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)(viem@2.9.16):
     resolution: {integrity: sha512-jplMmlADttZxlO6amMRTsTSxhj/HxfF1H/fflPvjxpe1NvX+ovJzI5oSvUsOg2rt1srGVJhlptlAtQA9HXVFbQ==}
     peerDependencies:
       '@tanstack/react-query': ^5
@@ -2107,7 +2107,7 @@ packages:
       graphql-request: 6.1.0(graphql@16.8.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      viem: 2.9.9(typescript@5.4.3)(zod@3.22.4)
+      viem: 2.9.16(typescript@5.4.3)(zod@3.22.4)
     dev: false
 
   /@coinbase/wallet-sdk@3.7.2:
@@ -8234,7 +8234,7 @@ packages:
       '@noble/curves': 1.4.0
       '@noble/hashes': 1.4.0
       '@xmtp/proto': 3.45.0
-      viem: 2.9.9(typescript@5.4.3)(zod@3.22.4)
+      viem: 2.9.16(typescript@5.4.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -11342,6 +11342,7 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
+    bundledDependencies: false
 
   /event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
@@ -17927,7 +17928,7 @@ packages:
       - zod
     dev: false
 
-  /thirdweb@5.6.0(@types/react-dom@18.2.23)(@types/react@18.2.73)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zod@3.22.4):
+  /thirdweb@5.6.0(@types/react-dom@18.2.25)(@types/react@18.2.73)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)(zod@3.22.4):
     resolution: {integrity: sha512-OcBJitC4Px0XSSFCyTf8wuTolj9OG5RC6+sPLwGTdTIq7nPkWUQVvrplwiAu3OKzsqAsYo4e8cOcOhUvclGo0w==}
     engines: {node: '>=18'}
     hasBin: true
@@ -17952,7 +17953,7 @@ packages:
       '@radix-ui/react-dialog': 1.0.5(@types/react-dom@18.2.25)(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-focus-scope': 1.0.4(@types/react-dom@18.2.25)(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-icons': 1.3.0(react@18.2.0)
-      '@radix-ui/react-tooltip': 1.0.7(@types/react-dom@18.2.23)(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.7(@types/react-dom@18.2.25)(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query': 5.29.2(react@18.2.0)
       '@walletconnect/ethereum-provider': 2.12.2(@types/react@18.2.73)(react@18.2.0)
       abitype: 1.0.0(typescript@5.4.3)(zod@3.22.4)
