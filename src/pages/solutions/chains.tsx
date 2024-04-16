@@ -191,8 +191,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             <LandingCardWithImage
               title="Payments"
               description="Point-of-sale tools for fiat & crypto payments — with onramp, swapping, & bridging."
-              image={require("../../../public/assets/landingpage/transaction-fee-desktop.png")}
-              mobileImage={require("../../../public/assets/landingpage/transaction-fee-mobile.png")}
+              image={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
+              mobileImage={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/sponsored-transactions"
               cardBg="#131418"
@@ -211,8 +211,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             <LandingCardWithImage
               title="Account Abstraction"
               description="A best-in-class SDK, full wallet customizability, and managed infra for ERC-4337."
-              image={require("../../../public/assets/landingpage/desktop-account-abstraction.png")}
-              mobileImage={require("../../../public/assets/landingpage/mobile-account-abstraction.png")}
+              image={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
+              mobileImage={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/account-abstraction"
               cardBg="#131418"
