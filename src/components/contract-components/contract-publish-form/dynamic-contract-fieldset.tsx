@@ -1,5 +1,4 @@
 import { Box, Flex, Icon } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { Heading, Text, Button } from "tw-components";
