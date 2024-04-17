@@ -53,7 +53,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           <LandingHeroWithSideImage
             miniTitle="Chains"
             miniImage={require("../../../public/assets/solutions-pages/chains/mini-icon.png")}
-            title="Brings developers & apps"
+            title="Bring developers & apps"
             titleWithGradient="to your chain"
             subtitle="Full-stack web3 development tools, production-grade infrastructure, and thirdweb's resources — so that developers can build on your chain, from day one."
             trackingCategory={TRACKING_CATEGORY}
@@ -248,9 +248,9 @@ const SolutionsChains: ThirdwebNextPage = () => {
             />
             <LandingCardWithImage
               title="Account Abstraction"
-              description="A best-in-class SDK, gasless transactions, smart account customizability, and managed infrastructure with bundler & paymaster."
-              image={require("../../../public/assets/landingpage/gas-desktop.png")}
-              mobileImage={require("../../../public/assets/landingpage/gas-mobile.png")}
+              description="Smart accounts for gasless transactions and managed infrastructure with bundler & paymaster."
+              image={require("../../../public/assets/landingpage/aa-desktop.png")}
+              mobileImage={require("../../../public/assets/landingpage/aa-desktop.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/account-abstraction"
               cardBg="#131418"
@@ -264,7 +264,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               description="Grow your ecosystem with full-stack tools for developers, production-grade infrastructure, and thirdweb's resources & expertise — from day one."
               titleWithGradient=""
               colorDescription="#fff"
-              containerMaxWidth="900px"
+              containerMaxW="900px"
               trackingCategory={TRACKING_CATEGORY}
               ctaLink="https://portal.thirdweb.com/unity"
               gradient="linear(to-r, #F213A4, #F97CCE)"

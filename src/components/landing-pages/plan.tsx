@@ -32,11 +32,12 @@ export const LandingPlan = ({
       background="#000001"
       padding={{ base: "32px 36px", md: "49px 52px" }}
       minH={{ base: "auto", md: "665px" }}
-      boxShadow={
-        active
-          ? "0px 7.768px 15.537px 0px rgba(202, 51, 255, 0.45), 0px -7.768px 15.537px 0px rgba(51, 133, 255, 0.45)"
-          : ""
-      }
+      {...(active
+        ? {
+            boxShadow:
+              "0px 7.768px 15.537px 0px rgba(202, 51, 255, 0.45), 0px -7.768px 15.537px 0px rgba(51, 133, 255, 0.45)",
+          }
+        : {})}
     >
       <Flex flexDir="column" flex={1}>
         <Heading as="label" size="title.lg">
@@ -82,7 +83,7 @@ export const LandingPlan = ({
             marginTop="48px"
             colorScheme="primary"
             category={trackingCategory}
-            label={`contact_us_${title.replace(" ", "_").toLowerCase()}`}
+            label={title.replace(" ", "_").toLowerCase()}
             href={btnHref ?? "/"}
             borderRadius="lg"
             py={6}
