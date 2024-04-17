@@ -124,7 +124,7 @@ const AddModal = ({
             <FormControl isRequired>
               <FormLabel>Chain</FormLabel>
               <NetworkDropdown
-                value={form.watch("chainId")}
+                value={parseInt(form.watch("chainId"))}
                 onSingleChange={(val) =>
                   form.setValue("chainId", val.toString())
                 }
