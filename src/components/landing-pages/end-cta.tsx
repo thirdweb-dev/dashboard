@@ -3,7 +3,7 @@ import { Box, Container, ContainerProps, Flex } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Heading, Text } from "tw-components";
 
-type LandingEndCTAProps = {
+interface LandingEndCTAProps {
   title: string;
   description?: string;
   colorDescription?: string;
@@ -18,7 +18,7 @@ type LandingEndCTAProps = {
   noContactUs?: boolean;
   contactUsTitle?: string;
   trackingCategory: string;
-};
+}
 
 export const LandingEndCTA: React.FC<LandingEndCTAProps> = ({
   title,
