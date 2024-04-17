@@ -178,7 +178,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
                   },
                   {
                     id: "indexer",
-                    description: '"thirdweb Indexer (Coming in Q2)"',
+                    description: 'thirdweb Indexer (Coming in Q2)',
                   },
                 ]}
                 btnTitle="Contact us"
