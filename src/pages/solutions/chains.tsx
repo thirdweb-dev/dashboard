@@ -109,22 +109,40 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 title="Open-Source Developer Tools"
                 description="Support for thirdweb products with public infrastructure."
                 list={[
-                  "Smart Contract Deployment",
-                  "Cross-Platform Connect Integration",
-                  "In-App Wallets: Email, Social, Phone",
-                  "thirdweb Engine: Backend Wallets & Nonce Management",
-                  <Text key="chainlist" size="body.lg" color="#B1B1B1">
-                    Added to{" "}
-                    <TrackedLink
-                      href="/chainlist"
-                      isExternal
-                      category={TRACKING_CATEGORY}
-                      label="thirdweb_chainlist"
-                      textDecoration="underline"
-                    >
-                      thirdweb Chainlist
-                    </TrackedLink>
-                  </Text>,
+                  {
+                    id: "smart-contract",
+                    description: "Smart Contract Deployment",
+                  },
+                  {
+                    id: "cross-platform",
+                    description: "Cross-Platform Connect Integration",
+                  },
+                  {
+                    id: "in-app",
+                    description: "In-App Wallets: Email, Social, Phone",
+                  },
+                  {
+                    id: "engine",
+                    description:
+                      "thirdweb Engine: Backend Wallets & Nonce Management",
+                  },
+                  {
+                    id: "chainlist",
+                    description: (
+                      <Text key="chainlist" size="body.lg" color="#B1B1B1">
+                        Added to{" "}
+                        <TrackedLink
+                          href="/chainlist"
+                          isExternal
+                          category={TRACKING_CATEGORY}
+                          label="thirdweb_chainlist"
+                          textDecoration="underline"
+                        >
+                          thirdweb Chainlist
+                        </TrackedLink>
+                      </Text>
+                    ),
+                  },
                 ]}
                 trackingCategory={TRACKING_CATEGORY}
               />
@@ -135,13 +153,33 @@ const SolutionsChains: ThirdwebNextPage = () => {
                 description="Full-stack development tools & production-ready infra."
                 listTitle="Everything in the Open-Source tier, plus:"
                 list={[
-                  "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
-                  "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
-                  "99.9% Infrastructure uptime SLAs",
-                  "24 hour customer support SLAs",
-                  "Dedicated Slack support channel",
-                  "Premium placements for your chain",
-                  "thirdweb Indexer (Coming in Q2)",
+                  {
+                    id: "aa",
+                    description:
+                      "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
+                  },
+                  {
+                    id: "scale",
+                    description:
+                      "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
+                  },
+                  {
+                    id: "uptime",
+                    description: "99.9% Infrastructure uptime SLAs",
+                  },
+                  { id: "sla", description: "24 hour customer support SLAs" },
+                  {
+                    id: "channel",
+                    description: "Dedicated Slack support channel",
+                  },
+                  {
+                    id: "premium",
+                    description: "Premium placements for your chain",
+                  },
+                  {
+                    id: "indexer",
+                    description: '"thirdweb Indexer (Coming in Q2)"',
+                  },
                 ]}
                 btnTitle="Contact us"
                 btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
@@ -191,8 +229,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             <LandingCardWithImage
               title="Payments"
               description="Point-of-sale tools for fiat & crypto payments — with onramp, swapping, & bridging."
-              image={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
-              mobileImage={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
+              image={require("../../../public/assets/landingpage/fee-desktop.png")}
+              mobileImage={require("../../../public/assets/landingpage/fee-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/sponsored-transactions"
               cardBg="#131418"
@@ -211,8 +249,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             <LandingCardWithImage
               title="Account Abstraction"
               description="A best-in-class SDK, gasless transactions, smart account customizability, and managed infrastructure with bundler & paymaster."
-              image={require("../../../public/assets/landingpage/gas-v2.png")}
-              mobileImage={require("../../../public/assets/landingpage/gas-v2.png")}
+              image={require("../../../public/assets/landingpage/gas-desktop.png")}
+              mobileImage={require("../../../public/assets/landingpage/gas-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/account-abstraction"
               cardBg="#131418"

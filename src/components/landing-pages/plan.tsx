@@ -8,7 +8,7 @@ interface LandingPlanProps {
   active?: boolean;
   description: string;
   listTitle?: string;
-  list: (string | ReactNode)[];
+  list: { id: string; description: string | ReactNode }[];
   btnHref?: string;
   btnTitle?: string;
   trackingCategory: string;
@@ -54,21 +54,21 @@ export const LandingPlan = ({
             </Text>
           )}
 
-          {list.map((listItem, idx) => {
+          {list.map((listItem) => {
             return (
-              <Flex key={idx} alignItems="center" gap="12px">
+              <Flex key={listItem.id} alignItems="center" gap="12px">
                 <ChakraNextImage
                   src={require("/public/assets/landingpage/check.svg")}
                   height="16px"
                   width="16px"
                   alt=""
                 />
-                {typeof listItem === "string" ? (
+                {typeof listItem.description === "string" ? (
                   <Text size="body.lg" color="#B1B1B1">
-                    {listItem}
+                    {listItem.description}
                   </Text>
                 ) : (
-                  listItem
+                  listItem.description
                 )}
               </Flex>
             );
