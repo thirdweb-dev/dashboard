@@ -211,8 +211,8 @@ const SolutionsChains: ThirdwebNextPage = () => {
             <LandingCardWithImage
               title="Account Abstraction"
               description="A best-in-class SDK, gasless transactions, smart account customizability, and managed infrastructure with bundler & paymaster."
-              image={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
-              mobileImage={require("../../../public/assets/landingpage/transaction-fee-v2.png")}
+              image={require("../../../public/assets/landingpage/gas-v2.png")}
+              mobileImage={require("../../../public/assets/landingpage/gas-v2.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
               href="/account-abstraction"
               cardBg="#131418"
