@@ -19,7 +19,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Instant Dev Tools & Infrastructure on your Chain",
+        title: "Instant Devtools & Infrastructure on your Chain",
         description:
           "The easiest way for developers to build apps on your EVM chain — with the complete web3 development stack: wallets, contracts, payments, & infra.",
         openGraph: {
@@ -222,7 +222,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               image={require("../../../public/assets/landingpage/smart-contract-audits-desktop.png")}
               mobileImage={require("../../../public/assets/landingpage/smart-contract-audits-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/explore"
+              href="/contracts"
               cardBg="#131418"
             />
 
@@ -232,7 +232,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               image={require("../../../public/assets/landingpage/fee-desktop.png")}
               mobileImage={require("../../../public/assets/landingpage/fee-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/sponsored-transactions"
+              href="https://portal.thirdweb.com/connect/pay/buy-with-crypto"
               cardBg="#131418"
               colSpan={1}
             />
@@ -242,7 +242,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               image={require("../../../public/assets/landingpage/infastructure-desktop.png")}
               mobileImage={require("../../../public/assets/landingpage/infastructure-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/rpc-edge"
+              href="/engine"
               cardBg="#131418"
               direction="horizontal"
             />
@@ -252,7 +252,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
               image={require("../../../public/assets/landingpage/aa-desktop.png")}
               mobileImage={require("../../../public/assets/landingpage/aa-desktop.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/account-abstraction"
+              href="https://portal.thirdweb.com/connect/account-abstraction"
               cardBg="#131418"
               colSpan={1}
             />
@@ -260,7 +260,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
 
           <Flex flexDirection="column" alignItems="center">
             <LandingEndCTA
-              title="More developers, more apps, more users"
+              title="More developers, more users"
               description="Grow your ecosystem with full-stack tools for developers, production-grade infrastructure, and thirdweb's resources & expertise — from day one."
               titleWithGradient=""
               colorDescription="#fff"
