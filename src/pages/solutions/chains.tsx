@@ -259,7 +259,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
             />
           </LandingGridSection>
 
-          <Flex position="relative" width="full" flexDir="column" gap="80px">
+          <Flex width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
               title="thirdweb drives transactions"
               blackToWhiteTitle=""
