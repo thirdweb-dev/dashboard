@@ -13,19 +13,6 @@ export const DynamicContractsFieldset = () => {
     control: form.control,
   });
 
-  useEffect(() => {
-    if (fields.length === 0) {
-      append(
-        {
-          extensionName: "",
-          extensionVersion: "",
-          publisherAddress: "",
-        },
-        { shouldFocus: false },
-      );
-    }
-  }, [fields, append, form]);
-
   return (
     <Flex gap={8} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
