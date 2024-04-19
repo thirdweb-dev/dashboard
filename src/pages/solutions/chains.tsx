@@ -41,7 +41,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
         flexDir="column"
         width="100%"
         overflow="hidden"
-        py={{ base: "120px", md: "80px" }}
+        pb={{ base: "120px", md: "80px" }}
       >
         <Container
           zIndex={3}
@@ -320,7 +320,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           background={`url("/assets/solutions-pages/chains/top-gradient.png")`}
           backgroundPosition="center"
           backgroundRepeat="no-repeat"
-          backgroundSize="cover"
+          backgroundSize="100% 100%"
           zIndex={2}
         />
 
@@ -334,7 +334,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
           background={`url("/assets/solutions-pages/chains/bottom-gradient.png")`}
           backgroundPosition="center"
           backgroundRepeat="no-repeat"
-          backgroundSize="cover"
+          backgroundSize="100% 100%"
           zIndex={2}
         />
       </Flex>
