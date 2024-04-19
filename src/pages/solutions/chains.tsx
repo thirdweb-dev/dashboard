@@ -318,7 +318,7 @@ const SolutionsChains: ThirdwebNextPage = () => {
             right: 0,
             height: "2286px",
             width: "100%",
-            background: `url("/assets/landingpage/top-gradient.png")`,
+            background: `url("/assets/landingpage/top-gradient.svg")`,
             backgroundSize: { base: "cover", lg: "100% 100%" },
           }}
           bottom={{
