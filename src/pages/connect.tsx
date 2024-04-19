@@ -173,7 +173,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
             mobileImage={require("../../public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
             contactUsBg="#0E0E0E"
             contactUsHover={{ background: "#0E0E0E" }}
-            contactUsBorder="none"
           />
 
           <Flex
@@ -433,7 +432,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
             right: 0,
             height: "2286px",
             width: "100%",
-            background: `url("/assets/landingpage/top-gradient.png")`,
+            background: `url("/assets/landingpage/top-gradient.svg")`,
             backgroundSize: { base: "cover", lg: "100% 100%" },
           }}
           bottom={{
