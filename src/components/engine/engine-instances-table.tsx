@@ -136,18 +136,16 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
                 <Text fontWeight="600" size="body.lg">
                   {name}
                 </Text>
-                <Tooltip label="We will reach out within 1 business day.">
-                  <Badge
-                    borderRadius="full"
-                    size="label.sm"
-                    variant="subtle"
-                    px={3}
-                    py={1.5}
-                    colorScheme="black"
-                  >
-                    pending
-                  </Badge>
-                </Tooltip>
+                <Badge
+                  borderRadius="full"
+                  size="label.sm"
+                  variant="subtle"
+                  px={3}
+                  py={1.5}
+                  colorScheme="green"
+                >
+                  deploying
+                </Badge>
               </HStack>
             ) : (
               <>
