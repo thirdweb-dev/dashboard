@@ -51,7 +51,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/minting-solutions.png`,
               width: 1200,
               height: 630,
-              alt: "Minting API: The #1 Toolkit for NFTs",
+              alt: "Minting API: The #1 Toolkit for ",
             },
           ],
         },
@@ -66,7 +66,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
         <LandingHero
           title="Mint and distribute NFTs"
           titleWithGradient="easily"
-          subtitle="Enable your users to mint, deploy and distribute NFTS through your app with only a few lines of code."
+          subtitle="Min and distribute NFTs through your app with only a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/contracts/design-docs/signature-mint"
           gradient="linear(to-r, #8E0EFF, #16bdf0)"
