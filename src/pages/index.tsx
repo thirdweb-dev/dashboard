@@ -9,7 +9,6 @@ import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { SolutionsSection } from "components/homepage/sections/Solutions";
 import { StatsSection } from "components/homepage/sections/StatsSection";
-import { ValuesSection } from "components/homepage/sections/ValuesSection";
 import { WithoutThirdwebSection } from "components/homepage/sections/WithoutThirdwebSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -63,7 +62,7 @@ const HomePage: ThirdwebNextPage = () => {
             label="get-started-engine"
             ctaLink="/engine"
             image={require("../../public/assets/landingpage/engine-hero.png")}
-            mobileImage={require("../../public/assets/landingpage/engine-hero.png")}
+            mobilngpeImage={require("../../public/assets/landingpage/engine-hero.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
@@ -100,7 +99,6 @@ const HomePage: ThirdwebNextPage = () => {
           </Box>
 
           <WithoutThirdwebSection />
-          <ValuesSection />
           <Suspense>
             <SDKSection />
             <AnyEVMSection />
