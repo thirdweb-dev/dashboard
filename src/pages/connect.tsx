@@ -88,14 +88,12 @@ const GUIDES = [
   },
   {
     title: "Add a Connect Wallet Button to Your App or Website",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/How-to-Add-a-Connect-Wallet-Button-to-your-App-or-Website.png",
+    image: require("/public/assets/product-pages/connect/connect-wallet.png"),
     link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
   },
   {
     title: "Create Your Own Custom Connect Wallet Button",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/Create-a-Customizable-Connect-Wallet-Button.png",
+    image: require("/public/assets/product-pages/connect/custom-connect.png"),
     link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
   },
 ];
@@ -168,7 +166,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
             ctaLink="/dashboard/connect/playground"
             contactUsTitle="Book Demo"
             gradient="linear(to-r, #4490FF, #4490FF)"
-            lottie={connectLottie}
             image={require("../../public/assets/product-pages/hero/desktop-hero-connect-wallet.png")}
             mobileImage={require("../../public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
             contactUsBg="#0E0E0E"
@@ -179,8 +176,12 @@ const ConnectLanding: ThirdwebNextPage = () => {
             flexDir="column"
             alignItems="center"
             justifyContent="center"
-            gap="24px"
+            gap="36px"
           >
+            <Heading fontSize={[30, 40]} color="white" textAlign="center">
+              The complete web3 frontend toolkit
+            </Heading>
+
             <Carousel TRACKING_CATEGORY={TRACKING_CATEGORY} />
           </Flex>
 
@@ -252,8 +253,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="https://portal.thirdweb.com/connect/in-app-wallet/overview"
             gradient="linear(to-r, #4490FF, #4490FF)"
-            image={require("../../public/assets/product-pages/hero/desktop-hero-embedded-wallets.png")}
-            mobileImage={require("../../public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
+            image={require("../../public/assets/product-pages/hero/desktop-in-app-wallets-v2.png")}
+            mobileImage={require("../../public/assets/product-pages/hero/mobile-in-app-wallets-v2.png")}
             noContactUs
           />
 
@@ -266,8 +267,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="https://portal.thirdweb.com/connect/account-abstraction"
             gradient="linear(to-r, #4490FF, #4490FF)"
-            image={require("../../public/assets/product-pages/smart-wallet/desktop-hero.png")}
-            mobileImage={require("../../public/assets/product-pages/smart-wallet/mobile-hero.png")}
+            image={require("../../public/assets/product-pages/hero/desktop-aa.png")}
+            mobileImage={require("../../public/assets/product-pages/hero/mobile-aa.png")}
             noContactUs
           />
 
@@ -280,7 +281,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="https://portal.thirdweb.com/payments"
             gradient="linear(to-r, #4490FF, #4490FF)"
-            lottie={checkoutLottie}
+            image={require("../../public/assets/product-pages/hero/desktop-pay.png")}
+            mobileImage={require("../../public/assets/product-pages/hero/mobile-pay.png")}
             noContactUs
           />
 
