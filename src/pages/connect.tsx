@@ -11,8 +11,6 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import connectLottie from "../../public/assets/product-pages/connect/connect-lottie.json";
-import checkoutLottie from "../../public/assets/product-pages/checkout/checkout.json";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
 import Carousel from "components/connect/Carousel";
