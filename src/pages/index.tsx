@@ -62,7 +62,7 @@ const HomePage: ThirdwebNextPage = () => {
             label="get-started-engine"
             ctaLink="/engine"
             image={require("../../public/assets/landingpage/engine-hero.png")}
-            mobilngpeImage={require("../../public/assets/landingpage/engine-hero.png")}
+            mobileImage={require("../../public/assets/landingpage/engine-hero.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
           />
           <HomePageCard
