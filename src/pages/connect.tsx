@@ -220,7 +220,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
                 trackingCategory={TRACKING_CATEGORY}
                 size="sm"
                 platform="React"
-                href="https://portal.thirdweb.com/react/latest/components/ConnectWallet"
+                href="https://portal.thirdweb.com/typescript/v5/react/components/ConnectButton"
                 bg="#0E0E0E"
               />
               <SupportedPlatformLink
