@@ -21,7 +21,7 @@ export function useShowMore<T extends HTMLElement>(
       },
       { threshold: 1 },
     );
-  }, []);
+  }, [itemsToAdd]);
 
   const lastItemRef = useCallback(
     (node: T) => {
@@ -36,7 +36,7 @@ export function useShowMore<T extends HTMLElement>(
       observer?.observe(node);
       prevNode.current = node;
     },
-    [itemsToAdd],
+    [observer],
   );
 
   return { itemsToShow, lastItemRef };
