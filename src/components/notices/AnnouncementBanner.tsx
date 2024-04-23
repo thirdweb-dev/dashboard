@@ -46,7 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Get started with Connect SDK v5 now on stable release.
+                Our new Connect SDK v5 is now available. 10x faster, 30x
+                lighter. Get started
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

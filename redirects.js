@@ -47,6 +47,11 @@ function redirects() {
       permanent: false,
     },
     {
+      source: "/checkout",
+      destination: "/connect",
+      permanent: false,
+    },
+    {
       source: "/extensions",
       destination: "/build",
       permanent: false,
@@ -107,6 +112,11 @@ function redirects() {
     {
       source: "/dashboard/settings/account",
       destination: "/dashboard/settings/devices",
+      permanent: false,
+    },
+    {
+      source: "/template/nft-drop",
+      destination: "/template/erc721",
       permanent: false,
     },
     {
@@ -234,20 +244,20 @@ function redirects() {
       destination: "/dashboard/connect/pay?tab=checkouts",
       permanent: false,
     },
-    {
-      source: "/template/:match*",
-      destination: "/templates/:match*",
-      permanent: false,
-    },
-    {
-      source: "/templates/nft-drop",
-      destination: "/templates/erc721",
-      permanent: false,
-    },
-    //Redirecting as ambassadors lives in community now
+    // Redirecting as ambassadors lives in community now
     {
       source: "/ambassadors",
       destination: "/community/ambassadors",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/connect/embedded-wallets",
+      destination: "/dashboard/connect/in-app-wallets",
+      permanent: false,
+    },
+    {
+      source: "/embedded-wallets",
+      destination: "/in-app-wallets",
       permanent: false,
     },
   ];

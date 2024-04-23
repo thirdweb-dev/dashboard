@@ -21,7 +21,7 @@ import {
   Zksync,
   ZksyncEraGoerliTestnetDeprecated,
   ZksyncSepoliaTestnet,
-  getChainByChainId,
+  getChainByChainIdAsync,
 } from "@thirdweb-dev/chains";
 import {
   useAddress,
@@ -263,7 +263,16 @@ export async function fetchAllVersions(
   for (let i = 0; i < allVersions.length; i++) {
     const contractInfo = await sdk
       .getPublisher()
-      .fetchPublishedContractInfo(allVersions[i]);
+      .fetchPublishedContractInfo(allVersions[i])
+      .catch(() => {
+        console.error(
+          `failed to fetchPublishedContractInfo for metadataUri: ${allVersions[i].metadataUri} - ignoring version`,
+        );
+        return null;
+      });
+    if (!contractInfo) {
+      continue;
+    }
 
     publishedVersions.unshift({
       ...allVersions[i],
@@ -511,6 +520,7 @@ interface ContractDeployMutationParams {
 
 export function useCustomContractDeployMutation(
   ipfsHash: string,
+  version?: string,
   forceDirectDeploy?: boolean,
   {
     hasContractURI,
@@ -652,7 +662,8 @@ export function useCustomContractDeployMutation(
                 fullPublishMetadata.data?.name as string,
                 Object.values(data.deployParams),
                 fullPublishMetadata.data?.publisher as string,
-                "latest",
+                // this is either the contract version or it falls back to "latest"
+                version,
                 salt,
               );
           } else {
@@ -941,9 +952,8 @@ export function useCustomFactoryAbi(contractAddress: string, chainId: number) {
   return useQuery(
     ["custom-factory-abi", { contractAddress, chainId }],
     async () => {
-      const chain = getChainByChainId(chainId);
+      const chain = await getChainByChainIdAsync(chainId);
       const sdk = getThirdwebSDK(chainId, getDashboardChainRpc(chain));
-      invariant(sdk, "sdk is not defined");
 
       return (await sdk.getContract(contractAddress)).abi;
     },
