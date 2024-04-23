@@ -11,6 +11,7 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import connectLottie from "../../public/assets/product-pages/connect/connect-lottie.json";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import CodePlayground from "components/connect/CodePlayground";
 import Carousel from "components/connect/Carousel";
@@ -164,6 +165,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
             ctaLink="/dashboard/connect/playground"
             contactUsTitle="Book Demo"
             gradient="linear(to-r, #4490FF, #4490FF)"
+            lottie={connectLottie}
             image={require("../../public/assets/product-pages/hero/desktop-hero-connect-wallet.png")}
             mobileImage={require("../../public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
             contactUsBg="#0E0E0E"
