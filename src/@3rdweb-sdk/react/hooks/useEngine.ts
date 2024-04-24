@@ -1332,38 +1332,32 @@ export function useEngineUnsubcribeContractSubscription(instance: string) {
   );
 }
 
-export function useEngineChainIndexer(
-  instance: string,
-  chains: string[],
+export function useEngineSubscriptionsLastBlock(
+  instanceUrl: string,
+  chainId: string,
   autoUpdate: boolean,
 ) {
   const { token } = useApiAuthToken();
-  return useQuery(
-    engineKeys.chainIndexer(instance),
-    async () => {
-      return await Promise.all(
-        chains.map(async (chain) => {
-          const response = await fetch(
-            `${instance}contract/subscriptions/get-last-block?chain=${chain}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
 
-          const json = await response.json();
-          return {
-            chainId: chain,
-            lastIndexedBlock: json.result.lastIndexedBlock,
-          };
-        }),
+  return useQuery(
+    engineKeys.contractSubscriptionsLastBlock(instanceUrl, chainId),
+    async () => {
+      const response = await fetch(
+        `${instanceUrl}contract/subscriptions/get-last-block?chain=${chainId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
+
+      const json = await response.json();
+      return json.result.lastIndexedBlock as number;
     },
     {
-      enabled: !!instance && !!token,
+      enabled: !!instanceUrl && !!token,
       refetchInterval: autoUpdate ? 5_000 : false,
     },
   );

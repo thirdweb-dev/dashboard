@@ -69,39 +69,38 @@ export const RelayersTable: React.FC<RelayersTableProps> = ({
     columnHelper.accessor("chainId", {
       header: "Chain",
       cell: (cell) => {
-        const { chainId, backendWalletAddress } = cell.row.original;
-        const chain = chainIdToChainRecord[parseInt(chainId)];
-        if (chain) {
-          const chainNameDisplay = (
-            <Flex align="center" gap={2}>
-              <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
-              <Text>{chain.name}</Text>
-            </Flex>
-          );
-
-          const explorer = chain.explorers?.[0];
-          if (!explorer) {
-            return chainNameDisplay;
-          }
-
-          return (
-            <LinkButton
-              key={explorer.name}
-              variant="ghost"
-              isExternal
-              size="xs"
-              href={`${explorer.url}/address/${backendWalletAddress}`}
-            >
-              {chainNameDisplay}
-            </LinkButton>
-          );
-        }
+        const chain = chainIdToChainRecord[parseInt(cell.getValue())];
+        return (
+          <Flex align="center" gap={2}>
+            <ChainIcon size={12} ipfsSrc={chain.icon?.url} />
+            <Text>{chain.name}</Text>
+          </Flex>
+        );
       },
     }),
     columnHelper.accessor("backendWalletAddress", {
       header: "Backend Wallet",
       cell: (cell) => {
-        return <AddressCopyButton size="xs" address={cell.getValue() ?? ""} />;
+        const { chainId, backendWalletAddress } = cell.row.original;
+        const chain = chainIdToChainRecord[parseInt(chainId)];
+
+        const explorer = chain.explorers?.[0];
+        if (!explorer) {
+          return backendWalletAddress;
+        }
+
+        return (
+          <LinkButton
+            key={explorer.name}
+            variant="ghost"
+            isExternal
+            size="xs"
+            href={`${explorer.url}/address/${backendWalletAddress}`}
+            fontFamily="mono"
+          >
+            {backendWalletAddress}
+          </LinkButton>
+        );
       },
     }),
     columnHelper.accessor("name", {

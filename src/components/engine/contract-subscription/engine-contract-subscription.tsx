@@ -1,10 +1,10 @@
 import {
-  useEngineChainIndexer,
+  useEngineSubscriptionsLastBlock,
   useEngineContractSubscription,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import { Flex, FormControl, Switch } from "@chakra-ui/react";
 import { FormLabel, Heading, Link, Text } from "tw-components";
-import { ContractSubscriptionTable } from "./contract-subs-table";
+import { ContractSubscriptionTable } from "./contract-subscriptions-table";
 import { AddContractSubscriptionButton } from "./add-contract-subs-button";
 import { useState } from "react";
 
@@ -16,24 +16,7 @@ export const EngineContractSubscriptions: React.FC<
   EngineContractSubscriptionsProps
 > = ({ instanceUrl }) => {
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
-  const contractSubscriptions = useEngineContractSubscription(instanceUrl);
-  const chainIndexer = useEngineChainIndexer(
-    instanceUrl,
-    Array.from(
-      new Set((contractSubscriptions.data || []).map((sub) => sub.chainId)),
-    ),
-    autoUpdate,
-  );
-
-  const contractSubsOverview = (contractSubscriptions.data || []).map((sub) => {
-    const chain = chainIndexer.data?.find(
-      (_chain) => _chain.chainId === sub.chainId,
-    );
-    return {
-      ...chain,
-      ...sub,
-    };
-  });
+  const contractSubscriptionsQuery = useEngineContractSubscription(instanceUrl);
 
   return (
     <Flex flexDir="column" gap={4}>
@@ -41,7 +24,7 @@ export const EngineContractSubscriptions: React.FC<
         <Flex flexDir="column" gap={2}>
           <Heading size="title.md">Contract Subscriptions</Heading>
           <Text>
-            Subscribe to any contract on any chain for on-chain events
+            Subscribe to onchain events on any contract.{" "}
             <Link
               href="https://portal.thirdweb.com/engine/features/contract-subscriptions"
               color="primary.500"
@@ -68,9 +51,10 @@ export const EngineContractSubscriptions: React.FC<
       </Flex>
       <ContractSubscriptionTable
         instanceUrl={instanceUrl}
-        contractSubscriptions={contractSubsOverview || []}
-        isLoading={contractSubscriptions.isLoading}
-        isFetched={contractSubscriptions.isFetched}
+        contractSubscriptions={contractSubscriptionsQuery.data ?? []}
+        isLoading={contractSubscriptionsQuery.isLoading}
+        isFetched={contractSubscriptionsQuery.isFetched}
+        autoUpdate={autoUpdate}
       />
       <AddContractSubscriptionButton instanceUrl={instanceUrl} />
     </Flex>

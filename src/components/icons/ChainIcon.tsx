@@ -15,6 +15,7 @@ export const ChainIcon = forwardRef<ChainIconProps, typeof Image>(
     const src = ipfsSrc ? replaceIpfsUrl(ipfsSrc) : fallbackIcon;
     // treat size of number as "px"
     size = typeof size === "number" ? `${size}px` : size;
+    console.log("src", src);
 
     // TODO - use sizes to create srcset
 
