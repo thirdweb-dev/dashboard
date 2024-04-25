@@ -51,7 +51,7 @@ export class ConnectFrame {
       Base,
       nftContractAddress,
     );
-    console.log({ owned: owned.result });
+
     if (!owned.result.length) {
       await engine.httpMint(address, Base, nftContractAddress);
     }

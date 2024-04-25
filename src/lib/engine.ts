@@ -40,7 +40,7 @@ export const httpMint = async (
   );
 
   const result = await response.json();
-  console.log({ result });
+
   return mintResponseSchema.parse(result);
 };
 
