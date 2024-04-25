@@ -24,6 +24,6 @@ export const connectFrames: Record<number, Frame> = {
     imageUrl: `${getAbsoluteUrl()}/assets/connect/frames/frame-6.png`,
   },
   7: {
-    imageUrl: `${getAbsoluteUrl()}/assets/connect/frames/frame-7.gif`,
+    imageUrl: `${getAbsoluteUrl()}/assets/connect/frames/frame-7.png`,
   },
 };
