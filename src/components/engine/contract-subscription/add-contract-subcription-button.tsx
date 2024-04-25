@@ -4,6 +4,9 @@ import {
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
+  FormControl,
+  Icon,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,20 +14,18 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Icon,
-  FormControl,
-  Input,
+  Stack,
   UseDisclosureReturn,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useTrack } from "hooks/analytics/useTrack";
-import { useTxNotifications } from "hooks/useTxNotifications";
-import { useForm } from "react-hook-form";
-import { Button, FormLabel } from "tw-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useAllChainsData } from "hooks/chains/allChains";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { isAddress } from "ethers/lib/utils";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useAllChainsData } from "hooks/chains/allChains";
+import { useTxNotifications } from "hooks/useTxNotifications";
+import { useForm } from "react-hook-form";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, Card, FormLabel, Text } from "tw-components";
 
 interface AddContractSubscriptionButtonProps {
   instanceUrl: string;
@@ -113,32 +114,42 @@ const AddModal = ({
   };
 
   return (
-    <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
+    <Modal
+      isOpen={disclosure.isOpen}
+      onClose={disclosure.onClose}
+      isCentered
+      size="lg"
+    >
       <ModalOverlay />
       <ModalContent as="form" onSubmit={form.handleSubmit(onSubmit)}>
         <ModalHeader>Add Contract Subscription</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
-          <Flex flexDir="column" gap={4}>
-            <FormControl isRequired>
-              <FormLabel>Chain</FormLabel>
-              <NetworkDropdown
-                value={parseInt(form.watch("chainId"))}
-                onSingleChange={(val) =>
-                  form.setValue("chainId", val.toString())
-                }
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Contract Address</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter contract address to subscribe"
-                {...form.register("contractAddress")}
-              />
-            </FormControl>
-          </Flex>
+          <Stack spacing={4}>
+            <Text>
+              Add a contract subscription to begin storing onchain data.
+            </Text>
+            <Card as={Stack} gap={4}>
+              <FormControl isRequired>
+                <FormLabel>Chain</FormLabel>
+                <NetworkDropdown
+                  value={parseInt(form.watch("chainId"))}
+                  onSingleChange={(val) =>
+                    form.setValue("chainId", val.toString())
+                  }
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Contract Address</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="0x..."
+                  {...form.register("contractAddress")}
+                />
+              </FormControl>
+            </Card>
+          </Stack>
         </ModalBody>
 
         <ModalFooter as={Flex} gap={3}>

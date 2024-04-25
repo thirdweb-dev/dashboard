@@ -2,7 +2,7 @@ import { useEngineContractSubscription } from "@3rdweb-sdk/react/hooks/useEngine
 import { Flex, FormControl, Switch } from "@chakra-ui/react";
 import { useState } from "react";
 import { FormLabel, Heading, Link, Text } from "tw-components";
-import { AddContractSubscriptionButton } from "./add-contract-subs-button";
+import { AddContractSubscriptionButton } from "./add-contract-subcription-button";
 import { ContractSubscriptionTable } from "./contract-subscriptions-table";
 
 interface EngineContractSubscriptionsProps {
@@ -21,7 +21,7 @@ export const EngineContractSubscriptions: React.FC<
         <Flex flexDir="column" gap={2}>
           <Heading size="title.md">Contract Subscriptions</Heading>
           <Text>
-            Subscribe to onchain events on any contract.{" "}
+            Subscribe to event logs and transaction receipts on any contract.{" "}
             <Link
               href="https://portal.thirdweb.com/engine/features/contract-subscriptions"
               color="primary.500"
@@ -34,7 +34,7 @@ export const EngineContractSubscriptions: React.FC<
           </Text>
         </Flex>
         <Flex>
-          <FormControl display="flex" alignItems="right">
+          <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="auto-update" mb="0">
               Auto-Update
             </FormLabel>

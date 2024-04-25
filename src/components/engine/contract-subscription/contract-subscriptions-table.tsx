@@ -229,8 +229,8 @@ const RemoveModal = ({
     useEngineUnsubcribeContractSubscription(instanceUrl);
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully deleted contract subscription",
-    "Failed to delete contract subscription",
+    "Successfully removed contract subscription.",
+    "Failed to remove contract subscription.",
   );
   const { chainIdToChainRecord } = useAllChainsData();
 
@@ -246,7 +246,7 @@ const RemoveModal = ({
           disclosure.onClose();
           trackEvent({
             category: "engine",
-            action: "delete-contract-subscription",
+            action: "remove-contract-subscription",
             label: "success",
             instance: instanceUrl,
           });
@@ -255,7 +255,7 @@ const RemoveModal = ({
           onError(error);
           trackEvent({
             category: "engine",
-            action: "delete-contract-subscription",
+            action: "remove-contract-subscription",
             label: "error",
             instance: instanceUrl,
             error,
@@ -269,7 +269,7 @@ const RemoveModal = ({
     <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Delete Contract Subscription</ModalHeader>
+        <ModalHeader>Remove Contract Subscription</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack spacing={4}>
