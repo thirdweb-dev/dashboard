@@ -1,4 +1,3 @@
-import { Chain } from "@thirdweb-dev/chains";
 import { z } from "zod";
 
 const engineUrl = process.env.THIRDWEB_ENGINE_URL as string;
@@ -27,11 +26,11 @@ const mintResponseSchema = z.object({
 
 export const httpMint = async (
   receiver: string,
-  chain: Chain,
+  chainId: number,
   contractAddress: string,
 ) => {
   const response = await fetch(
-    `${engineUrl}/contract/${chain.chainId}/${contractAddress}/erc721/claim-to`,
+    `${engineUrl}/contract/${chainId}/${contractAddress}/erc721/claim-to`,
     {
       method: "POST",
       headers,
@@ -46,11 +45,11 @@ export const httpMint = async (
 
 export const httpFetchOwned = async (
   address: string,
-  chain: Chain,
+  chainId: number,
   contractAddress: string,
 ) => {
   const response = await fetch(
-    `${engineUrl}/contract/${chain.chainId}/${contractAddress}/erc721/get-owned?walletAddress=${address.toLowerCase()}`,
+    `${engineUrl}/contract/${chainId}/${contractAddress}/erc721/get-owned?walletAddress=${address.toLowerCase()}`,
     {
       method: "GET",
       headers,

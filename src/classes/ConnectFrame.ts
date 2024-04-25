@@ -1,5 +1,4 @@
 import { getFrameHtmlResponse } from "@coinbase/onchainkit";
-import { Base } from "@thirdweb-dev/chains";
 import { connectFrames } from "lib/connect-frames";
 import * as engine from "lib/engine";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -48,12 +47,12 @@ export class ConnectFrame {
   static mintNftWithFrameHtmlResponse = async (address: string) => {
     const owned = await engine.httpFetchOwned(
       address,
-      Base,
+      8453,
       nftContractAddress,
     );
 
     if (!owned.result.length) {
-      await engine.httpMint(address, Base, nftContractAddress);
+      await engine.httpMint(address, 8453, nftContractAddress);
     }
 
     return getFrameHtmlResponse({
