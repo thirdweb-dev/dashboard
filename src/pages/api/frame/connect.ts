@@ -6,19 +6,12 @@ import {
   redirectResponse,
   successHtmlResponse,
 } from "utils/api";
-import { SuperChainFrame } from "classes/SuperChainFrame";
-import {
-  finalGrowthPlanFrameMetaData,
-  growthPlanFrameMetaData,
-} from "lib/superchain-frames";
 import { ConnectFrame } from "classes/ConnectFrame";
-import { getAbsoluteUrl } from "lib/vercel-utils";
+import { getFarcasterAccountAddress } from "utils/tx-frame";
 
 export const config = {
   runtime: "edge",
 };
-
-const connectLandingPageUrl = `${getAbsoluteUrl()}/connect`;
 
 export default async function handler(req: NextRequest) {
   if (req.method !== "POST") {
@@ -36,16 +29,25 @@ export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
 
   const queryStep = searchParams.get("step");
-  console.log({ queryStep });
 
   const step = ConnectFrame.getParsedStep(queryStep);
+  const buttonIdx = ConnectFrame.getParsedButtonIndex(message.button);
+
+  const shouldMint = buttonIdx === 2 && step === "7";
+
+  if (shouldMint) {
+    const faracsterAddress = getFarcasterAccountAddress(message.interactor);
+    const mintFrameHtmlResponse =
+      await ConnectFrame.mintNftWithFrameHtmlResponse(faracsterAddress);
+    return successHtmlResponse(mintFrameHtmlResponse, 200);
+  }
+
   const shouldGoNext = ConnectFrame.getShouldGoNext(step, message.button);
   const shouldGoBack = ConnectFrame.getShouldGoBack(step, message.button);
 
-  const shouldContinue = shouldGoNext || shouldGoBack;
-  console.log({ shouldGoBack, shouldGoNext });
+  const shouldContinueSlideShow = shouldGoNext || shouldGoBack;
 
-  if (shouldContinue) {
+  if (shouldContinueSlideShow) {
     const frameHtmlResponse = ConnectFrame.getFrameHtmlResponse(
       step,
       shouldGoNext ? "next" : "back",
@@ -53,5 +55,5 @@ export default async function handler(req: NextRequest) {
     return successHtmlResponse(frameHtmlResponse, 200);
   }
 
-  return redirectResponse(connectLandingPageUrl, 302);
+  return redirectResponse(ConnectFrame.getRedirectUrl(step), 302);
 }
