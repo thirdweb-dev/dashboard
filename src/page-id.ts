@@ -149,8 +149,24 @@ export enum PageId {
   //  engine pages
   // ---------------------------------------------------------------------------
 
-  // thirdweb.com/dashboard/engine
+  // /dashboard/engine
   EngineManage = "engine-manage",
+  // /dashboard/engine/overview
+  EngineOverview = "engine-overview",
+  // /dashboard/engine/explorer
+  EngineExplorer = "engine-explorer",
+  // /dashboard/engine/relayers
+  EngineRelayers = "engine-relayers",
+  // /dashboard/engine/contract-subscriptions
+  EngineContract = "engine-contract-subscriptions",
+  // /dashboard/engine/admins
+  EngineAdmins = "engine-admins",
+  // /dashboard/engine/access-tokens
+  EngineAccess = "engine-access-tokens",
+  // /dashboard/engine/webhooks
+  EngineWebhooks = "engine-webhooks",
+  // /dashboard/engine/configuration
+  EngineConfiguration = "engine-configuration",
 
   // ---------------------------------------------------------------------------
   //  settings pages

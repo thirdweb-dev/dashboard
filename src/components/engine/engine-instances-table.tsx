@@ -25,6 +25,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import { TWTable } from "components/shared/TWTable";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
@@ -36,7 +37,7 @@ interface EngineInstancesTableProps {
   isLoading: boolean;
   isFetched: boolean;
   refetch: ReturnType<typeof useEngineInstances>["refetch"];
-  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | undefined>>;
+  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | null>>;
 }
 
 export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
@@ -52,6 +53,7 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
   const { token } = useApiAuthToken();
   const address = useAddress();
   const toast = useToast();
+  const router = useRouter();
 
   const [instanceToUpdate, setInstanceToUpdate] = useState<
     EngineInstance | undefined
@@ -81,6 +83,7 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
           label: "success",
         });
         setConnectedInstance(instance);
+        router.push("/dashboard/engine/overview", undefined, { shallow: true });
       } else if (res.status === 401) {
         trackEvent({
           category: "engine",

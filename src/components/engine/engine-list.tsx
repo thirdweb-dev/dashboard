@@ -11,7 +11,7 @@ import { ImportEngineInstanceButton } from "./import-engine-instance";
 import { EngineOverviewDescription } from "./overview/engine-description";
 
 interface EngineInstancesListProps {
-  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | undefined>>;
+  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | null>>;
 }
 
 export const EngineInstancesList = ({

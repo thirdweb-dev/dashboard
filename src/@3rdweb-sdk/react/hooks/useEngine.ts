@@ -6,6 +6,13 @@ import { useApiAuthToken } from "./useApi";
 import { useAddress, useChainId } from "@thirdweb-dev/react";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useLoggedInUser } from "./useLoggedInUser";
+import { useState } from "react";
+
+export function useEngineConnectedInstance() {
+  const [instance, setInstance] = useState<EngineInstance | null>(null);
+
+  return { instance, setInstance };
+}
 
 // Engine instances
 export type EngineInstance = {
