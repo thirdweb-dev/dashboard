@@ -6,23 +6,24 @@ import {
   useEngineUpdateRelayer,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   Flex,
-  useDisclosure,
-  Stack,
   FormControl,
-  UseDisclosureReturn,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  Stack,
   Textarea,
+  UseDisclosureReturn,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { shortenString } from "@thirdweb-dev/react";
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
@@ -31,6 +32,8 @@ import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { BiPencil } from "react-icons/bi";
+import { FiTrash } from "react-icons/fi";
 import {
   Button,
   FormHelperText,
@@ -39,11 +42,7 @@ import {
   Text,
   TrackedCopyButton,
 } from "tw-components";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { AddModalInput, parseAddressListRaw } from "./add-relayer-button";
-import { shortenString } from "@thirdweb-dev/react";
-import { BiPencil } from "react-icons/bi";
-import { FiTrash } from "react-icons/fi";
 
 interface RelayersTableProps {
   instanceUrl: string;

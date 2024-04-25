@@ -89,7 +89,7 @@ export const ContractSubscriptionTable: React.FC<
       },
     }),
     columnHelper.accessor("lastIndexedBlock", {
-      header: "last indexed block",
+      header: "Latest Block",
       cell: (cell) => {
         const { chainId } = cell.row.original;
         return (
@@ -102,8 +102,6 @@ export const ContractSubscriptionTable: React.FC<
       },
     }),
   ];
-
-  console.log(">>>", contractSubscriptions);
 
   return (
     <>
@@ -152,6 +150,7 @@ const ChainLastBlockTimestamp = ({
     null,
   );
 
+  // Get the block timestamp to display how delayed the last processed block is.
   useEffect(() => {
     (async () => {
       try {
@@ -169,6 +168,7 @@ const ChainLastBlockTimestamp = ({
   if (!lastBlockTimestamp) {
     return null;
   }
+
   return (
     <Card bgColor="backgroundHighlight">
       <Text>{format(lastBlockTimestamp, "PP pp z")}</Text>
