@@ -7,7 +7,7 @@ import {
   successHtmlResponse,
 } from "utils/api";
 import { ConnectFrame } from "classes/ConnectFrame";
-import { getFarcasterAccountAddress } from "utils/tx-frame";
+import { getFarcasterAccountAddress } from "utils/farcaster";
 
 export const config = {
   runtime: "edge",
