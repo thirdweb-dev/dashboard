@@ -6,13 +6,9 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Stack,
-  Tag,
   UseDisclosureReturn,
-  VStack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -22,9 +18,8 @@ import { OnboardingModal } from "components/onboarding/Modal";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import React, { useState } from "react";
-import { FiCheck, FiPlus } from "react-icons/fi";
-import { IoCheckmarkCircle } from "react-icons/io5";
+import React from "react";
+import { FiCheck } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface CreateEngineInstanceButtonProps {
