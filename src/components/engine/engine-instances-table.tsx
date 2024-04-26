@@ -25,7 +25,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import { TWTable } from "components/shared/TWTable";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
@@ -129,23 +129,62 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
       cell: (cell) => {
         const { id, name, url, status } = cell.row.original;
 
+        let badge: ReactNode | undefined;
+        if (status === "requested") {
+          badge = (
+            <Tooltip label="Deployment will begin shortly.">
+              <Badge
+                borderRadius="full"
+                size="label.sm"
+                variant="subtle"
+                px={3}
+                py={1.5}
+                colorScheme="yellow"
+              >
+                Pending
+              </Badge>
+            </Tooltip>
+          );
+        } else if (status === "deploying") {
+          badge = (
+            <Tooltip label="This step may take up to 30 minutes.">
+              <Badge
+                borderRadius="full"
+                size="label.sm"
+                variant="subtle"
+                px={3}
+                py={1.5}
+                colorScheme="green"
+              >
+                Deploying
+              </Badge>
+            </Tooltip>
+          );
+        } else if (status === "paymentFailed") {
+          badge = (
+            <Tooltip label="There was an error charging your payment method. Please contact support@thirdweb.com.">
+              <Badge
+                borderRadius="full"
+                size="label.sm"
+                variant="subtle"
+                px={3}
+                py={1.5}
+                colorScheme="red"
+              >
+                Payment Failed
+              </Badge>
+            </Tooltip>
+          );
+        }
+
         return (
           <Stack py={2}>
-            {status === "requested" ? (
+            {badge ? (
               <HStack spacing={4}>
                 <Text fontWeight="600" size="body.lg">
                   {name}
                 </Text>
-                <Badge
-                  borderRadius="full"
-                  size="label.sm"
-                  variant="subtle"
-                  px={3}
-                  py={1.5}
-                  colorScheme="green"
-                >
-                  deploying
-                </Badge>
+                {badge}
               </HStack>
             ) : (
               <>
@@ -204,6 +243,7 @@ export const EngineInstancesTable: React.FC<EngineInstancesTableProps> = ({
               setInstanceToUpdate(instance);
               removeDisclosure.onOpen();
             },
+            isDestructive: true,
           },
         ]}
       />
@@ -369,10 +409,13 @@ const RemoveModal = ({
               Are you sure you want to remove <strong>{instance?.name}</strong>{" "}
               from your dashboard?
             </Text>
-            <Card>
+            <Card as={Flex} flexDir="column" gap={4}>
               <Text>
-                This action will not modify your Engine infrastructure, and you
-                can import this Engine URL again later.
+                This action does not modify your Engine infrastructure.
+              </Text>
+              <Text fontWeight="bold">
+                To cancel your Engine subscription, please contact
+                support@thirdweb.com.
               </Text>
             </Card>
           </Stack>
