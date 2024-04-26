@@ -90,11 +90,21 @@ export const PricingCard: React.FC<PricingCardProps> = ({
             <Heading
               size={size === "lg" ? "title.2xl" : "title.md"}
               lineHeight={1}
-              textDecor={canTrialGrowth ? "line-through" : "none"}
             >
-              {!isCustomPrice && "$"}
-              {plan.price}
+              {isCustomPrice ? (
+                plan.price
+              ) : canTrialGrowth ? (
+                <>
+                  <Box as="span" textDecor="line-through" opacity={0.4}>
+                    ${plan.price}
+                  </Box>{" "}
+                  $0
+                </>
+              ) : (
+                `$${plan.price}`
+              )}
             </Heading>
+
             {!isCustomPrice && <Text size="body.lg">/ month</Text>}
           </Flex>
           {remainingTrialDays > 0 && (
