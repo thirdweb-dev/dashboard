@@ -29,7 +29,7 @@ import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
-import { Badge, Button, Card, FormLabel, Link, Text } from "tw-components";
+import { Badge, Button, FormLabel, Link, Text } from "tw-components";
 
 interface EngineInstancesTableProps {
   instances: EngineInstance[];
