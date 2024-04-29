@@ -29,7 +29,7 @@ import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiPencil } from "react-icons/bi";
 import { FiArrowRight, FiTrash } from "react-icons/fi";
-import { Badge, Button, Card, FormLabel, Text } from "tw-components";
+import { Badge, Button, Card, FormLabel, Link, Text } from "tw-components";
 
 interface EngineInstancesTableProps {
   instances: EngineInstance[];
@@ -403,32 +403,51 @@ const RemoveModal = ({
       <ModalContent>
         <ModalHeader>Remove Engine Instance</ModalHeader>
 
-        <ModalBody>
-          <Stack spacing={4}>
-            <Text>
-              Are you sure you want to remove <strong>{instance?.name}</strong>{" "}
-              from your dashboard?
-            </Text>
-            <Card as={Flex} flexDir="column" gap={4}>
+        {instance.cloudDeployedAt ? (
+          <>
+            <ModalBody>
               <Text>
-                This action does not modify your Engine infrastructure.
+                To cancel your Engine subscription, please contact{" "}
+                <Link
+                  href="mailto:support@thirdweb.com"
+                  isExternal
+                  color="primary.500"
+                >
+                  support@thirdweb.com
+                </Link>
+                .
               </Text>
-              <Text fontWeight="bold">
-                To cancel your Engine subscription, please contact
-                support@thirdweb.com.
-              </Text>
-            </Card>
-          </Stack>
-        </ModalBody>
+            </ModalBody>
 
-        <ModalFooter as={Flex} gap={3}>
-          <Button onClick={onClose} variant="ghost">
-            Cancel
-          </Button>
-          <Button onClick={onClickRemove} colorScheme="red">
-            Remove
-          </Button>
-        </ModalFooter>
+            <ModalFooter>
+              <Button onClick={onClose} variant="ghost">
+                Close
+              </Button>
+            </ModalFooter>
+          </>
+        ) : (
+          <>
+            <ModalBody as={Flex} flexDir="column" gap={2}>
+              <Text>
+                Are you sure you want to remove{" "}
+                <strong>{instance?.name}</strong> from your dashboard?
+              </Text>
+              <Text>
+                This action does not modify your Engine infrastructure. You can
+                re-add it at any time.
+              </Text>
+            </ModalBody>
+
+            <ModalFooter as={Flex} gap={3}>
+              <Button onClick={onClose} variant="ghost">
+                Cancel
+              </Button>
+              <Button onClick={onClickRemove} colorScheme="red">
+                Remove
+              </Button>
+            </ModalFooter>
+          </>
+        )}
       </ModalContent>
     </Modal>
   );

@@ -208,7 +208,7 @@ const CreateCloudHostedEngineModal = ({
               Add to my plan
             </Button>
             <Text color="accent.500" size="body.sm" textAlign="center">
-              Your payment method will be charged $99 immediately.
+              Your payment method will be charged $99 per month.
             </Text>
           </Stack>
         </ModalBody>
