@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ColorModeToggle } from "@/components/color-mode-toggle";
 
 // this is the dashboard layout file
 export default function DashboardLayout({
@@ -8,9 +9,12 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex flex-col h-full">
-      <header className="bg-accent px-4 py-3">thirdweb</header>
+      <header className="bg-background px-4 py-3 justify-between flex flex-row items-center">
+        <h2>thirdweb</h2>
+        <ColorModeToggle />
+      </header>
       <main className="grow">{children}</main>
-      <footer className="bg-accent py-4 justify-center align-middle flex gap-4">
+      <footer className="bg-background py-4 justify-center items-center flex gap-4">
         <a
           target="_blank"
           href="https://feedback.thirdweb.com"
@@ -51,7 +55,7 @@ export default function DashboardLayout({
         >
           Chain List
         </Link>
-        <p className="text-muted-foreground text-sm opacity-50">
+        <p className="text-muted-foreground text-sm">
           Copyright © 2024 thirdweb
         </p>
       </footer>

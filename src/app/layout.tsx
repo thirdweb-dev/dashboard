@@ -19,7 +19,7 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "h-screen bg-background font-sans antialiased",
+          "h-screen bg-muted/20 font-sans antialiased",
           fontSans.variable,
         )}
       >

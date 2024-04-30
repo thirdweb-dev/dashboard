@@ -7,7 +7,6 @@ dist/
 node_modules/
 typechain/
 graphql/
-src/@/components/ui/
 
 # files
 .solcover.js
