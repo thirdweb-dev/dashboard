@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
