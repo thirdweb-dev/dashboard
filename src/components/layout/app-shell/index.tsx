@@ -10,7 +10,7 @@ import {
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
-import { BillingAlert } from "components/settings/Account/Billing/Alert";
+import { BillingAlerts } from "components/settings/Account/Billing/alerts/Alert";
 import { CreditsButton } from "components/settings/Account/Billing/CreditsButton";
 import { UpgradeButton } from "components/settings/Account/Billing/UpgradeButton";
 import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
@@ -72,7 +72,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         overflowX={noOverflowX ? undefined : "auto"}
       >
         <Container maxW="container.page">
-          <BillingAlert />
+          <BillingAlerts />
         </Container>
 
         {layout === "custom-contract" ? (
@@ -289,7 +289,7 @@ const AppFooter: React.FC = () => {
         <Text>Chainlist</Text>
       </TrackedLink>
       <Text alignSelf="center" order={{ base: 2, md: 0 }} opacity={0.5}>
-        thirdweb &copy; {new Date().getFullYear()}
+        Copyright &copy; {new Date().getFullYear()} thirdweb
       </Text>
     </GridItem>
   );

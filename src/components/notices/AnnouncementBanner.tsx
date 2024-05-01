@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/grant/superchain"
+          href="https://portal.thirdweb.com/typescript/v5"
           category="announcement"
-          label="op-superchain-banner"
+          label="sdk-v5-banner"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Introducing the Superchain App Accelerator — a $3M fund for
-                Superchain apps. Apply for credits.
+                Our new Connect SDK v5 is now available. 10x faster, 30x
+                lighter. Get started
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

@@ -21,7 +21,7 @@ import {
   Zksync,
   ZksyncEraGoerliTestnetDeprecated,
   ZksyncSepoliaTestnet,
-  getChainByChainId,
+  getChainByChainIdAsync,
 } from "@thirdweb-dev/chains";
 import {
   useAddress,
@@ -62,7 +62,7 @@ import { StorageSingleton, getThirdwebSDK } from "lib/sdk";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { Web3Provider } from "zksync-web3";
+import { Web3Provider } from "zksync-ethers";
 import { z } from "zod";
 
 const HEADLESS_WALLET_IDS: string[] = [
@@ -263,7 +263,16 @@ export async function fetchAllVersions(
   for (let i = 0; i < allVersions.length; i++) {
     const contractInfo = await sdk
       .getPublisher()
-      .fetchPublishedContractInfo(allVersions[i]);
+      .fetchPublishedContractInfo(allVersions[i])
+      .catch(() => {
+        console.error(
+          `failed to fetchPublishedContractInfo for metadataUri: ${allVersions[i].metadataUri} - ignoring version`,
+        );
+        return null;
+      });
+    if (!contractInfo) {
+      continue;
+    }
 
     publishedVersions.unshift({
       ...allVersions[i],
@@ -511,6 +520,7 @@ interface ContractDeployMutationParams {
 
 export function useCustomContractDeployMutation(
   ipfsHash: string,
+  version?: string,
   forceDirectDeploy?: boolean,
   {
     hasContractURI,
@@ -630,7 +640,7 @@ export function useCustomContractDeployMutation(
 
         // deploy contract
         if (isZkSync) {
-          // Get metamask signer using zksync-web3 library -- for custom fields in signature
+          // Get metamask signer using zksync-ethers library -- for custom fields in signature
           const zkSigner = new Web3Provider(
             window.ethereum as unknown as providers.ExternalProvider,
           ).getSigner();
@@ -640,7 +650,7 @@ export function useCustomContractDeployMutation(
             Object.values(data.deployParams),
             zkSigner,
             StorageSingleton,
-            chainId,
+            chainId as number,
           );
         } else {
           if (data.deployDeterministic) {
@@ -652,7 +662,8 @@ export function useCustomContractDeployMutation(
                 fullPublishMetadata.data?.name as string,
                 Object.values(data.deployParams),
                 fullPublishMetadata.data?.publisher as string,
-                "latest",
+                // this is either the contract version or it falls back to "latest"
+                version,
                 salt,
               );
           } else {
@@ -913,6 +924,7 @@ export function useContractEvents(abi: Abi) {
   return abi ? extractEventsFromAbi(abi) : undefined;
 }
 
+// TODO: this points to very old snippets, we need to update this!
 export function useFeatureContractCodeSnippetQuery(language: string) {
   if (language === "javascript") {
     language = "sdk";
@@ -923,6 +935,12 @@ export function useFeatureContractCodeSnippetQuery(language: string) {
   }
 
   return useQuery(["feature-code-snippet", language], async () => {
+    // only allow specific languages
+    if (
+      ["go", "python", "react", "sdk", "unity"].includes(language) === false
+    ) {
+      throw new Error("Invalid language");
+    }
     const res = await fetch(
       `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_${language}.json`,
     );
@@ -934,9 +952,8 @@ export function useCustomFactoryAbi(contractAddress: string, chainId: number) {
   return useQuery(
     ["custom-factory-abi", { contractAddress, chainId }],
     async () => {
-      const chain = getChainByChainId(chainId);
+      const chain = await getChainByChainIdAsync(chainId);
       const sdk = getThirdwebSDK(chainId, getDashboardChainRpc(chain));
-      invariant(sdk, "sdk is not defined");
 
       return (await sdk.getContract(contractAddress)).abi;
     },

@@ -2,12 +2,9 @@ import {
   metamaskWallet,
   coinbaseWallet,
   walletConnect,
-  safeWallet,
-  localWallet,
   embeddedWallet,
   trustWallet,
   zerionWallet,
-  magicLink,
   phantomWallet,
   bloctoWallet,
   frameWallet,
@@ -41,24 +38,19 @@ export const hideUIForWalletIdsMobile = new Set([
 ]);
 
 type WalletInfo = {
-  code: (isReccomended?: boolean) => string;
+  code: string;
   component: WalletConfig<any>;
   import: string;
-  type?: "social" | "eoa" | "guest";
+  type?: "social" | "eoa";
 };
 
 export type WalletId =
   | "MetaMask"
   | "Coinbase"
   | "WalletConnect"
-  | "Safe"
-  | "Guest Mode"
   | "Email Wallet"
   | "Trust"
   | "Zerion"
-  | "Magic Link"
-  | "Blocto"
-  | "Frame"
   | "Rainbow"
   | "Phantom";
 
@@ -66,120 +58,51 @@ type WalletInfoRecord = Record<WalletId, WalletInfo>;
 
 export const walletInfoRecord: WalletInfoRecord = {
   MetaMask: {
-    code: (isReccomended) =>
-      isReccomended
-        ? "metamaskWallet({ recommended: true })"
-        : "metamaskWallet()",
+    code: `createWallet("io.metamask")`,
     component: metamaskWalletConfig,
-    import: "metamaskWallet",
+    import: "createWallet",
     type: "eoa",
   },
   Coinbase: {
-    code: (isReccomended) =>
-      isReccomended
-        ? "coinbaseWallet({ recommended: true })"
-        : "coinbaseWallet()",
+    code: `createWallet("com.coinbase.wallet")`,
     component: coinbaseWalletConfig,
-    import: "coinbaseWallet",
+    import: "createWallet",
     type: "eoa",
   },
   WalletConnect: {
-    code: (isReccomended) =>
-      isReccomended
-        ? "walletConnect({ recommended: true })"
-        : "walletConnect()",
+    code: `walletConnect()`,
     component: walletConnectConfig,
     import: "walletConnect",
     type: "eoa",
   },
   Trust: {
-    code: (isReccomended) =>
-      isReccomended ? "trustWallet({ recommended: true })" : "trustWallet()",
+    code: `createWallet("com.trustwallet.app")`,
     component: trustWalletConfig,
-    import: "trustWallet",
+    import: "createWallet",
     type: "eoa",
   },
   Rainbow: {
-    code: (isReccomended) =>
-      isReccomended
-        ? "rainbowWallet({ recommended: true })"
-        : "rainbowWallet()",
+    code: `createWallet("me.rainbow")`,
     component: rainbowWalletConfig,
-    import: "rainbowWallet",
+    import: "createWallet",
     type: "eoa",
   },
   Zerion: {
-    code: (isReccomended) =>
-      isReccomended ? "zerionWallet({ recommended: true })" : "zerionWallet()",
+    code: `createWallet("io.zerion.wallet")`,
     component: zerionWalletConfig,
-    import: "zerionWallet",
+    import: "createWallet",
     type: "eoa",
   },
   Phantom: {
-    code: (isReccomended) =>
-      isReccomended
-        ? "phantomWallet({ recommended: true })"
-        : "phantomWallet()",
+    code: `createWallet("app.phantom")`,
     component: phantomConfig,
-    import: "phantomWallet",
+    import: "createWallet",
     type: "eoa",
-  },
-  "Guest Mode": {
-    code: () => `localWallet()`,
-    component: localWallet(),
-    import: "localWallet",
-    type: "guest",
   },
   "Email Wallet": {
-    code: (isReccomended) =>
-      isReccomended
-        ? "embeddedWallet({ recommended: true })"
-        : "embeddedWallet()",
+    code: `inAppWallet()`,
     component: embeddedWallet(),
-    import: "embeddedWallet",
+    import: "inAppWallet",
     type: "social",
-  },
-  Safe: {
-    code: () => "safeWallet()",
-    component: safeWallet({
-      personalWallets: [metamaskWallet(), coinbaseWallet(), walletConnect()],
-    }),
-    import: "safeWallet",
-    type: "eoa",
-  },
-  "Magic Link": {
-    code(isReccomended) {
-      return isReccomended
-        ? `magicLink({ recommended: true, apiKey: "YOUR_MAGIC_API_KEY", oauthOptions: { providers: ["google", "facebook", "twitter", "apple"] }})`
-        : `magicLink({ apiKey: "YOUR_MAGIC_API_KEY", oauthOptions: { providers: ["google", "facebook", "twitter", "apple"] }})`;
-    },
-    component: magicLink({
-      apiKey: "pk_live_3EFC32B01A29985C",
-      oauthOptions: {
-        providers: ["google", "facebook", "twitter", "apple"],
-      },
-    }),
-    import: "magicLink",
-    type: "social",
-  },
-  Blocto: {
-    code(isReccomended) {
-      return isReccomended
-        ? "bloctoWallet({ recommended: true })"
-        : "bloctoWallet()";
-    },
-    component: bloctoWalletConfig,
-    import: "bloctoWallet",
-    type: "eoa",
-  },
-  Frame: {
-    code(isReccomended) {
-      return isReccomended
-        ? "frameWallet({ recommended: true })"
-        : "frameWallet()";
-    },
-    component: frameWalletConfig,
-    import: "frameWallet",
-    type: "eoa",
   },
 };

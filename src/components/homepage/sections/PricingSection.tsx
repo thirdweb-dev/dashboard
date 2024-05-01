@@ -52,7 +52,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
             ctaTitle="Get started for free"
             ctaProps={{
               category: trackingCategory,
-              href: `/dashboard/settings/billing${canTrialGrowth && "?claimGrowth"}`,
+              href: `/dashboard/settings/billing`,
             }}
           />
 
@@ -64,14 +64,14 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
             name={AccountPlan.Growth}
             ctaHint={
               canTrialGrowth
-                ? `Your free trial will end in 30 days.`
+                ? `Your free trial will end after 30 days.`
                 : undefined
             }
             canTrialGrowth={canTrialGrowth}
             ctaProps={{
               category: trackingCategory,
               label: canTrialGrowth ? "claimGrowthTrial" : undefined,
-              href: `/dashboard/settings/billing${canTrialGrowth && "?claimGrowth"}`,
+              href: `/dashboard/settings/billing`,
               bgColor: "white",
               color: "black",
               _hover: {

@@ -17,7 +17,7 @@ const showcaseMenus = [
   {
     id: "account-abstraction-icon",
     title: "Abstract complexity",
-    href: "https://portal.thirdweb.com/connect/embedded-wallet/overview",
+    href: "https://portal.thirdweb.com/connect/in-app-wallet/overview",
     description:
       "Make your app easy to use with in-app wallets & account abstraction.",
     image: require("../../../public/assets/product-pages/connect/icon-aa.png"),
@@ -149,7 +149,7 @@ const Carousel = ({ TRACKING_CATEGORY }: { TRACKING_CATEGORY: string }) => {
           );
         })}
       </SimpleGrid>
-      <Flex width="full" maxW="686px">
+      <Flex width="full" maxW="786px">
         {showcaseImages.map((img, idx) => (
           <ChakraNextImage
             key={idx}

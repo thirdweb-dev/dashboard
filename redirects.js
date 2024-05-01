@@ -47,6 +47,11 @@ function redirects() {
       permanent: false,
     },
     {
+      source: "/checkout",
+      destination: "/connect",
+      permanent: false,
+    },
+    {
       source: "/extensions",
       destination: "/build",
       permanent: false,
@@ -237,6 +242,22 @@ function redirects() {
     {
       source: "/dashboard/payments/contracts",
       destination: "/dashboard/connect/pay?tab=checkouts",
+      permanent: false,
+    },
+    // Redirecting as ambassadors lives in community now
+    {
+      source: "/ambassadors",
+      destination: "/community/ambassadors",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/connect/embedded-wallets",
+      destination: "/dashboard/connect/in-app-wallets",
+      permanent: false,
+    },
+    {
+      source: "/embedded-wallets",
+      destination: "/in-app-wallets",
       permanent: false,
     },
   ];

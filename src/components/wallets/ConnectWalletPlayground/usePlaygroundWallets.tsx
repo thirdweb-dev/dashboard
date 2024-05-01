@@ -1,16 +1,15 @@
 import {
-  WalletConfig,
+  type WalletConfig,
   embeddedWallet,
-  safeWallet,
   smartWallet,
 } from "@thirdweb-dev/react";
 import { useState } from "react";
-import { walletInfoRecord, WalletId } from "./walletInfoRecord";
+import { walletInfoRecord, type WalletId } from "./walletInfoRecord";
 import { isProd } from "constants/rpc";
 
 type WalletSelection = Record<WalletId, boolean | "recommended">;
 
-type AuthOption = "google" | "email" | "facebook" | "apple";
+type AuthOption = "google" | "email" | "facebook" | "apple" | "phone";
 
 export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const [smartWalletOptions, setSmartWalletOptions] = useState({
@@ -24,6 +23,7 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
     "google",
     "apple",
     "facebook",
+    "phone",
   ]);
 
   const [walletSelection, setWalletSelection] = useState<
@@ -67,16 +67,6 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         : walletConfig;
     },
   );
-
-  if (walletSelection["Safe"]) {
-    const safeId = walletInfoRecord["Safe"].component.id;
-    const safeWalletIndex = supportedWallets.findIndex((w) => w.id === safeId);
-    const personalWallets = supportedWallets.filter((w) => w.id !== safeId);
-
-    supportedWallets[safeWalletIndex] = safeWallet({
-      personalWallets: personalWallets.length ? personalWallets : undefined,
-    });
-  }
 
   return {
     walletSelection,

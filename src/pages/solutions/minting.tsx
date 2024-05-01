@@ -66,7 +66,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
         <LandingHero
           title="Mint and distribute NFTs"
           titleWithGradient="easily"
-          subtitle="Enable your users to mint, deploy and distribute NFTS through your app with only a few lines of code."
+          subtitle="Mint and distribute NFTs through your app with only a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/contracts/design-docs/signature-mint"
           gradient="linear(to-r, #8E0EFF, #16bdf0)"
@@ -128,7 +128,7 @@ const SolutionsMinting: ThirdwebNextPage = () => {
                   API configurations including as an{" "}
                   <TrackedLink
                     category={TRACKING_CATEGORY}
-                    href="https://portal.thirdweb.com/wallets/embedded-wallet/overview"
+                    href="https://portal.thirdweb.com/connect/in-app-wallet/overview"
                     color="primary.500"
                   >
                     distributing NFTs
