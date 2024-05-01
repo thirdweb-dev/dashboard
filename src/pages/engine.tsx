@@ -9,9 +9,7 @@ import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-sid
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingPlan } from "components/landing-pages/plan";
-import {
-  LandingCardWithImage,
-} from "components/landing-pages/card-with-image";
+import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 
@@ -57,7 +55,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           mobileImage={require("../../public/assets/product-pages/engine/mobile-hero.png")}
           miniImage={require("../../public/assets/product-icons/engine.png")}
         />
-                <LandingGridSection
+        <LandingGridSection
           desktopColumns={4}
           title={
             <Box
@@ -222,98 +220,96 @@ const EngineLanding: ThirdwebNextPage = () => {
             href="/dashboard/engine"
           />
         </LandingGridSection>
-        
-      
 
         <Flex width="full" flexDir="column" gap="80px">
-            <LandingSectionHeading
-              title="Flexible pricing for every team"
-              blackToWhiteTitle=""
+          <LandingSectionHeading
+            title="Flexible pricing for every team"
+            blackToWhiteTitle=""
+          />
+
+          <LandingGridSection desktopColumns={3}>
+            <LandingPlan
+              title="Open-Source Developer Tools"
+              description="Support for thirdweb products with public infrastructure."
+              list={[
+                {
+                  id: "smart-contract",
+                  description: "Smart Contract Deployment",
+                },
+                {
+                  id: "cross-platform",
+                  description: "Cross-Platform Connect Integration",
+                },
+                {
+                  id: "in-app",
+                  description: "In-App Wallets: Email, Social, Phone",
+                },
+                {
+                  id: "engine",
+                  description:
+                    "thirdweb Engine: Backend Wallets & Nonce Management",
+                },
+                {
+                  id: "chainlist",
+                  description: (
+                    <Text key="chainlist" size="body.lg" color="#B1B1B1">
+                      Added to{" "}
+                      <TrackedLink
+                        href="/chainlist"
+                        isExternal
+                        category={TRACKING_CATEGORY}
+                        label="thirdweb_chainlist"
+                        textDecoration="underline"
+                      >
+                        thirdweb Chainlist
+                      </TrackedLink>
+                    </Text>
+                  ),
+                },
+              ]}
+              trackingCategory={TRACKING_CATEGORY}
             />
 
-            <LandingGridSection desktopColumns={3}>
-              <LandingPlan
-                title="Open-Source Developer Tools"
-                description="Support for thirdweb products with public infrastructure."
-                list={[
-                  {
-                    id: "smart-contract",
-                    description: "Smart Contract Deployment",
-                  },
-                  {
-                    id: "cross-platform",
-                    description: "Cross-Platform Connect Integration",
-                  },
-                  {
-                    id: "in-app",
-                    description: "In-App Wallets: Email, Social, Phone",
-                  },
-                  {
-                    id: "engine",
-                    description:
-                      "thirdweb Engine: Backend Wallets & Nonce Management",
-                  },
-                  {
-                    id: "chainlist",
-                    description: (
-                      <Text key="chainlist" size="body.lg" color="#B1B1B1">
-                        Added to{" "}
-                        <TrackedLink
-                          href="/chainlist"
-                          isExternal
-                          category={TRACKING_CATEGORY}
-                          label="thirdweb_chainlist"
-                          textDecoration="underline"
-                        >
-                          thirdweb Chainlist
-                        </TrackedLink>
-                      </Text>
-                    ),
-                  },
-                ]}
-                trackingCategory={TRACKING_CATEGORY}
-              />
-
-              <LandingPlan
-                active
-                title="Managed Ecosystem Services"
-                description="Full-stack development tools & production-ready infra."
-                listTitle="Everything in the Open-Source tier, plus:"
-                list={[
-                  {
-                    id: "aa",
-                    description:
-                      "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
-                  },
-                  {
-                    id: "scale",
-                    description:
-                      "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
-                  },
-                  {
-                    id: "uptime",
-                    description: "99.9% Infrastructure uptime SLAs",
-                  },
-                  { id: "sla", description: "24 hour customer support SLAs" },
-                  {
-                    id: "channel",
-                    description: "Dedicated Slack support channel",
-                  },
-                  {
-                    id: "premium",
-                    description: "Premium placements for your chain",
-                  },
-                  {
-                    id: "indexer",
-                    description: "thirdweb Indexer (Coming in Q2)",
-                  },
-                ]}
-                btnTitle="Contact us"
-                btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
-                trackingCategory={TRACKING_CATEGORY}
-              />
-            </LandingGridSection>
-          </Flex>
+            <LandingPlan
+              active
+              title="Managed Ecosystem Services"
+              description="Full-stack development tools & production-ready infra."
+              listTitle="Everything in the Open-Source tier, plus:"
+              list={[
+                {
+                  id: "aa",
+                  description:
+                    "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
+                },
+                {
+                  id: "scale",
+                  description:
+                    "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
+                },
+                {
+                  id: "uptime",
+                  description: "99.9% Infrastructure uptime SLAs",
+                },
+                { id: "sla", description: "24 hour customer support SLAs" },
+                {
+                  id: "channel",
+                  description: "Dedicated Slack support channel",
+                },
+                {
+                  id: "premium",
+                  description: "Premium placements for your chain",
+                },
+                {
+                  id: "indexer",
+                  description: "thirdweb Indexer (Coming in Q2)",
+                },
+              ]}
+              btnTitle="Contact us"
+              btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
+              trackingCategory={TRACKING_CATEGORY}
+            />
+          </LandingGridSection>
+        </Flex>
 
         <LandingCardWithImageBackground
           image={require("../../public/assets/landingpage/coinbase-event.png")}
