@@ -1,4 +1,4 @@
-import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -7,14 +7,13 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingPlan } from "components/landing-pages/plan";
 import {
   LandingCardWithImage,
-  LandingImages,
 } from "components/landing-pages/card-with-image";
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
-import { ChakraNextImage } from "components/Image";
 
 const TRACKING_CATEGORY = "engine-landing";
 
