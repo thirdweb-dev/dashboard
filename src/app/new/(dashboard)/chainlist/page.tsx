@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Suspense } from "react";
 
 const ChainListPage: NextPage = () => {
   return (
@@ -25,7 +26,9 @@ const ChainListPage: NextPage = () => {
         </div>
         <div className="flex flex-row justify-between align-middle">
           <Input className="max-w-[50%]" placeholder="Search"></Input>
-          <ChainListModeSelect />
+          <Suspense>
+            <ChainListModeSelect />
+          </Suspense>
         </div>
       </header>
       <Separator />
