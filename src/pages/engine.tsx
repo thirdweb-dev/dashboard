@@ -4,11 +4,10 @@ import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Heading, Text, TrackedLinkButton } from "tw-components";
+import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { Text, TrackedLink, TrackedLinkButton } from "tw-components";
 import { LandingPlan } from "components/landing-pages/plan";
 import {
   LandingCardWithImage,
