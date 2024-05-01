@@ -7,6 +7,7 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingPlan } from "components/landing-pages/plan";
 import {
   LandingCardWithImage,
   LandingImages,
@@ -14,42 +15,8 @@ import {
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { ChakraNextImage } from "components/Image";
-import LandingTwitterCard from "components/landing-pages/twitter-card";
 
 const TRACKING_CATEGORY = "engine-landing";
-
-const trustedCompanies = [
-  {
-    title: "Coinbase Wallet",
-    height: 74,
-    width: 74,
-    src: require("../../public/assets/partners/coinbase.png"),
-  },
-  {
-    title: "Layer3",
-    height: 74,
-    width: 74,
-    src: require("../../public/assets/partners/layer3.png"),
-  },
-  {
-    title: "Infinigods",
-    height: 74,
-    width: 74,
-    src: require("../../public/assets/product-pages/engine/infinigods.png"),
-  },
-  {
-    title: "Treasure",
-    height: 74,
-    width: 74,
-    src: require("../../public/assets/product-pages/engine/treasure.png"),
-  },
-  {
-    title: "Cool Cats",
-    height: 74,
-    width: 74,
-    src: require("../../public/assets/product-pages/engine/coolcats.png"),
-  },
-];
 
 const EngineLanding: ThirdwebNextPage = () => {
   return (
@@ -91,25 +58,45 @@ const EngineLanding: ThirdwebNextPage = () => {
           mobileImage={require("../../public/assets/product-pages/engine/mobile-hero.png")}
           miniImage={require("../../public/assets/product-icons/engine.png")}
         />
-
-        <Flex
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
+                <LandingGridSection
+          desktopColumns={4}
+          title={
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              marginBottom={{ base: "35px", md: "55px" }}
+            >
+              <Box width="full" maxWidth="800px" textAlign="center">
+                <LandingSectionHeading
+                  title="Scale your app without sacrificing performance or security"
+                  blackToWhiteTitle=""
+                />
+              </Box>
+            </Box>
+          }
         >
-          <LandingSectionHeading
-            title="Integrate the blockchain, without the complexity"
-            blackToWhiteTitle=""
+          <LandingIconSectionItem
+            icon={require("../../public/assets/solutions-pages/loyalty/icon-1.png")}
+            title="Scale to millions"
+            description="Production-grade infra that scales. Eliminate gas spikes, stuck transactions and network instability."
           />
-
-          <ChakraNextImage
-            src={require("../../public/assets/landingpage/desktop/infastructure.png")}
-            alt=""
-            mt="56px"
-            maxW={{ base: "100%", md: "60%" }}
-            ml={{ base: "-35px", sm: "-65px" }}
+          <LandingIconSectionItem
+            icon={require("../../public/assets/solutions-pages/loyalty/icon-2.svg")}
+            title="Go to market faster"
+            description="Build web3 apps and games using familiar frameworks. Engine lowers the barrier to entry for developers and gives them the power of web3 with one http call."
           />
-        </Flex>
+          <LandingIconSectionItem
+            icon={require("../../public/assets/solutions-pages/loyalty/icon-7.png")}
+            title="Any EVM support"
+            description="Launch your app on any (or many) chains. Unlock ultimate cross-chain flexibility with support for any EVM."
+          />
+          <LandingIconSectionItem
+            icon={require("../../public/assets/solutions-pages/loyalty/icon-3.svg")}
+            title="Secure and reliable"
+            description="Back up private keys to the cloud, leverage secure cloud key management for signing and custody, revoke access to backend wallets, and monitor flow of funds."
+          />
+        </LandingGridSection>
 
         <LandingGridSection
           title={
@@ -129,37 +116,54 @@ const EngineLanding: ThirdwebNextPage = () => {
           desktopColumns={4}
         >
           <LandingCardWithImage
+            title="Wallet Management"
+            description="Create backend wallets you can programatically use with automatic nonce and gas management. Eliminate gas spikes, stuck transactions and network instability."
+            image={require("../../public/assets/landingpage/account-abstraction-desktop.png")}
+            mobileImage={require("../../public/assets/landingpage/account-abstraction-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="https://portal.thirdweb.com/wallet-sdk/latest"
+            direction="horizontal"
+          />
+          <LandingCardWithImage
             title="Smart Contracts"
-            description="Deploy any smart contract including tokens, NFTs, marketplaces, and smart accounts."
-            image={require("../../public/assets/landingpage/desktop/smart-contract-drop.png")}
-            mobileImage={require("../../public/assets/landingpage/mobile/smart-contract-drop.png")}
+            description="Deploy, read, & write to any smart contract across any EVM-compatible blockchain — and build with thirdweb's audited smart contracts."
+            image={require("../../public/assets/landingpage/smart-contract-audits-desktop.png")}
+            mobileImage={require("../../public/assets/landingpage/smart-contract-audits-mobile.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             href="https://portal.thirdweb.com/contracts"
-            colSpan={1}
-          />
-
-          <LandingCardWithImage
-            title="Full Account Abstraction support"
-            description="Deploy and manage smart wallets, use session keys for access controls, and transact on behalf of your users."
-            image={require("../../public/assets/landingpage/desktop/account-abstraction.png")}
-            mobileImage={require("../../public/assets/landingpage/mobile/account-abstraction.png")}
-            TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://portal.thirdweb.com/connect/account-abstraction"
             colSpan={2}
           />
 
           <LandingCardWithImage
-            title="High transaction throughput"
-            description="Blockchain transactions are processed in parallel with nonce management, and stuck transactions are automatically retried."
-            image={require("../../public/assets/landingpage/desktop/high-transaction-throughput.png")}
-            mobileImage={require("../../public/assets/landingpage/mobile/high-transaction-throughput.png")}
+            title="Web3 Auth"
+            description="Create permissions to enable users' wallets to directly interact with certain endpoints on the thirdweb Engine."
+            image={require("../../public/assets/product-pages/connect/desktop-auth.png")}
+            mobileImage={require("../../public/assets/product-pages/connect/mobile-auth.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
-            href="https://thirdweb.com/chainlist"
+            href="/auth"
             colSpan={1}
           />
           <LandingCardWithImage
-            title="Manage backend wallets"
-            description="Verify a user's onchain identity with web3-first authentication, using the SIWE (Sign-in with Ethereum) standard. Make onchain identities work with traditional backends."
+            title="Account Abstraction"
+            description="Deploy and manage smart wallets, use session keys for access controls, and transact on behalf of your users."
+            image={require("../../public/assets/landingpage/account-desktop.png")}
+            mobileImage={require("../../public/assets/landingpage/account-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/account-abstraction"
+            direction="horizontal"
+          />
+          <LandingCardWithImage
+            title="Gasless Transactions"
+            description="Sponsor user transactions with gasless relayers and user operations."
+            image={require("../../public/assets/landingpage/transaction-fee-desktop.png")}
+            mobileImage={require("../../public/assets/landingpage/transaction-fee-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/sponsored-transactions"
+            colSpan={1}
+          />
+          <LandingCardWithImage
+            title="High transaction throughput"
+            description="Blockchain transactions are processed in parallel with nonce management, and stuck transactions are automatically retried."
             image={require("../../public/assets/landingpage/desktop/happy-people.png")}
             mobileImage={require("../../public/assets/landingpage/mobile/happy-people.png")}
             TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -201,67 +205,116 @@ const EngineLanding: ThirdwebNextPage = () => {
             href="https://portal.thirdweb.com/engine/features/gasless-transactions"
             colSpan={1}
           />
+          <LandingCardWithImage
+            title="Infrastructure"
+            description="Built-in infrastructure so you don't have to worry about RPCs, storage, bundlers or paymasters."
+            image={require("../../public/assets/landingpage/infastructure-desktop.png")}
+            mobileImage={require("../../public/assets/landingpage/infastructure-mobile.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/rpc-edge"
+            direction="horizontal"
+          />
+          <LandingCardWithImage
+            title="Self-hosted or Managed"
+            description="Set up on your own server for free with minimal configuration or use our managed service."
+            image={require("../../public/assets/landingpage/selfhost.png")}
+            mobileImage={require("../../public/assets/landingpage/selfhost.png")}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+            href="/dashboard/engine"
+          />
         </LandingGridSection>
+        
+      
 
-        <LandingImages
-          title={
+        <Flex width="full" flexDir="column" gap="80px">
             <LandingSectionHeading
-              title="Trusted by the best"
+              title="Flexible pricing for every team"
               blackToWhiteTitle=""
             />
-          }
-          gap="44px"
-          images={trustedCompanies}
-        />
 
-        <SimpleGrid columns={{ base: 1, md: 3 }} placeItems="center" gap={6}>
-          <LandingTwitterCard
-            src={require("../../public/assets/product-pages/engine/chusla.png")}
-            name="chusla"
-            username="@theahchu"
-            showReactions={false}
-            twitterContent={
-              <Text color="#fff" fontWeight={500}>
-                hot damn! using @thirdweb Engine for first time and i feel like
-                i just got a superpower, holy crap, mind racing in terms of what
-                i can build with this.
-              </Text>
-            }
-          />
+            <LandingGridSection desktopColumns={3}>
+              <LandingPlan
+                title="Open-Source Developer Tools"
+                description="Support for thirdweb products with public infrastructure."
+                list={[
+                  {
+                    id: "smart-contract",
+                    description: "Smart Contract Deployment",
+                  },
+                  {
+                    id: "cross-platform",
+                    description: "Cross-Platform Connect Integration",
+                  },
+                  {
+                    id: "in-app",
+                    description: "In-App Wallets: Email, Social, Phone",
+                  },
+                  {
+                    id: "engine",
+                    description:
+                      "thirdweb Engine: Backend Wallets & Nonce Management",
+                  },
+                  {
+                    id: "chainlist",
+                    description: (
+                      <Text key="chainlist" size="body.lg" color="#B1B1B1">
+                        Added to{" "}
+                        <TrackedLink
+                          href="/chainlist"
+                          isExternal
+                          category={TRACKING_CATEGORY}
+                          label="thirdweb_chainlist"
+                          textDecoration="underline"
+                        >
+                          thirdweb Chainlist
+                        </TrackedLink>
+                      </Text>
+                    ),
+                  },
+                ]}
+                trackingCategory={TRACKING_CATEGORY}
+              />
 
-          <LandingTwitterCard
-            src={require("../../public/assets/product-pages/engine/knight.png")}
-            name="knight | metasky.ai"
-            username="@SonuSharma0702"
-            showReactions={false}
-            twitterContent={
-              <Flex flexDir="column" gap="20px">
-                <Text color="#fff" fontWeight={500}>
-                  After my parents I would like to give credit to @thirdweb for
-                  my career 😂
-                </Text>
-
-                <Text color="#fff" fontWeight={500}>
-                  I got hooked at wallet nonce management, automatic transaction
-                  retrying and gas management. 🫣
-                </Text>
-              </Flex>
-            }
-          />
-
-          <LandingTwitterCard
-            src={require("../../public/assets/product-pages/engine/coolcats-pfp.png")}
-            name="Adam Goodman"
-            username="Backend Developer, Cool Cats"
-            showReactions={false}
-            twitterContent={
-              <Text color="#fff" fontWeight={500}>
-                Pretty crazy not having to worry about so many things I used to
-                have to before, has very much sped up my flow
-              </Text>
-            }
-          />
-        </SimpleGrid>
+              <LandingPlan
+                active
+                title="Managed Ecosystem Services"
+                description="Full-stack development tools & production-ready infra."
+                listTitle="Everything in the Open-Source tier, plus:"
+                list={[
+                  {
+                    id: "aa",
+                    description:
+                      "Account Abstraction Infrastructure: Smart Accounts, Bundler, Paymaster",
+                  },
+                  {
+                    id: "scale",
+                    description:
+                      "Point-of-sale tools for fiat & crypto payments with onramp, swapping, & bridging",
+                  },
+                  {
+                    id: "uptime",
+                    description: "99.9% Infrastructure uptime SLAs",
+                  },
+                  { id: "sla", description: "24 hour customer support SLAs" },
+                  {
+                    id: "channel",
+                    description: "Dedicated Slack support channel",
+                  },
+                  {
+                    id: "premium",
+                    description: "Premium placements for your chain",
+                  },
+                  {
+                    id: "indexer",
+                    description: "thirdweb Indexer (Coming in Q2)",
+                  },
+                ]}
+                btnTitle="Contact us"
+                btnHref="https://share.hsforms.com/19M7W6QqDTGacrTRBC3Me_Aea58c"
+                trackingCategory={TRACKING_CATEGORY}
+              />
+            </LandingGridSection>
+          </Flex>
 
         <LandingCardWithImageBackground
           image={require("../../public/assets/landingpage/coinbase-event.png")}
