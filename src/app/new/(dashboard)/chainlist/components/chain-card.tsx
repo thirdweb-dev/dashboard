@@ -100,7 +100,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
               </tr>
               <tr>
                 <th className="text-left font-normal text-muted-foreground">
-                  Enabled Services
+                  Available Products
                 </th>
                 <td>
                   <div className="flex flex-row gap-2 items-center">
