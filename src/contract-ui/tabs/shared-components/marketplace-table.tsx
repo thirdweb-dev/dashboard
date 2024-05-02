@@ -45,7 +45,7 @@ const tableColumns: Column<DirectListing | EnglishAuction>[] = [
   },
   {
     Header: "Media",
-    accessor: (row) => row.asset,
+    accessor: (row) => row.asset.metadata,
     Cell: (cell: any) => <MediaCell cell={cell} />,
   },
   {
