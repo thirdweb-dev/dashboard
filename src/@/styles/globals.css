@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --body: var(--muted);
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -22,11 +23,12 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --ring: 215.88 100% 60%;
     --radius: 0.5rem;
   }
 
   .dark {
+    --body: var(--muted) / 0.1;
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -45,7 +47,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --ring: 215.88 100% 60%;
   }
 }
 

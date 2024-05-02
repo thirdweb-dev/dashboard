@@ -5,7 +5,7 @@ import {
 } from "../constants/rpc";
 import { IPFS_GATEWAY_URL } from "./sdk";
 import { useSupportedChainsRecord } from "../hooks/chains/configureChains";
-import { Chain } from "@thirdweb-dev/chains";
+import type { Chain } from "@thirdweb-dev/chains";
 
 export const thirdwebClient = createThirdwebClient({
   clientId: DASHBOARD_THIRDWEB_CLIENT_ID,

@@ -14,7 +14,7 @@ export default function DashboardLayout({
         <ColorModeToggle />
       </header>
       <main className="grow">{children}</main>
-      <footer className="bg-background py-4 justify-center items-center flex gap-4">
+      <footer className="bg-background py-4 justify-center items-center flex-col md:flex-row flex gap-4">
         <a
           target="_blank"
           href="https://feedback.thirdweb.com"

@@ -13,6 +13,8 @@ export const ChainListModeSelect: React.FC = () => {
   return (
     <div className="flex flex-row gap-2">
       <Button
+        disabled
+        aria-label="Grid mode"
         className={
           activeMode === "grid"
             ? "text-primary border-primary hover:text-primary"
@@ -22,9 +24,11 @@ export const ChainListModeSelect: React.FC = () => {
         size="icon"
         onClick={() => setActiveMode("grid")}
       >
-        <Grid2X2 />
+        <Grid2X2 strokeWidth={1} />
       </Button>
       <Button
+        disabled
+        aria-label="List mode"
         className={
           activeMode === "list"
             ? "text-primary border-primary hover:text-primary"
@@ -34,7 +38,7 @@ export const ChainListModeSelect: React.FC = () => {
         size="icon"
         onClick={() => setActiveMode("list")}
       >
-        <List />
+        <List strokeWidth={1} />
       </Button>
     </div>
   );
