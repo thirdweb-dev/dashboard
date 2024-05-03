@@ -57,7 +57,7 @@ export const CreateEngineInstanceButton = ({
 
     try {
       const res = await fetch(
-        `${THIRDWEB_API_HOST}/v1/engine/add-cloud-hosted-XXX`,
+        `${THIRDWEB_API_HOST}/v1/engine/add-cloud-hosted`,
         {
           method: "POST",
           credentials: "include",
