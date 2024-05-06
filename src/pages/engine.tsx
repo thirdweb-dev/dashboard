@@ -4,17 +4,18 @@ import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
+import { Heading, Text, TrackedLinkButton } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingPlan } from "components/landing-pages/plan";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PricingEngine } from "components/homepage/sections/PricingEngine";
+import Head from "next/head";
+import { engineFrames } from "lib/engine-frames";
 
 const TRACKING_CATEGORY = "engine-landing";
 
@@ -116,6 +117,42 @@ const EngineLanding: ThirdwebNextPage = () => {
         },
       }}
     >
+      {/* Farcaster frames headers */}
+      <Head>
+        <meta property="fc:frame" content="vNext" />
+        <meta property="fc:frame:image" content={engineFrames["1"].imageUrl} />
+        <meta
+          property="fc:frame:post_url"
+          content={`${getAbsoluteUrl()}/api/frame/engine?step=1`}
+        />
+        <meta property="fc:frame:button:1" content="Features →" />
+        <meta property="fc:frame:button:2" content="Start building" />
+        <meta name="fc:frame:button:1:action" content="post" />
+        <meta name="fc:frame:button:2:action" content="post_redirect" />
+      </Head>
+
+      <Head>
+        <style>
+          {`
+          .slider {
+            padding: 12px 0 !important;
+          }
+          
+           .slide:first-child, .slide:nth-child(2) {
+            padding-right: 16px !important;
+          }
+
+         .slide:nth-child(3) {
+            padding-right: 6px !important;
+          }
+
+          .slide:nth-child(1) {
+            padding-left: 6px !important;
+          }
+          `}
+        </style>
+      </Head>
+
       <Flex
         position="relative"
         flexDir="column"
@@ -313,11 +350,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             />
           </LandingGridSection>
 
-          <PricingEngine
-            trackingCategory={TRACKING_CATEGORY}
-            onHomepage
-            canTrialGrowth={true}
-          />
+          <PricingEngine trackingCategory={TRACKING_CATEGORY} onHomepage />
 
           <LandingCardWithMetrics
             title={
