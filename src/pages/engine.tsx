@@ -11,7 +11,6 @@ import { LandingIconSectionItem } from "components/landing-pages/icon-section-it
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import LandingCardWithImageBackground from "components/landing-pages/card-with-image-background";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PricingEngine } from "components/homepage/sections/PricingEngine";
 import Head from "next/head";
@@ -376,39 +375,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             solution="Engine"
             guides={GUIDES}
           />
-
-          <LandingCardWithImageBackground
-            image={require("../../public/assets/landingpage/coinbase-event.png")}
-          >
-            <Flex flexDir="column" gap="27px" maxWidth="600px">
-              <Heading fontSize="xx-large" fontWeight="600" color="white">
-                Coinbase Brings Onchain Experiences to the Real World
-              </Heading>
-              <Text fontSize="medium" fontWeight="400" color="white">
-                Scalable, fast, & reliable NFT infrastructure to power onchain
-                experiences — bringing half of all Mainnet 2023 attendees
-                onchain via Coinbase Wallet.
-              </Text>
-              <TrackedLinkButton
-                variant="outline"
-                isExternal
-                bgColor="#FFF"
-                color="#000"
-                border="none"
-                _hover={{
-                  opacity: 0.9,
-                }}
-                py={6}
-                category={TRACKING_CATEGORY}
-                label="coinbase-case-study"
-                href="https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life"
-                maxW="fit-content"
-              >
-                See the case study
-              </TrackedLinkButton>
-            </Flex>
-          </LandingCardWithImageBackground>
-
           <LandingEndCTA
             title="Start building with"
             titleWithGradient="thirdweb Engine."

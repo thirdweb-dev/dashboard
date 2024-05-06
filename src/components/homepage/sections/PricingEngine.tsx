@@ -7,13 +7,11 @@ import { CONTACT_US_URL } from "utils/pricing";
 interface PricingSectionProps {
   trackingCategory: string;
   onHomepage?: boolean;
-  canTrialGrowth?: boolean;
 }
 
 export const PricingEngine: React.FC<PricingSectionProps> = ({
   trackingCategory,
   onHomepage,
-  canTrialGrowth,
 }) => {
   return (
     <Container maxW="6xl">
