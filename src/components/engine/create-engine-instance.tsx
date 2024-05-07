@@ -47,12 +47,12 @@ export const CreateEngineInstanceButton = ({
   const accountQuery = useAccount();
   const [engineTier, setEngineTier] = useState<EngineTier>("STARTER");
 
-  const addCloudHostedEngine = async () => {
+  const addCloudHostedEngine = async (tier?: EngineTier) => {
     trackEvent({
       category: "engine",
       action: "click",
       label: "clicked-cloud-hosted",
-      tier: engineTier,
+      tier: tier ?? engineTier,
     });
 
     try {
@@ -65,7 +65,7 @@ export const CreateEngineInstanceButton = ({
             "Content-type": "application/json",
           },
           body: JSON.stringify({
-            tier: engineTier,
+            tier: tier ?? engineTier,
           }),
         },
       );
@@ -121,7 +121,7 @@ export const CreateEngineInstanceButton = ({
             disclosure.onClose();
 
             if (accountQuery.data?.status === AccountStatus.ValidPayment) {
-              await addCloudHostedEngine();
+              await addCloudHostedEngine(tier);
             } else {
               trackEvent({
                 category: "engine",
