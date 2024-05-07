@@ -165,10 +165,9 @@ const CreateCloudHostedEngineModal = ({
     if (tier === "ENTERPRISE") {
       trackEvent({
         category: "engine",
-        action: "update-relayer",
-        label: "error",
-        // instance: instanceUrl,
-        // error,
+        action: "click",
+        label: "clicked-cloud-hosted",
+        tier,
       });
       router.push("/contact-us");
       return;
