@@ -163,10 +163,6 @@ const partnersCompanies = [
     src: require("../../../public/assets/partners/polygon.png"),
   },
   {
-    maxWidth: "168px",
-    src: require("../../../public/assets/partners/shopify.png"),
-  },
-  {
     maxWidth: "180px",
     src: require("../../../public/assets/partners/techstars.png"),
   },
@@ -214,6 +210,24 @@ const StartupProgram: ThirdwebNextPage = () => {
               Startup Program
             </Heading>
 
+            <Flex flexDir="column" alignItems="center" gap={8} paddingTop={10}>
+              <Text
+                textAlign="center"
+                size="body.xl"
+                color="white"
+                maxW="800px"
+              >
+              At thirdweb, we're committed to ensuring that the next wave of consumer applications can focus on creating excellent user experiences with blockchain as a powerful backend tool, without worrying about infrastructure or associated costs.                 
+              </Text>
+              <Text
+              textAlign="center"
+              size="body.xl"
+              color="white"
+              maxW="800px">
+              Our new startup program is designed to help you build, scale, and generate revenue. We only profit when you do!
+              </Text>
+            </Flex>
+
             <TrackedLinkButton
               py={6}
               px={8}
@@ -241,65 +255,49 @@ const StartupProgram: ThirdwebNextPage = () => {
             mt={{ base: "120px", md: "170px" }}
             mb={60}
           >
-            <Flex flexDir="column" alignItems="center" gap={8}>
-              <Heading as="h1" size="title.2xl" textAlign="center">
-                Why?
-              </Heading>
-              <Text
-                textAlign="center"
-                size="body.xl"
-                color="white"
-                maxW="549px"
-              >
-                The next wave of web3 mass adoption is already happening. If you
-                want to be one of the next big crypto apps, the time to build is
-                now!
-              </Text>
-            </Flex>
+            
 
             <LandingGridSection desktopColumns={3}>
               <LandingIconSectionItem
                 icon={require("../../../public/assets/solutions-pages/loyalty/icon-7.png")}
-                title="Supercharge your Growth"
+                title="GET BUILDING w/ THIRDWEB"
                 customDescription={
                   <List listStyleType="inherit" ml="20px" opacity={0.7}>
                     <ListItem>
-                      Growth plan <b>free for 90 days</b>
+                      Free usage credits to scale powerful applications.
                     </ListItem>
                     <ListItem margin="4px 0">
-                      Engine <b>free for 90 days</b>
+                      Experiment and scale risk-free.
                     </ListItem>
                     <ListItem>
-                      <b>$100 in thirdweb usage credits</b> for Embedded
-                      wallets, RPC, Storage
+                      Best-in-class technical support.
                     </ListItem>
                   </List>
                 }
               />
               <LandingIconSectionItem
                 icon={require("../../../public/assets/solutions-pages/loyalty/icon-2.svg")}
-                title="Invites to our exclusive events and Community hackathons in SF and NYC"
+                title="BUILD WITH OTHERS"
                 customDescription={
                   <List listStyleType="inherit" ml="20px" opacity={0.7}>
-                    <ListItem>Get prioritized support</ListItem>
+                    <ListItem>Connect with like-minded founders.</ListItem>
                     <ListItem margin="4px 0">
-                      Access to monthly office hours
+                      Leverage our network and ecosystem.
                     </ListItem>
                     <ListItem>
-                      1:1 time with Customer Success Engineers and Mentors
+                      Build, share, and grow together.
                     </ListItem>
                   </List>
                 }
               />
               <LandingIconSectionItem
                 icon={require("../../../public/assets/solutions-pages/loyalty/icon-1.png")}
-                title="Increase Network with Ecosystem Leaders"
+                title="GET TAILORED ADVICE TO WIN"
                 customDescription={
                   <List listStyleType="inherit" ml="20px" opacity={0.7}>
-                    <ListItem>Access to top accelerators and VCs</ListItem>
+                    <ListItem>Tactical advice from proven startup founders.</ListItem>
                     <ListItem margin="4px 0">
-                      Invites to our invite-only events and Community hackathons
-                      in SF and NYC
+                      Tailored support for your startup's success.
                     </ListItem>
                   </List>
                 }
@@ -316,104 +314,6 @@ const StartupProgram: ThirdwebNextPage = () => {
               gap="44px"
               images={trustedCompanies}
             />
-
-            <Flex flexDir="column" alignItems="center">
-              <LandingDesktopMobileImage
-                image={require("../../../public/assets/landingpage/desktop/hero-homepage.png")}
-                mobileImage={require("../../../public/assets/landingpage/mobile/hero-homepage.png")}
-                w="full"
-                maxW="499px"
-              />
-            </Flex>
-
-            <Flex flexDir="column" alignItems="center">
-              <Heading size="title.2xl">Startup Program Mentors</Heading>
-              <SimpleGrid
-                columns={{ base: 1, lg: 3 }}
-                gap={{ base: 8, md: 24 }}
-                px={4}
-                w="full"
-                mt="58px"
-              >
-                {judges.slice(0, 3).map((judge) => (
-                  <Flex
-                    key={judge.name}
-                    flexDir="column"
-                    gap={2}
-                    alignItems="center"
-                  >
-                    <MaskedAvatar
-                      boxSize={40}
-                      objectFit="cover"
-                      src={judge.image}
-                      alt={judge.name}
-                      borderRadius="full"
-                    />
-                    <Heading size="title.sm" mt={4} textAlign="center">
-                      {judge.name}
-                    </Heading>
-                    <Text size="body.md" textAlign="center">
-                      {judge.description}
-                    </Text>
-                    <TrackedLink
-                      href={`https://twitter.com/${judge.twitter}`}
-                      isExternal
-                      category={TRACKING_CATEGORY}
-                      label={judge.name}
-                      textAlign="center"
-                    >
-                      <Text size="label.md" color="gray.500">
-                        @{judge.twitter}
-                      </Text>
-                    </TrackedLink>
-                  </Flex>
-                ))}
-              </SimpleGrid>
-
-              <SimpleGrid
-                columns={{ base: 1, lg: 2 }}
-                gap={{ base: 8, md: 24 }}
-                px={4}
-                w="full"
-                mt={{ base: 8, md: "90px" }}
-                placeItems="center"
-                maxW="600px"
-              >
-                {judges.slice(3, 5).map((judge) => (
-                  <Flex
-                    key={judge.name}
-                    flexDir="column"
-                    gap={2}
-                    alignItems="center"
-                  >
-                    <MaskedAvatar
-                      boxSize={40}
-                      objectFit="cover"
-                      src={judge.image}
-                      alt={judge.name}
-                      borderRadius="full"
-                    />
-                    <Heading size="title.sm" mt={4} textAlign="center">
-                      {judge.name}
-                    </Heading>
-                    <Text size="body.md" textAlign="center">
-                      {judge.description}
-                    </Text>
-                    <TrackedLink
-                      href={`https://twitter.com/${judge.twitter}`}
-                      isExternal
-                      category={TRACKING_CATEGORY}
-                      label={judge.name}
-                      textAlign="center"
-                    >
-                      <Text size="label.md" color="gray.500">
-                        @{judge.twitter}
-                      </Text>
-                    </TrackedLink>
-                  </Flex>
-                ))}
-              </SimpleGrid>
-            </Flex>
 
             <Flex flexDir="column" alignItems="center" w="full">
               <Heading
