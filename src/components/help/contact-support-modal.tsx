@@ -39,7 +39,7 @@ const productOptions: ProductOption[] = [
   },
 ];
 
-export default function ContactSupportModal() {
+export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
   const [productLabel, setProductLabel] = useState<string>("");
@@ -156,4 +156,4 @@ export default function ContactSupportModal() {
       </Modal>
     </>
   );
-}
+};

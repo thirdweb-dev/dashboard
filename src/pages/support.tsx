@@ -8,17 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
+import { ContactSupportModal } from "components/help/contact-support-modal";
 import { NeedSomeHelp } from "components/help/need-some-help";
 import { NextSeo } from "next-seo";
-import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
 import { Card, Heading, Link, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const ContactSupportModal = dynamic(
-  () => import("components/help/contact-support-modal"),
-);
 const helpProducts = [
   {
     title: "Connect",
