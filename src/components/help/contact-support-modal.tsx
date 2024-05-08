@@ -96,15 +96,15 @@ export default function ContactSupportModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
   const selectedProductLabel = form.watch("product");
-  const problemArea = form.watch("problemArea");
-  const affectedArea = form.watch("affectedArea");
+  const selectedProblemArea = form.watch("problemArea");
+  const selectedAffectedArea = form.watch("affectedArea");
   const selectedProduct =
     productOptions.find((o) => o.label === selectedProductLabel) || null;
   const affectedAreas =
-    selectedProduct?.problemAreas.find((o) => o.label === problemArea)
+    selectedProduct?.problemAreas.find((o) => o.label === selectedProblemArea)
       ?.affectedAreas || [];
   const customDescription =
-    affectedAreas?.find((o) => o.label === affectedArea)
+    affectedAreas?.find((o) => o.label === selectedAffectedArea)
       ?.customDescriptionPrompt || defaultDescription;
   const { onSuccess, onError } = useTxNotifications(
     "Successfully sent support ticket. Our team will be in touch using your account email shortly.",
@@ -183,7 +183,7 @@ export default function ContactSupportModal() {
                     ))}
                   </Select>
                 </FormControl>
-                {problemArea && (
+                {selectedProblemArea && (
                   <>
                     {affectedAreas.length > 0 ? (
                       <>
@@ -205,7 +205,7 @@ export default function ContactSupportModal() {
                             ))}
                           </Select>
                         </FormControl>
-                        {affectedArea && (
+                        {selectedAffectedArea && (
                           <DescriptionForm placeholder={customDescription} />
                         )}
                       </>
