@@ -22,26 +22,109 @@ import {
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 
-const productOptions = [
-  "Connect",
-  "Contracts",
-  "Payments",
-  "Infrastructure",
-  "Account",
-  "Billing",
-  "Other",
+const defaultDescription =
+  "Please describe the issue you're encountering in detail, including steps that led to the error, any error messages, troubleshooting steps you've already taken, and the product(s), dashboard, or SDKs involved.";
+
+type ProductOption = {
+  label: string;
+  problemAreas: Array<{
+    label: string;
+    affectedAreas: Array<{ label: string; customDescriptionPrompt?: string }>;
+  }>;
+};
+
+const productOptions: ProductOption[] = [
+  {
+    label: "Connect",
+    problemAreas: [
+      {
+        label: "Embedded wallet login issues",
+        affectedAreas: [
+          { label: "Dashboard", customDescriptionPrompt: defaultDescription },
+          { label: "Application", customDescriptionPrompt: defaultDescription },
+        ],
+      },
+      {
+        label: "Embedded wallet transaction issues",
+        affectedAreas: [],
+      },
+      {
+        label: "Embedded wallet custom Auth",
+        affectedAreas: [],
+      },
+      {
+        label: "Account Abstraction",
+        affectedAreas: [],
+      },
+      {
+        label: "React SDK",
+        affectedAreas: [],
+      },
+      {
+        label: "TypeScript SDK",
+        affectedAreas: [],
+      },
+    ],
+  },
+  {
+    label: "Contracts",
+    problemAreas: [],
+  },
+  {
+    label: "Payments",
+    problemAreas: [],
+  },
+  {
+    label: "Infrastructure",
+    problemAreas: [],
+  },
+  {
+    label: "Account",
+    problemAreas: [],
+  },
+  {
+    label: "Billing",
+    problemAreas: [],
+  },
+  {
+    label: "Others",
+    problemAreas: [],
+  },
 ];
 
-export const ContactSupportModal = () => {
+export default function ContactSupportModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
+  const selectedProductLabel = form.watch("product");
+  const problemArea = form.watch("problemArea");
+  const affectedArea = form.watch("affectedArea");
+  const selectedProduct =
+    productOptions.find((o) => o.label === selectedProductLabel) || null;
+  const affectedAreas =
+    selectedProduct?.problemAreas.find((o) => o.label === problemArea)
+      ?.affectedAreas || [];
+  const customDescription =
+    affectedAreas?.find((o) => o.label === affectedArea)
+      ?.customDescriptionPrompt || defaultDescription;
   const { onSuccess, onError } = useTxNotifications(
-    "Successfuly sent support ticket. Our team will be in touch using your account email shortly.",
+    "Successfully sent support ticket. Our team will be in touch using your account email shortly.",
     "Failed to send ticket. Please try again.",
   );
   const { isLoggedIn } = useLoggedInUser();
   const { mutate: createTicket } = useCreateTicket();
 
+  const DescriptionForm = ({ placeholder }: { placeholder: string }) => (
+    <FormControl isRequired>
+      <FormLabel>Description</FormLabel>
+      <Textarea
+        autoComplete="off"
+        {...form.register("markdown", { required: true })}
+        rows={7}
+        maxLength={10000}
+        placeholder={placeholder}
+      />
+    </FormControl>
+  );
   return (
     <>
       <Box
@@ -79,23 +162,60 @@ export const ContactSupportModal = () => {
             <FormControl>
               <FormLabel>What do you need help with?</FormLabel>
               <Select {...form.register("product", { required: true })}>
+                <option value="">Select a product</option>
                 {productOptions?.map((product) => (
-                  <option key={product} value={product}>
-                    {product}
+                  <option key={product.label} value={product.label}>
+                    {product.label}
                   </option>
                 ))}
               </Select>
             </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                autoComplete="off"
-                {...form.register("markdown", { required: true })}
-                rows={7}
-                maxLength={10000}
-                placeholder="Please describe the issue you're encountering in detail, including steps that led to the error, any error messages, troubleshooting steps you've already taken, and the product(s), dashboard, or SDKs involved."
-              />
-            </FormControl>
+            {selectedProduct && selectedProduct.problemAreas?.length > 0 && (
+              <>
+                <FormControl isRequired>
+                  <FormLabel>Problem area</FormLabel>
+                  <Select {...form.register("problemArea", { required: true })}>
+                    <option value="">Select a problem area</option>
+                    {selectedProduct.problemAreas.map((problemArea) => (
+                      <option key={problemArea.label} value={problemArea.label}>
+                        {problemArea.label}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                {problemArea && (
+                  <>
+                    {affectedAreas.length > 0 ? (
+                      <>
+                        <FormControl isRequired>
+                          <FormLabel>Affected area</FormLabel>
+                          <Select
+                            {...form.register("affectedArea", {
+                              required: true,
+                            })}
+                          >
+                            <option value="">Specify the affected area</option>
+                            {affectedAreas.map((affectedArea) => (
+                              <option
+                                key={affectedArea.label}
+                                value={affectedArea.label}
+                              >
+                                {affectedArea.label}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        {affectedArea && (
+                          <DescriptionForm placeholder={customDescription} />
+                        )}
+                      </>
+                    ) : (
+                      <DescriptionForm placeholder={defaultDescription} />
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </ModalBody>
           <ModalFooter as={Flex} gap={3}>
             <Button onClick={onClose} variant="ghost">
@@ -117,4 +237,4 @@ export const ContactSupportModal = () => {
       </Modal>
     </>
   );
-};
+}

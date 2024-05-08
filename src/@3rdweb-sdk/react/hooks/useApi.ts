@@ -575,6 +575,8 @@ export function useConfirmEmail() {
 export interface CreateTicketInput {
   markdown: string;
   product: string;
+  problemArea: string;
+  affectedArea: string;
 }
 
 export function useCreateTicket() {
