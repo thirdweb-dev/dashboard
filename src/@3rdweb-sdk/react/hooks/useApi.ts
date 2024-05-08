@@ -575,16 +575,32 @@ export function useConfirmEmail() {
 export interface CreateTicketInput {
   markdown: string;
   product: string;
-  problemArea: string;
-  affectedArea: string;
+  extraInfo: ({ Problem_Area: string } & Record<string, string>) | null;
 }
 
 export function useCreateTicket() {
   const { user } = useLoggedInUser();
-
+  const updateMarkdown = (input: CreateTicketInput) => {
+    const { markdown, extraInfo } = input;
+    // Add extra info to the top of the markdown
+    if (!extraInfo) {
+      return markdown;
+    }
+    const extraData = Object.keys(extraInfo)
+      .map(
+        // Example: "SDK: TypeScript\n"
+        (key) => {
+          const prettifiedKey = `${key.replaceAll("_", " ")}`;
+          return `${prettifiedKey}: ${extraInfo[key] ?? "N/A"}\n`;
+        },
+      )
+      .join("");
+    const line = "-----------------\n";
+    return `\n${line}${extraData}${line}${markdown}`;
+  };
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
     invariant(user?.address, "walletAddress is required");
-
+    input.markdown = updateMarkdown(input);
     const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
       method: "POST",
       credentials: "include",
