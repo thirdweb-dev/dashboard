@@ -20,7 +20,6 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { Heading, Text, TrackedLink, TrackedLinkButton } from "tw-components";
-import { MaskedAvatar } from "tw-components/masked-avatar";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "startup-program";
@@ -31,38 +30,38 @@ const SEO = {
     "The next wave of web3 mass adoption is already happening. If you want to be one of the next big crypto apps, the time to build is now!",
 };
 
-const judges = [
-  {
-    name: "Jason Hitchcock",
-    twitter: "JasonHitchcock",
-    description: "Head of Ecosystem",
-    image: "/assets/landingpage/james.png",
-  },
-  {
-    name: "Phil Ho",
-    twitter: "arcoraven",
-    description: "Engineering Lead, Engine",
-    image: "/assets/landingpage/phil.png",
-  },
-  {
-    name: "Samina Kabir",
-    twitter: "saminacodes",
-    description: "Product Manager, Developer Experience",
-    image: "/assets/landingpage/samina.png",
-  },
-  {
-    name: "Atif Khan",
-    twitter: "atifkhan31",
-    description: "VP, Business",
-    image: "/assets/landingpage/atif.png",
-  },
-  {
-    name: "Mike Shin",
-    twitter: "mdjshin",
-    description: "Head of Business Operations",
-    image: "/assets/landingpage/mike.png",
-  },
-];
+// const judges = [
+//   {
+//     name: "Jason Hitchcock",
+//     twitter: "JasonHitchcock",
+//     description: "Head of Ecosystem",
+//     image: "/assets/landingpage/james.png",
+//   },
+//   {
+//     name: "Phil Ho",
+//     twitter: "arcoraven",
+//     description: "Engineering Lead, Engine",
+//     image: "/assets/landingpage/phil.png",
+//   },
+//   {
+//     name: "Samina Kabir",
+//     twitter: "saminacodes",
+//     description: "Product Manager, Developer Experience",
+//     image: "/assets/landingpage/samina.png",
+//   },
+//   {
+//     name: "Atif Khan",
+//     twitter: "atifkhan31",
+//     description: "VP, Business",
+//     image: "/assets/landingpage/atif.png",
+//   },
+//   {
+//     name: "Mike Shin",
+//     twitter: "mdjshin",
+//     description: "Head of Business Operations",
+//     image: "/assets/landingpage/mike.png",
+//   },
+// ];
 
 const trustedCompanies = [
   {
@@ -217,14 +216,19 @@ const StartupProgram: ThirdwebNextPage = () => {
                 color="white"
                 maxW="800px"
               >
-              At thirdweb, we're committed to ensuring that the next wave of consumer applications can focus on creating excellent user experiences with blockchain as a powerful backend tool, without worrying about infrastructure or associated costs.                 
+                At thirdweb, we&apos;re committed to ensuring that the next wave
+                of consumer applications can focus on creating excellent user
+                experiences with blockchain as a powerful backend tool, without
+                worrying about infrastructure or associated costs.
               </Text>
               <Text
-              textAlign="center"
-              size="body.xl"
-              color="white"
-              maxW="800px">
-              Our new startup program is designed to help you build, scale, and generate revenue. We only profit when you do!
+                textAlign="center"
+                size="body.xl"
+                color="white"
+                maxW="800px"
+              >
+                Our new startup program is designed to help you build, scale,
+                and generate revenue. We only profit when you do!
               </Text>
             </Flex>
 
@@ -255,8 +259,6 @@ const StartupProgram: ThirdwebNextPage = () => {
             mt={{ base: "120px", md: "170px" }}
             mb={60}
           >
-            
-
             <LandingGridSection desktopColumns={3}>
               <LandingIconSectionItem
                 icon={require("../../../public/assets/solutions-pages/loyalty/icon-7.png")}
@@ -269,9 +271,7 @@ const StartupProgram: ThirdwebNextPage = () => {
                     <ListItem margin="4px 0">
                       Experiment and scale risk-free.
                     </ListItem>
-                    <ListItem>
-                      Best-in-class technical support.
-                    </ListItem>
+                    <ListItem>Best-in-class technical support.</ListItem>
                   </List>
                 }
               />
@@ -284,9 +284,7 @@ const StartupProgram: ThirdwebNextPage = () => {
                     <ListItem margin="4px 0">
                       Leverage our network and ecosystem.
                     </ListItem>
-                    <ListItem>
-                      Build, share, and grow together.
-                    </ListItem>
+                    <ListItem>Build, share, and grow together.</ListItem>
                   </List>
                 }
               />
@@ -295,9 +293,11 @@ const StartupProgram: ThirdwebNextPage = () => {
                 title="GET TAILORED ADVICE TO WIN"
                 customDescription={
                   <List listStyleType="inherit" ml="20px" opacity={0.7}>
-                    <ListItem>Tactical advice from proven startup founders.</ListItem>
+                    <ListItem>
+                      Tactical advice from proven startup founders.
+                    </ListItem>
                     <ListItem margin="4px 0">
-                      Tailored support for your startup's success.
+                      Tailored support for your startup&apos;s success.
                     </ListItem>
                   </List>
                 }
