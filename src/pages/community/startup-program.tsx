@@ -166,8 +166,12 @@ const partnersCompanies = [
     src: require("../../../public/assets/partners/techstars.png"),
   },
   {
-    maxWidth: "208px",
-    src: require("../../../public/assets/partners/zksync.png"),
+    maxWidth: "207px",
+    src: require("../../../public/assets/partners/haun.png"),
+  },
+  {
+    maxWidth: "207px",
+    src: require("../../../public/assets/partners/monad.png"),
   },
 ];
 
