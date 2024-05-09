@@ -7,7 +7,7 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
+import LandingImageSectionItem from "components/landing-pages/image-section-item";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
@@ -20,11 +20,11 @@ const TRACKING_CATEGORY = "engine-landing";
 
 export const metrics = [
   {
-    title: "Treasure",
+    title: "Coinbase Wallet",
     description:
-      "A virtual world that empowers creators and communities — powered by thirdweb Connect.",
-    image: require("../../public/assets/product-pages/connect/desktop-ztx.png"),
-    mobileImage: require("../../public/assets/product-pages/connect/desktop-ztx.png"),
+      "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management via the Coinbase Wallet app.",
+    image: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
     items: [
       {
         title: "50,000+",
@@ -32,15 +32,15 @@ export const metrics = [
         colSpan: 4,
       },
     ],
-    href: "https://twitter.com/thirdweb/status/1734307574357389326",
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
     hoverBackground: "#622AFF",
   },
   {
-    title: "Stand with Crypto",
+    title: "InfiniGods",
     description:
-      "Torque Motorsport is a racing game with in-game items as NFTs from Nissan, Subaru, & Mazda.",
-    image: require("../../public/assets/product-pages/connect/desktop-motorsport.png"),
-    mobileImage: require("../../public/assets/product-pages/connect/desktop-motorsport.png"),
+      "Building a free-to-play web3 game universe for everyone — with NFT avatars, tokens, and  that everyone canTorque Motorsport is a racing game with in-game items as NFTs from Nissan, Subaru, & Mazda.",
+    image: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
     items: [
       {
         title: "330,000+",
@@ -48,31 +48,26 @@ export const metrics = [
         colSpan: 4,
       },
     ],
-    href: "https://twitter.com/thirdweb/status/1761054053650542863",
+    href: "https://blog.thirdweb.com/case-studies/king-of-destiny-launches-avatar-nfts-thirdweb-engine/",
     hoverBackground: "#0053FF",
   },
   {
-    title: "InfiniGods",
+    title: "Stand With Crypto",
     description:
       "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with fiat & crypto checkouts.",
     image: require("../../public/assets/landingpage/case-study-courtyard.png"),
     mobileImage: require("../../public/assets/landingpage/case-study-courtyard.png"),
     items: [
       {
-        title: "$3.7M+",
-        description: "GMV",
+        title: "1,000+",
+        description: "Real-World Transactions",
       },
       {
-        title: "215K+",
-        description: "Users",
-        colSpan: 2,
-      },
-      {
-        title: "79K+",
-        description: "Transactions",
+        title: "4 Weeks",
+        description: "Total Development Time",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/courtyard-brings-collectors-onchain-with-fiat-payments/",
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
     hoverBackground: "#0053FF",
   },
 ];
@@ -183,8 +178,25 @@ const EngineLanding: ThirdwebNextPage = () => {
             contactUsBg="#0E0E0E"
             contactUsHover={{ background: "#0E0E0E" }}
           />
+          <LandingHeroWithSideImage
+            miniTitle="Transaction Management"
+            title="Scale your app"
+            miniImage={require("../../public/assets/product-icons/wallet-sdk.png")}
+            titleWithGradient="without the complexity"
+            subtitle="Mint tokens and perform onchain actions with robust backend wallets — equipped with automatic nonce management, transaction queueing, and gas-optimized retries."
+            trackingCategory={TRACKING_CATEGORY}
+            ctaLink="/dashboard/engine"
+            contactUsTitle="Book Demo"
+            gradient="linear(to-r, #9786DF, #9786DF)"
+            lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
+            image={require("../../public/assets/product-pages/engine/engine-splash.png")}
+            mobileImage={require("../../public/assets/product-pages/engine/engine-splash.png")}
+            contactUsBg="#0E0E0E"
+            contactUsHover={{ background: "#0E0E0E" }}
+          />
+
           <LandingGridSection
-            desktopColumns={4}
+            desktopColumns={3}
             title={
               <Box
                 display="flex"
@@ -194,32 +206,36 @@ const EngineLanding: ThirdwebNextPage = () => {
               >
                 <Box width="full" maxWidth="1000px" textAlign="center">
                   <LandingSectionHeading
-                    title="Scale your app without sacrificing performance or security"
+                    title="Scale your app without sacrificing performance or security" /*set diff title*/
                     blackToWhiteTitle=""
                   />
                 </Box>
               </Box>
             }
           >
-            <LandingIconSectionItem
-              icon={require("../../public/assets/solutions-pages/loyalty/icon-1.png")}
-              title="Scale to millions"
-              description="Production-grade infra that scales. Eliminate gas spikes, stuck transactions and network instability."
+            <LandingImageSectionItem
+              image={require("public/assets/landingpage/mobile/backend-list.png")}
+              mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
+              title="Backend Wallets"
+              description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
+              justifyContent="flex-end"
+              pr="0!important"
+              pl="36px!important"
+              maxHeightImage={{ base: "100%", md: "327px" }}
             />
-            <LandingIconSectionItem
-              icon={require("../../public/assets/solutions-pages/loyalty/icon-2.svg")}
-              title="Go to market faster"
-              description="Build web3 apps and games using familiar frameworks. Engine lowers the barrier to entry for developers and gives them the power of web3 with one http call."
+
+            <LandingImageSectionItem
+              image={require("public/assets/landingpage/desktop/web3warriors.png")}
+              mobileImage={require("public/assets/landingpage/desktop/web3warriors.png")}
+              title="Seamless UX"
+              description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
             />
-            <LandingIconSectionItem
-              icon={require("../../public/assets/solutions-pages/loyalty/icon-7.png")}
-              title="Any EVM support"
-              description="Launch your app on any (or many) chains. Unlock ultimate cross-chain flexibility with support for any EVM."
-            />
-            <LandingIconSectionItem
-              icon={require("../../public/assets/solutions-pages/loyalty/icon-3.svg")}
-              title="Secure and reliable"
-              description="Back up private keys to the cloud, leverage secure cloud key management for signing and custody, revoke access to backend wallets, and monitor flow of funds."
+
+            <LandingImageSectionItem
+              image={require("public/assets/landingpage/desktop/infra.png")}
+              mobileImage={require("public/assets/landingpage/desktop/infra.png")}
+              title="Infrastructure handled"
+              description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
             />
           </LandingGridSection>
 
