@@ -32,11 +32,15 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
     component: <AffectedAreaInput />,
   },
   {
-    label: "React SDK",
+    label: "Pay",
     component: <AffectedAreaInput />,
   },
   {
-    label: "TypeScript",
+    label: "Auth",
+    component: <AffectedAreaInput />,
+  },
+  {
+    label: "Connect SDKs",
     component: (
       <>
         <SdkVersionInput />
@@ -47,7 +51,13 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
   },
   {
     label: "Unity SDK",
-    component: <UnitySupportForm />,
+    component: (
+      <>
+        <UnitySupportForm />
+        <SdkVersionInput />
+        <DescriptionInput />
+      </>
+    ),
   },
 ];
 

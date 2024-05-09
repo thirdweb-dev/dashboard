@@ -50,9 +50,6 @@ export const UnitySupportForm = () => {
           })}
         ></Input>
       </FormControl>
-
-      <SdkVersionInput />
-      <DescriptionInput />
     </>
   );
 };
