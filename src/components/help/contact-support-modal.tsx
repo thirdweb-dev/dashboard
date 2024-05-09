@@ -21,6 +21,7 @@ import {
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import dynamic from "next/dynamic";
+import { ReactElement } from "react";
 
 const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
   ssr: false,
@@ -31,8 +32,35 @@ const EngineSupportForm = dynamic(() => import("./contact-forms/engine"), {
 const ContractSupportForm = dynamic(() => import("./contact-forms/contracts"), {
   ssr: false,
 });
+const AccountSupportForm = dynamic(() => import("./contact-forms/account"), {
+  ssr: false,
+});
+const OtherSupportForm = dynamic(() => import("./contact-forms/other"), {
+  ssr: false,
+});
 
-const productOptions: string[] = ["Connect", "Engine", "Contracts"];
+const productOptions: { label: string; component: ReactElement }[] = [
+  {
+    label: "Connect",
+    component: <ConnectSupportForm />,
+  },
+  {
+    label: "Engine",
+    component: <EngineSupportForm />,
+  },
+  {
+    label: "Contracts",
+    component: <ContractSupportForm />,
+  },
+  {
+    label: "Account",
+    component: <AccountSupportForm />,
+  },
+  {
+    label: "Other",
+    component: <OtherSupportForm />,
+  },
+];
 
 export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,19 +74,9 @@ export const ContactSupportModal = () => {
   const { mutate: createTicket } = useCreateTicket();
 
   const FormComponent = () => {
-    if (!productLabel) {
-      return <></>;
-    }
-    switch (productLabel) {
-      case "Connect":
-        return <ConnectSupportForm />;
-      case "Engine":
-        return <EngineSupportForm />;
-      case "Contracts":
-        return <ContractSupportForm />;
-      default:
-        return <></>;
-    }
+    return (
+      productOptions.find((o) => o.label === productLabel)?.component || <></>
+    );
   };
   return (
     <>
@@ -100,13 +118,13 @@ export const ContactSupportModal = () => {
                 <Select {...form.register("product", { required: true })}>
                   <option value="">Select a product</option>
                   {productOptions?.map((product) => (
-                    <option key={product} value={product}>
-                      {product}
+                    <option key={product.label} value={product.label}>
+                      {product.label}
                     </option>
                   ))}
                 </Select>
               </FormControl>
-              {productLabel && <FormComponent />}
+              <FormComponent />
             </ModalBody>
             <ModalFooter as={Flex} gap={3}>
               <Button onClick={onClose} variant="ghost">
