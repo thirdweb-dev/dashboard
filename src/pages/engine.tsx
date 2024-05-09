@@ -206,7 +206,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               >
                 <Box width="full" maxWidth="1000px" textAlign="center">
                   <LandingSectionHeading
-                    title="Scale your app without sacrificing performance or security" /*set diff title*/
+                    title="Scale your app without sacrificing performance or security"
                     blackToWhiteTitle=""
                   />
                 </Box>
