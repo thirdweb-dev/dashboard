@@ -41,12 +41,12 @@ export const SplashImage: React.FC<SplashImageProps> = ({
       gap={{ base: 2, md: 4 }}
       paddingTop={{ base: 0, md: "10px" }}
     >
-      <Container maxW="container.lg" paddingX={{ base: 4, md: 16 }}>
+      <Container maxW="container.lg" paddingX={{ base: 4, md: 4 }}>
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
-          <Flex flexDir="column" gap={4}>
+          <Flex flexDir="column" gap={2}>
             <Heading
-              as="h1"
-              size="display.md"
+              as="h2"
+              size="display.sm"
               textAlign="center"
               px={{ base: 2, md: 0 }}
             >
@@ -60,7 +60,7 @@ export const SplashImage: React.FC<SplashImageProps> = ({
             {subtitle}
           </Text>
         </Flex>
-        <Flex maxH="500px">
+        <Flex maxH="1000px">
           <LandingDesktopMobileImage
             lottie={lottie}
             image={image}
