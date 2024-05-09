@@ -214,8 +214,8 @@ const EngineLanding: ThirdwebNextPage = () => {
             }
           >
             <LandingImageSectionItem
-              image={require("public/assets/landingpage/mobile/backend-list.png")}
-              mobileImage={require("public/assets/landingpage/mobile/backend-list.png")}
+              image={require("public/assets/landingpage/mobile/backend-queue.png")}
+              mobileImage={require("public/assets/landingpage/mobile/backend-queue.png")}
               title="Backend Wallets"
               description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
               justifyContent="flex-end"
