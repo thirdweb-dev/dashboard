@@ -1,7 +1,6 @@
 import { LandingCTAButtons } from "./cta-buttons";
 import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import { Heading, Text } from "tw-components";
 
