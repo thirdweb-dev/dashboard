@@ -173,6 +173,14 @@ const partnersCompanies = [
     maxWidth: "207px",
     src: require("../../../public/assets/partners/monad.png"),
   },
+  {
+    maxWidth: "256px",
+    src: require("../../../public/assets/partners/bitkraft.png"),
+  },
+  { maxWidth: "256", src: require("../../../public/assets/partners/helika.png") },
+
+  { maxWidth: "99px", src: require("../../../public/assets/partners/play.png") },
+
 ];
 
 const StartupProgram: ThirdwebNextPage = () => {
