@@ -1,5 +1,4 @@
 import { Center, Box, Container, Flex } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
