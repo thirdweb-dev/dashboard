@@ -25,8 +25,11 @@ import dynamic from "next/dynamic";
 const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
   ssr: false,
 });
+const EngineSupportForm = dynamic(() => import("./contact-forms/engine"), {
+  ssr: false,
+});
 
-const productOptions: string[] = ["Connect"];
+const productOptions: string[] = ["Connect", "Engine"];
 
 export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +49,8 @@ export const ContactSupportModal = () => {
     switch (productLabel) {
       case "Connect":
         return <ConnectSupportForm />;
+      case "Engine":
+        return <EngineSupportForm />;
       default:
         return <></>;
     }

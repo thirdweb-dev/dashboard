@@ -9,7 +9,7 @@ import { SDKSelector } from "../shared/SDKSelector";
 
 const AFFECTED_AREAS = ["Dashboard", "Application"];
 
-export const EmbeddedWalletIssueForm = () => {
+export const AffectedAreaInput = () => {
   const { register } = useFormContext<CreateTicketInput>();
   const selectedAffectedArea = useWatch<CreateTicketInput>({
     name: "extraInfo_Affected_Area",

@@ -2,7 +2,7 @@ import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
 import { FormControl, Select } from "@chakra-ui/react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { FormLabel } from "tw-components";
-import { EmbeddedWalletIssueForm } from "./EmbeddedWalletIssueForm";
+import { AffectedAreaInput } from "./AffectedAreaInput";
 import { ReactElement } from "react";
 import { SdkVersionInput } from "../shared/SdkVersionInput";
 import { ApplicationURLInput } from "../shared/ApplicationURLInput";
@@ -17,23 +17,23 @@ type ProblemAreaItem = {
 const PROBLEM_AREAS: ProblemAreaItem[] = [
   {
     label: "Embedded wallet login issues",
-    component: <EmbeddedWalletIssueForm />,
+    component: <AffectedAreaInput />,
   },
   {
     label: "Embedded wallet transaction issues",
-    component: <EmbeddedWalletIssueForm />,
+    component: <AffectedAreaInput />,
   },
   {
     label: "Embedded wallet Custom Auth",
-    component: <EmbeddedWalletIssueForm />,
+    component: <AffectedAreaInput />,
   },
   {
     label: "Account Abstraction",
-    component: <EmbeddedWalletIssueForm />,
+    component: <AffectedAreaInput />,
   },
   {
     label: "React SDK",
-    component: <EmbeddedWalletIssueForm />,
+    component: <AffectedAreaInput />,
   },
   {
     label: "TypeScript",
