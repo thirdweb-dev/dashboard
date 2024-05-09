@@ -1,8 +1,10 @@
 import { Center, Box, Container, Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
+import { LandingHero } from "components/landing-pages/hero";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
@@ -178,23 +180,16 @@ const EngineLanding: ThirdwebNextPage = () => {
             contactUsBg="#0E0E0E"
             contactUsHover={{ background: "#0E0E0E" }}
           />
-          <LandingHeroWithSideImage
-            miniTitle="Transaction Management"
-            title="Scale your app"
-            miniImage={require("../../public/assets/product-icons/wallet-sdk.png")}
+          <LandingHero
+            title="Scale your app,"
             titleWithGradient="without the complexity"
             subtitle="Mint tokens and perform onchain actions with robust backend wallets — equipped with automatic nonce management, transaction queueing, and gas-optimized retries."
             trackingCategory={TRACKING_CATEGORY}
-            ctaLink="/dashboard/engine"
-            contactUsTitle="Book Demo"
             gradient="linear(to-r, #9786DF, #9786DF)"
             lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
             image={require("../../public/assets/product-pages/engine/engine-splash.png")}
             mobileImage={require("../../public/assets/product-pages/engine/engine-splash.png")}
-            contactUsBg="#0E0E0E"
-            contactUsHover={{ background: "#0E0E0E" }}
           />
-
           <LandingGridSection
             desktopColumns={3}
             title={
