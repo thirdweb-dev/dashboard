@@ -62,10 +62,12 @@ export const metrics = [
       {
         title: "1,000+",
         description: "Real-World Transactions",
+        colspan: 2,
       },
       {
         title: "4 Weeks",
         description: "Total Development Time",
+        colspan: 4,
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
@@ -381,7 +383,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingGuidesShowcase
             title="Get started with thirdweb Engine"
             category={TRACKING_CATEGORY}
-            description="See our quick-start guides to add powerful web3 infrastructure into your app, at scale."
+            description="Integrate powerful web3 infrastructure that scales as you grow."
             solution="Engine"
             guides={GUIDES}
           />
