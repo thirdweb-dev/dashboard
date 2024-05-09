@@ -148,8 +148,7 @@ const faqs = [
   },
   {
     title: "How much is the Growth plan through the startup program?",
-    description:
-      "First 90 days free, $99 per month after credits expire.",
+    description: "First 90 days free, $99 per month after credits expire.",
   },
 ];
 
@@ -187,10 +186,15 @@ const partnersCompanies = [
     maxWidth: "256px",
     src: require("../../../public/assets/partners/bitkraft.png"),
   },
-  { maxWidth: "256", src: require("../../../public/assets/partners/helika.png") },
+  {
+    maxWidth: "256",
+    src: require("../../../public/assets/partners/helika.png"),
+  },
 
-  { maxWidth: "99px", src: require("../../../public/assets/partners/play.png") },
-
+  {
+    maxWidth: "99px",
+    src: require("../../../public/assets/partners/play.png"),
+  },
 ];
 
 const StartupProgram: ThirdwebNextPage = () => {
