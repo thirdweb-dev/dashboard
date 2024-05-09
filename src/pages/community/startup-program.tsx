@@ -141,6 +141,16 @@ const faqs = [
     description:
       "Credits can be applied towards annual Growth plans and thirdweb Engine instances and usage.",
   },
+  {
+    title: "How much is Engine through the startup program?",
+    description:
+      "First 90 days free, $99/month thereafter per engine instance.",
+  },
+  {
+    title: "How much is the Growth plan through the startup program?",
+    description:
+      "First 90 days free, $99 per month after credits expire.",
+  },
 ];
 
 const partnersCompanies = [
