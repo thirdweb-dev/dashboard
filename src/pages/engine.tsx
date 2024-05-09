@@ -186,8 +186,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             gradient="linear(to-r, #9786DF, #9786DF)"
             lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
-            image={require("../../public/assets/product-pages/engine/engine-splash.png")}
-            mobileImage={require("../../public/assets/product-pages/engine/engine-splash.png")}
           />
           <LandingGridSection
             desktopColumns={3}
