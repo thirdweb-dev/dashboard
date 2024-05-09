@@ -572,26 +572,22 @@ export function useConfirmEmail() {
   );
 }
 
-export interface CreateTicketInput {
+export type CreateTicketInput = {
   markdown: string;
   product: string;
-  extraInfo: ({ Problem_Area: string } & Record<string, string>) | null;
-}
+} & Record<string, string>;
 
 export function useCreateTicket() {
   const { user } = useLoggedInUser();
   const updateMarkdown = (input: CreateTicketInput) => {
-    const { markdown, extraInfo } = input;
-    // Add extra info to the top of the markdown
-    if (!extraInfo) {
-      return markdown;
-    }
-    const extraData = Object.keys(extraInfo)
+    const { markdown } = input;
+    const extraData = Object.keys(input)
+      .filter((key) => key.startsWith("extraInfo_"))
       .map(
         // Example: "SDK: TypeScript\n"
         (key) => {
-          const prettifiedKey = `${key.replaceAll("_", " ")}`;
-          return `${prettifiedKey}: ${extraInfo[key] ?? "N/A"}\n`;
+          const prettifiedKey = `${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
+          return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
         },
       )
       .join("");

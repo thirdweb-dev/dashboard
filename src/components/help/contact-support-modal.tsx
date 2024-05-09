@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  FormControl,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, Heading } from "tw-components";
+import { Button, FormLabel, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
   CreateTicketInput,
@@ -20,32 +21,17 @@ import {
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import dynamic from "next/dynamic";
-import { useState } from "react";
 
-const ConnectSupportForm = dynamic(
-  () => import("./contact-forms/ConnectSupportForm"),
-  { ssr: false },
-);
+const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
+  ssr: false,
+});
 
-type ProductOption = {
-  label: string;
-  problemAreas: string[];
-};
-
-const productOptions: ProductOption[] = [
-  {
-    label: "Connect",
-    problemAreas: ["Embedded wallet login issues"],
-  },
-];
+const productOptions: string[] = ["Connect"];
 
 export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
-  const [productLabel, setProductLabel] = useState<string>("");
-  const [targetProblemArea, setProblemArea] = useState<string>("");
-  const selectedProduct =
-    productOptions.find((o) => o.label === productLabel) || null;
+  const productLabel = form.watch("product");
   const { onSuccess, onError } = useTxNotifications(
     "Successfully sent support ticket. Our team will be in touch using your account email shortly.",
     "Failed to send ticket. Please try again.",
@@ -54,7 +40,7 @@ export const ContactSupportModal = () => {
   const { mutate: createTicket } = useCreateTicket();
 
   const FormComponent = () => {
-    if (!productLabel || !targetProblemArea) {
+    if (!productLabel) {
       return <></>;
     }
     switch (productLabel) {
@@ -99,41 +85,18 @@ export const ContactSupportModal = () => {
               </Heading>
             </ModalHeader>
             <ModalBody p={6} as={Flex} gap={4} flexDir="column">
-              <div>What do you need help with?</div>
-              <Select
-                onChange={(e) => {
-                  const _label = e.target.value;
-                  setProductLabel(_label);
-                  form.setValue("product", _label);
-                }}
-              >
-                <option value="">Select a product</option>
-                {productOptions?.map((product) => (
-                  <option key={product.label} value={product.label}>
-                    {product.label}
-                  </option>
-                ))}
-              </Select>
-              {selectedProduct && selectedProduct.problemAreas?.length > 0 && (
-                <>
-                  <div>Problem area</div>
-                  <Select
-                    onChange={(e) => {
-                      const _area = e.target.value;
-                      setProblemArea(_area);
-                      form.setValue("extraInfo.Problem_Area", _area);
-                    }}
-                  >
-                    <option value="">Select a problem area</option>
-                    {selectedProduct.problemAreas.map((problemArea) => (
-                      <option key={problemArea} value={problemArea}>
-                        {problemArea}
-                      </option>
-                    ))}
-                  </Select>
-                  {targetProblemArea && <FormComponent />}
-                </>
-              )}
+              <FormControl isRequired>
+                <FormLabel>What do you need help with?</FormLabel>
+                <Select {...form.register("product", { required: true })}>
+                  <option value="">Select a product</option>
+                  {productOptions?.map((product) => (
+                    <option key={product} value={product}>
+                      {product}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              {productLabel && <FormComponent />}
             </ModalBody>
             <ModalFooter as={Flex} gap={3}>
               <Button onClick={onClose} variant="ghost">
@@ -143,7 +106,7 @@ export const ContactSupportModal = () => {
                 <Button
                   type="submit"
                   colorScheme="primary"
-                  isDisabled={!targetProblemArea || !productLabel}
+                  isDisabled={!productLabel}
                 >
                   Submit
                 </Button>
