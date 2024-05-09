@@ -6,6 +6,7 @@ import DescriptionInput from "../shared/DescriptionInput";
 import { SdkVersionInput } from "../shared/SdkVersionInput";
 import { ApplicationURLInput } from "../shared/ApplicationURLInput";
 import { SDKSelector } from "../shared/SDKSelector";
+import { UnitySupportForm } from "../shared/UnitySupportForm";
 
 const AFFECTED_AREAS = ["Dashboard", "Application"];
 
@@ -39,6 +40,7 @@ export const AffectedAreaInput = () => {
           <SDKSelector />
           {selectedSDK && (
             <>
+              {selectedSDK === "Unity" && <UnitySupportForm />}
               <SdkVersionInput />
               <ApplicationURLInput />
               <DescriptionInput />
