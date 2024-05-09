@@ -1,4 +1,3 @@
 export const AttachmentForm = () => {
-  
-  return <></>
-}
+  return <></>;
+};

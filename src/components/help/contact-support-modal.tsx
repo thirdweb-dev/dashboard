@@ -28,8 +28,11 @@ const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
 const EngineSupportForm = dynamic(() => import("./contact-forms/engine"), {
   ssr: false,
 });
+const ContractSupportForm = dynamic(() => import("./contact-forms/contracts"), {
+  ssr: false,
+});
 
-const productOptions: string[] = ["Connect", "Engine"];
+const productOptions: string[] = ["Connect", "Engine", "Contracts"];
 
 export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,6 +54,8 @@ export const ContactSupportModal = () => {
         return <ConnectSupportForm />;
       case "Engine":
         return <EngineSupportForm />;
+      case "Contracts":
+        return <ContractSupportForm />;
       default:
         return <></>;
     }

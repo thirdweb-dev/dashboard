@@ -77,7 +77,7 @@ export default function ConnectSupportForm() {
           ))}
         </Select>
       </FormControl>
-      {selectedProblemArea && <SubFormComponent />}
+      <SubFormComponent />
     </>
   );
 }
