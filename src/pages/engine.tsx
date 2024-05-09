@@ -3,7 +3,7 @@ import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { LandingHero } from "components/landing-pages/hero";
+import { SplashImage } from "components/landing-pages/splash-image";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
@@ -179,11 +179,13 @@ const EngineLanding: ThirdwebNextPage = () => {
             contactUsBg="#0E0E0E"
             contactUsHover={{ background: "#0E0E0E" }}
           />
-          <LandingHero
+          <SplashImage
             title="Scale your app,"
             titleWithGradient="without the complexity"
             subtitle="Mint tokens and perform onchain actions with robust backend wallets — equipped with automatic nonce management, transaction queueing, and gas-optimized retries."
             trackingCategory={TRACKING_CATEGORY}
+            ctaText="Spin up an instance"
+            ctaLink="/dashboard/engine"
             gradient="linear(to-r, #9786DF, #9786DF)"
             lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
           />
