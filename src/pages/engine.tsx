@@ -70,8 +70,8 @@ export const metrics = [
     title: "Stand With Crypto",
     description:
       "Championing common-sense crypto regulation to unlock its potential and foster greater economic freedom — via a grassroots advocacy hub.",
-    image: require("../../public/assets/landingpage/case-study-layer3.png"),
-    mobileImage: require("../../public/assets/landingpage/case-study-layer3.png"),
+    image: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
     items: [
       {
         title: "$86M+",
