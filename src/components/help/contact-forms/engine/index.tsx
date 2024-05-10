@@ -3,6 +3,7 @@ import { useWatch } from "react-hook-form";
 import { DescriptionInput } from "../shared/DescriptionInput";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
+import { AttachmentForm } from "../shared/AttachmentForm";
 
 const ENGINE_TYPES = ["Cloud-Hosted", "Self-Hosted"];
 const ENGINE_PROBLEM_AREAS = [
@@ -50,6 +51,7 @@ export default function EngineSupportForm() {
                 inputType="url"
               />
               <DescriptionInput />
+              <AttachmentForm />
             </>
           )}
         </>

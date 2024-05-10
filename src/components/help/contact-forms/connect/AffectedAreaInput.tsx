@@ -4,6 +4,7 @@ import { UnitySupportForm } from "../shared/SupportForm_UnityInput";
 import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { useWatch } from "react-hook-form";
+import { AttachmentForm } from "../shared/AttachmentForm";
 
 const AFFECTED_AREAS = ["Dashboard", "Application"];
 
@@ -23,35 +24,41 @@ export const AffectedAreaInput = () => {
         options={AFFECTED_AREAS}
         promptText="Select an affected area"
       />
-      {selectedAffectedArea && selectedAffectedArea === "Dashboard" && (
-        <DescriptionInput />
-      )}
-
-      {selectedAffectedArea && selectedAffectedArea === "Application" && (
+      {selectedAffectedArea && (
         <>
-          <SupportForm_SelectInput
-            formLabel="SDK"
-            formValue="extraInfo_SDK"
-            required={true}
-            promptText="Select SDK"
-            options={["TypeScript", "React", "React Native", "Unity"]}
-          />
-          {selectedSDK && (
+          {selectedAffectedArea === "Application" ? (
             <>
-              {selectedSDK === "Unity" && <UnitySupportForm />}
-              <SupportForm_TextInput
-                formLabel="SDK Version"
-                formValue="extraInfo_SDK_Version"
+              <SupportForm_SelectInput
+                formLabel="SDK"
+                formValue="extraInfo_SDK"
                 required={true}
-                inputType="text"
+                promptText="Select SDK"
+                options={["TypeScript", "React", "React Native", "Unity"]}
               />
-              <SupportForm_TextInput
-                formLabel="Application URL"
-                formValue="extraInfo_Application_URL"
-                required={false}
-                inputType="url"
-              />
+              {selectedSDK && (
+                <>
+                  {selectedSDK === "Unity" && <UnitySupportForm />}
+                  <SupportForm_TextInput
+                    formLabel="SDK Version"
+                    formValue="extraInfo_SDK_Version"
+                    required={true}
+                    inputType="text"
+                  />
+                  <SupportForm_TextInput
+                    formLabel="Application URL"
+                    formValue="extraInfo_Application_URL"
+                    required={false}
+                    inputType="url"
+                  />
+                  <DescriptionInput />
+                  <AttachmentForm />
+                </>
+              )}
+            </>
+          ) : (
+            <>
               <DescriptionInput />
+              <AttachmentForm />
             </>
           )}
         </>

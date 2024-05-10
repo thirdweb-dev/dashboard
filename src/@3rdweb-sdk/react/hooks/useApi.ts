@@ -575,6 +575,7 @@ export function useConfirmEmail() {
 export type CreateTicketInput = {
   markdown: string;
   product: string;
+  files?: File[];
 } & Record<string, string>;
 
 export function useCreateTicket() {
@@ -598,14 +599,34 @@ export function useCreateTicket() {
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
     invariant(user?.address, "walletAddress is required");
     input.markdown = updateMarkdown(input);
-    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
-    });
+    let res: Response;
+    if (input.files?.length) {
+      const formData = new FormData();
+      input.files.forEach((file) => {
+        formData.append(file.name, file);
+      });
+      delete input.files;
+      formData.append("metadata", JSON.stringify(input));
+      return;
+      res = await fetch(`createTicket-v2-not-available-yet`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: formData,
+      });
+    } else {
+      res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+    }
+
     const json = await res.json();
 
     if (json.error) {

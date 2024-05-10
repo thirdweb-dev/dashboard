@@ -21,6 +21,7 @@ import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import dynamic from "next/dynamic";
 import { ReactElement } from "react";
 import { SupportForm_SelectInput } from "./contact-forms/shared/SupportForm_SelectInput";
+import { SubmitTicketButton } from "./SubmitTicketButton";
 
 const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
   ssr: false,
@@ -125,17 +126,7 @@ export const ContactSupportModal = () => {
               <Button onClick={onClose} variant="ghost">
                 Cancel
               </Button>
-              {isLoggedIn ? (
-                <Button
-                  type="submit"
-                  colorScheme="primary"
-                  isDisabled={!productLabel}
-                >
-                  Submit
-                </Button>
-              ) : (
-                <ConnectWallet />
-              )}
+              {isLoggedIn ? <SubmitTicketButton /> : <ConnectWallet />}
             </ModalFooter>
           </ModalContent>
         </FormProvider>

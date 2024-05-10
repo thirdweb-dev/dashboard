@@ -3,6 +3,7 @@ import { DescriptionInput } from "../shared/DescriptionInput";
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { useWatch } from "react-hook-form";
+import { AttachmentForm } from "../shared/AttachmentForm";
 
 type ProblemAreaItem = {
   label: string;
@@ -12,19 +13,39 @@ type ProblemAreaItem = {
 const OTHER_PROBLEM_AREAS: ProblemAreaItem[] = [
   {
     label: "General inquiry",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
   {
     label: "Security",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
   {
     label: "Feedback",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
   {
     label: "Other",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
 ];
 

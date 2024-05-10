@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { useWatch } from "react-hook-form";
+import { AttachmentForm } from "../shared/AttachmentForm";
 
 type ProblemAreaItem = {
   label: string;
@@ -65,6 +66,7 @@ const CONTRACT_PROBLEM_AREAS: ProblemAreaItem[] = [
         <ContractTypeInput />
         <ContractAffectedAreaInput />
         <DescriptionInput />
+        <AttachmentForm />
       </>
     ),
   },
@@ -76,6 +78,7 @@ const CONTRACT_PROBLEM_AREAS: ProblemAreaItem[] = [
         <ContractAddressInput />
         <ContractTypeInput />
         <DescriptionInput />
+        <AttachmentForm />
       </>
     ),
   },
@@ -88,16 +91,27 @@ const CONTRACT_PROBLEM_AREAS: ProblemAreaItem[] = [
         <ContractFunctionInput />
         <ContractAffectedAreaInput />
         <DescriptionInput />
+        <AttachmentForm />
       </>
     ),
   },
   {
     label: "Developing a custom contract",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
   {
     label: "Other",
-    component: <DescriptionInput />,
+    component: (
+      <>
+        <DescriptionInput />
+        <AttachmentForm />
+      </>
+    ),
   },
 ];
 

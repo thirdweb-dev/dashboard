@@ -6,6 +6,7 @@ import { UnitySupportForm } from "../shared/SupportForm_UnityInput";
 import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { useWatch } from "react-hook-form";
+import { AttachmentForm } from "../shared/AttachmentForm";
 
 type ProblemAreaItem = {
   label: string;
@@ -50,6 +51,7 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
           inputType="url"
         />
         <DescriptionInput />
+        <AttachmentForm />
       </>
     ),
   },
@@ -60,6 +62,7 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
         <UnitySupportForm />
         <SDKVersionInput />
         <DescriptionInput />
+        <AttachmentForm />
       </>
     ),
   },
