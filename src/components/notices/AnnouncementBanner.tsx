@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Don't see your preferred chain on thirdweb? Request to have
-                any chain added to our full stack web3 development kit.
+                Don&apos;t see your preferred chain on thirdweb? Request to have any
+                chain added to our full stack web3 development kit.
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
