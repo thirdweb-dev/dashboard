@@ -24,7 +24,7 @@ export const metrics = [
   {
     title: "Coinbase Wallet",
     description:
-      "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management via the Coinbase Wallet app.",
+      "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management.",
     image: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
     mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
     items: [
@@ -69,22 +69,22 @@ export const metrics = [
   {
     title: "Stand With Crypto",
     description:
-      "Championing common-sense crypto regulation to unlock its potential and foster greater economic freedom — via a grassroots advocacy hub.",
+      "Championing clear crypto regulation to foster greater economic freedom via a grassroots advocacy hub.",
     image: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
     mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
     items: [
       {
         title: "$86M+",
-        description: "Donations Raised",
+        description: "Raised",
       },
       {
-        title: "445K+",
+        title: "445k+",
         description: "Crypto Advocates",
         colSpan: 2,
       },
       {
-        title: "164K+",
-        description: "Policymaker Contacts",
+        title: "164k+",
+        description: "Contacts",
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
