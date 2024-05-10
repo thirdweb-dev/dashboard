@@ -582,16 +582,17 @@ export function useCreateTicket() {
   const updateMarkdown = (input: CreateTicketInput) => {
     const { markdown } = input;
     const extraData = Object.keys(input)
+      // All extra fields start with "extraInfo_". e.g "extraInfo_SDK_Version"
       .filter((key) => key.startsWith("extraInfo_"))
       .map(
-        // Example: "SDK: TypeScript\n"
+        // Example: "SDK VersionÏ: 5.10.1\n"
         (key) => {
           const prettifiedKey = `${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
           return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
         },
       )
       .join("");
-    const line = "-----------------\n";
+    const line = "-------------------------\n";
     return `\n${line}${extraData}${line}${markdown}`;
   };
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
