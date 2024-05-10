@@ -412,6 +412,9 @@ const EngineLanding: ThirdwebNextPage = () => {
             ctaLink="/dashboard/engine"
             contactUsTitle="Book a demo"
             gradient="linear(to-r, #FFFFFF, #FFFFFF)"
+            contactUsBg="#0E0E0E"
+            contactUsHover={{ background: "#0E0E0E" }}
+            contactUsBorder="none"
           />
         </Container>
 
