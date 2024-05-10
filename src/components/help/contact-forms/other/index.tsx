@@ -1,9 +1,8 @@
 import { ReactElement } from "react";
-import DescriptionInput from "../shared/DescriptionInput";
+import { DescriptionInput } from "../shared/DescriptionInput";
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormControl, Select } from "@chakra-ui/react";
-import { FormLabel } from "tw-components";
+import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
+import { useWatch } from "react-hook-form";
 
 type ProblemAreaItem = {
   label: string;
@@ -13,40 +12,23 @@ type ProblemAreaItem = {
 const OTHER_PROBLEM_AREAS: ProblemAreaItem[] = [
   {
     label: "General inquiry",
-    component: (
-      <>
-        <DescriptionInput />
-      </>
-    ),
+    component: <DescriptionInput />,
   },
   {
     label: "Security",
-    component: (
-      <>
-        <DescriptionInput />
-      </>
-    ),
+    component: <DescriptionInput />,
   },
   {
     label: "Feedback",
-    component: (
-      <>
-        <DescriptionInput />
-      </>
-    ),
+    component: <DescriptionInput />,
   },
   {
     label: "Other",
-    component: (
-      <>
-        <DescriptionInput />
-      </>
-    ),
+    component: <DescriptionInput />,
   },
 ];
 
 export default function OtherSupportForm() {
-  const { register } = useFormContext<CreateTicketInput>();
   const problemArea: string =
     useWatch<CreateTicketInput>({
       name: "extraInfo_Problem_Area",
@@ -60,17 +42,13 @@ export default function OtherSupportForm() {
   };
   return (
     <>
-      <FormControl isRequired>
-        <FormLabel>Problem area</FormLabel>
-        <Select {...register("extraInfo_Problem_Area", { required: true })}>
-          <option value="">Select an problem area</option>
-          {OTHER_PROBLEM_AREAS.map((item) => (
-            <option key={item.label} value={item.label}>
-              {item.label}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+      <SupportForm_SelectInput
+        formLabel="Problem area"
+        formValue="extraInfo_Problem_Area"
+        promptText="Select a problem area"
+        options={OTHER_PROBLEM_AREAS.map((o) => o.label)}
+        required={true}
+      />
       <SubFormComponent />
     </>
   );

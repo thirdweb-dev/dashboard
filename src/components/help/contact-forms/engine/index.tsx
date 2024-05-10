@@ -1,10 +1,10 @@
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { FormControl, Input, Select } from "@chakra-ui/react";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormLabel } from "tw-components";
-import DescriptionInput from "../shared/DescriptionInput";
+import { useWatch } from "react-hook-form";
+import { DescriptionInput } from "../shared/DescriptionInput";
+import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
+import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
 
-const ENGINE_TYPES = ["Managed", "Self-hosted"];
+const ENGINE_TYPES = ["Cloud-Hosted", "Self-Hosted"];
 const ENGINE_PROBLEM_AREAS = [
   "SSL Issues",
   "Transaction queueing issues",
@@ -12,8 +12,8 @@ const ENGINE_PROBLEM_AREAS = [
   "404 - Endpoint Not Found",
   "Other",
 ];
+
 export default function EngineSupportForm() {
-  const { register } = useFormContext<CreateTicketInput>();
   const selectedEngineType: string =
     useWatch<CreateTicketInput>({
       name: "extraInfo_Engine_Type",
@@ -24,42 +24,31 @@ export default function EngineSupportForm() {
     }) || "";
   return (
     <>
-      <FormControl isRequired>
-        <FormLabel>Engine type</FormLabel>
-        <Select {...register("extraInfo_Engine_Type", { required: true })}>
-          <option value="">Select engine type</option>
-          {ENGINE_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+      <SupportForm_SelectInput
+        formLabel="Problem area"
+        formValue="extraInfo_Engine_Type"
+        promptText="Select Engine type"
+        options={ENGINE_TYPES}
+        required={true}
+      />
       {selectedEngineType && (
         <>
-          <FormControl isRequired>
-            <FormLabel>Problem area</FormLabel>
-            <Select {...register("extraInfo_Problem_Area", { required: true })}>
-              <option value="">Select an problem area</option>
-              {ENGINE_PROBLEM_AREAS.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          <SupportForm_SelectInput
+            formLabel="Problem area"
+            formValue="extraInfo_Problem_Area"
+            promptText="Select a problem area"
+            options={ENGINE_PROBLEM_AREAS}
+            required={true}
+          />
 
           {problemArea && (
             <>
-              <FormControl isRequired>
-                <FormLabel>Engine URL</FormLabel>
-                <Input
-                  autoComplete="off"
-                  {...register("extraInfo_Engine_URL", {
-                    required: true,
-                  })}
-                ></Input>
-              </FormControl>
+              <SupportForm_TextInput
+                formLabel="Engine URL"
+                formValue="extraInfo_Engine_URL"
+                required={true}
+                inputType="url"
+              />
               <DescriptionInput />
             </>
           )}

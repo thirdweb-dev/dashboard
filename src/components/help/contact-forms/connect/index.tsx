@@ -1,18 +1,25 @@
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { FormControl, Select } from "@chakra-ui/react";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormLabel } from "tw-components";
 import { AffectedAreaInput } from "./AffectedAreaInput";
 import { ReactElement } from "react";
-import { SdkVersionInput } from "../shared/SdkVersionInput";
-import { ApplicationURLInput } from "../shared/ApplicationURLInput";
-import DescriptionInput from "../shared/DescriptionInput";
-import { UnitySupportForm } from "../shared/UnitySupportForm";
+import { DescriptionInput } from "../shared/DescriptionInput";
+import { UnitySupportForm } from "../shared/SupportForm_UnityInput";
+import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
+import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
+import { useWatch } from "react-hook-form";
 
 type ProblemAreaItem = {
   label: string;
   component: ReactElement;
 };
+
+const SDKVersionInput = () => (
+  <SupportForm_TextInput
+    formLabel="SDK Version"
+    formValue="extraInfo_SDK_Version"
+    required={true}
+    inputType="text"
+  />
+);
 
 const PROBLEM_AREAS: ProblemAreaItem[] = [
   {
@@ -32,19 +39,16 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
     component: <AffectedAreaInput />,
   },
   {
-    label: "Pay",
-    component: <AffectedAreaInput />,
-  },
-  {
-    label: "Auth",
-    component: <AffectedAreaInput />,
-  },
-  {
     label: "Connect SDKs",
     component: (
       <>
-        <SdkVersionInput />
-        <ApplicationURLInput />
+        <SDKVersionInput />
+        <SupportForm_TextInput
+          formLabel="Application URL"
+          formValue="extraInfo_Application_URL"
+          required={false}
+          inputType="url"
+        />
         <DescriptionInput />
       </>
     ),
@@ -54,15 +58,22 @@ const PROBLEM_AREAS: ProblemAreaItem[] = [
     component: (
       <>
         <UnitySupportForm />
-        <SdkVersionInput />
+        <SDKVersionInput />
         <DescriptionInput />
       </>
     ),
   },
+  {
+    label: "Pay",
+    component: <AffectedAreaInput />,
+  },
+  {
+    label: "Auth",
+    component: <AffectedAreaInput />,
+  },
 ];
 
 export default function ConnectSupportForm() {
-  const { register } = useFormContext<CreateTicketInput>();
   const selectedProblemArea: string =
     useWatch<CreateTicketInput>({
       name: "extraInfo_Problem_Area",
@@ -76,17 +87,13 @@ export default function ConnectSupportForm() {
   };
   return (
     <>
-      <FormControl isRequired>
-        <FormLabel>Problem area</FormLabel>
-        <Select {...register("extraInfo_Problem_Area", { required: true })}>
-          <option value="">Select an problem area</option>
-          {PROBLEM_AREAS.map((area) => (
-            <option key={area.label} value={area.label}>
-              {area.label}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+      <SupportForm_SelectInput
+        formLabel="Problem area"
+        formValue="extraInfo_Problem_Area"
+        promptText="Select a problem area"
+        options={PROBLEM_AREAS.map((o) => o.label)}
+        required={true}
+      />
       <SubFormComponent />
     </>
   );

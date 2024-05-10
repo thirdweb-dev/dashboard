@@ -1,18 +1,16 @@
 import {
   Box,
   Flex,
-  FormControl,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   useDisclosure,
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormLabel, Heading } from "tw-components";
+import { Button, Heading } from "tw-components";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import {
   CreateTicketInput,
@@ -22,6 +20,7 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import dynamic from "next/dynamic";
 import { ReactElement } from "react";
+import { SupportForm_SelectInput } from "./contact-forms/shared/SupportForm_SelectInput";
 
 const ConnectSupportForm = dynamic(() => import("./contact-forms/connect"), {
   ssr: false,
@@ -113,17 +112,13 @@ export const ContactSupportModal = () => {
               </Heading>
             </ModalHeader>
             <ModalBody p={6} as={Flex} gap={4} flexDir="column">
-              <FormControl isRequired>
-                <FormLabel>What do you need help with?</FormLabel>
-                <Select {...form.register("product", { required: true })}>
-                  <option value="">Select a product</option>
-                  {productOptions?.map((product) => (
-                    <option key={product.label} value={product.label}>
-                      {product.label}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+              <SupportForm_SelectInput
+                formLabel="What do you need help with?"
+                formValue="product"
+                options={productOptions.map((o) => o.label)}
+                promptText="Select a product"
+                required={true}
+              />
               <FormComponent />
             </ModalBody>
             <ModalFooter as={Flex} gap={3}>

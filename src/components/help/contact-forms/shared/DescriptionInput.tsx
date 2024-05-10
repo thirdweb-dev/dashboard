@@ -9,7 +9,7 @@ type Props = {
 const defaultDescription =
   "Please describe the issue you're encountering in detail, including steps that led to the error, any error messages, troubleshooting steps you've already taken, and the product(s), dashboard, or SDKs involved.";
 
-export default function DescriptionInput(props: Props) {
+export const DescriptionInput = (props: Props) => {
   const { register } = useFormContext();
   return (
     <FormControl isRequired>
@@ -23,4 +23,4 @@ export default function DescriptionInput(props: Props) {
       />
     </FormControl>
   );
-}
+};

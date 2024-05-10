@@ -1,17 +1,13 @@
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { FormControl, Select } from "@chakra-ui/react";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormLabel } from "tw-components";
-import DescriptionInput from "../shared/DescriptionInput";
-import { SdkVersionInput } from "../shared/SdkVersionInput";
-import { ApplicationURLInput } from "../shared/ApplicationURLInput";
-import { SDKSelector } from "../shared/SDKSelector";
-import { UnitySupportForm } from "../shared/UnitySupportForm";
+import { DescriptionInput } from "../shared/DescriptionInput";
+import { UnitySupportForm } from "../shared/SupportForm_UnityInput";
+import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
+import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
+import { useWatch } from "react-hook-form";
 
 const AFFECTED_AREAS = ["Dashboard", "Application"];
 
 export const AffectedAreaInput = () => {
-  const { register } = useFormContext<CreateTicketInput>();
   const selectedAffectedArea = useWatch<CreateTicketInput>({
     name: "extraInfo_Affected_Area",
   });
@@ -20,29 +16,41 @@ export const AffectedAreaInput = () => {
   });
   return (
     <>
-      <FormControl isRequired>
-        <FormLabel>Affected area</FormLabel>
-        <Select {...register("extraInfo_Affected_Area", { required: true })}>
-          <option value="">Select an affected area</option>
-          {AFFECTED_AREAS.map((area) => (
-            <option key={area} value={area}>
-              {area}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
+      <SupportForm_SelectInput
+        formLabel="Affected area"
+        formValue="extraInfo_Affected_Area"
+        required={true}
+        options={AFFECTED_AREAS}
+        promptText="Select an affected area"
+      />
       {selectedAffectedArea && selectedAffectedArea === "Dashboard" && (
         <DescriptionInput />
       )}
 
       {selectedAffectedArea && selectedAffectedArea === "Application" && (
         <>
-          <SDKSelector />
+          <SupportForm_SelectInput
+            formLabel="SDK"
+            formValue="extraInfo_SDK"
+            required={true}
+            promptText="Select SDK"
+            options={["TypeScript", "React", "React Native", "Unity"]}
+          />
           {selectedSDK && (
             <>
               {selectedSDK === "Unity" && <UnitySupportForm />}
-              <SdkVersionInput />
-              <ApplicationURLInput />
+              <SupportForm_TextInput
+                formLabel="SDK Version"
+                formValue="extraInfo_SDK_Version"
+                required={true}
+                inputType="text"
+              />
+              <SupportForm_TextInput
+                formLabel="Application URL"
+                formValue="extraInfo_Application_URL"
+                required={false}
+                inputType="url"
+              />
               <DescriptionInput />
             </>
           )}
