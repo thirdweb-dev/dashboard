@@ -15,6 +15,7 @@ import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PricingEngine } from "components/homepage/sections/PricingEngine";
 import Head from "next/head";
+import { Gradients } from "components/landing-pages/gradients";
 import { engineFrames } from "lib/engine-frames";
 
 const TRACKING_CATEGORY = "engine-landing";
@@ -28,68 +29,84 @@ export const metrics = [
     mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
     items: [
       {
-        title: "50,000+",
-        description: "Smart accounts created",
-        colSpan: 4,
-      },
-    ],
-    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
-    hoverBackground: "#622AFF",
-  },
-  {
-    title: "InfiniGods",
-    description:
-      "Building a free-to-play web3 game universe for everyone — with NFT avatars, tokens, and  that everyone canTorque Motorsport is a racing game with in-game items as NFTs from Nissan, Subaru, & Mazda.",
-    image: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
-    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
-    items: [
-      {
-        title: "330,000+",
-        description: "Players Onboarded",
-        colSpan: 4,
-      },
-    ],
-    href: "https://blog.thirdweb.com/case-studies/king-of-destiny-launches-avatar-nfts-thirdweb-engine/",
-    hoverBackground: "#0053FF",
-  },
-  {
-    title: "Stand With Crypto",
-    description:
-      "A tokenization and marketplace app for anyone to buy, trade, & own collectibles onchain — with fiat & crypto checkouts.",
-    image: require("../../public/assets/landingpage/case-study-courtyard.png"),
-    mobileImage: require("../../public/assets/landingpage/case-study-courtyard.png"),
-    items: [
-      {
         title: "1,000+",
         description: "Real-World Transactions",
-        colspan: 2,
+        colSpan: 2,
       },
       {
         title: "4 Weeks",
         description: "Total Development Time",
-        colspan: 4,
+        colSpan: 2,
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
     hoverBackground: "#0053FF",
+  },
+  {
+    title: "InfiniGods",
+    description:
+      "Building a free-to-play web3 game universe — with interoperable onchain assets that players truly own.",
+    image: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-infinigods.png"),
+    items: [
+      {
+        title: "100k+",
+        description: "Daily Users",
+      },
+      {
+        title: "1.5M+",
+        description: "Monthly Transactions",
+        colSpan: 2,
+      },
+      {
+        title: "10k+",
+        description: "VIP Members",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/king-of-destiny-launches-avatar-nfts-thirdweb-engine/",
+    hoverBackground: "#CD6C09",
+  },
+  {
+    title: "Stand With Crypto",
+    description:
+      "Championing common-sense crypto regulation to unlock its potential and foster greater economic freedom — via a grassroots advocacy hub.",
+    image: require("../../public/assets/landingpage/case-study-layer3.png"),
+    mobileImage: require("../../public/assets/landingpage/case-study-layer3.png"),
+    items: [
+      {
+        title: "$86M+",
+        description: "Donations Raised",
+      },
+      {
+        title: "445K+",
+        description: "Crypto Advocates",
+        colSpan: 2,
+      },
+      {
+        title: "164K+",
+        description: "Policymaker Contacts",
+      },
+    ],
+    href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
+    hoverBackground: "#6504FF",
   },
 ];
 
 const GUIDES = [
   {
-    title: "The Quick-Start Guide to thirdweb Connect",
+    title: "The Quick-Start Guide to thirdweb Engine",
     image: require("/public/assets/product-pages/connect/get-started.png"),
-    link: "https://portal.thirdweb.com/react/latest/components/ConnectWallet",
+    link: "https://portal.thirdweb.com/engine/get-started",
   },
   {
-    title: "Add a Connect Wallet Button to Your App or Website",
+    title: "Airdrop Tokens and NFTs to Users",
     image: require("/public/assets/product-pages/connect/connect-wallet.png"),
-    link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
+    link: "https://portal.thirdweb.com/engine/guides/airdrop-nfts",
   },
   {
-    title: "Create Your Own Custom Connect Wallet Button",
+    title: "Create a Gasless NFT Mint Farcaster Frame",
     image: require("/public/assets/product-pages/connect/custom-connect.png"),
-    link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
+    link: "https://blog.thirdweb.com/guides/create-an-nft-mint-farcaster-frame/",
   },
 ];
 
@@ -99,9 +116,9 @@ const EngineLanding: ThirdwebNextPage = () => {
       bgColor="#0F0F0F"
       py={0}
       seo={{
-        title: "Engine: Open-Source Server for Scalable Web3 Apps",
+        title: "Engine: Dedicated APIs for Web3 Apps and Games",
         description:
-          "A production-grade HTTP server to generate backend wallets on any EVM blockchain—with smart contracts, auth, gasless transactions, & managed infra. Get started.",
+          "Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries—on any EVM blockchain. Get started.",
         openGraph: {
           images: [
             {
@@ -188,7 +205,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             ctaText="Spin up an instance"
             ctaLink="/dashboard/engine"
-            gradient="linear(to-r, #9786DF, #9786DF)"
+            gradient="linear(to-r, #FFFFFF, #FFFFFF)"
             lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
           />
           <LandingGridSection
@@ -325,7 +342,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             />
             <LandingCardWithImage
               title="Advanced analytics"
-              description="View transaction history trends, event logs for each transaction, a ledger of backend wallet funds, and more. (Coming soon)"
+              description="View transaction history trends, event logs for each transaction, a ledger of backend wallet funds, and more."
               image={require("../../public/assets/landingpage/desktop/analytics-v3.png")}
               mobileImage={require("../../public/assets/landingpage/mobile/analytics-v3.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
@@ -394,9 +411,30 @@ const EngineLanding: ThirdwebNextPage = () => {
             ctaText="Get started"
             ctaLink="/dashboard/engine"
             contactUsTitle="Book a demo"
-            gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+            gradient="linear(to-r, #FFFFFF, #FFFFFF)"
           />
         </Container>
+
+        <Gradients
+          top={{
+            top: 100,
+            left: 0,
+            right: 0,
+            height: "2286px",
+            width: "100%",
+            background: `url("/assets/landingpage/top-gradient.svg")`,
+            backgroundSize: { base: "cover", lg: "100% 100%" },
+          }}
+          bottom={{
+            bottom: -200,
+            left: 0,
+            right: 0,
+            height: "1386px",
+            width: "100%",
+            background: `url("/assets/landingpage/bottom-gradient.png")`,
+            backgroundSize: { base: "cover", lg: "100% 100%" },
+          }}
+        />
       </Flex>
     </LandingLayout>
   );
