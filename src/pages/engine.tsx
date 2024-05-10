@@ -64,7 +64,7 @@ export const metrics = [
       },
     ],
     href: "https://blog.thirdweb.com/case-studies/king-of-destiny-launches-avatar-nfts-thirdweb-engine/",
-    hoverBackground: "#CD6C09",
+    hoverBackground: "#25262B",
   },
   {
     title: "Stand With Crypto",
