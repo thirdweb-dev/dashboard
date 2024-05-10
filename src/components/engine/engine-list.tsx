@@ -19,7 +19,7 @@ import { EngineInstancesTable } from "./engine-instances-table";
 import { ImportEngineInstanceButton } from "./import-engine-instance";
 
 interface EngineInstancesListProps {
-  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | null>>;
+  setConnectedInstance: Dispatch<SetStateAction<EngineInstance | undefined>>;
 }
 
 export const EngineInstancesList = ({

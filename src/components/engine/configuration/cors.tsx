@@ -84,10 +84,6 @@ export const EngineCorsConfig: React.FC<EngineCorsConfigProps> = ({
 };
 
 const parseOriginFromUrl = (url: string) => {
-  if (url === "*") {
-    return url;
-  }
-
   try {
     const { protocol, origin } = new URL(url);
     if (!(protocol === "http:" || protocol === "https:")) {
