@@ -14,6 +14,8 @@ export function useEngineConnectedInstance() {
   return { instance, setInstance };
 }
 
+export type EngineTier = "STARTER" | "PREMIUM" | "ENTERPRISE";
+
 // Engine instances
 export type EngineInstance = {
   id: string;
@@ -22,7 +24,13 @@ export type EngineInstance = {
   url: string;
   lastAccessedAt: string;
   cloudDeployedAt: string;
-  status: "active" | "pending" | "requested";
+  status:
+    | "active"
+    | "pending"
+    | "requested"
+    | "deploying"
+    | "paymentFailed"
+    | "deploymentFailed";
 };
 
 export function useEngineInstances() {
