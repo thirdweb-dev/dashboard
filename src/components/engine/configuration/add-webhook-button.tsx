@@ -102,21 +102,18 @@ export const AddWebhookButton: React.FC<AddWebhookButtonProps> = ({
               <FormControl isRequired>
                 <FormLabel>Name</FormLabel>
                 <Input
-                  min={5}
                   type="text"
+                  placeholder="My webhook"
                   {...form.register("name", { required: true })}
                 />
-                <FormHelperText>Minimum 5 characters</FormHelperText>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>URL</FormLabel>
                 <Input
                   type="url"
+                  placeholder="https://"
                   {...form.register("url", { required: true })}
                 />
-                <FormHelperText>
-                  Only https:// URLs are accepted.
-                </FormHelperText>
               </FormControl>
             </Flex>
           </ModalBody>

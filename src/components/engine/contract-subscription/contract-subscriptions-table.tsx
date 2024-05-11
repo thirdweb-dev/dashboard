@@ -1,7 +1,7 @@
 import {
   EngineContractSubscription,
+  useEngineRemoveContractSubscription,
   useEngineSubscriptionsLastBlock,
-  useEngineUnsubcribeContractSubscription,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
@@ -19,6 +19,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { shortenAddress } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { TWTable } from "components/shared/TWTable";
 import { format } from "date-fns";
@@ -59,7 +60,7 @@ export const ContractSubscriptionTable: React.FC<
     columnHelper.accessor("chainId", {
       header: "Chain",
       cell: (cell) => {
-        const chain = chainIdToChainRecord[parseInt(cell.getValue())];
+        const chain = chainIdToChainRecord[cell.getValue()];
         return (
           <Flex align="center" gap={2}>
             <ChainIcon size={12} ipfsSrc={chain?.icon?.url} />
@@ -72,7 +73,7 @@ export const ContractSubscriptionTable: React.FC<
       header: "Contract Address",
       cell: (cell) => {
         const { chainId } = cell.row.original;
-        const chain = chainIdToChainRecord[parseInt(chainId)];
+        const chain = chainIdToChainRecord[chainId];
         const explorer = chain?.explorers?.[0];
 
         return (
@@ -83,9 +84,16 @@ export const ContractSubscriptionTable: React.FC<
             href={explorer ? `${explorer.url}/address/${cell.getValue()}` : "#"}
             fontFamily="mono"
           >
-            {cell.getValue()}
+            {shortenAddress(cell.getValue(), false)}
           </LinkButton>
         );
+      },
+    }),
+    columnHelper.accessor("webhook", {
+      header: "Webhook",
+      cell: (cell) => {
+        const webhook = cell.getValue();
+        return <Text>{webhook?.url}</Text>;
       },
     }),
     columnHelper.accessor("lastIndexedBlock", {
@@ -126,7 +134,7 @@ export const ContractSubscriptionTable: React.FC<
 
       {selectedContractSub && removeDisclosure.isOpen && (
         <RemoveModal
-          contractSub={selectedContractSub}
+          contractSubscription={selectedContractSub}
           disclosure={removeDisclosure}
           instanceUrl={instanceUrl}
         />
@@ -139,12 +147,12 @@ const ChainLastBlockTimestamp = ({
   chainId,
   blockNumber,
 }: {
-  chainId: string;
+  chainId: number;
   blockNumber: bigint;
 }) => {
   const rpcRequest = getRpcClient({
     client: thirdwebClient,
-    chain: defineChain(parseInt(chainId)),
+    chain: defineChain(chainId),
   });
   const [lastBlockTimestamp, setLastBlockTimestamp] = useState<Date | null>(
     null,
@@ -182,7 +190,7 @@ const ChainLastBlock = ({
   autoUpdate,
 }: {
   instanceUrl: string;
-  chainId: string;
+  chainId: number;
   autoUpdate: boolean;
 }) => {
   const lastBlockQuery = useEngineSubscriptionsLastBlock(
@@ -217,28 +225,28 @@ const ChainLastBlock = ({
 };
 
 const RemoveModal = ({
-  contractSub,
+  contractSubscription,
   disclosure,
   instanceUrl,
 }: {
-  contractSub: EngineContractSubscription;
+  contractSubscription: EngineContractSubscription;
   disclosure: UseDisclosureReturn;
   instanceUrl: string;
 }) => {
-  const { mutate: unsubscribeContractSub } =
-    useEngineUnsubcribeContractSubscription(instanceUrl);
+  const { mutate: removeContractSubscription } =
+    useEngineRemoveContractSubscription(instanceUrl);
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
     "Successfully removed contract subscription.",
     "Failed to remove contract subscription.",
   );
   const { chainIdToChainRecord } = useAllChainsData();
+  const chain = chainIdToChainRecord[contractSubscription.chainId];
 
   const onClick = () => {
-    unsubscribeContractSub(
+    removeContractSubscription(
       {
-        chainId: contractSub.chainId,
-        contractAddress: contractSub.contractAddress,
+        contractSubscriptionId: contractSubscription.id,
       },
       {
         onSuccess: () => {
@@ -277,25 +285,30 @@ const RemoveModal = ({
               This action will delete all stored data for this contract
               subscription.
             </Text>
+
             <Card as={Flex} flexDir="column" gap={4}>
               <FormControl>
                 <FormLabel>Chain</FormLabel>
                 <Flex align="center" gap={2}>
-                  <ChainIcon
-                    size={12}
-                    ipfsSrc={
-                      chainIdToChainRecord[parseInt(contractSub.chainId)].icon
-                        ?.url
-                    }
-                  />
-                  <Text>
-                    {chainIdToChainRecord[parseInt(contractSub.chainId)].name}
-                  </Text>
+                  <ChainIcon size={12} ipfsSrc={chain.icon?.url} />
+                  <Text>{chain.name}</Text>
                 </Flex>
               </FormControl>
+
               <FormControl>
                 <FormLabel>Contract Address</FormLabel>
-                <Text fontFamily="mono">{contractSub.contractAddress}</Text>
+                <Text fontFamily="mono">
+                  {contractSubscription.contractAddress}
+                </Text>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Webhook</FormLabel>
+                {contractSubscription.webhook ? (
+                  <Text>{contractSubscription.webhook.url}</Text>
+                ) : (
+                  <Text fontStyle="italic">N/A</Text>
+                )}
               </FormControl>
             </Card>
           </Stack>

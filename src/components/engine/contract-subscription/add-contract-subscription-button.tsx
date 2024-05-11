@@ -1,5 +1,5 @@
 import {
-  CreateEngineContractSubscription,
+  AddContractSubscriptionInput,
   useEngineAddContractSubscription,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
@@ -21,11 +21,10 @@ import {
 import { NetworkDropdown } from "components/contract-components/contract-publish-form/NetworkDropdown";
 import { isAddress } from "ethers/lib/utils";
 import { useTrack } from "hooks/analytics/useTrack";
-import { useAllChainsData } from "hooks/chains/allChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { Button, Card, FormLabel, Text } from "tw-components";
+import { Button, Card, FormHelperText, FormLabel, Text } from "tw-components";
 
 interface AddContractSubscriptionButtonProps {
   instanceUrl: string;
@@ -59,6 +58,7 @@ export const AddContractSubscriptionButton: React.FC<
 export interface AddModalInput {
   chainId: string;
   contractAddress: string;
+  webhookUrl?: string;
 }
 
 const AddModal = ({
@@ -70,7 +70,6 @@ const AddModal = ({
 }) => {
   const { mutate: addContractSubscription } =
     useEngineAddContractSubscription(instanceUrl);
-  const { chainIdToChainRecord } = useAllChainsData();
   const trackEvent = useTrack();
   const { onSuccess, onError } = useTxNotifications(
     "Contract Subscription created successfully.",
@@ -84,12 +83,13 @@ const AddModal = ({
   });
 
   const onSubmit = (data: AddModalInput) => {
-    const createContractSubscriptionData: CreateEngineContractSubscription = {
-      chainId: chainIdToChainRecord[parseInt(data.chainId)].chainId.toString(),
+    const input: AddContractSubscriptionInput = {
+      chain: data.chainId,
       contractAddress: data.contractAddress,
+      webhookUrl: data.webhookUrl?.trim() || undefined,
     };
 
-    addContractSubscription(createContractSubscriptionData, {
+    addContractSubscription(input, {
       onSuccess: () => {
         onSuccess();
         disclosure.onClose();
@@ -130,6 +130,7 @@ const AddModal = ({
             <Text>
               Add a contract subscription to begin storing onchain data.
             </Text>
+
             <Card as={Stack} gap={4}>
               <FormControl isRequired>
                 <FormLabel>Chain</FormLabel>
@@ -140,13 +141,27 @@ const AddModal = ({
                   }
                 />
               </FormControl>
+
               <FormControl isRequired>
                 <FormLabel>Contract Address</FormLabel>
                 <Input
                   type="text"
                   placeholder="0x..."
-                  {...form.register("contractAddress")}
+                  {...form.register("contractAddress", { required: true })}
                 />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Webhook URL</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="https://"
+                  {...form.register("webhookUrl")}
+                />
+                <FormHelperText>
+                  Engine notifies your backend when event logs and transaction
+                  receipts for this contract are detected.
+                </FormHelperText>
               </FormControl>
             </Card>
           </Stack>

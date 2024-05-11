@@ -2,8 +2,8 @@ import { useEngineContractSubscription } from "@3rdweb-sdk/react/hooks/useEngine
 import { Flex, FormControl, Switch } from "@chakra-ui/react";
 import { useState } from "react";
 import { FormLabel, Heading, Link, Text } from "tw-components";
-import { AddContractSubscriptionButton } from "./add-contract-subcription-button";
 import { ContractSubscriptionTable } from "./contract-subscriptions-table";
+import { AddContractSubscriptionButton } from "./add-contract-subscription-button";
 
 interface EngineContractSubscriptionsProps {
   instanceUrl: string;

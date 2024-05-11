@@ -6,6 +6,13 @@ import { useApiAuthToken } from "./useApi";
 import { useAddress, useChainId } from "@thirdweb-dev/react";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useLoggedInUser } from "./useLoggedInUser";
+import { useState } from "react";
+
+export function useEngineConnectedInstance() {
+  const [instance, setInstance] = useState<EngineInstance | null>(null);
+
+  return { instance, setInstance };
+}
 
 export type EngineTier = "STARTER" | "PREMIUM" | "ENTERPRISE";
 
@@ -641,7 +648,7 @@ export function useEngineUpdateRelayer(instance: string) {
   );
 }
 
-export type Webhook = {
+interface EngineWebhook {
   url: string;
   name: string;
   secret?: string | null;
@@ -649,7 +656,7 @@ export type Webhook = {
   active: boolean;
   createdAt: string;
   id: number;
-};
+}
 
 export function useEngineWebhooks(instance: string) {
   const { token } = useApiAuthToken();
@@ -667,7 +674,7 @@ export function useEngineWebhooks(instance: string) {
 
       const json = await res.json();
 
-      return (json.result as Webhook[]) || [];
+      return (json.result as EngineWebhook[]) || [];
     },
     { enabled: !!instance && !!token },
   );
@@ -1226,30 +1233,23 @@ export function useEngineSetCorsConfiguration(instance: string) {
   );
 }
 
-interface SetContractSubscriptionInput {
-  chainId: string;
-  contractAddress: string;
-}
-
-export type EngineContractSubscription = {
+export interface EngineContractSubscription {
   id: string;
-  chainId: string;
+  chainId: number;
   contractAddress: string;
-  lastIndexedBlock: string;
+  webhook?: EngineWebhook;
   createdAt: Date;
-};
 
-export type CreateEngineContractSubscription = {
-  chainId: string;
-  contractAddress: string;
-};
+  // Dummy field for the table.
+  lastIndexedBlock: string;
+}
 
 export function useEngineContractSubscription(instance: string) {
   const { token } = useApiAuthToken();
   return useQuery(
     engineKeys.contractSubscriptions(instance),
     async () => {
-      const res = await fetch(`${instance}contract/subscriptions/get-all`, {
+      const res = await fetch(`${instance}contract-subscriptions/get-all`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -1258,11 +1258,7 @@ export function useEngineContractSubscription(instance: string) {
       });
 
       const json = await res.json();
-      const subscriptions = (json.result as {
-        contracts: EngineContractSubscription[];
-      }) || { contracts: [] };
-
-      return subscriptions.contracts;
+      return json.result as EngineContractSubscription[];
     },
     {
       enabled: !!instance && !!token,
@@ -1270,23 +1266,28 @@ export function useEngineContractSubscription(instance: string) {
   );
 }
 
+export interface AddContractSubscriptionInput {
+  chain: string;
+  contractAddress: string;
+  webhookUrl?: string;
+}
+
 export function useEngineAddContractSubscription(instance: string) {
   const queryClient = useQueryClient();
   const { token } = useApiAuthToken();
 
   return useMutation(
-    async (input: SetContractSubscriptionInput) => {
+    async (input: AddContractSubscriptionInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(
-        `${instance}contract/${input.chainId}/${input.contractAddress}/subscriptions/subscribe`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await fetch(`${instance}contract-subscriptions/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify(input),
+      });
       const json = await res.json();
 
       if (json.error) {
@@ -1305,23 +1306,26 @@ export function useEngineAddContractSubscription(instance: string) {
   );
 }
 
-export function useEngineUnsubcribeContractSubscription(instance: string) {
+export interface RemoveContractSubscriptionInput {
+  contractSubscriptionId: string;
+}
+
+export function useEngineRemoveContractSubscription(instance: string) {
   const queryClient = useQueryClient();
   const { token } = useApiAuthToken();
 
   return useMutation(
-    async (input: SetContractSubscriptionInput) => {
+    async (input: RemoveContractSubscriptionInput) => {
       invariant(instance, "instance is required");
 
-      const res = await fetch(
-        `${instance}contract/${input.chainId}/${input.contractAddress}/subscriptions/unsubscribe`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await fetch(`${instance}contract-subscriptions/remove`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify(input),
+      });
       const json = await res.json();
 
       if (json.error) {
@@ -1351,7 +1355,7 @@ export function useEngineSubscriptionsLastBlock(
     engineKeys.contractSubscriptionsLastBlock(instanceUrl, chainId),
     async () => {
       const response = await fetch(
-        `${instanceUrl}contract/subscriptions/get-last-block?chain=${chainId}`,
+        `${instanceUrl}contract-subscriptions/last-block?chain=${chainId}`,
         {
           method: "GET",
           headers: {
@@ -1362,7 +1366,7 @@ export function useEngineSubscriptionsLastBlock(
       );
 
       const json = await response.json();
-      return json.result.lastIndexedBlock as number;
+      return json.result.lastBlock as number;
     },
     {
       enabled: !!instanceUrl && !!token,
