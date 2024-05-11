@@ -648,7 +648,7 @@ export function useEngineUpdateRelayer(instance: string) {
   );
 }
 
-interface EngineWebhook {
+export interface EngineWebhook {
   url: string;
   name: string;
   secret?: string | null;

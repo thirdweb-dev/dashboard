@@ -5,6 +5,9 @@ import {
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
+  FormControl,
+  Icon,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,17 +15,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Icon,
-  FormControl,
-  Input,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
-import { Button, FormHelperText, FormLabel } from "tw-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, FormLabel } from "tw-components";
 import { beautifyString } from "./webhooks-table";
 
 interface AddWebhookButtonProps {
