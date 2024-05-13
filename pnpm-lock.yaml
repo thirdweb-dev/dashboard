@@ -71,11 +71,11 @@ dependencies:
     specifier: 4.0.82-nightly-6d36a1498a533c6184c90fff65699465f9786b2f-20240513223521
     version: 4.0.82-nightly-6d36a1498a533c6184c90fff65699465f9786b2f-20240513223521(@types/react-dom@18.2.25)(@types/react@18.3.1)(ethers@5.7.2)(react-dom@18.2.0)(react@18.3.1)(typescript@5.4.5)(zksync-ethers@5.7.0)
   '@thirdweb-dev/service-utils':
-    specifier: 0.4.28
-    version: 0.4.28
+    specifier: 0.4.29
+    version: 0.4.29
   '@thirdweb-dev/storage':
-    specifier: 2.0.14
-    version: 2.0.14
+    specifier: 2.0.15
+    version: 2.0.15
   '@thirdweb-dev/wallets':
     specifier: 2.5.22-nightly-6d36a1498a533c6184c90fff65699465f9786b2f-20240513223521
     version: 2.5.22-nightly-6d36a1498a533c6184c90fff65699465f9786b2f-20240513223521(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.2.25)(@types/react@18.3.1)(ethers@5.7.2)(localforage@1.10.0)(react-dom@18.2.0)(react@18.3.1)(typescript@5.4.5)(zksync-ethers@5.7.0)
@@ -4605,6 +4605,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -6577,14 +6578,6 @@ packages:
       solady: 0.0.180
     dev: false
 
-  /@thirdweb-dev/crypto@0.2.5:
-    resolution: {integrity: sha512-qcGNeZAJ4a4w/XqYNqstUZpgWv7LynRlhiGIh5IBvEW1phsaAKt3AgehR4QsRfF4DAbcw+/0OsB7+alk9SciJQ==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@noble/hashes': 1.4.0
-      js-sha3: 0.9.3
-    dev: false
-
   /@thirdweb-dev/crypto@0.2.6:
     resolution: {integrity: sha512-l9kuYAw0+S+ItvQR2c5k6y+qn+L6YT1I5+KN+cQNN848nPFGECVajED2fVLadkZW7xaGEyc+U6nj8Y1KB5bgNg==}
     engines: {node: '>=18'}
@@ -6824,21 +6817,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@thirdweb-dev/service-utils@0.4.28:
-    resolution: {integrity: sha512-kUHOaL5CIyX09CjdXKkiyWiFAPb9nUWHFm1UwGxhTKrAT0UgHaTe5vABauDJvy6UJfLGK0xirSzdqMOYX2nsHA==}
+  /@thirdweb-dev/service-utils@0.4.29:
+    resolution: {integrity: sha512-4bAwO5E0pAEFTjrpZ4/RgBbt3YrEISl6F9Jxg6KDwp0Wh88SmR6TGQIYzGNtvZLG+q19mpB0VWDCdWRSbmL52Q==}
     dependencies:
       aws4fetch: 1.0.18
       zod: 3.23.4
-    dev: false
-
-  /@thirdweb-dev/storage@2.0.14:
-    resolution: {integrity: sha512-Ipbg6sZbh/QSh2IjjYWO5MFo5SiB3TdPNRm1b2Cs14UynOtp9rOv7+HyZg3kEhMZcqOyIIZ25zmWneIWyL8zfw==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@thirdweb-dev/crypto': 0.2.5
-      cid-tool: 3.0.0
-      form-data: 4.0.0
-      uuid: 9.0.1
     dev: false
 
   /@thirdweb-dev/storage@2.0.15:
@@ -14357,6 +14340,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
