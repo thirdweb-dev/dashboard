@@ -17,6 +17,7 @@ const NetworkInput = () => (
     formValue="extraInfo_Network"
     inputType="text"
     required={true}
+    placeholder="Network name or chain ID"
   />
 );
 
@@ -44,6 +45,7 @@ const ContractTypeInput = () => (
     formValue="extraInfo_Contract_Type"
     required={false}
     inputType="text"
+    placeholder={`"MarketplaceV3 | "NFTDrop" | ...`}
   />
 );
 

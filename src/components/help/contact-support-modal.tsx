@@ -3,6 +3,7 @@ import {
   Flex,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -112,6 +113,7 @@ export const ContactSupportModal = () => {
                 Get in touch with us
               </Heading>
             </ModalHeader>
+            <ModalCloseButton />
             <ModalBody p={6} as={Flex} gap={4} flexDir="column">
               <SupportForm_SelectInput
                 formLabel="What do you need help with?"
