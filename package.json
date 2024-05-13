@@ -41,7 +41,7 @@
     "@tanstack/react-table": "^8.16.0",
     "@thirdweb-dev/chains": "0.1.106-nightly-4de88024357cf8197ec78fb4fabaf5bddd47c605-20240509062610",
     "@thirdweb-dev/react": "4.6.16-nightly-4de88024357cf8197ec78fb4fabaf5bddd47c605-20240509062610",
-    "@thirdweb-dev/sdk": "4.0.77-nightly-4de88024357cf8197ec78fb4fabaf5bddd47c605-20240509062610",
+    "@thirdweb-dev/sdk": "4.0.81",
     "@thirdweb-dev/service-utils": "0.4.28",
     "@thirdweb-dev/storage": "2.0.14",
     "@thirdweb-dev/wallets": "2.5.17-nightly-4de88024357cf8197ec78fb4fabaf5bddd47c605-20240509062610",
