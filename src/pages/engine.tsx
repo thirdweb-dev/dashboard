@@ -18,6 +18,7 @@ import { PricingEngine } from "components/homepage/sections/PricingEngine";
 import Head from "next/head";
 import { Gradients } from "components/landing-pages/gradients";
 import { engineFrames } from "lib/engine-frames";
+import { OpenSource } from "../components/homepage/open-source/OpenSource";
 
 const TRACKING_CATEGORY = "engine-landing";
 
@@ -184,9 +185,21 @@ const EngineLanding: ThirdwebNextPage = () => {
           gap={{ base: "80px", md: "180px" }}
         >
           <LandingHeroWithSideImage
-            titleWithGradient="web3 apps & games"
             miniTitle="Engine"
-            title="Open-source APIs for"
+            title={
+              <>
+                <Box
+                  as="div"
+                  display="inline-block"
+                  textTransform="capitalize"
+                  mr={6}
+                >
+                  <OpenSource TRACKING_CATEGORY={TRACKING_CATEGORY} />
+                </Box>
+                APIs for web3 apps & games
+              </>
+            }
+            titleWithGradient=""
             subtitle="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/dashboard/engine"

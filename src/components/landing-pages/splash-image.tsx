@@ -36,12 +36,8 @@ export const SplashImage: React.FC<SplashImageProps> = ({
   contactUsLink,
 }) => {
   return (
-    <Flex
-      flexDir="column"
-      gap={{ base: 2, md: 4 }}
-      paddingTop={{ base: 0, md: "10px" }}
-    >
-      <Container maxW="container.lg" paddingX={{ base: 4, md: 4 }}>
+    <Flex flexDir="column" gap={{ base: 2, md: 4 }}>
+      <Container maxW="container.lg" paddingX={{ base: 0, md: 4 }}>
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
           <Flex flexDir="column" gap={2}>
             <Heading
@@ -56,11 +52,24 @@ export const SplashImage: React.FC<SplashImageProps> = ({
               </Box>
             </Heading>
           </Flex>
-          <Text textAlign="center" size="body.lg">
+          <Text
+            color="white"
+            opacity={0.8}
+            textAlign="center"
+            fontSize={[16, 20]}
+            fontWeight={500}
+            size="body.lg"
+          >
             {subtitle}
           </Text>
         </Flex>
-        <Flex maxH="1000px">
+        <Flex
+          maxH="1000px"
+          mt={{ base: -12, md: -20 }}
+          ml={{ base: -8, md: 8 }}
+          w={{ base: "125%", md: "100%" }}
+          pointerEvents="none"
+        >
           <LandingDesktopMobileImage
             lottie={lottie}
             image={image}
@@ -70,6 +79,7 @@ export const SplashImage: React.FC<SplashImageProps> = ({
         <Flex gap={2} justifyContent="center" alignItems="center">
           <LandingCTAButtons
             noCta={noCta}
+            noContactUs
             ctaText={ctaText}
             ctaLink={ctaLink}
             trackingCategory={trackingCategory}
