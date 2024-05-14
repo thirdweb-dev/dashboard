@@ -7,6 +7,7 @@ import { SplashImage } from "components/landing-pages/splash-image";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { AnyEVMEngine } from "../components/homepage/sections/AnyEVMEngine";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import LandingImageSectionItem from "components/landing-pages/image-section-item";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
@@ -238,7 +239,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             <LandingImageSectionItem
               image={require("../../public/assets/landingpage/desktop/web3warriors.png")}
               mobileImage={require("../../public/assets/landingpage/desktop/web3warriors.png")}
-              title="Create the best UX"
+              title="Create the best user experience"
               description="Abstract the blockchain away from users — removing wallet creation, gas fees, & signing. Powered by Account Abstraction."
             />
 
@@ -322,23 +323,6 @@ const EngineLanding: ThirdwebNextPage = () => {
               href="https://portal.thirdweb.com/engine/features/backend-wallets"
             />
             <LandingCardWithImage
-              title="Every EVM chain"
-              description="Engine supports contract calls on all 1000+ EVM blockchains and private subnets."
-              image={require("../../public/assets/landingpage/desktop/any-evm.png")}
-              mobileImage={require("../../public/assets/landingpage/mobile/any-evm.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/engine"
-            />
-            <LandingCardWithImage
-              title="Wallet and contract webhooks"
-              description="Create automatic workflows triggered by wallet and contract events."
-              image={require("../../public/assets/landingpage/desktop/webhooks.png")}
-              mobileImage={require("../../public/assets/landingpage/mobile/webhooks.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/engine/features/webhooks"
-              colSpan={1}
-            />
-            <LandingCardWithImage
               title="Advanced analytics"
               description="View transaction history trends, event logs for each transaction, a ledger of backend wallet funds, and more."
               image={require("../../public/assets/landingpage/desktop/analytics-v3.png")}
@@ -366,6 +350,8 @@ const EngineLanding: ThirdwebNextPage = () => {
               href="/dashboard/engine"
             />
           </LandingGridSection>
+
+          <AnyEVMEngine />
 
           <LandingCardWithMetrics
             title={
