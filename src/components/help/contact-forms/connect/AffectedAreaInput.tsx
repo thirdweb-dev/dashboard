@@ -1,10 +1,10 @@
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { DescriptionInput } from "../shared/DescriptionInput";
+import { DescriptionInput } from "../shared/SupportForm_DescriptionInput";
 import { UnitySupportForm } from "../shared/SupportForm_UnityInput";
 import { SupportForm_TextInput } from "../shared/SupportForm_TextInput";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
 import { useWatch } from "react-hook-form";
-import { AttachmentForm } from "../shared/AttachmentForm";
+import { AttachmentForm } from "../shared/SupportForm_AttachmentUploader";
 
 const AFFECTED_AREAS = ["Dashboard", "Application"];
 

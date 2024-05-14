@@ -580,52 +580,42 @@ export type CreateTicketInput = {
 
 export function useCreateTicket() {
   const { user } = useLoggedInUser();
+  /**
+   * Unthread only accepts a `markdown` field
+   * so we need to include all the metadata there
+   *
+   * Example of the final content:
+   * -----------
+   * Problem Area: Connect wallet issue
+   * SDK: Unity
+   * SDK Version: 4
+   * Affected Area: Application
+   * -----------
+   */
   const updateMarkdown = (input: CreateTicketInput) => {
     const { markdown } = input;
     const extraData = Object.keys(input)
-      // All extra fields start with "extraInfo_". e.g "extraInfo_SDK_Version"
       .filter((key) => key.startsWith("extraInfo_"))
-      .map(
-        // Example: "SDK VersionÏ: 5.10.1\n"
-        (key) => {
-          const prettifiedKey = `${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
-          return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
-        },
-      )
+      .map((key) => {
+        const prettifiedKey = `${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
+        return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
+      })
       .join("");
     const line = "-------------------------\n";
     return `\n${line}${extraData}${line}${markdown}`;
   };
+
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
     invariant(user?.address, "walletAddress is required");
     input.markdown = updateMarkdown(input);
-    let res: Response;
-    if (input.files?.length) {
-      const formData = new FormData();
-      input.files.forEach((file) => {
-        formData.append(file.name, file);
-      });
-      delete input.files;
-      formData.append("metadata", JSON.stringify(input));
-      return;
-      res = await fetch(`createTicket-v2-not-available-yet`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: formData,
-      });
-    } else {
-      res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      });
-    }
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(input),
+    });
 
     const json = await res.json();
 

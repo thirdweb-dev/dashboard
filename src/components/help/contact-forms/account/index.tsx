@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
-import { DescriptionInput } from "../shared/DescriptionInput";
+import { DescriptionInput } from "../shared/SupportForm_DescriptionInput";
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
 import { useWatch } from "react-hook-form";
 import { SupportForm_SelectInput } from "../shared/SupportForm_SelectInput";
-import { AttachmentForm } from "../shared/AttachmentForm";
+import { AttachmentForm } from "../shared/SupportForm_AttachmentUploader";
 
 type ProblemAreaItem = {
   label: string;
