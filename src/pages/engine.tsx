@@ -186,6 +186,7 @@ const EngineLanding: ThirdwebNextPage = () => {
         >
           <LandingHeroWithSideImage
             miniTitle="Engine"
+            miniImage={require("../../public/assets/landingpage/engine-icon.png")}
             title={
               <>
                 <Box
