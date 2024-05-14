@@ -64,6 +64,7 @@ import { useMemo } from "react";
 import invariant from "tiny-invariant";
 import { Web3Provider } from "zksync-ethers";
 import { z } from "zod";
+import { CompilerOptions } from "@thirdweb-dev/sdk/dist/declarations/src/evm/types/compiler/compiler-options";
 
 const HEADLESS_WALLET_IDS: string[] = [
   walletIds.localWallet,
@@ -645,12 +646,17 @@ export function useCustomContractDeployMutation(
             window.ethereum as unknown as providers.ExternalProvider,
           ).getSigner();
 
-          contractAddress = await zkDeployContractFromUri(
+          await zkDeployContractFromUri(
             ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
             Object.values(data.deployParams),
             zkSigner,
             StorageSingleton,
             chainId as number,
+            {
+              compilerOptions: {
+                compilerType: "zksolc",
+              },
+            },
           );
         } else {
           if (data.deployDeterministic) {
