@@ -76,11 +76,13 @@ export const ContactSupportModal = () => {
 
   // On changing product -> reset all fields (but keep the `product` field)
   useEffect(() => {
-    if (!productLabel) return;
+    if (!productLabel) {
+      return;
+    }
     const label = productLabel;
     form.reset();
     form.reset({ product: label });
-  }, [productLabel]);
+  }, [productLabel, form]);
 
   const FormComponent = () => {
     return (
