@@ -1346,7 +1346,7 @@ export function useEngineRemoveContractSubscription(instance: string) {
 
 export function useEngineSubscriptionsLastBlock(
   instanceUrl: string,
-  chainId: string,
+  chainId: number,
   autoUpdate: boolean,
 ) {
   const { token } = useApiAuthToken();

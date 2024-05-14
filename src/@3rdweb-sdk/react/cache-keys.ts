@@ -78,7 +78,7 @@ export const engineKeys = {
     [...engineKeys.all, instance, "corsUrls"] as const,
   contractSubscriptions: (instance: string) =>
     [...engineKeys.all, instance, "contractSubscriptions"] as const,
-  contractSubscriptionsLastBlock: (instance: string, chainId: string) =>
+  contractSubscriptionsLastBlock: (instance: string, chainId: number) =>
     [
       ...engineKeys.all,
       instance,
