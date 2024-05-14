@@ -77,7 +77,7 @@ const EarlyAccess = () => {
         <Flex gap={2} align="center">
           <Icon as={IoMdBeaker} />
           <Heading size="title.xs">
-            Contract Subscriptions are in Early Access
+            Contract Subscriptions is in Early Access
           </Heading>
         </Flex>
         <Text>
