@@ -1,7 +1,6 @@
 import {
   CreateWebhookInput,
   useEngineCreateWebhook,
-  useEngineWebhooksEventTypes,
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
@@ -29,12 +28,21 @@ interface AddWebhookButtonProps {
   instanceUrl: string;
 }
 
+const WEBHOOK_EVENT_TYPES = [
+  "all_transactions",
+  "sent_transaction",
+  "mined_transaction",
+  "errored_transaction",
+  "cancelled_transaction",
+  "backend_wallet_balance",
+  "auth",
+];
+
 export const AddWebhookButton: React.FC<AddWebhookButtonProps> = ({
   instanceUrl,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate: createWebhook } = useEngineCreateWebhook(instanceUrl);
-  const { data: webhookEventTypes } = useEngineWebhooksEventTypes(instanceUrl);
   const trackEvent = useTrack();
   const form = useForm<CreateWebhookInput>();
 
@@ -92,7 +100,7 @@ export const AddWebhookButton: React.FC<AddWebhookButtonProps> = ({
               <FormControl isRequired>
                 <FormLabel>Event Type</FormLabel>
                 <Select {...form.register("eventType", { required: true })}>
-                  {webhookEventTypes?.map((eventType) => (
+                  {WEBHOOK_EVENT_TYPES.map((eventType) => (
                     <option key={eventType} value={eventType}>
                       {beautifyString(eventType)}
                     </option>

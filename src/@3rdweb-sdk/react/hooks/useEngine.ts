@@ -680,28 +680,6 @@ export function useEngineWebhooks(instance: string) {
   );
 }
 
-export function useEngineWebhooksEventTypes(instance: string) {
-  const { token } = useApiAuthToken();
-
-  return useQuery(
-    engineKeys.webhookEventTypes(instance),
-    async () => {
-      const res = await fetch(`${instance}webhooks/event-types`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const json = await res.json();
-
-      return (json.result as string[]) || [];
-    },
-    { enabled: !!instance && !!token },
-  );
-}
-
 // POST REQUESTS
 export type SetWalletConfigInput =
   | {
