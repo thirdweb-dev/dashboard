@@ -7,7 +7,6 @@ import { SplashImage } from "components/landing-pages/splash-image";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { AnyEVMEngine } from "../components/homepage/sections/AnyEVMEngine";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import LandingImageSectionItem from "components/landing-pages/image-section-item";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
@@ -35,7 +34,7 @@ export const metrics = [
         description: "Raised",
       },
       {
-        title: "500k+",
+        title: "515k+",
         description: "Crypto Advocates",
         colSpan: 2,
       },
@@ -44,7 +43,7 @@ export const metrics = [
         description: "Contacts",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
+    href: "https://www.standwithcrypto.org/",
     hoverBackground: "#0053FF",
   },
   {
@@ -240,8 +239,8 @@ const EngineLanding: ThirdwebNextPage = () => {
             }
           >
             <LandingImageSectionItem
-              image={require("../../public/assets/landingpage/mobile/backend-queue.png")}
-              mobileImage={require("../../public/assets/landingpage/mobile/backend-queue.png")}
+              image={require("../../public/assets/landingpage/desktop/scale-your-app-to-millions.png")}
+              mobileImage={require("../../public/assets/landingpage/desktop/scale-your-app-to-millions.png")}
               title="Scale your app to millions"
               description="Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
               justifyContent="flex-end"
@@ -251,16 +250,16 @@ const EngineLanding: ThirdwebNextPage = () => {
             />
 
             <LandingImageSectionItem
-              image={require("../../public/assets/landingpage/desktop/web3warriors.png")}
-              mobileImage={require("../../public/assets/landingpage/desktop/web3warriors.png")}
+              image={require("../../public/assets/landingpage/desktop/create-the-best-ux.png")}
+              mobileImage={require("../../public/assets/landingpage/desktop/create-the-best-ux.png")}
               title="Create the best user experience"
               description="Abstract the blockchain away from users — removing wallet creation, gas fees, & signing. Powered by Account Abstraction."
             />
 
             <LandingImageSectionItem
-              image={require("../../public/assets/landingpage/desktop/infra.png")}
-              mobileImage={require("../../public/assets/landingpage/desktop/infra.png")}
-              title="Trigger onchain interactions"
+              image={require("../../public/assets/landingpage/desktop/trigger-onchain-actions.png")}
+              mobileImage={require("../../public/assets/landingpage/desktop/trigger-onchain-actions.png")}
+              title="Trigger onchain actions with webhooks"
               description="Mint tokens, read & write to smart contracts, & perform onchain transactions with purpose-built webhooks."
             />
           </LandingGridSection>
@@ -364,8 +363,6 @@ const EngineLanding: ThirdwebNextPage = () => {
               href="/dashboard/engine"
             />
           </LandingGridSection>
-
-          <AnyEVMEngine />
 
           <LandingCardWithMetrics
             title={
