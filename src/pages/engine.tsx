@@ -22,24 +22,27 @@ const TRACKING_CATEGORY = "engine-landing";
 
 export const metrics = [
   {
-    title: "Coinbase Wallet",
+    title: "Stand With Crypto",
     description:
-      "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management.",
-    image: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
-    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
+      "Championing clear crypto regulation to foster greater economic freedom via a grassroots advocacy hub.",
+    image: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
     items: [
       {
-        title: "1,000+",
-        description: "Real-World Transactions",
+        title: "$87M+",
+        description: "Raised",
+      },
+      {
+        title: "500k+",
+        description: "Crypto Advocates",
         colSpan: 2,
       },
       {
-        title: "4 Weeks",
-        description: "Total Development Time",
-        colSpan: 2,
+        title: "165k+",
+        description: "Contacts",
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
+    href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
     hoverBackground: "#0053FF",
   },
   {
@@ -67,28 +70,25 @@ export const metrics = [
     hoverBackground: "#25262B",
   },
   {
-    title: "Stand With Crypto",
+    title: "Coinbase Wallet",
     description:
-      "Championing clear crypto regulation to foster greater economic freedom via a grassroots advocacy hub.",
-    image: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
-    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-standwithcrypto.png"),
+      "Bringing onchain experiences to the real world — with seamless NFT creation, delivery, & transaction management.",
+    image: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
+    mobileImage: require("../../public/assets/product-pages/engine/casestudy-image-coinbase-wallet.png"),
     items: [
       {
-        title: "$86M+",
-        description: "Raised",
-      },
-      {
-        title: "445k+",
-        description: "Crypto Advocates",
+        title: "1,000+",
+        description: "Real-World Transactions",
         colSpan: 2,
       },
       {
-        title: "164k+",
-        description: "Contacts",
+        title: "4 Weeks",
+        description: "Total Development Time",
+        colSpan: 2,
       },
     ],
-    href: "https://blog.thirdweb.com/case-studies/layer3-powers-web3-adoption-through-gamified-experiences-nft-rewards/",
-    hoverBackground: "#6504FF",
+    href: "https://blog.thirdweb.com/case-studies/coinbase-brings-onchain-experiences-to-life/",
+    hoverBackground: "#0053FF",
   },
 ];
 
@@ -116,7 +116,7 @@ const EngineLanding: ThirdwebNextPage = () => {
       bgColor="#0F0F0F"
       py={0}
       seo={{
-        title: "Engine: Dedicated APIs for Web3 Apps and Games",
+        title: "Engine: Open-Source APIs for Web3 Apps and Games",
         description:
           "Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries—on any EVM blockchain. Get started.",
         openGraph: {
@@ -185,7 +185,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingHeroWithSideImage
             titleWithGradient="web3 apps & games"
             miniTitle="Engine"
-            title="Dedicated APIs for"
+            title="Open-source APIs for"
             subtitle="Scalable smart contract APIs backed by secure wallets, with automatic nonce queuing & gas-optimized retries."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="/dashboard/engine"
@@ -193,17 +193,15 @@ const EngineLanding: ThirdwebNextPage = () => {
             contactUsTitle="Book a demo"
             gradient="linear(to-r, #9786DF, #9786DF)"
             lottie={require("../../public/assets/product-pages/engine/lottie.json")}
-            mobileImage={require("../../public/assets/product-pages/engine/mobile-hero.png")}
-            miniImage={require("../../public/assets/product-icons/engine.png")}
             contactUsBg="#0E0E0E"
             contactUsHover={{ background: "#0E0E0E" }}
           />
           <SplashImage
-            title="Scale your app,"
-            titleWithGradient="without the complexity"
+            title="Autoscale"
+            titleWithGradient="your app"
             subtitle="Mint tokens and perform onchain actions with robust backend wallets — equipped with automatic nonce management, transaction queueing, and gas-optimized retries."
             trackingCategory={TRACKING_CATEGORY}
-            ctaText="Spin up an instance"
+            ctaText="Deploy an instance"
             ctaLink="/dashboard/engine"
             gradient="linear(to-r, #FFFFFF, #FFFFFF)"
             lottie={require("../../public/assets/product-pages/engine/lottie2.json")}
@@ -219,7 +217,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               >
                 <Box width="full" maxWidth="1000px" textAlign="center">
                   <LandingSectionHeading
-                    title="Scale your app without sacrificing performance or security"
+                    title="What can you build with Engine?"
                     blackToWhiteTitle=""
                   />
                 </Box>
@@ -229,8 +227,8 @@ const EngineLanding: ThirdwebNextPage = () => {
             <LandingImageSectionItem
               image={require("../../public/assets/landingpage/mobile/backend-queue.png")}
               mobileImage={require("../../public/assets/landingpage/mobile/backend-queue.png")}
-              title="Backend Wallets"
-              description="Sign & send transactions at scale. Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
+              title="Scale your app to millions"
+              description="Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
               justifyContent="flex-end"
               pr="0!important"
               pl="36px!important"
@@ -240,15 +238,15 @@ const EngineLanding: ThirdwebNextPage = () => {
             <LandingImageSectionItem
               image={require("../../public/assets/landingpage/desktop/web3warriors.png")}
               mobileImage={require("../../public/assets/landingpage/desktop/web3warriors.png")}
-              title="Seamless UX"
-              description="Create seamless UX by sponsoring gas fees — for any & all transaction, removing gas fees and transaction signing. Powered by Account Abstraction."
+              title="Create the best UX"
+              description="Abstract the blockchain away from users — removing wallet creation, gas fees, & signing. Powered by Account Abstraction."
             />
 
             <LandingImageSectionItem
               image={require("../../public/assets/landingpage/desktop/infra.png")}
               mobileImage={require("../../public/assets/landingpage/desktop/infra.png")}
-              title="Infrastructure handled"
-              description="Focus on building your app with complete web3 infrastructure out-of-the box with RPC, IPFS, and Account Abstraction."
+              title="Trigger onchain interactions"
+              description="Mint tokens, read & write to smart contracts, & perform onchain transactions with purpose-built webhooks."
             />
           </LandingGridSection>
 
@@ -324,7 +322,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               href="https://portal.thirdweb.com/engine/features/backend-wallets"
             />
             <LandingCardWithImage
-              title="Any EVM chain"
+              title="Every EVM chain"
               description="Engine supports contract calls on all 1000+ EVM blockchains and private subnets."
               image={require("../../public/assets/landingpage/desktop/any-evm.png")}
               mobileImage={require("../../public/assets/landingpage/mobile/any-evm.png")}
@@ -351,15 +349,6 @@ const EngineLanding: ThirdwebNextPage = () => {
               colSpan={2}
             />
             <LandingCardWithImage
-              title="Gasless Transactions"
-              description="Sponsor user transactions with gasless relayers and user operations."
-              image={require("../../public/assets/landingpage/desktop/gasless.png")}
-              mobileImage={require("../../public/assets/landingpage/mobile/gasless.png")}
-              TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/engine/features/gasless-transactions"
-              colSpan={1}
-            />
-            <LandingCardWithImage
               title="Infrastructure"
               description="Built-in infrastructure so you don't have to worry about RPCs, storage, bundlers or paymasters."
               image={require("../../public/assets/landingpage/infastructure-desktop.png")}
@@ -378,8 +367,6 @@ const EngineLanding: ThirdwebNextPage = () => {
             />
           </LandingGridSection>
 
-          <PricingEngine trackingCategory={TRACKING_CATEGORY} onHomepage />
-
           <LandingCardWithMetrics
             title={
               <Center flexDir="column" textAlign="center">
@@ -397,6 +384,9 @@ const EngineLanding: ThirdwebNextPage = () => {
             TRACKING_CATEGORY={TRACKING_CATEGORY}
             metrics={metrics}
           />
+
+          <PricingEngine trackingCategory={TRACKING_CATEGORY} onHomepage />
+
           <LandingGuidesShowcase
             title="Get started with thirdweb Engine"
             category={TRACKING_CATEGORY}
