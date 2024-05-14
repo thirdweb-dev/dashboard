@@ -114,7 +114,7 @@ const GasPage: ThirdwebNextPage = () => {
           <Heading size="subtitle.sm">USD</Heading>
         </Flex>
       </Flex>
-      <SimpleGrid as={Card} p={0} columns={{ base: 1, md: 3, lg: 4 }}>
+      <SimpleGrid as={Card} p={0} columns={{ base: 1, md: 3, lg: 3 }}>
         {gasItems.map((item) => (
           <GasEstimatorBox
             key={item.contractName}

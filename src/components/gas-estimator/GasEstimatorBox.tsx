@@ -5,6 +5,8 @@ import { utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { FiExternalLink } from "react-icons/fi";
 import { Heading, Link, Text } from "tw-components";
+import { contractSlugMapping } from "./contractSlugMapping";
+import { functionNameMapping } from "./functionNameMapping";
 
 interface GasEstimatorBoxProps extends BoxProps {
   ethOrUsd: "eth" | "usd";
@@ -46,10 +48,15 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     }
   };
   const trackEvent = useTrack();
+  const contractSlug = contractSlugMapping[data.contractName];
+  const tooltipContent = functionNameMapping[data.contractName] || {};
+  const externalLink = contractSlug
+    ? `https://portal.thirdweb.com/contracts/explore/pre-built-contracts/${contractSlug}`
+    : "https://portal.thirdweb.com/contracts/explore/overview";
   return (
     <Box p={6} border="1px solid" borderColor="borderColor" {...props}>
       <Link
-        href={`https://portal.thirdweb.com/contracts/explore/pre-built-contracts//${mapContractType(data.contractName)}`}
+        href={externalLink}
         onClick={() =>
           trackEvent({
             category: "gas-estimator",
@@ -67,10 +74,12 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       </Link>
       {data.benchmarks.map((item) => (
         <Flex justifyContent="space-between" key={item.functionName}>
-          <Tooltip label={parseFunctionMeaning(item.functionName)}>
+          <Tooltip
+            label={tooltipContent[item.functionName] || item.functionName}
+          >
             <Flex justifyContent="center" alignItems="center">
               <Text noOfLines={1} maxW={"150px"} mr={1}>
-                {item.functionName}:
+                {item.functionName}
               </Text>
               <Icon as={AiOutlineInfoCircle} boxSize={4} />
             </Flex>
@@ -84,22 +93,4 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
 
 const beautifyContractName = (contractName: string): string => {
   return contractName.charAt(0).toUpperCase() + contractName.slice(1);
-};
-
-const mapContractType = (contractName: string): string => {
-  return contractName;
-};
-
-/**
- * Some items are benchmarked with very large sets of toke which causes the gas price to be high
- * So we need to properly display the details to avoid misunderstandings
- * @param functionName Name of the benchmarked function
- * @param contractName Name of the contract (contract type)
- * @returns
- */
-const parseFunctionMeaning = (
-  functionName: string,
-  // contractName: string,
-): string => {
-  return functionName;
 };
