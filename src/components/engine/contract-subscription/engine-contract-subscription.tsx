@@ -4,7 +4,14 @@ import {
 } from "@3rdweb-sdk/react/hooks/useEngine";
 import { Flex, FormControl, Icon, Stack, Switch } from "@chakra-ui/react";
 import { useState } from "react";
-import { Card, FormLabel, Heading, Link, Text } from "tw-components";
+import {
+  Card,
+  FormLabel,
+  Heading,
+  Link,
+  Text,
+  TrackedLink,
+} from "tw-components";
 import { ContractSubscriptionTable } from "./contract-subscriptions-table";
 import { AddContractSubscriptionButton } from "./add-contract-subscription-button";
 import { IoMdBeaker } from "react-icons/io";
@@ -34,14 +41,15 @@ export const EngineContractSubscriptions: React.FC<
           <Heading size="title.md">Contract Subscriptions</Heading>
           <Text>
             Subscribe to event logs and transaction receipts on any contract.{" "}
-            <Link
+            <TrackedLink
               href="https://portal.thirdweb.com/engine/features/contract-subscriptions"
               color="primary.500"
               isExternal
+              category="engine"
+              label="learn-more-contract-subscriptions"
             >
-              {" "}
               Learn more about contract subscriptions
-            </Link>
+            </TrackedLink>
             .
           </Text>
         </Flex>
@@ -82,14 +90,15 @@ const EarlyAccess = () => {
         </Flex>
         <Text>
           Please{" "}
-          <Link
+          <TrackedLink
             href="https://thirdweb.com/contact-us"
             isExternal
             color="blue.500"
-            fontSize="small"
+            category="engine"
+            label="contact-us-contract-subscriptions"
           >
             contact us
-          </Link>{" "}
+          </TrackedLink>{" "}
           to enable this feature.
         </Text>
       </Stack>
