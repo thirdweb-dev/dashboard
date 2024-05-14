@@ -49,6 +49,7 @@ export default function EngineSupportForm() {
                 formValue="extraInfo_Engine_URL"
                 required={true}
                 inputType="url"
+                placeholder="https://your-engine-url.com"
               />
               <DescriptionInput />
               <AttachmentForm />
