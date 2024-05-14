@@ -20,7 +20,7 @@ import {
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
 import dynamic from "next/dynamic";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { SupportForm_SelectInput } from "./contact-forms/shared/SupportForm_SelectInput";
 import { SubmitTicketButton } from "./SubmitTicketButton";
 
@@ -73,6 +73,14 @@ export const ContactSupportModal = () => {
   );
   const { isLoggedIn } = useLoggedInUser();
   const { mutate: createTicket } = useCreateTicket();
+
+  // On changing product -> reset all fields (but keep the `product` field)
+  useEffect(() => {
+    if (!productLabel) return;
+    const label = productLabel;
+    form.reset();
+    form.reset({ product: label });
+  }, [productLabel]);
 
   const FormComponent = () => {
     return (
