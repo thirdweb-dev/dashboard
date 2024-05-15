@@ -30,7 +30,8 @@ import {
 import { useContractEnabledExtensions } from "components/contract-components/hooks";
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
@@ -228,9 +229,21 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
     return fnsOrEvents.filter((fn) => !("stateMutability" in fn)) as AbiEvent[];
   }, [fnsOrEvents]);
 
+  // Load state from the URL
+  const router = useRouter();
+  const _itemName = router.query.name;
+  const _item = fnsOrEvents.find((o) => o.name === _itemName);
   const [selectedFunction, setSelectedFunction] = useState<
     AbiFunction | AbiEvent
-  >(fnsOrEvents[0]);
+  >(_item ?? fnsOrEvents[0]);
+
+  // For Explorer page only
+
+  // Set the active tab to Write or Read depends on the `_item`
+  const _defaultTabIndex =
+    _item && "stateMutability" in _item && _item["stateMutability"] === "view"
+      ? 1
+      : 0;
 
   const functionSection = (e: ExtensionFunctions) => (
     <Flex key={e.extension} flexDir={"column"} mb={6}>
@@ -285,6 +298,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
         <List height="100%" overflowX="hidden">
           {(writeFunctions.length > 0 || viewFunctions.length > 0) && (
             <Tabs
+              defaultIndex={_defaultTabIndex}
               colorScheme="gray"
               h="100%"
               position="relative"
@@ -362,6 +376,7 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
   selectedFunction,
   setSelectedFunction,
 }) => {
+  const router = useRouter();
   return (
     <ListItem my={0.5}>
       <Button
@@ -384,7 +399,14 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
             ? 1
             : 0.65
         }
-        onClick={() => setSelectedFunction(fn)}
+        onClick={() => {
+          setSelectedFunction(fn);
+          const { name } = fn;
+          const path = router.asPath.split("?")[0];
+          router.push({ pathname: path, query: { name } }, undefined, {
+            shallow: true,
+          });
+        }}
         color="heading"
         _hover={{ opacity: 1, textDecor: "underline" }}
         variant="link"
