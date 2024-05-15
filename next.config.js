@@ -144,7 +144,7 @@ const { withPlausibleProxy } = require("next-plausible");
 const wSentry =
   process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
-module.exports = withPlausibleProxy({
+const config = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
 })(
@@ -188,3 +188,8 @@ module.exports = withPlausibleProxy({
     ),
   ),
 );
+
+module.exports = {
+  ...config,
+  sentry: { ...config.sentry, disableServerWebpackPlugin: true },
+};
