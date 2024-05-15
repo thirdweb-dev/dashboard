@@ -645,7 +645,7 @@ export function useCustomContractDeployMutation(
             window.ethereum as unknown as providers.ExternalProvider,
           ).getSigner();
 
-          await zkDeployContractFromUri(
+          contractAddress = await zkDeployContractFromUri(
             ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
             Object.values(data.deployParams),
             zkSigner,
