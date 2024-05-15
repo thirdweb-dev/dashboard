@@ -378,8 +378,6 @@ const GrantSuperChain = () => {
                       );
                     })}
                 </SimpleGrid>
-
-                
               </Flex>
             </Flex>
 
