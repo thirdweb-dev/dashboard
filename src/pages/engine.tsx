@@ -244,9 +244,6 @@ const EngineLanding: ThirdwebNextPage = () => {
               title="Scale your app to millions"
               description="Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
               justifyContent="flex-end"
-              pr="0!important"
-              pl="36px!important"
-              maxHeightImage={{ base: "100%", md: "327px" }}
             />
 
             <LandingImageSectionItem
