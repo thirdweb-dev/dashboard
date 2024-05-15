@@ -311,7 +311,7 @@ export const EngineTierCard = ({
         variant={isPrimaryCta ? "solid" : "outline"}
         colorScheme={isPrimaryCta ? "blue" : undefined}
       >
-        {ctaText ? ctaText : monthlyPrice ? "Add to my plan" : "Contact us"}
+        {ctaText ? ctaText : monthlyPrice ? "Deploy now" : "Contact us"}
       </Button>
       <Text size="body.sm" textAlign="center">
         {ctaHint
