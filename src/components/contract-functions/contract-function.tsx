@@ -31,7 +31,7 @@ import { useContractEnabledExtensions } from "components/contract-components/hoo
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
