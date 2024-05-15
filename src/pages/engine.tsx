@@ -14,9 +14,7 @@ import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PricingEngine } from "components/homepage/sections/PricingEngine";
-import Head from "next/head";
 import { Gradients } from "components/landing-pages/gradients";
-import { engineFrames } from "lib/engine-frames";
 import { OpenSource } from "../components/homepage/open-source/OpenSource";
 
 const TRACKING_CATEGORY = "engine-landing";
@@ -132,42 +130,6 @@ const EngineLanding: ThirdwebNextPage = () => {
         },
       }}
     >
-      {/* Farcaster frames headers */}
-      <Head>
-        <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content={engineFrames["1"].imageUrl} />
-        <meta
-          property="fc:frame:post_url"
-          content={`${getAbsoluteUrl()}/api/frame/engine?step=1`}
-        />
-        <meta property="fc:frame:button:1" content="Features →" />
-        <meta property="fc:frame:button:2" content="Start building" />
-        <meta name="fc:frame:button:1:action" content="post" />
-        <meta name="fc:frame:button:2:action" content="post_redirect" />
-      </Head>
-
-      <Head>
-        <style>
-          {`
-          .slider {
-            padding: 12px 0 !important;
-          }
-          
-           .slide:first-child, .slide:nth-child(2) {
-            padding-right: 16px !important;
-          }
-
-         .slide:nth-child(3) {
-            padding-right: 6px !important;
-          }
-
-          .slide:nth-child(1) {
-            padding-left: 6px !important;
-          }
-          `}
-        </style>
-      </Head>
-
       <Flex
         position="relative"
         flexDir="column"
@@ -287,7 +249,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/account-abstraction-desktop.png")}
               mobileImage={require("../../public/assets/landingpage/account-abstraction-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/wallet-sdk/latest"
+              href="https://portal.thirdweb.com/engine/features/backend-wallets"
               direction="horizontal"
             />
             <LandingCardWithImage
@@ -296,7 +258,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/smart-contract-audits-desktop.png")}
               mobileImage={require("../../public/assets/landingpage/smart-contract-audits-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/contracts"
+              href="https://portal.thirdweb.com/engine/features/contracts"
               colSpan={2}
             />
 
@@ -306,7 +268,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/product-pages/connect/desktop-auth.png")}
               mobileImage={require("../../public/assets/product-pages/connect/mobile-auth.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/auth"
+              href="/connect"
               colSpan={1}
             />
             <LandingCardWithImage
@@ -315,7 +277,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/account-desktop.png")}
               mobileImage={require("../../public/assets/landingpage/account-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/account-abstraction"
+              href="https://portal.thirdweb.com/engine/features/account-abstraction"
               direction="horizontal"
             />
             <LandingCardWithImage
@@ -324,7 +286,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/transaction-fee-desktop.png")}
               mobileImage={require("../../public/assets/landingpage/transaction-fee-mobile.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="/sponsored-transactions"
+              href="https://portal.thirdweb.com/engine/features/gasless-transactions"
               colSpan={1}
             />
             <LandingCardWithImage
@@ -333,7 +295,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/desktop/happy-people.png")}
               mobileImage={require("../../public/assets/landingpage/mobile/happy-people.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/engine/features/backend-wallets"
+              href="/dashboard/engine"
             />
             <LandingCardWithImage
               title="Advanced analytics"
@@ -341,7 +303,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               image={require("../../public/assets/landingpage/desktop/analytics-v3.png")}
               mobileImage={require("../../public/assets/landingpage/mobile/analytics-v3.png")}
               TRACKING_CATEGORY={TRACKING_CATEGORY}
-              href="https://portal.thirdweb.com/engine"
+              href="/dashboard/engine"
               direction="horizontal"
               colSpan={2}
             />
