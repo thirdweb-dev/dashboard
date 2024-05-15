@@ -298,7 +298,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
   {
     name: "React Native",
     label: "react-native",
-    description: "React Native UI hooks and components for mobile apps",
+    description: "React Native hooks and components for mobile apps",
     link: "https://portal.thirdweb.com/react-native/v0",
     icon: require("../../../../../public/assets/product-icons/react.svg"),
     section: "sdks",
