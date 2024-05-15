@@ -63,13 +63,7 @@ export const SplashImage: React.FC<SplashImageProps> = ({
             {subtitle}
           </Text>
         </Flex>
-        <Flex
-          maxH="1000px"
-          mt={{ base: -12, md: -20 }}
-          ml={{ base: -8, md: 8 }}
-          w={{ base: "125%", md: "100%" }}
-          pointerEvents="none"
-        >
+        <Flex maxH="1000px" my={4} pointerEvents="none">
           <LandingDesktopMobileImage
             lottie={lottie}
             image={image}

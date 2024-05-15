@@ -13,7 +13,7 @@ import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
-import { PricingEngine } from "components/homepage/sections/PricingEngine";
+import { PricingEngineHomepage } from "components/homepage/sections/PricingEngine";
 import { Gradients } from "components/landing-pages/gradients";
 import { OpenSource } from "../components/homepage/open-source/OpenSource";
 
@@ -206,9 +206,6 @@ const EngineLanding: ThirdwebNextPage = () => {
               title="Scale your app to millions"
               description="Eliminate stuck transactions and scale your app with automatic nonce management and gas-optimized transaction retries."
               justifyContent="flex-end"
-              pr="0!important"
-              pl="36px!important"
-              maxHeightImage={{ base: "100%", md: "327px" }}
             />
 
             <LandingImageSectionItem
@@ -344,7 +341,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             metrics={metrics}
           />
 
-          <PricingEngine trackingCategory={TRACKING_CATEGORY} onHomepage />
+          <PricingEngineHomepage trackingCategory={TRACKING_CATEGORY} />
 
           <LandingGuidesShowcase
             title="Get started with thirdweb Engine"

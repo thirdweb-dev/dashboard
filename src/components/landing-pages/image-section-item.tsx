@@ -25,9 +25,7 @@ const LandingImageSectionItem = ({
       <Flex
         alignItems="center"
         justifyContent="center"
-        padding={{ base: "26px", md: "17px" }}
         borderRadius="12px"
-        border="1px solid #26282F"
         background="#131418"
         minH={{ base: "auto", md: "333px" }}
         {...rest}
@@ -35,7 +33,7 @@ const LandingImageSectionItem = ({
         <LandingDesktopMobileImage
           image={image}
           mobileImage={mobileImage}
-          w="fit-content"
+          w="100%"
           maxHeight={maxHeightImage}
           alt=""
         />
