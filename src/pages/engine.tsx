@@ -13,7 +13,7 @@ import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import LandingCardWithMetrics from "components/landing-pages/card-with-metrics";
 import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
-import { PricingEngine } from "components/homepage/sections/PricingEngine";
+import { PricingEngineHomepage } from "components/homepage/sections/PricingEngine";
 import Head from "next/head";
 import { Gradients } from "components/landing-pages/gradients";
 import { engineFrames } from "lib/engine-frames";
@@ -379,7 +379,7 @@ const EngineLanding: ThirdwebNextPage = () => {
             metrics={metrics}
           />
 
-          <PricingEngine trackingCategory={TRACKING_CATEGORY} onHomepage />
+          <PricingEngineHomepage trackingCategory={TRACKING_CATEGORY} />
 
           <LandingGuidesShowcase
             title="Get started with thirdweb Engine"
