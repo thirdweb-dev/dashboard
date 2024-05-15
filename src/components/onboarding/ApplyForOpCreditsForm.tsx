@@ -208,7 +208,7 @@ export const ApplyForOpCreditsForm: React.FC<ApplyForOpCreditsFormProps> = ({
         <FormControl gap={6} isRequired>
           <FormLabel>Chain</FormLabel>
           <ChakraSelect
-            options={["Optimism", "Base", "Zora", "Mode", "Frax"].map(
+            options={["Optimism", "Base", "Zora", "Mode", "Frax", "Cyber", "Redstone"].map(
               (chain) => ({
                 label: chain === "Optimism" ? "OP Mainnet" : chain,
                 value: chain,
