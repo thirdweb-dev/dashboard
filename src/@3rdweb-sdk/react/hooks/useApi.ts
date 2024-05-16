@@ -581,40 +581,26 @@ export type CreateTicketInput = {
 export function useCreateTicket() {
   const { user } = useLoggedInUser();
   /**
-   * Unthread only accepts a `markdown` field
-   * so we need to include all the metadata there
-   *
-   * Example of the final content:
-   * -----------
-   * Problem Area: Connect wallet issue
-   * SDK: Unity
-   * SDK Version: 4
-   * Affected Area: Application
-   * -----------
+   * Input example
+   * {
+   *   product: 'Connect',
+   *   extraInfo_Problem_Area: 'Embedded wallet login issues',
+   *   extraInfo_Affected_Area: 'Dashboard',
+   *   markdown: 'Hello I need some help',
+   * }
    */
-  const updateMarkdown = (input: CreateTicketInput) => {
-    const { markdown } = input;
-    const extraData = Object.keys(input)
-      .filter((key) => key.startsWith("extraInfo_"))
-      .map((key) => {
-        const prettifiedKey = `${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
-        return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
-      })
-      .join("");
-    const line = "-------------------------\n";
-    return `\n${line}${extraData}${line}${markdown}`;
-  };
-
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
     invariant(user?.address, "walletAddress is required");
-    input.markdown = updateMarkdown(input);
-    const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/createTicket`, {
+    const formData = new FormData();
+    if (input.files?.length) {
+      input.files.forEach((file) => formData.append("files", file));
+      delete input.files;
+    }
+    formData.append("metadata", JSON.stringify(input));
+    const res = await fetch(`/api/unthread/createConversation`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
+      body: formData,
     });
 
     const json = await res.json();
