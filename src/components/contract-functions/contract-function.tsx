@@ -403,22 +403,18 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
           const pathname = router.pathname;
           const queryParams = new URLSearchParams(window.location.search);
           queryParams.set("name", name);
-          if (pathname.startsWith("/[chainSlug]/[...paths]")) {
-            const path = router.asPath.split("?")[0];
-            router.push(
-              { pathname: path, query: queryParams.toString() },
-              undefined,
-              {
-                shallow: true,
-              },
-            );
-          } else {
-            // This logic is for a contract homepage
-            // e.g: https://thirdweb.com/thirdweb.eth/DropERC721
-            router.push(`?${queryParams.toString()}`, undefined, {
+          // This logic takes into account the contract homepage
+          // e.g: https://thirdweb.com/thirdweb.eth/DropERC721
+          const _path = pathname.startsWith("/[chainSlug]/[...paths]")
+            ? router.asPath.split("?")[0]
+            : pathname;
+          router.push(
+            { pathname: _path, query: queryParams.toString() },
+            undefined,
+            {
               shallow: true,
-            });
-          }
+            },
+          );
         }}
         color="heading"
         _hover={{ opacity: 1, textDecor: "underline" }}
