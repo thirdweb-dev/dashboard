@@ -205,11 +205,15 @@ const Pricing: ThirdwebNextPage = () => {
         </Flex>
 
         <Flex gap={4} flexDir="column" alignItems="center">
-          <Heading size="title.xl" color="white">
+          <Heading as="h2" size="title.xl" color="white">
             Add-ons
           </Heading>
-
-          <EnginePricing />
+          <Flex flexDir="column" gap={0}>
+            <Heading as="h3" size="subtitle.lg">
+              Engine
+            </Heading>
+            <EnginePricing />
+          </Flex>
         </Flex>
 
         <Flex gap={4} flexDir="column" alignItems="center">
