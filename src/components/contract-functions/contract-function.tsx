@@ -237,8 +237,6 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
     AbiFunction | AbiEvent
   >(_item ?? fnsOrEvents[0]);
 
-  // For Explorer page only
-
   // Set the active tab to Write or Read depends on the `_item`
   const _defaultTabIndex =
     _item && "stateMutability" in _item && _item["stateMutability"] === "view"
@@ -402,10 +400,25 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
         onClick={() => {
           setSelectedFunction(fn);
           const { name } = fn;
-          const path = router.asPath.split("?")[0];
-          router.push({ pathname: path, query: { name } }, undefined, {
-            shallow: true,
-          });
+          const pathname = router.pathname;
+          const queryParams = new URLSearchParams(window.location.search);
+          queryParams.set("name", name);
+          if (pathname.startsWith("/[chainSlug]/[...paths]")) {
+            const path = router.asPath.split("?")[0];
+            router.push(
+              { pathname: path, query: queryParams.toString() },
+              undefined,
+              {
+                shallow: true,
+              },
+            );
+          } else {
+            // This logic is for a contract homepage
+            // e.g: https://thirdweb.com/thirdweb.eth/DropERC721
+            router.push(`?${queryParams.toString()}`, undefined, {
+              shallow: true,
+            });
+          }
         }}
         color="heading"
         _hover={{ opacity: 1, textDecor: "underline" }}
