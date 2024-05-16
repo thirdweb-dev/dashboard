@@ -1,5 +1,4 @@
 import { CreateTicketInput } from "@3rdweb-sdk/react/hooks/useApi";
-import { THIRDWEB_API_HOST } from "constants/urls";
 import { NextRequest, NextResponse } from "next/server";
 import { errorResponse } from "utils/api";
 
@@ -24,11 +23,7 @@ const handler = async (req: NextRequest) => {
       return errorResponse("Invalid message", 400);
     }
     const input = JSON.parse(metadata) as CreateTicketInput;
-    const messageContent = formatUnthreadMessage(
-      input,
-      "need-email-here",
-      "need-account-here",
-    );
+    const messageContent = formatUnthreadMessage(input, email, name);
 
     const emailTitle =
       input.product && input["extraInfo_Problem_Area"]
@@ -72,7 +67,6 @@ const handler = async (req: NextRequest) => {
       return errorResponse("Failed to create ticket.", 400);
     }
   } catch (err) {
-    console.log(err);
     return errorResponse("Failed to create ticket.", 400);
   }
 
