@@ -96,7 +96,7 @@ const handler = async (req: NextRequest) => {
     return errorResponse("Failed to create ticket.", 400);
   }
 
-  return NextResponse.json({ done: "done" });
+  return NextResponse.json({ data: true, error: null });
 };
 
 export default handler;
