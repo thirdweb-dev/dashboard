@@ -400,21 +400,10 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
         onClick={() => {
           setSelectedFunction(fn);
           const { name } = fn;
-          const pathname = router.pathname;
-          const queryParams = new URLSearchParams(window.location.search);
-          queryParams.set("name", name);
-          // This logic takes into account the contract homepage
-          // e.g: https://thirdweb.com/thirdweb.eth/DropERC721
-          const _path = pathname.startsWith("/[chainSlug]/[...paths]")
-            ? router.asPath.split("?")[0]
-            : pathname;
-          router.push(
-            { pathname: _path, query: queryParams.toString() },
-            undefined,
-            {
-              shallow: true,
-            },
-          );
+          const path = router.asPath.split("?")[0];
+          router.push({ pathname: path, query: { name } }, undefined, {
+            shallow: true,
+          });
         }}
         color="heading"
         _hover={{ opacity: 1, textDecor: "underline" }}
