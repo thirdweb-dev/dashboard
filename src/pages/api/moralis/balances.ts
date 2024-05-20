@@ -48,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     ];
   };
 
-  const getERC20Balances = async (): Promise<BalanceQueryResponse> => {
+  const getTokenBalances = async (): Promise<BalanceQueryResponse> => {
     const _chain = encodeURIComponent(`0x${chainId?.toString(16)}`);
     const _address = encodeURIComponent(address);
     const tokenBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${_address}/erc20?chain=${_chain}`;
@@ -74,7 +74,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const [nativeBalance, tokenBalances] = await Promise.all([
     getNativeBalance(),
-    getERC20Balances(),
+    getTokenBalances(),
   ]);
 
   return res.status(200).json([...nativeBalance, ...tokenBalances]);
