@@ -73,7 +73,7 @@ const handler = async (req: NextRequest) => {
           email,
           name,
         },
-        customerId: customerId,
+        customerId,
       }),
     );
 
