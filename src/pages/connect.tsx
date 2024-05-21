@@ -292,7 +292,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
             miniImage={require("../../public/assets/product-pages/connect/icon-pay.png")}
             title="Fiat & cross-chain crypto payments,"
             titleWithGradient="made easy"
-            subtitle="The easiest way for users to onramp to your app — with credit card & cross-chain crypto payments."
+            subtitle="The easiest way for users to transact in your app — with credit card & cross-chain crypto payments."
             trackingCategory={TRACKING_CATEGORY}
             ctaLink="https://portal.thirdweb.com/connect/pay/overview"
             gradient="linear(to-r, #4490FF, #4490FF)"
