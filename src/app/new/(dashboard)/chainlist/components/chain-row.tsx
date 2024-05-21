@@ -57,7 +57,10 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
           )}
 
           <div className="flex items-center gap-1.5">
-            <Link href={`/new/${chain.slug}`} className="text-primary text-lg">
+            <Link
+              href={`/new/${chain.slug}`}
+              className="text-primary text-lg font-semibold"
+            >
               {chain.name}
             </Link>
 

@@ -129,7 +129,7 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
 
 function TableHeading(props: { children: React.ReactNode }) {
   return (
-    <th className="text-left p-4 font-normal text-muted-foreground tracking-wider min-w-[150px]">
+    <th className="text-left p-4 font-semibold text-muted-foreground tracking-wider min-w-[150px]">
       {props.children}
     </th>
   );
