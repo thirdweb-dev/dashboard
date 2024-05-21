@@ -6,7 +6,7 @@ import {
   parseAsBoolean,
   parseAsArrayOf,
 } from "nuqs";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 
 type Mode = "grid" | "list";
 type ChainType = "all" | "mainnet" | "testnet";
@@ -153,7 +153,7 @@ export function ChainListStateProvider({
         setMode: setActiveMode,
         chainType,
         setChainType,
-        gasSponsored: gasSponsored,
+        gasSponsored,
         setGasSponsored,
         showDeprecated,
         setShowDeprecated,

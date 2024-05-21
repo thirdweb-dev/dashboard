@@ -1,11 +1,8 @@
 import { NextPage } from "next";
 import { Button } from "@/components/ui/button";
 import { ChainListModeSelect } from "./components/mode-select";
-import { Separator } from "@/components/ui/separator";
-import { Suspense } from "react";
-import { ChainCard } from "./components/chain-card";
 import { ChainMetadata } from "thirdweb/chains";
-import { SearchInput } from "./components/search-input";
+import { ChainListFilters } from "./components/ChainListFilters";
 import { ChainGrid } from "./components/chain-grid";
 import { ChainListStateProvider } from "./components/state-provider";
 
@@ -24,7 +21,7 @@ const ChainListPage: NextPage = async () => {
             </div>
           </div>
           <div className="flex flex-row justify-between items-center">
-            <SearchInput placeholder="Search by name or chain id" />
+            <ChainListFilters />
             <ChainListModeSelect />
           </div>
         </header>

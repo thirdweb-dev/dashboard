@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Info, Star, Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
 import { resolveScheme } from "thirdweb/storage";
-import Image from "next/image";
 import { thirdwebClient } from "@/constants/client";
 import Link from "next/link";
 import { useState } from "react";
