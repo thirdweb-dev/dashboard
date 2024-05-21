@@ -53,6 +53,7 @@ export function ChainListStateProvider({
 }: {
   children: React.ReactNode;
 }) {
+  // Defaults
   const defaultActiveMode = "grid" as Mode;
   const defaultChainType = "all" as ChainType;
   const defaultGasSponsored = false;
@@ -64,24 +65,48 @@ export function ChainListStateProvider({
     parseAsStringEnum(["list", "grid"]).withDefault(defaultActiveMode),
   );
 
-  const [chainType, setChainType] = useQueryState(
+  const [chainType, _setChainType] = useQueryState(
     "chainType",
     parseAsStringEnum(["all", "mainnet", "testnet"]).withDefault(
       defaultChainType,
     ),
   );
 
-  const [_gasSponsored, setGasSponsored] = useQueryState(
+  function setChainType(value: ChainType | null) {
+    if (value === defaultChainType) {
+      _setChainType(null);
+    } else {
+      _setChainType(value);
+    }
+  }
+
+  const [_gasSponsored, _setGasSponsored] = useQueryState(
     "gasSponsored",
     parseAsBoolean,
   );
 
+  function setGasSponsored(value: boolean | null) {
+    if (value === defaultGasSponsored) {
+      _setGasSponsored(null);
+    } else {
+      _setGasSponsored(value);
+    }
+  }
+
   const [searchTerm, setSearchTerm] = useQueryState("search");
 
-  const [_showDeprecated, setShowDeprecated] = useQueryState(
+  const [_showDeprecated, _setShowDeprecated] = useQueryState(
     "showDeprecated",
     parseAsBoolean,
   );
+
+  function setShowDeprecated(value: boolean | null) {
+    if (value === defaultShowDeprecated) {
+      _setShowDeprecated(null);
+    } else {
+      _setShowDeprecated(value);
+    }
+  }
 
   const [products, setProducts] = useQueryState(
     "products",
@@ -94,14 +119,18 @@ export function ChainListStateProvider({
     if (products.includes(product)) {
       setProducts(products.filter((p) => p !== product));
     } else {
-      setProducts([...products, product]);
+      const newProducts = [...products, product];
+      setProducts(newProducts);
+      if (newProducts.length === allProductNames.length) {
+        setProducts(null);
+      }
     }
   }
 
   const showAllProducts = products.length === allProductNames.length;
 
   function selectAllProducts() {
-    setProducts([...allProductNames]);
+    setProducts(null);
   }
 
   const gasSponsored =
@@ -110,11 +139,11 @@ export function ChainListStateProvider({
     _showDeprecated === null ? defaultShowDeprecated : _showDeprecated;
 
   function reset() {
-    setActiveMode(defaultActiveMode);
-    setChainType(defaultChainType);
-    setGasSponsored(defaultGasSponsored);
-    setShowDeprecated(defaultShowDeprecated);
-    setProducts(defaultProducts);
+    setActiveMode(null);
+    setChainType(null);
+    setGasSponsored(null);
+    setShowDeprecated(null);
+    setProducts(null);
   }
 
   return (
