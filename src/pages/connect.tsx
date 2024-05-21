@@ -39,7 +39,7 @@ export const metrics = [
     hoverBackground: "#622AFF",
   },
   {
-    title: "Torque Motorsport",
+    title: "Torque Motorsportttt",
     description:
       "Torque Motorsport is a racing game with in-game items as NFTs from Nissan, Subaru, & Mazda.",
     image: require("../../public/assets/product-pages/connect/desktop-motorsport.png"),
