@@ -320,10 +320,10 @@ const ConnectLanding: ThirdwebNextPage = () => {
               <LandingCardWithImage
                 title="Reliable connectors"
                 description="Integrate 350+ web3 wallets — including EOAs, in-app wallets, and smart accounts.​"
-                image={require("../../public/assets/product-pages/connect/desktop-rely.png")}
+                image={require("../../public/assets/product-pages/connect/desktop-thirdweb-pay-preview.png")}
                 mobileImage={require("../../public/assets/product-pages/connect/mobile-rely.png")}
                 TRACKING_CATEGORY={TRACKING_CATEGORY}
-                href="https://portal.thirdweb.com/typescript/v5/react/connecting-wallets"
+                href="/dashboard/connect/playground"
               />
               <LandingCardWithImage
                 title="Build on any platform"
