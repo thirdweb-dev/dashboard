@@ -29,7 +29,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
   const [isPreferred, setIsPreferred] = useState(initialPreferred);
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <Card className="h-full w-full hover:border-ring">
         <CardHeader className="flex flex-row justify-between justify-items-center">
           <div className="flex flex-row items-center gap-2.5">

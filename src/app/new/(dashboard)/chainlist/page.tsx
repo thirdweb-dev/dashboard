@@ -24,7 +24,7 @@ const ChainListPage: NextPage = async () => {
             </div>
           </div>
           <div className="flex flex-row justify-between items-center">
-            <SearchInput placeholder="Search" />
+            <SearchInput placeholder="Search by name or chain id" />
             <ChainListModeSelect />
           </div>
         </header>
