@@ -139,7 +139,6 @@ export function ChainListStateProvider({
     _showDeprecated === null ? defaultShowDeprecated : _showDeprecated;
 
   function reset() {
-    setActiveMode(null);
     setChainType(null);
     setGasSponsored(null);
     setShowDeprecated(null);

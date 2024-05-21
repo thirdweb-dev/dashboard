@@ -111,7 +111,8 @@ export const ChainCard: React.FC<ChainCardProps> = ({
                 </th>
                 <td>
                   <div className="flex flex-row gap-2 items-center">
-                    <span>5 / 6</span>
+                    {/* TODO - use real data */}
+                    <span> 5 / 6 </span>
                     <Button
                       aria-label="Show enabled services details"
                       variant="link"

@@ -7,10 +7,11 @@ import Fuse from "fuse.js";
 import { useMemo } from "react";
 import { useDebounce } from "../../../../../hooks/common/useDebounce";
 import { useChainListState } from "./state-provider";
+import { ChainRowContent } from "./chain-row";
 
 export function ChainGrid(props: { chains: ChainMetadata[] }) {
-  const { itemsToShow, lastItemRef } = useShowMore<HTMLLIElement>(15, 9);
-  const { searchTerm, chainType, showDeprecated } = useChainListState();
+  const { itemsToShow, lastItemRef } = useShowMore<HTMLElement | null>(15, 9);
+  const { searchTerm, chainType, showDeprecated, mode } = useChainListState();
 
   const fuse = useMemo(() => {
     return new Fuse(props.chains, {
@@ -70,6 +71,40 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
     );
   }
 
+  if (mode === "list") {
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <tbody>
+            <tr className="rounded-lg border-b">
+              <TableHeading> Name </TableHeading>
+              <TableHeading> Favourite </TableHeading>
+              <TableHeading> Chain ID </TableHeading>
+              <TableHeading> Native Token </TableHeading>
+              <TableHeading> Enabled Services </TableHeading>
+            </tr>
+            {resultsToShow.map((chain, i) => (
+              <tr
+                key={chain.chainId}
+                ref={i === resultsToShow.length - 1 ? lastItemRef : undefined}
+                className="border-b"
+              >
+                <ChainRowContent
+                  key={chain.chainId}
+                  chain={chain}
+                  // TODO - use real data
+                  isPreferred={chain.chainId === 1}
+                  // TODO - use real data
+                  isVerified={chain.chainId === 1}
+                />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   return (
     <ul className="grid gap-5 items-stretch grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {resultsToShow.map((chain, i) => (
@@ -81,11 +116,21 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
           <ChainCard
             key={chain.chainId}
             chain={chain}
+            // TODO - use real data
             isPreferred={chain.chainId === 1}
+            // TODO - use real data
             isVerified={chain.chainId === 1}
           />
         </li>
       ))}
     </ul>
+  );
+}
+
+function TableHeading(props: { children: React.ReactNode }) {
+  return (
+    <th className="text-left p-4 font-normal text-muted-foreground tracking-wider min-w-[150px]">
+      {props.children}
+    </th>
   );
 }

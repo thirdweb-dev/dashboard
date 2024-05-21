@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 
-export function useShowMore<T extends HTMLElement>(
+export function useShowMore<T extends HTMLElement | null>(
   initialItemsToShow: number,
   itemsToAdd: number,
 ) {
