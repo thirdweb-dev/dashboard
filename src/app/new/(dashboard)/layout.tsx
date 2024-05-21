@@ -9,12 +9,12 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex flex-col h-full">
-      <header className="bg-background px-4 py-3 justify-between flex flex-row items-center">
+      <header className="px-4 py-3 justify-between flex flex-row items-center border-b">
         <h2>thirdweb</h2>
         <ColorModeToggle />
       </header>
       <main className="grow">{children}</main>
-      <footer className="bg-background py-4 justify-center items-center flex-col md:flex-row flex gap-4">
+      <footer className="border-t py-4 justify-center items-center flex-col md:flex-row flex gap-4">
         <a
           target="_blank"
           href="https://feedback.thirdweb.com"
