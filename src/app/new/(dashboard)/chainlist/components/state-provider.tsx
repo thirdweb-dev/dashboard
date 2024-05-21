@@ -10,7 +10,7 @@ import { createContext, useContext } from "react";
 
 type Mode = "grid" | "list";
 type ChainType = "all" | "mainnet" | "testnet";
-type Product =
+export type ChainListProduct =
   | "contract"
   | "connect-sdk"
   | "engine"
@@ -27,11 +27,11 @@ type ChainListState = {
   setGasSponsored: (gasSponsored: boolean) => void;
   showDeprecated: boolean;
   setShowDeprecated: (showDeprecated: boolean) => void;
-  products: Product[];
-  setProducts: (products: Product[]) => void;
+  products: ChainListProduct[];
+  setProducts: (products: ChainListProduct[]) => void;
   showAllProducts: boolean;
   selectAllProducts: () => void;
-  toggleProduct: (product: Product) => void;
+  toggleProduct: (product: ChainListProduct) => void;
   reset: () => void;
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
@@ -39,7 +39,7 @@ type ChainListState = {
 
 export const ChainListStateCtx = createContext<ChainListState | null>(null);
 
-const allProductNames: Product[] = [
+const allProductNames: ChainListProduct[] = [
   "contract",
   "connect-sdk",
   "engine",
@@ -110,12 +110,12 @@ export function ChainListStateProvider({
 
   const [products, setProducts] = useQueryState(
     "products",
-    parseAsArrayOf(parseAsStringEnum<Product>(allProductNames)).withDefault(
-      defaultProducts,
-    ),
+    parseAsArrayOf(
+      parseAsStringEnum<ChainListProduct>(allProductNames),
+    ).withDefault(defaultProducts),
   );
 
-  function toggleProduct(product: Product) {
+  function toggleProduct(product: ChainListProduct) {
     if (products.includes(product)) {
       setProducts(products.filter((p) => p !== product));
     } else {

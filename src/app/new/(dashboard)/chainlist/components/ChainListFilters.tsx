@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import { useChainListState } from "./state-provider";
+import { useChainListState, type ChainListProduct } from "./state-provider";
 
 export function ChainListFilters() {
   const {
@@ -25,8 +25,6 @@ export function ChainListFilters() {
     showDeprecated,
     setShowDeprecated,
     showAllProducts,
-    products,
-    toggleProduct,
     selectAllProducts,
     setProducts,
     reset,
@@ -57,6 +55,8 @@ export function ChainListFilters() {
         </PopoverTrigger>
         <PopoverContent className="flex flex-col gap-4 mt-0.5 max-w-full">
           <h3 className="text-center text-lg font-semibold">Filters</h3>
+
+          {/* Chain Type */}
           <section className="flex flex-col gap-2">
             <h4 className="text-sm font-semibold text-muted-foreground">
               Chain Type
@@ -88,7 +88,10 @@ export function ChainListFilters() {
               </div>
             </RadioGroup>
           </section>
+
           <Separator />
+
+          {/* Other Options */}
           <section className="flex flex-col gap-2">
             <div className="flex items-center space-x-2">
               <Checkbox
@@ -121,7 +124,10 @@ export function ChainListFilters() {
               </Label>
             </div>
           </section>
+
           <Separator />
+
+          {/* Products */}
           <section className="flex flex-col gap-2">
             <h4 className="text-sm font-semibold text-muted-foreground">
               Available Products
@@ -142,91 +148,41 @@ export function ChainListFilters() {
               />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="contracts"
-                checked={products.includes("contract")}
-                onClick={() => toggleProduct("contract")}
-              />
-              <Label
-                htmlFor="contracts"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Contracts
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="connect"
-                checked={products.includes("connect-sdk")}
-                onClick={() => toggleProduct("connect-sdk")}
-              />
-              <Label
-                htmlFor="connect"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Connect SDK
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="engine"
-                checked={products.includes("engine")}
-                onClick={() => toggleProduct("engine")}
-              />
-              <Label
-                htmlFor="engine"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Engine
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="aa"
-                checked={products.includes("aa")}
-                onClick={() => toggleProduct("aa")}
-              />
-              <Label
-                htmlFor="aa"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Account Abstraction
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="pay"
-                checked={products.includes("pay")}
-                onClick={() => toggleProduct("pay")}
-              />
-              <Label
-                htmlFor="pay"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Pay
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="rpc"
-                checked={products.includes("rpc-edge")}
-                onClick={() => toggleProduct("rpc-edge")}
-              />
-              <Label
-                htmlFor="rpc"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                RPC Edge
-              </Label>
-            </div>
+            <ProductCard label="Contracts" id="contract" />
+            <ProductCard label="Connect SDK" id="connect-sdk" />
+            <ProductCard label="Engine" id="engine" />
+            <ProductCard label="Account Abstraction" id="aa" />
+            <ProductCard label="Pay" id="pay" />
+            <ProductCard label="RPC Edge" id="rpc-edge" />
           </section>
+
           <Separator />
-          <Button variant="secondary" onClick={reset}>
+
+          {/* Reset */}
+          <Button variant="default" onClick={reset}>
             Reset to defaults
           </Button>
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+function ProductCard(props: { label: string; id: ChainListProduct }) {
+  const { products, toggleProduct } = useChainListState();
+  return (
+    <div className="flex items-center space-x-2">
+      <Checkbox
+        id={props.id}
+        checked={products.includes(props.id)}
+        onClick={() => toggleProduct(props.id)}
+      />
+      <Label
+        htmlFor={props.id}
+        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >
+        {props.label}
+      </Label>
     </div>
   );
 }
