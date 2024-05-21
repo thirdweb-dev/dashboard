@@ -57,7 +57,7 @@ export function ChainListStateProvider({
   const defaultActiveMode = "grid" as Mode;
   const defaultChainType = "all" as ChainType;
   const defaultGasSponsored = false;
-  const defaultShowDeprecated = false;
+  const defaultShowDeprecated = true;
   const defaultProducts = allProductNames;
 
   const [activeMode, setActiveMode] = useQueryState(

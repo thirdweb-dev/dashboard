@@ -92,7 +92,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
         <CardContent>
           {/* table of `chain id` `native token` `managed support`, header row on left value row on right */}
           <table className="w-full">
-            <tbody>
+            <tbody className="[&_td]:py-1">
               <tr>
                 <th className="text-left font-normal text-muted-foreground">
                   Chain ID

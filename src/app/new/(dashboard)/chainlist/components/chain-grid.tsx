@@ -10,7 +10,7 @@ import { useChainListState } from "./state-provider";
 
 export function ChainGrid(props: { chains: ChainMetadata[] }) {
   const { itemsToShow, lastItemRef } = useShowMore<HTMLLIElement>(15, 9);
-  const { searchTerm } = useChainListState();
+  const { searchTerm, chainType, showDeprecated } = useChainListState();
 
   const fuse = useMemo(() => {
     return new Fuse(props.chains, {
@@ -31,16 +31,34 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
   const deferredSearchTerm = useDebounce(searchTerm, 200);
 
   const filteredChains = useMemo(() => {
-    if (!deferredSearchTerm) {
-      return props.chains || [];
+    let result = props.chains;
+
+    if (deferredSearchTerm) {
+      result = fuse
+        .search(deferredSearchTerm, {
+          limit: 10,
+        })
+        .map((e) => e.item);
     }
 
-    return fuse
-      .search(deferredSearchTerm, {
-        limit: 10,
-      })
-      .map((e) => e.item);
-  }, [props.chains, deferredSearchTerm, fuse]);
+    if (chainType !== "all") {
+      result = result.filter((chain) => {
+        if (chainType === "testnet") {
+          return chain.testnet;
+        }
+
+        if (chainType === "mainnet") {
+          return !chain.testnet;
+        }
+      });
+    }
+
+    if (!showDeprecated) {
+      result = result.filter((chain) => chain.status !== "deprecated");
+    }
+
+    return result;
+  }, [props.chains, deferredSearchTerm, fuse, chainType, showDeprecated]);
 
   const resultsToShow = filteredChains.slice(0, itemsToShow);
 
