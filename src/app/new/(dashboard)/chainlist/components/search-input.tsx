@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, Search } from "lucide-react";
@@ -13,13 +15,39 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
+import { useChainListState } from "./state-provider";
 
 const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...restProps }, ref) => {
+    const {
+      chainType,
+      setChainType,
+      setGasSponsored,
+      gasSponsored,
+      showDeprecated,
+      setShowDeprecated,
+      showAllProducts,
+      products,
+      toggleProduct,
+      selectAllProducts,
+      setProducts,
+      reset,
+      searchTerm,
+      setSearchTerm,
+    } = useChainListState();
+
     return (
       <div className="relative">
         <Search className="absolute h-8 w-8 p-2 top-1 left-1 text-muted-foreground" />
-        <Input {...restProps} className={cn(className, "px-10")} ref={ref} />
+        <Input
+          {...restProps}
+          className={cn(className, "px-10")}
+          ref={ref}
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -36,17 +64,29 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
               <h4 className="text-sm font-semibold text-muted-foreground">
                 Chain Type
               </h4>
-              <RadioGroup defaultValue="all-chains">
+              <RadioGroup value={chainType}>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="all-chains" id="all-chains" />
-                  <Label htmlFor="all-chains">All Chains</Label>
+                  <RadioGroupItem
+                    value="all"
+                    id="all"
+                    onClick={() => setChainType("all")}
+                  />
+                  <Label htmlFor="all">All Chains</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="mainnet" id="mainnet" />
+                  <RadioGroupItem
+                    value="mainnet"
+                    id="mainnet"
+                    onClick={() => setChainType("mainnet")}
+                  />
                   <Label htmlFor="mainnet">Mainnets Only</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="testnet" id="testnet" />
+                  <RadioGroupItem
+                    value="testnet"
+                    id="testnet"
+                    onClick={() => setChainType("testnet")}
+                  />
                   <Label htmlFor="testnet">Testnets Only</Label>
                 </div>
               </RadioGroup>
@@ -54,7 +94,13 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
             <Separator />
             <section className="flex flex-col gap-2">
               <div className="flex items-center space-x-2">
-                <Checkbox id="gas-sponsored" />
+                <Checkbox
+                  id="gas-sponsored"
+                  checked={gasSponsored}
+                  onClick={(e) => {
+                    setGasSponsored(!gasSponsored);
+                  }}
+                />
                 <Label
                   htmlFor="gas-sponsored"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -63,7 +109,13 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="deprecated" />
+                <Checkbox
+                  id="deprecated"
+                  checked={showDeprecated}
+                  onClick={() => {
+                    setShowDeprecated(!showDeprecated);
+                  }}
+                />
                 <Label
                   htmlFor="deprecated"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -80,11 +132,25 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
 
               <div className="flex items-center justify-between my-2">
                 <Label htmlFor="all-products">Select All Products</Label>
-                <Switch id="all-products" />
+                <Switch
+                  id="all-products"
+                  checked={showAllProducts}
+                  onClick={() => {
+                    if (!showAllProducts) {
+                      selectAllProducts();
+                    } else {
+                      setProducts([]);
+                    }
+                  }}
+                />
               </div>
 
               <div className="flex items-center space-x-2">
-                <Checkbox id="contracts" />
+                <Checkbox
+                  id="contracts"
+                  checked={products.includes("contract")}
+                  onClick={() => toggleProduct("contract")}
+                />
                 <Label
                   htmlFor="contracts"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -93,7 +159,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="connect" />
+                <Checkbox
+                  id="connect"
+                  checked={products.includes("connect-sdk")}
+                  onClick={() => toggleProduct("connect-sdk")}
+                />
                 <Label
                   htmlFor="connect"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -102,7 +172,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="engine" />
+                <Checkbox
+                  id="engine"
+                  checked={products.includes("engine")}
+                  onClick={() => toggleProduct("engine")}
+                />
                 <Label
                   htmlFor="engine"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -111,7 +185,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="aa" />
+                <Checkbox
+                  id="aa"
+                  checked={products.includes("aa")}
+                  onClick={() => toggleProduct("aa")}
+                />
                 <Label
                   htmlFor="aa"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -120,7 +198,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="pay" />
+                <Checkbox
+                  id="pay"
+                  checked={products.includes("pay")}
+                  onClick={() => toggleProduct("pay")}
+                />
                 <Label
                   htmlFor="pay"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -129,7 +211,11 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <Checkbox id="rpc" />
+                <Checkbox
+                  id="rpc"
+                  checked={products.includes("rpc-edge")}
+                  onClick={() => toggleProduct("rpc-edge")}
+                />
                 <Label
                   htmlFor="rpc"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -139,7 +225,9 @@ const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
               </div>
             </section>
             <Separator />
-            <Button variant="secondary">Reset to defaults</Button>
+            <Button variant="secondary" onClick={reset}>
+              Reset to defaults
+            </Button>
           </PopoverContent>
         </Popover>
       </div>
