@@ -5,32 +5,38 @@ import { ChainMetadata } from "thirdweb/chains";
 import { ChainListFilters } from "./components/ChainListFilters";
 import { ChainGrid } from "./components/chain-grid";
 import { ChainListStateProvider } from "./components/state-provider";
+import { Suspense } from "react";
 
 const ChainListPage: NextPage = async () => {
   const chains = await getChains();
 
   return (
-    <ChainListStateProvider>
-      <section className="container mx-auto py-10 px-4">
-        <header className="flex flex-col gap-4">
-          <div className="flex flex-row justify-between items-center">
-            <h1 className="font-semibold text-3xl">Chainlist</h1>
-            <div className="flex flex-row gap-4">
-              {/* <Button variant="ghost">Contact us</Button> */}
-              <Button variant="outline">Add your chain</Button>
-            </div>
+    <section className="container mx-auto py-10 px-4">
+      <header className="flex flex-col gap-4">
+        <div className="flex flex-row justify-between items-center">
+          <h1 className="font-semibold text-3xl">Chainlist</h1>
+          <div className="flex flex-row gap-4">
+            {/* <Button variant="ghost">Contact us</Button> */}
+            <Button variant="outline">Add your chain</Button>
           </div>
+        </div>
+      </header>
+
+      <div className="h-6"></div>
+
+      <Suspense>
+        <ChainListStateProvider>
           <div className="flex flex-row justify-between items-center">
             <ChainListFilters />
             <ChainListModeSelect />
           </div>
-        </header>
-        <div className="h-6"></div>
-        <main>
-          <ChainGrid chains={chains} />
-        </main>
-      </section>
-    </ChainListStateProvider>
+          <div className="h-4"></div>
+          <main>
+            <ChainGrid chains={chains} />
+          </main>
+        </ChainListStateProvider>
+      </Suspense>
+    </section>
   );
 };
 
