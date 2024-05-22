@@ -77,7 +77,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
 
       <TableData>
         {/* TODO - use real data */}
-        <div className="flex flex-row gap-14 items-center grayscale">
+        <div className="flex flex-row gap-14 items-center grayscale w-[520px]">
           <span> 5 out of 6 </span>
           <div className="flex items-center gap-8">
             <Image src={icon1} alt="" className="size-8" />
