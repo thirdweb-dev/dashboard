@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { LandingDesktopMobileImageProps } from "./types";
 import { ChakraNextImage } from "components/Image";
-// import Lottie from "lottie-react";
+import Lottie from "lottie-react";
 
 export const LandingDesktopMobileImage: React.FC<
   LandingDesktopMobileImageProps
@@ -29,7 +29,13 @@ export const LandingDesktopMobileImage: React.FC<
           w="100%"
           h="100%"
           display={{ base: mobileImage ? "none" : "block", md: "block" }}
-        ></Box>
+        >
+          <Lottie
+            animationData={lottie}
+            style={{ height: "100%" }}
+            loop={true}
+          />
+        </Box>
       )}
     </>
   );
