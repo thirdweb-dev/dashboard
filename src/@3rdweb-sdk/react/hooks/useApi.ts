@@ -264,16 +264,16 @@ export interface BillingCredit {
 
 interface UseAccountInput {
   refetchInterval?:
-    | number
-    | ((
-        data: Account | undefined,
-        query: Query<
-          Account,
-          unknown,
-          Account,
-          readonly ["account", string, "me"]
-        >,
-      ) => number | false);
+  | number
+  | ((
+    data: Account | undefined,
+    query: Query<
+      Account,
+      unknown,
+      Account,
+      readonly ["account", string, "me"]
+    >,
+  ) => number | false);
 }
 
 export function useAccount({ refetchInterval }: UseAccountInput = {}) {
@@ -580,35 +580,66 @@ export type CreateTicketInput = {
 
 export function useCreateTicket() {
   const { user } = useLoggedInUser();
-  /**
-   * Input example
-   * {
-   *   product: 'Connect',
-   *   extraInfo_Problem_Area: 'Embedded wallet login issues',
-   *   extraInfo_Affected_Area: 'Dashboard',
-   *   markdown: 'Hello I need some help',
-   * }
-   */
+  const account = useAccount();
   return useMutationWithInvalidate(async (input: CreateTicketInput) => {
     invariant(user?.address, "walletAddress is required");
+    invariant(account?.data, "Account not found");
+    const { name, email, plan } = account.data;
     const formData = new FormData();
+    const planToCustomerId: Record<string, string> = {
+      free: process.env.NEXT_PUBLIC_UNTHREAD_FREE_TIER_ID as string,
+      growth: process.env.NEXT_PUBLIC_UNTHREAD_GROWTH_TIER_ID as string,
+      pro: process.env.NEXT_PUBLIC_UNTHREAD_PRO_TIER_ID as string,
+    };
+    const customerId = planToCustomerId[plan] || undefined;
     if (input.files?.length) {
-      input.files.forEach((file) => formData.append("files", file));
-      delete input.files;
+      input.files.forEach((file) => formData.append("attachments", file));
     }
-    formData.append("metadata", JSON.stringify(input));
-    const res = await fetch(`/api/unthread/createConversation`, {
+    const title =
+      input.product && input["extraInfo_Problem_Area"]
+        ? `${input.product}: ${input.extraInfo_Problem_Area}`
+        : `New ticket from ${name} (${email})`;
+
+    // Update `markdown` to include the infos from the form
+    const extraInfo = Object.keys(input)
+      .filter((key) => key.startsWith("extraInfo_"))
+      .map((key) => {
+        const prettifiedKey = `# ${key.replace("extraInfo_", "").replaceAll("_", " ")}`;
+        return `${prettifiedKey}: ${input[key] ?? "N/A"}\n`;
+      })
+      .join("");
+    const markdown = `# Email: ${email}
+# Address: ${user.address}
+# Product: ${input.product}
+${extraInfo}
+# Message:
+${input.markdown}
+`;
+    const content = {
+      type: 'email',
+      title,
+      markdown,
+      status: 'open',
+      onBehalfOf: {
+        email,
+        name
+      },
+      customerId,
+      emailInboxId: process.env.NEXT_PUBLIC_UNTHREAD_EMAIL_INBOX_ID,
+      triageChannelId: process.env.NEXT_PUBLIC_UNTHREAD_TRIAGE_CHANNEL_ID,
+    }
+    console.log({ content })
+    formData.append('json', JSON.stringify(content));
+    console.log(formData.get("json"))
+    const res = await fetch(`http://localhost:3005/v1/account/createUnthreadTicket`, {
       method: "POST",
       credentials: "include",
       body: formData,
     });
-
     const json = await res.json();
-
     if (json.error) {
       throw new Error(json.error.message);
     }
-
     return json.data;
   });
 }
