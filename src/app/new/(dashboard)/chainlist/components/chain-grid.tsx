@@ -78,7 +78,6 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
           <tbody>
             <tr className="rounded-lg border-b">
               <TableHeading> Name </TableHeading>
-              <TableHeading> Favourite </TableHeading>
               <TableHeading> Chain ID </TableHeading>
               <TableHeading> Native Token </TableHeading>
               <TableHeading> Enabled Services </TableHeading>

@@ -4,10 +4,15 @@
 import { Button } from "@/components/ui/button";
 import { Star, Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
-import { resolveScheme } from "thirdweb/storage";
-import { thirdwebClient } from "@/constants/client";
 import Link from "next/link";
 import { useState } from "react";
+import icon1 from "./icons/icon-1.svg";
+import icon2 from "./icons/icon-2.svg";
+import icon3 from "./icons/icon-3.svg";
+import icon4 from "./icons/icon-4.svg";
+import icon5 from "./icons/icon-5.svg";
+import icon6 from "./icons/icon-6.svg";
+import Image from "next/image";
 
 // TODO: save the preferred chains to db
 
@@ -31,30 +36,25 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
     <>
       {/* Icon + Name */}
       <TableData>
-        <div className="flex flex-row items-center gap-2.5 w-[320px]">
-          {chain.icon?.url ? (
-            <img
-              alt=""
-              src={resolveScheme({
-                client: thirdwebClient,
-                uri: chain.icon.url,
-              })}
-              width={chain.icon.width}
-              height={chain.icon.height}
-              className="size-7"
-              onError={(event) => {
-                event.currentTarget.src = fallbackChainIcon;
-              }}
+        <div className="flex flex-row items-center gap-3 w-[370px]">
+          <Button
+            className="relative z-10 !m-0"
+            variant="ghost"
+            size="icon"
+            aria-label={
+              isPreferred
+                ? `Remove ${chain.name} from preferred chains.`
+                : `Add ${chain.name} to preferred chains.`
+            }
+            onClick={() => setIsPreferred((prev) => !prev)}
+          >
+            <Star
+              className="text-muted-foreground transition-all"
+              fill={isPreferred ? "rgba(218, 142, 71, 1)" : "transparent"}
+              strokeWidth={1}
+              stroke={isPreferred ? "rgba(218, 142, 71, 1)" : "currentColor"}
             />
-          ) : (
-            <img
-              alt=""
-              src={fallbackChainIcon}
-              width={40}
-              height={40}
-              className="size-7"
-            />
-          )}
+          </Button>
 
           <div className="flex items-center gap-1.5">
             <Link
@@ -71,36 +71,22 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
         </div>
       </TableData>
 
-      {/* Mark as Favourite button */}
-      <TableData>
-        <Button
-          className="relative z-10 !m-0"
-          variant="ghost"
-          size="icon"
-          aria-label={
-            isPreferred
-              ? `Remove ${chain.name} from preferred chains.`
-              : `Add ${chain.name} to preferred chains.`
-          }
-          onClick={() => setIsPreferred((prev) => !prev)}
-        >
-          <Star
-            className="text-muted-foreground transition-all"
-            fill={isPreferred ? "rgba(218, 142, 71, 1)" : "transparent"}
-            strokeWidth={1}
-            stroke={isPreferred ? "rgba(218, 142, 71, 1)" : "currentColor"}
-          />
-        </Button>
-      </TableData>
-
       <TableData>{chain.chainId}</TableData>
 
       <TableData>{chain.nativeCurrency?.symbol}</TableData>
 
       <TableData>
         {/* TODO - use real data */}
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-14 items-center grayscale">
           <span> 5 out of 6 </span>
+          <div className="flex items-center gap-8">
+            <Image src={icon1} alt="" className="size-8" />
+            <Image src={icon2} alt="" className="size-8" />
+            <Image src={icon3} alt="" className="size-8" />
+            <Image src={icon4} alt="" className="size-8" />
+            <Image src={icon5} alt="" className="size-8" />
+            <Image src={icon6} alt="" className="size-8 opacity-40" />
+          </div>
         </div>
       </TableData>
     </>
