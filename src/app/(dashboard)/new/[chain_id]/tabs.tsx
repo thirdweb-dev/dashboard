@@ -39,32 +39,29 @@ const tabs = [
 export function ChainPageTabs(props: { chainSlug: string }) {
   const layoutSegment = useSelectedLayoutSegment() || "";
   return (
-    <div className="pb-2 overflow-x-auto">
-      <div className="flex">
-        {tabs.map((tab) => {
-          return (
-            <Button
-              asChild
-              key={tab.name}
-              variant="ghost"
-              className={cn(
-                "border-b-2 rounded-none text-md hover:bg-transparent",
-                layoutSegment === tab.segment
-                  ? "border-primary"
-                  : "border-transparent opacity-50 hover:opacity-100 hover:border-primary",
-              )}
-            >
-              <Link
-                href={`/new/${props.chainSlug}/${tab.segment}`}
-                className="font-medium text-md"
-              >
-                {tab.name}
-              </Link>
-            </Button>
-          );
-        })}
+    <div className="relative">
+      <div className="overflow-x-auto">
+        <div className="flex">
+          {tabs.map((tab) => {
+            return (
+              <Button asChild key={tab.name} variant="ghost">
+                <Link
+                  href={`/new/${props.chainSlug}/${tab.segment}`}
+                  className={cn(
+                    "border-b-2 rounded-none hover:bg-transparent px-3 lg:px-4 font-medium text-sm lg:text-md",
+                    layoutSegment === tab.segment
+                      ? "border-primary"
+                      : "border-transparent opacity-50 hover:opacity-100 hover:border-primary",
+                  )}
+                >
+                  {tab.name}
+                </Link>
+              </Button>
+            );
+          })}
+        </div>
       </div>
-      <div className="h-[2px] bg-foreground relative -translate-y-[1px] opacity-10"></div>
+      <div className="h-[2px] bg-foreground bottom-0 left-0 right-0 opacity-10 absolute"></div>
     </div>
   );
 }

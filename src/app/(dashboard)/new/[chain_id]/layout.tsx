@@ -14,7 +14,7 @@ export default async function ChainPageLayout({
 
   return (
     <section className="flex flex-col">
-      <header className="bg-gradient-to-b from-zinc-900 to-transparent pt-24 pb-14">
+      <header className="bg-gradient-to-b from-zinc-900 to-transparent pt-12 lg:pt-24 pb-14">
         <div className="container px-4">
           <h1
             className={cn(
@@ -27,12 +27,12 @@ export default async function ChainPageLayout({
             {chain.name}
           </h1>
 
-          <div className="h-10"></div>
+          <div className="h-6 lg:h-10"></div>
           <ChainPageTabs chainSlug={params.chain_id} />
         </div>
       </header>
       <main className="container px-4">
-        <div className="border flex justify-center items-center h-[300px] text-3xl uppercase">
+        <div className="flex justify-center items-center h-[300px] text-3xl uppercase">
           {children}
         </div>
       </main>
