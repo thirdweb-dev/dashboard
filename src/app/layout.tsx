@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import { Inter as interFont } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -26,6 +27,12 @@ export default function RootLayout({
         <ThemeProvider attribute="class" enableSystem>
           {children}
         </ThemeProvider>
+        <NextTopLoader
+          color="hsl(var(--primary))"
+          height={2}
+          shadow={false}
+          showSpinner={false}
+        />
       </body>
     </html>
   );

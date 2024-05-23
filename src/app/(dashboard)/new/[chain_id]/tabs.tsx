@@ -39,7 +39,7 @@ const tabs = [
 export function ChainPageTabs(props: { chainSlug: string }) {
   const layoutSegment = useSelectedLayoutSegment() || "";
   return (
-    <div>
+    <div className="pb-2 overflow-x-auto">
       <div className="flex">
         {tabs.map((tab) => {
           return (

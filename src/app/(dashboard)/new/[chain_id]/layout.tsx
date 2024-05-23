@@ -14,12 +14,14 @@ export default async function ChainPageLayout({
 
   return (
     <section className="flex flex-col">
-      <header className="bg-gradient-to-b from-indigo-700 to-transparent pt-24 pb-14">
-        <div className="container">
+      <header className="bg-gradient-to-b from-zinc-900 to-transparent pt-24 pb-14">
+        <div className="container px-4">
           <h1
             className={cn(
               "font-semibold tracking-tighter",
-              chain.name.length > 15 ? "text-7xl" : "text-8xl ",
+              chain.name.length > 15
+                ? "text-3xl lg:text-7xl"
+                : "text-4xl lg:text-8xl ",
             )}
           >
             {chain.name}
@@ -27,11 +29,13 @@ export default async function ChainPageLayout({
 
           <div className="h-10"></div>
           <ChainPageTabs chainSlug={params.chain_id} />
-          <div className="h-6"></div>
         </div>
       </header>
-      <div className="h-10"></div>
-      <main className="container mx-auto">{children}</main>
+      <main className="container px-4">
+        <div className="border flex justify-center items-center h-[300px] text-3xl uppercase">
+          {children}
+        </div>
+      </main>
     </section>
   );
 }
