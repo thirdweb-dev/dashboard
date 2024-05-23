@@ -19,8 +19,6 @@ export type ChainListProduct =
   | "rpc-edge";
 
 type ChainListState = {
-  mode: Mode;
-  setMode: (mode: Mode) => void;
   chainType: ChainType;
   setChainType: (chainType: ChainType) => void;
   gasSponsored: boolean;
@@ -54,16 +52,10 @@ export function ChainListStateProvider({
   children: React.ReactNode;
 }) {
   // Defaults
-  const defaultActiveMode = "grid" as Mode;
   const defaultChainType = "all" as ChainType;
   const defaultGasSponsored = false;
   const defaultShowDeprecated = true;
   const defaultProducts = allProductNames;
-
-  const [activeMode, setActiveMode] = useQueryState(
-    "mode",
-    parseAsStringEnum(["list", "grid"]).withDefault(defaultActiveMode),
-  );
 
   const [chainType, _setChainType] = useQueryState(
     "chainType",
@@ -148,8 +140,6 @@ export function ChainListStateProvider({
   return (
     <ChainListStateCtx.Provider
       value={{
-        mode: activeMode,
-        setMode: setActiveMode,
         chainType,
         setChainType,
         gasSponsored,
