@@ -264,16 +264,16 @@ export interface BillingCredit {
 
 interface UseAccountInput {
   refetchInterval?:
-  | number
-  | ((
-    data: Account | undefined,
-    query: Query<
-      Account,
-      unknown,
-      Account,
-      readonly ["account", string, "me"]
-    >,
-  ) => number | false);
+    | number
+    | ((
+        data: Account | undefined,
+        query: Query<
+          Account,
+          unknown,
+          Account,
+          readonly ["account", string, "me"]
+        >,
+      ) => number | false);
 }
 
 export function useAccount({ refetchInterval }: UseAccountInput = {}) {
@@ -597,7 +597,7 @@ export function useCreateTicket() {
     }
     const title =
       input.product && input["extraInfo_Problem_Area"]
-        ? `${input.product}: ${input.extraInfo_Problem_Area}`
+        ? `${input.product}: ${input.extraInfo_Problem_Area} (${email})`
         : `New ticket from ${name} (${email})`;
 
     // Update `markdown` to include the infos from the form
@@ -616,26 +616,28 @@ ${extraInfo}
 ${input.markdown}
 `;
     const content = {
-      type: 'email',
+      type: "email",
       title,
       markdown,
-      status: 'open',
+      status: "open",
       onBehalfOf: {
         email,
-        name
+        name,
       },
       customerId,
       emailInboxId: process.env.NEXT_PUBLIC_UNTHREAD_EMAIL_INBOX_ID,
       triageChannelId: process.env.NEXT_PUBLIC_UNTHREAD_TRIAGE_CHANNEL_ID,
-    }
-    console.log({ content })
-    formData.append('json', JSON.stringify(content));
-    console.log(formData.get("json"))
-    const res = await fetch(`http://localhost:3005/v1/account/createUnthreadTicket`, {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    });
+    };
+    formData.append("json", JSON.stringify(content));
+
+    const res = await fetch(
+      `${THIRDWEB_API_HOST}/v1/account/createUnthreadTicket`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      },
+    );
     const json = await res.json();
     if (json.error) {
       throw new Error(json.error.message);

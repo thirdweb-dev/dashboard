@@ -10,6 +10,7 @@ import {
   Icon,
   SimpleGrid,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import { TWMediaRenderer } from "components/ipfs-upload/dropzone";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
@@ -26,14 +27,45 @@ import {
   TrackedIconButton,
 } from "tw-components";
 
+// Unthread only allow attaching 10 files at once
+const MAX_FILES = 10;
+// and each file should be less than 20 MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024;
+
 export const AttachmentForm = () => {
   const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
   const form = useFormContext<CreateTicketInput>();
+  const toast = useToast();
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (files) => {
+    onDrop: (files, rejectedFiles) => {
+      if (files.length > 10) {
+        return toast({
+          position: "bottom",
+          variant: "solid",
+          title: "Error adding files",
+          description: "Maximum 10 files allowed",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+      if (rejectedFiles.length) {
+        return toast({
+          position: "bottom",
+          variant: "solid",
+          title: "Error adding files",
+          description: "Each file should not be larger than 20MB",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
       setDroppedFiles((prev) => [...prev, ...files]);
       form.setValue("files", files);
     },
+    maxFiles: MAX_FILES,
+    maxSize: MAX_FILE_SIZE,
   });
 
   return (
