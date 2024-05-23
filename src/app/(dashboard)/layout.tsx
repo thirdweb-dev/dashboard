@@ -1,5 +1,5 @@
 import { ThirdwebProvider } from "thirdweb/react";
-import { DashboardHeader } from "../components/DashboardHeader";
+import { DashboardHeader } from "../components/Header/DashboardHeader";
 import { DashboardFooter } from "../components/DashboardFooter";
 
 export default function DashboardLayout(props: { children: React.ReactNode }) {
