@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { ChainPageTabs } from "./tabs";
+import { cn } from "../../../../@/lib/utils";
+import type { Chain } from "@thirdweb-dev/chains";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -12,27 +14,29 @@ export default async function ChainPageLayout({
 
   return (
     <section className="flex flex-col">
-      <header className="bg-gradient-to-t from-indigo-800 to-violet-500 py-24">
-        <div className="container mx-auto">
-          <h1 className="text-3xl font-medium">{chain.name}</h1>
+      <header className="bg-gradient-to-b from-indigo-700 to-transparent pt-24 pb-14">
+        <div className="container">
+          <h1
+            className={cn(
+              "font-semibold tracking-tighter",
+              chain.name.length > 15 ? "text-7xl" : "text-8xl ",
+            )}
+          >
+            {chain.name}
+          </h1>
+
+          <div className="h-10"></div>
+          <ChainPageTabs chainSlug={params.chain_id} />
+          <div className="h-6"></div>
         </div>
       </header>
-      <nav className="container mx-auto">
-        <ul className="flex gap-2">
-          <li>
-            <Link href={`/new/${chain.slug}`}>Overview</Link>
-          </li>
-          <li>
-            <Link href={`/new/${chain.slug}/rpc`}>RPC Edge</Link>
-          </li>
-        </ul>
-      </nav>
+      <div className="h-10"></div>
       <main className="container mx-auto">{children}</main>
     </section>
   );
 }
 
-async function getChain(chainIdOrSlug: string) {
+async function getChain(chainIdOrSlug: string): Promise<Chain> {
   const res = await fetch(
     `https://api.thirdweb.com/v1/chains/${chainIdOrSlug}`,
   );
@@ -40,5 +44,5 @@ async function getChain(chainIdOrSlug: string) {
   if (!result.data) {
     throw new Error("Chain not found");
   }
-  return result.data;
+  return result.data as Chain;
 }

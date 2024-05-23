@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>RPC Edge Page</div>;
+  return <div> Pay </div>;
 }
