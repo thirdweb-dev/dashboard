@@ -33,11 +33,11 @@ export function ChainListFilters() {
   } = useChainListState();
 
   return (
-    <div className="relative">
+    <div className="relative w-full lg:w-[350px]">
       <Search className="absolute size-5 top-[50%] -translate-y-1/2 left-4 text-muted-foreground" />
       <Input
         placeholder="Search by name or chain ID"
-        className={"px-12 lg:w-[350px] h-auto py-3 text-md"}
+        className={"px-12 h-auto py-3 text-md"}
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
@@ -53,7 +53,12 @@ export function ChainListFilters() {
             <Filter className="size-5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex flex-col gap-4 mt-0.5 max-w-full">
+
+        <PopoverContent
+          align="end"
+          sideOffset={20}
+          className="flex flex-col gap-4 mt-0.5 max-w-full"
+        >
           <h3 className="text-center text-lg font-semibold">Filters</h3>
 
           {/* Chain Type */}
