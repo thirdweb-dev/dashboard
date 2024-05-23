@@ -124,7 +124,16 @@ export const EngineTierCard = ({
       <Button
         onClick={onClick}
         variant={isPrimaryCta ? "solid" : "outline"}
-        colorScheme={isPrimaryCta ? "blue" : undefined}
+        colorScheme={isPrimaryCta ? "blackAlpha" : undefined}
+        bg={isPrimaryCta ? "black" : undefined}
+        _hover={
+          isPrimaryCta
+            ? {
+                bg: "black",
+                opacity: 0.75,
+              }
+            : {}
+        }
       >
         {ctaText ?? defaultCtaText}
       </Button>
