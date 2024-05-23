@@ -3,17 +3,19 @@
 import { Button } from "@chakra-ui/react";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { cn } from "../../../../../@/lib/utils";
 
 export function StarButton(props: {
   chainName: string;
   initialPreferred: boolean;
+  className?: string;
 }) {
   const { chainName, initialPreferred } = props;
   const [isPreferred, setIsPreferred] = useState(initialPreferred);
 
   return (
     <Button
-      className="!m-0"
+      className={cn("!m-0", props.className)}
       variant="ghost"
       size="icon"
       aria-label={

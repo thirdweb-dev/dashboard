@@ -28,7 +28,8 @@ const ChainListPage: NextPage = async () => {
           </div>
         }
       >
-        <div className="h-6"></div>
+        <div className="h-10"></div>
+
         <ChainListStateProvider>
           <div className="flex flex-row justify-between items-center">
             <ChainListFilters />

@@ -13,6 +13,7 @@ import icon4 from "./icons/icon-4.svg";
 import icon5 from "./icons/icon-5.svg";
 import icon6 from "./icons/icon-6.svg";
 import Image from "next/image";
+import { StarButton } from "./star-button";
 
 // TODO: save the preferred chains to db
 
@@ -30,36 +31,21 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
   isPreferred: initialPreferred,
   isVerified,
 }) => {
-  const [isPreferred, setIsPreferred] = useState(initialPreferred);
-
   return (
     <>
       {/* Icon + Name */}
       <TableData>
-        <div className="flex flex-row items-center gap-3 w-[370px]">
-          <Button
-            className="relative z-10 !m-0"
-            variant="ghost"
-            size="icon"
-            aria-label={
-              isPreferred
-                ? `Remove ${chain.name} from preferred chains.`
-                : `Add ${chain.name} to preferred chains.`
-            }
-            onClick={() => setIsPreferred((prev) => !prev)}
-          >
-            <Star
-              className="text-muted-foreground transition-all"
-              fill={isPreferred ? "rgba(218, 142, 71, 1)" : "transparent"}
-              strokeWidth={1}
-              stroke={isPreferred ? "rgba(218, 142, 71, 1)" : "currentColor"}
-            />
-          </Button>
+        <div className="flex flex-row items-center gap-4 w-[370px]">
+          <StarButton
+            chainName={chain.name}
+            initialPreferred={initialPreferred}
+            className="relative z-10"
+          />
 
           <div className="flex items-center gap-1.5">
             <Link
               href={`/new/${chain.slug}`}
-              className="text-primary text-lg font-semibold"
+              className="text-primary-foreground text-lg static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
             >
               {chain.name}
             </Link>

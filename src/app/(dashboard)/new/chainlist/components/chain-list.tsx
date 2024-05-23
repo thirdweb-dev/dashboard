@@ -87,7 +87,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
               <tr
                 key={chain.chainId}
                 ref={i === resultsToShow.length - 1 ? lastItemRef : undefined}
-                className="border-b"
+                className="border-b relative hover:bg-secondary"
               >
                 <ChainRowContent
                   key={chain.chainId}
