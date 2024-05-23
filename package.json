@@ -41,6 +41,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.7",
     "@react-icons/all-files": "^4.1.0",
     "@sentry/nextjs": "^8.3.0",
     "@stripe/react-stripe-js": "^2.7.1",

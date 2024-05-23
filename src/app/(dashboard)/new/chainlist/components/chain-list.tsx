@@ -113,19 +113,16 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
               <TableHeading> Enabled Services </TableHeading>
             </tr>
             {resultsToShow.map((chain) => (
-              <tr
+              <ChainRowContent
                 key={chain.chainId}
-                className="border-b relative hover:bg-secondary"
-              >
-                <ChainRowContent
-                  key={chain.chainId}
-                  chain={chain}
-                  // TODO - use real data
-                  isPreferred={chain.chainId === 1}
-                  // TODO - use real data
-                  isVerified={chain.chainId === 1}
-                />
-              </tr>
+                chain={chain}
+                // TODO - use real data
+                isPreferred={chain.chainId === 1}
+                // TODO - use real data
+                isVerified={chain.chainId === 1}
+                // TODO
+                isGasSponsored={chain.chainId === 1}
+              />
             ))}
           </tbody>
         </table>
@@ -143,6 +140,8 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
               isPreferred={chain.chainId === 1}
               // TODO - use real data
               isVerified={chain.chainId === 1}
+              // TODO
+              isGasSponsored={chain.chainId === 1}
             />
           </li>
         ))}
