@@ -84,6 +84,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
   const showPrev = page - 1 > 0;
   const showPagePlusOne = page + 1 <= lastPage;
   const showPagePlusTwo = page + 2 <= lastPage;
+  const showPagination = lastPage > 1;
 
   // when filters change, reset to first page
   useEffect(() => {
@@ -155,66 +156,68 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
 
       <div className="h-10"></div>
 
-      <Pagination>
-        <PaginationContent>
-          {/* Prev */}
-          <PaginationItem>
-            <PaginationPrevious
-              disabled={!showPrev}
-              onClick={() => {
-                setPage(page - 1);
-              }}
-            />
-          </PaginationItem>
-
-          {/* Current Page */}
-          <PaginationItem>
-            <PaginationLink isActive>{page}</PaginationLink>
-          </PaginationItem>
-
-          {/* Current Page + 1 */}
-          {showPagePlusOne && (
+      {showPagination && (
+        <Pagination>
+          <PaginationContent>
+            {/* Prev */}
             <PaginationItem>
-              <PaginationLink
+              <PaginationPrevious
+                disabled={!showPrev}
                 onClick={() => {
-                  setPage(page + 1);
+                  setPage(page - 1);
                 }}
-              >
-                {page + 1}
-              </PaginationLink>
+              />
             </PaginationItem>
-          )}
 
-          {/* Current Page + 2 */}
-          {showPagePlusTwo && (
-            <>
+            {/* Current Page */}
+            <PaginationItem>
+              <PaginationLink isActive>{page}</PaginationLink>
+            </PaginationItem>
+
+            {/* Current Page + 1 */}
+            {showPagePlusOne && (
               <PaginationItem>
                 <PaginationLink
                   onClick={() => {
-                    setPage(page + 2);
+                    setPage(page + 1);
                   }}
                 >
-                  {page + 2}
+                  {page + 1}
                 </PaginationLink>
               </PaginationItem>
+            )}
 
-              {/* ... */}
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-            </>
-          )}
-          {/* Next */}
-          <PaginationItem>
-            <PaginationNext
-              disabled={!showNext}
-              onClick={() => {
-                setPage(page + 1);
-              }}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+            {/* Current Page + 2 */}
+            {showPagePlusTwo && (
+              <>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => {
+                      setPage(page + 2);
+                    }}
+                  >
+                    {page + 2}
+                  </PaginationLink>
+                </PaginationItem>
+
+                {/* ... */}
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              </>
+            )}
+            {/* Next */}
+            <PaginationItem>
+              <PaginationNext
+                disabled={!showNext}
+                onClick={() => {
+                  setPage(page + 1);
+                }}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }
