@@ -1,4 +1,5 @@
 import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
+import { EngineTier } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
   Icon,
@@ -6,7 +7,11 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
+  ModalHeader,
   ModalOverlay,
+  SimpleGrid,
+  Spacer,
   Stack,
   UseDisclosureReturn,
   useDisclosure,
@@ -18,7 +23,9 @@ import { OnboardingModal } from "components/onboarding/Modal";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import React from "react";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { FiCheck } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
@@ -39,12 +46,14 @@ export const CreateEngineInstanceButton = ({
   const trackEvent = useTrack();
   const toast = useToast();
   const accountQuery = useAccount();
+  const [engineTier, setEngineTier] = useState<EngineTier>("STARTER");
 
-  const requestCloudHostedEngine = async () => {
+  const addCloudHostedEngine = async (tier?: EngineTier) => {
     trackEvent({
       category: "engine",
       action: "click",
       label: "clicked-cloud-hosted",
+      tier: tier ?? engineTier,
     });
 
     try {
@@ -56,7 +65,9 @@ export const CreateEngineInstanceButton = ({
           headers: {
             "Content-type": "application/json",
           },
-          body: JSON.stringify({}),
+          body: JSON.stringify({
+            tier: tier ?? engineTier,
+          }),
         },
       );
       if (!res.ok) {
@@ -105,24 +116,22 @@ export const CreateEngineInstanceButton = ({
 
       {disclosure.isOpen && (
         <CreateCloudHostedEngineModal
-          hasValidPayment={
-            accountQuery.data?.status === AccountStatus.ValidPayment
-          }
           disclosure={disclosure}
-          onConfirm={async () => {
-            await requestCloudHostedEngine();
+          onClickAddToPlan={async (tier: EngineTier) => {
+            setEngineTier(tier);
             disclosure.onClose();
-          }}
-          onAddPaymentMethod={() => {
-            trackEvent({
-              category: "engine",
-              action: "click",
-              label: "clicked-add-payment-method",
-            });
 
-            // Switch the Cloud-hosted Engine modal with the Add Payment modal.
-            disclosure.onClose();
-            paymentDisclosure.onOpen();
+            if (accountQuery.data?.status === AccountStatus.ValidPayment) {
+              await addCloudHostedEngine(tier);
+            } else {
+              trackEvent({
+                category: "engine",
+                action: "click",
+                label: "clicked-add-payment-method",
+              });
+              // Switch the Cloud-hosted Engine modal with the Add Payment modal.
+              paymentDisclosure.onOpen();
+            }
           }}
         />
       )}
@@ -133,7 +142,7 @@ export const CreateEngineInstanceButton = ({
       >
         <OnboardingBilling
           onSave={async () => {
-            await requestCloudHostedEngine();
+            await addCloudHostedEngine();
             paymentDisclosure.onClose();
           }}
           onCancel={paymentDisclosure.onClose}
@@ -144,75 +153,210 @@ export const CreateEngineInstanceButton = ({
 };
 
 const CreateCloudHostedEngineModal = ({
-  hasValidPayment,
   disclosure,
-  onConfirm,
-  onAddPaymentMethod,
+  onClickAddToPlan,
 }: {
-  hasValidPayment: boolean;
   disclosure: UseDisclosureReturn;
-  onConfirm: () => void;
-  onAddPaymentMethod: () => void;
+  onClickAddToPlan: (tier: EngineTier) => void;
 }) => {
-  const addToPlan = async () => {
-    if (hasValidPayment) {
-      await onConfirm();
-    } else {
-      await onAddPaymentMethod();
-    }
+  const trackEvent = useTrack();
+  const router = useRouter();
+  const [modalState, setModalState] = useState<
+    "selectTier" | "confirmStarter" | "confirmPremium"
+  >("selectTier");
+
+  const MONTHLY_PRICE_USD: Record<EngineTier, number> = {
+    STARTER: 99,
+    PREMIUM: 299,
+    ENTERPRISE: 0,
   };
 
+  if (modalState === "confirmStarter" || modalState === "confirmPremium") {
+    const tier: EngineTier =
+      modalState === "confirmStarter" ? "STARTER" : "PREMIUM";
+
+    return (
+      <Modal
+        isOpen={disclosure.isOpen}
+        onClose={disclosure.onClose}
+        isCentered
+        size="lg"
+      >
+        <ModalOverlay />
+        <ModalContent p={4} pt={8}>
+          <ModalCloseButton />
+          <ModalBody as={Flex} flexDir="column" gap={6}>
+            <ChakraNextImage
+              alt="Engine hero image"
+              src={require("../../../public/assets/engine/empty-state-header.png")}
+              w="fit-content"
+            />
+            <Heading size="title.sm">
+              Are you sure you want to deploy a{" "}
+              {tier === "STARTER" ? "Starter" : "Premium"} Engine?
+            </Heading>
+            <Text>
+              You will be charged ${MONTHLY_PRICE_USD[tier]} per month for the
+              subscription.
+            </Text>
+          </ModalBody>
+          <ModalFooter as={Flex} alignItems="flex-end" gap={3}>
+            <Button onClick={() => setModalState("selectTier")} variant="ghost">
+              Back
+            </Button>
+            <Button onClick={() => onClickAddToPlan(tier)} colorScheme="blue">
+              Deploy now
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  }
+
   return (
-    <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose} isCentered>
+    <Modal
+      isOpen={disclosure.isOpen}
+      onClose={disclosure.onClose}
+      isCentered
+      size="6xl"
+    >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent p={4} pb={8}>
         <ModalCloseButton />
-        <ModalBody>
-          <Stack spacing={4} px={4} py={8}>
-            <Card p="6px" rounded="md" w="fit-content">
-              <ChakraNextImage
-                alt="Cloud icon"
-                src={require("../../../public/assets/engine/cloud-icon.png")}
-                w={6}
-              />
-            </Card>
-
-            <Stack>
-              <Heading as="h3" size="title.md">
-                Cloud-Hosted Engine
-              </Heading>
-              <Badge colorScheme="green" w="fit-content">
-                $99 per month
-              </Badge>
-            </Stack>
-
-            <Stack spacing={2} py={4}>
-              <Text color="accent.500">Includes:</Text>
-              {[
+        <ModalHeader>
+          <Heading size="title.sm">Choose an Engine deployment</Heading>
+        </ModalHeader>
+        <ModalBody as={Flex} flexDir="column" gap={4}>
+          <Text>
+            Host Engine on thirdweb with no setup or maintenance required.
+          </Text>
+          <SimpleGrid columns={{ base: 1, lg: 3 }} gap={6}>
+            <EngineTierCard
+              iconSrc={require("../../../public/assets/engine/cloud-icon1.png")}
+              tier="Standard Engine"
+              monthlyPrice={MONTHLY_PRICE_USD["STARTER"]}
+              features={[
                 "Isolated server & database",
                 "APIs for contracts on all EVM chains",
                 "Secure backend wallets",
                 "Automated gas & nonce management",
                 "On-call monitoring from thirdweb",
-              ].map((feature) => (
-                <Flex key={feature} gap={3} align="center">
-                  <Icon as={FiCheck} boxSize={4} color="green.500" />
-                  <Text color="accent.900" fontWeight="medium">
-                    {feature}
-                  </Text>
-                </Flex>
-              ))}
-            </Stack>
+              ]}
+              onClick={() => setModalState("confirmStarter")}
+            />
 
-            <Button onClick={addToPlan} colorScheme="primary" py={6} w="full">
-              Add to my plan
-            </Button>
-            <Text color="accent.500" size="body.sm" textAlign="center">
-              Your payment method will be charged $99 per month.
-            </Text>
-          </Stack>
+            <EngineTierCard
+              iconSrc={require("../../../public/assets/engine/cloud-icon2.png")}
+              tier="Premium Engine"
+              previousTier="Standard Engine"
+              monthlyPrice={MONTHLY_PRICE_USD["PREMIUM"]}
+              features={[
+                "Autoscaling",
+                "Server failover",
+                "Database failover",
+                "30-day database backups",
+              ]}
+              isPrimaryCta
+              onClick={() => setModalState("confirmPremium")}
+            />
+
+            <EngineTierCard
+              iconSrc={require("../../../public/assets/engine/cloud-icon3.png")}
+              tier="Enterprise Engine"
+              previousTier="Premium Engine"
+              features={[
+                "Custom features",
+                "Custom deployment",
+                "Priority support",
+              ]}
+              onClick={() => {
+                trackEvent({
+                  category: "engine",
+                  action: "click",
+                  label: "clicked-cloud-hosted",
+                  tier: "ENTERPRISE",
+                });
+                router.push("/contact-us");
+              }}
+            />
+          </SimpleGrid>
         </ModalBody>
       </ModalContent>
     </Modal>
+  );
+};
+
+export const EngineTierCard = ({
+  iconSrc,
+  tier,
+  monthlyPrice,
+  previousTier,
+  features,
+  isPrimaryCta = false,
+  onClick,
+  ctaText,
+}: {
+  iconSrc: StaticImport;
+  tier: string;
+  monthlyPrice?: number;
+  previousTier?: string;
+  features: string[];
+  isPrimaryCta?: boolean;
+  onClick: () => void;
+  ctaText?: string;
+}) => {
+  return (
+    <Card
+      as={Stack}
+      gap={4}
+      boxShadow={
+        isPrimaryCta
+          ? "0px 2px 4px 3px rgba(79, 106, 202, 0.30), 1px 1px 3px 4px rgba(202, 51, 255, 0.25)"
+          : undefined
+      }
+      p={6}
+    >
+      {/* Heading */}
+      <Stack>
+        <Card p="6px" rounded="md" w="fit-content">
+          <ChakraNextImage alt="Cloud icon" src={iconSrc} w={6} />
+        </Card>
+        <Heading as="h3" size="title.md">
+          {tier}
+        </Heading>
+        <Badge colorScheme="green" w="fit-content">
+          {monthlyPrice ? `$${monthlyPrice} per month` : "Custom Pricing"}
+        </Badge>
+      </Stack>
+
+      {/* Features */}
+      <Stack spacing={3} py={4}>
+        <Text>Includes</Text>
+        {previousTier && (
+          <Text color="accent.900" fontWeight="bold">
+            All of <u>{previousTier}</u>, plus:
+          </Text>
+        )}
+        {features.map((feature) => (
+          <Flex key={feature} gap={3} align="center">
+            <Icon as={FiCheck} boxSize={4} color="green.500" />
+            <Text color="accent.900" fontWeight="medium">
+              {feature}
+            </Text>
+          </Flex>
+        ))}
+      </Stack>
+
+      <Spacer />
+
+      {/* CTA */}
+      <Button
+        onClick={onClick}
+        variant={isPrimaryCta ? "solid" : "outline"}
+        colorScheme={isPrimaryCta ? "blue" : undefined}
+      >
+        {ctaText ? ctaText : monthlyPrice ? "Deploy now" : "Contact us"}
+      </Button>
+    </Card>
   );
 };
