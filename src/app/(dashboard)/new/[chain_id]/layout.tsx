@@ -1,6 +1,9 @@
 import { ChainPageTabs } from "./tabs";
 import { cn } from "../../../../@/lib/utils";
 import type { Chain } from "@thirdweb-dev/chains";
+import { StarButton } from "../chainlist/components/star-button";
+import { FuelIcon, Verified } from "lucide-react";
+import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -12,22 +15,74 @@ export default async function ChainPageLayout({
 }) {
   const chain = await getChain(params.chain_id);
 
+  // TODO
+  const isVerified = true;
+  const isGasSponsored = true;
+
   return (
     <section className="flex flex-col">
-      <header className="bg-gradient-to-b from-zinc-900 to-transparent pt-12 lg:pt-24 pb-14">
+      <header className="pt-8 lg:pt-20 pb-4">
         <div className="container px-4">
-          <h1
-            className={cn(
-              "font-semibold tracking-tighter",
-              chain.name.length > 15
-                ? "text-3xl lg:text-7xl"
-                : "text-4xl lg:text-8xl ",
-            )}
-          >
-            {chain.name}
-          </h1>
+          <div className="flex gap-3 lg:gap-5 items-center">
+            <h1
+              className={cn(
+                "font-semibold tracking-tighter text-3xl lg:text-6xl",
+              )}
+            >
+              {chain.name}
+            </h1>
 
-          <div className="h-6 lg:h-10"></div>
+            {/* Desktop tags */}
+            <div className="hidden lg:flex text-md items-center gap-3">
+              {isGasSponsored && (
+                <ToolTipLabel label="Gas Sponsored">
+                  <FuelIcon className="text-primary size-[36px] block z-10" />
+                </ToolTipLabel>
+              )}
+
+              {isVerified && (
+                <ToolTipLabel label="Verified">
+                  <Verified
+                    strokeWidth={1.5}
+                    className="text-primary size-[36px] text-md z-10"
+                  />
+                </ToolTipLabel>
+              )}
+
+              <StarButton
+                chainName={chain.name}
+                initialPreferred={false}
+                iconClassName="size-[36px]"
+              />
+            </div>
+
+            {/* Mobile star */}
+            <div className="lg:hidden flex items-center">
+              <StarButton
+                chainName={chain.name}
+                initialPreferred={false}
+                iconClassName="size-5"
+              />
+            </div>
+          </div>
+
+          {/* Mobile tags */}
+          <div className="lg:hidden ">
+            <div className="h-6"></div>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <FuelIcon className="text-primary size-6" />
+                <p> Gas Sponsored </p>
+              </div>
+
+              <div className="flex gap-3">
+                <Verified className="text-primary size-6" />
+                <p> Verified </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-6 lg:h-8"></div>
           <ChainPageTabs chainSlug={params.chain_id} />
         </div>
       </header>

@@ -9,13 +9,14 @@ export function StarButton(props: {
   chainName: string;
   initialPreferred: boolean;
   className?: string;
+  iconClassName?: string;
 }) {
   const { chainName, initialPreferred } = props;
   const [isPreferred, setIsPreferred] = useState(initialPreferred);
 
   return (
     <Button
-      className={cn("!m-0", props.className)}
+      className={cn("!m-0 h-auto w-auto", props.className)}
       variant="ghost"
       size="icon"
       aria-label={
@@ -26,7 +27,10 @@ export function StarButton(props: {
       onClick={() => setIsPreferred((prev) => !prev)}
     >
       <Star
-        className="text-muted-foreground transition-all size-5"
+        className={cn(
+          "text-muted-foreground transition-all size-5",
+          props.iconClassName,
+        )}
         fill={isPreferred ? "rgba(218, 142, 71, 1)" : "transparent"}
         strokeWidth={1}
         stroke={isPreferred ? "rgba(218, 142, 71, 1)" : "currentColor"}
