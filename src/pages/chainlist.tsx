@@ -419,7 +419,7 @@ export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
       };
     });
   return {
-    revalidate: 60,
+    revalidate: 300,
     props: {
       chains: minimalChains,
     },

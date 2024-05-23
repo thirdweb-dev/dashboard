@@ -85,8 +85,15 @@ function determineIpfsGateways() {
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
-  webpack: (config) => {
+  webpack: (config, { dev }) => {
+    if (config.cache && !dev) {
+      config.cache = Object.freeze({
+        type: "memory",
+      });
+      config.cache.maxMemoryGenerations = 0;
+    }
     config.externals.push("pino-pretty");
+    // Important: return the modified config
     return config;
   },
   async headers() {
