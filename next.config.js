@@ -189,6 +189,12 @@ module.exports = withPlausibleProxy({
         // https://docs.sentry.io/product/crons/
         // https://vercel.com/docs/cron-jobs
         automaticVercelMonitors: true,
+
+        /**
+         * Disables the Sentry Webpack plugin on the server.
+         * See: https://github.com/getsentry/sentry-javascript/issues/10468#issuecomment-2004710692
+         */
+        disableServerWebpackPlugin: true,
       },
     ),
   ),
