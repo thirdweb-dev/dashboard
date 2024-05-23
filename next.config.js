@@ -85,6 +85,10 @@ function determineIpfsGateways() {
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
+  webpack: (config) => {
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+    return config;
+  },
   async headers() {
     return [
       {
