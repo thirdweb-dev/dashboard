@@ -74,7 +74,7 @@ dependencies:
     version: 4.1.0(react@19.0.0-rc-f994737d14-20240522)
   '@sentry/nextjs':
     specifier: ^8.3.0
-    version: 8.3.0(@opentelemetry/api@1.8.0)(@opentelemetry/core@1.24.1)(@opentelemetry/instrumentation@0.51.1)(@opentelemetry/sdk-trace-base@1.24.1)(@opentelemetry/semantic-conventions@1.24.1)(next@14.3.0-canary.77)(react@19.0.0-rc-f994737d14-20240522)(webpack@5.91.0)
+    version: 8.3.0(@opentelemetry/api@1.8.0)(@opentelemetry/core@1.24.1)(@opentelemetry/instrumentation@0.51.1)(@opentelemetry/sdk-trace-base@1.24.1)(@opentelemetry/semantic-conventions@1.24.1)(next@14.3.0-canary.78)(react@19.0.0-rc-f994737d14-20240522)(webpack@5.91.0)
   '@stripe/react-stripe-js':
     specifier: ^2.7.1
     version: 2.7.1(@stripe/stripe-js@3.4.1)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
@@ -98,10 +98,10 @@ dependencies:
     version: 0.1.112
   '@thirdweb-dev/react':
     specifier: 4.6.25
-    version: 4.6.25(@babel/core@7.24.5)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.86)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
+    version: 4.6.25(@babel/core@7.24.5)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.86)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
   '@thirdweb-dev/react-core':
     specifier: 4.6.25
-    version: 4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
+    version: 4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
   '@thirdweb-dev/sdk':
     specifier: 4.0.86
     version: 4.0.86(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
@@ -163,20 +163,20 @@ dependencies:
     specifier: ^0.379.0
     version: 0.379.0(react@19.0.0-rc-f994737d14-20240522)
   next:
-    specifier: 14.3.0-canary.77
-    version: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+    specifier: 14.3.0-canary.78
+    version: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
   next-plausible:
     specifier: ^3.12.0
-    version: 3.12.0(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+    version: 3.12.0(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
   next-seo:
     specifier: ^6.5.0
-    version: 6.5.0(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+    version: 6.5.0(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
   next-themes:
     specifier: ^0.3.0
     version: 0.3.0(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
   nuqs:
     specifier: ^1.17.4
-    version: 1.17.4(next@14.3.0-canary.77)
+    version: 1.17.4(next@14.3.0-canary.78)
   papaparse:
     specifier: ^5.4.1
     version: 5.4.1
@@ -367,7 +367,7 @@ devDependencies:
     version: 5.16.0(@types/node@20.12.12)(typescript@5.4.5)
   next-sitemap:
     specifier: ^4.2.3
-    version: 4.2.3(next@14.3.0-canary.77)
+    version: 4.2.3(next@14.3.0-canary.78)
   next-unused:
     specifier: ^0.0.6
     version: 0.0.6
@@ -4390,8 +4390,8 @@ packages:
     resolution: {integrity: sha512-Yac/bV5sBGkkEXmAX5FWPS9Mmo2rthrOPRQQNfycJPkjUAUclomCPH7QFVCDQ4Mp2k2K1SSM6m0zrxYrOwtFQw==}
     dev: true
 
-  /@next/env@14.3.0-canary.77:
-    resolution: {integrity: sha512-yGA34bo64BPpWi7ZDK8uFVV7WOaAVj7FEoEZAmiMjfXwZWPClQuwEmg6ReHyNbGxm+35R5Zn7igVo0MqhP+9tA==}
+  /@next/env@14.3.0-canary.78:
+    resolution: {integrity: sha512-M3nMIFaQUH3/lTsT5S2cHFY9E9+2twhYXkPeVmr1KCHcedAY5nIIixR09ALxLQRb1qxFddg6lVcrgiSiqZxp6Q==}
 
   /@next/eslint-plugin-next@14.2.3:
     resolution: {integrity: sha512-L3oDricIIjgj1AVnRdRor21gI7mShlSwU/1ZGHmqM3LzHhXXhdkrfeNY5zif25Bi5Dd7fiJHsbhoZCHfXYvlAw==}
@@ -4399,72 +4399,72 @@ packages:
       glob: 10.3.10
     dev: true
 
-  /@next/swc-darwin-arm64@14.3.0-canary.77:
-    resolution: {integrity: sha512-ZjsxWcbV7RvBoWIQ3rl/kJAzzdbCFgYIHJTZPN7rF5JtHQMyPGmiRNxOK606IRfKlcXgu+3L8sG0t98ebEcn8w==}
+  /@next/swc-darwin-arm64@14.3.0-canary.78:
+    resolution: {integrity: sha512-LxcU/gd2qAisll8XeG9obwbttETX1V6786dFHydX0noTNfn7kf2LEHaWo3gPjcaymLaWSx9MFcayP12e7XXNZA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@next/swc-darwin-x64@14.3.0-canary.77:
-    resolution: {integrity: sha512-pVrcX/mKhxYD+VE6BuFC1xN71w5OLQahZ+ILgQfUzRe4JicB4VTUN+vao2LwOYCZghNLDSgMHYE085LFtft7bg==}
+  /@next/swc-darwin-x64@14.3.0-canary.78:
+    resolution: {integrity: sha512-cgWdFZboKDVKQfNJg7VSChBIysAJn1YF8WLDMuo4NyBG4GfuUs7pQCL8jRaSQPQTU1eCAw+kaus/gutEIIO1sw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-arm64-gnu@14.3.0-canary.77:
-    resolution: {integrity: sha512-V1ujefruOsz4soTqqkTLTquMrhYQlDAV3KKXyfMYNIbV/bhA9nkj0PLeqn+2U7HnaoHMnM4vd8aaO0CoAtpsMQ==}
+  /@next/swc-linux-arm64-gnu@14.3.0-canary.78:
+    resolution: {integrity: sha512-2A8kEhh9eNSCKmZXvHFsvJ4BeMxnp7jlJIJ5EpKr98U607Lr0EKL+ecGqTl/nzXHcO9ZheFQjKZahZLYi0zmBw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-arm64-musl@14.3.0-canary.77:
-    resolution: {integrity: sha512-2+bR77M6CcIVH0M4y3QlgcAMRtdntTrRqixwBuyUXsD3ONKFbGIgHX25W1VcrhtJiWMODY9bbEPcPkyuhTstqQ==}
+  /@next/swc-linux-arm64-musl@14.3.0-canary.78:
+    resolution: {integrity: sha512-+IiPqCHchh5RwrtKEMB8lYEk+Z/uaOHjU8++cOwOBAsA50ezGTUTLiWm/ewZ+nJ02lG8AjrfCzNMBBb0ZOpLdA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-x64-gnu@14.3.0-canary.77:
-    resolution: {integrity: sha512-BeZudUVBPdVmyJGv4LukLFFZYlroclDCXu37Reql0MzvOKgQ8jbXMWdRZ5s2XZlCNoS4Cu4ftZfz14GVseiefg==}
+  /@next/swc-linux-x64-gnu@14.3.0-canary.78:
+    resolution: {integrity: sha512-aUoJawLRIgmASqd93YQBli0twK9S+Y8xong0LXMd+qhZe1drJFJyILsrSZAeO4glsUWBDBHXk/MC30TN68XoUg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@next/swc-linux-x64-musl@14.3.0-canary.77:
-    resolution: {integrity: sha512-hu1p/f2phnjGbvCc1QsxEWC0gB2vsuMjtbo62riycoDRD+8SGKb01QLkn8j6EgWm9Lypk9CUlndQYCVKwcw8zA==}
+  /@next/swc-linux-x64-musl@14.3.0-canary.78:
+    resolution: {integrity: sha512-wLrO6xZCRxwOsVdUEPwDCXbH1Q3IufsSIsAPo4F5d4YRBTeznZkPJqACajS3GrosP3RD97tdvShCmHRlw3M18g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@next/swc-win32-arm64-msvc@14.3.0-canary.77:
-    resolution: {integrity: sha512-CLpzcYbRbLN81y7BoP1qZxZPSyvYIW9TocUeTwYq/44E2WmQFNBo5u5kP7nfsrMMzEmiT1JlRh4DGuVEQ2Lt3g==}
+  /@next/swc-win32-arm64-msvc@14.3.0-canary.78:
+    resolution: {integrity: sha512-pOeinEM+xSiSIWjHhAQMPfKZ1anth8sA2+y0NasgWamMHP3vi5bNioJfiwmShVM51EEowBucR/+IUQelMpIJFg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@next/swc-win32-ia32-msvc@14.3.0-canary.77:
-    resolution: {integrity: sha512-e1a32txgllKkYFgsI/uTRoKrPdkBIN8ImZZvNj7D8c3Z/tLLK+QMRHn7l6P2vf7rJ1F8XSES0Dp1YezKIkQXJw==}
+  /@next/swc-win32-ia32-msvc@14.3.0-canary.78:
+    resolution: {integrity: sha512-f3eIjiSPTQ57WX1m35ZWH/0Krcj6K5qwDgyyaZmTwdzrd0FKwcp/ZOnKc+eBxKh74L1C7ZBl48RWwJIzM/yMyA==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@next/swc-win32-x64-msvc@14.3.0-canary.77:
-    resolution: {integrity: sha512-kCfLRXeWZepQZJFJs5mdrLAhkCtVQEXpSfFBKIcYH5Im+UdSBBdZH9Fgms4M34/TJUwkXb07Pf1wvVjJCxcH3Q==}
+  /@next/swc-win32-x64-msvc@14.3.0-canary.78:
+    resolution: {integrity: sha512-DMO8eB5tcDDPs268VvJ9QGwui+XNbWdvKxhyIJbQmXv6uUpkWOejXJytlfUEfvdyMtt2Gt2jF3/sW6V7iRTlYg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -6484,7 +6484,7 @@ packages:
       '@sentry/utils': 8.3.0
     dev: false
 
-  /@sentry/nextjs@8.3.0(@opentelemetry/api@1.8.0)(@opentelemetry/core@1.24.1)(@opentelemetry/instrumentation@0.51.1)(@opentelemetry/sdk-trace-base@1.24.1)(@opentelemetry/semantic-conventions@1.24.1)(next@14.3.0-canary.77)(react@19.0.0-rc-f994737d14-20240522)(webpack@5.91.0):
+  /@sentry/nextjs@8.3.0(@opentelemetry/api@1.8.0)(@opentelemetry/core@1.24.1)(@opentelemetry/instrumentation@0.51.1)(@opentelemetry/sdk-trace-base@1.24.1)(@opentelemetry/semantic-conventions@1.24.1)(next@14.3.0-canary.78)(react@19.0.0-rc-f994737d14-20240522)(webpack@5.91.0):
     resolution: {integrity: sha512-kF6Mvuas89+Rm4gNyg3j7wQpMhzAuHI91z61y2oHLgZDD2fB23Pg0iHQBCSUv2ovcfm9TdeLuM575iMLqm9Opg==}
     engines: {node: '>=14.18'}
     peerDependencies:
@@ -6506,7 +6506,7 @@ packages:
       '@sentry/vercel-edge': 8.3.0
       '@sentry/webpack-plugin': 2.16.0(webpack@5.91.0)
       chalk: 3.0.0
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
       react: 19.0.0-rc-f994737d14-20240522
       resolve: 1.22.8
       rollup: 3.29.4
@@ -7295,7 +7295,7 @@ packages:
     resolution: {integrity: sha512-KnPRCkQTyqhanNC0K63GBG3wA8I+D1fQuVnAvcBF8f13akOKeQp1gSbu6f77zCxhEk727iV5oQnbHLYzHrECLg==}
     dev: false
 
-  /@thirdweb-dev/auth@4.1.84(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
+  /@thirdweb-dev/auth@4.1.84(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
     resolution: {integrity: sha512-2P/b1iBo69XqBBYWQvnz7v5zmApozWSF665mqRfuQPutOZWlj/dvak5f70esP7ZtRY+Nwaf0WJoO77otyVtovw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -7325,7 +7325,7 @@ packages:
       ethers: 5.7.2
       fastify: 4.27.0
       fastify-type-provider-zod: 1.2.0(fastify@4.27.0)(zod@3.23.8)
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
       uuid: 9.0.1
       zod: 3.23.8
     transitivePeerDependencies:
@@ -7435,7 +7435,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@thirdweb-dev/react-core@4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
+  /@thirdweb-dev/react-core@4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
     resolution: {integrity: sha512-3vmZlYdrxvS842HSFH8JCRrX322Me1cpu02nemn2+M/nusx6uPz2POnLQn5m9BEHvO13ikvNgkJsOPxKtA0P1Q==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -7443,7 +7443,7 @@ packages:
       react: 19.0.0-rc-f994737d14-20240522
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
-      '@thirdweb-dev/auth': 4.1.84(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
+      '@thirdweb-dev/auth': 4.1.84(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
       '@thirdweb-dev/chains': 0.1.112
       '@thirdweb-dev/generated-abis': 0.0.2
       '@thirdweb-dev/sdk': 4.0.86(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
@@ -7505,7 +7505,7 @@ packages:
       - zksync-ethers
     dev: false
 
-  /@thirdweb-dev/react@4.6.25(@babel/core@7.24.5)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.86)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
+  /@thirdweb-dev/react@4.6.25(@babel/core@7.24.5)(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@thirdweb-dev/sdk@4.0.86)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2):
     resolution: {integrity: sha512-DhIbwIZqKN/Jp1zamdWd2Rlsb1brBm7Ylxx4uwSvbhZWRGtpDXQnTuDSi7V3mXJOESGfEt7KhHpYAyej3crXWA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -7529,7 +7529,7 @@ packages:
       '@tanstack/react-query': 4.36.1(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
       '@thirdweb-dev/chains': 0.1.112
       '@thirdweb-dev/payments': 1.0.5
-      '@thirdweb-dev/react-core': 4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
+      '@thirdweb-dev/react-core': 4.6.25(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(fastify@4.27.0)(localforage@1.10.0)(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
       '@thirdweb-dev/sdk': 4.0.86(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
       '@thirdweb-dev/wallets': 2.5.26(@ethersproject/abstract-provider@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/properties@5.7.0)(@types/react-dom@18.3.0)(@types/react@18.3.2)(ethers@5.7.2)(localforage@1.10.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)(typescript@5.4.5)(zksync-ethers@5.7.2)
       buffer: 6.0.3
@@ -15461,31 +15461,31 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: false
 
-  /next-plausible@3.12.0(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
+  /next-plausible@3.12.0(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
     resolution: {integrity: sha512-SSkEqKQ6PgR8fx3sYfIAT69k2xuCUXO5ngkSS19CjxY97lAoZxsfZpYednxB4zo0mHYv87JzhPynrdBPlCBVHg==}
     peerDependencies:
       next: ^11.1.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: 19.0.0-rc-f994737d14-20240522
       react-dom: 19.0.0-rc-f994737d14-20240522
     dependencies:
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
       react: 19.0.0-rc-f994737d14-20240522
       react-dom: 19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522)
     dev: false
 
-  /next-seo@6.5.0(next@14.3.0-canary.77)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
+  /next-seo@6.5.0(next@14.3.0-canary.78)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
     resolution: {integrity: sha512-MfzUeWTN/x/rsKp/1n0213eojO97lIl0unxqbeCY+6pAucViHDA8GSLRRcXpgjsSmBxfCFdfpu7LXbt4ANQoNQ==}
     peerDependencies:
       next: ^8.1.1-canary.54 || >=9.0.0
       react: 19.0.0-rc-f994737d14-20240522
       react-dom: 19.0.0-rc-f994737d14-20240522
     dependencies:
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
       react: 19.0.0-rc-f994737d14-20240522
       react-dom: 19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522)
     dev: false
 
-  /next-sitemap@4.2.3(next@14.3.0-canary.77):
+  /next-sitemap@4.2.3(next@14.3.0-canary.78):
     resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
     engines: {node: '>=14.18'}
     hasBin: true
@@ -15496,7 +15496,7 @@ packages:
       '@next/env': 13.5.6
       fast-glob: 3.3.2
       minimist: 1.2.8
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
     dev: true
 
   /next-themes@0.3.0(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
@@ -15524,8 +15524,8 @@ packages:
       - supports-color
     dev: true
 
-  /next@14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
-    resolution: {integrity: sha512-6sd2MhcAap1kRNyOWWL5DVuY/sQ42Vv/RHLTJQyYeooDtxPykVSHEm2QAYcgoRcDQR64iV9RHLXJvzRBGqFivQ==}
+  /next@14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522):
+    resolution: {integrity: sha512-w4UW1lim5f14wXcUpBvqDBveaOlsQCpfxixjan8LA2TYWDQE3PqgpmnCK5HA3DfCgCLOvDGPpIJGtpvuvVgPjQ==}
     engines: {node: '>=18.17.0'}
     hasBin: true
     peerDependencies:
@@ -15545,7 +15545,7 @@ packages:
       sass:
         optional: true
     dependencies:
-      '@next/env': 14.3.0-canary.77
+      '@next/env': 14.3.0-canary.78
       '@opentelemetry/api': 1.8.0
       '@playwright/test': 1.44.0
       '@swc/helpers': 0.5.11
@@ -15557,15 +15557,15 @@ packages:
       react-dom: 19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522)
       styled-jsx: 5.1.3(@babel/core@7.24.5)(react@19.0.0-rc-f994737d14-20240522)
     optionalDependencies:
-      '@next/swc-darwin-arm64': 14.3.0-canary.77
-      '@next/swc-darwin-x64': 14.3.0-canary.77
-      '@next/swc-linux-arm64-gnu': 14.3.0-canary.77
-      '@next/swc-linux-arm64-musl': 14.3.0-canary.77
-      '@next/swc-linux-x64-gnu': 14.3.0-canary.77
-      '@next/swc-linux-x64-musl': 14.3.0-canary.77
-      '@next/swc-win32-arm64-msvc': 14.3.0-canary.77
-      '@next/swc-win32-ia32-msvc': 14.3.0-canary.77
-      '@next/swc-win32-x64-msvc': 14.3.0-canary.77
+      '@next/swc-darwin-arm64': 14.3.0-canary.78
+      '@next/swc-darwin-x64': 14.3.0-canary.78
+      '@next/swc-linux-arm64-gnu': 14.3.0-canary.78
+      '@next/swc-linux-arm64-musl': 14.3.0-canary.78
+      '@next/swc-linux-x64-gnu': 14.3.0-canary.78
+      '@next/swc-linux-x64-musl': 14.3.0-canary.78
+      '@next/swc-win32-arm64-msvc': 14.3.0-canary.78
+      '@next/swc-win32-ia32-msvc': 14.3.0-canary.78
+      '@next/swc-win32-x64-msvc': 14.3.0-canary.78
       sharp: 0.33.4
     transitivePeerDependencies:
       - '@babel/core'
@@ -15809,13 +15809,13 @@ packages:
       strip-hex-prefix: 1.0.0
     dev: false
 
-  /nuqs@1.17.4(next@14.3.0-canary.77):
+  /nuqs@1.17.4(next@14.3.0-canary.78):
     resolution: {integrity: sha512-wraphFfKI+Y/aWIGFsld/Ta7fTFEyeya1LkgEGNPDiMuY+Hwea/eVHBiq1GYlyMqTYSAoxRWvQyjCIo1Dy1u7g==}
     peerDependencies:
       next: '>=13.4 <14.0.2 || ^14.0.3'
     dependencies:
       mitt: 3.0.1
-      next: 14.3.0-canary.77(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      next: 14.3.0-canary.78(@babel/core@7.24.5)(@opentelemetry/api@1.8.0)(@playwright/test@1.44.0)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
     dev: false
 
   /object-assign@4.1.1:
