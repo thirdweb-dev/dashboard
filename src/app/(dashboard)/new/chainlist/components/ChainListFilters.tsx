@@ -59,7 +59,7 @@ export function ChainListFilters() {
           sideOffset={20}
           className="flex flex-col gap-4 mt-0.5 max-w-full"
         >
-          <h3 className="text-center text-lg font-semibold">Filters</h3>
+          <h3 className="text-lg font-semibold">Filters</h3>
 
           {/* Chain Type */}
           <section className="flex flex-col gap-2">
@@ -164,7 +164,7 @@ export function ChainListFilters() {
           <Separator />
 
           {/* Reset */}
-          <Button variant="default" onClick={reset}>
+          <Button variant="default" className="font-semibold" onClick={reset}>
             Reset to defaults
           </Button>
         </PopoverContent>

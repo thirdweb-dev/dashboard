@@ -8,7 +8,6 @@ import {
 } from "nuqs";
 import { createContext, useContext } from "react";
 
-type Mode = "grid" | "list";
 type ChainType = "all" | "mainnet" | "testnet";
 export type ChainListProduct =
   | "contract"

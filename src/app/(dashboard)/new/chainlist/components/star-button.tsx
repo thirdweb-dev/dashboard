@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@chakra-ui/react";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { cn } from "../../../../../@/lib/utils";
+import { Button } from "../../../../../@/components/ui/button";
 
 export function StarButton(props: {
   chainName: string;

@@ -112,7 +112,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
               <TableHeading> Native Token </TableHeading>
               <TableHeading> Enabled Services </TableHeading>
             </tr>
-            {resultsToShow.map((chain, i) => (
+            {resultsToShow.map((chain) => (
               <tr
                 key={chain.chainId}
                 className="border-b relative hover:bg-secondary"
@@ -134,7 +134,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
   } else {
     content = (
       <ul className="grid gap-5 grid-cols-1 md:grid-cols-2">
-        {resultsToShow.map((chain, i) => (
+        {resultsToShow.map((chain) => (
           <li key={chain.chainId} className="h-full">
             <ChainCard
               key={chain.chainId}
@@ -232,7 +232,9 @@ function TableHeading(props: { children: React.ReactNode }) {
 
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === "undefined") return true;
+    if (typeof window === "undefined") {
+      return true;
+    }
     return window.matchMedia("(min-width: 1200px)").matches;
   });
 

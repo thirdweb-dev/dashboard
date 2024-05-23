@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Star, Verified } from "lucide-react";
+import { Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
-import { useState } from "react";
 import icon1 from "./icons/icon-1.svg";
 import icon2 from "./icons/icon-2.svg";
 import icon3 from "./icons/icon-3.svg";
