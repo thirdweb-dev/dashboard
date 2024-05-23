@@ -126,76 +126,27 @@ const moduleExports = {
   },
   reactStrictMode: true,
   experimental: {
-    instrumentationHook: true,
     scrollRestoration: true,
     esmExternals: "loose",
-    webpackBuildWorker: true,
   },
   compiler: {
     emotion: true,
   },
   productionBrowserSourceMaps: true,
+  // sentry: {
+  //   disableServerWebpackPlugin: true,
+  // },
 };
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
-const { withSentryConfig } = require("@sentry/nextjs");
+// const { withSentryConfig } = require("@sentry/nextjs");
 
 const { withPlausibleProxy } = require("next-plausible");
 
-// we only want sentry on production environments
-const wSentry =
-  process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
+// // we only want sentry on production environments
+// const wSentry =
+//   process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
 module.exports = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
-})(
-  withBundleAnalyzer(
-    wSentry(
-      moduleExports,
-      {
-        // For all available options, see:
-        // https://github.com/getsentry/sentry-webpack-plugin#options
-
-        // Suppresses source map uploading logs during build
-        silent: true,
-        org: "thirdweb-dev",
-        project: "dashboard",
-      },
-      {
-        // For all available options, see:
-        // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-        // Upload a larger set of source maps for prettier stack traces (increases build time)
-        widenClientFileUpload: true,
-
-        // Transpiles SDK to be compatible with IE11 (increases bundle size)
-        transpileClientSDK: false,
-
-        // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-        tunnelRoute: "/err",
-
-        // Hides source maps from generated client bundles
-        hideSourceMaps: true,
-
-        // Automatically tree-shake Sentry logger statements to reduce bundle size
-        disableLogger: true,
-
-        // Enables automatic instrumentation of Vercel Cron Monitors.
-        // See the following for more information:
-        // https://docs.sentry.io/product/crons/
-        // https://vercel.com/docs/cron-jobs
-        automaticVercelMonitors: true,
-
-        /**
-         * Disables the Sentry Webpack plugin on the server.
-         * See: https://github.com/getsentry/sentry-javascript/issues/10468#issuecomment-2004710692
-         */
-        disableServerWebpackPlugin: true,
-      },
-    ),
-  ),
-);
+})(moduleExports);
