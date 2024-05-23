@@ -15,7 +15,7 @@ const ChainListPage: NextPage = async () => {
     <section className="container mx-auto py-10 px-4 h-full flex flex-col">
       <header className="flex flex-col gap-4">
         <div className="flex flex-row justify-between items-center">
-          <h1 className="font-semibold text-3xl">Chainlist</h1>
+          <h1 className="font-semibold text-6xl tracking-tighter">Chainlist</h1>
           <div className="flex flex-row gap-4">
             {/* <Button variant="ghost">Contact us</Button> */}
             <Button variant="outline">Add your chain</Button>
