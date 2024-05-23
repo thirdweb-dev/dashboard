@@ -45,7 +45,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = ({
           <div className="flex items-center gap-1.5">
             <Link
               href={`/new/${chain.slug}`}
-              className="text-primary-foreground text-lg static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
+              className="static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
             >
               {chain.name}
             </Link>

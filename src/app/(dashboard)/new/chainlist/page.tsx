@@ -42,6 +42,8 @@ const ChainListPage: NextPage = async () => {
           <main>
             <ChainList chains={chains} />
           </main>
+
+          <div className="h-10"></div>
         </section>
       </ChainListStateProvider>
     </Suspense>

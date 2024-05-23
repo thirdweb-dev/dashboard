@@ -2,15 +2,23 @@
 
 import type { ChainMetadata } from "thirdweb/chains";
 import { ChainCard } from "./chain-card";
-import { useShowMore } from "../../../../../hooks/useShowMore";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../../../hooks/common/useDebounce";
 import { useChainListState } from "./state-provider";
 import { ChainRowContent } from "./chain-row";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 export function ChainList(props: { chains: ChainMetadata[] }) {
-  const { itemsToShow, lastItemRef } = useShowMore<HTMLElement | null>(15, 9);
   const { searchTerm, chainType, showDeprecated, mode } = useChainListState();
   const isDesktop = useIsDesktop();
 
@@ -62,7 +70,19 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
     return result;
   }, [props.chains, deferredSearchTerm, fuse, chainType, showDeprecated]);
 
-  const resultsToShow = filteredChains.slice(0, itemsToShow);
+  const itemsToShowPerPage = 10;
+  const [page, setPage] = useState(1);
+
+  const resultsToShow = filteredChains.slice(
+    itemsToShowPerPage * (page - 1),
+    itemsToShowPerPage * page,
+  );
+
+  const lastPage = Math.ceil(filteredChains.length / itemsToShowPerPage);
+  const showNext = page + 1 <= lastPage;
+  const showPrev = page - 1 > 0;
+  const showPagePlusOne = page + 1 <= lastPage;
+  const showPagePlusTwo = page + 2 <= lastPage;
 
   if (resultsToShow.length === 0) {
     return (
@@ -72,8 +92,10 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
     );
   }
 
+  let content = null;
+
   if (isDesktop) {
-    return (
+    content = (
       <div className="overflow-x-auto">
         <table className="w-full">
           <tbody>
@@ -86,7 +108,6 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
             {resultsToShow.map((chain, i) => (
               <tr
                 key={chain.chainId}
-                ref={i === resultsToShow.length - 1 ? lastItemRef : undefined}
                 className="border-b relative hover:bg-secondary"
               >
                 <ChainRowContent
@@ -103,27 +124,92 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
         </table>
       </div>
     );
+  } else {
+    content = (
+      <ul className="grid gap-5 grid-cols-1 md:grid-cols-2">
+        {resultsToShow.map((chain, i) => (
+          <li key={chain.chainId} className="h-full">
+            <ChainCard
+              key={chain.chainId}
+              chain={chain}
+              // TODO - use real data
+              isPreferred={chain.chainId === 1}
+              // TODO - use real data
+              isVerified={chain.chainId === 1}
+            />
+          </li>
+        ))}
+      </ul>
+    );
   }
 
   return (
-    <ul className="grid gap-5 grid-cols-1 md:grid-cols-2">
-      {resultsToShow.map((chain, i) => (
-        <li
-          key={chain.chainId}
-          ref={i === resultsToShow.length - 1 ? lastItemRef : undefined}
-          className="h-full"
-        >
-          <ChainCard
-            key={chain.chainId}
-            chain={chain}
-            // TODO - use real data
-            isPreferred={chain.chainId === 1}
-            // TODO - use real data
-            isVerified={chain.chainId === 1}
-          />
-        </li>
-      ))}
-    </ul>
+    <div>
+      {content}
+
+      <div className="h-10"></div>
+
+      <Pagination>
+        <PaginationContent>
+          {/* Prev */}
+          <PaginationItem>
+            <PaginationPrevious
+              disabled={!showPrev}
+              onClick={() => {
+                setPage(page - 1);
+              }}
+            />
+          </PaginationItem>
+
+          {/* Current Page */}
+          <PaginationItem>
+            <PaginationLink isActive>{page}</PaginationLink>
+          </PaginationItem>
+
+          {/* Current Page + 1 */}
+          {showPagePlusOne && (
+            <PaginationItem>
+              <PaginationLink
+                onClick={() => {
+                  setPage(page + 1);
+                }}
+              >
+                {page + 1}
+              </PaginationLink>
+            </PaginationItem>
+          )}
+
+          {/* Current Page + 2 */}
+          {showPagePlusTwo && (
+            <>
+              <PaginationItem>
+                <PaginationLink
+                  onClick={() => {
+                    setPage(page + 2);
+                  }}
+                >
+                  {page + 2}
+                </PaginationLink>
+              </PaginationItem>
+
+              {/* ... */}
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            </>
+          )}
+          {/* Next */}
+          <PaginationItem>
+            <PaginationNext
+              disabled={!showNext}
+              onClick={() => {
+                setPage(page + 1);
+              }}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 }
 
