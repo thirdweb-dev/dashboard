@@ -631,7 +631,7 @@ ${input.markdown}
     formData.append("json", JSON.stringify(content));
 
     const res = await fetch(
-      `${THIRDWEB_API_HOST}/v1/account/createUnthreadTicket`,
+      `${THIRDWEB_API_HOST}/v1/account/create-unthread-ticket`,
       {
         method: "POST",
         credentials: "include",
