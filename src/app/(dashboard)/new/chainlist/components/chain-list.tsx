@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/pagination";
 
 export function ChainList(props: { chains: ChainMetadata[] }) {
-  const { searchTerm, chainType, showDeprecated, mode } = useChainListState();
+  const { searchTerm, chainType, showDeprecated, products, gasSponsored } =
+    useChainListState();
   const isDesktop = useIsDesktop();
 
   const fuse = useMemo(() => {
@@ -83,6 +84,11 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
   const showPrev = page - 1 > 0;
   const showPagePlusOne = page + 1 <= lastPage;
   const showPagePlusTwo = page + 2 <= lastPage;
+
+  // when filters change, reset to first page
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, chainType, showDeprecated, products, gasSponsored]);
 
   if (resultsToShow.length === 0) {
     return (
