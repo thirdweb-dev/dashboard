@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ColorModeToggle } from "@/components/color-mode-toggle";
 import { CustomConnectButton } from "../connect";
-import { ThirdwebProvider } from "../provider";
 import { ThirdwebMiniLogo } from "../components/ThirdwebMiniLogo";
+import { ThirdwebProvider } from "thirdweb/react";
 
 // this is the dashboard layout file
 export default function DashboardLayout({
