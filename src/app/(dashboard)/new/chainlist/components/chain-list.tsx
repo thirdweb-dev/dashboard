@@ -4,14 +4,15 @@ import type { ChainMetadata } from "thirdweb/chains";
 import { ChainCard } from "./chain-card";
 import { useShowMore } from "../../../../../hooks/useShowMore";
 import Fuse from "fuse.js";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../../../hooks/common/useDebounce";
 import { useChainListState } from "./state-provider";
 import { ChainRowContent } from "./chain-row";
 
-export function ChainGrid(props: { chains: ChainMetadata[] }) {
+export function ChainList(props: { chains: ChainMetadata[] }) {
   const { itemsToShow, lastItemRef } = useShowMore<HTMLElement | null>(15, 9);
   const { searchTerm, chainType, showDeprecated, mode } = useChainListState();
+  const isDesktop = useIsDesktop();
 
   const fuse = useMemo(() => {
     return new Fuse(props.chains, {
@@ -71,7 +72,7 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
     );
   }
 
-  if (mode === "list") {
+  if (isDesktop) {
     return (
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -105,7 +106,7 @@ export function ChainGrid(props: { chains: ChainMetadata[] }) {
   }
 
   return (
-    <ul className="grid gap-5 items-stretch grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid gap-5 grid-cols-1 md:grid-cols-2">
       {resultsToShow.map((chain, i) => (
         <li
           key={chain.chainId}
@@ -132,4 +133,20 @@ function TableHeading(props: { children: React.ReactNode }) {
       {props.children}
     </th>
   );
+}
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.matchMedia("(min-width: 1200px)").matches;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1200px)");
+    const listener = () => setIsDesktop(mediaQuery.matches);
+    mediaQuery.addEventListener("change", listener);
+    return () => mediaQuery.removeEventListener("change", listener);
+  });
+
+  return isDesktop;
 }

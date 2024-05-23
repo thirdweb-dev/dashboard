@@ -34,10 +34,10 @@ export function ChainListFilters() {
 
   return (
     <div className="relative">
-      <Search className="absolute h-8 w-8 p-2 top-1 left-1 text-muted-foreground" />
+      <Search className="absolute size-5 top-[50%] -translate-y-1/2 left-4 text-muted-foreground" />
       <Input
-        placeholder="Search by name or chain id"
-        className={"px-10 lg:w-[350px]"}
+        placeholder="Search by name or chain ID"
+        className={"px-12 lg:w-[350px] h-auto py-3 text-md"}
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
@@ -48,9 +48,9 @@ export function ChainListFilters() {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute h-8 w-8 p-2 top-1 right-1"
+            className="absolute top-[50%] -translate-y-1/2 right-2 p-2"
           >
-            <Filter />
+            <Filter className="size-5" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="flex flex-col gap-4 mt-0.5 max-w-full">

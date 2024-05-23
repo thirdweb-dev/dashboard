@@ -3,12 +3,10 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Info, Star, Verified } from "lucide-react";
+import { Info, Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
-import { resolveScheme } from "thirdweb/storage";
-import { thirdwebClient } from "@/constants/client";
 import Link from "next/link";
-import { useState } from "react";
+import { StarButton } from "./star-button";
 
 // TODO: save the preferred chains to db
 
@@ -26,14 +24,12 @@ export const ChainCard: React.FC<ChainCardProps> = ({
   isPreferred: initialPreferred,
   isVerified,
 }) => {
-  const [isPreferred, setIsPreferred] = useState(initialPreferred);
-
   return (
     <div className="relative h-full">
       <Card className="h-full w-full hover:border-ring">
-        <CardHeader className="flex flex-row justify-between justify-items-center">
+        <CardHeader className="flex flex-row justify-between justify-items-center p-4">
           <div className="flex flex-row items-center gap-2.5">
-            {chain.icon?.url ? (
+            {/* {chain.icon?.url ? (
               <img
                 alt=""
                 src={resolveScheme({
@@ -55,44 +51,29 @@ export const ChainCard: React.FC<ChainCardProps> = ({
                 height={40}
                 className="size-6"
               />
-            )}
+            )} */}
 
             <Link
               className="static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
               href={`/new/${chain.slug}`}
             >
-              <CardTitle className="text-2xl">{chain.name}</CardTitle>
+              <CardTitle className="text-xl">{chain.name}</CardTitle>
             </Link>
             {isVerified && (
               <Verified strokeWidth={1.5} className="text-primary w-5 h-5" />
             )}
           </div>
 
-          {/* Mark as Favourite button */}
-          <Button
-            className="relative z-10 !m-0"
-            variant="ghost"
-            size="icon"
-            aria-label={
-              isPreferred
-                ? `Remove ${chain.name} from preferred chains.`
-                : `Add ${chain.name} to preferred chains.`
-            }
-            onClick={() => setIsPreferred((prev) => !prev)}
-          >
-            <Star
-              className="text-muted-foreground transition-all"
-              fill={isPreferred ? "rgba(218, 142, 71, 1)" : "transparent"}
-              strokeWidth={1}
-              stroke={isPreferred ? "rgba(218, 142, 71, 1)" : "currentColor"}
-            />
-          </Button>
+          <StarButton
+            chainName={chain.name}
+            initialPreferred={initialPreferred}
+          />
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="pt-0 px-4 pb-4">
           {/* table of `chain id` `native token` `managed support`, header row on left value row on right */}
           <table className="w-full">
-            <tbody className="[&_td]:py-1">
+            <tbody className="[&_td]:py-0.5 text-sm">
               <tr>
                 <th className="text-left font-semibold text-muted-foreground">
                   Chain ID
