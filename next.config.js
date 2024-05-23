@@ -129,11 +129,14 @@ const moduleExports = {
     scrollRestoration: true,
     esmExternals: "loose",
     webpackBuildWorker: true,
+    serverSourceMaps: false,
   },
+  cacheMaxMemorySize: 0,
+  swcMinify: true,
   compiler: {
     emotion: true,
   },
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
 };
 
 const { withSentryConfig } = require("@sentry/nextjs");
