@@ -15,7 +15,7 @@ const ChainListPage: NextPage = async () => {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center items-center flex-1">
+        <div className="flex justify-center items-center h-full">
           <Spinner className="size-20" />
         </div>
       }
