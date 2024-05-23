@@ -4,15 +4,14 @@
 import { FuelIcon, Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
-import icon1 from "./icons/icon-1.svg";
-import icon2 from "./icons/icon-2.svg";
-import icon3 from "./icons/icon-3.svg";
-import icon4 from "./icons/icon-4.svg";
-import icon5 from "./icons/icon-5.svg";
-import icon6 from "./icons/icon-6.svg";
-import Image from "next/image";
 import { StarButton } from "./star-button";
 import { ToolTipLabel } from "../../../../../@/components/ui/tooltip";
+import { ContractIcon } from "./icons/ContractIcon";
+import { PayIcon } from "./icons/PayIcon";
+import { EngineIcon } from "./icons/EngineIcon";
+import { RPCIcon } from "./icons/RPCIcon";
+import { SmartAccountIcon } from "./icons/SmartAccountIcon";
+import { ConnectSDKIcon } from "./icons/ConnectSDKIcon";
 
 // TODO: save the preferred chains to db
 
@@ -72,15 +71,53 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
 
       <TableData>
         {/* TODO - use real data */}
-        <div className="flex flex-row gap-14 items-center grayscale w-[520px]">
+        <div className="flex flex-row gap-14 items-center w-[520px] grayscale">
           <span> 5 out of 6 </span>
-          <div className="flex items-center gap-8">
-            <Image src={icon1} alt="" className="size-8" />
-            <Image src={icon2} alt="" className="size-8" />
-            <Image src={icon3} alt="" className="size-8" />
-            <Image src={icon4} alt="" className="size-8" />
-            <Image src={icon5} alt="" className="size-8" />
-            <Image src={icon6} alt="" className="size-8 opacity-40" />
+          <div className="flex items-center gap-7 z-10">
+            <ToolTipLabel label="Connect SDK">
+              <Link href="/connect" target="_blank">
+                <ConnectSDKIcon className="size-8" />
+              </Link>
+            </ToolTipLabel>
+
+            <ToolTipLabel label="Contracts">
+              <Link href="/contracts" target="_blank">
+                <ContractIcon className="size-8 " />
+              </Link>
+            </ToolTipLabel>
+
+            <ToolTipLabel label="thirdweb Pay">
+              <Link
+                href="https://portal.thirdweb.com/connect/pay/overview"
+                target="_blank"
+              >
+                <PayIcon className="size-8" />
+              </Link>
+            </ToolTipLabel>
+
+            <ToolTipLabel label="Engine">
+              <Link href="/engine" target="_blank">
+                <EngineIcon className="size-8" />
+              </Link>
+            </ToolTipLabel>
+
+            <ToolTipLabel label="RPC Edge">
+              <Link
+                href="https://portal.thirdweb.com/infrastructure/rpc-edge/overview"
+                target="_blank"
+              >
+                <RPCIcon className="size-8" />
+              </Link>
+            </ToolTipLabel>
+
+            <ToolTipLabel label="Account Abstraction">
+              <Link
+                href="https://portal.thirdweb.com/connect/account-abstraction"
+                target="_blank"
+              >
+                <SmartAccountIcon className="size-8" />
+              </Link>
+            </ToolTipLabel>
           </div>
         </div>
       </TableData>
