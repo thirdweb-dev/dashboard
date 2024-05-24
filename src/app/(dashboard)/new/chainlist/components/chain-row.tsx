@@ -37,7 +37,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
             className="relative z-10"
           />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link
               href={`/new/${chain.slug}`}
               className="static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
@@ -47,19 +47,19 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
 
             {isVerified && (
               <ToolTipLabel label="Verified">
-                <Verified className="text-primary-foreground size-5 z-10" />
+                <Verified className="text-primary-foreground size-5 z-10 " />
               </ToolTipLabel>
             )}
 
             {isGasSponsored && (
               <ToolTipLabel label="Gas Sponsored">
-                <FuelIcon className="text-primary-foreground size-5 block z-10" />
+                <FuelIcon className="text-primary-foreground size-5 z-10 " />
               </ToolTipLabel>
             )}
 
             {isDeprecated && (
               <ToolTipLabel label="Deprecated">
-                <CircleAlertIcon className="text-destructive-foreground size-5 block z-10" />
+                <CircleAlertIcon className="text-destructive-foreground size-5 z-10 " />
               </ToolTipLabel>
             )}
           </div>
