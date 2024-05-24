@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { TWMediaRenderer } from "components/ipfs-upload/dropzone";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { BsFillCloudUploadFill } from "react-icons/bs";
