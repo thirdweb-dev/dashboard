@@ -4,9 +4,9 @@ export function PrimaryInfoItem(props: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-b pb-2 md:pb-0 md:border-none">
+    <section>
       <div className="flex items-center gap-2">
-        <h3 className="text-lg text-muted-foreground">{props.title}</h3>
+        <h2 className="text-lg text-muted-foreground">{props.title}</h2>
         {props.titleIcon}
       </div>
       {props.children}

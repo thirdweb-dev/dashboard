@@ -6,13 +6,8 @@ import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { StarButton } from "./star-button";
 import { ToolTipLabel } from "../../../../../@/components/ui/tooltip";
-import { ContractIcon } from "./icons/ContractIcon";
-import { PayIcon } from "./icons/PayIcon";
-import { EngineIcon } from "./icons/EngineIcon";
-import { RPCIcon } from "./icons/RPCIcon";
-import { SmartAccountIcon } from "./icons/SmartAccountIcon";
-import { ConnectSDKIcon } from "./icons/ConnectSDKIcon";
 import { cn } from "../../../../../@/lib/utils";
+import { products } from "../products";
 
 type ChainRowProps = {
   chain: ChainMetadata;
@@ -67,47 +62,17 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
         <div className="flex flex-row gap-14 items-center w-[520px] ">
           <span> 5 out of 6 </span>
           <div className="flex items-center gap-7 z-10">
-            <ProductIcon
-              icon={ConnectSDKIcon}
-              label="Connect SDK"
-              href="/connect"
-              enabled={true}
-            />
-
-            <ProductIcon
-              icon={ContractIcon}
-              label="Contracts"
-              href="/contracts"
-              enabled={true}
-            />
-
-            <ProductIcon
-              icon={PayIcon}
-              label="thirdweb Pay"
-              href="https://portal.thirdweb.com/connect/pay/overview"
-              enabled={true}
-            />
-
-            <ProductIcon
-              icon={EngineIcon}
-              label="Engine"
-              href="/engine"
-              enabled={true}
-            />
-
-            <ProductIcon
-              icon={RPCIcon}
-              label="RPC Edge"
-              href="https://portal.thirdweb.com/infrastructure/rpc-edge/overview"
-              enabled={true}
-            />
-
-            <ProductIcon
-              icon={SmartAccountIcon}
-              label="Account Abstraction"
-              href="https://portal.thirdweb.com/connect/account-abstraction"
-              enabled={false}
-            />
+            {products.map((p) => {
+              return (
+                <ProductIcon
+                  key={p.name}
+                  icon={p.icon}
+                  label={p.name}
+                  href={p.href}
+                  enabled={true}
+                />
+              );
+            })}
           </div>
         </div>
       </TableData>
@@ -136,10 +101,7 @@ function ProductIcon(props: {
         )
       }
     >
-      <Link
-        href={props.href}
-        target={props.href.startsWith("https") ? "_blank" : undefined}
-      >
+      <Link href={props.href} target="_blank">
         <props.icon
           className={cn(
             "size-8 grayscale hover:grayscale-0",

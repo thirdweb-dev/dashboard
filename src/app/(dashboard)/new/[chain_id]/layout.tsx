@@ -3,7 +3,7 @@ import { cn } from "../../../../@/lib/utils";
 import { StarButton } from "../chainlist/components/star-button";
 import { FuelIcon, Verified } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
-import { getChain } from "../../utils/getChain";
+import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
 
 // this is the dashboard layout file
