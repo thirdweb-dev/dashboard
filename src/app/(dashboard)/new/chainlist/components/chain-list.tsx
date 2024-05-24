@@ -71,7 +71,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
     return result;
   }, [props.chains, deferredSearchTerm, fuse, chainType, showDeprecated]);
 
-  const itemsToShowPerPage = 10;
+  const itemsToShowPerPage = isDesktop ? 25 : 5;
   const [page, setPage] = useState(1);
 
   const resultsToShow = filteredChains.slice(
@@ -149,6 +149,14 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
     );
   }
 
+  function scrollToTop() {
+    // smooth scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <div>
       {content}
@@ -164,6 +172,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
                 disabled={!showPrev}
                 onClick={() => {
                   setPage(page - 1);
+                  scrollToTop();
                 }}
               />
             </PaginationItem>
@@ -179,6 +188,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
                 <PaginationLink
                   onClick={() => {
                     setPage(page + 1);
+                    scrollToTop();
                   }}
                 >
                   {page + 1}
@@ -193,6 +203,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
                   <PaginationLink
                     onClick={() => {
                       setPage(page + 2);
+                      scrollToTop();
                     }}
                   >
                     {page + 2}
@@ -211,6 +222,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
                 disabled={!showNext}
                 onClick={() => {
                   setPage(page + 1);
+                  scrollToTop();
                 }}
               />
             </PaginationItem>

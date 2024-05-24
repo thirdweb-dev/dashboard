@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 import Link from "next/link";
 import { cn } from "../../../../@/lib/utils";
+import { PlusIcon } from "lucide-react";
 
 const ChainListPage: NextPage = async () => {
   const chains = await getChains();
@@ -68,12 +69,14 @@ function AddYourChainButton(props: { className?: string }) {
     <Button
       asChild
       variant="outline"
-      className={cn("py-3 h-auto", props.className)}
+      className={cn("lg:py-3 h-auto", props.className)}
     >
       <Link
         href="https://support.thirdweb.com/how-to/vGcHXQ7tHXuSJf7jaL2y5Q/how-to-add-your-evm-chain-to-thirdweb%E2%80%99s-chainlist-/3HMqrwyxXUFxQYaudDJffT"
         target="_blank"
+        className="flex items-center gap-2"
       >
+        <PlusIcon className="size-4" />
         Add your chain
       </Link>
     </Button>

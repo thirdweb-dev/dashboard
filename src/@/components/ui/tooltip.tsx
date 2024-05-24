@@ -35,7 +35,7 @@ export function ToolTipLabel(props: {
 }) {
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={100}>
+      <Tooltip delayDuration={100} disableHoverableContent={true}>
         <TooltipTrigger asChild>{props.children}</TooltipTrigger>
         <TooltipContent>
           <div className="p-2 text-md"> {props.label} </div>
