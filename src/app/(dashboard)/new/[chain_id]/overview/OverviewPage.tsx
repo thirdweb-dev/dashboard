@@ -14,18 +14,16 @@ export async function ChainOverviewPage(props: {
   const chain = await getChain(props.params.chain_id);
 
   return (
-    <div className="py-3">
-      <div className="flex flex-col gap-10">
-        <PrimaryInfoGrid chain={chain} />
-        <EnabledServices />
-        {chain.faucets && chain.faucets.length > 0 && (
-          <Faucets faucets={[...chain.faucets]} />
-        )}
+    <div className="flex flex-col gap-10 pt-2">
+      <PrimaryInfoGrid chain={chain} />
+      <EnabledServices />
+      {chain.faucets && chain.faucets.length > 0 && (
+        <Faucets faucets={[...chain.faucets]} />
+      )}
 
-        {chain.explorers && chain.explorers.length > 0 && (
-          <Explorers explorers={chain.explorers} />
-        )}
-      </div>
+      {chain.explorers && chain.explorers.length > 0 && (
+        <Explorers explorers={chain.explorers} />
+      )}
     </div>
   );
 }
@@ -35,7 +33,7 @@ function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
   const isDeprecated = chain.status === "deprecated";
 
   return (
-    <div className="grid grid-cols-1 gap-5 lg:gap-10 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
       {/* Info */}
       {chain.infoURL && (
         <PrimaryInfoItem title="Info">
@@ -68,7 +66,7 @@ function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
 
 function EnabledServices() {
   return (
-    <div>
+    <div className="pb-10 border-b">
       <div className="flex items-center gap-2 mb-2">
         <h2 className="text-md text-muted-foreground font-medium">
           Enabled Services

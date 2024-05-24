@@ -33,6 +33,21 @@ export function ChainLiveStats(props: { rpc: string }) {
         </div>
       </PrimaryInfoItem>
 
+      {/* Latency */}
+      <PrimaryInfoItem title="RPC Latency" titleIcon={<PulseDot />}>
+        {stats.isError ? (
+          <p className="text-lg fade-in-0 animate-in text-destructive-foreground">
+            N/A
+          </p>
+        ) : stats.data ? (
+          <p className="text-lg fade-in-0 animate-in">{stats.data.latency}ms</p>
+        ) : (
+          <div className="flex py-1 h-[28px] w-[70px]">
+            <Skeleton className="h-full w-full" />
+          </div>
+        )}
+      </PrimaryInfoItem>
+
       {/* Block Height */}
       <PrimaryInfoItem title="Block Height" titleIcon={<PulseDot />}>
         {stats.isError ? (
@@ -45,21 +60,6 @@ export function ChainLiveStats(props: { rpc: string }) {
           </p>
         ) : (
           <div className="flex py-1 h-[28px] w-[140px]">
-            <Skeleton className="h-full w-full" />
-          </div>
-        )}
-      </PrimaryInfoItem>
-
-      {/* Latency */}
-      <PrimaryInfoItem title="Latency" titleIcon={<PulseDot />}>
-        {stats.isError ? (
-          <p className="text-lg fade-in-0 animate-in text-destructive-foreground">
-            N/A
-          </p>
-        ) : stats.data ? (
-          <p className="text-lg fade-in-0 animate-in">{stats.data.latency}</p>
-        ) : (
-          <div className="flex py-1 h-[28px] w-[70px]">
             <Skeleton className="h-full w-full" />
           </div>
         )}

@@ -5,6 +5,7 @@ import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
+import { Separator } from "@/components/ui/separator";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -75,7 +76,7 @@ export default async function ChainPageLayout({
 
             {/* Mobile tags */}
             <div className="md:hidden ">
-              <div className="h-6"></div>
+              <Separator className="my-5" />
               <div className="flex flex-col gap-3">
                 {isGasSponsored && (
                   <div className="flex gap-3">
