@@ -51,6 +51,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        inverted: {
+          DEFAULT: "hsl(var(--inverted))",
+          foreground: "hsl(var(--inverted-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

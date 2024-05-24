@@ -1,7 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { CheckIcon, FuelIcon, Verified, XIcon } from "lucide-react";
+import {
+  CheckIcon,
+  CircleAlertIcon,
+  FuelIcon,
+  Verified,
+  XIcon,
+} from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { StarButton } from "./star-button";
@@ -18,6 +24,7 @@ type ChainRowProps = {
 
 export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
   const { chain, isPreferred, isVerified, isGasSponsored } = props;
+  const isDeprecated = chain.status === "deprecated";
 
   return (
     <tr className="border-b relative hover:bg-secondary">
@@ -40,13 +47,19 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
 
             {isVerified && (
               <ToolTipLabel label="Verified">
-                <Verified className="text-primary size-5 z-10" />
+                <Verified className="text-primary-foreground size-5 z-10" />
               </ToolTipLabel>
             )}
 
             {isGasSponsored && (
               <ToolTipLabel label="Gas Sponsored">
-                <FuelIcon className="text-primary size-5 block z-10" />
+                <FuelIcon className="text-primary-foreground size-5 block z-10" />
+              </ToolTipLabel>
+            )}
+
+            {isDeprecated && (
+              <ToolTipLabel label="Deprecated">
+                <CircleAlertIcon className="text-destructive-foreground size-5 block z-10" />
               </ToolTipLabel>
             )}
           </div>

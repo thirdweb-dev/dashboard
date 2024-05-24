@@ -1,7 +1,7 @@
 import { ChainPageTabs } from "./tabs";
 import { cn } from "../../../../@/lib/utils";
 import { StarButton } from "../chainlist/components/star-button";
-import { FuelIcon, Verified } from "lucide-react";
+import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
@@ -15,6 +15,7 @@ export default async function ChainPageLayout({
   params: { chain_id: string };
 }) {
   const chain = await getChain(params.chain_id);
+  const isDeprecated = chain.status === "deprecated";
 
   // TODO
   const isVerified = true;
@@ -39,13 +40,19 @@ export default async function ChainPageLayout({
               <div className="hidden md:flex text-md items-center gap-3">
                 {isGasSponsored && (
                   <ToolTipLabel label="Gas Sponsored">
-                    <FuelIcon className="text-primary size-[36px] block z-10" />
+                    <FuelIcon className="text-primary-foreground size-[36px] " />
                   </ToolTipLabel>
                 )}
 
                 {isVerified && (
                   <ToolTipLabel label="Verified">
-                    <Verified className="text-primary size-[36px] text-md z-10" />
+                    <Verified className="text-primary-foreground size-[36px]" />
+                  </ToolTipLabel>
+                )}
+
+                {isDeprecated && (
+                  <ToolTipLabel label="Deprecated">
+                    <CircleAlertIcon className="text-destructive-foreground size-[36px]" />
                   </ToolTipLabel>
                 )}
 
@@ -70,15 +77,26 @@ export default async function ChainPageLayout({
             <div className="md:hidden ">
               <div className="h-6"></div>
               <div className="flex flex-col gap-3">
-                <div className="flex gap-3">
-                  <FuelIcon className="text-primary size-6" />
-                  <p> Gas Sponsored </p>
-                </div>
+                {isGasSponsored && (
+                  <div className="flex gap-3">
+                    <FuelIcon className="text-primary-foreground size-6" />
+                    <p> Gas Sponsored </p>
+                  </div>
+                )}
 
-                <div className="flex gap-3">
-                  <Verified className="text-primary size-6" />
-                  <p> Verified </p>
-                </div>
+                {isVerified && (
+                  <div className="flex gap-3">
+                    <Verified className="text-primary-foreground size-6" />
+                    <p> Verified </p>
+                  </div>
+                )}
+
+                {isDeprecated && (
+                  <div className="flex gap-3">
+                    <CircleAlertIcon className="text-destructive-foreground size-6" />
+                    <p> Deprecated </p>
+                  </div>
+                )}
               </div>
             </div>
 

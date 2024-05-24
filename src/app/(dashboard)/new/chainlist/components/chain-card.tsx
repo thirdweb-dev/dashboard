@@ -72,14 +72,14 @@ export const ChainCard: React.FC<ChainCardProps> = ({
             <div className="mt-4 flex gap-5">
               {isVerified && (
                 <div className="gap-1.5 flex items-center">
-                  <Verified className="text-primary size-5" />
+                  <Verified className="text-primary-foreground size-5" />
                   <p className="text-sm">Verified</p>
                 </div>
               )}
 
               {isGasSponsored && (
                 <div className="gap-1.5 flex items-center">
-                  <FuelIcon className="text-primary size-5" />
+                  <FuelIcon className="text-primary-foreground size-5" />
                   <p className="text-sm">Gas Sponsored</p>
                 </div>
               )}

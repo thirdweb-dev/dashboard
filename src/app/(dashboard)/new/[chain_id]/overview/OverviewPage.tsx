@@ -40,6 +40,8 @@ export async function ChainOverviewPage(props: {
 
 function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
   const { chain } = props;
+  const isDeprecated = chain.status === "deprecated";
+
   return (
     <div className="grid grid-cols-1 gap-5 lg:gap-7 md:grid-cols-2 lg:grid-cols-3">
       {/* Info */}
@@ -67,7 +69,7 @@ function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
       </PrimaryInfoItem>
 
       {/* Live Stats */}
-      {chain.rpc[0] && <ChainLiveStats rpc={chain.rpc[0]} />}
+      {chain.rpc[0] && !isDeprecated && <ChainLiveStats rpc={chain.rpc[0]} />}
     </div>
   );
 }
@@ -127,6 +129,10 @@ function Faucets(props: { faucets: string[] }) {
           const tld = hostnameSplit.pop();
           const domain = hostnameSplit.pop();
           const displayTitle = `${domain}.${tld}`;
+          let displayUrl = url.port + url.hostname + url.pathname;
+          displayUrl = displayUrl.endsWith("/")
+            ? displayUrl.slice(0, -1)
+            : displayUrl;
 
           return (
             <div
@@ -139,7 +145,7 @@ function Faucets(props: { faucets: string[] }) {
                 target="_blank"
                 className="text-sm flex gap-1.5 items-center before:absolute before:inset-0 before:z-0 text-muted-foreground"
               >
-                {faucet.endsWith("/") ? faucet.slice(0, -1) : faucet}
+                {displayUrl}
               </Link>
               <ExternalLinkIcon className="size-4 absolute top-4 right-4 text-muted-foreground" />
             </div>
