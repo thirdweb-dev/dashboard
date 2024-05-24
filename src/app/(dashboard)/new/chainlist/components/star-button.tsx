@@ -15,7 +15,7 @@ export function StarButton(props: {
 }) {
   const { initialPreferred } = props;
   const [isPreferred, setIsPreferred] = useState(initialPreferred);
-  const label = isPreferred ? "Add to Favourites" : "Remove from Favourites";
+  const label = isPreferred ? "Remove from Favourites" : "Add to Favourites";
   // don't update the tooltip immediately on click
   const tooltipLabel = useDebounce(label, 1000);
 

@@ -6,7 +6,9 @@ export function PrimaryInfoItem(props: {
   return (
     <section>
       <div className="flex items-center gap-2">
-        <h2 className="text-lg text-muted-foreground">{props.title}</h2>
+        <h2 className="text-md text-muted-foreground font-medium">
+          {props.title}
+        </h2>
         {props.titleIcon}
       </div>
       {props.children}

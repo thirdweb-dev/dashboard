@@ -23,19 +23,20 @@ export default async function ChainPageLayout({
   return (
     <ReactQueryClientProvider>
       <section className="flex flex-col">
-        <header className="pt-8 lg:pt-20 pb-4">
+        <header className="pt-8 md:pt-20 pb-4">
           <div className="container px-4">
-            <div className="flex gap-3 lg:gap-5 items-center">
+            <div className="flex gap-3 md:gap-5 items-center">
+              {/* Chain Name */}
               <h1
                 className={cn(
-                  "font-semibold tracking-tighter text-3xl lg:text-6xl",
+                  "font-semibold tracking-tighter text-4xl md:text-6xl",
                 )}
               >
                 {chain.name}
               </h1>
 
               {/* Desktop tags */}
-              <div className="hidden lg:flex text-md items-center gap-3">
+              <div className="hidden md:flex text-md items-center gap-3">
                 {isGasSponsored && (
                   <ToolTipLabel label="Gas Sponsored">
                     <FuelIcon className="text-primary size-[36px] block z-10" />
@@ -56,17 +57,17 @@ export default async function ChainPageLayout({
               </div>
 
               {/* Mobile star */}
-              <div className="lg:hidden flex items-center">
+              <div className="md:hidden flex items-center">
                 <StarButton
                   chainId={chain.chainId}
                   initialPreferred={false}
-                  iconClassName="size-5"
+                  iconClassName="size-6"
                 />
               </div>
             </div>
 
             {/* Mobile tags */}
-            <div className="lg:hidden ">
+            <div className="md:hidden ">
               <div className="h-6"></div>
               <div className="flex flex-col gap-3">
                 <div className="flex gap-3">
@@ -81,11 +82,11 @@ export default async function ChainPageLayout({
               </div>
             </div>
 
-            <div className="h-6 lg:h-8"></div>
+            <div className="h-6 md:h-8"></div>
             <ChainPageTabs chainSlug={params.chain_id} />
           </div>
         </header>
-        <main className="container px-4">{children}</main>
+        <main className="container px-4 pb-10">{children}</main>
       </section>
     </ReactQueryClientProvider>
   );

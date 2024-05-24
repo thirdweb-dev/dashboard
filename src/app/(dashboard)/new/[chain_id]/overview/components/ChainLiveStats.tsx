@@ -14,7 +14,7 @@ export function ChainLiveStats(props: { rpc: string }) {
     <>
       {/* RPC URL */}
       <PrimaryInfoItem
-        title="RPC URL"
+        title="RPC"
         titleIcon={
           stats.isSuccess ? (
             <ToolTipLabel label="Working">
@@ -35,7 +35,11 @@ export function ChainLiveStats(props: { rpc: string }) {
 
       {/* Block Height */}
       <PrimaryInfoItem title="Block Height" titleIcon={<PulseDot />}>
-        {stats.data ? (
+        {stats.isError ? (
+          <p className="text-lg fade-in-0 animate-in text-destructive-foreground">
+            N/A
+          </p>
+        ) : stats.data ? (
           <p className="text-lg fade-in-0 animate-in">
             {stats.data.blockNumber}
           </p>
@@ -48,7 +52,11 @@ export function ChainLiveStats(props: { rpc: string }) {
 
       {/* Latency */}
       <PrimaryInfoItem title="Latency" titleIcon={<PulseDot />}>
-        {stats.data ? (
+        {stats.isError ? (
+          <p className="text-lg fade-in-0 animate-in text-destructive-foreground">
+            N/A
+          </p>
+        ) : stats.data ? (
           <p className="text-lg fade-in-0 animate-in">{stats.data.latency}</p>
         ) : (
           <div className="flex py-1 h-[28px] w-[70px]">
