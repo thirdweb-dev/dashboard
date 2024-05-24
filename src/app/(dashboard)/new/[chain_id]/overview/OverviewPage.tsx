@@ -4,7 +4,6 @@ import { CheckIcon, ExternalLinkIcon, XIcon } from "lucide-react";
 import { getChain } from "../../chainlist/getChain";
 import { ChainLiveStats } from "./components/ChainLiveStats";
 import { PrimaryInfoItem } from "./components/PrimaryInfoItem";
-import { Separator } from "@/components/ui/separator";
 import { products } from "../../chainlist/products";
 import { Button } from "@/components/ui/button";
 import { cn } from "../../../../../@/lib/utils";
@@ -16,24 +15,17 @@ export async function ChainOverviewPage(props: {
 
   return (
     <div className="py-3">
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-10">
         <PrimaryInfoGrid chain={chain} />
         <EnabledServices />
+        {chain.faucets && chain.faucets.length > 0 && (
+          <Faucets faucets={[...chain.faucets]} />
+        )}
+
+        {chain.explorers && chain.explorers.length > 0 && (
+          <Explorers explorers={chain.explorers} />
+        )}
       </div>
-
-      <Separator className="my-8" />
-
-      {(chain.faucets || chain.explorers) && (
-        <div className="flex flex-col gap-6">
-          {chain.faucets && chain.faucets.length > 0 && (
-            <Faucets faucets={[...chain.faucets]} />
-          )}
-
-          {chain.explorers && chain.explorers.length > 0 && (
-            <Explorers explorers={chain.explorers} />
-          )}
-        </div>
-      )}
     </div>
   );
 }
@@ -43,7 +35,7 @@ function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
   const isDeprecated = chain.status === "deprecated";
 
   return (
-    <div className="grid grid-cols-1 gap-5 lg:gap-7 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 lg:gap-10 md:grid-cols-2 lg:grid-cols-3">
       {/* Info */}
       {chain.infoURL && (
         <PrimaryInfoItem title="Info">

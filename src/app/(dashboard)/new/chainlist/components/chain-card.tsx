@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FuelIcon, Verified } from "lucide-react";
+import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
 import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { StarButton } from "./star-button";
@@ -20,6 +20,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
   isVerified,
   isGasSponsored,
 }) => {
+  const isDeprecated = chain.status === "deprecated";
   return (
     <div className="relative h-full">
       <Card className="h-full w-full hover:border-ring">
@@ -68,19 +69,30 @@ export const ChainCard: React.FC<ChainCardProps> = ({
             </tbody>
           </table>
 
-          {(isVerified || isGasSponsored) && (
+          {(isVerified || isGasSponsored || isDeprecated) && (
             <div className="mt-4 flex gap-5">
-              {isVerified && (
-                <div className="gap-1.5 flex items-center">
-                  <Verified className="text-primary-foreground size-5" />
-                  <p className="text-sm">Verified</p>
-                </div>
+              {!isDeprecated && (
+                <>
+                  {isVerified && (
+                    <div className="gap-1.5 flex items-center">
+                      <Verified className="text-primary-foreground size-5" />
+                      <p className="text-sm">Verified</p>
+                    </div>
+                  )}
+
+                  {isGasSponsored && (
+                    <div className="gap-1.5 flex items-center">
+                      <FuelIcon className="text-primary-foreground size-5" />
+                      <p className="text-sm">Gas Sponsored</p>
+                    </div>
+                  )}
+                </>
               )}
 
-              {isGasSponsored && (
+              {isDeprecated && (
                 <div className="gap-1.5 flex items-center">
-                  <FuelIcon className="text-primary-foreground size-5" />
-                  <p className="text-sm">Gas Sponsored</p>
+                  <CircleAlertIcon className="text-destructive-foreground size-5" />
+                  <p className="text-sm">Deprecated</p>
                 </div>
               )}
             </div>
