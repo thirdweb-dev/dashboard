@@ -50,8 +50,8 @@ export function ChainPageTabs(props: { chainSlug: string }) {
                   className={cn(
                     "border-b-2 rounded-none hover:bg-transparent px-3 lg:px-4 font-medium text-sm lg:text-md",
                     layoutSegment === tab.segment
-                      ? "border-primary"
-                      : "border-transparent opacity-50 hover:opacity-100 hover:border-primary",
+                      ? "border-primary "
+                      : "border-transparent opacity-50 hover:opacity-100",
                   )}
                 >
                   {tab.name}

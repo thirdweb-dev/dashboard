@@ -130,9 +130,9 @@ function ProductIcon(props: {
       label={props.label}
       rightIcon={
         props.enabled ? (
-          <CheckIcon className="size-4 text-green-600" />
+          <CheckIcon className="size-4 text-success-foreground" />
         ) : (
-          <XIcon className="size-4 text-red-600" />
+          <XIcon className="size-4 text-destructive-foreground" />
         )
       }
     >

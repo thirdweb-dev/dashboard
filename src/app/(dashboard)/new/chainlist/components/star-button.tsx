@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "../../../../../@/lib/utils";
 import { Button } from "../../../../../@/components/ui/button";
 import { ToolTipLabel } from "../../../../../@/components/ui/tooltip";
+import { useDebounce } from "../../../../../hooks/common/useDebounce";
 
 export function StarButton(props: {
   chainId: number;
@@ -15,6 +16,8 @@ export function StarButton(props: {
   const { initialPreferred } = props;
   const [isPreferred, setIsPreferred] = useState(initialPreferred);
   const label = isPreferred ? "Add to Favourites" : "Remove from Favourites";
+  // don't update the tooltip immediately on click
+  const tooltipLabel = useDebounce(label, 1000);
 
   return (
     <Button
@@ -24,7 +27,7 @@ export function StarButton(props: {
       aria-label={label}
       onClick={() => setIsPreferred((prev) => !prev)}
     >
-      <ToolTipLabel label={label}>
+      <ToolTipLabel label={tooltipLabel}>
         <Star
           className={cn(
             "transition-all size-5",

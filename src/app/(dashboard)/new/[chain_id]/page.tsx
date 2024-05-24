@@ -1,3 +1,3 @@
-export default function ChainOverviewPage() {
-  return <div>Overview Page</div>;
-}
+import { ChainOverviewPage } from "./overview/OverviewPage";
+
+export default ChainOverviewPage;
