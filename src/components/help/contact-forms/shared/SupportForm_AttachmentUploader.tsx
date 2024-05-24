@@ -140,23 +140,13 @@ interface FileUploadProps {
   updateFiles: Dispatch<SetStateAction<File[]>>;
 }
 
-const filesPerPage = 20;
-
 // this is a simplified version of the <FileUpload /> in dropzone.tsx
+// since Unthread only allows 10 files per upload, we don't have to worry about pagination
 const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
-  const [page, setPage] = useState(0);
-  const filesToShow = useMemo(() => {
-    const start = page * filesPerPage;
-    return files.slice(start, start + filesPerPage);
-  }, [files, page]);
-  const lastPage = Math.ceil(files.length / filesPerPage);
-  const showNextButton = page < lastPage - 1;
-  const showPrevButton = page > 0;
-  const showPagination = (showNextButton || showPrevButton) && lastPage > 1;
   return (
     <Flex direction="column" w="full" h="full" justify="space-between">
       <SimpleGrid columns={1} p={1.5} gap={1.5} overflow="auto">
-        {filesToShow.map((file, index) => {
+        {files.map((file, index) => {
           return (
             <GridItem colSpan={0} key={`${file.name}_${index}`}>
               <SimpleGrid
@@ -230,49 +220,16 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
 
       <Flex direction="column">
         <Divider flexShrink={0} />
-        <Flex
-          direction={{ base: "column-reverse", md: "row" }}
-          justifyContent={"space-between"}
-          gap={{ base: 2, md: 8 }}
-          flexShrink={0}
-          p={{ base: 0, md: 2 }}
-          pt={2}
-          bg="bgWhite"
-        >
-          {showPagination && (
-            <ButtonGroup>
-              <Button
-                isDisabled={!showPrevButton}
-                variant="inverted"
-                onClick={() => {
-                  setPage(page - 1);
-                }}
-              >
-                Previous
-              </Button>
-
-              <Button
-                isDisabled={!showNextButton}
-                variant="inverted"
-                onClick={() => {
-                  setPage(page + 1);
-                }}
-              >
-                Next
-              </Button>
-            </ButtonGroup>
-          )}
-          <ButtonGroup>
-            <Button
-              isDisabled={false}
-              onClick={() => {
-                updateFiles([]);
-              }}
-            >
-              Reset
-            </Button>
-          </ButtonGroup>
-        </Flex>
+        <ButtonGroup p={{ base: 0, md: 2 }}>
+          <Button
+            isDisabled={false}
+            onClick={() => {
+              updateFiles([]);
+            }}
+          >
+            Reset
+          </Button>
+        </ButtonGroup>
       </Flex>
     </Flex>
   );
