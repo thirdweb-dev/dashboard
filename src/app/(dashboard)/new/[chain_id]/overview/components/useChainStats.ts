@@ -2,8 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { thirdwebClient } from "../../../../../../@/constants/client";
 import { isProd } from "../../../../../../constants/rpc";
 import { hostnameEndsWith } from "../../../../../../utils/url";
+import { useState } from "react";
 
 export function useChainStatswithRPC(_rpcUrl: string) {
+  const [shouldRefetch, setShouldRefetch] = useState(true);
+
   let rpcUrl = _rpcUrl.replace(
     // eslint-disable-next-line no-template-curly-in-string
     "${THIRDWEB_API_KEY}",
@@ -39,7 +42,11 @@ export function useChainStatswithRPC(_rpcUrl: string) {
         blockNumber: parseInt(json.result, 16),
       };
     },
-    refetchInterval: 5 * 1000,
+    refetchInterval: shouldRefetch ? 5 * 1000 : undefined,
     enabled: !!rpcUrl,
+    refetchOnWindowFocus: false,
+    onError: () => {
+      setShouldRefetch(false);
+    },
   });
 }

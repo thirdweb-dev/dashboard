@@ -139,7 +139,9 @@ function Faucets(props: { faucets: string[] }) {
               key={faucet}
               className="p-4 border rounded-lg relative hover:border-ring"
             >
-              <h3 className="mb-1 text-md font-semibold">{displayTitle}</h3>
+              <h3 className="mb-1 text-md font-semibold capitalize">
+                {displayTitle}
+              </h3>
               <Link
                 href={faucet}
                 target="_blank"
@@ -171,7 +173,9 @@ function Explorers(props: {
               key={explorer.url}
               className="p-4 border rounded-lg relative hover:border-ring"
             >
-              <h3 className="mb-1 text-md font-semibold">{explorer.name}</h3>
+              <h3 className="mb-1 text-md font-semibold capitalize">
+                {explorer.name}
+              </h3>
               <Link
                 href={explorer.url}
                 target="_blank"
