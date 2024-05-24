@@ -18,11 +18,11 @@ export function ColorModeToggle() {
       }}
       aria-label="Toggle theme"
     >
-      <ClientOnly ssr={<Moon strokeWidth={1} className="size-6" />}>
+      <ClientOnly ssr={<Moon className="size-6" />}>
         {theme === "dark" ? (
-          <Moon strokeWidth={1} className="size-6" />
+          <Moon className="size-6" />
         ) : (
-          <Sun strokeWidth={1} className="size-6 " />
+          <Sun className="size-6 " />
         )}
       </ClientOnly>
     </Button>

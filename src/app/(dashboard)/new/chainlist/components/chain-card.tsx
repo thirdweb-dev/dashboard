@@ -34,7 +34,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
           </div>
 
           <StarButton
-            chainName={chain.name}
+            chainId={chain.chainId}
             initialPreferred={initialPreferred}
           />
         </CardHeader>
@@ -79,7 +79,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
 
               {isGasSponsored && (
                 <div className="gap-1.5 flex items-center">
-                  <FuelIcon strokeWidth={1.5} className="text-primary size-5" />
+                  <FuelIcon className="text-primary size-5" />
                   <p className="text-sm">Gas Sponsored</p>
                 </div>
               )}

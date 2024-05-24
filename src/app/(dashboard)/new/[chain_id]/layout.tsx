@@ -42,15 +42,12 @@ export default async function ChainPageLayout({
 
               {isVerified && (
                 <ToolTipLabel label="Verified">
-                  <Verified
-                    strokeWidth={1.5}
-                    className="text-primary size-[36px] text-md z-10"
-                  />
+                  <Verified className="text-primary size-[36px] text-md z-10" />
                 </ToolTipLabel>
               )}
 
               <StarButton
-                chainName={chain.name}
+                chainId={chain.chainId}
                 initialPreferred={false}
                 iconClassName="size-[36px]"
               />
@@ -59,7 +56,7 @@ export default async function ChainPageLayout({
             {/* Mobile star */}
             <div className="lg:hidden flex items-center">
               <StarButton
-                chainName={chain.name}
+                chainId={chain.chainId}
                 initialPreferred={false}
                 iconClassName="size-5"
               />
