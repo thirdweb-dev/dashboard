@@ -70,7 +70,7 @@ export default async function Page() {
 
       <div className="h-3"></div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
         {popularContracts.map((c) => {
           return (
             <ContractCard
@@ -89,12 +89,12 @@ export default async function Page() {
 function ContractCard(props: ContractCardInfo) {
   return (
     <div className="border bg-secondary rounded-xl p-4 hover:bg-muted relative flex flex-col h-full shadow-sm">
-      <div className="text-success-foreground flex items-center gap-1 mb-5 text-sm font-medium">
+      <div className="text-success-foreground flex items-center gap-1 mb-4 text-sm font-medium">
         <ShieldCheckIcon className="size-4 text-success-foreground" />
         Audited
       </div>
 
-      <h3 className="text-xl tracking-tight font-semibold text-foreground mb-1.5">
+      <h3 className="text-lg tracking-tight font-semibold text-foreground mb-1">
         <Link
           href={props.href}
           className="before:absolute before:inset-0 before:z-0"
@@ -104,10 +104,10 @@ function ContractCard(props: ContractCardInfo) {
         </Link>
       </h3>
 
-      <p className="text-md text-muted-foreground mb-8">{props.description}</p>
+      <p className="text-md text-muted-foreground mb-10">{props.description}</p>
 
       <Link
-        className="inline-flex items-center gap-1.5 hover:underline z-10 relative mt-auto"
+        className="inline-flex items-center gap-1.5 z-10 relative mt-auto text-muted-foreground hover:text-foreground"
         href="/thirdweb.eth"
         target="_blank"
       >

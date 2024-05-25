@@ -37,7 +37,7 @@ const sdks: SDKInfo[] = [
     icon: SiSolidity,
   },
   {
-    name: ".NFT SDK",
+    name: ".NET SDK",
     href: "https://portal.thirdweb.com/dotnet",
     icon: SiDotnet,
   },
@@ -65,15 +65,15 @@ export default function Page() {
 
       <div className="h-3"></div>
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {sdks.map((sdk) => {
           return (
             <Link
               key={sdk.name}
               href={sdk.href}
-              className="border p-4 bg-secondary rounded-lg hover:bg-muted text-lg font-semibold flex items-center gap-3"
+              className="border p-4 bg-secondary rounded-lg hover:bg-muted font-medium flex items-center gap-3"
             >
-              <sdk.icon className="size-6 text-muted-foreground" />
+              <sdk.icon className="size-5 text-muted-foreground" />
               {sdk.name}
             </Link>
           );

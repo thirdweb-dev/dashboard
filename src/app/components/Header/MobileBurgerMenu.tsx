@@ -17,6 +17,12 @@ export function MobileBurgerMenu() {
     }
   }, [showBurgerMenu]);
 
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  });
+
   return (
     <>
       <Button
