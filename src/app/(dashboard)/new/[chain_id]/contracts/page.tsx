@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-dom-props */
 // import { getChain } from "../../chainlist/getChain";
-import { ChevronRight, ShieldCheckIcon } from "lucide-react";
+import { ChevronRight, InfoIcon, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import twPublisherImage from "./tw-publisher.png";
 import Image from "next/image";
@@ -43,7 +43,10 @@ const popularContracts: ContractCardInfo[] = [
 
 export default async function Page() {
   return (
-    <div className="pt-5">
+    <div className="pt-2 pb-20">
+      <ContractsInfoCard />
+      <div className="h-10"></div>
+
       <div className="flex items-center justify-between">
         <h3 className="text-foreground text-3xl tracking-tighter font-semibold">
           Get Started
@@ -58,7 +61,7 @@ export default async function Page() {
         </Link>
       </div>
 
-      <div className="h-5"></div>
+      <div className="h-3"></div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {popularContracts.map((c) => {
@@ -72,6 +75,32 @@ export default async function Page() {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function ContractsInfoCard() {
+  return (
+    <div className="border rounded-lg px-4 py-4 bg-secondary relative">
+      <h2 className="text-xl mb-3 font-semibold tracking-tight">
+        thirdweb Contracts
+      </h2>
+      <p className="mb-1.5 text-muted-foreground">
+        End-to-end tools for smart contract development
+      </p>
+      <p className="mb-6 text-muted-foreground">
+        Trusted, modular smart contracts that can be deployed securely on any
+        EVM chain
+      </p>
+      <Link
+        href="https://portal.thirdweb.com/contracts"
+        className="text-primary-foreground flex items-center gap-0.5"
+        target="_blank"
+      >
+        Learn More <ChevronRight className="size-4" />
+      </Link>
+
+      <InfoIcon className="size-5 text-muted-foreground absolute right-4 top-4" />
     </div>
   );
 }

@@ -50,7 +50,7 @@ export function ChainPageTabs(props: { chainSlug: string }) {
                 <Link
                   href={`/new/${props.chainSlug}/${tab.segment}`}
                   className={cn(
-                    "rounded-lg hover:bg-secondary px-3 font-medium text-sm lg:text-md relative h-auto",
+                    "rounded-lg hover:bg-muted px-3 font-medium text-sm lg:text-md relative h-auto",
                     !isActive && "opacity-50 hover:opacity-100",
                   )}
                 >
