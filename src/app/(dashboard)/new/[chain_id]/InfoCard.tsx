@@ -4,7 +4,7 @@ import type React from "react";
 
 export function InfoCard(props: {
   title: string;
-  learnMoreHref: string;
+  learnMoreHref?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -17,13 +17,15 @@ export function InfoCard(props: {
         {props.children}
       </div>
 
-      <Link
-        href={props.learnMoreHref}
-        className="mt-7 text-primary-foreground flex items-center gap-0.5 font-medium"
-        target="_blank"
-      >
-        Learn More <ChevronRight className="size-4" />
-      </Link>
+      {props.learnMoreHref && (
+        <Link
+          href={props.learnMoreHref}
+          className="mt-7 text-primary-foreground flex items-center gap-0.5 font-medium"
+          target="_blank"
+        >
+          Learn More <ChevronRight className="size-4" />
+        </Link>
+      )}
 
       <InfoIcon className="size-5 text-muted-foreground absolute right-4 top-4" />
     </div>

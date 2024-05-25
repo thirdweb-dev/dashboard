@@ -82,7 +82,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
 
                   {isGasSponsored && (
                     <div className="gap-1.5 flex items-center">
-                      <FuelIcon className="text-primary-foreground size-5" />
+                      <FuelIcon className="text-violet-500 size-5" />
                       <p className="text-sm">Gas Sponsored</p>
                     </div>
                   )}

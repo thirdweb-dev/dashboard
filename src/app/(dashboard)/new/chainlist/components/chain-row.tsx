@@ -53,7 +53,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
 
             {isGasSponsored && (
               <ToolTipLabel label="Gas Sponsored">
-                <FuelIcon className="text-primary-foreground size-5 z-10 " />
+                <FuelIcon className="text-violet-500 size-5 z-10 " />
               </ToolTipLabel>
             )}
 

@@ -39,15 +39,15 @@ export default async function ChainPageLayout({
 
               {/* Desktop tags */}
               <div className="hidden md:flex text-md items-center gap-3">
-                {isGasSponsored && (
-                  <ToolTipLabel label="Gas Sponsored">
-                    <FuelIcon className="text-primary-foreground size-[36px] " />
-                  </ToolTipLabel>
-                )}
-
                 {isVerified && (
                   <ToolTipLabel label="Verified">
                     <Verified className="text-primary-foreground size-[36px]" />
+                  </ToolTipLabel>
+                )}
+
+                {isGasSponsored && (
+                  <ToolTipLabel label="Gas Sponsored">
+                    <FuelIcon className="text-violet-500 size-[36px] " />
                   </ToolTipLabel>
                 )}
 
@@ -80,7 +80,7 @@ export default async function ChainPageLayout({
               <div className="flex flex-col gap-3">
                 {isGasSponsored && (
                   <div className="flex gap-3">
-                    <FuelIcon className="text-primary-foreground size-6" />
+                    <FuelIcon className="text-violet-500 size-6" />
                     <p> Gas Sponsored </p>
                   </div>
                 )}

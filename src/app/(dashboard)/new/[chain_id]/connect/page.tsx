@@ -46,10 +46,7 @@ const sdks: SDKInfo[] = [
 export default function Page() {
   return (
     <div className="pt-2 pb-20">
-      <InfoCard
-        title="Connect SDK"
-        learnMoreHref="https://portal.thirdweb.com/connect"
-      >
+      <InfoCard title="Connect SDK" learnMoreHref="/connect">
         <p>
           Connect is the complete toolkit for connecting every user to your
           application.

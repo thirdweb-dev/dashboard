@@ -44,10 +44,7 @@ const popularContracts: ContractCardInfo[] = [
 export default async function Page() {
   return (
     <div className="pt-2 pb-20">
-      <InfoCard
-        title="thirdweb Contracts"
-        learnMoreHref="https://portal.thirdweb.com/contracts"
-      >
+      <InfoCard title="thirdweb Contracts" learnMoreHref="/contracts">
         <p>End-to-end tools for smart contract development</p>
         <p>
           Trusted, modular smart contracts that can be deployed securely on any
