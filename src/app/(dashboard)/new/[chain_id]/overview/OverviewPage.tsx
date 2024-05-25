@@ -83,7 +83,7 @@ function EnabledServices() {
               variant="outline"
               asChild
               className={cn(
-                "rounded-xl px-3 py-0.5 hover:bg-transparent hover:border-primary",
+                "rounded-xl px-3 py-0.5 hover:bg-muted bg-secondary",
               )}
             >
               <Link
@@ -92,9 +92,9 @@ function EnabledServices() {
                 className="text-sm flex gap-1.5 items-center "
               >
                 {isSupported ? (
-                  <CheckIcon className="size-5 text-success-foreground" />
+                  <CheckIcon className="size-4 text-success-foreground" />
                 ) : (
-                  <XIcon className="size-5 text-destructive-foreground" />
+                  <XIcon className="size-4 text-destructive-foreground" />
                 )}
                 {p.name}
               </Link>

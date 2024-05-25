@@ -23,7 +23,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
   const isDeprecated = chain.status === "deprecated";
   return (
     <div className="relative h-full">
-      <Card className="h-full w-full hover:border-ring">
+      <Card className="h-full w-full hover:bg-muted">
         <CardHeader className="flex flex-row justify-between justify-items-center p-4">
           <div className="flex flex-row items-center gap-2.5">
             <Link
@@ -45,19 +45,19 @@ export const ChainCard: React.FC<ChainCardProps> = ({
           <table className="w-full">
             <tbody className="[&_td]:py-0.5 text-sm">
               <tr>
-                <th className="text-left font-semibold text-muted-foreground">
+                <th className="text-left font-normal text-muted-foreground">
                   Chain ID
                 </th>
                 <td>{chain.chainId}</td>
               </tr>
               <tr>
-                <th className="text-left font-semibold text-muted-foreground">
+                <th className="text-left font-normal text-muted-foreground">
                   Native Token
                 </th>
                 <td>{chain.nativeCurrency?.symbol}</td>
               </tr>
               <tr>
-                <th className="text-left font-semibold text-muted-foreground">
+                <th className="text-left font-normal text-muted-foreground">
                   Available Products
                 </th>
 
@@ -70,7 +70,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
           </table>
 
           {(isVerified || isGasSponsored || isDeprecated) && (
-            <div className="mt-4 flex gap-5">
+            <div className="mt-5 flex gap-5 border-t pt-4">
               {!isDeprecated && (
                 <>
                   {isVerified && (

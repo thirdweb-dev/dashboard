@@ -32,7 +32,7 @@ export function StarButton(props: {
           className={cn(
             "transition-all size-5",
             props.iconClassName,
-            isPreferred ? "text-primary" : "text-muted-foreground",
+            isPreferred ? "text-warning-foreground" : "text-muted-foreground",
           )}
           fill={isPreferred ? "currentColor" : "none"}
         />

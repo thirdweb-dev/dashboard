@@ -55,6 +55,9 @@ module.exports = {
           DEFAULT: "hsl(var(--inverted))",
           foreground: "hsl(var(--inverted-foreground))",
         },
+        warning: {
+          foreground: "hsl(var(--warning-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

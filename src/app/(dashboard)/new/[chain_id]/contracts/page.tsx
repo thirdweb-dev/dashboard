@@ -1,9 +1,9 @@
 /* eslint-disable react/forbid-dom-props */
-// import { getChain } from "../../chainlist/getChain";
-import { ChevronRight, InfoIcon, ShieldCheckIcon } from "lucide-react";
+import { ChevronRight, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import twPublisherImage from "./tw-publisher.png";
 import Image from "next/image";
+import { InfoCard } from "../InfoCard";
 
 type ContractCardInfo = {
   name: string;
@@ -44,7 +44,17 @@ const popularContracts: ContractCardInfo[] = [
 export default async function Page() {
   return (
     <div className="pt-2 pb-20">
-      <ContractsInfoCard />
+      <InfoCard
+        title="thirdweb Contracts"
+        learnMoreHref="https://portal.thirdweb.com/contracts"
+      >
+        <p>End-to-end tools for smart contract development</p>
+        <p>
+          Trusted, modular smart contracts that can be deployed securely on any
+          EVM chain
+        </p>
+      </InfoCard>
+
       <div className="h-10"></div>
 
       <div className="flex items-center justify-between">
@@ -79,41 +89,9 @@ export default async function Page() {
   );
 }
 
-function ContractsInfoCard() {
-  return (
-    <div className="border rounded-lg px-4 py-4 bg-secondary relative">
-      <h2 className="text-xl mb-3 font-semibold tracking-tight">
-        thirdweb Contracts
-      </h2>
-      <p className="mb-1.5 text-muted-foreground">
-        End-to-end tools for smart contract development
-      </p>
-      <p className="mb-6 text-muted-foreground">
-        Trusted, modular smart contracts that can be deployed securely on any
-        EVM chain
-      </p>
-      <Link
-        href="https://portal.thirdweb.com/contracts"
-        className="text-primary-foreground flex items-center gap-0.5"
-        target="_blank"
-      >
-        Learn More <ChevronRight className="size-4" />
-      </Link>
-
-      <InfoIcon className="size-5 text-muted-foreground absolute right-4 top-4" />
-    </div>
-  );
-}
-
 function ContractCard(props: ContractCardInfo) {
   return (
-    <div
-      className="border rounded-xl p-4 hover:border-primary-foreground relative flex flex-col h-full shadow-md"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(var(--secondary)) 13%, hsl(var(--background)) 60%)",
-      }}
-    >
+    <div className="border bg-secondary rounded-xl p-4 hover:bg-muted relative flex flex-col h-full shadow-sm">
       <div className="text-success-foreground flex items-center gap-1 mb-5 text-sm font-medium">
         <ShieldCheckIcon className="size-4 text-success-foreground" />
         Audited

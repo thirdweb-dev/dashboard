@@ -130,7 +130,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
     );
   } else {
     content = (
-      <ul className="grid gap-5 grid-cols-1 md:grid-cols-2">
+      <ul className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {resultsToShow.map((chain) => (
           <li key={chain.chainId} className="h-full">
             <ChainCard
@@ -235,7 +235,7 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
 
 function TableHeading(props: { children: React.ReactNode }) {
   return (
-    <th className="text-left p-4 font-semibold text-muted-foreground tracking-wider min-w-[150px]">
+    <th className="text-left p-4 font-medium text-muted-foreground min-w-[150px]">
       {props.children}
     </th>
   );
