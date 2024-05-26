@@ -1,4 +1,3 @@
-import { ChainPageTabs } from "./tabs";
 import { cn } from "../../../../@/lib/utils";
 import { StarButton } from "../chainlist/components/star-button";
 import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
@@ -6,6 +5,7 @@ import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
 import { Separator } from "@/components/ui/separator";
+import { ChainPageSidebar, ChainPageTabs } from "./tabs";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -24,8 +24,9 @@ export default async function ChainPageLayout({
 
   return (
     <ReactQueryClientProvider>
-      <section className="flex flex-col">
-        <header className="pt-8 md:pt-20 pb-4">
+      <section className="flex flex-col h-full">
+        {/* Header */}
+        <header className="pt-8 md:pt-16 pb-6">
           <div className="container px-4">
             <div className="flex gap-3 md:gap-5 items-center">
               {/* Chain Name */}
@@ -100,12 +101,20 @@ export default async function ChainPageLayout({
                 )}
               </div>
             </div>
-
-            <div className="h-6 md:h-8"></div>
-            <ChainPageTabs chainSlug={params.chain_id} />
           </div>
         </header>
-        <main className="container px-4 pb-10">{children}</main>
+
+        <main className="container px-4 py-4 lg:py-8 flex-1">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-7 h-full">
+            <div className="hidden lg:block h-full">
+              <ChainPageSidebar chainSlug={params.chain_id} />
+            </div>
+            <div className="lg:hidden">
+              <ChainPageTabs chainSlug={params.chain_id} />
+            </div>
+            <div className="flex-1">{children}</div>
+          </div>
+        </main>
       </section>
     </ReactQueryClientProvider>
   );

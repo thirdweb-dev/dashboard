@@ -112,7 +112,7 @@ function Faucets(props: { faucets: string[] }) {
       <h2 className="text-base text-muted-foreground mb-2 font-medium">
         Faucets
       </h2>
-      <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {props.faucets.map((faucet) => {
           const url = new URL(faucet);
           const hostnameSplit = url.hostname.split(".");
@@ -156,7 +156,7 @@ function Explorers(props: {
       <h2 className="text-base text-muted-foreground mb-2 font-medium">
         Explorers
       </h2>
-      <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {props.explorers.map((explorer) => {
           return (
             <div
