@@ -68,10 +68,10 @@ function EnabledServices() {
   return (
     <div className="pb-10 border-b">
       <div className="flex items-center gap-2 mb-2">
-        <h2 className="text-md text-muted-foreground font-medium">
+        <h2 className="text-base text-muted-foreground font-medium">
           Enabled Services
         </h2>
-        <span className="text-md"> 5/6 </span>
+        <span className="text-base"> 5/6 </span>
       </div>
       <div className="flex gap-2 flex-wrap">
         {products.map((p, i) => {
@@ -109,7 +109,7 @@ function EnabledServices() {
 function Faucets(props: { faucets: string[] }) {
   return (
     <div>
-      <h2 className="text-md text-muted-foreground mb-2 font-medium">
+      <h2 className="text-base text-muted-foreground mb-2 font-medium">
         Faucets
       </h2>
       <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -129,7 +129,7 @@ function Faucets(props: { faucets: string[] }) {
               key={faucet}
               className="p-4 border rounded-xl relative bg-secondary hover:bg-muted"
             >
-              <h3 className="mb-1 text-md font-semibold capitalize">
+              <h3 className="mb-1 text-base font-semibold capitalize">
                 {displayTitle}
               </h3>
               <Link
@@ -153,7 +153,7 @@ function Explorers(props: {
 }) {
   return (
     <div>
-      <h2 className="text-md text-muted-foreground mb-2 font-medium">
+      <h2 className="text-base text-muted-foreground mb-2 font-medium">
         Explorers
       </h2>
       <div className="grid grid-cols-1 gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -163,7 +163,7 @@ function Explorers(props: {
               key={explorer.url}
               className="p-4 border rounded-xl relative bg-secondary hover:bg-muted"
             >
-              <h3 className="mb-1 text-md font-semibold capitalize">
+              <h3 className="mb-1 text-base font-semibold capitalize">
                 {explorer.name}
               </h3>
               <Link

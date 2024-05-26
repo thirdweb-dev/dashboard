@@ -38,7 +38,7 @@ export default function Page() {
         <div className="flex gap-3 flex-col lg:flex-row">
           <Link
             href="/dashboard/connect/account-abstraction"
-            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-md flex gap-2 items-center justify-between"
+            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-base flex gap-2 items-center justify-between"
           >
             Get Started
             <ExternalLinkIcon className="size-4 text-muted-foreground" />
@@ -46,7 +46,7 @@ export default function Page() {
 
           <Link
             href="https://portal.thirdweb.com/connect/account-abstraction"
-            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-md flex gap-2 items-center justify-between"
+            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-base flex gap-2 items-center justify-between"
           >
             Learn More
             <ExternalLinkIcon className="size-4 text-muted-foreground" />

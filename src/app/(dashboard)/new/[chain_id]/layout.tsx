@@ -38,7 +38,7 @@ export default async function ChainPageLayout({
               </h1>
 
               {/* Desktop tags */}
-              <div className="hidden md:flex text-md items-center gap-3">
+              <div className="hidden md:flex text-base items-center gap-3">
                 {isVerified && (
                   <ToolTipLabel label="Verified">
                     <Verified className="text-primary-foreground size-[36px]" />

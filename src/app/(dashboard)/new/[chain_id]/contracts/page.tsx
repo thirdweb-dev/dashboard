@@ -104,7 +104,9 @@ function ContractCard(props: ContractCardInfo) {
         </Link>
       </h3>
 
-      <p className="text-md text-muted-foreground mb-10">{props.description}</p>
+      <p className="text-base text-muted-foreground mb-10">
+        {props.description}
+      </p>
 
       <Link
         className="inline-flex items-center gap-1.5 z-10 relative mt-auto text-muted-foreground hover:text-foreground"

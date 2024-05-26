@@ -37,7 +37,7 @@ export function ChainListFilters() {
       <Search className="absolute size-5 top-[50%] -translate-y-1/2 left-4 text-muted-foreground" />
       <Input
         placeholder="Search by name or chain ID"
-        className={"px-12 h-auto py-3 text-md"}
+        className={"px-12 h-auto py-3 text-base"}
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
