@@ -71,6 +71,7 @@ export default function Page() {
             <Link
               key={sdk.name}
               href={sdk.href}
+              target="_blank"
               className="border p-4 bg-secondary rounded-lg hover:bg-muted font-medium flex items-center gap-3"
             >
               <sdk.icon className="size-5 text-muted-foreground" />
