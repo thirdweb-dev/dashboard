@@ -45,19 +45,19 @@ export const ChainCard: React.FC<ChainCardProps> = ({
           <table className="w-full">
             <tbody className="[&_td]:py-0.5 text-sm">
               <tr>
-                <th className="text-left font-normal text-muted-foreground">
+                <th className="text-left font-normal text-secondary-foreground">
                   Chain ID
                 </th>
                 <td>{chain.chainId}</td>
               </tr>
               <tr>
-                <th className="text-left font-normal text-muted-foreground">
+                <th className="text-left font-normal text-secondary-foreground">
                   Native Token
                 </th>
                 <td>{chain.nativeCurrency?.symbol}</td>
               </tr>
               <tr>
-                <th className="text-left font-normal text-muted-foreground">
+                <th className="text-left font-normal text-secondary-foreground">
                   Available Products
                 </th>
 

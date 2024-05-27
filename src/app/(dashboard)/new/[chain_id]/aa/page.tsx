@@ -1,11 +1,21 @@
-import { ExternalLinkIcon } from "lucide-react";
 import { InfoCard } from "../InfoCard";
-import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="pt-2 pb-20">
-      <InfoCard title="Account Abstraction">
+    <div>
+      <InfoCard
+        title="Account Abstraction"
+        links={[
+          {
+            label: "Get Started",
+            href: "/dashboard/connect/account-abstraction",
+          },
+          {
+            label: "Learn More",
+            href: "https://portal.thirdweb.com/connect/account-abstraction/how-it-works",
+          },
+        ]}
+      >
         <p>
           Everything you need to leverage account abstraction technology to
           enable seamless user experiences for your users.
@@ -15,9 +25,9 @@ export default function Page() {
           This includes:
         </p>
 
-        <div className="h-4"></div>
+        <div className="h-3"></div>
 
-        <ul className="text-muted-foreground pl-4 [&_li]:list-disc [&_li]:mb-2 [&_li]:pl-1">
+        <ul className="text-secondary-foreground pl-4 [&_li]:list-disc [&_li]:mb-3 [&_li]:pl-1">
           <li>
             Account factory contracts that let you spin up smart accounts for
             your users
@@ -32,26 +42,6 @@ export default function Page() {
             Paymaster, which lets you sponsor transaction fees for your users
           </li>
         </ul>
-
-        <div className="h-6"></div>
-
-        <div className="flex gap-3 flex-col lg:flex-row">
-          <Link
-            href="/dashboard/connect/account-abstraction"
-            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-base flex gap-2 items-center justify-between"
-          >
-            Get Started
-            <ExternalLinkIcon className="size-4 text-muted-foreground" />
-          </Link>
-
-          <Link
-            href="https://portal.thirdweb.com/connect/account-abstraction"
-            className="bg-secondary font-medium hover:bg-muted border py-3 px-4 rounded-lg text-base flex gap-2 items-center justify-between"
-          >
-            Learn More
-            <ExternalLinkIcon className="size-4 text-muted-foreground" />
-          </Link>
-        </div>
       </InfoCard>
     </div>
   );

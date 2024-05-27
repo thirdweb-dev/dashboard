@@ -1,33 +1,41 @@
-import { ChevronRight, InfoIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
+import { Button } from "../../../../@/components/ui/button";
 
 export function InfoCard(props: {
   title: string;
-  learnMoreHref?: string;
+  links?: { label: string; href: string }[];
   children: React.ReactNode;
 }) {
   return (
     <div className="border rounded-xl px-4 py-4 bg-secondary relative">
-      <h2 className="text-xl mb-3 font-semibold tracking-tight">
+      <h2 className="text-xl font-semibold tracking-tight mb-4">
         {props.title}
       </h2>
 
-      <div className="[&_p]:mb-1.5 [&_p]:text-muted-foreground max-w-[900px]">
+      <div className="[&_p]:mb-3 [&_p]:text-secondary-foreground max-w-[1000px]">
         {props.children}
       </div>
 
-      {props.learnMoreHref && (
-        <Link
-          href={props.learnMoreHref}
-          className="mt-7 text-primary-foreground flex items-center gap-0.5 font-medium"
-          target="_blank"
-        >
-          Learn More <ChevronRight className="size-4" />
-        </Link>
+      {props.links && (
+        <div className="flex flex-col lg:flex-row mt-7 gap-3">
+          {props.links.map((link) => {
+            return (
+              <Button asChild variant="outline" key={link.label}>
+                <Link
+                  href={link.href}
+                  className="items-center gap-2"
+                  target="_blank"
+                >
+                  {link.label}{" "}
+                  <ExternalLinkIcon className="size-3 text-muted-foreground" />
+                </Link>
+              </Button>
+            );
+          })}
+        </div>
       )}
-
-      <InfoIcon className="size-5 text-muted-foreground absolute right-4 top-4" />
     </div>
   );
 }

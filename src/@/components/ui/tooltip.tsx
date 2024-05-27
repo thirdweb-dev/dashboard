@@ -39,8 +39,8 @@ export function ToolTipLabel(props: {
     <TooltipProvider>
       <Tooltip delayDuration={100} disableHoverableContent={true}>
         <TooltipTrigger asChild>{props.children}</TooltipTrigger>
-        <TooltipContent>
-          <div className="p-2 text-base flex items-center gap-1.5">
+        <TooltipContent sideOffset={10}>
+          <div className="p-2 text-sm flex items-center gap-1.5">
             {props.leftIcon}
             {props.label}
             {props.rightIcon}

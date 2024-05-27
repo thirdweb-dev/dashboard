@@ -43,8 +43,16 @@ const popularContracts: ContractCardInfo[] = [
 
 export default async function Page() {
   return (
-    <div className="pt-2 pb-20">
-      <InfoCard title="thirdweb Contracts" learnMoreHref="/contracts">
+    <div>
+      <InfoCard
+        title="thirdweb Contracts"
+        links={[
+          {
+            label: "Learn More",
+            href: "https://portal.thirdweb.com/contracts",
+          },
+        ]}
+      >
         <p>End-to-end tools for smart contract development</p>
         <p>
           Trusted, modular smart contracts that can be deployed securely on any
@@ -55,12 +63,12 @@ export default async function Page() {
       <div className="h-10"></div>
 
       <div className="flex items-center justify-between">
-        <h3 className="text-foreground text-3xl tracking-tighter font-semibold">
+        <h3 className="text-foreground text-2xl tracking-tighter font-semibold">
           Get Started
         </h3>
         <Link
           href="/explore"
-          className="text-primary-foreground inline-flex items-center gap-1 text-xl hover:text-foreground font-medium"
+          className="text-primary-foreground inline-flex items-center gap-1 text-base hover:text-foreground font-medium"
           target="_blank"
         >
           View All

@@ -26,7 +26,7 @@ export default async function ChainPageLayout({
     <ReactQueryClientProvider>
       <section className="flex flex-col h-full">
         {/* Header */}
-        <header className="pt-8 md:pt-16 pb-6">
+        <header className="py-6 lg:py-14">
           <div className="container px-4">
             <div className="flex gap-3 md:gap-5 items-center">
               {/* Chain Name */}
@@ -104,12 +104,12 @@ export default async function ChainPageLayout({
           </div>
         </header>
 
-        <main className="container px-4 py-4 lg:py-8 flex-1">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-7 h-full">
-            <div className="hidden lg:block h-full">
+        <main className="container px-4 pb-20 flex-1">
+          <div className="flex flex-col xl:flex-row gap-6 h-full">
+            <div className="hidden xl:block h-full">
               <ChainPageSidebar chainSlug={params.chain_id} />
             </div>
-            <div className="lg:hidden">
+            <div className="xl:hidden">
               <ChainPageTabs chainSlug={params.chain_id} />
             </div>
             <div className="flex-1">{children}</div>

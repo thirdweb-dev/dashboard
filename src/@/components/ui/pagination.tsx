@@ -45,7 +45,7 @@ const PaginationLink = ({
   ...props
 }: PaginationLinkProps) => (
   <Button
-    variant={!isActive ? "outline" : "primary"}
+    variant={!isActive ? "outline" : "default"}
     className={cn(
       "px-3 py-2 h-auto",
       className,

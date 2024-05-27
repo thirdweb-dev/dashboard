@@ -21,6 +21,7 @@ export function DashboardHeader() {
                 key={index}
                 href={link.href}
                 target={link.href.startsWith("https") ? "_blank" : undefined}
+                className="text-secondary-foreground hover:text-foreground"
               >
                 {link.name}
               </Link>
@@ -36,6 +37,7 @@ export function DashboardHeader() {
                 key={index}
                 href={link.href}
                 target={link.href.startsWith("https") ? "_blank" : undefined}
+                className="text-secondary-foreground hover:text-foreground"
               >
                 {link.name}
               </Link>

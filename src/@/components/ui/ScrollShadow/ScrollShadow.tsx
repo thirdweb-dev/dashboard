@@ -64,7 +64,9 @@ export function ScrollShadow(props: {
 
     handleScroll();
     content.addEventListener("scroll", handleScroll);
-    return () => content.removeEventListener("scroll", handleScroll);
+    return () => {
+      content.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
