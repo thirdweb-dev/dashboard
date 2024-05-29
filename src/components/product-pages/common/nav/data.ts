@@ -27,6 +27,36 @@ export const PRODUCT_SECTIONS: SectionProps[] = [
   },
 ];
 
+export const MOBILE_PRODUCTS_SECTIONS: SectionItemProps[] = [
+  {
+    name: "Connect",
+    label: "connect",
+    description: "Onboard, authenticate and manage users",
+    link: "/connect",
+    dashboardLink: "/connect",
+    icon: require("../../../../../public/assets/landingpage/connect-icon.png"),
+    section: "connect",
+    inLandingPage: true,
+  },
+  {
+    name: "Contracts",
+    label: "contracts",
+    description: "Create, deploy, and interact with smart contracts",
+    link: "/contracts",
+    icon: require("../../../../../public/assets/landingpage/contracts-icon.png"),
+    section: "contracts",
+  },
+  {
+    name: "Engine",
+    label: "engine",
+    description: "Connect your application to decentralized networks",
+    link: "/engine",
+    dashboardLink: "/engine",
+    icon: require("../../../../../public/assets/product-icons/engine.png"),
+    section: "infrastructure",
+  },
+];
+
 export const PRODUCTS: SectionItemProps[] = [
   {
     name: "Deploy",
@@ -130,16 +160,6 @@ export const PRODUCTS: SectionItemProps[] = [
     section: "infrastructure",
   },
   {
-    name: "NFT Checkout",
-    label: "nft-checkout",
-    description: "Credit card checkout for NFTs",
-    link: "/checkout",
-    dashboardLink: "/dashboard/payments/contracts",
-    icon: require("../../../../../public/assets/product-icons/payments.png"),
-    section: "payments",
-    inLandingPage: true,
-  },
-  {
     name: "Sponsored Transactions",
     label: "sponsored-transactions",
     description: "Remove all user friction with invisible transactions",
@@ -172,30 +192,6 @@ export const SOLUTIONS: SectionItemProps[] = [
     section: "solutions",
   },
   {
-    name: "Minting",
-    label: "minting",
-    description: "Build and mint NFTs at scale easily",
-    link: "/solutions/minting",
-    icon: require("../../../../../public/assets/solutions-icons/minting.svg"),
-    section: "solutions",
-  },
-  {
-    name: "Loyalty",
-    label: "loyalty",
-    description: "Activate new customer experiences",
-    link: "/solutions/loyalty",
-    icon: require("../../../../../public/assets/solutions-icons/loyalty.svg"),
-    section: "solutions",
-  },
-  {
-    name: "Marketplace",
-    label: "marketplace",
-    description: "Add marketplaces to any app or game",
-    link: "/solutions/marketplace",
-    icon: require("../../../../../public/assets/solutions-icons/marketplace.svg"),
-    section: "solutions",
-  },
-  {
     name: "Chains",
     label: "chains",
     description: "All-in-one dev tools for your chain",
@@ -204,11 +200,11 @@ export const SOLUTIONS: SectionItemProps[] = [
     section: "solutions",
   },
   {
-    name: "Web2 Onboarding",
-    label: "web2-onboarding",
-    description: "Seamless Web3 onboarding for everyone",
-    link: "/solutions/web2-onboarding",
-    icon: require("../../../../../public/assets/solutions-icons/web2-onboarding.svg"),
+    name: "Minting",
+    label: "minting",
+    description: "Build and mint NFTs at scale easily",
+    link: "/solutions/minting",
+    icon: require("../../../../../public/assets/solutions-icons/minting.svg"),
     section: "solutions",
   },
 ];
@@ -256,7 +252,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "docs",
     description: "Complete thirdweb documentation",
     link: "https://portal.thirdweb.com",
-    icon: require("../../../../../public/assets/tw-icons/pack.png"),
+    icon: require("../../../../../public/assets/tw-icons/docs.svg"),
     section: "resources",
   },
   {
@@ -264,7 +260,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "templates",
     description: "Ready-to-ship repositories",
     link: "/templates",
-    icon: require("../../../../../public/assets/tw-icons/dynamic-nft.png"),
+    icon: require("../../../../../public/assets/tw-icons/templates.svg"),
     section: "resources",
   },
   {
@@ -272,7 +268,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "guides",
     description: "Learn how to build with thirdweb",
     link: "https://blog.thirdweb.com/guides",
-    icon: require("../../../../../public/assets/tw-icons/edition.png"),
+    icon: require("../../../../../public/assets/tw-icons/guides.svg"),
     section: "resources",
   },
   {
@@ -280,24 +276,47 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "open-source",
     description: "Learn how to contribute to thirdweb",
     link: "/open-source",
-    icon: require("../../../../../public/assets/tw-icons/advanced-nfts.png"),
+    icon: require("../../../../../public/assets/tw-icons/opensource.svg"),
     section: "resources",
   },
   {
     name: "TypeScript",
     label: "typescript",
     description: "Integrate web3 into your app",
-    link: "https://portal.thirdweb.com/typescript-sdks",
-    icon: require("../../../../../public/assets/product-icons/sdks.png"),
+    link: "https://portal.thirdweb.com/typescript/v5",
+    icon: require("../../../../../public/assets/product-icons/typescript.svg"),
     section: "sdks",
   },
-
+  {
+    name: "React",
+    label: "react",
+    description: "Components and Hooks for wallets and contracts",
+    link: "https://portal.thirdweb.com/typescript/v5/react",
+    icon: require("../../../../../public/assets/product-icons/react.svg"),
+    section: "sdks",
+  },
+  {
+    name: "React Native",
+    label: "react-native",
+    description: "React Native hooks and components for mobile apps",
+    link: "https://portal.thirdweb.com/react-native/v0",
+    icon: require("../../../../../public/assets/product-icons/react.svg"),
+    section: "sdks",
+  },
   {
     name: "Unity",
     label: "unity",
     description: "Build games with blockchain and web3 capabilities",
     link: "https://portal.thirdweb.com/unity",
-    icon: require("../../../../../public/assets/product-icons/sdks.png"),
+    icon: require("../../../../../public/assets/product-icons/unity.svg"),
+    section: "sdks",
+  },
+  {
+    name: ".NET",
+    label: ".net",
+    description: "Build .NET apps and Godot games",
+    link: "https://portal.thirdweb.com/dotnet",
+    icon: require("../../../../../public/assets/product-icons/net.svg"),
     section: "sdks",
   },
   {
@@ -305,7 +324,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "dashboard",
     description: "Manage and analyze contract activity",
     link: "/dashboards",
-    icon: require("../../../../../public/assets/product-icons/dashboards.png"),
+    icon: require("../../../../../public/assets/product-icons/dashboard.svg"),
     section: "tools",
   },
   {
@@ -313,7 +332,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "solidity",
     description: "Build custom smart contracts efficiently",
     link: "https://portal.thirdweb.com/contracts/build/overview",
-    icon: require("../../../../../public/assets/product-icons/ui-components.png"),
+    icon: require("../../../../../public/assets/product-icons/solidity.svg"),
     section: "sdks",
   },
   {
@@ -321,16 +340,8 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "cli",
     description: "Tools to create, build, and deploy web3 applications",
     link: "https://portal.thirdweb.com/cli",
-    icon: require("../../../../../public/assets/product-icons/support.png"),
+    icon: require("../../../../../public/assets/product-icons/cli.svg"),
     section: "tools",
-  },
-  {
-    name: "React",
-    label: "react",
-    description: "Components and Hooks for wallets and contracts",
-    link: "https://portal.thirdweb.com/typescript/v5/react",
-    icon: require("../../../../../public/assets/product-icons/wallet-sdk.png"),
-    section: "sdks",
   },
 ];
 

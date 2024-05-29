@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-op-superchain", false, true);
+    useLocalStorage("dismissed-thirdweb-pay", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="https://portal.thirdweb.com/typescript/v5"
+          href="https://pay-demo.thirdweb.com/"
           category="announcement"
-          label="sdk-v5-banner"
+          label="thirdweb-pay"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,7 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Get started with Connect SDK v5 now on stable release.
+                Introducing thirdweb Pay: Onramp users to your app with credit
+                card & cross-chain crypto. Integrate for free
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

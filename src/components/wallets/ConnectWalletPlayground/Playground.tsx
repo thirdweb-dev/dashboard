@@ -31,7 +31,7 @@ import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
-import { walletInfoRecord, WalletId } from "./walletInfoRecord";
+import { walletInfoRecord, type WalletId } from "./walletInfoRecord";
 import { getCode } from "./getCode";
 import {
   RecommendedIconButton,
@@ -40,7 +40,7 @@ import {
 } from "./WalletButton";
 import {
   ConnectModalInlinePreview,
-  WelcomeScreen,
+  type WelcomeScreen,
   useCanShowInlineModal,
 } from "./ConnectModalInlinePreview";
 import { FormItem } from "./FormItem";
@@ -54,6 +54,7 @@ import { PreviewThirdwebProvider } from "./PreviewThirdwebProvider";
 import { usePlaygroundWallets } from "./usePlaygroundWallets";
 import { usePlaygroundTheme } from "./usePlaygroundTheme";
 import { useTrack } from "hooks/analytics/useTrack";
+import { FiChevronRight } from "react-icons/fi";
 
 type LocaleId = "en-US" | "ja-JP" | "es-ES";
 
@@ -149,7 +150,7 @@ export const ConnectWalletPlayground: React.FC<{
 
           if (walletId === "Email Wallet") {
             if (!socialOptions.length) {
-              walletCode = `inAppWallet()`;
+              walletCode = "inAppWallet()";
             } else {
               const options: Record<string, any> = {};
               if (socialOptions.length) {
@@ -385,6 +386,10 @@ export const ConnectWalletPlayground: React.FC<{
 
   const socialLoginMethods = [
     {
+      name: "Sign in with phone number",
+      key: "phone",
+    },
+    {
       name: "Sign in with Email",
       key: "email",
     },
@@ -534,6 +539,21 @@ export const ConnectWalletPlayground: React.FC<{
             );
           })}
       </Grid>
+
+      <Spacer height={3} />
+      <TrackedLink
+        isExternal
+        href="https://portal.thirdweb.com/typescript/v5/supported-wallets"
+        color="blue.500"
+        category={trackingCategory}
+        label="see-all-wallets"
+        display="flex"
+        alignItems="center"
+        gap={1}
+      >
+        See all wallets
+        <Icon as={FiChevronRight} w={4} h={4} color="blue.500" />
+      </TrackedLink>
     </>
   );
 
@@ -743,7 +763,7 @@ export const ConnectWalletPlayground: React.FC<{
             <AlertDescription as={Text}>
               You can set rules in the{" "}
               <TrackedLink
-                href={`/dashboard/connect/account-abstraction?tab=1`}
+                href={"/dashboard/connect/account-abstraction?tab=1"}
                 color="blue.500"
                 category={trackingCategory}
                 label="sponsorship-rules-config"
