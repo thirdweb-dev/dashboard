@@ -33,6 +33,12 @@ export type EngineInstance = {
     | "deploymentFailed";
 };
 
+const getEngineRequestHeaders = (token: string | null): HeadersInit => ({
+  "Content-Type": "application/json",
+  "ngrok-skip-browser-warning": "true",
+  Authorization: `Bearer ${token}`,
+});
+
 export function useEngineInstances() {
   const { user, isLoggedIn } = useLoggedInUser();
 
@@ -90,10 +96,7 @@ export function useEngineBackendWallets(instance: string) {
     async () => {
       const res = await fetch(`${instance}backend-wallet/get-all?limit=50`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -231,10 +234,7 @@ export function useEngineTransactions(instance: string, autoUpdate: boolean) {
     async () => {
       const res = await fetch(`${instance}transaction/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -275,10 +275,7 @@ export function useEngineWalletConfig(instance: string) {
     async () => {
       const res = await fetch(`${instance}configuration/wallets`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -313,10 +310,7 @@ export function useEngineBackendWalletBalance(
         `${instance}backend-wallet/${chainId}/${address}/get-balance`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getEngineRequestHeaders(token),
         },
       );
 
@@ -343,10 +337,7 @@ export function useEnginePermissions(instance: string) {
     async () => {
       const res = await fetch(`${instance}auth/permissions/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       if (res.status !== 200) {
@@ -380,10 +371,7 @@ export function useEngineAccessTokens(instance: string) {
     async () => {
       const res = await fetch(`${instance}auth/access-tokens/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -413,9 +401,7 @@ export function useEngineKeypairs(instance: string) {
     async () => {
       const res = await fetch(`${instance}auth/keypair/get-all`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -442,10 +428,7 @@ export function useEngineAddKeypair(instance: string) {
 
       const res = await fetch(`${instance}auth/keypair/add`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -478,10 +461,7 @@ export function useEngineRemoveKeypair(instance: string) {
 
       const res = await fetch(`${instance}auth/keypair/remove`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -517,10 +497,7 @@ export function useEngineRelayer(instance: string) {
     async () => {
       const res = await fetch(`${instance}relayer/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -549,10 +526,7 @@ export function useEngineCreateRelayer(instance: string) {
 
       const res = await fetch(`${instance}relayer/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -585,10 +559,7 @@ export function useEngineRevokeRelayer(instance: string) {
 
       const res = await fetch(`${instance}relayer/revoke`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -626,10 +597,7 @@ export function useEngineUpdateRelayer(instance: string) {
 
       const res = await fetch(`${instance}relayer/update`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -666,10 +634,7 @@ export function useEngineWebhooks(instance: string) {
     async () => {
       const res = await fetch(`${instance}webhooks/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -710,10 +675,7 @@ export function useEngineSetWalletConfig(instance: string) {
 
       const res = await fetch(`${instance}configuration/wallets`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -746,10 +708,7 @@ export function useEngineCreateBackendWallet(instance: string) {
 
       const res = await fetch(`${instance}backend-wallet/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -785,10 +744,7 @@ export function useEngineUpdateBackendWallet(instance: string) {
 
       const res = await fetch(`${instance}backend-wallet/update`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -839,10 +795,7 @@ export function useEngineImportBackendWallet(instance: string) {
 
       const res = await fetch(`${instance}backend-wallet/import`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -873,10 +826,7 @@ export function useEngineGrantPermissions(instance: string) {
 
       const res = await fetch(`${instance}auth/permissions/grant`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -909,10 +859,7 @@ export function useEngineRevokePermissions(instance: string) {
 
       const res = await fetch(`${instance}auth/permissions/revoke`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -945,10 +892,7 @@ export function useEngineCreateAccessToken(instance: string) {
 
       const res = await fetch(`${instance}auth/access-tokens/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify({}),
       });
       const json = await res.json();
@@ -981,10 +925,7 @@ export function useEngineRevokeAccessToken(instance: string) {
 
       const res = await fetch(`${instance}auth/access-tokens/revoke`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1018,10 +959,7 @@ export function useEngineUpdateAccessToken(instance: string) {
 
       const res = await fetch(`${instance}auth/access-tokens/update`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1056,10 +994,7 @@ export function useEngineCreateWebhook(instance: string) {
 
       const res = await fetch(`${instance}webhooks/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1092,10 +1027,7 @@ export function useEngineRevokeWebhook(instance: string) {
 
       const res = await fetch(`${instance}webhooks/revoke`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1133,8 +1065,7 @@ export function useEngineSendTokens(instance: string) {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          ...getEngineRequestHeaders(token),
           "x-backend-wallet-address": input.fromAddress,
         },
         body: JSON.stringify({
@@ -1162,9 +1093,7 @@ export function useEngineCorsConfiguration(instance: string) {
     async () => {
       const res = await fetch(`${instance}configuration/cors`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -1189,10 +1118,7 @@ export function useEngineSetCorsConfiguration(instance: string) {
 
       const res = await fetch(`${instance}configuration/cors`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1229,10 +1155,7 @@ export function useEngineContractSubscription(instance: string) {
     async () => {
       const res = await fetch(`${instance}contract-subscriptions/get-all`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
       });
 
       const json = await res.json();
@@ -1260,10 +1183,7 @@ export function useEngineAddContractSubscription(instance: string) {
 
       const res = await fetch(`${instance}contract-subscriptions/add`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1298,10 +1218,7 @@ export function useEngineRemoveContractSubscription(instance: string) {
 
       const res = await fetch(`${instance}contract-subscriptions/remove`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getEngineRequestHeaders(token),
         body: JSON.stringify(input),
       });
       const json = await res.json();
@@ -1336,10 +1253,7 @@ export function useEngineSubscriptionsLastBlock(
         `${instanceUrl}contract-subscriptions/last-block?chain=${chainId}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getEngineRequestHeaders(token),
         },
       );
 
