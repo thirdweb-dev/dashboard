@@ -39,10 +39,14 @@ const volumeData: VolData[] = [
   },
 ];
 
-export function TotalVolumeAreaChartCard() {
+export function NewCustomersAreaChart() {
   const uniqueId = useId();
+  const newCustomers = 92;
   return (
-    <section className="flex flex-col lg:flex-row gap-6">
+    <section>
+      <h2 className="text-base font-medium mb-2"> New Customers </h2>
+      <p className="text-5xl tracking-tighter font-bold">{newCustomers}</p>
+
       <div className="relative flex justify-center w-full">
         <ResponsiveContainer width="100%" height={250}>
           <AreaChart data={volumeData} width={400} height={250}>

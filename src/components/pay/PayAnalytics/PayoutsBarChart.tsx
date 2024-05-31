@@ -34,7 +34,7 @@ const data: Data[] = [
   },
   {
     date: "Sun",
-    value: 400,
+    value: 80,
   },
 ];
 
