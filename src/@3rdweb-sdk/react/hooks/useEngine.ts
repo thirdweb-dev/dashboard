@@ -33,8 +33,12 @@ export type EngineInstance = {
     | "deploymentFailed";
 };
 
+// Not checking for null token because the token is required the tanstack useQuery hook
 const getEngineRequestHeaders = (token: string | null): HeadersInit => ({
   "Content-Type": "application/json",
+  // This is required to skip the browser warning when using ngrok
+  // else, Engine -> Explorer doesn't work
+  // more info: https://ngrok.com/abuse
   "ngrok-skip-browser-warning": "true",
   Authorization: `Bearer ${token}`,
 });

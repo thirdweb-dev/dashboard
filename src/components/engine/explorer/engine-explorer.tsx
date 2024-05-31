@@ -26,6 +26,7 @@ export const EngineExplorer: React.FC<EngineExplorerProps> = ({
               req.headers["Authorization"] = `Bearer ${token}`;
               // This is required to skip the browser warning when using ngrok
               // else, Engine -> Explorer doesn't work
+              // more info: https://ngrok.com/abuse
               req.headers["ngrok-skip-browser-warning"] = "true";
               return req;
             }}
