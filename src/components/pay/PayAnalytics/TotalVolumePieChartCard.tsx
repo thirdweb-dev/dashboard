@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type VolData = {
   name: string;
   amount: number;
-  colorHue: number;
+  color: string;
 };
 
 // TODO: Replace this with actual data
@@ -13,12 +13,12 @@ const volumeData: VolData[] = [
   {
     name: "Buy With Crypto",
     amount: 450,
-    colorHue: 241,
+    color: "hsl(var(--primary-foreground))",
   },
   {
     name: "Buy With Fiat",
     amount: 100,
-    colorHue: 302,
+    color: "hsl(var(--foreground))",
   },
 ];
 
@@ -29,28 +29,6 @@ export function TotalVolumePieChartCard() {
     <section className="flex flex-col lg:flex-row gap-6">
       <div className="relative flex justify-center">
         <PieChart width={250} height={250}>
-          <defs>
-            {volumeData.map((v, i) => (
-              <linearGradient
-                key={i}
-                id={`gradient${i}`}
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-              >
-                <stop
-                  offset="0%"
-                  stopColor={`hsla(${v.colorHue}, 75%, 55%, 1)`}
-                />
-                <stop
-                  offset="100%"
-                  stopColor={`hsla(${v.colorHue}, 75%, 65%, 1)`}
-                />
-              </linearGradient>
-            ))}
-          </defs>
-
           <Pie
             style={{
               outline: "none",
@@ -67,7 +45,7 @@ export function TotalVolumePieChartCard() {
             paddingAngle={5}
           >
             {volumeData.map((entry, index) => (
-              <Cell key={index} fill={`url(#gradient${index})`} />
+              <Cell key={index} fill={entry.color} />
             ))}
           </Pie>
         </PieChart>
@@ -91,7 +69,7 @@ export function TotalVolumePieChartCard() {
           {volumeData.map((v, i) => (
             <VolumeLegend
               key={i}
-              colorHue={v.colorHue}
+              color={v.color}
               label={v.name}
               amount={v.amount}
             />
@@ -102,17 +80,13 @@ export function TotalVolumePieChartCard() {
   );
 }
 
-function VolumeLegend(props: {
-  colorHue: number;
-  label: string;
-  amount: number;
-}) {
+function VolumeLegend(props: { color: string; label: string; amount: number }) {
   return (
     <div className="flex items-start gap-2">
       <div
         className="size-5 rounded mt-1"
         style={{
-          background: `linear-gradient(45deg, hsla(${props.colorHue}, 75%, 55%, 1), hsla(${props.colorHue}, 75%, 75%, 1))`,
+          background: props.color,
         }}
       />
       <div>

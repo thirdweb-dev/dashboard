@@ -1,5 +1,4 @@
 /* eslint-disable react/forbid-dom-props */
-import { useId } from "react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 
 type Data = {
@@ -40,7 +39,6 @@ const data: Data[] = [
 ];
 
 export function PayoutsBarChart() {
-  const uniqueId = useId();
   const totalPayouts = 120;
   return (
     <section>
@@ -52,13 +50,6 @@ export function PayoutsBarChart() {
       <div className="relative flex justify-center w-full">
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={data} width={400} height={200}>
-            <defs>
-              <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsla(310, 100%, 55%, 1)" />
-                <stop offset="95%" stopColor="hsla(251, 100%, 55%, 0.3)" />
-              </linearGradient>
-            </defs>
-
             <Tooltip
               content={(x) => {
                 return (
@@ -78,7 +69,7 @@ export function PayoutsBarChart() {
               dataKey="value"
               stroke="none"
               fillOpacity={1}
-              fill={`url(#${uniqueId})`}
+              fill={"hsl(var(--primary-foreground))"}
               radius={8}
               barSize={20}
             />

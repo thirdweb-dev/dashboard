@@ -39,8 +39,6 @@ const volumeData: VolData[] = [
   },
 ];
 
-const hue = 210;
-
 export function TotalVolumeAreaChartCard() {
   const uniqueId = useId();
   return (
@@ -52,12 +50,12 @@ export function TotalVolumeAreaChartCard() {
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor={`hsl(${hue}deg, 85%, 55%)`}
+                  stopColor={"hsl(var(--primary-foreground))"}
                   stopOpacity={0.3}
                 />
                 <stop
                   offset="95%"
-                  stopColor={`hsl(${hue}deg, 85%, 55%)`}
+                  stopColor={"hsl(var(--primary-foreground))"}
                   stopOpacity={0.0}
                 />
               </linearGradient>
@@ -80,7 +78,7 @@ export function TotalVolumeAreaChartCard() {
             <Area
               type="monotone"
               dataKey="value"
-              stroke={`hsl(${hue}deg, 85%, 65%)`}
+              stroke={`hsl(var(--primary-foreground))`}
               fillOpacity={1}
               fill={`url(#${uniqueId})`}
               strokeWidth={2}
