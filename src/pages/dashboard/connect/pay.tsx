@@ -32,6 +32,7 @@ import { EnabledContracts } from "components/payments/contracts/enabled-contract
 import { PaymentContracts } from "components/payments/contracts/payment-contracts";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
+import { PayAnalytics } from "../../../components/pay/PayAnalytics";
 
 const TRACKING_CATEGORY = "pay";
 
@@ -276,7 +277,13 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
             />
           )}
 
-          {hasPayApiKeys && selectedKey && <PayConfig apiKey={selectedKey} />}
+          {hasPayApiKeys && selectedKey && (
+            <div>
+              <PayConfig apiKey={selectedKey} />
+              <div className="h-10" />
+              <PayAnalytics />
+            </div>
+          )}
         </>
       )}
     </Flex>
