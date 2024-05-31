@@ -141,11 +141,8 @@ export const BarChart = <
                   })
                 : payload
           }
-          style={{
-            fontSize: "12px",
-            fontFamily: "var(--chakra-fonts-body)",
-          }}
-          stroke="var(--chakra-colors-paragraph)"
+          className="font-sans text-xs"
+          stroke="hsl(var(--muted-foreground))"
           tickLine={false}
           axisLine={false}
           interval="preserveStartEnd"
@@ -169,12 +166,9 @@ export const BarChart = <
               ? category.format(payload)
               : payload.toLocaleString();
           }}
-          style={{
-            fontSize: "12px",
-            fontFamily: "var(--chakra-fonts-body)",
-          }}
+          className="font-sans text-xs"
+          stroke="hsl(var(--muted-foreground))"
           type="number"
-          stroke="var(--chakra-colors-paragraph)"
           tickLine={false}
           axisLine={false}
         />

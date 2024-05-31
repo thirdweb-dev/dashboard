@@ -213,11 +213,8 @@ export const AutoBarChart = <
                   })
                 : payload
           }
-          style={{
-            fontSize: "12px",
-            fontFamily: "var(--chakra-fonts-body)",
-          }}
-          stroke="var(--chakra-colors-paragraph)"
+          className="text-xs font-sans"
+          stroke="hsl(var(--muted-foreground))"
           tickLine={false}
           axisLine={false}
           interval="preserveStartEnd"
@@ -238,12 +235,9 @@ export const AutoBarChart = <
           tickFormatter={(payload) => {
             return payload.toLocaleString();
           }}
-          style={{
-            fontSize: "12px",
-            fontFamily: "var(--chakra-fonts-body)",
-          }}
+          className="text-xs font-sans"
           type="number"
-          stroke="var(--chakra-colors-paragraph)"
+          stroke="hsl(var(--muted-foreground))"
           tickLine={false}
           axisLine={false}
         />

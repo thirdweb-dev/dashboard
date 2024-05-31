@@ -140,13 +140,10 @@ const AreaChart = <
                     })
                   : payload
             }
-            style={{
-              fontSize: "12px",
-              fontFamily: "var(--chakra-fonts-body)",
-            }}
-            stroke="var(--chakra-colors-paragraph)"
+            className="text-xs font-sans"
+            stroke="hsl(var(--muted-foreground))"
             tickLine={false}
-            axisLine={{ stroke: "var(--chakra-colors-borderColor)" }}
+            axisLine={{ stroke: "hsl(var(--border))" }}
             interval="preserveStartEnd"
             minTickGap={5}
             domain={["dataMin", "dataMax"]}
@@ -168,10 +165,7 @@ const AreaChart = <
                 ? category.format(payload)
                 : payload.toString();
             }}
-            style={{
-              fontSize: "12px",
-              fontFamily: "var(--chakra-fonts-body)",
-            }}
+            className="text-xs font-sans"
             domain={([dataMin, dataMax]) => [
               // start from 0 unless dataMin is below 0 in which case start from dataMin - 10%
               Math.min(0, dataMin - Math.round(dataMin * 0.1)),
@@ -180,9 +174,9 @@ const AreaChart = <
             ]}
             tick={{ transform: "translate(-3, 0)" }}
             type="number"
-            stroke="var(--chakra-colors-paragraph)"
+            stroke="hsl(var(--muted-foreground))"
             tickLine={false}
-            axisLine={{ stroke: "var(--chakra-colors-borderColor)" }}
+            axisLine={{ stroke: "hsl(var(--border))" }}
             interval="preserveStartEnd"
           />
         </RechartsAreaChart>
@@ -223,7 +217,7 @@ export const AreaChartLoadingState: React.FC = () => {
         className="pointer-events-none"
         data={loadingData}
         index={{ id: "key" }}
-        categories={[{ id: "value", color: "var(--chakra-colors-faded)" }]}
+        categories={[{ id: "value", color: "hsl(var(--muted))" }]}
       />
     </div>
   );
