@@ -1,4 +1,5 @@
 import { PayoutsBarChart } from "./PayAnalytics/PayoutsBarChart";
+import { SuccessRateCard } from "./PayAnalytics/SuccessRateCard";
 import { TotalVolumeAreaChartCard } from "./PayAnalytics/TotalVolumeAreaChart";
 import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard";
 
@@ -6,7 +7,7 @@ export function PayAnalytics() {
   return (
     <div>
       {/* Total Volume */}
-      <div className="p-4 xl:p-6 relative border border-border grid gap-12 grid-cols-1 xl:grid-cols-2 rounded-lg items-center">
+      <div className="p-4 xl:p-6 relative border border-border grid gap-12 grid-cols-1 xl:grid-cols-2 rounded-lg">
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
           <TotalVolumePieChartCard />
         </div>
@@ -17,9 +18,12 @@ export function PayAnalytics() {
 
       <div className="h-8" />
 
-      <div className="grid gap-6 grid-cols-1 xl:grid-cols-2 items-center">
+      <div className="grid gap-6 grid-cols-1 xl:grid-cols-2">
         <div className="border border-border rounded-lg p-4 xl:p-6">
           <PayoutsBarChart />
+        </div>
+        <div className="border border-border rounded-lg p-4 xl:p-6 flex items-center">
+          <SuccessRateCard />
         </div>
       </div>
     </div>
