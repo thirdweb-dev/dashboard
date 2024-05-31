@@ -24,9 +24,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider attribute="class" enableSystem>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider attribute="class">{children}</ThemeProvider>
         <NextTopLoader
           color="hsl(var(--primary))"
           height={2}

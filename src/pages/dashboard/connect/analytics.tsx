@@ -280,7 +280,7 @@ const DashboardConnectAnalytics: ThirdwebNextPage = () => {
                     app each day.
                   </Text>
                 </Stack>
-                <ChartContainer w="full" ratio={21 / 9}>
+                <ChartContainer className="w-full" ratio={21 / 9}>
                   <AutoBarChart
                     data={barChartData}
                     showXAxis
@@ -301,7 +301,7 @@ const DashboardConnectAnalytics: ThirdwebNextPage = () => {
                     each day.
                   </Text>
                 </Stack>
-                <ChartContainer w="full" ratio={21 / 9}>
+                <ChartContainer className="w-full" ratio={21 / 9}>
                   <AutoBarChart
                     data={walletBarChartData}
                     showXAxis
@@ -322,7 +322,10 @@ const DashboardConnectAnalytics: ThirdwebNextPage = () => {
                     Distribution of wallet types used to connect to your app.
                   </Text>
                 </Stack>
-                <ChartContainer w="full" ratio={isMobile ? 1.5 : 21 / 9}>
+                <ChartContainer
+                  className="w-full"
+                  ratio={isMobile ? 1.5 : 21 / 9}
+                >
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie

@@ -1,5 +1,4 @@
 import { CustomToolTip } from "./custom-tooltip";
-import { Box, BoxProps, Center } from "@chakra-ui/react";
 import { useEffect, useId, useState } from "react";
 import {
   Area,
@@ -9,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Text } from "tw-components";
+import { cn } from "../../@/lib/utils";
 
 export type GenericDataType = Record<string, string | number>;
 
@@ -18,7 +17,7 @@ type IndexType = "date";
 export interface AreaChartProps<
   TData extends GenericDataType,
   TIndexKey extends keyof TData,
-> extends BoxProps {
+> {
   data: TData[];
   index: {
     id: TIndexKey;
@@ -36,6 +35,7 @@ export interface AreaChartProps<
   showXAxis?: boolean;
   showYAxis?: boolean;
   startEndOnly?: boolean;
+  className?: string;
 }
 
 const AreaChart = <
@@ -48,7 +48,7 @@ const AreaChart = <
   showXAxis,
   showYAxis,
   startEndOnly,
-  ...boxProps
+  className,
 }: AreaChartProps<TData, TIndexKey>) => {
   const id = useId();
 
@@ -61,7 +61,7 @@ const AreaChart = <
   }
 
   return (
-    <Box h="full" w="full" {...boxProps}>
+    <div className={cn("h-full w-full", className)}>
       <ResponsiveContainer width="100%" height="100%">
         <RechartsAreaChart data={data}>
           <defs>
@@ -187,7 +187,7 @@ const AreaChart = <
           />
         </RechartsAreaChart>
       </ResponsiveContainer>
-    </Box>
+    </div>
   );
 };
 
@@ -207,7 +207,7 @@ function generateFakeData() {
 }
 
 export const AreaChartLoadingState: React.FC = () => {
-  const [loadingData, setLoadingData] = useState(generateFakeData());
+  const [loadingData, setLoadingData] = useState(() => generateFakeData());
   useEffect(() => {
     const interval = setInterval(() => {
       setLoadingData(generateFakeData());
@@ -215,26 +215,16 @@ export const AreaChartLoadingState: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <Box position="relative">
-      <Center
-        backdropFilter="blur(4px)"
-        zIndex={1}
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-      >
-        <Text size="label.lg" color="faded">
-          Loading Chart...
-        </Text>
-      </Center>
+    <div className="relative">
+      <div className="flex items-center justify-center filter backdrop-blur-sm z-10 absolute inset-0">
+        <p className="text-secondary-foreground">Loading Chart</p>
+      </div>
       <AreaChart
-        pointerEvents="none"
+        className="pointer-events-none"
         data={loadingData}
         index={{ id: "key" }}
         categories={[{ id: "value", color: "var(--chakra-colors-faded)" }]}
       />
-    </Box>
+    </div>
   );
 };

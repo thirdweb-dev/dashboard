@@ -51,7 +51,7 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
         </TrackedLink>
       </Flex>
 
-      <SimpleGrid gap={{ base: 3, md: 6 }} columns={{ base: 2, md: 3 }}>
+      <SimpleGrid gap={{ base: 3, md: 6 }} columns={{ base: 1, md: 3 }}>
         <GridItem>
           <Flex
             flexDir="column"
@@ -78,7 +78,7 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
                 <Icon as={FiInfo} boxSize={4} color="gray.700" />
               </Tooltip>
             </Flex>
-            <ChartContainer w="full" ratio={1.7}>
+            <ChartContainer className="w-full" ratio={1.7}>
               <AnalyticsChart
                 contractAddress={contractAddress}
                 chainId={chainId}
@@ -118,7 +118,7 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
                 <Icon as={FiInfo} boxSize={4} color="gray.700" />
               </Tooltip>
             </Flex>
-            <ChartContainer w="full" ratio={1.7}>
+            <ChartContainer className="w-full" ratio={1.7}>
               <AnalyticsChart
                 contractAddress={contractAddress}
                 chainId={chainId}
@@ -158,7 +158,7 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
                 <Icon as={FiInfo} boxSize={4} color="gray.700" />
               </Tooltip>
             </Flex>
-            <ChartContainer w="full" ratio={1.7}>
+            <ChartContainer className="w-full" ratio={1.7}>
               <AnalyticsChart
                 contractAddress={contractAddress}
                 chainId={chainId}
