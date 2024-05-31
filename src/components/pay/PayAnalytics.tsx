@@ -1,3 +1,4 @@
+import { PayoutsBarChart } from "./PayAnalytics/PayoutsBarChart";
 import { TotalVolumeAreaChartCard } from "./PayAnalytics/TotalVolumeAreaChart";
 import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard";
 
@@ -12,6 +13,14 @@ export function PayAnalytics() {
         <TotalVolumeAreaChartCard />
         {/* Desktop - horizontal middle */}
         <div className="absolute left-[50%] w-[1px] top-6 bottom-6 bg-border hidden xl:block" />
+      </div>
+
+      <div className="h-8" />
+
+      <div className="grid gap-6 grid-cols-1 xl:grid-cols-2 items-center">
+        <div className="border border-border rounded-lg p-4 xl:p-6">
+          <PayoutsBarChart />
+        </div>
       </div>
     </div>
   );
