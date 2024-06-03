@@ -3,12 +3,12 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
-import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { StarButton } from "./star-button";
+import type { ChainMetadataWithServices } from "../getChain";
 
 type ChainCardProps = {
-  chain: ChainMetadata;
+  chain: ChainMetadataWithServices;
   isPreferred: boolean;
   isVerified: boolean;
   isGasSponsored: boolean;
@@ -21,6 +21,11 @@ export const ChainCard: React.FC<ChainCardProps> = ({
   isGasSponsored,
 }) => {
   const isDeprecated = chain.status === "deprecated";
+  const supportedServicesCount = chain.services.filter(
+    (service) => service.enabled,
+  ).length;
+  const totalServicesCount = chain.services.length;
+
   return (
     <div className="relative h-full">
       <Card className="h-full w-full hover:bg-muted">
@@ -61,9 +66,10 @@ export const ChainCard: React.FC<ChainCardProps> = ({
                   Available Products
                 </th>
 
-                {/* TODO - use real data */}
                 <td>
-                  <span> 5 / 6 </span>
+                  <span>
+                    {supportedServicesCount} / {totalServicesCount}
+                  </span>
                 </td>
               </tr>
             </tbody>

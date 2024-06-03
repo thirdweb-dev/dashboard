@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-dom-props */
 import { cn } from "../../../../@/lib/utils";
 import { StarButton } from "../chainlist/components/star-button";
-import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
@@ -21,8 +21,8 @@ export default async function ChainPageLayout({
   const isDeprecated = chain.status === "deprecated";
 
   // TODO
-  const isVerified = true;
-  const isGasSponsored = true;
+  // const isVerified = true;
+  // const isGasSponsored = true;
 
   return (
     <ReactQueryClientProvider>
@@ -47,7 +47,7 @@ export default async function ChainPageLayout({
 
               {/* Desktop tags */}
               <div className="hidden md:flex text-base items-center gap-3">
-                {isVerified && (
+                {/* {isVerified && (
                   <ToolTipLabel label="Verified">
                     <Verified className="text-primary-foreground size-[36px]" />
                   </ToolTipLabel>
@@ -57,7 +57,7 @@ export default async function ChainPageLayout({
                   <ToolTipLabel label="Gas Sponsored">
                     <FuelIcon className="text-primary-foreground size-[36px] " />
                   </ToolTipLabel>
-                )}
+                )} */}
 
                 {isDeprecated && (
                   <ToolTipLabel label="Deprecated">
@@ -93,7 +93,7 @@ export default async function ChainPageLayout({
             <div className="md:hidden ">
               <Separator className="my-5" />
               <div className="flex flex-col gap-3">
-                {isGasSponsored && (
+                {/* {isGasSponsored && (
                   <div className="flex gap-3">
                     <FuelIcon className="text-primary-foreground size-6" />
                     <p> Gas Sponsored </p>
@@ -105,7 +105,7 @@ export default async function ChainPageLayout({
                     <Verified className="text-primary-foreground size-6" />
                     <p> Verified </p>
                   </div>
-                )}
+                )} */}
 
                 {isDeprecated && (
                   <div className="flex gap-3">

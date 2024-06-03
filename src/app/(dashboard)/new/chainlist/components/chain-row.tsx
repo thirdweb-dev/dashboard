@@ -4,27 +4,29 @@
 import {
   CheckIcon,
   CircleAlertIcon,
-  FuelIcon,
-  Verified,
+  // FuelIcon,
+  // Verified,
   XIcon,
 } from "lucide-react";
-import { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { StarButton } from "./star-button";
 import { ToolTipLabel } from "../../../../../@/components/ui/tooltip";
 import { cn } from "../../../../../@/lib/utils";
 import { products } from "../products";
+import type { ChainMetadataWithServices } from "../getChain";
 
 type ChainRowProps = {
-  chain: ChainMetadata;
+  chain: ChainMetadataWithServices;
   isPreferred: boolean;
-  isVerified: boolean;
-  isGasSponsored: boolean;
+  // isVerified: boolean;
+  // isGasSponsored: boolean;
 };
 
 export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
-  const { chain, isPreferred, isVerified, isGasSponsored } = props;
+  const { chain, isPreferred } = props;
   const isDeprecated = chain.status === "deprecated";
+  const supportedServicesCount = chain.services.filter((c) => c.enabled).length;
+  const totalServicesCount = chain.services.length;
 
   return (
     <tr className="border-b relative hover:bg-secondary">
@@ -45,7 +47,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
               {chain.name}
             </Link>
 
-            {isVerified && (
+            {/* {isVerified && (
               <ToolTipLabel label="Verified">
                 <Verified className="text-primary-foreground size-5 z-10 " />
               </ToolTipLabel>
@@ -55,7 +57,7 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
               <ToolTipLabel label="Gas Sponsored">
                 <FuelIcon className="text-primary-foreground size-5 z-10 " />
               </ToolTipLabel>
-            )}
+            )} */}
 
             {isDeprecated && (
               <ToolTipLabel label="Deprecated">
@@ -73,7 +75,10 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
       <TableData>
         {/* TODO - use real data */}
         <div className="flex flex-row gap-14 items-center w-[520px] ">
-          <span> 5 out of 6 </span>
+          <span>
+            {" "}
+            {supportedServicesCount} out of {totalServicesCount}{" "}
+          </span>
           <div className="flex items-center gap-7 z-10">
             {products.map((p) => {
               return (
@@ -82,7 +87,10 @@ export const ChainRowContent: React.FC<ChainRowProps> = (props) => {
                   icon={p.icon}
                   label={p.name}
                   href={p.href}
-                  enabled={true}
+                  enabled={
+                    chain.services.find((c) => c.service === p.id)?.enabled ??
+                    false
+                  }
                 />
               );
             })}

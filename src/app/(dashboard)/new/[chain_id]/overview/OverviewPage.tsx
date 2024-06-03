@@ -1,7 +1,9 @@
-import type { ChainMetadata } from "thirdweb/chains";
 import Link from "next/link";
 import { CheckIcon, ExternalLinkIcon, XIcon } from "lucide-react";
-import { getChain } from "../../chainlist/getChain";
+import {
+  getChain,
+  type ChainMetadataWithServices,
+} from "../../chainlist/getChain";
 import { ChainLiveStats } from "./components/ChainLiveStats";
 import { PrimaryInfoItem } from "./components/PrimaryInfoItem";
 import { products } from "../../chainlist/products";
@@ -28,7 +30,7 @@ export async function ChainOverviewPage(props: {
   );
 }
 
-function PrimaryInfoGrid(props: { chain: ChainMetadata }) {
+function PrimaryInfoGrid(props: { chain: ChainMetadataWithServices }) {
   const { chain } = props;
   const isDeprecated = chain.status === "deprecated";
 
@@ -149,7 +151,7 @@ function Faucets(props: { faucets: string[] }) {
 }
 
 function Explorers(props: {
-  explorers: NonNullable<ChainMetadata["explorers"]>;
+  explorers: NonNullable<ChainMetadataWithServices["explorers"]>;
 }) {
   return (
     <div>

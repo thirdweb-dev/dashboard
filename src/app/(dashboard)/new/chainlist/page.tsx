@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { Button } from "@/components/ui/button";
-import { ChainMetadata } from "thirdweb/chains";
 import { ChainListFilters } from "./components/ChainListFilters";
 import { ChainList } from "./components/chain-list";
 import { ChainListStateProvider } from "./components/state-provider";
@@ -9,6 +8,7 @@ import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 import Link from "next/link";
 import { cn } from "../../../../@/lib/utils";
 import { PlusIcon } from "lucide-react";
+import { getChains } from "./getChain";
 
 const ChainListPage: NextPage = async () => {
   const chains = await getChains();
@@ -52,17 +52,6 @@ const ChainListPage: NextPage = async () => {
 };
 
 export default ChainListPage;
-
-async function getChains() {
-  const response = await fetch("https://api.thirdweb.com/v1/chains/");
-
-  if (!response.ok) {
-    response.body?.cancel();
-    throw new Error("Failed to fetch chains");
-  }
-
-  return (await response.json()).data as ChainMetadata[];
-}
 
 function AddYourChainButton(props: { className?: string }) {
   return (

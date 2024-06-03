@@ -14,7 +14,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
-import { useChainListState, type ChainListProduct } from "./state-provider";
+import { useChainListState } from "./state-provider";
+import type { ChainSupportedService } from "../getChain";
 
 export function ChainListFilters() {
   const {
@@ -153,10 +154,10 @@ export function ChainListFilters() {
               />
             </div>
 
-            <ProductCard label="Contracts" id="contract" />
+            <ProductCard label="Contracts" id="contracts" />
             <ProductCard label="Connect SDK" id="connect-sdk" />
             <ProductCard label="Engine" id="engine" />
-            <ProductCard label="Account Abstraction" id="aa" />
+            <ProductCard label="Account Abstraction" id="account-abstraction" />
             <ProductCard label="Pay" id="pay" />
             <ProductCard label="RPC Edge" id="rpc-edge" />
           </section>
@@ -173,7 +174,7 @@ export function ChainListFilters() {
   );
 }
 
-function ProductCard(props: { label: string; id: ChainListProduct }) {
+function ProductCard(props: { label: string; id: ChainSupportedService }) {
   const { products, toggleProduct } = useChainListState();
   return (
     <div className="flex items-center space-x-2">

@@ -7,15 +7,9 @@ import {
   parseAsArrayOf,
 } from "nuqs";
 import { createContext, useContext } from "react";
+import type { ChainSupportedService } from "../getChain";
 
 type ChainType = "all" | "mainnet" | "testnet";
-export type ChainListProduct =
-  | "contract"
-  | "connect-sdk"
-  | "engine"
-  | "aa"
-  | "pay"
-  | "rpc-edge";
 
 type ChainListState = {
   chainType: ChainType;
@@ -24,11 +18,11 @@ type ChainListState = {
   setGasSponsored: (gasSponsored: boolean) => void;
   showDeprecated: boolean;
   setShowDeprecated: (showDeprecated: boolean) => void;
-  products: ChainListProduct[];
-  setProducts: (products: ChainListProduct[]) => void;
+  products: ChainSupportedService[];
+  setProducts: (products: ChainSupportedService[]) => void;
   showAllProducts: boolean;
   selectAllProducts: () => void;
-  toggleProduct: (product: ChainListProduct) => void;
+  toggleProduct: (product: ChainSupportedService) => void;
   reset: () => void;
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
@@ -36,11 +30,11 @@ type ChainListState = {
 
 export const ChainListStateCtx = createContext<ChainListState | null>(null);
 
-const allProductNames: ChainListProduct[] = [
-  "contract",
+const allProductNames: ChainSupportedService[] = [
+  "contracts",
   "connect-sdk",
   "engine",
-  "aa",
+  "account-abstraction",
   "pay",
   "rpc-edge",
 ];
@@ -54,7 +48,7 @@ export function ChainListStateProvider({
   const defaultChainType = "all" as ChainType;
   const defaultGasSponsored = false;
   const defaultShowDeprecated = true;
-  const defaultProducts = allProductNames;
+  const defaultProducts: ChainSupportedService[] = [];
 
   const [chainType, _setChainType] = useQueryState(
     "chainType",
@@ -102,11 +96,11 @@ export function ChainListStateProvider({
   const [products, setProducts] = useQueryState(
     "products",
     parseAsArrayOf(
-      parseAsStringEnum<ChainListProduct>(allProductNames),
+      parseAsStringEnum<ChainSupportedService>(allProductNames),
     ).withDefault(defaultProducts),
   );
 
-  function toggleProduct(product: ChainListProduct) {
+  function toggleProduct(product: ChainSupportedService) {
     if (products.includes(product)) {
       setProducts(products.filter((p) => p !== product));
     } else {
@@ -121,7 +115,7 @@ export function ChainListStateProvider({
   const showAllProducts = products.length === allProductNames.length;
 
   function selectAllProducts() {
-    setProducts(null);
+    setProducts(allProductNames);
   }
 
   const gasSponsored =

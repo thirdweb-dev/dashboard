@@ -1,6 +1,5 @@
 "use client";
 
-import type { ChainMetadata } from "thirdweb/chains";
 import { ChainCard } from "./chain-card";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useState } from "react";
@@ -17,8 +16,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import type { ChainMetadataWithServices } from "../getChain";
 
-export function ChainList(props: { chains: ChainMetadata[] }) {
+export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   const { searchTerm, chainType, showDeprecated, products, gasSponsored } =
     useChainListState();
   const isDesktop = useIsDesktop();
@@ -64,12 +64,29 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
       });
     }
 
+    if (products.length > 0) {
+      result = result.filter((chain) => {
+        // all products must be enabled
+        return products.every(
+          (product) =>
+            chain.services.find((s) => s.service === product)?.enabled,
+        );
+      });
+    }
+
     if (!showDeprecated) {
       result = result.filter((chain) => chain.status !== "deprecated");
     }
 
     return result;
-  }, [props.chains, deferredSearchTerm, fuse, chainType, showDeprecated]);
+  }, [
+    props.chains,
+    deferredSearchTerm,
+    fuse,
+    chainType,
+    showDeprecated,
+    products,
+  ]);
 
   const itemsToShowPerPage = isDesktop ? 25 : 5;
   const [page, setPage] = useState(1);
@@ -118,10 +135,6 @@ export function ChainList(props: { chains: ChainMetadata[] }) {
                 chain={chain}
                 // TODO - use real data
                 isPreferred={chain.chainId === 1}
-                // TODO - use real data
-                isVerified={chain.chainId === 1}
-                // TODO
-                isGasSponsored={chain.chainId === 1}
               />
             ))}
           </tbody>
