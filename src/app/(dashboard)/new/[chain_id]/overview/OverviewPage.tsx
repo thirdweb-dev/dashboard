@@ -73,7 +73,7 @@ function EnabledServices() {
         </h2>
         <span className="text-base"> 5/6 </span>
       </div>
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex-col md:flex-row flex gap-2 flex-wrap">
         {products.map((p, i) => {
           // TODO
           const isSupported = i !== 5;
@@ -89,7 +89,7 @@ function EnabledServices() {
               <Link
                 href={p.href}
                 target="_blank"
-                className="text-sm flex gap-1.5 items-center "
+                className="text-sm flex gap-1.5 items-center !justify-start"
               >
                 {isSupported ? (
                   <CheckIcon className="size-4 text-success-foreground" />
