@@ -18,7 +18,7 @@ export async function ChainOverviewPage(props: {
   return (
     <div className="flex flex-col gap-10 pt-2">
       <PrimaryInfoGrid chain={chain} />
-      <EnabledServices />
+      <EnabledServices chain={chain} />
       {chain.faucets && chain.faucets.length > 0 && (
         <Faucets faucets={[...chain.faucets]} />
       )}
@@ -66,7 +66,7 @@ function PrimaryInfoGrid(props: { chain: ChainMetadataWithServices }) {
   );
 }
 
-function EnabledServices() {
+function EnabledServices(props: { chain: ChainMetadataWithServices }) {
   return (
     <div className="pb-10 border-b">
       <div className="flex items-center gap-2 mb-2">
@@ -76,9 +76,11 @@ function EnabledServices() {
         <span className="text-base"> 5/6 </span>
       </div>
       <div className="flex-col md:flex-row flex gap-2 flex-wrap">
-        {products.map((p, i) => {
-          // TODO
-          const isSupported = i !== 5;
+        {products.map((p) => {
+          const isSupported = props.chain.services.find(
+            (s) => s.service === p.id,
+          )?.enabled;
+
           return (
             <Button
               key={p.name}

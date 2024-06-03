@@ -1,9 +1,15 @@
+import { redirect } from "next/navigation";
 import { getChain } from "../../chainlist/getChain";
 import { InfoCard } from "../InfoCard";
 import { ChainLiveStats } from "../overview/components/ChainLiveStats";
 
 export default async function Page(props: { params: { chain_id: string } }) {
   const chain = await getChain(props.params.chain_id);
+  const enabled = chain.services.find((s) => s.service === "rpc-edge")?.enabled;
+
+  if (!enabled) {
+    redirect(`/new/${props.params.chain_id}`);
+  }
 
   return (
     <div className="pb-20">

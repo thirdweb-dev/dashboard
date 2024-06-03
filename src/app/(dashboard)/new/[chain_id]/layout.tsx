@@ -121,10 +121,10 @@ export default async function ChainPageLayout({
         <main className="container px-4 pb-20 flex-1">
           <div className="flex flex-col xl:flex-row gap-6 h-full">
             <div className="hidden xl:block h-full">
-              <ChainPageSidebar chainSlug={params.chain_id} />
+              <ChainPageSidebar chainSlug={params.chain_id} chain={chain} />
             </div>
             <div className="xl:hidden">
-              <ChainPageTabs chainSlug={params.chain_id} />
+              <ChainPageTabs chainSlug={params.chain_id} chain={chain} />
             </div>
             <div className="flex-1">{children}</div>
           </div>

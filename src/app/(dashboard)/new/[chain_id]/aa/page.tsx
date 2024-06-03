@@ -1,6 +1,17 @@
+import { redirect } from "next/navigation";
+import { getChain } from "../../chainlist/getChain";
 import { InfoCard } from "../InfoCard";
 
-export default function Page() {
+export default async function Page(props: { params: { chain_id: string } }) {
+  const chain = await getChain(props.params.chain_id);
+  const enabled = chain.services.find(
+    (s) => s.service === "account-abstraction",
+  )?.enabled;
+
+  if (!enabled) {
+    redirect(`/new/${props.params.chain_id}`);
+  }
+
   return (
     <div>
       <InfoCard

@@ -4,6 +4,8 @@ import Link from "next/link";
 import twPublisherImage from "./tw-publisher.png";
 import Image from "next/image";
 import { InfoCard } from "../InfoCard";
+import { redirect } from "next/navigation";
+import { getChain } from "../../chainlist/getChain";
 
 type ContractCardInfo = {
   name: string;
@@ -41,7 +43,16 @@ const popularContracts: ContractCardInfo[] = [
   },
 ];
 
-export default async function Page() {
+export default async function Page(props: { params: { chain_id: string } }) {
+  const chain = await getChain(props.params.chain_id);
+  const enabled = chain.services.find(
+    (s) => s.service === "contracts",
+  )?.enabled;
+
+  if (!enabled) {
+    redirect(`/new/${props.params.chain_id}`);
+  }
+
   return (
     <div>
       <InfoCard

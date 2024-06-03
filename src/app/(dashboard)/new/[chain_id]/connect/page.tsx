@@ -3,6 +3,8 @@ import { InfoCard } from "../InfoCard";
 import { FaReact } from "react-icons/fa";
 import { SiTypescript, SiSolidity, SiDotnet } from "react-icons/si";
 import { FaUnity } from "react-icons/fa6";
+import { redirect } from "next/navigation";
+import { getChain } from "../../chainlist/getChain";
 
 type SDKInfo = {
   name: string;
@@ -43,7 +45,16 @@ const sdks: SDKInfo[] = [
   },
 ];
 
-export default function Page() {
+export default async function Page(props: { params: { chain_id: string } }) {
+  const chain = await getChain(props.params.chain_id);
+  const enabled = chain.services.find(
+    (s) => s.service === "connect-sdk",
+  )?.enabled;
+
+  if (!enabled) {
+    redirect(`/new/${props.params.chain_id}`);
+  }
+
   return (
     <div>
       <InfoCard
