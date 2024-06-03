@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CircleAlertIcon, FuelIcon, Verified } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { StarButton } from "./star-button";
 import type { ChainMetadataWithServices } from "../getChain";
@@ -10,15 +10,15 @@ import type { ChainMetadataWithServices } from "../getChain";
 type ChainCardProps = {
   chain: ChainMetadataWithServices;
   isPreferred: boolean;
-  isVerified: boolean;
-  isGasSponsored: boolean;
+  // isVerified: boolean;
+  // isGasSponsored: boolean;
 };
 
 export const ChainCard: React.FC<ChainCardProps> = ({
   chain,
   isPreferred: initialPreferred,
-  isVerified,
-  isGasSponsored,
+  // isVerified,
+  // isGasSponsored,
 }) => {
   const isDeprecated = chain.status === "deprecated";
   const supportedServicesCount = chain.services.filter(
@@ -75,9 +75,9 @@ export const ChainCard: React.FC<ChainCardProps> = ({
             </tbody>
           </table>
 
-          {(isVerified || isGasSponsored || isDeprecated) && (
+          {isDeprecated && (
             <div className="mt-5 flex gap-5 border-t pt-4">
-              {!isDeprecated && (
+              {/* {!isDeprecated && (
                 <>
                   {isVerified && (
                     <div className="gap-1.5 flex items-center">
@@ -93,7 +93,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
                     </div>
                   )}
                 </>
-              )}
+              )} */}
 
               {isDeprecated && (
                 <div className="gap-1.5 flex items-center">
