@@ -34,24 +34,29 @@ export function ChainListFilters() {
   } = useChainListState();
 
   return (
-    <div className="relative w-full lg:w-[350px]">
-      <Search className="absolute size-5 top-[50%] -translate-y-1/2 left-4 text-muted-foreground" />
-      <Input
-        placeholder="Search by name or chain ID"
-        className={"px-12 h-auto py-3 text-base bg-secondary rounded-lg"}
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-      />
+    <div className="flex items-stretch gap-3">
+      {/* Search Input */}
+      <div className="relative w-full lg:w-[350px] ">
+        <Search className="absolute size-5 top-[50%] -translate-y-1/2 left-4 text-muted-foreground" />
+        <Input
+          placeholder="Search by name or chain ID"
+          className={"pl-12 h-auto py-3 text-base bg-secondary rounded-lg"}
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
+      </div>
+
+      {/* Filter Button */}
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
-            className="absolute top-[50%] -translate-y-1/2 right-2 p-2"
+            className="px-3 w-auto h-auto bg-secondary hover:bg-muted"
           >
-            <Filter className="size-5 text-muted-foreground" />
+            <Filter className="size-5 text-foreground" />
           </Button>
         </PopoverTrigger>
 
@@ -137,11 +142,11 @@ export function ChainListFilters() {
           {/* Products */}
           <section className="flex flex-col gap-2">
             <h4 className="text-sm font-semibold text-muted-foreground">
-              Available Products
+              Available Services
             </h4>
 
             <div className="flex items-center justify-between my-2">
-              <Label htmlFor="all-products">Select All Products</Label>
+              <Label htmlFor="all-products">Select All Services</Label>
               <Switch
                 id="all-products"
                 checked={showAllProducts}

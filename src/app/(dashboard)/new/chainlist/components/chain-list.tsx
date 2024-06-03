@@ -152,9 +152,9 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
               // TODO - use real data
               isPreferred={chain.chainId === 1}
               // TODO - use real data
-              isVerified={chain.chainId === 1}
+              // isVerified={chain.chainId === 1}
               // TODO
-              isGasSponsored={chain.chainId === 1}
+              // isGasSponsored={chain.chainId === 1}
             />
           </li>
         ))}

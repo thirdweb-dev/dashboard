@@ -31,7 +31,7 @@ const ChainListPage: NextPage = async () => {
                 </h1>
                 <AddYourChainButton className="flex lg:hidden items-center" />
               </div>
-              <div className="flex flex-row gap-4">
+              <div className="lg:flex flex-row gap-4">
                 <ChainListFilters />
                 <AddYourChainButton className="hidden lg:flex items-center" />
               </div>

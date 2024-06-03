@@ -63,7 +63,7 @@ export const ChainCard: React.FC<ChainCardProps> = ({
               </tr>
               <tr>
                 <th className="text-left font-normal text-secondary-foreground">
-                  Available Products
+                  Available Services
                 </th>
 
                 <td>
