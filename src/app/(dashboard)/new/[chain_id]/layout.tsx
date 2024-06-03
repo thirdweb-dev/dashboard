@@ -7,6 +7,7 @@ import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "./QueryClientProvider";
 import { Separator } from "@/components/ui/separator";
 import { ChainPageSidebar, ChainPageTabs } from "./tabs";
+import { ChainIcon } from "./ChainIcon";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -79,6 +80,13 @@ export default async function ChainPageLayout({
                   iconClassName="size-6"
                 />
               </div>
+
+              {chain.icon?.url && (
+                <ChainIcon
+                  chain={chain}
+                  className="hidden md:block size-[84px] ml-auto bg-secondary p-2 border-2 rounded-full"
+                />
+              )}
             </div>
 
             {/* Mobile tags */}
