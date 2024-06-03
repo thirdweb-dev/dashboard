@@ -21,8 +21,8 @@ export function ChainListFilters() {
   const {
     chainType,
     setChainType,
-    setGasSponsored,
-    gasSponsored,
+    // setGasSponsored,
+    // gasSponsored,
     showDeprecated,
     setShowDeprecated,
     showAllProducts,
@@ -99,7 +99,7 @@ export function ChainListFilters() {
 
           {/* Other Options */}
           <section className="flex flex-col gap-2">
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <Checkbox
                 id="gas-sponsored"
                 checked={gasSponsored}
@@ -113,7 +113,8 @@ export function ChainListFilters() {
               >
                 Gas Sponsored
               </Label>
-            </div>
+            </div> */}
+
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="deprecated"
