@@ -224,7 +224,8 @@ export const templates: TemplateCardProps[] = [
     title: "Node Starter",
     homepage: "",
     repo: "https://github.com/thirdweb-example/node-starter",
-    description: "Starter kit to build with Node and thirdweb without additional initial configuration.",
+    description:
+      "Starter kit to build with Node and thirdweb without additional initial configuration.",
     img: "/assets/templates/node-starter.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
     tags: ["Node", "TypeScript", "Starter"],
@@ -236,7 +237,8 @@ export const templates: TemplateCardProps[] = [
     title: "Expo Starter",
     homepage: "",
     repo: "https://github.com/thirdweb-example/node-starter",
-    description: "Starter kit to build with Expo and thirdweb without additional initial configuration.",
+    description:
+      "Starter kit to build with Expo and thirdweb without additional initial configuration.",
     img: "/assets/templates/expo-starter.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
     tags: ["Expo", "TypeScript", "React-Native", "Starter"],
@@ -248,7 +250,8 @@ export const templates: TemplateCardProps[] = [
     title: "Vite Starter",
     homepage: "vite-starter.thirdweb-example.com",
     repo: "https://github.com/thirdweb-example/vite-starter",
-    description: "Starter kit to build with Vite and thirdweb without additional initial configuration.",
+    description:
+      "Starter kit to build with Vite and thirdweb without additional initial configuration.",
     img: "/assets/templates/vite-starter.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
     tags: ["Vite", "Starter"],
@@ -260,7 +263,8 @@ export const templates: TemplateCardProps[] = [
     title: "Next Starter",
     homepage: "next-starter.thirdweb-example.com",
     repo: "https://github.com/thirdweb-example/next-starter",
-    description: "Starter kit to build with Next and thirdweb without additional initial configuration.",
+    description:
+      "Starter kit to build with Next and thirdweb without additional initial configuration.",
     img: "/assets/templates/next-starter.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
     tags: ["Next", "Starter"],
