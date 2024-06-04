@@ -88,6 +88,8 @@ export const engineKeys = {
   health: (instance: string) =>
     [...engineKeys.all, instance, "health"] as const,
   latestVersion: () => [...engineKeys.all, "latestVersion"] as const,
+  metrics: (instance: string) =>
+    [...engineKeys.all, instance, "metrics"] as const,
 };
 
 export const paymentsKeys = {

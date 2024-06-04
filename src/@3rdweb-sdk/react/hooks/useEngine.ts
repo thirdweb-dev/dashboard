@@ -1281,3 +1281,36 @@ export function useEngineSubscriptionsLastBlock(
     },
   );
 }
+
+export interface EngineResourceMetrics {
+  error: string;
+  data: {
+    cpu: number;
+    memory: number;
+  };
+}
+
+export function useEngineResourceMetrics(instanceUrl: string) {
+  const slug = new URL(instanceUrl).hostname.split(".")[0];
+  return useQuery(
+    engineKeys.metrics(instanceUrl),
+    async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/engine/metrics/${slug}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error(`Unexpected status ${res.status}`);
+      }
+      const json = (await res.json()) as EngineResourceMetrics;
+      return json;
+    },
+    { enabled: !!instanceUrl },
+  );
+}

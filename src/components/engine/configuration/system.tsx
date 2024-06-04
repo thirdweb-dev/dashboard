@@ -1,4 +1,7 @@
-import { useEngineSystemHealth } from "@3rdweb-sdk/react/hooks/useEngine";
+import {
+  useEngineResourceMetrics,
+  useEngineSystemHealth,
+} from "@3rdweb-sdk/react/hooks/useEngine";
 import { Text } from "tw-components";
 
 interface EngineSystemProps {
@@ -7,6 +10,7 @@ interface EngineSystemProps {
 
 export const EngineSystem: React.FC<EngineSystemProps> = ({ instanceUrl }) => {
   const { data } = useEngineSystemHealth(instanceUrl);
+  const metrics = useEngineResourceMetrics(instanceUrl);
   if (!data) {
     return null;
   }
@@ -16,6 +20,10 @@ export const EngineSystem: React.FC<EngineSystemProps> = ({ instanceUrl }) => {
       Version: {data.engineVersion ?? "..."}
       <br />
       Enabled: {data.features?.join(", ")}
+      <br />
+      CPU: {metrics.data?.data?.cpu ?? "..."}
+      <br />
+      Memory: {metrics.data?.data?.memory ?? "..."}
     </Text>
   );
 };
