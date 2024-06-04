@@ -10,7 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
-import { Card, Heading, Link, Text, TrackedIconButton } from "tw-components";
+import {
+  Card,
+  Heading,
+  Link,
+  Text,
+  TrackedIconButton,
+  TrackedLink,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
@@ -20,6 +27,9 @@ import { PricingSection } from "components/homepage/sections/PricingSection";
 import { FAQ_GENERAL, FAQ_PRICING, PRICING_SECTIONS } from "utils/pricing";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { FiExternalLink } from "react-icons/fi";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useRouter } from "next/router";
+import { EngineTierCard } from "components/engine/tier-card";
 
 const TRACKING_CATEGORY = "pricing-page";
 
@@ -193,6 +203,19 @@ const Pricing: ThirdwebNextPage = () => {
             </Flex>
           ))}
         </Flex>
+
+        <Flex gap={4} flexDir="column" alignItems="center">
+          <Heading as="h2" size="title.xl" color="white">
+            Add-ons
+          </Heading>
+          <Flex flexDir="column" gap={0} w="full">
+            <Heading as="h3" size="subtitle.lg">
+              Engine
+            </Heading>
+            <EnginePricing isMobile={isMobile} />
+          </Flex>
+        </Flex>
+
         <Flex gap={4} flexDir="column" alignItems="center">
           <Heading size="title.xl" color="white">
             FAQ
@@ -304,6 +327,73 @@ const Item = ({
         )}
       </Flex>
     </Card>
+  );
+};
+
+const EnginePricing = ({ isMobile }: { isMobile: boolean }) => {
+  const track = useTrack();
+  const router = useRouter();
+
+  return (
+    <Flex flexDir="column" gap={4}>
+      <Text>
+        Host Engine on thirdweb with no setup or maintenance required.{" "}
+        <TrackedLink
+          href="https://portal.thirdweb.com/engine"
+          isExternal
+          color="blue.500"
+          fontSize="small"
+          category={TRACKING_CATEGORY}
+          label="clicked-docs"
+        >
+          Learn more about Engine &rarr;
+        </TrackedLink>
+      </Text>
+      <SimpleGrid columns={isMobile ? 1 : 3} gap={6}>
+        <EngineTierCard
+          tier="STARTER"
+          ctaText="Get Started"
+          onClick={() => {
+            track({
+              category: TRACKING_CATEGORY,
+              action: "click",
+              label: "clicked-cloud-hosted",
+              tier: "STANDARD",
+            });
+            router.push("/dashboard/engine");
+          }}
+        />
+
+        <EngineTierCard
+          tier="PREMIUM"
+          isPrimaryCta
+          ctaText="Get Started"
+          onClick={() => {
+            track({
+              category: TRACKING_CATEGORY,
+              action: "click",
+              label: "clicked-cloud-hosted",
+              tier: "PREMIUM",
+            });
+            router.push("/dashboard/engine");
+          }}
+        />
+
+        <EngineTierCard
+          tier="ENTERPRISE"
+          previousTier="Premium Engine"
+          onClick={() => {
+            track({
+              category: TRACKING_CATEGORY,
+              action: "click",
+              label: "clicked-cloud-hosted",
+              tier: "ENTERPRISE",
+            });
+            router.push("/contact-us");
+          }}
+        />
+      </SimpleGrid>
+    </Flex>
   );
 };
 
