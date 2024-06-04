@@ -403,13 +403,9 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
           const path = router.asPath.split("?")[0];
           // Only apply to the Explorer page
           if (path.endsWith("/explorer")) {
-            router.push(
-              { pathname: path, query: { name } },
-              undefined,
-              {
-                shallow: true,
-              },
-            );
+            router.push({ pathname: path, query: { name } }, undefined, {
+              shallow: true,
+            });
           }
         }}
         color="heading"
