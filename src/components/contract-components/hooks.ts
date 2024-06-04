@@ -56,7 +56,7 @@ import {
 } from "@thirdweb-dev/sdk/evm/zksync";
 import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { providers, utils } from "ethers";
+import { utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { isEnsName, resolveEns } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -64,9 +64,8 @@ import { StorageSingleton, getThirdwebSDK } from "lib/sdk";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { Web3Provider, Signer as ZkSigner } from "zksync-ethers";
+import { Signer as ZkSigner } from "zksync-ethers";
 import { z } from "zod";
-import { useActiveWallet } from "thirdweb/react";
 
 const HEADLESS_WALLET_IDS: string[] = [
   walletIds.localWallet,
