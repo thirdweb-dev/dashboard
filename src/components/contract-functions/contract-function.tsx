@@ -401,9 +401,16 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
           setSelectedFunction(fn);
           const { name } = fn;
           const path = router.asPath.split("?")[0];
-          router.push({ pathname: path, query: { name } }, undefined, {
-            shallow: true,
-          });
+          // Only apply to the Explorer page
+          if (path.endsWith("/explorer")) {
+            router.push(
+              { pathname: path, query: { name } },
+              undefined,
+              {
+                shallow: true,
+              },
+            );
+          }
         }}
         color="heading"
         _hover={{ opacity: 1, textDecor: "underline" }}
