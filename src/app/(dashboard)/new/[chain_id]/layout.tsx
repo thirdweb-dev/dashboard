@@ -4,10 +4,11 @@ import { StarButton } from "../chainlist/components/star-button";
 import { CircleAlertIcon } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
-import { ReactQueryClientProvider } from "./QueryClientProvider";
+import { ReactQueryClientProvider } from "../QueryClientProvider";
 import { Separator } from "@/components/ui/separator";
-import { ChainPageSidebar, ChainPageTabs } from "./tabs";
+import { ChainPageTabs } from "./tabs";
 import { ChainIcon } from "./ChainIcon";
+import { ChainOverview } from "./overview/OverviewPage";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -19,10 +20,6 @@ export default async function ChainPageLayout({
 }) {
   const chain = await getChain(params.chain_id);
   const isDeprecated = chain.status === "deprecated";
-
-  // TODO
-  // const isVerified = true;
-  // const isGasSponsored = true;
 
   return (
     <ReactQueryClientProvider>
@@ -119,15 +116,10 @@ export default async function ChainPageLayout({
         </header>
 
         <main className="container px-4 pb-20 flex-1">
-          <div className="flex flex-col xl:flex-row gap-6 h-full">
-            <div className="hidden xl:block h-full">
-              <ChainPageSidebar chainSlug={params.chain_id} chain={chain} />
-            </div>
-            <div className="xl:hidden">
-              <ChainPageTabs chainSlug={params.chain_id} chain={chain} />
-            </div>
-            <div className="flex-1">{children}</div>
-          </div>
+          <ChainOverview chain={chain} />
+          <div className="h-10" />
+          <ChainPageTabs chainSlug={params.chain_id} chain={chain} />
+          <div className="pt-10">{children}</div>
         </main>
       </section>
     </ReactQueryClientProvider>

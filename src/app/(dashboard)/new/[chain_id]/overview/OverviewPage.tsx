@@ -1,24 +1,15 @@
 import Link from "next/link";
-import { CheckIcon, ExternalLinkIcon, XIcon } from "lucide-react";
-import {
-  getChain,
-  type ChainMetadataWithServices,
-} from "../../chainlist/getChain";
-import { ChainLiveStats } from "./components/ChainLiveStats";
+import { ExternalLinkIcon } from "lucide-react";
+import { type ChainMetadataWithServices } from "../../chainlist/getChain";
 import { PrimaryInfoItem } from "./components/PrimaryInfoItem";
-import { products } from "../../chainlist/products";
-import { Button } from "@/components/ui/button";
-import { cn } from "../../../../../@/lib/utils";
 
-export async function ChainOverviewPage(props: {
-  params: { chain_id: string };
+export async function ChainOverview(props: {
+  chain: ChainMetadataWithServices;
 }) {
-  const chain = await getChain(props.params.chain_id);
-
+  const { chain } = props;
   return (
     <div className="flex flex-col gap-10 pt-2">
       <PrimaryInfoGrid chain={chain} />
-      <EnabledServices chain={chain} />
       {chain.faucets && chain.faucets.length > 0 && (
         <Faucets faucets={[...chain.faucets]} />
       )}
@@ -32,7 +23,6 @@ export async function ChainOverviewPage(props: {
 
 function PrimaryInfoGrid(props: { chain: ChainMetadataWithServices }) {
   const { chain } = props;
-  const isDeprecated = chain.status === "deprecated";
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -59,53 +49,6 @@ function PrimaryInfoGrid(props: { chain: ChainMetadataWithServices }) {
           {chain.nativeCurrency.name} ({chain.nativeCurrency.symbol})
         </div>
       </PrimaryInfoItem>
-
-      {/* Live Stats */}
-      {chain.rpc[0] && !isDeprecated && <ChainLiveStats rpc={chain.rpc[0]} />}
-    </div>
-  );
-}
-
-function EnabledServices(props: { chain: ChainMetadataWithServices }) {
-  return (
-    <div className="pb-10 border-b">
-      <div className="flex items-center gap-2 mb-2">
-        <h2 className="text-base text-muted-foreground font-medium">
-          Enabled Services
-        </h2>
-        <span className="text-base"> 5/6 </span>
-      </div>
-      <div className="flex-col md:flex-row flex gap-2 flex-wrap">
-        {products.map((p) => {
-          const isSupported = props.chain.services.find(
-            (s) => s.service === p.id,
-          )?.enabled;
-
-          return (
-            <Button
-              key={p.name}
-              variant="outline"
-              asChild
-              className={cn(
-                "rounded-xl px-3 py-0.5 hover:bg-muted bg-secondary",
-              )}
-            >
-              <Link
-                href={p.href}
-                target="_blank"
-                className="text-sm flex gap-1.5 items-center !justify-start"
-              >
-                {isSupported ? (
-                  <CheckIcon className="size-4 text-success-foreground" />
-                ) : (
-                  <XIcon className="size-4 text-destructive-foreground" />
-                )}
-                {p.name}
-              </Link>
-            </Button>
-          );
-        })}
-      </div>
     </div>
   );
 }

@@ -9,12 +9,8 @@ export const chainPageTabs: Array<{
   serviceId?: ChainSupportedService;
 }> = [
   {
-    name: "Overview",
-    segment: "",
-  },
-  {
     name: "Contracts",
-    segment: "contracts",
+    segment: "",
     serviceId: "contracts",
   },
   {
