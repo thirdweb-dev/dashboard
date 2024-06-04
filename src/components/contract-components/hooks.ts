@@ -29,6 +29,7 @@ import {
   useSDK,
   useSDKChainId,
   useSigner,
+  useWallet,
   useWalletConfig,
 } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
@@ -63,8 +64,9 @@ import { StorageSingleton, getThirdwebSDK } from "lib/sdk";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { Web3Provider } from "zksync-ethers";
+import { Web3Provider, Signer as ZkSigner } from "zksync-ethers";
 import { z } from "zod";
+import { useActiveWallet } from "thirdweb/react";
 
 const HEADLESS_WALLET_IDS: string[] = [
   walletIds.localWallet,
@@ -596,6 +598,7 @@ export function useCustomContractDeployMutation(
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const rawPredeployMetadata = useContractRawPredeployMetadataFromURI(ipfsHash);
+  const activeWallet = useWallet();
 
   const walletConfig = useWalletConfig();
 
@@ -691,11 +694,9 @@ export function useCustomContractDeployMutation(
           chainId === ZksyncEraGoerliTestnetDeprecated.chainId;
 
         // deploy contract
-        if (isZkSync) {
+        if (isZkSync && activeWallet?.walletId !== "safe-wallet") {
           // Get metamask signer using zksync-ethers library -- for custom fields in signature
-          const zkSigner = new Web3Provider(
-            window.ethereum as unknown as providers.ExternalProvider,
-          ).getSigner();
+          const zkSigner = ZkSigner.from(signer as any);
 
           if (
             fullPublishMetadata?.data?.compilers?.zksolc ||
