@@ -54,12 +54,23 @@ export const chainPageTabs: Array<{
 ];
 
 export function getEnabledTabs(chain: ChainMetadataWithServices) {
-  return chainPageTabs.map((tab) => {
-    const isEnabled =
-      chain.services.find((s) => s.service === tab.serviceId)?.enabled ?? false;
-    return {
-      ...tab,
-      isEnabled,
-    };
-  });
+  return chainPageTabs
+    .map((tab) => {
+      const isEnabled =
+        chain.services.find((s) => s.service === tab.serviceId)?.enabled ??
+        false;
+      return {
+        ...tab,
+        isEnabled,
+      };
+    })
+    .sort((a, b) => {
+      if (a.isEnabled && !b.isEnabled) {
+        return -1;
+      }
+      if (!a.isEnabled && b.isEnabled) {
+        return 1;
+      }
+      return 0;
+    });
 }
