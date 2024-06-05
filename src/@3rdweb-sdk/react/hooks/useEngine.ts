@@ -1296,7 +1296,7 @@ export function useEngineResourceMetrics(instanceUrl: string) {
     engineKeys.metrics(instanceUrl),
     async () => {
       const res = await fetch(
-        `${THIRDWEB_API_HOST}/v1/engine/metrics/${slug}`,
+        `${THIRDWEB_API_HOST}/v1/engine/${slug}/metrics`,
         {
           method: "GET",
           credentials: "include",
