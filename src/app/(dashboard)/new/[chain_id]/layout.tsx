@@ -1,6 +1,5 @@
 /* eslint-disable react/forbid-dom-props */
 import { cn } from "../../../../@/lib/utils";
-import { StarButton } from "../chainlist/components/star-button";
 import { CircleAlertIcon } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
@@ -9,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ChainPageTabs } from "./tabs";
 import { ChainIcon } from "./ChainIcon";
 import { ChainOverview } from "./overview/OverviewPage";
+import { ChainPageStarButton } from "./ChainPageStarButton";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -33,7 +33,15 @@ export default async function ChainPageLayout({
         >
           <div className="container px-4">
             <div className="flex gap-3 md:gap-5 items-center">
+              {chain.icon?.url && (
+                <ChainIcon
+                  chain={chain}
+                  className="hidden md:block size-[84px] bg-secondary p-2 border-2 rounded-full"
+                />
+              )}
+
               {/* Chain Name */}
+
               <h1
                 className={cn(
                   "font-semibold tracking-tighter text-4xl md:text-6xl",
@@ -62,64 +70,43 @@ export default async function ChainPageLayout({
                   </ToolTipLabel>
                 )}
 
-                <StarButton
+                <ChainPageStarButton
                   chainId={chain.chainId}
-                  initialPreferred={false}
                   iconClassName="size-[36px]"
                 />
               </div>
 
               {/* Mobile star */}
               <div className="md:hidden flex items-center">
-                <StarButton
+                <ChainPageStarButton
                   chainId={chain.chainId}
-                  initialPreferred={false}
                   iconClassName="size-6"
                 />
               </div>
-
-              {chain.icon?.url && (
-                <ChainIcon
-                  chain={chain}
-                  className="hidden md:block size-[84px] ml-auto bg-secondary p-2 border-2 rounded-full"
-                />
-              )}
             </div>
 
             {/* Mobile tags */}
-            <div className="md:hidden ">
-              <Separator className="my-5" />
-              <div className="flex flex-col gap-3">
-                {/* {isGasSponsored && (
-                  <div className="flex gap-3">
-                    <FuelIcon className="text-primary-foreground size-6" />
-                    <p> Gas Sponsored </p>
-                  </div>
-                )}
-
-                {isVerified && (
-                  <div className="flex gap-3">
-                    <Verified className="text-primary-foreground size-6" />
-                    <p> Verified </p>
-                  </div>
-                )} */}
-
-                {isDeprecated && (
-                  <div className="flex gap-3">
-                    <CircleAlertIcon className="text-destructive-foreground size-6" />
-                    <p> Deprecated </p>
-                  </div>
-                )}
+            {isDeprecated && (
+              <div className="md:hidden ">
+                <Separator className="my-5" />
+                <div className="flex flex-col gap-3">
+                  {isDeprecated && (
+                    <div className="flex gap-3">
+                      <CircleAlertIcon className="text-destructive-foreground size-6" />
+                      <p> Deprecated </p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </header>
 
         <main className="container px-4 pb-20 flex-1">
           <ChainOverview chain={chain} />
-          <div className="h-10" />
+          <div className="h-14" />
           <ChainPageTabs chainSlug={params.chain_id} chain={chain} />
-          <div className="pt-10">{children}</div>
+          <div className="pt-8">{children}</div>
         </main>
       </section>
     </ReactQueryClientProvider>

@@ -6,6 +6,7 @@ import { cn } from "../../../../../@/lib/utils";
 import { Button } from "../../../../../@/components/ui/button";
 import { ToolTipLabel } from "../../../../../@/components/ui/tooltip";
 import { useDebounce } from "../../../../../hooks/common/useDebounce";
+import { addChainToFavorites, removeChainFromFavorites } from "./favorites";
 
 export function StarButton(props: {
   chainId: number;
@@ -25,7 +26,15 @@ export function StarButton(props: {
       variant="ghost"
       size="icon"
       aria-label={label}
-      onClick={() => setIsPreferred((prev) => !prev)}
+      onClick={() => {
+        const newIsPreferred = !isPreferred;
+        setIsPreferred(newIsPreferred);
+        if (newIsPreferred) {
+          addChainToFavorites(props.chainId);
+        } else {
+          removeChainFromFavorites(props.chainId);
+        }
+      }}
     >
       <ToolTipLabel label={tooltipLabel}>
         <Star

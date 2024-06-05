@@ -40,9 +40,7 @@ const ChainListPage: NextPage = async () => {
 
           <div className="h-10"></div>
 
-          <main>
-            <ChainList chains={chains} />
-          </main>
+          <ChainList chains={chains} />
 
           <div className="h-10"></div>
         </section>

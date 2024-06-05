@@ -19,6 +19,7 @@ import {
 import type { ChainMetadataWithServices } from "../getChain";
 import { useQuery } from "@tanstack/react-query";
 import { getAllFavoriteChainIds } from "./favorites";
+import { Spinner } from "../../../../../@/components/ui/Spinner/Spinner";
 
 export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   const { searchTerm, chainType, showDeprecated, products, gasSponsored } =
@@ -29,8 +30,10 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
     queryFn: getAllFavoriteChainIds,
   });
 
-  // eslint-disable-next-line no-console
-  console.log("fav chain ids", favChainIdsQuery.data);
+  const favChainIdSet = useMemo(
+    () => new Set(favChainIdsQuery.data || []),
+    [favChainIdsQuery.data],
+  );
 
   const fuse = useMemo(() => {
     return new Fuse(props.chains, {
@@ -59,6 +62,19 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
           limit: 10,
         })
         .map((e) => e.item);
+    }
+
+    if (favChainIdSet.size) {
+      // sort by favorite first
+      result = result.sort((a, b) => {
+        if (favChainIdSet.has(a.chainId) && !favChainIdSet.has(b.chainId)) {
+          return -1;
+        }
+        if (!favChainIdSet.has(a.chainId) && favChainIdSet.has(b.chainId)) {
+          return 1;
+        }
+        return 0;
+      });
     }
 
     if (chainType !== "all") {
@@ -95,6 +111,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
     chainType,
     showDeprecated,
     products,
+    favChainIdSet,
   ]);
 
   const itemsToShowPerPage = isDesktop ? 25 : 5;
@@ -127,6 +144,15 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
 
   let content = null;
 
+  if (favChainIdsQuery.isLoading) {
+    return (
+      <main className="flex-1 flex items-center justify-center">
+        {" "}
+        <Spinner className="size-10" />{" "}
+      </main>
+    );
+  }
+
   if (isDesktop) {
     content = (
       <div className="overflow-x-auto">
@@ -142,8 +168,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
               <ChainRowContent
                 key={chain.chainId}
                 chain={chain}
-                // TODO - use real data
-                isPreferred={chain.chainId === 1}
+                isPreferred={favChainIdSet.has(chain.chainId)}
               />
             ))}
           </tbody>
@@ -158,12 +183,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
             <ChainCard
               key={chain.chainId}
               chain={chain}
-              // TODO - use real data
-              isPreferred={chain.chainId === 1}
-              // TODO - use real data
-              // isVerified={chain.chainId === 1}
-              // TODO
-              // isGasSponsored={chain.chainId === 1}
+              isPreferred={favChainIdSet.has(chain.chainId)}
             />
           </li>
         ))}
@@ -180,7 +200,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   }
 
   return (
-    <div>
+    <main>
       {content}
 
       <div className="h-10"></div>
@@ -251,7 +271,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
           </PaginationContent>
         </Pagination>
       )}
-    </div>
+    </main>
   );
 }
 

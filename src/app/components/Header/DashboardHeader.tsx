@@ -4,6 +4,8 @@ import Link from "next/link";
 import { MobileBurgerMenu } from "./MobileBurgerMenu";
 import { headerLinks } from "./headerLinks";
 import { CustomConnectWallet } from "../../../@3rdweb-sdk/react/components/connect-wallet";
+import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
+import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 
 export function DashboardHeader() {
   return (
@@ -49,7 +51,15 @@ export function DashboardHeader() {
             <MobileBurgerMenu />
           </div>
 
-          <CustomConnectWallet />
+          <ClientOnly
+            ssr={
+              <div className="w-[144px] h-[48px] bg-muted border rounded-lg flex items-center justify-center">
+                <Spinner className="size-4" />
+              </div>
+            }
+          >
+            <CustomConnectWallet />
+          </ClientOnly>
         </div>
       </div>
     </header>
