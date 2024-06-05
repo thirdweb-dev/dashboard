@@ -61,9 +61,6 @@ export function useEngineInstances() {
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/engine`, {
         method: "GET",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
       if (!res.ok) {
         throw new Error(`Unexpected status ${res.status}`);
@@ -1290,27 +1287,19 @@ export interface EngineResourceMetrics {
   };
 }
 
-export function useEngineResourceMetrics(instanceUrl: string) {
-  const slug = new URL(instanceUrl).hostname.split(".")[0];
-  return useQuery(
-    engineKeys.metrics(instanceUrl),
-    async () => {
-      const res = await fetch(
-        `${THIRDWEB_API_HOST}/v1/engine/${slug}/metrics`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      if (!res.ok) {
-        throw new Error(`Unexpected status ${res.status}`);
-      }
-      const json = (await res.json()) as EngineResourceMetrics;
-      return json;
-    },
-    { enabled: !!instanceUrl },
-  );
+export function useEngineResourceMetrics(engineId: string) {
+  return useQuery(engineKeys.metrics(engineId), async () => {
+    const res = await fetch(
+      `${THIRDWEB_API_HOST}/v1/engine/${engineId}/metrics`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    if (!res.ok) {
+      throw new Error(`Unexpected status ${res.status}`);
+    }
+    const json = (await res.json()) as EngineResourceMetrics;
+    return json;
+  });
 }
