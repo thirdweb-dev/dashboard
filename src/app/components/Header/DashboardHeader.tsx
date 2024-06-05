@@ -1,9 +1,9 @@
 import { ColorModeToggle } from "../../../@/components/color-mode-toggle";
 import { ThirdwebMiniLogo } from "../ThirdwebMiniLogo";
-import { CustomConnectButton } from "../../connect";
 import Link from "next/link";
 import { MobileBurgerMenu } from "./MobileBurgerMenu";
 import { headerLinks } from "./headerLinks";
+import { CustomConnectWallet } from "../../../@3rdweb-sdk/react/components/connect-wallet";
 
 export function DashboardHeader() {
   return (
@@ -49,7 +49,7 @@ export function DashboardHeader() {
             <MobileBurgerMenu />
           </div>
 
-          <CustomConnectButton />
+          <CustomConnectWallet />
         </div>
       </div>
     </header>

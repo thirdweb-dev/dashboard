@@ -15,6 +15,7 @@ export function removeChainFromFavorites(chainId: number) {
 export async function getAllFavoriteChainIds(): Promise<number[]> {
   const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/favorites`, {
     method: "GET",
+    credentials: "include",
   });
 
   const data: number[] = await res.json();

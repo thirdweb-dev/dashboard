@@ -17,11 +17,20 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import type { ChainMetadataWithServices } from "../getChain";
+import { useQuery } from "@tanstack/react-query";
+import { getAllFavoriteChainIds } from "./favorites";
 
 export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   const { searchTerm, chainType, showDeprecated, products, gasSponsored } =
     useChainListState();
   const isDesktop = useIsDesktop();
+  const favChainIdsQuery = useQuery({
+    queryKey: ["favChainIds"],
+    queryFn: getAllFavoriteChainIds,
+  });
+
+  // eslint-disable-next-line no-console
+  console.log("fav chain ids", favChainIdsQuery.data);
 
   const fuse = useMemo(() => {
     return new Fuse(props.chains, {

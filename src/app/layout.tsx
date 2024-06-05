@@ -3,7 +3,7 @@ import { Inter as interFont } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
+import { AppRouterProviders } from "./(dashboard)/providers";
 
 const fontSans = interFont({
   subsets: ["latin"],
@@ -24,7 +24,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider attribute="class">{children}</ThemeProvider>
+        <AppRouterProviders>{children}</AppRouterProviders>
         <NextTopLoader
           color="hsl(var(--primary))"
           height={2}
