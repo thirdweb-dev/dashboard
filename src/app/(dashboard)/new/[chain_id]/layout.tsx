@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-dom-props */
 import { cn } from "../../../../@/lib/utils";
-import { CircleAlertIcon } from "lucide-react";
+import { ArrowLeftIcon, CircleAlertIcon } from "lucide-react";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
 import { getChain } from "../chainlist/getChain";
 import { ReactQueryClientProvider } from "../QueryClientProvider";
@@ -9,6 +9,7 @@ import { ChainPageTabs } from "./tabs";
 import { ChainIcon } from "./ChainIcon";
 import { ChainOverview } from "./overview/OverviewPage";
 import { ChainPageStarButton } from "./ChainPageStarButton";
+import Link from "next/link";
 
 // this is the dashboard layout file
 export default async function ChainPageLayout({
@@ -26,12 +27,21 @@ export default async function ChainPageLayout({
       <section className="flex flex-col h-full gap-8">
         {/* Header */}
         <header
-          className="py-10 md:py-16 border-b relative bg-black overflow-hidden"
+          className="py-10 md:pt-10 md:pb-16 border-b relative bg-black overflow-hidden"
           style={{
             background: `hsl(var(--secondary))`,
           }}
         >
           <div className="container px-4">
+            <Link
+              href={`/new/chainlist`}
+              className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeftIcon className="size-5" />
+              Chainlist
+            </Link>
+            <div className="h-4" />
+
             <div className="flex gap-3 md:gap-5 items-center">
               {chain.icon?.url && (
                 <ChainIcon
