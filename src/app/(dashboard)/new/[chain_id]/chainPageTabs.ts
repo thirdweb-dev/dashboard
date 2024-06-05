@@ -35,7 +35,7 @@ export const chainPageTabs: Array<{
   },
   {
     name: "Account Abstraction",
-    segment: "aa",
+    segment: "account-abstraction",
     serviceId: "account-abstraction",
     icon: SmartAccountIcon,
   },
