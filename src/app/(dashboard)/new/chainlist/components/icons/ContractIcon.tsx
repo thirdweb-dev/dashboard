@@ -10,11 +10,7 @@ export function ContractIcon(props: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g
-        style={{
-          mixBlendMode: "luminosity",
-        }}
-      >
+      <g>
         <rect
           x="3"
           y="21"

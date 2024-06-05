@@ -28,6 +28,7 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   const favChainIdsQuery = useQuery({
     queryKey: ["favChainIds"],
     queryFn: getAllFavoriteChainIds,
+    refetchOnWindowFocus: false,
   });
 
   const favChainIdSet = useMemo(
