@@ -22,9 +22,9 @@ export const EngineSystem: React.FC<EngineSystemProps> = ({ instance }) => {
       <br />
       Enabled: {healthQuery.data.features?.join(", ")}
       <br />
-      CPU: {metricsQuery.data?.data?.cpu?.toFixed(0) ?? "..."}
+      CPU: {metricsQuery.data?.data?.cpu?.toFixed(2) ?? "..."}%
       <br />
-      Memory: {metricsQuery.data?.data?.memory?.toFixed(0) ?? "..."}
+      Memory: {metricsQuery.data?.data?.memory?.toFixed(0) ?? "..."}MB
     </Text>
   );
 };
