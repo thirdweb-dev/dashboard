@@ -288,84 +288,80 @@ const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   const { chainIdToChainRecord } = useAllChainsData();
   const configuredChains = useSupportedChainsRecord();
 
-  const columns: Column<(typeof combinedList)[number]>[] = useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: (row) => row.address,
-        Cell: (cell: any) => {
-          return <AsyncContractNameCell cell={cell.row.original} />;
-        },
+  const columns: Column<(typeof combinedList)[number]>[] = [
+    {
+      Header: "Name",
+      accessor: (row) => row.address,
+      Cell: (cell: any) => {
+        return <AsyncContractNameCell cell={cell.row.original} />;
       },
-      {
-        Header: "Type",
-        accessor: (row) => row.address,
-        Cell: (cell: any) => <AsyncContractTypeCell cell={cell.row.original} />,
+    },
+    {
+      Header: "Type",
+      accessor: (row) => row.address,
+      Cell: (cell: any) => <AsyncContractTypeCell cell={cell.row.original} />,
+    },
+    {
+      // No header, show filter instead
+      Header: () => null,
+      id: "Network",
+      accessor: (row) => row.chainId,
+      Filter: (props) => (
+        <SelectNetworkFilter
+          {...props}
+          chainIdsWithDeployments={chainIdsWithDeployments}
+        />
+      ),
+      filter: "equals",
+      Cell: (cell: any) => {
+        const data =
+          configuredChains[cell.row.original.chainId] ||
+          chainIdToChainRecord[cell.row.original.chainId];
+        const cleanedChainName =
+          data?.name?.replace("Mainnet", "").trim() ||
+          `Unknown Network (#${cell.row.original.chainId})`;
+        return (
+          <Flex align="center" gap={2}>
+            <ChainIcon size={24} ipfsSrc={data?.icon?.url} />
+            <Text size="label.md">{cleanedChainName}</Text>
+            {data?.testnet && (
+              <Badge colorScheme="gray" textTransform="capitalize">
+                Testnet
+              </Badge>
+            )}
+          </Flex>
+        );
       },
-      {
-        // No header, show filter instead
-        Header: () => null,
-        id: "Network",
-        accessor: (row) => row.chainId,
-        Filter: (props) => (
-          <SelectNetworkFilter
-            {...props}
-            chainIdsWithDeployments={chainIdsWithDeployments}
-          />
-        ),
-        filter: "equals",
-        Cell: (cell: any) => {
-          const data =
-            configuredChains[cell.row.original.chainId] ||
-            chainIdToChainRecord[cell.row.original.chainId];
-          const cleanedChainName =
-            data?.name?.replace("Mainnet", "").trim() ||
-            `Unknown Network (#${cell.row.original.chainId})`;
-          return (
-            <Flex align="center" gap={2}>
-              <ChainIcon size={24} ipfsSrc={data?.icon?.url} />
-              <Text size="label.md">{cleanedChainName}</Text>
-              {data?.testnet && (
-                <Badge colorScheme="gray" textTransform="capitalize">
-                  Testnet
-                </Badge>
-              )}
-            </Flex>
-          );
-        },
+    },
+    {
+      Header: "Contract Address",
+      accessor: (row) => row.address,
+      Cell: (cell: any) => {
+        return <AddressCopyButton address={cell.row.original.address} />;
       },
-      {
-        Header: "Contract Address",
-        accessor: (row) => row.address,
-        Cell: (cell: any) => {
-          return <AddressCopyButton address={cell.row.original.address} />;
-        },
-      },
-      {
-        id: "actions",
-        Cell: (cell: any) => {
-          return (
-            <Menu isLazy>
-              <MenuButton
-                as={TrackedIconButton}
-                icon={<FiMoreVertical />}
-                variant="gost"
-                onClick={(e) => e.stopPropagation()}
+    },
+    {
+      id: "actions",
+      Cell: (cell: any) => {
+        return (
+          <Menu isLazy>
+            <MenuButton
+              as={TrackedIconButton}
+              icon={<FiMoreVertical />}
+              variant="gost"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <MenuList onClick={(e) => e.stopPropagation()}>
+              <RemoveFromDashboardButton
+                contractAddress={cell.cell.row.original.address}
+                chainId={cell.cell.row.original.chainId}
               />
-              <MenuList onClick={(e) => e.stopPropagation()}>
-                <RemoveFromDashboardButton
-                  contractAddress={cell.cell.row.original.address}
-                  chainId={cell.cell.row.original.chainId}
-                />
-              </MenuList>
-            </Menu>
-          );
-        },
+            </MenuList>
+          </Menu>
+        );
       },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [configuredChains, chainIdsWithDeployments],
-  );
+    },
+  ];
 
   const defaultColumn = useMemo(
     () => ({
@@ -389,7 +385,9 @@ const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       data: combinedList,
       defaultColumn,
     },
+    // eslint-disable-next-line react-compiler/react-compiler
     useFilters,
+    // eslint-disable-next-line react-compiler/react-compiler
     usePagination,
   );
 

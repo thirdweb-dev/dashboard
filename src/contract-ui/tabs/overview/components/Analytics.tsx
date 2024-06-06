@@ -80,13 +80,15 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
             </Flex>
             <ChartContainer w="full" ratio={1.7}>
               <AnalyticsChart
-                contractAddress={contractAddress}
                 chainId={chainId}
-                startDate={startDate}
-                endDate={endDate}
                 index={"time"}
                 categories={[{ id: "wallets", label: "Unique Wallets" }]}
-                useAnalytics={useUniqueWalletsAnalytics}
+                queryResult={useUniqueWalletsAnalytics({
+                  chainId,
+                  startDate,
+                  endDate,
+                  contractAddress,
+                })}
                 showYAxis={false}
               />
             </ChartContainer>
@@ -120,13 +122,15 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
             </Flex>
             <ChartContainer w="full" ratio={1.7}>
               <AnalyticsChart
-                contractAddress={contractAddress}
                 chainId={chainId}
-                startDate={startDate}
-                endDate={endDate}
                 index={"time"}
                 categories={[{ id: "count", label: "Transactions" }]}
-                useAnalytics={useTransactionAnalytics}
+                queryResult={useTransactionAnalytics({
+                  chainId,
+                  startDate,
+                  endDate,
+                  contractAddress,
+                })}
                 showYAxis={false}
               />
             </ChartContainer>
@@ -160,13 +164,15 @@ export const AnalyticsOverview: React.FC<AnalyticsOverviewProps> = ({
             </Flex>
             <ChartContainer w="full" ratio={1.7}>
               <AnalyticsChart
-                contractAddress={contractAddress}
                 chainId={chainId}
-                startDate={startDate}
-                endDate={endDate}
                 index={"time"}
                 categories={[{ id: "count", label: "Events" }]}
-                useAnalytics={useLogsAnalytics}
+                queryResult={useLogsAnalytics({
+                  chainId,
+                  startDate,
+                  endDate,
+                  contractAddress,
+                })}
                 showYAxis={false}
               />
             </ChartContainer>

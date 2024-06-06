@@ -9,7 +9,7 @@ import {
 } from "@3rdweb-sdk/react/hooks/useApi";
 import { ManageBillingButton } from "components/settings/Account/Billing/ManageButton";
 import { StepsCard } from "components/dashboard/StepsCard";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PLANS } from "utils/pricing";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -58,49 +58,59 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
     account.status === AccountStatus.PaymentVerification;
   const invalidPayment = account.status === AccountStatus.InvalidPayment;
 
-  const handleUpdatePlan = (plan: AccountPlan, feedback?: string) => {
-    const action = downgradePlan ? "downgradePlan" : "upgradePlan";
-    setDowngradePlan(undefined);
+  const handleUpdatePlan = useCallback(
+    (plan: AccountPlan, feedback?: string) => {
+      const action = downgradePlan ? "downgradePlan" : "upgradePlan";
+      setDowngradePlan(undefined);
 
-    trackEvent({
-      category: "account",
-      action,
-      label: "attempt",
-    });
+      trackEvent({
+        category: "account",
+        action,
+        label: "attempt",
+      });
 
-    updatePlanMutation.mutate(
-      {
-        plan,
-        feedback,
-        useTrial: !account?.trialPeriodEndedAt,
-      },
-      {
-        onSuccess: () => {
-          onSuccess();
-
-          trackEvent({
-            category: "account",
-            action,
-            label: "success",
-            data: {
-              plan,
-              feedback,
-            },
-          });
+      updatePlanMutation.mutate(
+        {
+          plan,
+          feedback,
+          useTrial: !account?.trialPeriodEndedAt,
         },
-        onError: (error) => {
-          onError(error);
+        {
+          onSuccess: () => {
+            onSuccess();
 
-          trackEvent({
-            category: "account",
-            action,
-            label: "error",
-            error,
-          });
+            trackEvent({
+              category: "account",
+              action,
+              label: "success",
+              data: {
+                plan,
+                feedback,
+              },
+            });
+          },
+          onError: (error) => {
+            onError(error);
+
+            trackEvent({
+              category: "account",
+              action,
+              label: "error",
+              error,
+            });
+          },
         },
-      },
-    );
-  };
+      );
+    },
+    [
+      account?.trialPeriodEndedAt,
+      downgradePlan,
+      onError,
+      onSuccess,
+      trackEvent,
+      updatePlanMutation,
+    ],
+  );
 
   const handlePlanSelect = (plan: AccountPlan) => {
     if (invalidPayment || paymentVerification) {
@@ -214,8 +224,15 @@ export const Billing: React.FC<BillingProps> = ({ account }) => {
         setPaymentMethodSaving(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, validPayment, paymentVerification, invalidPayment]);
+  }, [
+    account,
+    validPayment,
+    paymentVerification,
+    invalidPayment,
+    paymentMethodSaving,
+    selectedPlan,
+    handleUpdatePlan,
+  ]);
 
   const showSteps = [
     AccountStatus.NoCustomer,

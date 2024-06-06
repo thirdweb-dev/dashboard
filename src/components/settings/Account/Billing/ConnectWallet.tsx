@@ -32,8 +32,7 @@ export const BillingConnectWalletPrompt = () => {
 
       modalOpened.current = true;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalOpened]);
+  }, [colorMode, modalOpened, setIsWalletModalOpen, setModalConfig]);
 
   return <ConnectWalletPrompt />;
 };

@@ -21,17 +21,16 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
         : false,
   });
 
-  const router = useRouter();
+  const { query, replace } = useRouter();
   const { data: account } = meQuery;
 
-  useEffect(() => {
-    const { payment_intent, source_redirect_slug } = router.query;
+  const { payment_intent, source_redirect_slug } = query;
 
+  useEffect(() => {
     if (payment_intent || source_redirect_slug) {
-      router.replace("/dashboard/settings/billing");
+      replace("/dashboard/settings/billing");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, [payment_intent, replace, source_redirect_slug]);
 
   if (!isLoading && !isLoggedIn) {
     return <BillingConnectWalletPrompt />;

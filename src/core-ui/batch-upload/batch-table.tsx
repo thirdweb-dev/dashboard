@@ -153,6 +153,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({
         pageIndex: 0,
       },
     },
+    // eslint-disable-next-line react-compiler/react-compiler
     usePagination,
   );
 

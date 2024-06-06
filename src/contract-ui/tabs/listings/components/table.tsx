@@ -147,6 +147,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
         1,
       ),
     },
+    // eslint-disable-next-line react-compiler/react-compiler
     usePagination,
   );
 

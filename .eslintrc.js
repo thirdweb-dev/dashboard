@@ -151,6 +151,7 @@ module.exports = {
         ],
       },
     ],
+    "react-compiler/react-compiler": "error",
   },
   parser: "@typescript-eslint/parser",
   plugins: [
@@ -160,6 +161,7 @@ module.exports = {
     "react",
     "react-hooks",
     "promise",
+    "eslint-plugin-react-compiler",
   ],
   parserOptions: {
     ecmaVersion: 2019,

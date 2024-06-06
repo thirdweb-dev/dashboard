@@ -63,9 +63,7 @@ export const BarChart = <
     return null;
   }
 
-  if (!index.type) {
-    index.type = "date";
-  }
+  const type = index.type || "date";
 
   return (
     <Box {...boxProps}>
@@ -135,7 +133,7 @@ export const BarChart = <
             tickFormatter={(payload) =>
               index.format
                 ? index.format(payload)
-                : index.type === "date"
+                : type === "date"
                   ? new Date(payload).toLocaleDateString(undefined, {
                       day: "2-digit",
                       month: "2-digit",

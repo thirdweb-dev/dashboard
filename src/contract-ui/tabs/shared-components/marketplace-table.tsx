@@ -159,6 +159,7 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
         1,
       ),
     },
+    // eslint-disable-next-line react-compiler/react-compiler
     usePagination,
   );
 

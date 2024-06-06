@@ -4,7 +4,7 @@ import {
   useAccount,
   useConfirmEmbeddedWallet,
 } from "@3rdweb-sdk/react/hooks/useApi";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { OnboardingModal } from "./Modal";
 import { OnboardingGeneral } from "./General";
 import { OnboardingConfirmEmail } from "./ConfirmEmail";
@@ -118,7 +118,7 @@ export const Onboarding: React.FC = () => {
     setState("linking");
   };
 
-  const handleEmbeddedWalletConfirmation = () => {
+  const handleEmbeddedWalletConfirmation = useCallback(() => {
     const ewsJwt = getLatestEWSToken();
 
     if (ewsJwt) {
@@ -133,7 +133,7 @@ export const Onboarding: React.FC = () => {
         },
       );
     }
-  };
+  }, [ewsConfirmMutation]);
 
   useEffect(() => {
     if (!isLoggedIn || meQuery.isLoading) {
@@ -149,8 +149,7 @@ export const Onboarding: React.FC = () => {
       setState(undefined);
     }
     setAccount(loadedAccount);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, meQuery]);
+  }, [account?.id, isLoggedIn, meQuery, state]);
 
   useEffect(() => {
     if (!account || state || !wallet) {
@@ -181,8 +180,14 @@ export const Onboarding: React.FC = () => {
     else if (!skipBilling(account)) {
       setState("plan");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, router, state, wallet]);
+  }, [
+    account,
+    handleEmbeddedWalletConfirmation,
+    isEmbeddedWallet,
+    router,
+    state,
+    wallet,
+  ]);
 
   if (!isLoggedIn || !account || state === "skipped" || !state) {
     return null;

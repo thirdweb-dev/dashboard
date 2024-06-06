@@ -28,8 +28,7 @@ export function useTxNotifications(
         contractAddress: contract.getAddress(),
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [successMessage]);
+  }, [contract, invalidateContractQuery, successMessage, toast]);
 
   const _onError = useCallback(
     (error: unknown) => {

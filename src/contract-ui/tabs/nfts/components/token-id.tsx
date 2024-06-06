@@ -70,7 +70,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
     tokenId,
   });
 
-  const { data: nft } = useReadContract(
+  const { data: baseNft } = useReadContract(
     isErc721 ? getErc721NFT : getErc1155NFT,
     {
       contract,
@@ -79,7 +79,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
     },
   );
 
-  if (!nft) {
+  if (!baseNft) {
     return (
       <Text>
         No NFT found with token ID {tokenId}. Please check the token ID and try
@@ -88,12 +88,17 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
     );
   }
 
-  // in the case we have an invalid url, we want to remove it
-  if (!isValidUrl(nft.metadata.animation_url)) {
-    nft.metadata.animation_url = undefined;
-  }
-
-  const properties = nft.metadata.attributes || nft.metadata.properties;
+  // cannot mutate so we create a new object with the "fixes" in it
+  const nft = {
+    ...baseNft,
+    metadata: {
+      ...baseNft.metadata,
+      animation_url: isValidUrl(baseNft.metadata.animation_url)
+        ? baseNft.metadata.animation_url
+        : undefined,
+      properties: baseNft.metadata.attributes || baseNft.metadata.properties,
+    },
+  };
 
   return (
     <Flex flexDir={{ base: "column", lg: "row" }} gap={6}>
@@ -236,19 +241,21 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
                 )}
               </SimpleGrid>
             </Card>
-            {properties ? (
+            {nft.metadata.properties ? (
               <Card as={Flex} flexDir="column" gap={4}>
                 <Heading size="label.md">Properties</Heading>
-                {Array.isArray(properties) &&
-                String(properties[0]?.value) !== "undefined" ? (
+                {Array.isArray(nft.metadata.properties) &&
+                String(nft.metadata.properties[0]?.value) !== "undefined" ? (
                   <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
-                    {properties.map((property: any, idx) => (
+                    {nft.metadata.properties.map((property: any, idx) => (
                       <NftProperty key={idx} property={property} />
                     ))}
                   </SimpleGrid>
                 ) : (
                   <CodeBlock
-                    code={JSON.stringify(properties, null, 2) || ""}
+                    code={
+                      JSON.stringify(nft.metadata.properties, null, 2) || ""
+                    }
                     language="json"
                     canCopy={false}
                     wrap={false}

@@ -147,6 +147,7 @@ const moduleExports = {
     esmExternals: "loose",
     webpackBuildWorker: true,
     serverSourceMaps: false,
+    reactCompiler: true,
   },
   cacheMaxMemorySize: 0,
   swcMinify: true,

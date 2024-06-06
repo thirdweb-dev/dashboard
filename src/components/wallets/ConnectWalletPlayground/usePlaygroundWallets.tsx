@@ -37,6 +37,8 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const supportedWallets: WalletConfig<any>[] = enabledWallets.map(
     (walletId) => {
       if (walletId === "Email Wallet") {
+        // TODO: fix this!
+        // eslint-disable-next-line react-compiler/react-compiler
         walletInfoRecord[walletId].component = embeddedWallet({
           recommended: !!walletSelection[walletId],
           auth: {
