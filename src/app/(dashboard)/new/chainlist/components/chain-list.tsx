@@ -22,7 +22,7 @@ import { getAllFavoriteChainIds } from "./favorites";
 import { Spinner } from "../../../../../@/components/ui/Spinner/Spinner";
 
 export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
-  const { searchTerm, chainType, showDeprecated, products, gasSponsored } =
+  const { searchTerm, chainType, showDeprecated, products, page, setPage } =
     useChainListState();
   const isDesktop = useIsDesktop();
   const favChainIdsQuery = useQuery({
@@ -116,7 +116,6 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   ]);
 
   const itemsToShowPerPage = isDesktop ? 25 : 5;
-  const [page, setPage] = useState(1);
 
   const resultsToShow = filteredChains.slice(
     itemsToShowPerPage * (page - 1),
@@ -129,11 +128,6 @@ export function ChainList(props: { chains: ChainMetadataWithServices[] }) {
   const showPagePlusOne = page + 1 <= lastPage;
   const showPagePlusTwo = page + 2 <= lastPage;
   const showPagination = lastPage > 1;
-
-  // when filters change, reset to first page
-  useEffect(() => {
-    setPage(1);
-  }, [searchTerm, chainType, showDeprecated, products, gasSponsored]);
 
   if (resultsToShow.length === 0) {
     return (

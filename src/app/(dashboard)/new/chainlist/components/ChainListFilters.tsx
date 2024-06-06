@@ -31,7 +31,12 @@ export function ChainListFilters() {
     reset,
     searchTerm,
     setSearchTerm,
+    setPage,
   } = useChainListState();
+
+  function resetPagination() {
+    setPage(1);
+  }
 
   return (
     <div className="flex items-stretch gap-3">
@@ -44,6 +49,7 @@ export function ChainListFilters() {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
+            resetPagination();
           }}
         />
       </div>
@@ -77,7 +83,10 @@ export function ChainListFilters() {
                 <RadioGroupItem
                   value="all"
                   id="all"
-                  onClick={() => setChainType("all")}
+                  onClick={() => {
+                    setChainType("all");
+                    resetPagination();
+                  }}
                 />
                 <Label htmlFor="all">All Chains</Label>
               </div>
@@ -85,7 +94,10 @@ export function ChainListFilters() {
                 <RadioGroupItem
                   value="mainnet"
                   id="mainnet"
-                  onClick={() => setChainType("mainnet")}
+                  onClick={() => {
+                    setChainType("mainnet");
+                    resetPagination();
+                  }}
                 />
                 <Label htmlFor="mainnet">Mainnets Only</Label>
               </div>
@@ -93,7 +105,10 @@ export function ChainListFilters() {
                 <RadioGroupItem
                   value="testnet"
                   id="testnet"
-                  onClick={() => setChainType("testnet")}
+                  onClick={() => {
+                    setChainType("testnet");
+                    resetPagination();
+                  }}
                 />
                 <Label htmlFor="testnet">Testnets Only</Label>
               </div>
@@ -126,6 +141,7 @@ export function ChainListFilters() {
                 checked={showDeprecated}
                 onClick={() => {
                   setShowDeprecated(!showDeprecated);
+                  resetPagination();
                 }}
               />
               <Label
@@ -156,6 +172,7 @@ export function ChainListFilters() {
                   } else {
                     setProducts([]);
                   }
+                  resetPagination();
                 }}
               />
             </div>

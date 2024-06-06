@@ -5,8 +5,9 @@ import {
   parseAsStringEnum,
   parseAsBoolean,
   parseAsArrayOf,
+  parseAsInteger,
 } from "nuqs";
-import { createContext, useContext } from "react";
+import { createContext, useCallback, useContext } from "react";
 import type { ChainSupportedService } from "../getChain";
 
 type ChainType = "all" | "mainnet" | "testnet";
@@ -26,6 +27,8 @@ type ChainListState = {
   reset: () => void;
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
+  page: number;
+  setPage: (page: number) => void;
 };
 
 export const ChainListStateCtx = createContext<ChainListState | null>(null);
@@ -85,6 +88,19 @@ export function ChainListStateProvider({
     parseAsBoolean,
   );
 
+  const [page, _setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+
+  const setPage = useCallback(
+    (value: number | null) => {
+      if (value === 1) {
+        _setPage(null);
+      } else {
+        _setPage(value);
+      }
+    },
+    [_setPage],
+  );
+
   function setShowDeprecated(value: boolean | null) {
     if (value === defaultShowDeprecated) {
       _setShowDeprecated(null);
@@ -128,6 +144,7 @@ export function ChainListStateProvider({
     setGasSponsored(null);
     setShowDeprecated(null);
     setProducts(null);
+    setPage(null);
   }
 
   return (
@@ -147,6 +164,8 @@ export function ChainListStateProvider({
         reset,
         searchTerm: searchTerm ?? "",
         setSearchTerm,
+        page,
+        setPage,
       }}
     >
       {children}
