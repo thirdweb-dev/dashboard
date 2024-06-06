@@ -141,10 +141,12 @@ const moduleExports = {
       ...determineIpfsGateways(),
     ],
   },
-  reactStrictMode: true,
+  // disabled because it breaks "framer-motion" animations in dev
+  // see: https://github.com/framer/motion/issues/2668#issuecomment-2132171334
+  // it may be time to stop using "framer-motion" as its likely not worth the hassle and overhead
+  reactStrictMode: false,
   experimental: {
     scrollRestoration: true,
-    esmExternals: "loose",
     webpackBuildWorker: true,
     serverSourceMaps: false,
     reactCompiler: true,
