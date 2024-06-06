@@ -8,11 +8,8 @@ import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 import Link from "next/link";
 import { cn } from "../../../../@/lib/utils";
 import { PlusIcon } from "lucide-react";
-import { getChains } from "./getChain";
 
 const ChainListPage: NextPage = async () => {
-  const chains = await getChains();
-
   return (
     <Suspense
       fallback={
@@ -40,7 +37,7 @@ const ChainListPage: NextPage = async () => {
 
           <div className="h-10"></div>
 
-          <ChainList chains={chains} />
+          <ChainList />
 
           <div className="h-10"></div>
         </section>

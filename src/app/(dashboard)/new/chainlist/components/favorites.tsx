@@ -27,18 +27,3 @@ export function removeChainFromFavorites(chainId: number) {
     credentials: "include",
   });
 }
-
-export async function getAllFavoriteChainIds(): Promise<number[]> {
-  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/favorites`, {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch favorite chains");
-  }
-
-  const data: string[] = (await res.json()).data;
-
-  return data.map(Number);
-}
