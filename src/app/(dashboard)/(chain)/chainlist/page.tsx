@@ -44,13 +44,13 @@ const DEFAULT_PAGE = 1;
 async function getChains() {
   const response = await fetch(
     `${THIRDWEB_API_HOST}/v1/chains?includeServices=true`,
+    { next: { revalidate: 3600 } },
   );
 
   if (!response.ok) {
     response.body?.cancel();
     throw new Error("Failed to fetch chains");
   }
-
   return (await response.json()).data as ChainMetadataWithServices[];
 }
 
