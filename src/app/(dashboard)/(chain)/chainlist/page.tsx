@@ -233,7 +233,14 @@ export default async function ChainListPage(props: {
                       .filter((c) => c.enabled)
                       .map((c) => c.service)}
                     isDeprecated={chain.status === "deprecated"}
-                    favoriteButton={<StarButton chainId={chain.chainId} />}
+                    favoriteButton={
+                      <div className="relative h-6 w-6">
+                        <StarButton
+                          chainId={chain.chainId}
+                          className="absolute z-10 top-0 h-full w-full left-0"
+                        />
+                      </div>
+                    }
                   />
                 ))}
               </tbody>
@@ -253,7 +260,14 @@ export default async function ChainListPage(props: {
                     .filter((c) => c.enabled)
                     .map((c) => c.service)}
                   isDeprecated={chain.status === "deprecated"}
-                  favoriteButton={<StarButton chainId={chain.chainId} />}
+                  favoriteButton={
+                    <div className="relative h-6 w-6">
+                      <StarButton
+                        chainId={chain.chainId}
+                        className="absolute z-10 top-0 h-full w-full left-0"
+                      />
+                    </div>
+                  }
                 />
               </li>
             ))}
