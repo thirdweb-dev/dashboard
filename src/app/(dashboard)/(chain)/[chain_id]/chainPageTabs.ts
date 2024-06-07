@@ -4,7 +4,7 @@ import {
   ChainSupportedService,
 } from "../types/chain";
 
-export const chainPageTabs = products.map((p) => ({
+const chainPageTabs = products.map((p) => ({
   name: p.name,
   segment: p.id === "contracts" ? "" : p.id,
   serviceId: p.id,
