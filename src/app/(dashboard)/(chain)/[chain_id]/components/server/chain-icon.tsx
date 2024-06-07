@@ -1,8 +1,6 @@
-"use client";
-
 /* eslint-disable @next/next/no-img-element */
 
-import { thirdwebClient } from "../../../../lib/thirdweb-client";
+import { thirdwebClient } from "lib/thirdweb-client";
 import { resolveScheme } from "thirdweb/storage";
 
 const fallbackChainIcon =
@@ -19,9 +17,6 @@ export function ChainIcon(props: { iconUrl?: string; className?: string }) {
             uri: props.iconUrl,
           })}
           className={props.className}
-          onError={(event) => {
-            event.currentTarget.src = fallbackChainIcon;
-          }}
         />
       ) : (
         <img alt="" src={fallbackChainIcon} className={props.className} />

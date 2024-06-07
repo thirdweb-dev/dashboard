@@ -41,8 +41,9 @@ import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { getContract } from "thirdweb";
-import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { thirdwebClient } from "lib/thirdweb-client";
 import { DeprecatedAlert } from "../../components/shared/DeprecatedAlert";
+import { defineDashboardChain } from "lib/v5-adapter";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;

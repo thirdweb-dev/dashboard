@@ -93,6 +93,10 @@ const moduleExports = {
       config.cache.maxMemoryGenerations = 0;
     }
     config.externals.push("pino-pretty");
+    config.module = {
+      ...config.module,
+      exprContextCritical: false,
+    };
     // Important: return the modified config
     return config;
   },
