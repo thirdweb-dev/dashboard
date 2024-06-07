@@ -19,9 +19,12 @@ export function ColorModeToggle() {
       }}
       aria-label="Toggle theme"
     >
-
       <ClientOnly ssr={<Skeleton className="size-6 bg-accent border" />}>
-      {theme === "light" ? <Sun strokeWidth={1} className="size-6" /> : <Moon strokeWidth={1} className="size-6" />}
+        {theme === "light" ? (
+          <Sun strokeWidth={1} className="size-6" />
+        ) : (
+          <Moon strokeWidth={1} className="size-6" />
+        )}
       </ClientOnly>
     </Button>
   );

@@ -6,6 +6,7 @@ import { AppRouterProviders } from "./(dashboard)/providers";
 import { Metadata } from "next";
 import { PostHogProvider } from "./components/root-providers";
 import dynamic from "next/dynamic";
+import NextTopLoader from "nextjs-toploader";
 
 const fontSans = interFont({
   subsets: ["latin"],
@@ -67,6 +68,12 @@ export default function RootLayout({
         >
           <PostHogPageView />
           <AppRouterProviders>{children}</AppRouterProviders>
+          <NextTopLoader
+            color="hsl(var(--primary))"
+            height={2}
+            shadow={false}
+            showSpinner={false}
+          />
         </body>
       </PostHogProvider>
     </html>
