@@ -1,9 +1,7 @@
 /* eslint-disable react/forbid-dom-props */
 import { cn } from "@/lib/utils";
-import { ArrowLeftIcon, CircleAlertIcon } from "lucide-react";
+import { ArrowLeftIcon, CircleAlertIcon, ExternalLinkIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { ChainPageTabs } from "./tabs";
-import { ChainOverview } from "./overview/OverviewPage";
 import Link from "next/link";
 import { StarButton } from "../components/client/star-button";
 import { getChain } from "./utils";
@@ -11,6 +9,10 @@ import { Metadata } from "next";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { redirect } from "next/navigation";
 import { ChainIcon } from "./components/server/chain-icon";
+import { ChainPageTabs } from "./components/client/tabs";
+import { PrimaryInfoItem } from "./components/server/primary-info-item";
+import { FaucetsSection } from "./components/server/faucets-section";
+import { ExplorersSection } from "./components/server/explorer-section";
 
 export async function generateMetadata(
   { params }: { params: { chain_id: string } },
@@ -134,9 +136,56 @@ export default async function ChainPageLayout({
           </div>
         </header>
         <main className="container px-4 pb-20 flex-1">
-          <ChainOverview chain={chain} />
+          {/* Chain Overview */}
+          <div className="flex flex-col gap-10 pt-2">
+            {/* Info Grid */}
+            <div className="grid grid-cols-1 gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {/* Info */}
+              {chain.infoURL && (
+                <PrimaryInfoItem title="Info">
+                  <div className="flex items-center gap-1.5 hover:text-primary">
+                    <Link
+                      href={chain.infoURL}
+                      target="_blank"
+                      className="text-lg"
+                    >
+                      {new URL(chain.infoURL).hostname}
+                    </Link>
+                    <ExternalLinkIcon className="size-4" />
+                  </div>
+                </PrimaryInfoItem>
+              )}
+
+              {/* Chain Id */}
+              <PrimaryInfoItem title="Chain ID">
+                <div className="text-lg">{chain.chainId}</div>
+              </PrimaryInfoItem>
+
+              {/* Native token */}
+              <PrimaryInfoItem title="Native Token">
+                <div className="text-lg">
+                  {chain.nativeCurrency.name} ({chain.nativeCurrency.symbol})
+                </div>
+              </PrimaryInfoItem>
+            </div>
+
+            {/* Faucets - will later move to dedicated tab */}
+            {chain.faucets && chain.faucets.length > 0 && (
+              <FaucetsSection faucets={chain.faucets} />
+            )}
+
+            {/* Explorers */}
+            {chain.explorers && chain.explorers.length > 0 && (
+              <ExplorersSection explorers={chain.explorers} />
+            )}
+          </div>
           <div className="h-14" />
-          <ChainPageTabs chainSlug={params.chain_id} chain={chain} />
+          <ChainPageTabs
+            chainSlug={params.chain_id}
+            enabledServices={chain.services
+              .filter((s) => s.enabled)
+              .map((s) => s.service)}
+          />
           <div className="pt-8">{children}</div>
         </main>
       </section>

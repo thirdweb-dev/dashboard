@@ -3,7 +3,7 @@ import { ChevronRight, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import twPublisherImage from "./tw-publisher.png";
 import Image from "next/image";
-import { InfoCard } from "./InfoCard";
+import { InfoCard } from "./components/server/info-card";
 
 type ContractCardInfo = {
   name: string;

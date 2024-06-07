@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { InfoCard } from "../InfoCard";
 import { FaReact } from "react-icons/fa";
 import { SiTypescript, SiSolidity, SiDotnet } from "react-icons/si";
 import { FaUnity } from "react-icons/fa6";
 import { redirect } from "next/navigation";
 import { getChain } from "../utils";
+import { InfoCard } from "../components/server/info-card";
 
 type SDKInfo = {
   name: string;

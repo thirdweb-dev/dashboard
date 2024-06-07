@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
-import { Button } from "../../../../@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export function InfoCard(props: {
   title: string;
