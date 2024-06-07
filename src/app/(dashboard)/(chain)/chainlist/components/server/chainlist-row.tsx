@@ -78,8 +78,7 @@ export const ChainListRow: React.FC<ChainListRowProps> = ({
                     key={p.name}
                     icon={p.icon}
                     label={p.name}
-                    // TODO: this href should lead to the sub-page on the chainpage
-                    href={p.href}
+                    href={`/${chainSlug}/${p.id}`}
                   />
                 );
               })}
@@ -101,7 +100,7 @@ function ProductIcon(props: {
 }) {
   return (
     <ToolTipLabel label={props.label}>
-      <Link href={props.href} target="_blank">
+      <Link href={props.href}>
         <props.icon className={cn("size-8 grayscale hover:grayscale-0")} />
       </Link>
     </ToolTipLabel>
