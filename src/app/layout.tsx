@@ -1,10 +1,11 @@
 import "@/styles/globals.css";
 import { Inter as interFont } from "next/font/google";
-import NextTopLoader from "nextjs-toploader";
-
+import PlausibleProvider from "next-plausible";
 import { cn } from "@/lib/utils";
 import { AppRouterProviders } from "./(dashboard)/providers";
 import { Metadata } from "next";
+import { PostHogProvider } from "./components/root-providers";
+import dynamic from "next/dynamic";
 
 const fontSans = interFont({
   subsets: ["latin"],
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
   },
 };
 
+const PostHogPageView = dynamic(() => import("./components/posthog-pageview"), {
+  ssr: false,
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -46,21 +51,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
-      <body
-        className={cn(
-          "h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        <AppRouterProviders>{children}</AppRouterProviders>
-        <NextTopLoader
-          color="hsl(var(--primary))"
-          height={2}
-          shadow={false}
-          showSpinner={false}
+      <head>
+        <PlausibleProvider
+          domain="thirdweb.com"
+          customDomain="https://pl.thirdweb.com"
+          selfHosted
         />
-      </body>
+      </head>
+      <PostHogProvider>
+        <body
+          className={cn(
+            "h-screen bg-background font-sans antialiased",
+            fontSans.variable,
+          )}
+        >
+          <PostHogPageView />
+          <AppRouterProviders>{children}</AppRouterProviders>
+        </body>
+      </PostHogProvider>
     </html>
   );
 }
