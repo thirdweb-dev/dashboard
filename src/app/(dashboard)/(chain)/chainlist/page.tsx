@@ -228,7 +228,7 @@ async function ChainsData(props: {
         {/* empty state */}
         {paginatedChains.length === 0 ? (
           <div className="border p-8 h-[300px] lg:h-[500px] flex justify-center items-center rounded-lg">
-            <p className="text-4xl">No Results found</p>
+            <p className="text-2xl">No Results found</p>
           </div>
         ) : props.activeView === "table" ? (
           <div className="overflow-x-auto">
@@ -297,7 +297,9 @@ async function ChainsData(props: {
         )}
       </main>
       <div className="h-10"></div>
-      <ChainlistPagination totalPages={totalPages} activePage={activePage} />
+      {totalPages > 1 && (
+        <ChainlistPagination totalPages={totalPages} activePage={activePage} />
+      )}
     </>
   );
 }
