@@ -13,6 +13,9 @@ import { PrimaryInfoItem } from "./components/server/primary-info-item";
 import { FaucetsSection } from "./components/server/faucets-section";
 import { ExplorersSection } from "./components/server/explorer-section";
 import { ChainIcon } from "../components/server/chain-icon";
+// temp
+import xaiBanner from "./temp-chain-details/xai/banner.jpeg";
+import { xaiMetadata } from "./temp-chain-details/xai/metadata";
 
 export async function generateMetadata(
   { params }: { params: { chain_id: string } },
@@ -77,22 +80,39 @@ export default async function ChainPageLayout({
       )}
       <section className="flex flex-col h-full gap-8">
         {/* Header */}
-        <header className="py-10 md:pt-10 md:pb-16 border-b relative overflow-hidden bg-secondary">
+        <header className="py-10 pb-14 md:pt-20 md:pb-24 border-b relative overflow-hidden">
+          {/* header background image shenanigans */}
+          <div className="absolute top-0 left-0 right-0 bottom-0 -z-10">
+            <div
+              className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center bg-no-repeat bg-secondary"
+              // * xai specifically for now */
+              style={
+                chain.chainId === 660279
+                  ? {
+                      backgroundImage: `url(${xaiBanner.src})`,
+                    }
+                  : undefined
+              }
+            />
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-secondary/10 to-secondary/40 backdrop-blur-md lg:backdrop-blur-lg shadow-inner" />
+          </div>
+          {/* end header shaningans */}
+
           <div className="container px-4">
             <Link
               href="/chainlist"
-              className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1 text-foreground hover:underline"
             >
               <ArrowLeftIcon className="size-5" />
               Chainlist
             </Link>
-            <div className="h-4" />
+            <div className="h-2 md:h-4" />
 
             <div className="flex gap-3 md:gap-5 items-center">
               {chain.icon?.url && (
                 <ChainIcon
                   iconUrl={chain.icon.url}
-                  className="hidden md:block size-[84px] bg-secondary p-2 border-2 rounded-full"
+                  className="size-16 md:size-20 bg-secondary p-2 border-2 rounded-full"
                 />
               )}
 
@@ -107,7 +127,7 @@ export default async function ChainPageLayout({
               </h1>
 
               {/* Desktop tags */}
-              <div className="hidden md:flex text-base items-center gap-3">
+              <div className="text-base items-center gap-3">
                 {/* {isVerified && (
                   <ToolTipLabel label="Verified">
                     <Verified className="text-primary-foreground size-[36px]" />
@@ -122,20 +142,31 @@ export default async function ChainPageLayout({
 
                 <StarButton
                   chainId={chain.chainId}
-                  iconClassName="size-[36px]"
+                  variant="ghost"
+                  className="size-8 md:size-12 hover:bg-secondary-foreground/20 dark:hover:bg-secondary-foreground/20 transition-colors"
+                  iconClassName="size-6 md:size-10"
                 />
               </div>
-
-              {/* Mobile star */}
-              <div className="md:hidden flex items-center">
-                <StarButton chainId={chain.chainId} iconClassName="size-6" />
-              </div>
             </div>
-
-            {/* Mobile tags */}
           </div>
         </header>
         <main className="container px-4 pb-20 flex-1">
+          {/* About section */}
+          {/* xai only right now  */}
+          {chain.chainId === 660279 && (
+            <>
+              <div className="border rounded-xl px-4 py-4 bg-card relative">
+                <h2 className="text-xl font-semibold tracking-tight mb-4">
+                  About
+                </h2>
+
+                <div className="[&_p]:mb-3 [&_p]:text-card-foreground max-w-[1000px]">
+                  <p>{xaiMetadata.about}</p>
+                </div>
+              </div>
+              <div className="h-8" />
+            </>
+          )}
           {/* Chain Overview */}
           <div className="flex flex-col gap-10 pt-2">
             {/* Info Grid */}
@@ -186,7 +217,8 @@ export default async function ChainPageLayout({
               .filter((s) => s.enabled)
               .map((s) => s.service)}
           />
-          <div className="pt-8">{children}</div>
+          <div className="h-8" />
+          <div>{children}</div>
         </main>
       </section>
     </>

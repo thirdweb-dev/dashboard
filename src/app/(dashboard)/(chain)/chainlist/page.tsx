@@ -254,10 +254,10 @@ async function ChainsData(props: {
                       .map((c) => c.service)}
                     isDeprecated={chain.status === "deprecated"}
                     favoriteButton={
-                      <div className="relative h-6 w-6">
+                      <div className="relative h-10 w-10">
                         <StarButton
                           chainId={chain.chainId}
-                          className="absolute z-10 top-0 h-full w-full left-0"
+                          className="absolute z-10 top-0 left-0"
                         />
                       </div>
                     }
@@ -282,10 +282,10 @@ async function ChainsData(props: {
                     .map((c) => c.service)}
                   isDeprecated={chain.status === "deprecated"}
                   favoriteButton={
-                    <div className="relative h-6 w-6">
+                    <div className="relative h-10 w-10">
                       <StarButton
                         chainId={chain.chainId}
-                        className="absolute z-10 top-0 h-full w-full left-0"
+                        className="absolute z-10 top-0 left-0"
                       />
                     </div>
                   }
