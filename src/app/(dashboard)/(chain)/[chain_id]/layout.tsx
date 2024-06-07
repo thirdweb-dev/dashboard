@@ -1,10 +1,16 @@
 /* eslint-disable react/forbid-dom-props */
 import { cn } from "@/lib/utils";
-import { ArrowLeftIcon, CircleAlertIcon, ExternalLinkIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  CircleAlertIcon,
+  ExternalLinkIcon,
+  TicketCheckIcon,
+  VerifiedIcon,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { StarButton } from "../components/client/star-button";
-import { getChain } from "./utils";
+import { getChain, getChainMetadata } from "./utils";
 import { Metadata } from "next";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { redirect } from "next/navigation";
@@ -13,9 +19,7 @@ import { PrimaryInfoItem } from "./components/server/primary-info-item";
 import { FaucetsSection } from "./components/server/faucets-section";
 import { ExplorersSection } from "./components/server/explorer-section";
 import { ChainIcon } from "../components/server/chain-icon";
-// temp
-import xaiBanner from "./temp-chain-details/xai/banner.jpeg";
-import { xaiMetadata } from "./temp-chain-details/xai/metadata";
+import { Badge } from "@/components/ui/badge";
 
 export async function generateMetadata(
   { params }: { params: { chain_id: string } },
@@ -60,6 +64,7 @@ export default async function ChainPageLayout({
   if (params.chain_id !== chain.slug) {
     redirect(chain.slug);
   }
+  const chainMetadata = await getChainMetadata(chain.chainId);
   const isDeprecated = chain.status === "deprecated";
 
   return (
@@ -80,16 +85,15 @@ export default async function ChainPageLayout({
       )}
       <section className="flex flex-col h-full gap-8">
         {/* Header */}
-        <header className="py-10 pb-14 md:pt-20 md:pb-24 border-b relative overflow-hidden">
+        <header className="py-10 md:py-20 border-b relative overflow-hidden">
           {/* header background image shenanigans */}
           <div className="absolute top-0 left-0 right-0 bottom-0 -z-10">
             <div
               className="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center bg-no-repeat bg-secondary"
-              // * xai specifically for now */
               style={
-                chain.chainId === 660279
+                chainMetadata?.headerImgUrl
                   ? {
-                      backgroundImage: `url(${xaiBanner.src})`,
+                      backgroundImage: `url(${chainMetadata.headerImgUrl})`,
                     }
                   : undefined
               }
@@ -98,15 +102,14 @@ export default async function ChainPageLayout({
           </div>
           {/* end header shaningans */}
 
-          <div className="container px-4">
+          <div className="container px-4 flex flex-col gap-2 md:gap-6">
             <Link
               href="/chainlist"
-              className="inline-flex items-center gap-1 text-foreground hover:underline"
+              className="inline-flex items-center gap-1 text-foreground hover:underline mt-4"
             >
               <ArrowLeftIcon className="size-5" />
               Chainlist
             </Link>
-            <div className="h-2 md:h-4" />
 
             <div className="flex gap-3 md:gap-5 items-center">
               {chain.icon?.url && (
@@ -125,35 +128,34 @@ export default async function ChainPageLayout({
               >
                 {chain.name}
               </h1>
+              <StarButton chainId={chain.chainId} variant="secondary" />
+            </div>
 
-              {/* Desktop tags */}
-              <div className="text-base items-center gap-3">
-                {/* {isVerified && (
-                  <ToolTipLabel label="Verified">
-                    <Verified className="text-primary-foreground size-[36px]" />
-                  </ToolTipLabel>
-                )}
-
-                {isGasSponsored && (
-                  <ToolTipLabel label="Gas Sponsored">
-                    <FuelIcon className="text-primary-foreground size-[36px] " />
-                  </ToolTipLabel>
-                )} */}
-
-                <StarButton
-                  chainId={chain.chainId}
-                  variant="ghost"
-                  className="size-8 md:size-12 hover:bg-secondary-foreground/20 dark:hover:bg-secondary-foreground/20 transition-colors"
-                  iconClassName="size-6 md:size-10"
-                />
-              </div>
+            <div className="flex flex-row gap-2 md:gap-4 items-center h-8">
+              {chainMetadata?.verified && (
+                <Badge
+                  variant="secondary"
+                  className="text-accent-foreground pointer-events-none flex flex-row items-center h-full gap-1.5"
+                >
+                  <VerifiedIcon className="size-5" />
+                  <span className="font-bold text-xs uppercase">verified</span>
+                </Badge>
+              )}
+              {chainMetadata?.gasSponsored && (
+                <Badge
+                  variant="secondary"
+                  className="text-accent-foreground pointer-events-none flex flex-row items-center h-full gap-1.5"
+                >
+                  <TicketCheckIcon className="size-5" />
+                  <span className="font-bold text-xs uppercase">sponsored</span>
+                </Badge>
+              )}
             </div>
           </div>
         </header>
         <main className="container px-4 pb-20 flex-1">
           {/* About section */}
-          {/* xai only right now  */}
-          {chain.chainId === 660279 && (
+          {chainMetadata?.about && (
             <>
               <div className="border rounded-xl px-4 py-4 bg-card relative">
                 <h2 className="text-xl font-semibold tracking-tight mb-4">
@@ -161,7 +163,7 @@ export default async function ChainPageLayout({
                 </h2>
 
                 <div className="[&_p]:mb-3 [&_p]:text-card-foreground max-w-[1000px]">
-                  <p>{xaiMetadata.about}</p>
+                  <p>{chainMetadata.about}</p>
                 </div>
               </div>
               <div className="h-8" />
