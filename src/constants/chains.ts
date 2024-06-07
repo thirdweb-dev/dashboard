@@ -10,4 +10,8 @@ export const OPSponsoredChains = [
   34443,
   // Frax
   252,
+  // Cyber
+  7560,
+  // Redstone
+  690,
 ];

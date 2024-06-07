@@ -254,8 +254,8 @@ dependencies:
     specifier: ^3.2.0
     version: 3.2.0
   swagger-ui-react:
-    specifier: ^5.17.12
-    version: 5.17.12(@types/react@18.3.2)(ramda@0.30.0)(react-dom@18.3.1)(react@18.3.1)
+    specifier: ^5.17.14
+    version: 5.17.14(@types/react@18.3.2)(ramda@0.30.0)(react-dom@18.3.1)(react@18.3.1)
   tailwind-merge:
     specifier: ^2.3.0
     version: 2.3.0
@@ -18274,8 +18274,8 @@ packages:
       - ramda
     dev: false
 
-  /swagger-ui-react@5.17.12(@types/react@18.3.2)(ramda@0.30.0)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-qkDBOx9c3v1m8LyUgyc+Idz8UXLmz7RMDYX0Xlry0kwBQYxkw6AXfQ1bemgkna1sRQCvASmucdm2TYAdx6nlaA==}
+  /swagger-ui-react@5.17.14(@types/react@18.3.2)(ramda@0.30.0)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-mCXerZrbcn4ftPYifUF0+iKIRTHoVCv0HcJc/sXl9nCe3oeWdsjmOWVqKabzzAkAa0NwsbKNJFv2UL/Ivnf6VQ==}
     peerDependencies:
       react: '>=16.8.0 <19'
       react-dom: '>=16.8.0 <19'
