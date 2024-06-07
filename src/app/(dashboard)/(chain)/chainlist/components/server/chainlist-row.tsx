@@ -4,6 +4,7 @@ import { ToolTipLabel } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { products } from "../../../components/server/products";
 import { ChainSupportedService } from "../../../types/chain";
+import { ChainIcon } from "../../../components/server/chain-icon";
 
 type ChainListRowProps = {
   favoriteButton: JSX.Element;
@@ -13,6 +14,7 @@ type ChainListRowProps = {
   enabledServices: ChainSupportedService[];
   currencySymbol: string;
   isDeprecated: boolean;
+  iconUrl?: string;
 };
 
 export const ChainListRow: React.FC<ChainListRowProps> = ({
@@ -23,6 +25,7 @@ export const ChainListRow: React.FC<ChainListRowProps> = ({
   currencySymbol,
   enabledServices,
   favoriteButton,
+  iconUrl,
 }) => {
   return (
     <tr className="border-b relative hover:bg-secondary">
@@ -31,6 +34,7 @@ export const ChainListRow: React.FC<ChainListRowProps> = ({
       <TableData>
         <div className="flex flex-row items-center gap-4 w-[370px]">
           <div className="flex items-center gap-2">
+            <ChainIcon iconUrl={iconUrl} className="size-6" />
             <Link
               href={`/${chainSlug}`}
               className="static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"

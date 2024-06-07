@@ -241,6 +241,7 @@ export default async function ChainListPage(props: {
                         />
                       </div>
                     }
+                    iconUrl={chain.icon?.url}
                   />
                 ))}
               </tbody>
@@ -268,6 +269,7 @@ export default async function ChainListPage(props: {
                       />
                     </div>
                   }
+                  iconUrl={chain.icon?.url}
                 />
               </li>
             ))}

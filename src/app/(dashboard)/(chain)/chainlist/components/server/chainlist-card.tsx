@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import { ChainSupportedService } from "../../../types/chain";
+import { ChainIcon } from "../../../components/server/chain-icon";
 
 type ChainListCardProps = {
   favoriteButton: JSX.Element;
@@ -11,6 +12,7 @@ type ChainListCardProps = {
   enabledServices: ChainSupportedService[];
   currencySymbol: string;
   isDeprecated: boolean;
+  iconUrl?: string;
 };
 
 export const ChainListCard: React.FC<ChainListCardProps> = ({
@@ -21,12 +23,14 @@ export const ChainListCard: React.FC<ChainListCardProps> = ({
   currencySymbol,
   enabledServices,
   favoriteButton,
+  iconUrl,
 }) => {
   return (
     <div className="relative h-full">
       <Card className="h-full w-full hover:bg-muted">
-        <CardHeader className="flex flex-row justify-between justify-items-center p-4">
-          <div className="flex flex-row items-center gap-2.5">
+        <CardHeader className="flex flex-row justify-between items-center p-4">
+          <div className="flex flex-row items-center space-x-2">
+            <ChainIcon iconUrl={iconUrl} className="size-6" />
             <Link
               className="static group before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:z-0"
               href={`/${chainSlug}`}
@@ -46,22 +50,20 @@ export const ChainListCard: React.FC<ChainListCardProps> = ({
                 <th className="text-left font-normal text-secondary-foreground">
                   Chain ID
                 </th>
-                <td>{chainId}</td>
+                <td className="text-right">{chainId}</td>
               </tr>
               <tr>
                 <th className="text-left font-normal text-secondary-foreground">
                   Native Token
                 </th>
-                <td>{currencySymbol}</td>
+                <td className="text-right">{currencySymbol}</td>
               </tr>
               <tr>
                 <th className="text-left font-normal text-secondary-foreground">
                   Available Services
                 </th>
 
-                <td>
-                  <span>{enabledServices.length}</span>
-                </td>
+                <td className="text-right">{enabledServices.length}</td>
               </tr>
             </tbody>
           </table>

@@ -8,11 +8,11 @@ import { getChain } from "./utils";
 import { Metadata } from "next";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { redirect } from "next/navigation";
-import { ChainIcon } from "./components/server/chain-icon";
 import { ChainPageTabs } from "./components/client/tabs";
 import { PrimaryInfoItem } from "./components/server/primary-info-item";
 import { FaucetsSection } from "./components/server/faucets-section";
 import { ExplorersSection } from "./components/server/explorer-section";
+import { ChainIcon } from "../components/server/chain-icon";
 
 export async function generateMetadata(
   { params }: { params: { chain_id: string } },
