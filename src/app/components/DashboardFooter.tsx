@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function DashboardFooter() {
   return (
-    <footer className="border-t py-4 justify-center items-center flex-col md:flex-row flex gap-4">
+    <footer className="border-t py-4 justify-center items-center flex-col md:flex-row flex gap-4 bg-card">
       <a
         target="_blank"
         href="https://feedback.thirdweb.com"

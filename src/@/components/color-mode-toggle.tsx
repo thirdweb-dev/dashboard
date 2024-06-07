@@ -4,7 +4,6 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 
 export function ColorModeToggle() {
   const { setTheme, theme } = useTheme();
@@ -18,13 +17,7 @@ export function ColorModeToggle() {
       }}
       aria-label="Toggle theme"
     >
-      <ClientOnly ssr={<Moon className="size-6" />}>
-        {theme === "dark" ? (
-          <Moon className="size-6" />
-        ) : (
-          <Sun className="size-6 " />
-        )}
-      </ClientOnly>
+      {theme === "light" ? <Sun strokeWidth={1} /> : <Moon strokeWidth={1} />}
     </Button>
   );
 }

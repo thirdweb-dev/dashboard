@@ -101,7 +101,13 @@ const moduleExports = {
       {
         // Apply these headers to all routes in your application.
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          {
+            key: "accept-ch",
+            value: "sec-ch-viewport-width",
+          },
+        ],
       },
     ];
   },
