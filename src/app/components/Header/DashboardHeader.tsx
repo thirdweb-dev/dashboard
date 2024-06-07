@@ -58,7 +58,10 @@ export function DashboardHeader() {
               </div>
             }
           >
-            <CustomConnectWallet />
+            <CustomConnectWallet
+              disableChainConfig={true}
+              disableAddCustomNetwork={true}
+            />
           </ClientOnly>
         </div>
       </div>

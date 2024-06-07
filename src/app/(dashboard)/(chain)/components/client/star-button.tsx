@@ -43,19 +43,23 @@ async function removeChainFromFavorites(chainId: number) {
   return result?.data?.favorite;
 }
 
+export function useFavouriteChains() {
+  const loggedInUser = useLoggedInUser();
+  return useQuery({
+    queryKey: ["favoriteChains", loggedInUser.user?.address],
+    queryFn: () => favoriteChains(),
+    enabled: !!loggedInUser.user?.address,
+  });
+}
+
 export function StarButton(props: {
   chainId: number;
   className?: string;
   iconClassName?: string;
 }) {
   const loggedInUser = useLoggedInUser();
-
   const queryClient = useQueryClient();
-  const query = useQuery({
-    queryKey: ["favoriteChains", loggedInUser.user?.address],
-    queryFn: () => favoriteChains(),
-    enabled: !!loggedInUser.user?.address,
-  });
+  const favChainsQuery = useFavouriteChains();
 
   const mutation = useMutation({
     mutationFn: (preferred: boolean) => {
@@ -72,7 +76,7 @@ export function StarButton(props: {
   });
 
   const isPreferred =
-    mutation.data ?? query.data?.includes(`${props.chainId}`) ?? false;
+    mutation.data ?? favChainsQuery.data?.includes(`${props.chainId}`) ?? false;
 
   const label = isPreferred ? "Remove from Favorites" : "Add to Favorites";
 
@@ -86,7 +90,9 @@ export function StarButton(props: {
         mutation.mutate(isPreferred);
       }}
       disabled={
-        !loggedInUser.user?.address || mutation.isLoading || query.isLoading
+        !loggedInUser.user?.address ||
+        mutation.isLoading ||
+        favChainsQuery.isLoading
       }
     >
       <ToolTipLabel label={label}>
