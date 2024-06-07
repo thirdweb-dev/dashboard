@@ -4,7 +4,6 @@
 import { popularChains } from "../popularChains";
 import { useTheme } from "next-themes";
 import { ConnectWallet } from "@thirdweb-dev/react";
-import { CustomChainRenderer } from "components/selects/CustomChainRenderer";
 import {
   useAddRecentlyUsedChainId,
   useRecentlyUsedChains,
@@ -48,7 +47,9 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({ auth }) => {
         onCustomClick() {
           setIsNetworkConfigModalOpen(true);
         },
-        renderChain: CustomChainRenderer,
+        // TODO @manan: this uses chakra under the hood -> we can't use it
+
+        // renderChain: CustomChainRenderer,
       }}
       showThirdwebBranding={false}
     />

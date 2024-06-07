@@ -3,9 +3,9 @@ import { ThirdwebMiniLogo } from "../ThirdwebMiniLogo";
 import Link from "next/link";
 import { MobileBurgerMenu } from "./MobileBurgerMenu";
 import { headerLinks } from "./headerLinks";
-import { CustomConnectWallet } from "../../../@3rdweb-sdk/react/components/connect-wallet";
 import { ClientOnly } from "../../../components/ClientOnly/ClientOnly";
 import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
+import { CustomConnectWallet } from "../../../@3rdweb-sdk/react/components/connect-wallet";
 
 export function DashboardHeader() {
   return (
