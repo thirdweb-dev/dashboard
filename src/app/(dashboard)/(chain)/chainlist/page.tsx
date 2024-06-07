@@ -21,6 +21,8 @@ import { StarButton } from "../components/client/star-button";
 import { ChainListCard } from "./components/server/chainlist-card";
 import { ChainListView } from "./components/client/view";
 import { Metadata } from "next";
+import { Suspense } from "react";
+import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 
 type SearchParams = Partial<{
   type: "mainnet" | "testnet";
@@ -149,9 +151,7 @@ export const metadata: Metadata = {
     "A list of EVM networks with RPCs, smart contracts, block explorers & faucets. Deploy smart contracts to all EVM chains with thirdweb.",
 };
 
-export default async function ChainListPage(props: {
-  searchParams: SearchParams;
-}) {
+export default function ChainListPage(props: { searchParams: SearchParams }) {
   const headersList = headers();
   const viewportWithHint = Number(
     headersList.get("Sec-Ch-Viewport-Width") || 0,
@@ -163,17 +163,6 @@ export default async function ChainListPage(props: {
     : viewportWithHint > 1000
       ? "table"
       : "grid";
-
-  const chainsToRender = await getChainsToRender(props.searchParams);
-
-  // pagination
-  const totalPages = Math.ceil(chainsToRender.length / DEFAULT_PAGE_SIZE);
-
-  const activePage = Number(props.searchParams.page || DEFAULT_PAGE);
-  const pageSize = DEFAULT_PAGE_SIZE;
-  const startIndex = (activePage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedChains = chainsToRender.slice(startIndex, endIndex);
 
   return (
     <section className="container mx-auto py-10 px-4 h-full flex flex-col">
@@ -204,13 +193,44 @@ export default async function ChainListPage(props: {
         </div>
       </header>
       <div className="h-10"></div>
+      <Suspense
+        fallback={
+          <div className="flex-1 flex items-center justify-center">
+            <Spinner className="size-10" />
+          </div>
+        }
+      >
+        <ChainsData searchParams={props.searchParams} activeView={activeView} />
+      </Suspense>
+    </section>
+  );
+}
+
+async function ChainsData(props: {
+  searchParams: SearchParams;
+  activeView: "table" | "grid";
+}) {
+  const chainsToRender = await getChainsToRender(props.searchParams);
+
+  // pagination
+  const totalPages = Math.ceil(chainsToRender.length / DEFAULT_PAGE_SIZE);
+
+  const activePage = Number(props.searchParams.page || DEFAULT_PAGE);
+  const pageSize = DEFAULT_PAGE_SIZE;
+  const startIndex = (activePage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedChains = chainsToRender.slice(startIndex, endIndex);
+
+  return (
+    <>
+      {" "}
       <main>
         {/* empty state */}
         {paginatedChains.length === 0 ? (
           <div className="border p-8 h-[300px] lg:h-[500px] flex justify-center items-center rounded-lg">
             <p className="text-4xl">No Results found</p>
           </div>
-        ) : activeView === "table" ? (
+        ) : props.activeView === "table" ? (
           <div className="overflow-x-auto">
             <table className="w-full">
               <tbody>
@@ -278,7 +298,7 @@ export default async function ChainListPage(props: {
       </main>
       <div className="h-10"></div>
       <ChainlistPagination totalPages={totalPages} activePage={activePage} />
-    </section>
+    </>
   );
 }
 
