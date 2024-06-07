@@ -14,7 +14,7 @@ export function AppRouterProviders(props: { children: React.ReactNode }) {
       <AllChainsProvider>
         <ChainsProvider>
           <DashboardThirdwebProviderSetup>
-            <ThemeProvider attribute="class" enableSystem>
+            <ThemeProvider attribute="class" defaultTheme="dark">
               {props.children}
             </ThemeProvider>
           </DashboardThirdwebProviderSetup>

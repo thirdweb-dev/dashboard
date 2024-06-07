@@ -9,13 +9,16 @@ import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 
 export function DashboardHeader() {
   return (
-    <header className="border-b">
+    <header className="border-b bg-card">
       <div className="container px-4 gap-5 justify-between flex flex-row items-center py-4">
         {/* Left */}
         <div className="flex gap-5 items-center">
-          <Link href="/dashboard">
-            <ThirdwebMiniLogo className="size-10" />
-          </Link>
+          <div className="flex gap-2 items-center">
+            <MobileBurgerMenu />
+            <Link href="/dashboard">
+              <ThirdwebMiniLogo className="size-10" />
+            </Link>
+          </div>
 
           <div className="hidden lg:flex items-center gap-5">
             {headerLinks.left.map((link, index) => (
@@ -46,10 +49,7 @@ export function DashboardHeader() {
             ))}
           </div>
 
-          <div className="flex gap-4 items-center">
-            <ColorModeToggle />
-            <MobileBurgerMenu />
-          </div>
+          <ColorModeToggle />
 
           <ClientOnly
             ssr={

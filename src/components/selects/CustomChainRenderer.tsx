@@ -6,9 +6,9 @@ import {
   useSetEditChain,
   useSetIsNetworkConfigModalOpen,
 } from "hooks/networkConfigModal";
-import { OPSponsoredChains } from "pages/chainlist";
 import { RxGear } from "react-icons/rx";
 import { Heading, Text } from "tw-components";
+import { OPSponsoredChains } from "../../constants/chains";
 
 export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
   chain,

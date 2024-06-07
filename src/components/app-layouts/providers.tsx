@@ -21,7 +21,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const supportedChains = useSupportedChains();
   const contractInfo = useEVMContractInfo();
   const router = useRouter();
-  const isChainSlugPage = router.pathname === "/[chainSlug]";
+  const isChainSlugPage = router.pathname === "/[chain_id]";
   const chainByChainSlug = supportedChains.find(
     (supportedChain) => supportedChain.slug === router.asPath.split("/")[1],
   );
