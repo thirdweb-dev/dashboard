@@ -239,7 +239,9 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
 
   // Set the active tab to Write or Read depends on the `_item`
   const _defaultTabIndex =
-    _item && "stateMutability" in _item && _item["stateMutability"] === "view"
+    _item &&
+    "stateMutability" in _item &&
+    (_item["stateMutability"] === "view" || _item["stateMutability"] === "pure")
       ? 1
       : 0;
 
