@@ -1288,18 +1288,29 @@ export interface EngineResourceMetrics {
 }
 
 export function useEngineResourceMetrics(engineId: string) {
-  return useQuery(engineKeys.metrics(engineId), async () => {
-    const res = await fetch(
-      `${THIRDWEB_API_HOST}/v1/engine/${engineId}/metrics`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
-    if (!res.ok) {
-      throw new Error(`Unexpected status ${res.status}`);
-    }
-    const json = (await res.json()) as EngineResourceMetrics;
-    return json;
-  });
+  const [enabled, setEnabled] = useState(true);
+
+  return useQuery(
+    engineKeys.metrics(engineId),
+    async () => {
+      const res = await fetch(
+        `${THIRDWEB_API_HOST}/v1/engine/${engineId}/metrics`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      if (!res.ok) {
+        setEnabled(false);
+        throw new Error(`Unexpected status ${res.status}`);
+      }
+      const json = (await res.json()) as EngineResourceMetrics;
+      return json;
+    },
+    {
+      // Poll every 5s unless disabled.
+      enabled,
+      refetchInterval: 5_000,
+    },
+  );
 }
