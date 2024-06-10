@@ -85,12 +85,33 @@ function determineIpfsGateways() {
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
+  webpack: (config, { dev }) => {
+    if (config.cache && !dev) {
+      config.cache = Object.freeze({
+        type: "memory",
+      });
+      config.cache.maxMemoryGenerations = 0;
+    }
+    config.externals.push("pino-pretty");
+    config.module = {
+      ...config.module,
+      exprContextCritical: false,
+    };
+    // Important: return the modified config
+    return config;
+  },
   async headers() {
     return [
       {
         // Apply these headers to all routes in your application.
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          {
+            key: "accept-ch",
+            value: "sec-ch-viewport-width",
+          },
+        ],
       },
     ];
   },
@@ -122,20 +143,18 @@ const moduleExports = {
   },
   reactStrictMode: true,
   experimental: {
-    instrumentationHook: true,
     scrollRestoration: true,
     esmExternals: "loose",
     webpackBuildWorker: true,
+    serverSourceMaps: false,
   },
+  cacheMaxMemorySize: 0,
+  swcMinify: true,
   compiler: {
     emotion: true,
   },
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
 };
-
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
 
 const { withSentryConfig } = require("@sentry/nextjs");
 
@@ -145,11 +164,15 @@ const { withPlausibleProxy } = require("next-plausible");
 const wSentry =
   process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
-module.exports = withPlausibleProxy({
-  customDomain: "https://pl.thirdweb.com",
-  scriptName: "pl",
-})(
-  withBundleAnalyzer(
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(
+  withPlausibleProxy({
+    customDomain: "https://pl.thirdweb.com",
+    scriptName: "pl",
+  })(
     wSentry(
       moduleExports,
       {
@@ -184,7 +207,13 @@ module.exports = withPlausibleProxy({
         // See the following for more information:
         // https://docs.sentry.io/product/crons/
         // https://vercel.com/docs/cron-jobs
-        automaticVercelMonitors: true,
+        automaticVercelMonitors: false,
+
+        /**
+         * Disables the Sentry Webpack plugin on the server.
+         * See: https://github.com/getsentry/sentry-javascript/issues/10468#issuecomment-2004710692
+         */
+        disableServerWebpackPlugin: true,
       },
     ),
   ),
