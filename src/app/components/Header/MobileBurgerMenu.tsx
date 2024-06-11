@@ -27,10 +27,11 @@ export function MobileBurgerMenu() {
     <>
       <Button
         variant="ghost"
-        className="p-0 lg:hidden"
+        size="icon"
+        className="md:hidden"
         onClick={() => setShowBurgerMenu(!showBurgerMenu)}
       >
-        <Menu className="size-8" />
+        <Menu strokeWidth={1} />
       </Button>
 
       {showBurgerMenu && (
@@ -41,10 +42,11 @@ export function MobileBurgerMenu() {
         >
           <Button
             variant="ghost"
-            className="p-0 absolute top-4 right-6"
+            size="icon"
+            className="absolute top-6 right-6"
             onClick={() => setShowBurgerMenu(false)}
           >
-            <XIcon className="size-8" />
+            <XIcon strokeWidth={1} />
           </Button>
 
           <div className="flex flex-col gap-7">

@@ -5,7 +5,13 @@ import { Button } from "./button";
 import Link from "next/link";
 
 export function TabLinks(props: {
-  links: { name: string; href: string; isActive: boolean }[];
+  links: {
+    name: string;
+    href: string;
+    isActive: boolean;
+    isEnabled?: boolean;
+    icon?: React.FC<{ className?: string }>;
+  }[];
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -46,12 +52,15 @@ export function TabLinks(props: {
                 <Link
                   data-active={tab.isActive}
                   ref={tab.isActive ? activeTabRef : undefined}
-                  href={tab.href}
+                  href={tab.isEnabled ? tab.href : "#"}
                   className={cn(
-                    "rounded-lg hover:bg-muted px-3 font-medium text-sm lg:text-base relative h-auto",
-                    !tab.isActive && "opacity-50 hover:opacity-100",
+                    "rounded-lg hover:bg-accent px-2 lg:px-3 font-medium text-sm lg:text-base relative h-auto inline-flex gap-1.5 items-center",
+                    !tab.isActive &&
+                      "text-muted-foreground hover:text-foreground",
+                    !tab.isEnabled && "cursor-not-allowed opacity-50",
                   )}
                 >
+                  {tab.icon && <tab.icon className="size-6" />}
                   {tab.name}
                 </Link>
               </Button>

@@ -5,6 +5,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
+import { Skeleton } from "./ui/skeleton";
 
 export function ColorModeToggle() {
   const { setTheme, theme } = useTheme();
@@ -18,11 +19,11 @@ export function ColorModeToggle() {
       }}
       aria-label="Toggle theme"
     >
-      <ClientOnly ssr={<Moon className="size-6" />}>
-        {theme === "dark" ? (
-          <Moon className="size-6" />
+      <ClientOnly ssr={<Skeleton className="size-6 bg-accent border" />}>
+        {theme === "light" ? (
+          <Sun strokeWidth={1} className="size-6" />
         ) : (
-          <Sun className="size-6 " />
+          <Moon strokeWidth={1} className="size-6" />
         )}
       </ClientOnly>
     </Button>

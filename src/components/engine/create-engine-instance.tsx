@@ -2,7 +2,6 @@ import { AccountStatus, useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { EngineTier } from "@3rdweb-sdk/react/hooks/useEngine";
 import {
   Flex,
-  Icon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,8 +10,6 @@ import {
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
-  Spacer,
-  Stack,
   UseDisclosureReturn,
   useDisclosure,
   useToast,
@@ -23,11 +20,10 @@ import { OnboardingModal } from "components/onboarding/Modal";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { FiCheck } from "react-icons/fi";
-import { Badge, Button, Card, Heading, Text } from "tw-components";
+import { useState } from "react";
+import { Button, Heading, Text } from "tw-components";
+import { EngineTierCard, MONTHLY_PRICE_USD } from "./tier-card";
 
 interface CreateEngineInstanceButtonProps {
   ctaText: string;
@@ -79,7 +75,12 @@ export const CreateEngineInstanceButton = ({
           });
           return;
         }
-        throw new Error(`Unexpected status ${res.status}`);
+
+        const json = await res.json();
+        const error =
+          json.error?.message ??
+          "Unexpected error. Please try again or visit https://thirdweb.com/support.";
+        throw error;
       }
 
       toast({
@@ -92,7 +93,7 @@ export const CreateEngineInstanceButton = ({
     } catch (e) {
       toast({
         status: "error",
-        description: "There was an error with your Engine deployment.",
+        description: `${e}`,
       });
     }
   };
@@ -162,18 +163,12 @@ const CreateCloudHostedEngineModal = ({
   const trackEvent = useTrack();
   const router = useRouter();
   const [modalState, setModalState] = useState<
-    "selectTier" | "confirmStarter" | "confirmPremium"
+    "selectTier" | "confirmStandard" | "confirmPremium"
   >("selectTier");
 
-  const MONTHLY_PRICE_USD: Record<EngineTier, number> = {
-    STARTER: 99,
-    PREMIUM: 299,
-    ENTERPRISE: 0,
-  };
-
-  if (modalState === "confirmStarter" || modalState === "confirmPremium") {
+  if (modalState === "confirmStandard" || modalState === "confirmPremium") {
     const tier: EngineTier =
-      modalState === "confirmStarter" ? "STARTER" : "PREMIUM";
+      modalState === "confirmStandard" ? "STARTER" : "PREMIUM";
 
     return (
       <Modal
@@ -193,7 +188,7 @@ const CreateCloudHostedEngineModal = ({
             />
             <Heading size="title.sm">
               Are you sure you want to deploy a{" "}
-              {tier === "STARTER" ? "Starter" : "Premium"} Engine?
+              {tier === "STARTER" ? "Standard" : "Premium"} Engine?
             </Heading>
             <Text>
               You will be charged ${MONTHLY_PRICE_USD[tier]} per month for the
@@ -232,43 +227,19 @@ const CreateCloudHostedEngineModal = ({
           </Text>
           <SimpleGrid columns={{ base: 1, lg: 3 }} gap={6}>
             <EngineTierCard
-              iconSrc={require("../../../public/assets/engine/cloud-icon1.png")}
-              tier="Standard Engine"
-              monthlyPrice={MONTHLY_PRICE_USD["STARTER"]}
-              features={[
-                "Isolated server & database",
-                "APIs for contracts on all EVM chains",
-                "Secure backend wallets",
-                "Automated gas & nonce management",
-                "On-call monitoring from thirdweb",
-              ]}
-              onClick={() => setModalState("confirmStarter")}
+              tier="STARTER"
+              onClick={() => setModalState("confirmStandard")}
             />
 
             <EngineTierCard
-              iconSrc={require("../../../public/assets/engine/cloud-icon2.png")}
-              tier="Premium Engine"
-              previousTier="Standard Engine"
-              monthlyPrice={MONTHLY_PRICE_USD["PREMIUM"]}
-              features={[
-                "Autoscaling",
-                "Server failover",
-                "Database failover",
-                "30-day database backups",
-              ]}
+              tier="PREMIUM"
               isPrimaryCta
               onClick={() => setModalState("confirmPremium")}
             />
 
             <EngineTierCard
-              iconSrc={require("../../../public/assets/engine/cloud-icon3.png")}
-              tier="Enterprise Engine"
+              tier="ENTERPRISE"
               previousTier="Premium Engine"
-              features={[
-                "Custom features",
-                "Custom deployment",
-                "Priority support",
-              ]}
               onClick={() => {
                 trackEvent({
                   category: "engine",
@@ -283,80 +254,5 @@ const CreateCloudHostedEngineModal = ({
         </ModalBody>
       </ModalContent>
     </Modal>
-  );
-};
-
-export const EngineTierCard = ({
-  iconSrc,
-  tier,
-  monthlyPrice,
-  previousTier,
-  features,
-  isPrimaryCta = false,
-  onClick,
-  ctaText,
-}: {
-  iconSrc: StaticImport;
-  tier: string;
-  monthlyPrice?: number;
-  previousTier?: string;
-  features: string[];
-  isPrimaryCta?: boolean;
-  onClick: () => void;
-  ctaText?: string;
-}) => {
-  return (
-    <Card
-      as={Stack}
-      gap={4}
-      boxShadow={
-        isPrimaryCta
-          ? "0px 2px 4px 3px rgba(79, 106, 202, 0.30), 1px 1px 3px 4px rgba(202, 51, 255, 0.25)"
-          : undefined
-      }
-      p={6}
-    >
-      {/* Heading */}
-      <Stack>
-        <Card p="6px" rounded="md" w="fit-content">
-          <ChakraNextImage alt="Cloud icon" src={iconSrc} w={6} />
-        </Card>
-        <Heading as="h3" size="title.md">
-          {tier}
-        </Heading>
-        <Badge colorScheme="green" w="fit-content">
-          {monthlyPrice ? `$${monthlyPrice} per month` : "Custom Pricing"}
-        </Badge>
-      </Stack>
-
-      {/* Features */}
-      <Stack spacing={3} py={4}>
-        <Text>Includes</Text>
-        {previousTier && (
-          <Text color="accent.900" fontWeight="bold">
-            All of <u>{previousTier}</u>, plus:
-          </Text>
-        )}
-        {features.map((feature) => (
-          <Flex key={feature} gap={3} align="center">
-            <Icon as={FiCheck} boxSize={4} color="green.500" />
-            <Text color="accent.900" fontWeight="medium">
-              {feature}
-            </Text>
-          </Flex>
-        ))}
-      </Stack>
-
-      <Spacer />
-
-      {/* CTA */}
-      <Button
-        onClick={onClick}
-        variant={isPrimaryCta ? "solid" : "outline"}
-        colorScheme={isPrimaryCta ? "blue" : undefined}
-      >
-        {ctaText ? ctaText : monthlyPrice ? "Deploy now" : "Contact us"}
-      </Button>
-    </Card>
   );
 };

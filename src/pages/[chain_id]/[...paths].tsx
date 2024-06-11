@@ -41,8 +41,9 @@ import { ClientOnly } from "../../components/ClientOnly/ClientOnly";
 import { THIRDWEB_DOMAIN } from "constants/urls";
 import { getAddress, isAddress } from "ethers/lib/utils";
 import { getContract } from "thirdweb";
-import { defineDashboardChain, thirdwebClient } from "lib/thirdweb-client";
+import { thirdwebClient } from "lib/thirdweb-client";
 import { DeprecatedAlert } from "../../components/shared/DeprecatedAlert";
+import { defineDashboardChain } from "lib/v5-adapter";
 
 type EVMContractProps = {
   contractInfo?: EVMContractInfo;
@@ -372,7 +373,7 @@ ContractPage.fallback = (
 // server side ---------------------------------------------------------------
 
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
-  const chainSlug = ctx.params?.chainSlug as string;
+  const chainSlug = ctx.params?.chain_id as string;
   const [contractAddress] = ctx.params?.paths as string[];
 
   let address: string | null = null;

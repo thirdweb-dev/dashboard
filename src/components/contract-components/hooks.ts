@@ -701,18 +701,45 @@ export function useCustomContractDeployMutation(
             fullPublishMetadata?.data?.compilers?.zksolc ||
             rawPredeployMetadata?.data?.compilers?.zksolc
           ) {
-            contractAddress = await zkDeployContractFromUri(
-              ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-              Object.values(data.deployParams),
-              zkSigner,
-              StorageSingleton,
-              chainId as number,
-              {
-                compilerOptions: {
-                  compilerType: "zksolc",
+            if (data.deployDeterministic) {
+              const salt = data.signerAsSalt
+                ? (await signer?.getAddress())?.concat(
+                    data.saltForCreate2 || "",
+                  )
+                : data.saltForCreate2;
+
+              contractAddress = await zkDeployContractFromUri(
+                ipfsHash.startsWith("ipfs://")
+                  ? ipfsHash
+                  : `ipfs://${ipfsHash}`,
+                Object.values(data.deployParams),
+                zkSigner,
+                StorageSingleton,
+                chainId as number,
+                {
+                  compilerOptions: {
+                    compilerType: "zksolc",
+                  },
+                  saltForProxyDeploy: salt,
                 },
-              },
-            );
+                true,
+              );
+            } else {
+              contractAddress = await zkDeployContractFromUri(
+                ipfsHash.startsWith("ipfs://")
+                  ? ipfsHash
+                  : `ipfs://${ipfsHash}`,
+                Object.values(data.deployParams),
+                zkSigner,
+                StorageSingleton,
+                chainId as number,
+                {
+                  compilerOptions: {
+                    compilerType: "zksolc",
+                  },
+                },
+              );
+            }
           } else {
             contractAddress = await zkDeployContractFromUri(
               ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
@@ -958,7 +985,14 @@ export function ensQuery(addressOrEnsName?: string) {
         throw new Error("Invalid address or ENS name.");
       }
 
-      const { address, ensName } = await resolveEns(addressOrEnsName);
+      const { address, ensName } = await resolveEns(addressOrEnsName).catch(
+        () => ({
+          address: utils.isAddress(addressOrEnsName || "")
+            ? addressOrEnsName || null
+            : null,
+          ensName: null,
+        }),
+      );
 
       if (isEnsName(addressOrEnsName) && !address) {
         throw new Error("Failed to resolve ENS name.");
