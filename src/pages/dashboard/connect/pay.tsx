@@ -281,7 +281,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
             <div>
               <PayConfig apiKey={selectedKey} />
               <div className="h-10" />
-              <PayAnalytics />
+              <PayAnalytics apiKey={selectedKey} />
             </div>
           )}
         </>

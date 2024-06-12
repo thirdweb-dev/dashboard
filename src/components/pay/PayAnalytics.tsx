@@ -3,8 +3,14 @@ import { PayoutsBarChart } from "./PayAnalytics/PayoutsBarChart";
 import { SuccessRateCard } from "./PayAnalytics/SuccessRateCard";
 import { TotalVolumeAreaChartCard } from "./PayAnalytics/TotalVolumeAreaChart";
 import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard";
+import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 
-export function PayAnalytics() {
+type PayAnalyticsProps = {
+  apiKey: ApiKey;
+};
+
+export function PayAnalytics(props: PayAnalyticsProps) {
+  const clientId = props.apiKey.key;
   return (
     <div>
       <GridWithSeparator>
@@ -29,7 +35,7 @@ export function PayAnalytics() {
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
-          <NewCustomersAreaChart />
+          <NewCustomersAreaChart clientId={clientId} />
         </div>
       </GridWithSeparator>
     </div>
