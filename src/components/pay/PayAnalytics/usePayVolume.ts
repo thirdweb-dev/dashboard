@@ -1,16 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
+type AggregatedData = {
+  succeeded: number;
+  failed: number;
+  bpsIncreaseFromPriorRange: number;
+};
+
 export type PayVolumeData = {
   intervalType: "day" | "week";
   intervalResults: Array<{
     interval: string;
     buyWithCrypto: {
-      succeded: number;
+      succeeded: number;
       failed: number;
     };
     buyWithFiat: {
-      succeded: number;
+      succeeded: number;
       failed: number;
     };
     sum: {
@@ -18,27 +24,15 @@ export type PayVolumeData = {
       failed: number;
     };
     payouts: {
-      succeded: number;
+      succeeded: number;
     };
   }>;
   aggregate: {
-    buyWithCrypto: {
-      succeded: number;
-      failed: number;
-      bpsIncreaseFromPriorRange: number;
-    };
-    buyWithFiat: {
-      succeded: number;
-      failed: number;
-      bpsIncreaseFromPriorRange: number;
-    };
-    sum: {
-      succeeded: number;
-      failed: number;
-      bpsIncreaseFromPriorRange: number;
-    };
+    buyWithCrypto: AggregatedData;
+    buyWithFiat: AggregatedData;
+    sum: AggregatedData;
     payouts: {
-      succeded: number;
+      succeeded: number;
       bpsIncreaseFromPriorRange: number;
     };
   };

@@ -1,59 +1,67 @@
 /* eslint-disable react/forbid-dom-props */
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { usePayVolume, type PayVolumeData } from "./usePayVolume";
+import { useState } from "react";
+import { IntervalSelector } from "./IntervalSelector";
+import { Spinner } from "@chakra-ui/react";
 
-type Data = {
+type GraphData = {
   date: string;
   value: number;
 };
 
-// TODO: Replace this with actual data
-const data: Data[] = [
-  {
-    date: "Mon",
-    value: 100,
-  },
-  {
-    date: "Tue",
-    value: 120,
-  },
-  {
-    date: "Wed",
-    value: 140,
-  },
-  {
-    date: "Thu",
-    value: 210,
-  },
-  {
-    date: "Fri",
-    value: 100,
-  },
-  {
-    date: "Sat",
-    value: 150,
-  },
-  {
-    date: "Sun",
-    value: 80,
-  },
-];
+export function PayoutsBarChart(props: {
+  clientId: string;
+  from: Date;
+  to: Date;
+}) {
+  const [intervalType, setIntervalType] = useState<"day" | "week">("day");
+  const payoutsQuery = usePayVolume({
+    clientId: props.clientId,
+    from: props.from,
+    to: props.to,
+    intervalType,
+  });
 
-export function PayoutsBarChart() {
   return (
-    <section>
+    <section className="relative">
       <h2 className="text-base font-medium mb-2"> Payouts </h2>
-      <RenderChart />
+
+      {payoutsQuery.isLoading ? (
+        <div className="min-h-[300px] flex items-center justify-center">
+          <Spinner className="size-10" />
+        </div>
+      ) : payoutsQuery.data ? (
+        <RenderData data={payoutsQuery.data} />
+      ) : (
+        <div className="min-h-[300px] flex items-center justify-center">
+          <p className="text-muted-foreground">No data available</p>
+        </div>
+      )}
+
+      {payoutsQuery.data && (
+        <div className="absolute top-0 right-0">
+          <IntervalSelector
+            intervalType={intervalType}
+            setIntervalType={setIntervalType}
+          />
+        </div>
+      )}
     </section>
   );
 }
 
-function RenderChart() {
-  const totalPayouts = 120;
+function RenderData(props: { data: PayVolumeData }) {
+  const totalPayouts = props.data.aggregate.sum.succeeded;
+  const data: GraphData[] = props.data.intervalResults.map((result) => ({
+    date: new Date(result.interval).toLocaleDateString(),
+    value: result.payouts.succeeded,
+  }));
 
   return (
     <div>
       <p className="text-5xl tracking-tighter font-bold">
-        ${totalPayouts.toLocaleString("en-US")}
+        {totalPayouts.toLocaleString("en-US")}
       </p>
 
       <div className="relative flex justify-center w-full">
@@ -61,13 +69,16 @@ function RenderChart() {
           <BarChart data={data} width={400} height={200}>
             <Tooltip
               content={(x) => {
+                const payload = x.payload?.[0]?.payload as
+                  | GraphData
+                  | undefined;
                 return (
                   <div className="bg-popover px-4 py-2 rounded border border-border">
                     <p className="text-muted-foreground mb-1 text-sm">
-                      {x.payload?.[0]?.payload.date}
+                      {payload?.date}
                     </p>
                     <p className="text-medium text-base">
-                      ${x.payload?.[0]?.value}
+                      Payouts: {payload?.value}
                     </p>
                   </div>
                 );

@@ -51,7 +51,11 @@ export function PayAnalytics(props: PayAnalyticsProps) {
 
       <div className="grid gap-6 grid-cols-1 xl:grid-cols-2">
         <div className="border border-border rounded-lg p-4 xl:p-6">
-          <PayoutsBarChart />
+          <PayoutsBarChart
+            clientId={clientId}
+            from={range.from}
+            to={range.to}
+          />
         </div>
         <div className="border border-border rounded-lg p-4 xl:p-6 flex items-center">
           <SuccessRateCard />
