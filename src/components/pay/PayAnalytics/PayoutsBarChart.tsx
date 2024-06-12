@@ -3,7 +3,7 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 import { useState } from "react";
 import { IntervalSelector } from "./IntervalSelector";
-import { Spinner } from "@chakra-ui/react";
+import { LoadingGraph, NoDataAvailable } from "./common";
 
 type GraphData = {
   date: string;
@@ -28,35 +28,38 @@ export function PayoutsBarChart(props: {
       <h2 className="text-base font-medium mb-2"> Payouts </h2>
 
       {payoutsQuery.isLoading ? (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <Spinner className="size-10" />
-        </div>
+        <LoadingGraph />
       ) : payoutsQuery.data && payoutsQuery.data.intervalResults.length > 0 ? (
-        <RenderData data={payoutsQuery.data} />
+        <RenderData
+          data={payoutsQuery.data}
+          intervalType={intervalType}
+          setIntervalType={setIntervalType}
+        />
       ) : (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <p className="text-muted-foreground">No data available</p>
-        </div>
-      )}
-
-      {payoutsQuery.data && (
-        <div className="absolute top-0 right-0">
-          <IntervalSelector
-            intervalType={intervalType}
-            setIntervalType={setIntervalType}
-          />
-        </div>
+        <NoDataAvailable />
       )}
     </section>
   );
 }
 
-function RenderData(props: { data: PayVolumeData }) {
+function RenderData(props: {
+  data: PayVolumeData;
+  intervalType: "day" | "week";
+  setIntervalType: (intervalType: "day" | "week") => void;
+}) {
   const totalPayouts = props.data.aggregate.sum.succeeded;
   const data: GraphData[] = props.data.intervalResults.map((result) => ({
     date: new Date(result.interval).toLocaleDateString(),
     value: result.payouts.succeeded,
   }));
+
+  if (totalPayouts === 0) {
+    return (
+      <div className="h-[250px] flex items-center justify-center">
+        <p className="text-muted-foreground">No data available</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -106,6 +109,15 @@ function RenderData(props: { data: PayVolumeData }) {
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      {props.data && (
+        <div className="absolute top-0 right-0">
+          <IntervalSelector
+            intervalType={props.intervalType}
+            setIntervalType={props.setIntervalType}
+          />
+        </div>
+      )}
     </div>
   );
 }

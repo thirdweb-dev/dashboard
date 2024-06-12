@@ -5,10 +5,10 @@ import {
   usePayNewCustomers,
   type PayNewCustomersData,
 } from "./usePayNewCustomers";
-import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 import { Badge } from "../../../@/components/ui/badge";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { IntervalSelector } from "./IntervalSelector";
+import { LoadingGraph, NoDataAvailable } from "./common";
 
 type GraphData = {
   date: string;
@@ -32,31 +32,26 @@ export function NewCustomersAreaChart(props: {
     <section className="relative">
       <h2 className="text-base font-medium mb-2"> New Customers </h2>
       {newCustomersQuery.isLoading ? (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <Spinner className="size-10" />
-        </div>
+        <LoadingGraph />
       ) : newCustomersQuery.data &&
         newCustomersQuery.data.intervalResults.length > 0 ? (
-        <RenderData data={newCustomersQuery.data} />
+        <RenderData
+          data={newCustomersQuery.data}
+          intervalType={intervalType}
+          setIntervalType={setIntervalType}
+        />
       ) : (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <p className="text-muted-foreground">No data available</p>
-        </div>
-      )}
-
-      {newCustomersQuery.data && (
-        <div className="absolute top-0 right-0">
-          <IntervalSelector
-            intervalType={intervalType}
-            setIntervalType={setIntervalType}
-          />
-        </div>
+        <NoDataAvailable />
       )}
     </section>
   );
 }
 
-function RenderData(props: { data: PayNewCustomersData }) {
+function RenderData(props: {
+  data: PayNewCustomersData;
+  intervalType: "day" | "week";
+  setIntervalType: (intervalType: "day" | "week") => void;
+}) {
   const uniqueId = useId();
 
   const newCusomtersData: GraphData[] = props.data.intervalResults.map((x) => {
@@ -70,6 +65,14 @@ function RenderData(props: { data: PayNewCustomersData }) {
 
   const percentChangeSinceLastInterval =
     props.data.aggregate.bpsIncreaseFromPriorRange * 100;
+
+  if (totalNewCustomers === 0) {
+    return (
+      <div className="h-[250px] flex items-center justify-center">
+        <p className="text-muted-foreground">No data available</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -149,6 +152,15 @@ function RenderData(props: { data: PayNewCustomersData }) {
           </AreaChart>
         </ResponsiveContainer>
       </div>
+
+      {props.data && (
+        <div className="absolute top-0 right-0">
+          <IntervalSelector
+            intervalType={props.intervalType}
+            setIntervalType={props.setIntervalType}
+          />
+        </div>
+      )}
     </div>
   );
 }

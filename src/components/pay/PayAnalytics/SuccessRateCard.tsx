@@ -1,5 +1,5 @@
+import { LoadingGraph, NoDataAvailable } from "./common";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
-import { Spinner } from "@/components/ui/Spinner/Spinner";
 
 /* eslint-disable react/forbid-dom-props */
 export function SuccessRateCard(props: {
@@ -18,15 +18,11 @@ export function SuccessRateCard(props: {
     <div className="w-full">
       <h2 className="text-lg font-medium mb-2"> Payments </h2>
       {payoutsQuery.isLoading ? (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <Spinner className="size-10" />
-        </div>
+        <LoadingGraph />
       ) : payoutsQuery.data ? (
         <RenderData data={payoutsQuery.data} />
       ) : (
-        <div className="min-h-[300px] flex items-center justify-center">
-          <p className="text-muted-foreground">No data available</p>
-        </div>
+        <NoDataAvailable />
       )}
     </div>
   );
@@ -39,11 +35,7 @@ function RenderData(props: { data: PayVolumeData }) {
   const rate = (succeeded / (succeeded + failed)) * 100;
 
   if (total === 0) {
-    return (
-      <div className="min-h-[300px] flex items-center justify-center">
-        <p className="text-muted-foreground">No data available</p>
-      </div>
-    );
+    return <NoDataAvailable />;
   }
 
   return (
