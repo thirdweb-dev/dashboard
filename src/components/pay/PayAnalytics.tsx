@@ -13,20 +13,26 @@ import { SuccessRateCard } from "./PayAnalytics/SuccessRateCard";
 import { TotalVolumeAreaChartCard } from "./PayAnalytics/TotalVolumeAreaChart";
 import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { format } from "date-fns";
 
 type PayAnalyticsProps = {
   apiKey: ApiKey;
 };
 
+type LastX = "last-7" | "last-30" | "last-60" | "last-120";
+
 type Range = {
-  type: "last-week" | "last-month" | "last-year" | "custom";
+  type: LastX | "custom";
+  label?: string;
   from: Date;
   to: Date;
 };
 
 export function PayAnalytics(props: PayAnalyticsProps) {
   const clientId = props.apiKey.key;
-  const [range, setRange] = useState<Range>(() => getLastYearRange());
+  const [range, setRange] = useState<Range>(() =>
+    getLastNDaysRange("last-120"),
+  );
 
   return (
     <div>
@@ -77,43 +83,33 @@ export function PayAnalytics(props: PayAnalyticsProps) {
   );
 }
 
-function getLastWeekRange() {
-  const today = new Date();
-  const lastWeek = new Date(today);
-  lastWeek.setDate(today.getDate() - 7);
+function getLastNDaysRange(type: LastX) {
+  const todayDate = new Date();
+  const pastDate = new Date(todayDate);
+
+  let days = 0;
+  let label = "";
+  if (type === "last-7") {
+    days = 7;
+    label = "Last 7 Days";
+  } else if (type === "last-30") {
+    days = 30;
+    label = "Last 30 Days";
+  } else if (type === "last-60") {
+    days = 60;
+    label = "Last 60 Days";
+  } else if (type === "last-120") {
+    days = 120;
+    label = "Last 120 Days";
+  }
+
+  pastDate.setDate(todayDate.getDate() - days);
 
   const value: Range = {
-    type: "last-week",
-    from: lastWeek,
-    to: today,
-  };
-
-  return value;
-}
-
-function getLastMonthRange() {
-  const today = new Date();
-  const lastMonth = new Date(today);
-  lastMonth.setMonth(today.getMonth() - 1);
-
-  const value: Range = {
-    type: "last-month",
-    from: lastMonth,
-    to: today,
-  };
-
-  return value;
-}
-
-function getLastYearRange() {
-  const today = new Date();
-  const lastYear = new Date(today);
-  lastYear.setFullYear(today.getFullYear() - 1);
-
-  const value: Range = {
-    type: "last-year",
-    from: lastYear,
-    to: today,
+    type,
+    from: pastDate,
+    to: todayDate,
+    label,
   };
 
   return value;
@@ -123,29 +119,27 @@ function Filters(props: { range: Range; setRange: (range: Range) => void }) {
   const { range, setRange } = props;
 
   const presets = (
-    <div className="p-4 border-t border-border mt-2">
+    <div className="p-4 border-b border-border mb-2">
       <Select
         value={range.type}
-        onValueChange={(value: string) => {
-          if (value === "last-week") {
-            setRange(getLastWeekRange());
-          } else if (value === "last-month") {
-            setRange(getLastMonthRange());
-          } else if (value === "last-year") {
-            setRange(getLastYearRange());
-          }
+        onValueChange={(value: LastX) => {
+          setRange(getLastNDaysRange(value));
         }}
       >
         <SelectTrigger className="bg-transparent flex">
           <SelectValue placeholder="Select" />
         </SelectTrigger>
         <SelectContent position="popper">
-          <SelectItem value="last-week">Last Week </SelectItem>
-          <SelectItem value="last-month">Last Month</SelectItem>
-          <SelectItem value="last-year">Last Year</SelectItem>
+          <SelectItem value="last-7">Last 7 Days </SelectItem>
+          <SelectItem value="last-30">Last 30 Days </SelectItem>
+          <SelectItem value="last-60">Last 60 Days </SelectItem>
+          <SelectItem value="last-120">Last 120 Days </SelectItem>
 
           {range.type === "custom" && (
-            <SelectItem value="custom">Custom</SelectItem>
+            <SelectItem value="custom">
+              {format(range.from, "LLL dd, y")} -{" "}
+              {format(range.to, "LLL dd, y")}
+            </SelectItem>
           )}
         </SelectContent>
       </Select>
@@ -155,27 +149,24 @@ function Filters(props: { range: Range; setRange: (range: Range) => void }) {
   return (
     <div className="flex gap-2">
       <DatePickerWithRange
-        range={{
-          from: range.from,
-          to: range.to,
-        }}
-        setRange={(r) =>
+        from={range.from}
+        to={range.to}
+        setFrom={(from) =>
           setRange({
-            from: r.from,
-            to: r.to,
+            from,
+            to: range.to,
             type: "custom",
           })
         }
-        footer={presets}
-        labelOverride={
-          range.type === "last-week"
-            ? "Last Week"
-            : range.type === "last-month"
-              ? "Last Month"
-              : range.type === "last-year"
-                ? "Last Year"
-                : undefined
+        setTo={(to) =>
+          setRange({
+            from: range.from,
+            to,
+            type: "custom",
+          })
         }
+        header={presets}
+        labelOverride={range.label}
       />
     </div>
   );

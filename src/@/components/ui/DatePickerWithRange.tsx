@@ -1,8 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, ChevronDownIcon } from "lucide-react";
+import { format, isBefore } from "date-fns";
+import {
+  Calendar as CalendarIcon,
+  CalendarX2Icon,
+  ChevronDownIcon,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,20 +16,38 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { date } from "zod";
+import { TabButtons } from "./tabs";
+import { DynamicHeight } from "./DynamicHeight";
 
 export function DatePickerWithRange(props: {
-  range?: { from: Date; to: Date };
-  setRange: (range: { from: Date; to: Date }) => void;
+  from: Date;
+  to: Date;
+  setFrom: (from: Date) => void;
+  setTo: (to: Date) => void;
   className?: string;
   header?: React.ReactNode;
   footer?: React.ReactNode;
   labelOverride?: string;
 }) {
-  const date = props.range;
+  const [screen, setScreen] = React.useState<"from" | "to">("from");
+  const { from, to, setFrom, setTo } = props;
+
+  const isValid = React.useMemo(() => isBefore(from, to), [from, to]);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className={cn("grid gap-2", props.className)}>
-      <Popover>
+      <Popover
+        open={isOpen}
+        onOpenChange={(v) => {
+          if (!v) {
+            setScreen("from");
+          }
+          setIsOpen(v);
+        }}
+      >
+        {/* Button */}
         <PopoverTrigger asChild>
           <Button
             id="date"
@@ -38,41 +60,77 @@ export function DatePickerWithRange(props: {
             <CalendarIcon className="mr-2 h-4 w-4" />
             {props.labelOverride || (
               <>
-                {date?.from ? (
-                  date.to ? (
-                    <>
-                      {format(date.from, "LLL dd, y")} -{" "}
-                      {format(date.to, "LLL dd, y")}
-                    </>
-                  ) : (
-                    format(date.from, "LLL dd, y")
-                  )
-                ) : (
-                  <span>Pick a date</span>
-                )}
+                {format(from, "LLL dd, y")} - {format(to, "LLL dd, y")}
               </>
             )}
             <ChevronDownIcon className="h-4 w-4 ml-auto" />
           </Button>
         </PopoverTrigger>
+
+        {/* Popover */}
         <PopoverContent className="w-auto p-0" align="start">
-          {props.header}
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={(options) => {
-              if (options?.from && options?.to) {
-                props.setRange({
-                  from: options.from,
-                  to: options.to,
-                });
-              }
-            }}
-            numberOfMonths={2}
-          />
-          {props.footer}
+          <DynamicHeight>
+            <div>
+              {!isValid && (
+                <p className="text-sm pt-2 justify-center text-destructive-foreground text-center flex items-center gap-2">
+                  <CalendarX2Icon className="h-4 w-4" />
+                  Invalid date range
+                </p>
+              )}
+              {props.header}
+
+              <TabButtons
+                tabClassName="!text-sm"
+                tabs={[
+                  {
+                    name: "From",
+                    onClick: () => setScreen("from"),
+                    isActive: screen === "from",
+                    isEnabled: true,
+                  },
+                  {
+                    name: "To",
+                    onClick: () => setScreen("to"),
+                    isActive: screen === "to",
+                    isEnabled: true,
+                  },
+                ]}
+              />
+
+              {screen === "from" && (
+                <Calendar
+                  key={from.toString()}
+                  mode="single"
+                  selected={from}
+                  defaultMonth={from}
+                  onSelect={(newFrom) => {
+                    if (!newFrom) {
+                      return;
+                    }
+
+                    setFrom(newFrom);
+                  }}
+                />
+              )}
+
+              {screen === "to" && (
+                <Calendar
+                  key={to.toString()}
+                  mode="single"
+                  selected={to}
+                  defaultMonth={to}
+                  onSelect={(newTo) => {
+                    if (!newTo) {
+                      return;
+                    }
+
+                    setTo(newTo);
+                  }}
+                />
+              )}
+              {props.footer}
+            </div>
+          </DynamicHeight>
         </PopoverContent>
       </Popover>
     </div>

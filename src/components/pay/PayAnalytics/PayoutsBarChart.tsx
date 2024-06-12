@@ -31,7 +31,7 @@ export function PayoutsBarChart(props: {
         <div className="min-h-[300px] flex items-center justify-center">
           <Spinner className="size-10" />
         </div>
-      ) : payoutsQuery.data ? (
+      ) : payoutsQuery.data && payoutsQuery.data.intervalResults.length > 0 ? (
         <RenderData data={payoutsQuery.data} />
       ) : (
         <div className="min-h-[300px] flex items-center justify-center">
