@@ -22,8 +22,14 @@ const volumeData: VolData[] = [
   },
 ];
 
-export function TotalVolumePieChartCard() {
+export function TotalVolumePieChartCard(props: {
+  clientId: string;
+  from: Date;
+  to: Date;
+}) {
   const totalAmount = (550).toLocaleString("en-US");
+  // eslint-disable-next-line no-console
+  console.log(props);
 
   return (
     <section className="flex flex-col lg:flex-row gap-6">

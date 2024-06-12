@@ -1,13 +1,14 @@
 /* eslint-disable react/forbid-dom-props */
-import { useId } from "react";
+import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import {
   usePayNewCustomers,
   type PayNewCustomersData,
-} from "./usePayNewUsersAnalytics";
+} from "./usePayNewCustomers";
 import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 import { Badge } from "../../../@/components/ui/badge";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
+import { IntervalSelector } from "./IntervalSelector";
 
 type GraphData = {
   date: string;
@@ -19,14 +20,16 @@ export function NewCustomersAreaChart(props: {
   from: Date;
   to: Date;
 }) {
+  const [intervalType, setIntervalType] = useState<"day" | "week">("day");
   const newCustomersQuery = usePayNewCustomers({
     clientId: props.clientId,
     from: props.from,
     to: props.to,
+    intervalType,
   });
 
   return (
-    <section>
+    <section className="relative">
       <h2 className="text-base font-medium mb-2"> New Customers </h2>
       {newCustomersQuery.isLoading ? (
         <div className="min-h-[300px] flex items-center justify-center">
@@ -38,6 +41,15 @@ export function NewCustomersAreaChart(props: {
       ) : (
         <div className="min-h-[300px] flex items-center justify-center">
           <p className="text-muted-foreground">No data available</p>
+        </div>
+      )}
+
+      {newCustomersQuery.data && (
+        <div className="absolute top-0 right-0">
+          <IntervalSelector
+            intervalType={intervalType}
+            setIntervalType={setIntervalType}
+          />
         </div>
       )}
     </section>

@@ -18,6 +18,7 @@ export function DatePickerWithRange(props: {
   setRange: (range: { from: Date; to: Date }) => void;
   className?: string;
   header?: React.ReactNode;
+  footer?: React.ReactNode;
   labelOverride?: string;
 }) {
   const date = props.range;
@@ -71,6 +72,7 @@ export function DatePickerWithRange(props: {
             }}
             numberOfMonths={2}
           />
+          {props.footer}
         </PopoverContent>
       </Popover>
     </div>

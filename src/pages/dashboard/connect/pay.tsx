@@ -194,7 +194,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
       >
         <Flex flexDir={"column"} gap={2}>
           <Heading size="title.lg" as="h1">
-            Pay Settings
+            Pay
           </Heading>
           <Text maxW="xl">
             Configure developer settings for all Pay features, including{" "}

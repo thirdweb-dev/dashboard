@@ -31,14 +31,18 @@ export function PayAnalytics(props: PayAnalyticsProps) {
   return (
     <div>
       <div className="flex">
-        <RangeSelector range={range} setRange={setRange} />
+        <Filters range={range} setRange={setRange} />
       </div>
 
       <div className="h-6" />
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
-          <TotalVolumePieChartCard />
+          <TotalVolumePieChartCard
+            clientId={clientId}
+            from={range.from}
+            to={range.to}
+          />
         </div>
         <TotalVolumeAreaChartCard />
       </GridWithSeparator>
@@ -111,14 +115,11 @@ function getLastYearRange() {
   return value;
 }
 
-function RangeSelector(props: {
-  range: Range;
-  setRange: (range: Range) => void;
-}) {
+function Filters(props: { range: Range; setRange: (range: Range) => void }) {
   const { range, setRange } = props;
 
   const presets = (
-    <div className="p-4 border-b border-border mb-2">
+    <div className="p-4 border-t border-border mt-2">
       <Select
         value={range.type}
         onValueChange={(value: string) => {
@@ -161,7 +162,7 @@ function RangeSelector(props: {
             type: "custom",
           })
         }
-        header={presets}
+        footer={presets}
         labelOverride={
           range.type === "last-week"
             ? "Last Week"

@@ -39,10 +39,19 @@ const data: Data[] = [
 ];
 
 export function PayoutsBarChart() {
-  const totalPayouts = 120;
   return (
     <section>
       <h2 className="text-base font-medium mb-2"> Payouts </h2>
+      <RenderChart />
+    </section>
+  );
+}
+
+function RenderChart() {
+  const totalPayouts = 120;
+
+  return (
+    <div>
       <p className="text-5xl tracking-tighter font-bold">
         ${totalPayouts.toLocaleString("en-US")}
       </p>
@@ -86,6 +95,6 @@ export function PayoutsBarChart() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </section>
+    </div>
   );
 }

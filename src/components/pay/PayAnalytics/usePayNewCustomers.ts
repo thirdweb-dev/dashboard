@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
-// currently only intervalType=day is supported
-// stats/aggregate/customers/v1?fromDate=123&toDate=456&intervalType=day
-
 export type PayNewCustomersData = {
-  intervalType: "day";
+  intervalType: "day" | "week";
   intervalResults: Array<{
     /**
      * Date formatted in ISO 8601 format
@@ -30,19 +27,17 @@ export function usePayNewCustomers(options: {
   clientId: string;
   from: Date;
   to: Date;
+  intervalType: "day" | "week";
 }) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
     ["pay-new-customers", user?.address, options],
     async () => {
-      // const today = new Date();
-      // const sevenDaysAgo = new Date(today);
-      // sevenDaysAgo.setDate(today.getDate() - 7);
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/aggregate/customers/v1",
       );
-      endpoint.searchParams.append("intervalType", "day");
+      endpoint.searchParams.append("intervalType", options.intervalType);
       endpoint.searchParams.append("clientId", options.clientId);
       endpoint.searchParams.append("fromDate", `${options.from.getTime()}`);
       endpoint.searchParams.append("toDate", `${options.to.getTime()}`);
