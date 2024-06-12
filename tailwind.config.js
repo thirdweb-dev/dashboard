@@ -59,6 +59,9 @@ module.exports = {
         warning: {
           foreground: "hsl(var(--warning-foreground))",
         },
+        link: {
+          foreground: "hsl(var(--link-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

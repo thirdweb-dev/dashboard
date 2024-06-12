@@ -52,13 +52,13 @@ export async function ChainListRow({
 
             {chainMetadata?.verified && (
               <ToolTipLabel label="Verified">
-                <VerifiedIcon className="text-primary-foreground size-5 z-10 " />
+                <VerifiedIcon className="text-link-foreground size-5 z-10 " />
               </ToolTipLabel>
             )}
 
             {chainMetadata?.gasSponsored && (
               <ToolTipLabel label="Gas Sponsored">
-                <TicketCheckIcon className="text-primary-foreground size-5 z-10 " />
+                <TicketCheckIcon className="text-link-foreground size-5 z-10 " />
               </ToolTipLabel>
             )}
 

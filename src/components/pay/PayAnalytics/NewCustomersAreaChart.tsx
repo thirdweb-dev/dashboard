@@ -14,8 +14,16 @@ type GraphData = {
   value: number;
 };
 
-export function NewCustomersAreaChart(props: { clientId: string }) {
-  const newCustomersQuery = usePayNewCustomers(props.clientId);
+export function NewCustomersAreaChart(props: {
+  clientId: string;
+  from: Date;
+  to: Date;
+}) {
+  const newCustomersQuery = usePayNewCustomers({
+    clientId: props.clientId,
+    from: props.from,
+    to: props.to,
+  });
 
   return (
     <section>
@@ -79,12 +87,12 @@ function RenderData(props: { data: PayNewCustomersData }) {
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor={"hsl(var(--primary-foreground))"}
+                  stopColor={"hsl(var(--link-foreground))"}
                   stopOpacity={0.3}
                 />
                 <stop
                   offset="95%"
-                  stopColor={"hsl(var(--primary-foreground))"}
+                  stopColor={"hsl(var(--link-foreground))"}
                   stopOpacity={0.0}
                 />
               </linearGradient>
@@ -110,7 +118,7 @@ function RenderData(props: { data: PayNewCustomersData }) {
             <Area
               type="monotone"
               dataKey="value"
-              stroke={`hsl(var(--primary-foreground))`}
+              stroke={`hsl(var(--link-foreground))`}
               fillOpacity={1}
               fill={`url(#${uniqueId})`}
               strokeWidth={2}

@@ -26,11 +26,15 @@ type Response = {
   };
 };
 
-export function usePayNewCustomers(clientId: string) {
+export function usePayNewCustomers(options: {
+  clientId: string;
+  from: Date;
+  to: Date;
+}) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    ["pay-new-customers", user?.address, clientId],
+    ["pay-new-customers", user?.address, options],
     async () => {
       // const today = new Date();
       // const sevenDaysAgo = new Date(today);
@@ -39,9 +43,9 @@ export function usePayNewCustomers(clientId: string) {
         "https://pay.thirdweb-dev.com/stats/aggregate/customers/v1",
       );
       endpoint.searchParams.append("intervalType", "day");
-      endpoint.searchParams.append("clientId", clientId);
-      // endpoint.searchParams.append("fromDate", `${sevenDaysAgo.getTime()}`);
-      // endpoint.searchParams.append("toDate", `${today.getTime()}`);
+      endpoint.searchParams.append("clientId", options.clientId);
+      endpoint.searchParams.append("fromDate", `${options.from.getTime()}`);
+      endpoint.searchParams.append("toDate", `${options.to.getTime()}`);
 
       const res = await fetch(endpoint.toString(), {
         method: "GET",

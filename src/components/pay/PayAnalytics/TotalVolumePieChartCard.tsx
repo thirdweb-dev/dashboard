@@ -13,7 +13,7 @@ const volumeData: VolData[] = [
   {
     name: "Buy With Crypto",
     amount: 450,
-    color: "hsl(var(--primary-foreground))",
+    color: "hsl(var(--link-foreground))",
   },
   {
     name: "Buy With Fiat",

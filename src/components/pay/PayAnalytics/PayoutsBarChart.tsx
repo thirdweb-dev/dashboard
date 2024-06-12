@@ -69,7 +69,7 @@ export function PayoutsBarChart() {
               dataKey="value"
               stroke="none"
               fillOpacity={1}
-              fill={"hsl(var(--primary-foreground))"}
+              fill={"hsl(var(--link-foreground))"}
               radius={8}
               barSize={20}
             />

@@ -46,7 +46,8 @@ function Colors() {
         <TextColorPreview className="text-secondary-foreground" />
         <TextColorPreview className="text-muted-foreground" />
         <TextColorPreview className="text-accent-foreground" />
-        <TextColorPreview className="text-primary-foreground" />
+        <TextColorPreview className="text-primary-foreground bg-primary" />
+        <TextColorPreview className="text-link-foreground" />
         <TextColorPreview className="text-success-foreground" />
         <TextColorPreview className="text-destructive-foreground" />
         <TextColorPreview className="text-card-foreground" />
@@ -75,7 +76,7 @@ function TextColorPreview(props: { className: string }) {
   return (
     <div className="grid grid-cols-2">
       <p>{props.className}</p>
-      <p className={cn("text-base", props.className)}>
+      <p className={cn("text-base p-2 rounded", props.className)}>
         The quick brown fox jumps over the lazy dog
       </p>
     </div>

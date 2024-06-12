@@ -78,14 +78,14 @@ export async function ChainListCard({
                 <>
                   {chainMetadata?.verified && (
                     <div className="gap-1.5 flex items-center">
-                      <VerifiedIcon className="text-primary-foreground size-5" />
+                      <VerifiedIcon className="text-link-foreground size-5" />
                       <p className="text-sm">Verified</p>
                     </div>
                   )}
 
                   {chainMetadata?.gasSponsored && (
                     <div className="gap-1.5 flex items-center">
-                      <TicketCheckIcon className="text-primary-foreground size-5" />
+                      <TicketCheckIcon className="text-link-foreground size-5" />
                       <p className="text-sm">Gas Sponsored</p>
                     </div>
                   )}

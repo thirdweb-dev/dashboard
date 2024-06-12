@@ -1,3 +1,12 @@
+import { useState } from "react";
+import { DatePickerWithRange } from "../../@/components/ui/DatePickerWithRange";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "../../@/components/ui/select";
 import { NewCustomersAreaChart } from "./PayAnalytics/NewCustomersAreaChart";
 import { PayoutsBarChart } from "./PayAnalytics/PayoutsBarChart";
 import { SuccessRateCard } from "./PayAnalytics/SuccessRateCard";
@@ -9,10 +18,24 @@ type PayAnalyticsProps = {
   apiKey: ApiKey;
 };
 
+type Range = {
+  type: "last-week" | "last-month" | "last-year" | "custom";
+  from: Date;
+  to: Date;
+};
+
 export function PayAnalytics(props: PayAnalyticsProps) {
   const clientId = props.apiKey.key;
+  const [range, setRange] = useState<Range>(() => getLastYearRange());
+
   return (
     <div>
+      <div className="flex">
+        <RangeSelector range={range} setRange={setRange} />
+      </div>
+
+      <div className="h-6" />
+
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
           <TotalVolumePieChartCard />
@@ -35,9 +58,120 @@ export function PayAnalytics(props: PayAnalyticsProps) {
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
-          <NewCustomersAreaChart clientId={clientId} />
+          <NewCustomersAreaChart
+            clientId={clientId}
+            from={range.from}
+            to={range.to}
+          />
         </div>
       </GridWithSeparator>
+    </div>
+  );
+}
+
+function getLastWeekRange() {
+  const today = new Date();
+  const lastWeek = new Date(today);
+  lastWeek.setDate(today.getDate() - 7);
+
+  const value: Range = {
+    type: "last-week",
+    from: lastWeek,
+    to: today,
+  };
+
+  return value;
+}
+
+function getLastMonthRange() {
+  const today = new Date();
+  const lastMonth = new Date(today);
+  lastMonth.setMonth(today.getMonth() - 1);
+
+  const value: Range = {
+    type: "last-month",
+    from: lastMonth,
+    to: today,
+  };
+
+  return value;
+}
+
+function getLastYearRange() {
+  const today = new Date();
+  const lastYear = new Date(today);
+  lastYear.setFullYear(today.getFullYear() - 1);
+
+  const value: Range = {
+    type: "last-year",
+    from: lastYear,
+    to: today,
+  };
+
+  return value;
+}
+
+function RangeSelector(props: {
+  range: Range;
+  setRange: (range: Range) => void;
+}) {
+  const { range, setRange } = props;
+
+  const presets = (
+    <div className="p-4 border-b border-border mb-2">
+      <Select
+        value={range.type}
+        onValueChange={(value: string) => {
+          if (value === "last-week") {
+            setRange(getLastWeekRange());
+          } else if (value === "last-month") {
+            setRange(getLastMonthRange());
+          } else if (value === "last-year") {
+            setRange(getLastYearRange());
+          }
+        }}
+      >
+        <SelectTrigger className="bg-transparent flex">
+          <SelectValue placeholder="Select" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="last-week">Last Week </SelectItem>
+          <SelectItem value="last-month">Last Month</SelectItem>
+          <SelectItem value="last-year">Last Year</SelectItem>
+
+          {range.type === "custom" && (
+            <SelectItem value="custom">Custom</SelectItem>
+          )}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+
+  return (
+    <div className="flex gap-2">
+      <DatePickerWithRange
+        range={{
+          from: range.from,
+          to: range.to,
+        }}
+        setRange={(r) =>
+          setRange({
+            from: r.from,
+            to: r.to,
+            type: "custom",
+          })
+        }
+        header={presets}
+        labelOverride={
+          range.type === "last-week"
+            ? "Last Week"
+            : range.type === "last-month"
+              ? "Last Month"
+              : range.type === "last-year"
+                ? "Last Year"
+                : undefined
+        }
+      />
     </div>
   );
 }
