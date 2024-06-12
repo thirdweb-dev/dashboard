@@ -64,7 +64,11 @@ export function PayAnalytics(props: PayAnalyticsProps) {
           />
         </div>
         <div className="border border-border rounded-lg p-4 xl:p-6 flex items-center">
-          <SuccessRateCard />
+          <SuccessRateCard
+            clientId={clientId}
+            from={range.from}
+            to={range.to}
+          />
         </div>
       </div>
 
