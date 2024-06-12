@@ -1,11 +1,12 @@
 import { Flex, FormControl, Input } from "@chakra-ui/react";
-import { DropContract, useAddress, useClaimNFT } from "@thirdweb-dev/react";
+import { DropContract, useClaimNFT } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import { FormErrorMessage, FormHelperText, FormLabel } from "tw-components";
+import { useActiveAccount } from "thirdweb/react";
 
 interface ClaimTabProps {
   contract: DropContract;
@@ -14,7 +15,7 @@ interface ClaimTabProps {
 
 const ClaimTab: React.FC<ClaimTabProps> = ({ contract, tokenId }) => {
   const trackEvent = useTrack();
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const form = useForm<{ to: string; amount: string }>({
     defaultValues: { amount: "1", to: address },
   });

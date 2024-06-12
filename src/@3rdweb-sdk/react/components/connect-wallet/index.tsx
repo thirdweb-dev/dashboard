@@ -3,84 +3,184 @@
 /* eslint-disable react/forbid-dom-props */
 import { popularChains } from "../popularChains";
 import { useTheme } from "next-themes";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectButton } from "thirdweb/react";
 import {
   useAddRecentlyUsedChainId,
   useRecentlyUsedChains,
 } from "hooks/chains/recentlyUsedChains";
-import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
-import { ComponentProps, useCallback } from "react";
+// import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
+import { useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTrack } from "../../../../hooks/analytics/useTrack";
-import { CustomChainRenderer } from "../../../../components/selects/CustomChainRenderer";
-import { useFavoriteChains } from "../../hooks/useFavoriteChains";
+import { useTrack } from "hooks/analytics/useTrack";
+// import { CustomChainRenderer } from "components/selects/CustomChainRenderer";
+// import { useFavouriteChains } from "app/(dashboard)/(chain)/components/client/star-button";
+// import type { Chain } from "@thirdweb-dev/chains";
+import { thirdwebClient } from "@/constants/client";
+import { THIRDWEB_API_HOST } from "constants/urls";
+import { useSupportedChains } from "@thirdweb-dev/react";
+import { defineDashboardChain } from "../../../../lib/v5-adapter";
+import { GLOBAL_AUTH_TOKEN_KEY } from "../../../../constants/app";
+import { fetchAuthToken } from "../../hooks/useApi";
 
 export interface ConnectWalletProps {
   shrinkMobile?: boolean;
   upsellTestnet?: boolean;
   onChainSelect?: (chainId: number) => void;
-  auth?: ComponentProps<typeof ConnectWallet>["auth"];
+  noAuth?: boolean;
   disableChainConfig?: boolean;
   disableAddCustomNetwork?: boolean;
 }
 
 export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({
-  auth,
-  disableChainConfig,
-  disableAddCustomNetwork,
+  noAuth,
 }) => {
   const { theme } = useTheme();
-  const recentChains = useRecentlyUsedChains();
+  const recentChainsv4 = useRecentlyUsedChains();
   const addRecentlyUsedChainId = useAddRecentlyUsedChainId();
-  const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
+  // const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
   const t = theme === "light" ? "light" : "dark";
-  const favChainsQuery = useFavoriteChains();
+  const allv4Chains = useSupportedChains();
+  // const favChainsQuery = useFavouriteChains();
+
+  // const favChains = useMemo(() => {
+  //   if (favChainsQuery.data) {
+  //     const _chains: Chain[] = [];
+  //     favChainsQuery.data.forEach((chainId) => {
+  //       const chain = allChains.find((c) => String(c.chainId) === chainId);
+  //       if (chain) {
+  //         _chains.push(chain);
+  //       }
+  //     });
+
+  //     return _chains;
+  //   }
+  // }, [favChainsQuery.data, allChains]);
+
+  const allChains = useMemo(() => {
+    return allv4Chains.map((c) => defineDashboardChain(c.chainId, c));
+  }, [allv4Chains]);
 
   return (
-    <ConnectWallet
-      auth={auth}
-      theme={t}
-      welcomeScreen={() => {
-        return <ConnectWalletWelcomeScreen theme={t} />;
-      }}
-      termsOfServiceUrl="/tos"
-      privacyPolicyUrl="/privacy"
-      hideTestnetFaucet={false}
-      networkSelector={{
-        sections: [
-          {
-            label: "Recently used",
-            chains: recentChains,
-          },
-          {
-            label: "Favorites",
-            chains: favChainsQuery.data ?? [],
-          },
-          {
-            label: "Popular",
-            chains: popularChains,
-          },
-        ],
-        onSwitch(chain) {
-          addRecentlyUsedChainId(chain.chainId);
-        },
-        onCustomClick: disableAddCustomNetwork
+    <ConnectButton
+      auth={
+        noAuth
           ? undefined
-          : () => {
-              setIsNetworkConfigModalOpen(true);
-            },
+          : {
+              getLoginPayload: async (params) => {
+                const res = await fetch(
+                  `${THIRDWEB_API_HOST}/v1/auth/payload`,
+                  {
+                    method: "POST",
+                    body: JSON.stringify({
+                      address: params.address,
+                      chainId: params.chainId.toString(),
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  },
+                );
+                if (!res.ok) {
+                  throw new Error("Failed to fetch login payload");
+                }
+                return (await res.json()).payload;
+              },
+              doLogin: async (payload) => {
+                const res = await fetch(`${THIRDWEB_API_HOST}/v1/auth/login`, {
+                  method: "POST",
+                  body: JSON.stringify({ payload }),
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
+                if (!res.ok) {
+                  throw new Error("Failed to login");
+                }
+                const json = await res.json();
 
-        renderChain(props) {
-          return (
-            <CustomChainRenderer
-              {...props}
-              disableChainConfig={disableChainConfig}
-            />
-          );
+                if (json.token) {
+                  (window as any)[GLOBAL_AUTH_TOKEN_KEY] = json.token;
+                }
+                return json;
+              },
+              doLogout: async () => {
+                // reset the token ASAP
+                (window as any)[GLOBAL_AUTH_TOKEN_KEY] = undefined;
+                const res = await fetch(`${THIRDWEB_API_HOST}/v1/auth/logout`, {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
+                if (!res.ok) {
+                  throw new Error("Failed to logout");
+                }
+                return res.json();
+              },
+              isLoggedIn: async (address) => {
+                const res = await fetch(`${THIRDWEB_API_HOST}/v1/auth/user`, {
+                  method: "GET",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
+                if (!res.ok) {
+                  throw new Error("Failed to fetch user");
+                }
+                const user = await res.json();
+
+                const { jwt } = await fetchAuthToken(address);
+                if (jwt) {
+                  (window as any)[GLOBAL_AUTH_TOKEN_KEY] = jwt;
+                }
+
+                return user;
+              },
+            }
+      }
+      theme={t}
+      client={thirdwebClient}
+      connectModal={{
+        privacyPolicyUrl: "/privacy",
+        termsOfServiceUrl: "/tos",
+        showThirdwebBranding: false,
+        welcomeScreen: () => <ConnectWalletWelcomeScreen theme={t} />,
+      }}
+      appMetadata={{
+        name: "thirdweb",
+        logoUrl: "https://thirdweb.com/favicon.ico",
+        url: "https://thirdweb.com",
+      }}
+      chains={allChains}
+      detailsModal={{
+        networkSelector: {
+          popularChainIds: popularChains.map((c) => c.chainId),
+          recentChainIds: recentChainsv4.map((c) => c.chainId),
+          onSwitch(chain) {
+            addRecentlyUsedChainId(chain.id);
+          },
+          // TODO: re-visit this
+          // onCustomClick: disableAddCustomNetwork
+          //   ? undefined
+          //   : () => {
+          //       setIsNetworkConfigModalOpen(true);
+          //     },
+
+          // TODO: re-visit this
+          // renderChain(props) {
+          //   return (
+          //     <CustomChainRenderer
+          //       {...props}
+          //       disableChainConfig={disableChainConfig}
+          //     />
+          //   );
+          // },
         },
       }}
-      showThirdwebBranding={false}
     />
   );
 };

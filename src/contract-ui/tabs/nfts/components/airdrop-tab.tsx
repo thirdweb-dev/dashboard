@@ -1,5 +1,5 @@
 import { Flex, Icon, Stack, useDisclosure } from "@chakra-ui/react";
-import { useAddress, useAirdropNFT } from "@thirdweb-dev/react";
+import { useAirdropNFT } from "@thirdweb-dev/react";
 import type { Erc1155 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
 import { Button, Text } from "tw-components";
+import { useActiveAccount } from "thirdweb/react";
 
 interface AirdropTabProps {
   contract: Erc1155;
@@ -19,7 +20,7 @@ interface AirdropTabProps {
 }
 
 const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const { handleSubmit, setValue, watch, reset, formState } = useForm<{
     addresses: AirdropAddressInput[];
   }>({

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { useAddress, useSDK, useSigner } from "@thirdweb-dev/react";
+import { useSDK, useSigner } from "@thirdweb-dev/react";
 import {
   addContractToMultiChainRegistry,
   getGaslessPolygonSDK,
@@ -14,6 +14,7 @@ import { getContract } from "thirdweb";
 import { thirdwebClient } from "lib/thirdweb-client";
 import { BasicContract } from "contract-ui/types/types";
 import { defineDashboardChain } from "lib/v5-adapter";
+import { useActiveAccount } from "thirdweb/react";
 
 const MULTICHAIN_REGISTRY_ADDRESS =
   "0xcdAD8FA86e18538aC207872E8ff3536501431B73";
@@ -94,7 +95,7 @@ type RemoveContractParams = {
 };
 
 export function useRemoveContractMutation() {
-  const walletAddress = useAddress();
+  const walletAddress = useActiveAccount()?.address;
   const signer = useSigner();
   const { chainIdToChainRecord } = useAllChainsData();
 
@@ -133,7 +134,7 @@ type AddContractParams = {
 
 export function useAddContractMutation() {
   const sdk = useSDK();
-  const walletAddress = useAddress();
+  const walletAddress = useActiveAccount()?.address;
   const signer = useSigner();
 
   const queryClient = useQueryClient();

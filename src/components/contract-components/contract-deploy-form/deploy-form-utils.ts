@@ -1,6 +1,7 @@
-import { StorageSingleton } from "lib/sdk";
+import { upload } from "thirdweb/storage";
+import { thirdwebClient } from "@/constants/client";
 
 export async function uploadContractMetadata(metadata: any) {
-  const uri = await StorageSingleton.upload(metadata);
+  const uri = await upload({ client: thirdwebClient, files: [metadata] });
   return uri;
 }

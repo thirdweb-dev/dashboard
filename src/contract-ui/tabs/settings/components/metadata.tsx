@@ -35,9 +35,10 @@ import {
   Text,
 } from "tw-components";
 import { z } from "zod";
-import { defineChain, getContract } from "thirdweb";
+import { getContract } from "thirdweb";
 import { thirdwebClient } from "../../../../lib/thirdweb-client";
 import { useInvalidatev4Contract } from "../../../../hooks/invalidate-v4-contract";
+import { defineDashboardChain } from "../../../../lib/v5-adapter";
 
 const DashboardCommonContractSchema = CommonContractSchema.extend({
   dashboard_social_urls: z.array(
@@ -154,7 +155,7 @@ export const SettingsMetadata = <
 
           const contractV5 = getContract({
             address: contract.getAddress(),
-            chain: defineChain(contract.chainId),
+            chain: defineDashboardChain(contract.chainId),
             client: thirdwebClient,
           });
           const tx = setContractMetadata({

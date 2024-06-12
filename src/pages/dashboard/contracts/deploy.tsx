@@ -12,7 +12,6 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ImportModal } from "components/contract-components/import-contract/modal";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
@@ -25,6 +24,7 @@ import { useMemo } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { useActiveAccount } from "thirdweb/react";
 
 type ContentItem = {
   title: string;
@@ -180,7 +180,7 @@ const DeployOptions = () => {
 };
 
 const Contracts: ThirdwebNextPage = () => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const deployedContracts = useAllContractList(address);
 
   const hasContracts = useMemo(

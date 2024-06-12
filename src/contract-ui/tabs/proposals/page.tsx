@@ -13,9 +13,10 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
-import { useAddress, useContract } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { useMemo } from "react";
 import { Card, Heading } from "tw-components";
+import { useActiveAccount } from "thirdweb/react";
 
 interface ProposalsPageProps {
   contractAddress?: string;
@@ -24,7 +25,7 @@ interface ProposalsPageProps {
 export const ContractProposalsPage: React.FC<ProposalsPageProps> = ({
   contractAddress,
 }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const contractQuery = useContract(contractAddress, "vote");
 
   const data = useVoteProposalList(contractQuery.contract);

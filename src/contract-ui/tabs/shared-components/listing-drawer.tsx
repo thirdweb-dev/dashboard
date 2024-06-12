@@ -12,7 +12,7 @@ import {
   Tabs,
   usePrevious,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { useActiveAccount } from "thirdweb/react";
 import type { MarketplaceV3 } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
@@ -36,7 +36,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
   data,
   type,
 }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;

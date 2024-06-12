@@ -19,7 +19,6 @@ import {
 import { UseMutationResult } from "@tanstack/react-query";
 import {
   NFTContract,
-  useAddress,
   useMintNFT,
   useSetSharedMetadata,
   useUpdateNFTMetadata,
@@ -46,6 +45,7 @@ import {
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { NFTMetadataInputLimited } from "types/modified-types";
 import { parseAttributes } from "utils/parseAttributes";
+import { useActiveAccount } from "thirdweb/react";
 
 const MINT_FORM_ID = "nft-mint-form";
 
@@ -97,7 +97,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
   updateMetadataMutation,
 }) => {
   const trackEvent = useTrack();
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const mutation =
     mintMutation ||
     lazyMintMutation ||

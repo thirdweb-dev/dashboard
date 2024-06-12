@@ -7,8 +7,9 @@ import {
   getAllValidListings,
   totalListings,
 } from "thirdweb/extensions/marketplace";
-import { defineChain, getContract } from "thirdweb";
+import { getContract } from "thirdweb";
 import { thirdwebClient } from "../../../../lib/thirdweb-client";
+import { defineDashboardChain } from "../../../../lib/v5-adapter";
 
 interface DirectListingsTableProps {
   contract: MarketplaceV3;
@@ -22,7 +23,7 @@ export const DirectListingsTable: React.FC<DirectListingsTableProps> = ({
   const contract = getContract({
     client: thirdwebClient,
     address: v4Contract.getAddress(),
-    chain: defineChain(v4Contract.chainId),
+    chain: defineDashboardChain(v4Contract.chainId),
   });
   const [queryParams, setQueryParams] = useState(DEFAULT_QUERY_STATE);
   const getAllQueryResult = useReadContract(getAllListings, {

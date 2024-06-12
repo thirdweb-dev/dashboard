@@ -16,9 +16,8 @@ import {
   Tabs,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
-import type { Abi, AbiEvent, AbiFunction } from "@thirdweb-dev/sdk";
 import { formatAbiItem } from "abitype";
+import { Abi, AbiEvent, AbiFunction } from "@thirdweb-dev/sdk";
 import {
   useContractEnabledExtensions,
   useContractEvents,
@@ -29,6 +28,7 @@ import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useMemo, useState } from "react";
+import { useActiveAccount } from "thirdweb/react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
 interface CodeOverviewProps {
@@ -535,7 +535,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const [tab, setTab] = useState("write");
 
   const enabledExtensions = useContractEnabledExtensions(abi);
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const isAccountFactory = enabledExtensions.some(

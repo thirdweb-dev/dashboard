@@ -2,13 +2,13 @@ import { TokenTransferForm } from "./transfer-form";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import {
   TokenContract,
-  useAddress,
   useContract,
   useTokenBalance,
 } from "@thirdweb-dev/react";
 import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
 import { FiSend } from "react-icons/fi";
+import { useActiveAccount } from "thirdweb/react";
 import { Button, Drawer } from "tw-components";
 
 interface TokenTransferButtonProps {
@@ -20,7 +20,7 @@ export const TokenTransferButton: React.FC<TokenTransferButtonProps> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   const tokenBalance = useTokenBalance(contractQuery.contract, address);
 

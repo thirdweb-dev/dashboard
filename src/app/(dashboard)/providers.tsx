@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { DashboardThirdwebProviderSetup } from "../../components/app-layouts/provider-setup";
 import { AllChainsProvider } from "../../contexts/all-chains";
 import { ChainsProvider } from "../../contexts/configured-chains";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const queryClient = new QueryClient();
 
@@ -13,11 +14,13 @@ export function AppRouterProviders(props: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <AllChainsProvider>
         <ChainsProvider>
-          <DashboardThirdwebProviderSetup>
-            <ThemeProvider attribute="class" defaultTheme="dark">
-              {props.children}
-            </ThemeProvider>
-          </DashboardThirdwebProviderSetup>
+          <ThirdwebProvider>
+            <DashboardThirdwebProviderSetup>
+              <ThemeProvider attribute="class" defaultTheme="dark">
+                {props.children}
+              </ThemeProvider>
+            </DashboardThirdwebProviderSetup>
+          </ThirdwebProvider>
         </ChainsProvider>
       </AllChainsProvider>
     </QueryClientProvider>

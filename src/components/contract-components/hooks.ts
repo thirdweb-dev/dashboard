@@ -24,14 +24,7 @@ import {
   ZksyncSepoliaTestnet,
   getChainByChainIdAsync,
 } from "@thirdweb-dev/chains";
-import {
-  useAddress,
-  useChainId,
-  useSDK,
-  useSDKChainId,
-  useSigner,
-  useWalletConfig,
-} from "@thirdweb-dev/react";
+import { useSDK, useSDKChainId, useSigner } from "@thirdweb-dev/react";
 import {
   FeatureName,
   FeatureWithEnabled,
@@ -59,7 +52,6 @@ import {
   getZkTransactionsForDeploy,
   zkDeployContractFromUri,
 } from "@thirdweb-dev/sdk/evm/zksync";
-import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
 import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
@@ -71,12 +63,11 @@ import { useMemo } from "react";
 import invariant from "tiny-invariant";
 import { Web3Provider } from "zksync-ethers";
 import { z } from "zod";
-
-const HEADLESS_WALLET_IDS: string[] = [
-  walletIds.localWallet,
-  walletIds.magicLink,
-  walletIds.paper,
-] as string[];
+import {
+  useActiveAccount,
+  useActiveWallet,
+  useActiveWalletChain,
+} from "thirdweb/react";
 
 interface ContractPublishMetadata {
   image: string | StaticImageData;
@@ -513,7 +504,7 @@ export function usePublishMutation() {
   // this has to actually have the signer!
   const sdk = useSDK();
 
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   return useMutationWithInvalidate(
     async ({ predeployUri, extraMetadata }: PublishMutationData) => {
@@ -539,7 +530,7 @@ export function usePublishMutation() {
 
 export function useEditProfileMutation() {
   const sdk = useSDK();
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   return useMutationWithInvalidate(
     async (data: ProfileMetadata) => {
@@ -595,15 +586,15 @@ export function useCustomContractDeployMutation(
 ) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
-  const walletAddress = useAddress();
-  const chainId = useChainId();
+  const walletAddress = useActiveAccount()?.address;
+  const chainId = useActiveWalletChain()?.id;
   const signer = useSigner();
   const deployContext = useDeployContextModal();
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const rawPredeployMetadata = useContractRawPredeployMetadataFromURI(ipfsHash);
 
-  const walletConfig = useWalletConfig();
+  const walletId = useActiveWallet()?.id;
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -612,8 +603,7 @@ export function useCustomContractDeployMutation(
         "sdk is not ready or does not support publishing",
       );
 
-      const requiresSignature =
-        HEADLESS_WALLET_IDS.indexOf(walletConfig?.id || "") === -1;
+      const requiresSignature = walletId !== "inApp";
 
       const stepDeploy = getStepDeploy(
         transactions?.length || 1,
@@ -846,7 +836,7 @@ export function useCustomContractDeployMutation(
 
 export function useTransactionsForDeploy(publishMetadataOrUri: string) {
   const sdk = useSDK();
-  const chainId = useChainId();
+  const chainId = useActiveWalletChain()?.id;
 
   const queryResult = useQuery<DeploymentTransaction[]>(
     ["transactions-for-deploy", publishMetadataOrUri, chainId],

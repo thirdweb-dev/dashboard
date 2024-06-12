@@ -3,7 +3,6 @@ import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  useAddress,
   usePrimarySaleRecipient,
   useUpdatePrimarySaleRecipient,
 } from "@thirdweb-dev/react";
@@ -25,6 +24,7 @@ import {
   Text,
 } from "tw-components";
 import { z } from "zod";
+import { useActiveAccount } from "thirdweb/react";
 
 export const SettingsPrimarySale = <
   TContract extends ValidContractInstance | undefined,
@@ -35,7 +35,7 @@ export const SettingsPrimarySale = <
   contract: TContract;
   detectedState: ExtensionDetectedState;
 }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const trackEvent = useTrack();
   const query = usePrimarySaleRecipient(contract);
   const mutation = useUpdatePrimarySaleRecipient(contract);

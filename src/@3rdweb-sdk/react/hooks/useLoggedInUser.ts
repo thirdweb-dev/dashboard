@@ -1,7 +1,8 @@
-import { useAddress, useUser } from "@thirdweb-dev/react";
+import { useUser } from "@thirdweb-dev/react";
+import { useActiveAccount } from "thirdweb/react";
 
 export function useLoggedInUser(): ReturnType<typeof useUser> {
-  const connectedAddress = useAddress();
+  const connectedAddress = useActiveAccount()?.address;
   const userQuery = useUser();
 
   // user is not considered logged in if the connected address does not match the user's address

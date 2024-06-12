@@ -11,7 +11,7 @@ import {
   PersistQueryClientProvider,
   Persister,
 } from "@tanstack/react-query-persist-client";
-import { shouldNeverPersistQuery, useAddress } from "@thirdweb-dev/react";
+import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
@@ -35,6 +35,7 @@ import { isBrowser } from "utils/isBrowser";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { isProd } from "constants/rpc";
 import { OpCreditsGrantedModalWrapper } from "components/onboarding/OpCreditsGrantedModalWrapper";
+import { useActiveAccount } from "thirdweb/react";
 
 const apolloClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_PAYMENTS_API,
@@ -176,7 +177,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
 };
 
 const SanctionedAddressesChecker: ComponentWithChildren = ({ children }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const isBlocked = useMemo(() => {
     return address && isSanctionedAddress(address);
   }, [address]);
@@ -194,7 +195,7 @@ const SanctionedAddressesChecker: ComponentWithChildren = ({ children }) => {
       >
         <Flex gap={4} direction="column" align="center">
           <Heading as="p">Address is blocked</Heading>
-          <CustomConnectWallet auth={{ loginOptional: true }} />
+          <CustomConnectWallet noAuth />
         </Flex>
       </SimpleGrid>
     );

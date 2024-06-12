@@ -1,6 +1,6 @@
+import { useActiveAccount } from "thirdweb/react";
 import { TokenSupplyLayout } from "./supply-layout";
 import {
-  useAddress,
   useContract,
   useTokenBalance,
   useTokenSupply,
@@ -13,7 +13,7 @@ interface TokenBalancesProps {
 export const TokenSupply: React.FC<TokenBalancesProps> = ({
   contractQuery,
 }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   const { data: tokenSupply, isSuccess: isTokenSupplySuccess } = useTokenSupply(
     contractQuery.contract,

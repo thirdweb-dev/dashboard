@@ -2,11 +2,7 @@ import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useAddress,
-  usePlatformFees,
-  useUpdatePlatformFees,
-} from "@thirdweb-dev/react";
+import { usePlatformFees, useUpdatePlatformFees } from "@thirdweb-dev/react";
 import {
   CommonPlatformFeeSchema,
   ValidContractInstance,
@@ -26,6 +22,7 @@ import {
   Text,
 } from "tw-components";
 import { z } from "zod";
+import { useActiveAccount } from "thirdweb/react";
 
 export const SettingsPlatformFees = <
   TContract extends ValidContractInstance | undefined,
@@ -38,7 +35,7 @@ export const SettingsPlatformFees = <
 }) => {
   const trackEvent = useTrack();
   const query = usePlatformFees(contract);
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const mutation = useUpdatePlatformFees(contract);
   const form = useForm<z.input<typeof CommonPlatformFeeSchema>>({
     resolver: zodResolver(CommonPlatformFeeSchema),

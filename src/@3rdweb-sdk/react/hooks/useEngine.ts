@@ -3,10 +3,10 @@ import { engineKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import invariant from "tiny-invariant";
 import { useApiAuthToken } from "./useApi";
-import { useAddress, useChainId } from "@thirdweb-dev/react";
 import { THIRDWEB_API_HOST } from "constants/urls";
 import { useLoggedInUser } from "./useLoggedInUser";
 import { useState } from "react";
+import { useActiveAccount, useActiveWalletChain } from "thirdweb/react";
 
 export function useEngineConnectedInstance() {
   const [instance, setInstance] = useState<EngineInstance | null>(null);
@@ -414,7 +414,7 @@ export function useEngineBackendWalletBalance(
   address: string,
 ) {
   const { token } = useApiAuthToken();
-  const chainId = useChainId();
+  const chainId = useActiveWalletChain()?.id;
 
   invariant(chainId, "chainId is required");
 
@@ -445,7 +445,7 @@ export type EngineAdmin = {
 
 export function useEnginePermissions(instance: string) {
   const { token } = useApiAuthToken();
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   return useQuery(
     engineKeys.permissions(instance),

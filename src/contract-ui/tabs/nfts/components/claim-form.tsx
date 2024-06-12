@@ -7,7 +7,7 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { DropContract, useAddress, useClaimNFT } from "@thirdweb-dev/react";
+import { DropContract, useClaimNFT } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -19,6 +19,7 @@ import {
   FormLabel,
   Heading,
 } from "tw-components";
+import { useActiveAccount } from "thirdweb/react";
 
 const CLAIM_FORM_ID = "nft-claim-form";
 interface NFTClaimFormProps {
@@ -28,7 +29,7 @@ interface NFTClaimFormProps {
 export const NFTClaimForm: React.FC<NFTClaimFormProps> = ({ contract }) => {
   const trackEvent = useTrack();
   const claim = useClaimNFT(contract);
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const {
     register,
     handleSubmit,

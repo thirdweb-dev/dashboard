@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import {
   UseContractResult,
-  useAddress,
   useContract,
   useContractType,
   useCreateAuctionListing,
@@ -51,6 +50,7 @@ import {
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { ListLabel } from "./list-label";
 import { isSimpleHashSupported } from "lib/wallet/nfts/simpleHash";
+import { useActiveAccount } from "thirdweb/react";
 
 interface ListForm
   extends Omit<NewDirectListing, "type">,
@@ -123,7 +123,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
   });
 
   const { contract } = useContract(form.watch("contractAddress"));
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const { data: ownedNFTs, isLoading: isOwnedNFTsLoading } = useOwnedNFTs(
     contract,
     address,

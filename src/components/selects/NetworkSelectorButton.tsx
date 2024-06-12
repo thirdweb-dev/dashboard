@@ -1,7 +1,7 @@
 import { CustomChainRenderer } from "./CustomChainRenderer";
 import { popularChains } from "@3rdweb-sdk/react/components/popularChains";
 import { useColorMode } from "@chakra-ui/react";
-import { NetworkSelector, useChain, useWallet } from "@thirdweb-dev/react";
+import { NetworkSelector } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import { useSupportedChains } from "hooks/chains/configureChains";
@@ -14,6 +14,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "tw-components";
 import { useFavoriteChains } from "../../@3rdweb-sdk/react/hooks/useFavoriteChains";
+import { useActiveWallet } from "thirdweb/react";
+import { useActiveChainAsDashboardChain } from "../../lib/v5-adapter";
 
 interface NetworkSelectorButtonProps {
   disabledChainIds?: number[];
@@ -70,7 +72,7 @@ export const NetworkSelectorButton: React.FC<NetworkSelectorButtonProps> = ({
     }
   }, [recentlyUsedChains, disabledChainIds, networksEnabled]);
 
-  const chain = useChain();
+  const chain = useActiveChainAsDashboardChain();
   const prevChain = useRef(chain);
 
   // handle switch network done from wallet app/extension
@@ -89,7 +91,7 @@ export const NetworkSelectorButton: React.FC<NetworkSelectorButtonProps> = ({
     }
   }, [chain, onSwitchChain, addRecentlyUsedChains]);
 
-  const wallet = useWallet();
+  const wallet = useActiveWallet();
 
   return (
     <>

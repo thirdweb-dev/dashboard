@@ -1,11 +1,12 @@
 import { FormControl, Input, Stack } from "@chakra-ui/react";
-import { useAddress, useMintNFTSupply } from "@thirdweb-dev/react";
+import { useMintNFTSupply } from "@thirdweb-dev/react";
 import { Erc1155 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import { FormErrorMessage, FormHelperText, FormLabel } from "tw-components";
+import { useActiveAccount } from "thirdweb/react";
 
 interface MintSupplyTabProps {
   contract: Erc1155;
@@ -23,7 +24,7 @@ const MintSupplyTab: React.FC<MintSupplyTabProps> = ({ contract, tokenId }) => {
     defaultValues: { amount: "1" },
   });
 
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const mintSupply = useMintNFTSupply(contract);
 
   const { onSuccess, onError } = useTxNotifications(

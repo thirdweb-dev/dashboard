@@ -22,8 +22,8 @@ import { ApplyForOpCreditsModal } from "./ApplyForOpCreditsModal";
 import { StaticImageData } from "next/image";
 import { ChakraNextImage } from "components/Image";
 import { CustomConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { useChainId } from "@thirdweb-dev/react";
 import { OPSponsoredChains } from "../../constants/chains";
+import { useActiveWalletChain } from "thirdweb/react";
 
 enum Step {
   Keys = "keys",
@@ -91,7 +91,7 @@ export const OnboardingSteps: React.FC<OnboardingStepsProps> = ({
     return apiKeysQuery?.data && apiKeysQuery?.data?.length > 0;
   }, [apiKeysQuery?.data]);
 
-  const chainId = useChainId();
+  const chainId = useActiveWalletChain()?.id;
 
   const isSponsoredChain = useMemo(() => {
     if (chainId) {

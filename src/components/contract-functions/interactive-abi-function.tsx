@@ -8,7 +8,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useAddress, useContractWrite } from "@thirdweb-dev/react";
+import { useContractWrite } from "@thirdweb-dev/react";
 import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
@@ -18,6 +18,7 @@ import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useId, useMemo } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { FiPlay } from "react-icons/fi";
+import { useActiveAccount } from "thirdweb/react";
 import invariant from "tiny-invariant";
 import {
   Button,
@@ -169,7 +170,8 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
 
   const error = isView ? readError : mutationError;
 
-  const connectedWalletAddress = useAddress() || constants.AddressZero;
+  const connectedWalletAddress =
+    useActiveAccount()?.address || constants.AddressZero;
 
   // legitimate(?) use-case
   // eslint-disable-next-line no-restricted-syntax

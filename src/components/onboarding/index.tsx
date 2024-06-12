@@ -12,11 +12,10 @@ import { useRouter } from "next/router";
 import { OnboardingBilling } from "./Billing";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLoggedInUser } from "@3rdweb-sdk/react/hooks/useLoggedInUser";
-import { useWallet } from "@thirdweb-dev/react";
 import { getLatestEWSToken } from "constants/app";
-import { walletIds } from "@thirdweb-dev/wallets";
 import { OnboardingChoosePlan } from "./ChoosePlan";
 import { OnboardingLinkWallet } from "./LinkWallet";
+import { useActiveWallet } from "thirdweb/react";
 
 const skipBilling = (account: Account) => {
   return (
@@ -41,14 +40,14 @@ export const Onboarding: React.FC = () => {
   const router = useRouter();
   const { isLoggedIn } = useLoggedInUser();
   const trackEvent = useTrack();
-  const wallet = useWallet();
+  const wallet = useActiveWallet();
   const ewsConfirmMutation = useConfirmEmbeddedWallet();
 
   const [state, setState] = useState<OnboardingState>();
   const [account, setAccount] = useState<Account>();
   const [updatedEmail, setUpdatedEmail] = useState<string | undefined>();
 
-  const isEmbeddedWallet = wallet?.walletId === walletIds.embeddedWallet;
+  const isInAppWallet = wallet?.id === "inApp";
 
   const handleSave = (email?: string) => {
     // if account is not ready yet we cannot do anything here
@@ -163,7 +162,7 @@ export const Onboarding: React.FC = () => {
     // user hasn't confirmed email
     if (!account.emailConfirmedAt && !account.unconfirmedEmail) {
       // if its an embedded wallet, try to auto-confirm it
-      if (isEmbeddedWallet) {
+      if (isInAppWallet) {
         handleEmbeddedWalletConfirmation();
       } else {
         setState("onboarding");

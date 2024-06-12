@@ -3,7 +3,6 @@ import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  useAddress,
   useRoyaltySettings,
   useUpdateRoyaltySettings,
 } from "@thirdweb-dev/react";
@@ -23,6 +22,7 @@ import {
   Text,
 } from "tw-components";
 import { z } from "zod";
+import { useActiveAccount } from "thirdweb/react";
 
 export const SettingsRoyalties = <
   TContract extends ValidContractInstance | undefined,
@@ -42,7 +42,7 @@ export const SettingsRoyalties = <
     defaultValues: query.data,
     values: query.data,
   });
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
 
   const { onSuccess, onError } = useTxNotifications(
     "Royalty settings updated",

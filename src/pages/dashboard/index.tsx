@@ -1,5 +1,4 @@
 import { Flex, GridItem, SimpleGrid, VStack } from "@chakra-ui/react";
-import { useConnectionStatus } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { FTUX } from "components/FTUX/FTUX";
 import { AppLayout } from "components/app-layouts/app";
@@ -11,6 +10,7 @@ import { PRODUCTS } from "components/product-pages/common/nav/data";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
+import { useActiveWalletConnectionStatus } from "thirdweb/react";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "dashboard";
@@ -18,11 +18,10 @@ const TRACKING_CATEGORY = "dashboard";
 const Dashboard: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) => {
-  const connectionStatus = useConnectionStatus();
+  const connectionStatus = useActiveWalletConnectionStatus();
 
-  const showFTUX =
-    connectionStatus !== "connected" && connectionStatus !== "connecting";
-  const isLoading = connectionStatus === "unknown";
+  const showFTUX = connectionStatus !== "connected";
+  const isLoading = connectionStatus === "connecting";
 
   return (
     <Flex flexDir="column" gap={4}>

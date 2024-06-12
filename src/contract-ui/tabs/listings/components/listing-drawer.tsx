@@ -10,7 +10,7 @@ import {
   Tabs,
   usePrevious,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { useActiveAccount } from "thirdweb/react";
 import type {
   AuctionListing,
   DirectListing,
@@ -34,7 +34,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
   data,
   contract,
 }) => {
-  const address = useAddress();
+  const address = useActiveAccount()?.address;
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;
