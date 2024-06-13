@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { TabButtons } from "../../../@/components/ui/tabs";
 import { LoadingGraph, NoDataAvailable } from "./common";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 
@@ -16,7 +18,8 @@ export function SuccessRateCard(props: {
 
   return (
     <div className="w-full">
-      <h2 className="text-lg font-medium mb-2"> Payments </h2>
+      <h2 className="text-base font-medium"> Payments </h2>
+
       {payoutsQuery.isLoading ? (
         <LoadingGraph />
       ) : payoutsQuery.data ? (
@@ -29,35 +32,100 @@ export function SuccessRateCard(props: {
 }
 
 function RenderData(props: { data: PayVolumeData }) {
-  const succeeded = props.data.aggregate.sum.succeeded;
-  const failed = props.data.aggregate.sum.failed;
-  const total = succeeded + failed;
-  const rate = (succeeded / (succeeded + failed)) * 100;
+  type Data = {
+    succeeded: number;
+    failed: number;
+    rate: number;
+    total: number;
+  };
 
-  if (total === 0) {
-    return <NoDataAvailable />;
+  const [activeTab, setActiveTab] = useState<"all" | "crypto" | "fiat">("all");
+
+  function getData(tab: "all" | "crypto" | "fiat"): Data {
+    const aggregated = props.data.aggregate;
+
+    if (tab === "all") {
+      const succeeded = aggregated.sum.succeeded.count;
+      const failed = aggregated.sum.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      return { succeeded, failed, rate, total };
+    }
+
+    if (tab === "crypto") {
+      const succeeded = aggregated.buyWithCrypto.succeeded.count;
+      const failed = aggregated.buyWithCrypto.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      return { succeeded, failed, rate, total };
+    }
+
+    if (tab === "fiat") {
+      const succeeded = aggregated.buyWithFiat.succeeded.count;
+      const failed = aggregated.buyWithFiat.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      return { succeeded, failed, rate, total };
+    }
+
+    throw new Error("Invalid tab");
   }
+
+  const data = getData(activeTab);
 
   return (
     <div>
-      <Bar rate={rate} />
-      <div className="h-12" />
-      <InfoRow label="Succeeded" type="success" amount={succeeded} />
-      <div className="h-2" />
-      <InfoRow label="Failed" type="failure" amount={failed} />
+      <div className="h-3" />
+
+      <TabButtons
+        tabs={[
+          {
+            name: "Total",
+            isActive: activeTab === "all",
+            onClick: () => setActiveTab("all"),
+            isEnabled: true,
+          },
+          {
+            name: "Crypto",
+            isActive: activeTab === "crypto",
+            onClick: () => setActiveTab("crypto"),
+            isEnabled: true,
+          },
+          {
+            name: "Fiat",
+            isActive: activeTab === "fiat",
+            onClick: () => setActiveTab("fiat"),
+            isEnabled: true,
+          },
+        ]}
+      />
+
+      {data.total === 0 ? (
+        <NoDataAvailable />
+      ) : (
+        <>
+          <div className="h-10" />
+          <Bar rate={data.rate} />
+          <div className="h-6" />
+          <InfoRow label="Succeeded" type="success" amount={data.succeeded} />
+          <div className="h-3" />
+          <InfoRow label="Failed" type="failure" amount={data.failed} />
+        </>
+      )}
     </div>
   );
 }
 
 function Bar(props: { rate: number }) {
   return (
-    <div className="flex items-center gap-1 bg-destructive-foreground rounded-lg overflow-hidden">
+    <div className="flex items-center rounded-lg overflow-hidden">
       <div
-        className="h-6 bg-success-foreground"
+        className="h-6 bg-success-foreground transition-all"
         style={{
           width: `${props.rate}%`,
         }}
       />
+      <div className="h-6 bg-destructive-foreground flex-1 transition-all" />
     </div>
   );
 }
@@ -77,9 +145,9 @@ function InfoRow(props: {
               : "bg-destructive-foreground"
           }`}
         />
-        <p className="text-lg text-secondary-foreground">{props.label}</p>
+        <p className="text-base text-secondary-foreground">{props.label}</p>
       </div>
-      <p className="text-lg font-medium">
+      <p className="text-base font-medium">
         ${props.amount.toLocaleString("en-US")}
       </p>
     </div>

@@ -2,29 +2,38 @@ import { useQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 type AggregatedData = {
-  succeeded: number;
-  failed: number;
-  bpsIncreaseFromPriorRange: number;
+  succeeded: {
+    amountUSDCents: number;
+    count: number;
+    bpsIncreaseFromPriorRange: number;
+  };
+  failed: {
+    amountUSDCents: number;
+    count: number;
+  };
+};
+
+type IntervalResultNode = {
+  failed: {
+    amountUSDCents: number;
+    count: number;
+  };
+  succeeded: {
+    amountUSDCents: number;
+    count: number;
+  };
 };
 
 export type PayVolumeData = {
   intervalType: "day" | "week";
   intervalResults: Array<{
     interval: string;
-    buyWithCrypto: {
-      succeeded: number;
-      failed: number;
-    };
-    buyWithFiat: {
-      succeeded: number;
-      failed: number;
-    };
-    sum: {
-      succeeded: number;
-      failed: number;
-    };
+    buyWithCrypto: IntervalResultNode;
+    buyWithFiat: IntervalResultNode;
+    sum: IntervalResultNode;
     payouts: {
-      succeeded: number;
+      amountUSDCents: number;
+      count: number;
     };
   }>;
   aggregate: {
@@ -32,7 +41,8 @@ export type PayVolumeData = {
     buyWithFiat: AggregatedData;
     sum: AggregatedData;
     payouts: {
-      succeeded: number;
+      amountUSDCents: number;
+      count: number;
       bpsIncreaseFromPriorRange: number;
     };
   };
@@ -76,6 +86,7 @@ export function usePayVolume(options: {
       }
 
       const resJSON = (await res.json()) as Response;
+
       return resJSON.result.data;
     },
     { enabled: !!user?.address && isLoggedIn },

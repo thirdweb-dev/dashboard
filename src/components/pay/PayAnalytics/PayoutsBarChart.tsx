@@ -47,10 +47,10 @@ function RenderData(props: {
   intervalType: "day" | "week";
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
-  const totalPayouts = props.data.aggregate.sum.succeeded;
+  const totalPayouts = props.data.aggregate.payouts.count;
   const data: GraphData[] = props.data.intervalResults.map((result) => ({
     date: new Date(result.interval).toLocaleDateString(),
-    value: result.payouts.succeeded,
+    value: result.payouts.count,
   }));
 
   if (totalPayouts === 0) {
