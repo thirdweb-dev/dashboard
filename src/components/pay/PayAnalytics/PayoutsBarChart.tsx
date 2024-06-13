@@ -3,7 +3,13 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 import { useState } from "react";
 import { IntervalSelector } from "./IntervalSelector";
-import { LoadingGraph, NoDataAvailable } from "./common";
+import {
+  CardHeading,
+  ChangeBadge,
+  LoadingGraph,
+  NoDataAvailable,
+} from "./common";
+import { format } from "date-fns";
 
 type GraphData = {
   date: string;
@@ -25,7 +31,7 @@ export function PayoutsBarChart(props: {
 
   return (
     <section className="relative">
-      <h2 className="text-base font-medium mb-2"> Payouts </h2>
+      <CardHeading>Payouts</CardHeading>
 
       {payoutsQuery.isLoading ? (
         <LoadingGraph />
@@ -47,13 +53,13 @@ function RenderData(props: {
   intervalType: "day" | "week";
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
-  const totalPayouts = props.data.aggregate.payouts.count;
+  const totalPayoutsUSD = props.data.aggregate.payouts.amountUSDCents / 100;
   const data: GraphData[] = props.data.intervalResults.map((result) => ({
-    date: new Date(result.interval).toLocaleDateString(),
-    value: result.payouts.count,
+    date: format(new Date(result.interval), "LLL dd"),
+    value: result.payouts.amountUSDCents / 100,
   }));
 
-  if (totalPayouts === 0) {
+  if (totalPayoutsUSD === 0) {
     return (
       <div className="h-[250px] flex items-center justify-center">
         <p className="text-muted-foreground">No data available</p>
@@ -63,9 +69,17 @@ function RenderData(props: {
 
   return (
     <div>
-      <p className="text-5xl tracking-tighter font-bold">
-        {totalPayouts.toLocaleString("en-US")}
-      </p>
+      <div className="flex items-center gap-3">
+        <p className="text-5xl tracking-tighter font-bold">
+          {totalPayoutsUSD.toLocaleString("en-US", {
+            currency: "USD",
+            style: "currency",
+          })}
+        </p>
+        <ChangeBadge
+          percent={props.data.aggregate.payouts.bpsIncreaseFromPriorRange}
+        />
+      </div>
 
       <div className="relative flex justify-center w-full">
         <ResponsiveContainer width="100%" height={200}>
@@ -81,7 +95,10 @@ function RenderData(props: {
                       {payload?.date}
                     </p>
                     <p className="text-medium text-base">
-                      Payouts: {payload?.value}
+                      {payload?.value.toLocaleString("en-US", {
+                        currency: "USD",
+                        style: "currency",
+                      })}
                     </p>
                   </div>
                 );
@@ -101,10 +118,9 @@ function RenderData(props: {
               dataKey="date"
               axisLine={false}
               tickLine={false}
-              interval="preserveStartEnd"
-              className="text-sm font-sans"
-              dy={10}
+              className="text-xs font-sans"
               stroke="hsl(var(--muted-foreground))"
+              dy={10}
             />
           </BarChart>
         </ResponsiveContainer>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TabButtons } from "../../../@/components/ui/tabs";
-import { LoadingGraph, NoDataAvailable } from "./common";
+import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 
 /* eslint-disable react/forbid-dom-props */
@@ -9,7 +9,7 @@ export function SuccessRateCard(props: {
   from: Date;
   to: Date;
 }) {
-  const payoutsQuery = usePayVolume({
+  const volumeQuery = usePayVolume({
     clientId: props.clientId,
     from: props.from,
     to: props.to,
@@ -18,12 +18,11 @@ export function SuccessRateCard(props: {
 
   return (
     <div className="w-full">
-      <h2 className="text-base font-medium"> Payments </h2>
-
-      {payoutsQuery.isLoading ? (
+      <CardHeading> Payments </CardHeading>
+      {volumeQuery.isLoading ? (
         <LoadingGraph />
-      ) : payoutsQuery.data ? (
-        <RenderData data={payoutsQuery.data} />
+      ) : volumeQuery.data ? (
+        <RenderData data={volumeQuery.data} />
       ) : (
         <NoDataAvailable />
       )}
@@ -148,7 +147,10 @@ function InfoRow(props: {
         <p className="text-base text-secondary-foreground">{props.label}</p>
       </div>
       <p className="text-base font-medium">
-        ${props.amount.toLocaleString("en-US")}
+        {props.amount.toLocaleString("en-US", {
+          currency: "USD",
+          style: "currency",
+        })}
       </p>
     </div>
   );

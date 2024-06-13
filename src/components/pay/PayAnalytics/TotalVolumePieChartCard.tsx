@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-dom-props */
 import { Pie, PieChart, Cell } from "recharts";
 import { cn } from "@/lib/utils";
-import { usePayVolume } from "./usePayVolume";
+import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 import { LoadingGraph, NoDataAvailable } from "./common";
 
 type VolData = {
@@ -22,38 +22,44 @@ export function TotalVolumePieChartCard(props: {
     to: props.to,
   });
 
-  if (volumeQuery.isLoading) {
-    return <LoadingGraph />;
-  }
+  return (
+    <section className="w-full">
+      {volumeQuery.isLoading ? (
+        <LoadingGraph />
+      ) : volumeQuery.data ? (
+        <RenderData data={volumeQuery.data} />
+      ) : (
+        <NoDataAvailable />
+      )}
+    </section>
+  );
+}
 
-  if (!volumeQuery.data) {
-    return <NoDataAvailable />;
-  }
-
+function RenderData(props: { data: PayVolumeData }) {
   const cryptoTotalUSD = Math.ceil(
-    volumeQuery.data.aggregate.buyWithCrypto.succeeded.amountUSDCents / 100,
+    props.data.aggregate.buyWithCrypto.succeeded.amountUSDCents / 100,
   );
   const fiatTotalUSD = Math.ceil(
-    volumeQuery.data.aggregate.buyWithFiat.succeeded.amountUSDCents / 100,
+    props.data.aggregate.buyWithFiat.succeeded.amountUSDCents / 100,
   );
 
   const totalAmount = cryptoTotalUSD + fiatTotalUSD;
 
   const volumeData: VolData[] = [
     {
-      name: "Buy With Crypto",
+      name: "Crypto",
       amount: cryptoTotalUSD,
       color: "hsl(var(--link-foreground))",
     },
     {
-      name: "Buy With Fiat",
+      name: "Fiat",
       amount: fiatTotalUSD,
       color: "hsl(var(--foreground))",
     },
   ];
 
   return (
-    <section className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col lg:flex-row gap-6">
       <div className="relative flex justify-center">
         <PieChart width={250} height={250}>
           <Pie
@@ -86,7 +92,10 @@ export function TotalVolumePieChartCard(props: {
                 `${totalAmount}`.length > 6 ? "text-3xl" : "text-4xl",
               )}
             >
-              ${totalAmount.toLocaleString("en-US")}
+              {totalAmount.toLocaleString("en-US", {
+                currency: "USD",
+                style: "currency",
+              })}
             </p>
           </div>
         </div>
@@ -103,7 +112,7 @@ export function TotalVolumePieChartCard(props: {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -121,7 +130,10 @@ function VolumeLegend(props: { color: string; label: string; amount: number }) {
           {props.label}
         </p>
         <p className="text-2xl text-foreground font-semibold tracking-tight">
-          ${props.amount.toLocaleString("en-US")}
+          {props.amount.toLocaleString("en-US", {
+            currency: "USD",
+            style: "currency",
+          })}
         </p>
       </div>
     </div>

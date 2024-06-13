@@ -5,10 +5,14 @@ import {
   usePayNewCustomers,
   type PayNewCustomersData,
 } from "./usePayNewCustomers";
-import { Badge } from "../../../@/components/ui/badge";
-import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { IntervalSelector } from "./IntervalSelector";
-import { LoadingGraph, NoDataAvailable } from "./common";
+import {
+  CardHeading,
+  ChangeBadge,
+  LoadingGraph,
+  NoDataAvailable,
+} from "./common";
+import { format } from "date-fns";
 
 type GraphData = {
   date: string;
@@ -30,7 +34,7 @@ export function NewCustomersAreaChart(props: {
 
   return (
     <section className="relative">
-      <h2 className="text-base font-medium mb-2"> New Customers </h2>
+      <CardHeading>New Customers </CardHeading>
       {newCustomersQuery.isLoading ? (
         <LoadingGraph />
       ) : newCustomersQuery.data &&
@@ -56,15 +60,12 @@ function RenderData(props: {
 
   const newCusomtersData: GraphData[] = props.data.intervalResults.map((x) => {
     return {
-      date: new Date(x.interval).toLocaleDateString(),
+      date: format(new Date(x.interval), "LLL dd"),
       value: x.distinctCustomers,
     };
   });
 
   const totalNewCustomers = props.data.aggregate.distinctCustomers;
-
-  const percentChangeSinceLastInterval =
-    props.data.aggregate.bpsIncreaseFromPriorRange * 100;
 
   if (totalNewCustomers === 0) {
     return (
@@ -80,19 +81,9 @@ function RenderData(props: {
         <p className="text-5xl tracking-tighter font-bold">
           {totalNewCustomers}
         </p>
-        <Badge
-          variant={
-            percentChangeSinceLastInterval >= 0 ? "success" : "destructive"
-          }
-          className="text-lg gap-1"
-        >
-          {percentChangeSinceLastInterval >= 0 ? (
-            <ArrowUpIcon className="size-4 " />
-          ) : (
-            <ArrowDownIcon className="size-4" />
-          )}
-          {percentChangeSinceLastInterval.toFixed(1)}%
-        </Badge>
+        <ChangeBadge
+          percent={props.data.aggregate.bpsIncreaseFromPriorRange / 100}
+        />
       </div>
 
       <div className="relative flex justify-center w-full ">
@@ -144,10 +135,9 @@ function RenderData(props: {
               dataKey="date"
               axisLine={false}
               tickLine={false}
-              interval="preserveStartEnd"
-              className="text-sm font-sans mt-5"
+              className="text-xs font-sans mt-5"
               stroke="hsl(var(--muted-foreground))"
-              tickMargin={12}
+              dy={12}
             />
           </AreaChart>
         </ResponsiveContainer>

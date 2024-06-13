@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
+// TODO: validate type against the result
+
 export type PayPurchasesData = {
   count: number;
   purchases: Array<{
