@@ -63,6 +63,8 @@ export function TabButtons(props: {
     icon?: React.FC<{ className?: string }>;
   }[];
   tabClassName?: string;
+  activeTabClassName?: string;
+  tabContainerClassName?: string;
 }) {
   const { containerRef, lineRef, activeTabRef } =
     useUnderline<HTMLButtonElement>();
@@ -70,7 +72,10 @@ export function TabButtons(props: {
   return (
     <div className="relative">
       <ScrollShadow scrollableClassName="pb-[8px] relative">
-        <div className="flex" ref={containerRef}>
+        <div
+          className={cn("flex", props.tabContainerClassName)}
+          ref={containerRef}
+        >
           {props.tabs.map((tab) => {
             return (
               <Button
@@ -83,6 +88,7 @@ export function TabButtons(props: {
                     "text-muted-foreground hover:text-foreground",
                   !tab.isEnabled && "cursor-not-allowed opacity-50",
                   props.tabClassName,
+                  tab.isActive && props.activeTabClassName,
                 )}
                 onClick={tab.isEnabled ? tab.onClick : undefined}
               >

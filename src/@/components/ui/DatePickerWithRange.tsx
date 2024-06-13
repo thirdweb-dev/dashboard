@@ -16,7 +16,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { date } from "zod";
 import { TabButtons } from "./tabs";
 import { DynamicHeight } from "./DynamicHeight";
 
@@ -54,7 +53,6 @@ export function DatePickerWithRange(props: {
             variant={"outline"}
             className={cn(
               "min-w-[200px] justify-start text-left font-normal gap-1",
-              !date && "text-muted-foreground",
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -79,36 +77,46 @@ export function DatePickerWithRange(props: {
               )}
               {props.header}
 
-              <TabButtons
-                tabClassName="!text-sm"
-                tabs={[
-                  {
-                    name: "From",
-                    onClick: () => setScreen("from"),
-                    isActive: screen === "from",
-                    isEnabled: true,
-                  },
-                  {
-                    name: "To",
-                    onClick: () => setScreen("to"),
-                    isActive: screen === "to",
-                    isEnabled: true,
-                  },
-                ]}
-              />
+              <div className="px-4">
+                <TabButtons
+                  tabClassName="!text-sm"
+                  activeTabClassName="!bg-inverted !text-inverted-foreground"
+                  tabContainerClassName="gap-2"
+                  tabs={[
+                    {
+                      name: "From",
+                      onClick: () => setScreen("from"),
+                      isActive: screen === "from",
+                      isEnabled: true,
+                    },
+                    {
+                      name: "To",
+                      onClick: () => setScreen("to"),
+                      isActive: screen === "to",
+                      isEnabled: true,
+                    },
+                  ]}
+                />
+              </div>
 
               {screen === "from" && (
                 <Calendar
                   key={from.toString()}
-                  mode="single"
-                  selected={from}
+                  mode="range"
+                  selected={{
+                    from,
+                    to,
+                  }}
                   defaultMonth={from}
-                  onSelect={(newFrom) => {
-                    if (!newFrom) {
-                      return;
+                  onDayClick={(newFrom) => {
+                    if (isBefore(newFrom, to)) {
+                      setFrom(newFrom);
                     }
-
-                    setFrom(newFrom);
+                  }}
+                  classNames={{
+                    day_range_start: "!bg-inverted",
+                    day_range_end:
+                      "!bg-inverted/20 !text-inverted pointer-events-none",
                   }}
                 />
               )}
@@ -116,15 +124,21 @@ export function DatePickerWithRange(props: {
               {screen === "to" && (
                 <Calendar
                   key={to.toString()}
-                  mode="single"
-                  selected={to}
+                  mode="range"
+                  selected={{
+                    from,
+                    to,
+                  }}
                   defaultMonth={to}
-                  onSelect={(newTo) => {
-                    if (!newTo) {
-                      return;
+                  onDayClick={(newTo) => {
+                    if (isBefore(from, newTo)) {
+                      setTo(newTo);
                     }
-
-                    setTo(newTo);
+                  }}
+                  classNames={{
+                    day_range_end: "!bg-inverted",
+                    day_range_start:
+                      "!bg-inverted/20 !text-inverted pointer-events-none",
                   }}
                 />
               )}

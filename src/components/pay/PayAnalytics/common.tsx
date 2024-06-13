@@ -11,7 +11,7 @@ export function NoDataAvailable() {
 export function LoadingGraph() {
   return (
     <div className="h-[250px] flex items-center justify-center">
-      <Spinner className="size-10" />
+      <Spinner className="size-14" />
     </div>
   );
 }
