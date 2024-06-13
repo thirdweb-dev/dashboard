@@ -1,6 +1,8 @@
 /* eslint-disable react/forbid-dom-props */
 import { Pie, PieChart, Cell } from "recharts";
 import { cn } from "@/lib/utils";
+import { usePayVolume } from "./usePayVolume";
+import { LoadingGraph, NoDataAvailable } from "./common";
 
 type VolData = {
   name: string;
@@ -8,28 +10,47 @@ type VolData = {
   color: string;
 };
 
-// TODO: Replace this with actual data
-const volumeData: VolData[] = [
-  {
-    name: "Buy With Crypto",
-    amount: 450,
-    color: "hsl(var(--link-foreground))",
-  },
-  {
-    name: "Buy With Fiat",
-    amount: 100,
-    color: "hsl(var(--foreground))",
-  },
-];
-
 export function TotalVolumePieChartCard(props: {
   clientId: string;
   from: Date;
   to: Date;
 }) {
-  const totalAmount = (550).toLocaleString("en-US");
-  // eslint-disable-next-line no-console
-  console.log(props);
+  const volumeQuery = usePayVolume({
+    clientId: props.clientId,
+    from: props.from,
+    intervalType: "day",
+    to: props.to,
+  });
+
+  if (volumeQuery.isLoading) {
+    return <LoadingGraph />;
+  }
+
+  if (!volumeQuery.data) {
+    return <NoDataAvailable />;
+  }
+
+  const cryptoTotalUSD = Math.ceil(
+    volumeQuery.data.aggregate.buyWithCrypto.succeeded.amountUSDCents / 100,
+  );
+  const fiatTotalUSD = Math.ceil(
+    volumeQuery.data.aggregate.buyWithFiat.succeeded.amountUSDCents / 100,
+  );
+
+  const totalAmount = cryptoTotalUSD + fiatTotalUSD;
+
+  const volumeData: VolData[] = [
+    {
+      name: "Buy With Crypto",
+      amount: cryptoTotalUSD,
+      color: "hsl(var(--link-foreground))",
+    },
+    {
+      name: "Buy With Fiat",
+      amount: fiatTotalUSD,
+      color: "hsl(var(--foreground))",
+    },
+  ];
 
   return (
     <section className="flex flex-col lg:flex-row gap-6">
@@ -62,10 +83,10 @@ export function TotalVolumePieChartCard(props: {
             <p
               className={cn(
                 "text-3xl font-semibold tracking-tighter",
-                totalAmount.length > 6 ? "text-3xl" : "text-4xl",
+                `${totalAmount}`.length > 6 ? "text-3xl" : "text-4xl",
               )}
             >
-              ${totalAmount}
+              ${totalAmount.toLocaleString("en-US")}
             </p>
           </div>
         </div>
