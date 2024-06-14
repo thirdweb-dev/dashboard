@@ -36,7 +36,7 @@ export function PayAnalytics(props: { apiKey: ApiKey }) {
         <Filters range={range} setRange={setRange} />
       </div>
 
-      <div className="h-6" />
+      <div className="h-4" />
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none flex items-center">

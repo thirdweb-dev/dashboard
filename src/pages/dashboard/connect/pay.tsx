@@ -33,6 +33,7 @@ import { PaymentContracts } from "components/payments/contracts/payment-contract
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
 import { PayAnalytics } from "../../../components/pay/PayAnalytics";
+import { TabButtons } from "../../../@/components/ui/tabs";
 
 const TRACKING_CATEGORY = "pay";
 
@@ -265,31 +266,68 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
           </TabPanels>
         </Tabs>
       ) : (
-        <>
-          {!hasPayApiKeys && (
-            <NoApiKeys
-              service="Pay in Connect"
-              buttonTextOverride={hasApiKeys ? "Enable Pay" : undefined}
-              copyOverride={
-                hasApiKeys
-                  ? "You'll need to enable pay as a service in an API Key to use Pay."
-                  : undefined
-              }
-            />
-          )}
-
-          {hasPayApiKeys && selectedKey && (
-            <div>
-              <PayConfig apiKey={selectedKey} />
-              <div className="h-10" />
-              <PayAnalytics apiKey={selectedKey} />
-            </div>
-          )}
-        </>
+        <PayUI
+          hasPayApiKeys={hasPayApiKeys}
+          hasApiKeys={hasApiKeys}
+          selectedKey={selectedKey}
+        />
       )}
     </Flex>
   );
 };
+
+function PayUI(props: {
+  hasPayApiKeys: boolean;
+  hasApiKeys: boolean;
+  selectedKey: ApiKey | undefined;
+}) {
+  const { hasPayApiKeys, hasApiKeys, selectedKey } = props;
+  const [activeTab, setActiveTab] = useState<"settings" | "analytics">(
+    "analytics",
+  );
+
+  return (
+    <div>
+      {!hasPayApiKeys && (
+        <NoApiKeys
+          service="Pay in Connect"
+          buttonTextOverride={hasApiKeys ? "Enable Pay" : undefined}
+          copyOverride={
+            hasApiKeys
+              ? "You'll need to enable pay as a service in an API Key to use Pay."
+              : undefined
+          }
+        />
+      )}
+
+      {hasPayApiKeys && selectedKey && (
+        <>
+          <TabButtons
+            tabs={[
+              {
+                name: "Analytics",
+                isActive: activeTab === "analytics",
+                onClick: () => setActiveTab("analytics"),
+                isEnabled: true,
+              },
+              {
+                name: "Settings",
+                isActive: activeTab === "settings",
+                onClick: () => setActiveTab("settings"),
+                isEnabled: true,
+              },
+            ]}
+          />
+
+          <div className="h-5" />
+
+          {activeTab === "settings" && <PayConfig apiKey={selectedKey} />}
+          {activeTab === "analytics" && <PayAnalytics apiKey={selectedKey} />}
+        </>
+      )}
+    </div>
+  );
+}
 
 DashboardConnectPay.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
