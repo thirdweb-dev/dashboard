@@ -10,6 +10,7 @@ import {
   ChangeBadge,
   LoadingGraph,
   NoDataAvailable,
+  chartHeight,
 } from "./common";
 import { format } from "date-fns";
 
@@ -32,7 +33,7 @@ export function NewCustomersCard(props: {
   });
 
   return (
-    <section className="relative">
+    <section className="relative flex flex-col min-h-[320px]">
       {/* header */}
       <div className="flex justify-between gap-2 items-center mb-1">
         <CardHeading>New Customers </CardHeading>
@@ -99,8 +100,8 @@ function RenderData(props: {
       </div>
 
       <div className="relative flex justify-center w-full ">
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={newCusomtersData} width={400} height={200}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <AreaChart data={newCusomtersData}>
             <defs>
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop

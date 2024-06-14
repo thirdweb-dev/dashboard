@@ -2,7 +2,12 @@
 import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
-import { LoadingGraph, NoDataAvailable } from "./common";
+import {
+  CardHeading,
+  LoadingGraph,
+  NoDataAvailable,
+  chartHeight,
+} from "./common";
 import { IntervalSelector } from "./IntervalSelector";
 import { format } from "date-fns";
 import {
@@ -33,7 +38,7 @@ export function TotalVolumeAreaChartCard(props: {
   });
 
   return (
-    <section className="relative">
+    <section className="relative flex flex-col justify-center">
       {volumeQuery.isLoading ? (
         <LoadingGraph className="min-h-[300px]" />
       ) : volumeQuery.data && volumeQuery.data.intervalResults.length > 0 ? (
@@ -93,8 +98,9 @@ function RenderData(props: {
       : "hsl(var(--destructive-foreground))";
 
   return (
-    <div>
-      <div className="flex justify-center lg:justify-end">
+    <div className="flex flex-col  flex-1">
+      <div className="flex justify-between items-center">
+        <CardHeading>Volume</CardHeading>
         <div className="flex gap-2">
           <Select
             value={type}
@@ -134,11 +140,11 @@ function RenderData(props: {
         </div>
       </div>
 
-      <div className="h-4" />
+      <div className="h-10" />
 
-      <div className="flex justify-center w-full">
-        <ResponsiveContainer width="100%" height={200}>
-          <AreaChart data={data} width={400} height={200}>
+      <div className="flex justify-center w-full  flex-1">
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <AreaChart data={data}>
             <defs>
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={chartColor} stopOpacity={0.4} />

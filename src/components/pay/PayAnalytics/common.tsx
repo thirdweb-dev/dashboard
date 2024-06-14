@@ -16,7 +16,7 @@ export function LoadingGraph(props: { className?: string }) {
   return (
     <div
       className={cn(
-        "min-h-[200px] flex items-center justify-center",
+        "flex-1 flex flex-col justify-center items-center text-muted-foreground",
         props.className,
       )}
     >
@@ -55,3 +55,5 @@ export function ChangeBadge(props: { percent: number }) {
     </ToolTipLabel>
   );
 }
+
+export const chartHeight = 220;

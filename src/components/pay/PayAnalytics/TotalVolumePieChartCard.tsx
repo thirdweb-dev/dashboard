@@ -2,7 +2,7 @@
 import { Pie, PieChart, Cell } from "recharts";
 import { cn } from "@/lib/utils";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
-import { LoadingGraph, NoDataAvailable } from "./common";
+import { LoadingGraph, NoDataAvailable, chartHeight } from "./common";
 
 type VolData = {
   name: string;
@@ -63,7 +63,7 @@ function RenderData(props: { data: PayVolumeData }) {
     <div className="flex flex-col lg:flex-row gap-6 justify-center">
       {/* Left */}
       <div className="relative flex justify-center">
-        <PieChart width={250} height={250}>
+        <PieChart width={250} height={chartHeight}>
           <Pie
             style={{
               outline: "none",

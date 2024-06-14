@@ -30,6 +30,7 @@ function Colors() {
         <BgColorPreview className="bg-accent" />
         <BgColorPreview className="bg-primary" />
         <BgColorPreview className="bg-destructive" />
+        <BgColorPreview className="bg-success" />
         <BgColorPreview className="bg-card" />
         <BgColorPreview className="bg-popover" />
         <BgColorPreview className="bg-inverted" />

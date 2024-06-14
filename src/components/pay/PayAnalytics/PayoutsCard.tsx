@@ -7,6 +7,7 @@ import {
   ChangeBadge,
   LoadingGraph,
   NoDataAvailable,
+  chartHeight,
 } from "./common";
 import { format } from "date-fns";
 
@@ -25,7 +26,7 @@ export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
   });
 
   return (
-    <section className="relative">
+    <section className="relative flex flex-col justify-center">
       {/* header */}
       <div className="flex justify-between gap-2 items-center mb-1">
         <CardHeading> Payouts </CardHeading>
@@ -39,7 +40,7 @@ export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
       </div>
 
       {payoutsQuery.isLoading ? (
-        <LoadingGraph />
+        <LoadingGraph className="min-h-[260px]" />
       ) : payoutsQuery.data && payoutsQuery.data.intervalResults.length > 0 ? (
         <RenderData
           data={payoutsQuery.data}
@@ -87,8 +88,8 @@ function RenderData(props: {
       </div>
 
       <div className="relative flex justify-center w-full">
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={data} width={400} height={200}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <BarChart data={data}>
             <Tooltip
               content={(x) => {
                 const payload = x.payload?.[0]?.payload as
