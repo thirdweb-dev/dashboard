@@ -26,7 +26,8 @@ export function TotalVolumePieChartCard(props: {
     <section className="w-full">
       {volumeQuery.isLoading ? (
         <LoadingGraph />
-      ) : volumeQuery.data ? (
+      ) : volumeQuery.data &&
+        volumeQuery.data.aggregate.sum.succeeded.amountUSDCents > 0 ? (
         <RenderData data={volumeQuery.data} />
       ) : (
         <NoDataAvailable />
@@ -59,7 +60,8 @@ function RenderData(props: { data: PayVolumeData }) {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col lg:flex-row gap-6 justify-center">
+      {/* Left */}
       <div className="relative flex justify-center">
         <PieChart width={250} height={250}>
           <Pie
@@ -100,7 +102,9 @@ function RenderData(props: { data: PayVolumeData }) {
           </div>
         </div>
       </div>
-      <div className="flex items-center flex-1 border-t border-border pt-5 lg:pt-0 lg:border-none">
+
+      {/* Right */}
+      <div className="flex items-center border-t border-border pt-5 lg:pt-0 lg:border-none pr-10">
         <div className="flex flex-col gap-4">
           {volumeData.map((v, i) => (
             <VolumeLegend

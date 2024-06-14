@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
 import { useState } from "react";
@@ -16,11 +15,7 @@ type GraphData = {
   value: number;
 };
 
-export function PayoutsBarChart(props: {
-  clientId: string;
-  from: Date;
-  to: Date;
-}) {
+export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
   const [intervalType, setIntervalType] = useState<"day" | "week">("day");
   const payoutsQuery = usePayVolume({
     clientId: props.clientId,
@@ -31,7 +26,17 @@ export function PayoutsBarChart(props: {
 
   return (
     <section className="relative">
-      <CardHeading>Payouts</CardHeading>
+      {/* header */}
+      <div className="flex justify-between gap-2 items-center mb-1">
+        <CardHeading> Payouts </CardHeading>
+
+        {payoutsQuery.data && (
+          <IntervalSelector
+            intervalType={intervalType}
+            setIntervalType={setIntervalType}
+          />
+        )}
+      </div>
 
       {payoutsQuery.isLoading ? (
         <LoadingGraph />
@@ -69,8 +74,8 @@ function RenderData(props: {
 
   return (
     <div>
-      <div className="flex items-center gap-3">
-        <p className="text-5xl tracking-tighter font-bold">
+      <div className="flex items-center gap-3 mb-5">
+        <p className="text-4xl tracking-tighter font-semibold">
           {totalPayoutsUSD.toLocaleString("en-US", {
             currency: "USD",
             style: "currency",

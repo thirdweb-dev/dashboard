@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import {
@@ -19,7 +18,7 @@ type GraphData = {
   value: number;
 };
 
-export function NewCustomersAreaChart(props: {
+export function NewCustomersCard(props: {
   clientId: string;
   from: Date;
   to: Date;
@@ -34,7 +33,19 @@ export function NewCustomersAreaChart(props: {
 
   return (
     <section className="relative">
-      <CardHeading>New Customers </CardHeading>
+      {/* header */}
+      <div className="flex justify-between gap-2 items-center mb-1">
+        <CardHeading>New Customers </CardHeading>
+
+        {newCustomersQuery.data && (
+          <IntervalSelector
+            intervalType={intervalType}
+            setIntervalType={setIntervalType}
+          />
+        )}
+      </div>
+
+      {/* Chart */}
       {newCustomersQuery.isLoading ? (
         <LoadingGraph />
       ) : newCustomersQuery.data &&
@@ -77,18 +88,19 @@ function RenderData(props: {
 
   return (
     <div>
-      <div className="flex items-center gap-3">
-        <p className="text-5xl tracking-tighter font-bold">
+      <div className="flex items-center gap-3 mb-5">
+        <p className="text-4xl tracking-tighter font-semibold">
           {totalNewCustomers}
         </p>
+
         <ChangeBadge
           percent={props.data.aggregate.bpsIncreaseFromPriorRange / 100}
         />
       </div>
 
       <div className="relative flex justify-center w-full ">
-        <ResponsiveContainer width="100%" height={250}>
-          <AreaChart data={newCusomtersData} width={400} height={250}>
+        <ResponsiveContainer width="100%" height={200}>
+          <AreaChart data={newCusomtersData} width={400} height={200}>
             <defs>
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -142,15 +154,6 @@ function RenderData(props: {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-
-      {props.data && (
-        <div className="absolute top-0 right-0">
-          <IntervalSelector
-            intervalType={props.intervalType}
-            setIntervalType={props.setIntervalType}
-          />
-        </div>
-      )}
     </div>
   );
 }

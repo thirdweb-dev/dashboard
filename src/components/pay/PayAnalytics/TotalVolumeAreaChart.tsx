@@ -2,10 +2,9 @@
 import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
-import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
+import { LoadingGraph, NoDataAvailable } from "./common";
 import { IntervalSelector } from "./IntervalSelector";
 import { format } from "date-fns";
-import { TabButtons } from "../../../@/components/ui/tabs";
 import {
   Select,
   SelectTrigger,
@@ -35,9 +34,8 @@ export function TotalVolumeAreaChartCard(props: {
 
   return (
     <section className="relative">
-      <CardHeading> Volume </CardHeading>
       {volumeQuery.isLoading ? (
-        <LoadingGraph />
+        <LoadingGraph className="min-h-[300px]" />
       ) : volumeQuery.data && volumeQuery.data.intervalResults.length > 0 ? (
         <RenderData
           data={volumeQuery.data}
@@ -57,13 +55,13 @@ function RenderData(props: {
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
   const uniqueId = useId();
-  const [activeTab, setActiveTab] = useState<"all" | "crypto" | "fiat">("all");
   const [successType, setSuccessType] = useState<"success" | "fail">("success");
+  const [type, setType] = useState<"all" | "crypto" | "fiat">("all");
 
   const data: GraphData[] = props.data.intervalResults.map((x) => {
     const date = format(new Date(x.interval), "LLL dd");
 
-    if (activeTab === "crypto") {
+    if (type === "crypto") {
       return {
         date,
         value:
@@ -72,7 +70,7 @@ function RenderData(props: {
       };
     }
 
-    if (activeTab === "fiat") {
+    if (type === "fiat") {
       return {
         date,
         value:
@@ -96,36 +94,51 @@ function RenderData(props: {
 
   return (
     <div>
-      <div className="h-7 md:h-3" />
+      <div className="flex justify-center lg:justify-end">
+        <div className="flex gap-2">
+          <Select
+            value={type}
+            onValueChange={(value: "all" | "crypto" | "fiat") => {
+              setType(value);
+            }}
+          >
+            <SelectTrigger className="bg-transparent">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <SelectItem value="all">Total</SelectItem>
+              <SelectItem value="crypto">Crypto</SelectItem>
+              <SelectItem value="fiat">Fiat</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <TabButtons
-        tabs={[
-          {
-            name: "Total",
-            isActive: activeTab === "all",
-            onClick: () => setActiveTab("all"),
-            isEnabled: true,
-          },
-          {
-            name: "Crypto",
-            isActive: activeTab === "crypto",
-            onClick: () => setActiveTab("crypto"),
-            isEnabled: true,
-          },
-          {
-            name: "Fiat",
-            isActive: activeTab === "fiat",
-            onClick: () => setActiveTab("fiat"),
-            isEnabled: true,
-          },
-        ]}
-      />
+          <Select
+            value={successType}
+            onValueChange={(value: "success" | "fail") => {
+              setSuccessType(value);
+            }}
+          >
+            <SelectTrigger className="bg-transparent">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <SelectItem value="success">Successful</SelectItem>
+              <SelectItem value="fail">Failed</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <div className="h-1" />
+          <IntervalSelector
+            intervalType={props.intervalType}
+            setIntervalType={props.setIntervalType}
+          />
+        </div>
+      </div>
+
+      <div className="h-4" />
 
       <div className="flex justify-center w-full">
-        <ResponsiveContainer width="100%" height={250}>
-          <AreaChart data={data} width={400} height={250}>
+        <ResponsiveContainer width="100%" height={200}>
+          <AreaChart data={data} width={400} height={200}>
             <defs>
               <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={chartColor} stopOpacity={0.4} />
@@ -173,28 +186,6 @@ function RenderData(props: {
             />
           </AreaChart>
         </ResponsiveContainer>
-
-        <div className="absolute top-0 right-0 flex gap-2">
-          <Select
-            value={successType}
-            onValueChange={(value: "success" | "fail") => {
-              setSuccessType(value);
-            }}
-          >
-            <SelectTrigger className="bg-transparent">
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="success">Successful</SelectItem>
-              <SelectItem value="fail">Failed</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <IntervalSelector
-            intervalType={props.intervalType}
-            setIntervalType={props.setIntervalType}
-          />
-        </div>
       </div>
     </div>
   );

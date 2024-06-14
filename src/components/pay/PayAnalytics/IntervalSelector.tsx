@@ -17,7 +17,7 @@ export function IntervalSelector(props: {
         props.setIntervalType(value);
       }}
     >
-      <SelectTrigger className="bg-transparent">
+      <SelectTrigger className="bg-transparent w-auto">
         <SelectValue placeholder="Select" />
       </SelectTrigger>
       <SelectContent position="popper">

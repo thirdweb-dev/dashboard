@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { TabButtons } from "../../../@/components/ui/tabs";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
 import { usePayVolume, type PayVolumeData } from "./usePayVolume";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 /* eslint-disable react/forbid-dom-props */
 export function SuccessRateCard(props: {
@@ -9,6 +15,7 @@ export function SuccessRateCard(props: {
   from: Date;
   to: Date;
 }) {
+  const [type, setType] = useState<"all" | "crypto" | "fiat">("all");
   const volumeQuery = usePayVolume({
     clientId: props.clientId,
     from: props.from,
@@ -17,28 +24,51 @@ export function SuccessRateCard(props: {
   });
 
   return (
-    <div className="w-full">
-      <CardHeading> Payments </CardHeading>
-      {volumeQuery.isLoading ? (
-        <LoadingGraph />
-      ) : volumeQuery.data ? (
-        <RenderData data={volumeQuery.data} />
-      ) : (
-        <NoDataAvailable />
-      )}
+    <div className="w-full relative flex flex-col">
+      <div className="flex justify-between gap-2 items-center">
+        <CardHeading> Payments </CardHeading>
+        {volumeQuery.data && (
+          <Select
+            value={type}
+            onValueChange={(value: "all" | "crypto" | "fiat") => {
+              setType(value);
+            }}
+          >
+            <SelectTrigger className="bg-transparent w-auto">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <SelectItem value="all">Total</SelectItem>
+              <SelectItem value="crypto">Crypto</SelectItem>
+              <SelectItem value="fiat">Fiat</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
+      </div>
+
+      <div className="flex-1 flex flex-col justify-center">
+        {volumeQuery.isLoading ? (
+          <LoadingGraph />
+        ) : volumeQuery.data ? (
+          <RenderData data={volumeQuery.data} type={type} />
+        ) : (
+          <NoDataAvailable />
+        )}
+      </div>
     </div>
   );
 }
 
-function RenderData(props: { data: PayVolumeData }) {
+function RenderData(props: {
+  data: PayVolumeData;
+  type: "all" | "crypto" | "fiat";
+}) {
   type Data = {
     succeeded: number;
     failed: number;
     rate: number;
     total: number;
   };
-
-  const [activeTab, setActiveTab] = useState<"all" | "crypto" | "fiat">("all");
 
   function getData(tab: "all" | "crypto" | "fiat"): Data {
     const aggregated = props.data.aggregate;
@@ -70,35 +100,10 @@ function RenderData(props: { data: PayVolumeData }) {
     throw new Error("Invalid tab");
   }
 
-  const data = getData(activeTab);
+  const data = getData(props.type);
 
   return (
     <div>
-      <div className="h-3" />
-
-      <TabButtons
-        tabs={[
-          {
-            name: "Total",
-            isActive: activeTab === "all",
-            onClick: () => setActiveTab("all"),
-            isEnabled: true,
-          },
-          {
-            name: "Crypto",
-            isActive: activeTab === "crypto",
-            onClick: () => setActiveTab("crypto"),
-            isEnabled: true,
-          },
-          {
-            name: "Fiat",
-            isActive: activeTab === "fiat",
-            onClick: () => setActiveTab("fiat"),
-            isEnabled: true,
-          },
-        ]}
-      />
-
       {data.total === 0 ? (
         <NoDataAvailable />
       ) : (
@@ -117,14 +122,14 @@ function RenderData(props: { data: PayVolumeData }) {
 
 function Bar(props: { rate: number }) {
   return (
-    <div className="flex items-center rounded-lg overflow-hidden">
+    <div className="flex items-center">
       <div
-        className="h-6 bg-success-foreground transition-all"
+        className="h-5 bg-success-foreground transition-all rounded-lg rounded-r-none border-r-0"
         style={{
           width: `${props.rate}%`,
         }}
       />
-      <div className="h-6 bg-destructive-foreground flex-1 transition-all" />
+      <div className="h-5 bg-destructive-foreground flex-1 transition-all rounded-lg rounded-l-none border-l-0" />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ToolTipLabel } from "../../../@/components/ui/tooltip";
+import { cn } from "../../../@/lib/utils";
 
 export function NoDataAvailable() {
   return (
@@ -11,16 +12,21 @@ export function NoDataAvailable() {
   );
 }
 
-export function LoadingGraph() {
+export function LoadingGraph(props: { className?: string }) {
   return (
-    <div className="h-[250px] flex items-center justify-center">
+    <div
+      className={cn(
+        "min-h-[200px] flex items-center justify-center",
+        props.className,
+      )}
+    >
       <Spinner className="size-14" />
     </div>
   );
 }
 
 export function CardHeading(props: { children: React.ReactNode }) {
-  return <h3 className="text-base font-medium mb-2">{props.children}</h3>;
+  return <h3 className="text-base font-medium">{props.children}</h3>;
 }
 
 export function ChangeBadge(props: { percent: number }) {
