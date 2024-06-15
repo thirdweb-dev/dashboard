@@ -63,7 +63,7 @@ export function usePayVolume(options: {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    ["pay-volume", user?.address, options],
+    ["usePayVolume", user?.address, options],
     async () => {
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/aggregate/volume/v1",

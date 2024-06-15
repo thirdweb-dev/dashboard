@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
-// TODO: validate type against the result
-
 export type PayPurchasesData = {
   count: number;
   purchases: Array<{
@@ -41,9 +39,9 @@ export function usePayPurchases(options: {
 }) {
   const { user, isLoggedIn } = useLoggedInUser();
 
-  return useQuery(
-    ["pay-volume", user?.address, options],
-    async () => {
+  return useQuery({
+    queryKey: ["usePayPurchases", user?.address, options],
+    queryFn: async () => {
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/purchases/v1",
       );
@@ -69,6 +67,7 @@ export function usePayPurchases(options: {
       const resJSON = (await res.json()) as Response;
       return resJSON.result.data;
     },
-    { enabled: !!user?.address && isLoggedIn },
-  );
+    enabled: !!user?.address && isLoggedIn,
+    keepPreviousData: true,
+  });
 }

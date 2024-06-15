@@ -16,6 +16,7 @@ import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard"
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { format } from "date-fns";
 import { TopCustomersCard } from "./PayAnalytics/TopCustomersCard";
+import { TransactionHistoryCard } from "./PayAnalytics/TransactionHistoryCard";
 
 type LastX = "last-7" | "last-30" | "last-60" | "last-120";
 
@@ -82,6 +83,16 @@ export function PayAnalytics(props: { apiKey: ApiKey }) {
         </div>
         <TopCustomersCard clientId={clientId} from={range.from} to={range.to} />
       </GridWithSeparator>
+
+      <div className="h-4" />
+
+      <div className="border border-border rounded-xl p-4 xl:p-6">
+        <TransactionHistoryCard
+          clientId={clientId}
+          from={range.from}
+          to={range.to}
+        />
+      </div>
     </div>
   );
 }

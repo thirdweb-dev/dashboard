@@ -32,7 +32,7 @@ export function usePayNewCustomers(options: {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    ["pay-new-customers", user?.address, options],
+    ["usePayNewCustomers", user?.address, options],
     async () => {
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/aggregate/customers/v1",

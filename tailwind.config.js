@@ -57,6 +57,7 @@ module.exports = {
           foreground: "hsl(var(--inverted-foreground))",
         },
         warning: {
+          DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
         link: {

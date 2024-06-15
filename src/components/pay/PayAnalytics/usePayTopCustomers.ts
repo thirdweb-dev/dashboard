@@ -25,7 +25,7 @@ export function usePayTopCustomers(options: {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    ["pay-volume", user?.address, options],
+    ["usePayTopCustomers", user?.address, options],
     async () => {
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/customers/v1",

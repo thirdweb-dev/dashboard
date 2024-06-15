@@ -6,7 +6,8 @@ import {
   type PayTopCustomersData,
 } from "./usePayTopCustomers";
 import { Button } from "../../../@/components/ui/button";
-import { DownloadIcon } from "lucide-react";
+import { ScrollShadow } from "../../../@/components/ui/ScrollShadow/ScrollShadow";
+import { ExportToCSVButton } from "./exportToCSV";
 
 export function TopCustomersCard(props: {
   clientId: string;
@@ -36,21 +37,17 @@ export function TopCustomersCard(props: {
   }
 
   return (
-    <div className="h-[320px] flex flex-col relative overflow-auto">
+    <div className="flex flex-col relative overflow-auto">
       {/* header */}
       <div className="flex flex-col lg:flex-row lg:justify-between gap-2 lg:items-center">
         <CardHeading> Top customers by spend </CardHeading>
         {filteredData && filteredData?.length > 0 && (
-          <Button
-            variant="outline"
-            className="border flex gap-2 items-center text-xs"
-            onClick={() => {
-              exportToCSV(filteredData);
+          <ExportToCSVButton
+            fileName="top_customers"
+            getData={() => {
+              return getCSVData(filteredData);
             }}
-          >
-            <DownloadIcon className="size-3" />
-            Export as CSV
-          </Button>
+          />
         )}
       </div>
 
@@ -81,10 +78,10 @@ function RenderData(props: {
   loadMore?: () => void;
 }) {
   return (
-    <div>
+    <ScrollShadow scrollableClassName="h-[250px]" disableTopShadow={true}>
       <table className="w-full">
         <thead>
-          <tr className="border-b border-border sticky top-0 bg-background">
+          <tr className="border-b border-border sticky top-0 bg-background z-10">
             <TableHeading> Wallet Address </TableHeading>
             <TableHeading> Total spend </TableHeading>
           </tr>
@@ -126,7 +123,7 @@ function RenderData(props: {
           </Button>
         </div>
       )}
-    </div>
+    </ScrollShadow>
   );
 }
 
@@ -142,7 +139,7 @@ function TableHeading(props: { children: React.ReactNode }) {
   );
 }
 
-function convertToCSV(data: PayTopCustomersData["customers"]) {
+function getCSVData(data: PayTopCustomersData["customers"]) {
   const header = ["Wallet Address", "Total spend"];
   const rows = data.map((customer) => [
     customer.walletAddress,
@@ -152,22 +149,5 @@ function convertToCSV(data: PayTopCustomersData["customers"]) {
     }),
   ]);
 
-  const csvContent = `data:text/csv;charset=utf-8,${header.join(",")}\n${rows
-    .map((e) => e.join(","))
-    .join("\n")}`;
-
-  return csvContent;
-}
-
-function exportToCSV(data: PayTopCustomersData["customers"]) {
-  const csvContent = convertToCSV(data);
-
-  const encodedUri = encodeURI(csvContent);
-  const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "top-customers.csv");
-  document.body.appendChild(link);
-
-  link.click();
-  document.body.removeChild(link);
+  return { header, rows };
 }
