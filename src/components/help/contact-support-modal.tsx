@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button, Heading } from "tw-components";
-import { useTxNotifications } from "hooks/useTxNotifications";
 import {
   CreateTicketInput,
   useCreateTicket,
@@ -73,10 +72,6 @@ export const ContactSupportModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
   const productLabel = form.watch("product");
-  const { onSuccess, onError } = useTxNotifications(
-    "Successfully sent support ticket. Our team will be in touch using your account email shortly.",
-    "Failed to send ticket. Please try again.",
-  );
   const { isLoggedIn } = useLoggedInUser();
   const {
     mutate: createTicket,
@@ -146,13 +141,7 @@ export const ContactSupportModal = () => {
         <FormProvider {...form}>
           <ModalContent
             as="form"
-            onSubmit={form.handleSubmit((data) => {
-              try {
-                createTicket(data);
-              } catch (err) {
-                onError(err);
-              }
-            })}
+            onSubmit={form.handleSubmit((data) => createTicket(data))}
           >
             <ModalCloseButton isDisabled={isLoading} />
             {error ? (
