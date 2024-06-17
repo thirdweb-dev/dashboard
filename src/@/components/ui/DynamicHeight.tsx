@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-dom-props */
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 
 export function DynamicHeight(props: {
   children: React.ReactNode;
@@ -37,7 +37,7 @@ export function useHeightObserver() {
   const elementRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = elementRef.current;
     if (!element) {
       return;
