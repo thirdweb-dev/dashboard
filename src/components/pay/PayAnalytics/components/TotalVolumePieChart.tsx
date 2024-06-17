@@ -3,7 +3,6 @@ import { Pie, PieChart, Cell } from "recharts";
 import { cn } from "@/lib/utils";
 import { usePayVolume } from "../hooks/usePayVolume";
 import { NoDataAvailable, chartHeight } from "./common";
-import { useQuery } from "@tanstack/react-query";
 import { SkeletonContainer } from "../../../../@/components/ui/skeleton";
 
 type VolData = {
@@ -30,41 +29,47 @@ export function TotalVolumePieChart(props: {
     to: props.to,
   });
 
-  const uiQuery = useQuery({
-    queryKey: ["TotalVolumePieChartCard", volumeQuery.data],
-    queryFn: async () => {
-      if (!volumeQuery.data) {
-        throw new Error("No volumeQuery available");
-      }
+  function getUIData(): {
+    data?: UIQueryData;
+    isError?: boolean;
+    isLoading?: boolean;
+  } {
+    if (volumeQuery.isLoading) {
+      return { isLoading: true };
+    }
 
-      if (volumeQuery.data.aggregate.sum.succeeded.amountUSDCents === 0) {
-        throw new Error("Not enough data available");
-      }
+    if (volumeQuery.isError) {
+      return { isError: true };
+    }
 
-      const cryptoTotalUSD = Math.ceil(
-        volumeQuery.data.aggregate.buyWithCrypto.succeeded.amountUSDCents / 100,
-      );
-      const fiatTotalUSD = Math.ceil(
-        volumeQuery.data.aggregate.buyWithFiat.succeeded.amountUSDCents / 100,
-      );
+    if (volumeQuery.data.aggregate.sum.succeeded.amountUSDCents === 0) {
+      return { isError: true };
+    }
 
-      const totalAmount = cryptoTotalUSD + fiatTotalUSD;
+    const cryptoTotalUSD = Math.ceil(
+      volumeQuery.data.aggregate.buyWithCrypto.succeeded.amountUSDCents / 100,
+    );
+    const fiatTotalUSD = Math.ceil(
+      volumeQuery.data.aggregate.buyWithFiat.succeeded.amountUSDCents / 100,
+    );
 
-      const data: UIQueryData = {
-        totalAmount,
-        cryptoTotalUSD,
-        fiatTotalUSD,
-      };
+    const totalAmount = cryptoTotalUSD + fiatTotalUSD;
 
-      return data;
-    },
-    enabled: !!volumeQuery.data,
-  });
+    const data: UIQueryData = {
+      totalAmount,
+      cryptoTotalUSD,
+      fiatTotalUSD,
+    };
+
+    return { data };
+  }
+
+  const uiData = getUIData();
 
   return (
     <section className="w-full">
-      {!uiQuery.isError ? (
-        <RenderData data={uiQuery.data} />
+      {!uiData.isError ? (
+        <RenderData data={uiData.data} />
       ) : (
         <NoDataAvailable />
       )}
@@ -103,18 +108,6 @@ function RenderData(props: { data?: UIQueryData }) {
       ]
     : skeletonData;
 
-  const skeletonTotalAmount = skeletonData.reduce(
-    (acc, x) => acc + x.amount,
-    0,
-  );
-
-  const totalAmount = (
-    queryData?.totalAmount || skeletonTotalAmount
-  ).toLocaleString("en-US", {
-    currency: "USD",
-    style: "currency",
-  });
-
   return (
     <div className="flex flex-col lg:flex-row gap-6 justify-center">
       {/* Left */}
@@ -145,16 +138,27 @@ function RenderData(props: { data?: UIQueryData }) {
           <div className="flex flex-col gap-1 items-center">
             <p className="text-sm font-medium"> Total Volume</p>
 
-            <SkeletonContainer isLoading={!queryData}>
-              <p
-                className={cn(
-                  "text-3xl font-semibold tracking-tighter",
-                  totalAmount.length > 6 ? "text-3xl" : "text-4xl",
-                )}
-              >
-                {totalAmount}
-              </p>
-            </SkeletonContainer>
+            <SkeletonContainer
+              loadedData={queryData?.totalAmount}
+              skeletonData={100}
+              render={(v) => {
+                const totalAmount = v.toLocaleString("en-US", {
+                  currency: "USD",
+                  style: "currency",
+                });
+
+                return (
+                  <p
+                    className={cn(
+                      "text-3xl font-semibold tracking-tighter",
+                      totalAmount.length > 6 ? "text-3xl" : "text-4xl",
+                    )}
+                  >
+                    {totalAmount}
+                  </p>
+                );
+              }}
+            />
           </div>
         </div>
       </div>
@@ -167,8 +171,7 @@ function RenderData(props: { data?: UIQueryData }) {
               key={i}
               color={v.color}
               label={v.name}
-              amount={v.amount}
-              isSkeleton={!queryData}
+              amount={queryData ? v.amount : undefined}
             />
           ))}
         </div>
@@ -180,8 +183,7 @@ function RenderData(props: { data?: UIQueryData }) {
 function VolumeLegend(props: {
   color: string;
   label: string;
-  amount: number;
-  isSkeleton: boolean;
+  amount?: number;
 }) {
   return (
     <div className="flex items-start gap-2">
@@ -196,14 +198,20 @@ function VolumeLegend(props: {
           {props.label}
         </p>
 
-        <SkeletonContainer isLoading={props.isSkeleton}>
-          <p className="text-2xl text-foreground font-semibold tracking-tight">
-            {props.amount.toLocaleString("en-US", {
-              currency: "USD",
-              style: "currency",
-            })}
-          </p>
-        </SkeletonContainer>
+        <SkeletonContainer
+          loadedData={props.amount}
+          skeletonData={50}
+          render={(amount) => {
+            return (
+              <p className="text-2xl text-foreground font-semibold tracking-tight">
+                {amount.toLocaleString("en-US", {
+                  currency: "USD",
+                  style: "currency",
+                })}
+              </p>
+            );
+          }}
+        />
       </div>
     </div>
   );

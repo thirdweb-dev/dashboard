@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
-import { usePayVolume, type PayVolumeData } from "../hooks/usePayVolume";
+import { CardHeading, NoDataAvailable } from "./common";
+import { usePayVolume } from "../hooks/usePayVolume";
 import {
   Select,
   SelectTrigger,
@@ -8,6 +8,14 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { SkeletonContainer } from "../../../../@/components/ui/skeleton";
+
+type UIData = {
+  succeeded: number;
+  failed: number;
+  rate: number;
+  total: number;
+};
 
 /* eslint-disable react/forbid-dom-props */
 export function PaymentsSuccessRate(props: {
@@ -23,11 +31,60 @@ export function PaymentsSuccessRate(props: {
     intervalType: "day",
   });
 
+  function getUIData(): {
+    data?: UIData;
+    isError?: boolean;
+    isLoading?: boolean;
+  } {
+    if (volumeQuery.isLoading) {
+      return { isLoading: true };
+    }
+
+    if (volumeQuery.isError) {
+      return { isError: true };
+    }
+
+    const aggregated = volumeQuery.data.aggregate;
+    let data: UIData;
+
+    if (type === "all") {
+      const succeeded = aggregated.sum.succeeded.count;
+      const failed = aggregated.sum.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      data = { succeeded, failed, rate, total };
+    } else if (type === "crypto") {
+      const succeeded = aggregated.buyWithCrypto.succeeded.count;
+      const failed = aggregated.buyWithCrypto.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      data = { succeeded, failed, rate, total };
+    } else if (type === "fiat") {
+      const succeeded = aggregated.buyWithFiat.succeeded.count;
+      const failed = aggregated.buyWithFiat.failed.count;
+      const total = succeeded + failed;
+      const rate = (succeeded / (succeeded + failed)) * 100;
+      data = { succeeded, failed, rate, total };
+    } else {
+      throw new Error("Invalid tab");
+    }
+
+    if (data.total === 0) {
+      return {
+        isError: true,
+      };
+    }
+
+    return { data };
+  }
+
+  const uiData = getUIData();
+
   return (
     <div className="w-full relative flex flex-col">
       <div className="flex justify-between gap-2 items-center">
         <CardHeading> Payments </CardHeading>
-        {volumeQuery.data && (
+        {uiData.data && (
           <Select
             value={type}
             onValueChange={(value: "all" | "crypto" | "fiat") => {
@@ -47,10 +104,8 @@ export function PaymentsSuccessRate(props: {
       </div>
 
       <div className="flex-1 flex flex-col justify-center">
-        {volumeQuery.isLoading ? (
-          <LoadingGraph />
-        ) : volumeQuery.data ? (
-          <RenderData data={volumeQuery.data} type={type} />
+        {!uiData.isError ? (
+          <RenderData data={uiData.data} />
         ) : (
           <NoDataAvailable />
         )}
@@ -59,63 +114,27 @@ export function PaymentsSuccessRate(props: {
   );
 }
 
-function RenderData(props: {
-  data: PayVolumeData;
-  type: "all" | "crypto" | "fiat";
-}) {
-  type Data = {
-    succeeded: number;
-    failed: number;
-    rate: number;
-    total: number;
-  };
-
-  function getData(tab: "all" | "crypto" | "fiat"): Data {
-    const aggregated = props.data.aggregate;
-
-    if (tab === "all") {
-      const succeeded = aggregated.sum.succeeded.count;
-      const failed = aggregated.sum.failed.count;
-      const total = succeeded + failed;
-      const rate = (succeeded / (succeeded + failed)) * 100;
-      return { succeeded, failed, rate, total };
-    }
-
-    if (tab === "crypto") {
-      const succeeded = aggregated.buyWithCrypto.succeeded.count;
-      const failed = aggregated.buyWithCrypto.failed.count;
-      const total = succeeded + failed;
-      const rate = (succeeded / (succeeded + failed)) * 100;
-      return { succeeded, failed, rate, total };
-    }
-
-    if (tab === "fiat") {
-      const succeeded = aggregated.buyWithFiat.succeeded.count;
-      const failed = aggregated.buyWithFiat.failed.count;
-      const total = succeeded + failed;
-      const rate = (succeeded / (succeeded + failed)) * 100;
-      return { succeeded, failed, rate, total };
-    }
-
-    throw new Error("Invalid tab");
-  }
-
-  const data = getData(props.type);
-
+function RenderData(props: { data?: UIData }) {
   return (
     <div>
-      {data.total === 0 ? (
-        <NoDataAvailable />
-      ) : (
-        <>
-          <div className="h-10" />
-          <Bar rate={data.rate} />
-          <div className="h-6" />
-          <InfoRow label="Succeeded" type="success" amount={data.succeeded} />
-          <div className="h-3" />
-          <InfoRow label="Failed" type="failure" amount={data.failed} />
-        </>
-      )}
+      <div className="h-10" />
+      <SkeletonContainer
+        loadedData={props.data?.rate}
+        skeletonData={50}
+        render={(rate) => <Bar rate={rate} />}
+      ></SkeletonContainer>
+
+      <div className="h-6" />
+
+      <InfoRow
+        label="Succeeded"
+        type="success"
+        amount={props.data?.succeeded}
+      />
+
+      <div className="h-3" />
+
+      <InfoRow label="Failed" type="failure" amount={props.data?.failed} />
     </div>
   );
 }
@@ -137,7 +156,7 @@ function Bar(props: { rate: number }) {
 function InfoRow(props: {
   label: string;
   type: "success" | "failure";
-  amount: number;
+  amount?: number;
 }) {
   return (
     <div className="flex justify-between">
@@ -151,12 +170,20 @@ function InfoRow(props: {
         />
         <p className="text-base text-secondary-foreground">{props.label}</p>
       </div>
-      <p className="text-base font-medium">
-        {props.amount.toLocaleString("en-US", {
-          currency: "USD",
-          style: "currency",
-        })}
-      </p>
+      <SkeletonContainer
+        loadedData={props.amount}
+        skeletonData={50}
+        render={(v) => {
+          return (
+            <p className="text-base font-medium">
+              {v.toLocaleString("en-US", {
+                currency: "USD",
+                style: "currency",
+              })}
+            </p>
+          );
+        }}
+      />
     </div>
   );
 }

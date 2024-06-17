@@ -12,29 +12,28 @@ function Skeleton({
   );
 }
 
-function SkeletonContainer({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  isLoading: boolean;
+function SkeletonContainer<T>(props: {
+  loadedData?: T;
+  skeletonData: T;
+  className?: string;
+  render: (data: T, isSkeleton: boolean) => React.ReactNode;
 }) {
-  const { children, ...restProps } = props;
+  const isLoading = props.loadedData === undefined;
   return (
     <div
       className={cn(
-        props.isLoading && "animate-pulse rounded-md bg-muted",
-        className,
+        isLoading && "animate-pulse rounded-lg bg-muted",
+        props.className,
       )}
-      {...restProps}
     >
-      <div className={cn(props.isLoading && "invisible")}>
+      <div className={cn(isLoading && "invisible")}>
         <div
           className={cn(
             "transitino-opacity duration-300",
-            props.isLoading ? "opacity-0" : "opacity-100",
+            isLoading ? "opacity-0" : "opacity-100",
           )}
         >
-          {children}
+          {props.render(props.loadedData || props.skeletonData, !isLoading)}
         </div>
       </div>
     </div>

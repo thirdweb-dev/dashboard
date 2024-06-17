@@ -97,43 +97,46 @@ function RenderData(props: {
     <div className="flex flex-col  flex-1">
       <div className="flex justify-between items-center">
         <CardHeading>Volume</CardHeading>
-        <div className="flex gap-2">
-          <Select
-            value={type}
-            onValueChange={(value: "all" | "crypto" | "fiat") => {
-              setType(value);
-            }}
-          >
-            <SelectTrigger className="bg-transparent">
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="all">Total</SelectItem>
-              <SelectItem value="crypto">Crypto</SelectItem>
-              <SelectItem value="fiat">Fiat</SelectItem>
-            </SelectContent>
-          </Select>
 
-          <Select
-            value={successType}
-            onValueChange={(value: "success" | "fail") => {
-              setSuccessType(value);
-            }}
-          >
-            <SelectTrigger className="bg-transparent">
-              <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="success">Successful</SelectItem>
-              <SelectItem value="fail">Failed</SelectItem>
-            </SelectContent>
-          </Select>
+        {graphData && (
+          <div className="flex gap-2">
+            <Select
+              value={type}
+              onValueChange={(value: "all" | "crypto" | "fiat") => {
+                setType(value);
+              }}
+            >
+              <SelectTrigger className="bg-transparent">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem value="all">Total</SelectItem>
+                <SelectItem value="crypto">Crypto</SelectItem>
+                <SelectItem value="fiat">Fiat</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <IntervalSelector
-            intervalType={props.intervalType}
-            setIntervalType={props.setIntervalType}
-          />
-        </div>
+            <Select
+              value={successType}
+              onValueChange={(value: "success" | "fail") => {
+                setSuccessType(value);
+              }}
+            >
+              <SelectTrigger className="bg-transparent">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem value="success">Successful</SelectItem>
+                <SelectItem value="fail">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <IntervalSelector
+              intervalType={props.intervalType}
+              setIntervalType={props.setIntervalType}
+            />
+          </div>
+        )}
       </div>
 
       <div className="h-10" />

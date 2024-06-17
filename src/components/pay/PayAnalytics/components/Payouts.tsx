@@ -95,29 +95,32 @@ function RenderData(props: {
   intervalType: "day" | "week";
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
-  const percentageChangeSkeleton = 1;
-  const totalPayoutsSkeleton = 20;
-
-  const totalPayouts = (
-    props.data?.totalPayoutsUSD || totalPayoutsSkeleton
-  ).toLocaleString("en-US", {
-    currency: "USD",
-    style: "currency",
-  });
-
   return (
     <div>
       <div className="flex items-center gap-3 mb-5">
-        <SkeletonContainer isLoading={!props.data}>
-          <p className="text-4xl tracking-tighter font-semibold">
-            {totalPayouts}
-          </p>
-        </SkeletonContainer>
-        <SkeletonContainer isLoading={!props.data}>
-          <ChangeBadge
-            percent={props.data?.percentChange || percentageChangeSkeleton}
-          />
-        </SkeletonContainer>
+        <SkeletonContainer
+          loadedData={props.data?.totalPayoutsUSD}
+          skeletonData={20}
+          render={(value) => {
+            return (
+              <p className="text-4xl tracking-tighter font-semibold">
+                {value.toLocaleString("en-US", {
+                  currency: "USD",
+                  style: "currency",
+                })}
+              </p>
+            );
+          }}
+        />
+
+        <SkeletonContainer
+          className="rounded-2xl"
+          loadedData={props.data?.percentChange}
+          skeletonData={1}
+          render={(percent) => {
+            return <ChangeBadge percent={percent} />;
+          }}
+        />
       </div>
 
       <div className="relative flex justify-center w-full">
