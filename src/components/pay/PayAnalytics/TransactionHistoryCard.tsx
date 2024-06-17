@@ -9,6 +9,8 @@ import { format } from "date-fns";
 import { ScrollShadow } from "../../../@/components/ui/ScrollShadow/ScrollShadow";
 import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 import { ExportToCSVButton } from "./exportToCSV";
+import { useTokenInfo } from "./hooks/useTokenInfo";
+import { Skeleton } from "../../../@/components/ui/skeleton";
 
 export function TransactionHistoryCard(props: {
   clientId: string;
@@ -71,6 +73,8 @@ function RenderData(props: {
           <tr className="border-b border-border sticky top-0 bg-background z-10">
             <TableHeading>Amount</TableHeading>
             <TableHeading>Type</TableHeading>
+            <TableHeading> Paid </TableHeading>
+            <TableHeading> Bought </TableHeading>
             <TableHeading>Status</TableHeading>
             <TableHeading>Recipient</TableHeading>
             <TableHeading>Date</TableHeading>
@@ -78,63 +82,7 @@ function RenderData(props: {
         </thead>
         <tbody>
           {props.data.purchases.map((purchase) => {
-            return (
-              <tr key={purchase.purchaseId} className="border-b border-border">
-                {/* Amount */}
-                <TableData>
-                  {(purchase.toAmountUSDCents / 100).toLocaleString("en-US", {
-                    currency: "USD",
-                    style: "currency",
-                  })}
-                </TableData>
-
-                {/* Type */}
-                {/* Status */}
-                <TableData>
-                  <Badge
-                    variant={"secondary"}
-                    className={cn(
-                      "capitalize",
-                      purchase.purchaseType === "SWAP"
-                        ? "bg-lime-200/50 dark:bg-lime-800/50 text-lime-800 dark:text-lime-200"
-                        : "bg-sky-200/50 dark:bg-sky-900/50 text-sky-800 dark:text-sky-200",
-                    )}
-                  >
-                    {purchase.purchaseType}
-                  </Badge>
-                </TableData>
-
-                {/* Status */}
-                <TableData>
-                  <Badge
-                    variant={
-                      purchase.status === "COMPLETED"
-                        ? "success"
-                        : purchase.status === "PENDING"
-                          ? "warning"
-                          : "destructive"
-                    }
-                    className="capitalize"
-                  >
-                    {purchase.status}
-                  </Badge>
-                </TableData>
-
-                {/* Address */}
-                <TableData>
-                  <CopyAddressButton
-                    address={purchase.toAddress}
-                    variant="ghost"
-                    className="text-secondary-foreground"
-                  />
-                </TableData>
-
-                {/* Date */}
-                <TableData>
-                  {format(new Date(purchase.updatedAt), "LLL dd, y h:mm a")}
-                </TableData>
-              </tr>
-            );
+            return <TableRow key={purchase.purchaseId} purchase={purchase} />;
           })}
         </tbody>
       </table>
@@ -160,6 +108,101 @@ function RenderData(props: {
   );
 }
 
+function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
+  const { purchase } = props;
+
+  const fromToken = useTokenInfo({
+    chainId: purchase.fromChainId,
+    tokenAddress: purchase.fromTokenAddress,
+  });
+
+  const toToken = useTokenInfo({
+    chainId: purchase.toChainId,
+    tokenAddress: purchase.toTokenAddress,
+  });
+
+  return (
+    <tr key={purchase.purchaseId} className="border-b border-border">
+      {/* Amount */}
+      <TableData>
+        {(purchase.toAmountUSDCents / 100).toLocaleString("en-US", {
+          currency: "USD",
+          style: "currency",
+        })}
+      </TableData>
+
+      {/* Type */}
+      <TableData>
+        <Badge
+          variant={"secondary"}
+          className={cn(
+            "capitalize",
+            purchase.purchaseType === "ONRAMP"
+              ? "bg-lime-200/50 dark:bg-lime-800/50 text-lime-800 dark:text-lime-200"
+              : "bg-sky-200/50 dark:bg-sky-900/50 text-sky-800 dark:text-sky-200",
+          )}
+        >
+          {purchase.purchaseType}
+        </Badge>
+      </TableData>
+
+      {/* From */}
+      <TableData>
+        {purchase.purchaseType === "SWAP" ? (
+          <>
+            {fromToken.isLoading ? (
+              <Skeleton className="h-4 w-14" />
+            ) : (
+              fromToken.data?.symbol || "Failed to Load"
+            )}
+          </>
+        ) : (
+          purchase.fromCurrencySymbol
+        )}
+      </TableData>
+
+      {/* To */}
+      <TableData>
+        {toToken.isLoading ? (
+          <Skeleton className="h-4 w-14" />
+        ) : (
+          toToken.data?.symbol || "Failed to Load"
+        )}
+      </TableData>
+
+      {/* Status */}
+      <TableData>
+        <Badge
+          variant={
+            purchase.status === "COMPLETED"
+              ? "success"
+              : purchase.status === "PENDING"
+                ? "warning"
+                : "destructive"
+          }
+          className="capitalize"
+        >
+          {purchase.status}
+        </Badge>
+      </TableData>
+
+      {/* Address */}
+      <TableData>
+        <CopyAddressButton
+          address={purchase.toAddress}
+          variant="ghost"
+          className="text-secondary-foreground"
+        />
+      </TableData>
+
+      {/* Date */}
+      <TableData>
+        {format(new Date(purchase.updatedAt), "LLL dd, y h:mm a")}
+      </TableData>
+    </tr>
+  );
+}
+
 function TableData({ children }: { children: React.ReactNode }) {
   return <td className="px-0 py-2 text-sm">{children}</td>;
 }
@@ -173,16 +216,44 @@ function TableHeading(props: { children: React.ReactNode }) {
 }
 
 function getCSVData(data: PayPurchasesData["purchases"]) {
-  const header = ["Amount", "Type", "Status", "Recipient", "Date"];
-  const rows = data.map((purchase) => [
+  const header = [
+    "Amount",
+    "Type",
+    "Status",
+    // to
+    "Buy Token address",
+    "Buy Token chain",
+    // from
+    "From Token address",
+    "From Token chain",
+    "From currency",
+    // status
+    "Recipient",
+    // recipient
+    "Date",
+  ];
+
+  const rows: string[][] = data.map((purchase) => [
+    // amount
     (purchase.toAmountUSDCents / 100).toLocaleString("en-US", {
       currency: "USD",
       style: "currency",
     }),
+    // type
     purchase.purchaseType,
+    // status
     purchase.status,
+    // to
+    purchase.toTokenAddress,
+    `${purchase.toChainId}`,
+    // from
+    purchase.purchaseType === "SWAP" ? purchase.fromTokenAddress : "",
+    purchase.purchaseType === "SWAP" ? `${purchase.fromChainId}` : "",
+    purchase.purchaseType === "ONRAMP" ? purchase.fromCurrencySymbol : "",
+    // recipient
     purchase.toAddress,
-    format(new Date(purchase.updatedAt), "LLL dd, y h:mm a"),
+    format(new Date(purchase.updatedAt), "LLL dd y h:mm a"),
   ]);
+
   return { header, rows };
 }
