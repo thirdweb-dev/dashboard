@@ -124,7 +124,7 @@ function RenderData(props: {
           ) : (
             <>
               {new Array(20).fill(0).map((_, i) => (
-                <SkeletonTableRow key={i} />
+                <SkeletonTableRow key={i} rowIndex={i} />
               ))}
             </>
           )}
@@ -158,20 +158,6 @@ function RenderData(props: {
 
 function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
   const { purchase } = props;
-
-  // const fromToken = useTokenInfo(
-  //   purchase.purchaseType === "SWAP"
-  //     ? {
-  //         chainId: purchase.fromToken.chainId,
-  //         tokenAddress: purchase.fromToken.tokenAddress,
-  //       }
-  //     : undefined,
-  // );
-
-  // const toToken = useTokenInfo({
-  //   chainId: purchase.toToken.chainId,
-  //   tokenAddress: purchase.toToken.tokenAddress,
-  // });
 
   return (
     <tr
@@ -244,30 +230,25 @@ function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
   );
 }
 
-function SkeletonTableRow() {
+function SkeletonTableRow(props: { rowIndex: number }) {
+  const skeleton = (
+    <Skeleton
+      className="h-7 w-20"
+      style={{
+        animationDelay: `${props.rowIndex * 0.1}s`,
+      }}
+    />
+  );
+
   return (
     <tr className="border-b border-border">
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
-      <TableData>
-        <Skeleton className="h-7 w-20" />
-      </TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
+      <TableData>{skeleton}</TableData>
     </tr>
   );
 }

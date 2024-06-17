@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { cn } from "@/lib/utils";
 
 function Skeleton({
@@ -17,10 +18,12 @@ function SkeletonContainer<T>(props: {
   skeletonData: T;
   className?: string;
   render: (data: T, isSkeleton: boolean) => React.ReactNode;
+  style?: React.CSSProperties;
 }) {
   const isLoading = props.loadedData === undefined;
   return (
     <div
+      style={props.style}
       aria-hidden={isLoading ? "true" : "false"}
       className={cn(
         isLoading && "animate-pulse rounded-lg bg-muted",

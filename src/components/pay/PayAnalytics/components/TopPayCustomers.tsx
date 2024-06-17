@@ -112,19 +112,20 @@ function RenderData(props: { data?: UIData; loadMore: () => void }) {
         </thead>
         <tbody>
           {props.data ? (
-            props.data?.customers.map((customer) => {
+            props.data?.customers.map((customer, i) => {
               return (
-                <TableRow key={customer.walletAddress} customer={customer} />
+                <TableRow
+                  key={customer.walletAddress}
+                  customer={customer}
+                  rowIndex={i}
+                />
               );
             })
           ) : (
             <>
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
-              <TableRow />
+              {new Array(5).fill(0).map((_, i) => (
+                <TableRow rowIndex={i} key={i} />
+              ))}
             </>
           )}
         </tbody>
@@ -150,12 +151,18 @@ function TableRow(props: {
     walletAddress: string;
     totalSpendUSDCents: number;
   };
+  rowIndex: number;
 }) {
+  const delayAnim = {
+    animationDelay: `${props.rowIndex * 100}ms`,
+  };
+
   return (
     <tr className="border-b border-border">
       <TableData>
         <SkeletonContainer
           className="inline-flex"
+          style={delayAnim}
           loadedData={props.customer?.walletAddress}
           skeletonData="0x0000000000000000000000000000000000000000"
           render={(v) => {
@@ -171,6 +178,7 @@ function TableRow(props: {
       </TableData>
       <TableData>
         <SkeletonContainer
+          style={delayAnim}
           className="inline-flex"
           loadedData={props.customer?.totalSpendUSDCents}
           skeletonData={20000}
