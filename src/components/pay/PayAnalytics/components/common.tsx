@@ -1,26 +1,11 @@
-import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
-import { cn } from "../../../../@/lib/utils";
 
 export function NoDataAvailable() {
   return (
     <div className="h-[250px] flex items-center justify-center">
       <p className="text-muted-foreground">No data available</p>
-    </div>
-  );
-}
-
-export function LoadingGraph(props: { className?: string }) {
-  return (
-    <div
-      className={cn(
-        "flex-1 flex flex-col justify-center items-center text-muted-foreground",
-        props.className,
-      )}
-    >
-      <Spinner className="size-14" />
     </div>
   );
 }

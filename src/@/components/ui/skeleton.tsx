@@ -21,6 +21,7 @@ function SkeletonContainer<T>(props: {
   const isLoading = props.loadedData === undefined;
   return (
     <div
+      aria-hidden={isLoading ? "true" : "false"}
       className={cn(
         isLoading && "animate-pulse rounded-lg bg-muted",
         props.className,

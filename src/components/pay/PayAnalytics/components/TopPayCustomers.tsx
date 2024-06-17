@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CopyAddressButton } from "../../../../@/components/ui/CopyAddressButton";
-import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
+import { CardHeading, NoDataAvailable } from "./common";
 import {
   usePayTopCustomers,
   type PayTopCustomersData,
@@ -8,6 +8,15 @@ import {
 import { Button } from "../../../../@/components/ui/button";
 import { ScrollShadow } from "../../../../@/components/ui/ScrollShadow/ScrollShadow";
 import { ExportToCSVButton } from "./ExportToCSVButton";
+import { SkeletonContainer } from "../../../../@/components/ui/skeleton";
+
+type UIData = {
+  customers: Array<{
+    walletAddress: string;
+    totalSpendUSDCents: number;
+  }>;
+  showViewMore: boolean;
+};
 
 export function TopPayCustomers(props: {
   clientId: string;
@@ -24,28 +33,52 @@ export function TopPayCustomers(props: {
     skip: 0,
   });
 
-  const filteredData = topCustomersQuery.data?.customers.filter(
-    (x) => x.totalSpendUSDCents > 0,
-  );
+  function getUIData(): {
+    data?: UIData;
+    isError?: boolean;
+    isLoading?: boolean;
+  } {
+    if (topCustomersQuery.isLoading) {
+      return { isLoading: true };
+    }
 
-  let showViewMore = false;
-  if (topCustomersQuery.data) {
+    if (topCustomersQuery.isError) {
+      return { isError: true };
+    }
+
+    if (topCustomersQuery.data.customers.length === 0) {
+      return { isError: true };
+    }
+
+    const filteredCustomers = topCustomersQuery.data?.customers.filter(
+      (x) => x.totalSpendUSDCents > 0,
+    );
+
     const totalCount = topCustomersQuery.data.count;
     const currentLoadedCount = topCustomersQuery.data.customers.length;
+    const showViewMore = currentLoadedCount < totalCount;
 
-    showViewMore = currentLoadedCount < totalCount;
+    return {
+      data: {
+        customers: filteredCustomers,
+        showViewMore,
+      },
+    };
   }
+
+  const uiData = getUIData();
+  const customersData = uiData.data?.customers;
 
   return (
     <div className="flex flex-col relative overflow-auto">
       {/* header */}
       <div className="flex flex-col lg:flex-row lg:justify-between gap-2 lg:items-center">
         <CardHeading> Top customers by spend </CardHeading>
-        {filteredData && filteredData?.length > 0 && (
+        {customersData && (
           <ExportToCSVButton
             fileName="top_customers"
             getData={() => {
-              return getCSVData(filteredData);
+              return getCSVData(customersData);
             }}
           />
         )}
@@ -53,18 +86,12 @@ export function TopPayCustomers(props: {
 
       <div className="h-5" />
 
-      {topCustomersQuery.isLoading ? (
-        <LoadingGraph />
-      ) : filteredData && filteredData.length > 0 ? (
+      {!uiData.isError ? (
         <RenderData
-          data={filteredData}
-          loadMore={
-            showViewMore
-              ? () => {
-                  setItemsToLoad(itemsToLoad + 50);
-                }
-              : undefined
-          }
+          data={uiData.data}
+          loadMore={() => {
+            setItemsToLoad(itemsToLoad + 50);
+          }}
         />
       ) : (
         <NoDataAvailable />
@@ -73,10 +100,7 @@ export function TopPayCustomers(props: {
   );
 }
 
-function RenderData(props: {
-  data: PayTopCustomersData["customers"];
-  loadMore?: () => void;
-}) {
+function RenderData(props: { data?: UIData; loadMore: () => void }) {
   return (
     <ScrollShadow scrollableClassName="h-[250px]" disableTopShadow={true}>
       <table className="w-full">
@@ -87,32 +111,26 @@ function RenderData(props: {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((customer) => {
-            return (
-              <tr
-                key={customer.walletAddress}
-                className="border-b border-border"
-              >
-                <TableData>
-                  <CopyAddressButton
-                    address={customer.walletAddress}
-                    variant="ghost"
-                    className="text-secondary-foreground"
-                  />
-                </TableData>
-                <TableData>
-                  {(customer.totalSpendUSDCents / 100).toLocaleString("en-US", {
-                    currency: "USD",
-                    style: "currency",
-                  })}
-                </TableData>
-              </tr>
-            );
-          })}
+          {props.data ? (
+            props.data?.customers.map((customer) => {
+              return (
+                <TableRow key={customer.walletAddress} customer={customer} />
+              );
+            })
+          ) : (
+            <>
+              <TableRow />
+              <TableRow />
+              <TableRow />
+              <TableRow />
+              <TableRow />
+              <TableRow />
+            </>
+          )}
         </tbody>
       </table>
 
-      {props.loadMore && (
+      {props.data?.showViewMore && (
         <div className="flex justify-center py-3">
           <Button
             className="text-sm text-link-foreground p-2 h-auto"
@@ -124,6 +142,51 @@ function RenderData(props: {
         </div>
       )}
     </ScrollShadow>
+  );
+}
+
+function TableRow(props: {
+  customer?: {
+    walletAddress: string;
+    totalSpendUSDCents: number;
+  };
+}) {
+  return (
+    <tr className="border-b border-border">
+      <TableData>
+        <SkeletonContainer
+          className="inline-flex"
+          loadedData={props.customer?.walletAddress}
+          skeletonData="0x0000000000000000000000000000000000000000"
+          render={(v) => {
+            return (
+              <CopyAddressButton
+                address={v}
+                variant="ghost"
+                className="text-secondary-foreground"
+              />
+            );
+          }}
+        />
+      </TableData>
+      <TableData>
+        <SkeletonContainer
+          className="inline-flex"
+          loadedData={props.customer?.totalSpendUSDCents}
+          skeletonData={20000}
+          render={(v) => {
+            return (
+              <p>
+                {(v / 100).toLocaleString("en-US", {
+                  currency: "USD",
+                  style: "currency",
+                })}
+              </p>
+            );
+          }}
+        />
+      </TableData>
+    </tr>
   );
 }
 

@@ -3,7 +3,7 @@ import {
   usePayPurchases,
   type PayPurchasesData,
 } from "../hooks/usePayPurchases";
-import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
+import { CardHeading, NoDataAvailable } from "./common";
 import { CopyAddressButton } from "../../../../@/components/ui/CopyAddressButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "../../../../@/components/ui/badge";
@@ -14,6 +14,11 @@ import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 import { ExportToCSVButton } from "./ExportToCSVButton";
 import { useTokenInfo } from "../hooks/useTokenInfo";
 import { Skeleton } from "../../../../@/components/ui/skeleton";
+
+type UIData = {
+  purchases: PayPurchasesData["purchases"];
+  showLoadMore: boolean;
+};
 
 export function PaymentHistory(props: {
   clientId: string;
@@ -29,15 +34,46 @@ export function PaymentHistory(props: {
     skip: 0,
   });
 
+  function getUIData(): {
+    data?: UIData;
+    isLoading?: boolean;
+    isError?: boolean;
+  } {
+    if (purchasesQuery.isLoading) {
+      return { isLoading: true };
+    }
+    if (purchasesQuery.isError) {
+      return { isError: true };
+    }
+
+    if (purchasesQuery.data.purchases.length === 0) {
+      return { isError: true };
+    }
+
+    const totalItems = purchasesQuery.data.count;
+    const itemsLoaded = purchasesQuery.data.purchases.length;
+    const showLoadMore = totalItems > itemsLoaded;
+
+    return {
+      data: {
+        purchases: purchasesQuery.data.purchases,
+        showLoadMore,
+      },
+    };
+  }
+
+  const uiData = getUIData();
+  const purchases = uiData.data?.purchases;
+
   return (
     <div>
       <div className="flex flex-col lg:flex-row lg:justify-between gap-2 lg:items-center">
         <CardHeading> Transaction History</CardHeading>
-        {purchasesQuery.data && purchasesQuery.data.purchases?.length > 0 && (
+        {purchases && (
           <ExportToCSVButton
             fileName="transaction_history"
             getData={() => {
-              return getCSVData(purchasesQuery.data.purchases);
+              return getCSVData(purchases);
             }}
           />
         )}
@@ -45,11 +81,9 @@ export function PaymentHistory(props: {
 
       <div className="h-5" />
 
-      {purchasesQuery.isLoading ? (
-        <LoadingGraph className="h-[400px]" />
-      ) : purchasesQuery.data && purchasesQuery.data.purchases.length > 0 ? (
+      {!uiData.isError ? (
         <RenderData
-          data={purchasesQuery.data}
+          data={uiData.data}
           loadMore={() => setItemsToLoad(itemsToLoad + 100)}
           isLoadingMore={purchasesQuery.isFetching}
         />
@@ -61,14 +95,10 @@ export function PaymentHistory(props: {
 }
 
 function RenderData(props: {
-  data: PayPurchasesData;
+  data?: UIData;
   loadMore: () => void;
   isLoadingMore: boolean;
 }) {
-  const totalItems = props.data.count;
-  const itemsLoaded = props.data.purchases.length;
-  const showLoadMore = totalItems > itemsLoaded;
-
   return (
     <ScrollShadow scrollableClassName="max-h-[700px]" disableTopShadow={true}>
       <table className="w-full">
@@ -84,28 +114,44 @@ function RenderData(props: {
           </tr>
         </thead>
         <tbody>
-          {props.data.purchases.map((purchase) => {
-            return <TableRow key={purchase.purchaseId} purchase={purchase} />;
-          })}
+          {props.data ? (
+            <>
+              {props.data.purchases.map((purchase) => {
+                return (
+                  <TableRow key={purchase.purchaseId} purchase={purchase} />
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {new Array(20).fill(0).map((_, i) => (
+                <SkeletonTableRow key={i} />
+              ))}
+            </>
+          )}
         </tbody>
       </table>
 
-      {showLoadMore ? (
-        <div className="flex justify-center py-3">
-          <Button
-            className="text-sm text-link-foreground p-2 h-auto gap-2 items-center"
-            variant="ghost"
-            onClick={props.loadMore}
-            disabled={props.isLoadingMore}
-          >
-            {props.isLoadingMore ? "Loading" : "View More"}
-            {props.isLoadingMore && <Spinner className="size-3" />}
-          </Button>
-        </div>
-      ) : (
-        <p className="text-center py-5 text-muted-foreground">
-          {totalItems === 0 ? "No transactions found" : "No more transactions"}
-        </p>
+      {props.data && (
+        <>
+          {props.data?.showLoadMore ? (
+            <div className="flex justify-center py-3">
+              <Button
+                className="text-sm text-link-foreground p-2 h-auto gap-2 items-center"
+                variant="ghost"
+                onClick={props.loadMore}
+                disabled={props.isLoadingMore}
+              >
+                {props.isLoadingMore ? "Loading" : "View More"}
+                {props.isLoadingMore && <Spinner className="size-3" />}
+              </Button>
+            </div>
+          ) : (
+            <p className="text-center py-5 text-muted-foreground">
+              No more transactions
+            </p>
+          )}
+        </>
       )}
     </ScrollShadow>
   );
@@ -125,7 +171,10 @@ function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
   });
 
   return (
-    <tr key={purchase.purchaseId} className="border-b border-border">
+    <tr
+      key={purchase.purchaseId}
+      className="border-b border-border fade-in-0 duration-300"
+    >
       {/* Amount */}
       <TableData>
         {(purchase.toAmountUSDCents / 100).toLocaleString("en-US", {
@@ -201,6 +250,34 @@ function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
       {/* Date */}
       <TableData>
         {format(new Date(purchase.updatedAt), "LLL dd, y h:mm a")}
+      </TableData>
+    </tr>
+  );
+}
+
+function SkeletonTableRow() {
+  return (
+    <tr className="border-b border-border">
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
+      </TableData>
+      <TableData>
+        <Skeleton className="h-7 w-20" />
       </TableData>
     </tr>
   );
