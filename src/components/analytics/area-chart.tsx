@@ -51,7 +51,6 @@ const AreaChart = <
   showYAxis,
   startEndOnly,
   className,
-  isAnimationActive,
 }: AreaChartProps<TData, TIndexKey>) => {
   const id = useId();
 
@@ -104,7 +103,6 @@ const AreaChart = <
                 strokeWidth: 0,
               }}
               strokeWidth={1.5}
-              isAnimationActive={isAnimationActive}
             />
           ))}
           <Tooltip
@@ -230,7 +228,6 @@ export const AreaChartLoadingState = (props: { height?: string }) => {
         data={loadingData}
         index={{ id: "key" }}
         categories={[{ id: "value", color: "hsl(var(--muted-foreground))" }]}
-        isAnimationActive={false}
       />
     </div>
   );

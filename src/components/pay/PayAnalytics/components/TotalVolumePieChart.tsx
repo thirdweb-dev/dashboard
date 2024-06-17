@@ -58,7 +58,6 @@ export function TotalVolumePieChart(props: {
 
       return data;
     },
-    retry: false,
     enabled: !!volumeQuery.data,
   });
 
