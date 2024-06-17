@@ -99,7 +99,10 @@ function RenderData(props: {
   isLoadingMore: boolean;
 }) {
   return (
-    <ScrollShadow scrollableClassName="max-h-[700px]" disableTopShadow={true}>
+    <ScrollShadow
+      scrollableClassName="max-h-[350px] lg:max-h-[700px]"
+      disableTopShadow={true}
+    >
       <table className="w-full">
         <thead>
           <tr className="border-b border-border sticky top-0 bg-background z-10">
@@ -224,7 +227,9 @@ function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
 
       {/* Date */}
       <TableData>
-        {format(new Date(purchase.updatedAt), "LLL dd, y h:mm a")}
+        <p className="min-w-[180px] lg:min-w-auto">
+          {format(new Date(purchase.updatedAt), "LLL dd, y h:mm a")}
+        </p>
       </TableData>
     </tr>
   );

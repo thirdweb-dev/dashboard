@@ -95,7 +95,7 @@ function RenderData(props: {
 
   return (
     <div className="flex flex-col  flex-1">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-2 lg:items-center">
         <CardHeading>Volume</CardHeading>
 
         {graphData && (
