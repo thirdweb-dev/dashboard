@@ -1,10 +1,10 @@
 /* eslint-disable react/forbid-dom-props */
 import { Pie, PieChart, Cell } from "recharts";
 import { cn } from "@/lib/utils";
-import { usePayVolume } from "./hooks/usePayVolume";
+import { usePayVolume } from "../hooks/usePayVolume";
 import { NoDataAvailable, chartHeight } from "./common";
 import { useQuery } from "@tanstack/react-query";
-import { SkeletonContainer } from "../../../@/components/ui/skeleton";
+import { SkeletonContainer } from "../../../../@/components/ui/skeleton";
 
 type VolData = {
   name: string;
@@ -18,7 +18,7 @@ type UIQueryData = {
   fiatTotalUSD: number;
 };
 
-export function TotalVolumePieChartCard(props: {
+export function TotalVolumePieChart(props: {
   clientId: string;
   from: Date;
   to: Date;

@@ -1,8 +1,8 @@
 import { Spinner } from "@/components/ui/Spinner/Spinner";
 import { ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ToolTipLabel } from "../../../@/components/ui/tooltip";
-import { cn } from "../../../@/lib/utils";
+import { ToolTipLabel } from "../../../../@/components/ui/tooltip";
+import { cn } from "../../../../@/lib/utils";
 
 export function NoDataAvailable() {
   return (

@@ -1,6 +1,9 @@
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
-import { useState } from "react";
+import { useId, useState } from "react";
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import {
+  usePayNewCustomers,
+  type PayNewCustomersData,
+} from "../hooks/usePayNewCustomers";
 import { IntervalSelector } from "./IntervalSelector";
 import {
   CardHeading,
@@ -16,9 +19,13 @@ type GraphData = {
   value: number;
 };
 
-export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
+export function PayNewCustomers(props: {
+  clientId: string;
+  from: Date;
+  to: Date;
+}) {
   const [intervalType, setIntervalType] = useState<"day" | "week">("day");
-  const payoutsQuery = usePayVolume({
+  const newCustomersQuery = usePayNewCustomers({
     clientId: props.clientId,
     from: props.from,
     to: props.to,
@@ -26,12 +33,12 @@ export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
   });
 
   return (
-    <section className="relative flex flex-col justify-center">
+    <section className="relative flex flex-col min-h-[320px]">
       {/* header */}
       <div className="flex justify-between gap-2 items-center mb-1">
-        <CardHeading> Payouts </CardHeading>
+        <CardHeading>New Customers </CardHeading>
 
-        {payoutsQuery.data && (
+        {newCustomersQuery.data && (
           <IntervalSelector
             intervalType={intervalType}
             setIntervalType={setIntervalType}
@@ -39,11 +46,13 @@ export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
         )}
       </div>
 
-      {payoutsQuery.isLoading ? (
-        <LoadingGraph className="min-h-[260px]" />
-      ) : payoutsQuery.data && payoutsQuery.data.intervalResults.length > 0 ? (
+      {/* Chart */}
+      {newCustomersQuery.isLoading ? (
+        <LoadingGraph />
+      ) : newCustomersQuery.data &&
+        newCustomersQuery.data.intervalResults.length > 0 ? (
         <RenderData
-          data={payoutsQuery.data}
+          data={newCustomersQuery.data}
           intervalType={intervalType}
           setIntervalType={setIntervalType}
         />
@@ -55,17 +64,22 @@ export function PayoutsCard(props: { clientId: string; from: Date; to: Date }) {
 }
 
 function RenderData(props: {
-  data: PayVolumeData;
+  data: PayNewCustomersData;
   intervalType: "day" | "week";
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
-  const totalPayoutsUSD = props.data.aggregate.payouts.amountUSDCents / 100;
-  const data: GraphData[] = props.data.intervalResults.map((result) => ({
-    date: format(new Date(result.interval), "LLL dd"),
-    value: result.payouts.amountUSDCents / 100,
-  }));
+  const uniqueId = useId();
 
-  if (totalPayoutsUSD === 0) {
+  const newCusomtersData: GraphData[] = props.data.intervalResults.map((x) => {
+    return {
+      date: format(new Date(x.interval), "LLL dd"),
+      value: x.distinctCustomers,
+    };
+  });
+
+  const totalNewCustomers = props.data.aggregate.distinctCustomers;
+
+  if (totalNewCustomers === 0) {
     return (
       <div className="h-[250px] flex items-center justify-center">
         <p className="text-muted-foreground">No data available</p>
@@ -77,19 +91,32 @@ function RenderData(props: {
     <div>
       <div className="flex items-center gap-3 mb-5">
         <p className="text-4xl tracking-tighter font-semibold">
-          {totalPayoutsUSD.toLocaleString("en-US", {
-            currency: "USD",
-            style: "currency",
-          })}
+          {totalNewCustomers}
         </p>
+
         <ChangeBadge
-          percent={props.data.aggregate.payouts.bpsIncreaseFromPriorRange}
+          percent={props.data.aggregate.bpsIncreaseFromPriorRange / 100}
         />
       </div>
 
-      <div className="relative flex justify-center w-full">
+      <div className="relative flex justify-center w-full ">
         <ResponsiveContainer width="100%" height={chartHeight}>
-          <BarChart data={data}>
+          <AreaChart data={newCusomtersData}>
+            <defs>
+              <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor={"hsl(var(--link-foreground))"}
+                  stopOpacity={0.3}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={"hsl(var(--link-foreground))"}
+                  stopOpacity={0.0}
+                />
+              </linearGradient>
+            </defs>
+
             <Tooltip
               content={(x) => {
                 const payload = x.payload?.[0]?.payload as
@@ -101,45 +128,33 @@ function RenderData(props: {
                       {payload?.date}
                     </p>
                     <p className="text-medium text-base">
-                      {payload?.value.toLocaleString("en-US", {
-                        currency: "USD",
-                        style: "currency",
-                      })}
+                      Customers: {payload?.value}
                     </p>
                   </div>
                 );
               }}
-              cursor={{ fill: "hsl(var(--accent))", radius: 8 }}
             />
-            <Bar
+            <Area
+              type="monotone"
               dataKey="value"
-              stroke="none"
+              stroke={`hsl(var(--link-foreground))`}
               fillOpacity={1}
-              fill={"hsl(var(--link-foreground))"}
-              radius={8}
-              barSize={20}
+              fill={`url(#${uniqueId})`}
+              strokeWidth={2}
+              strokeLinecap="round"
             />
 
             <XAxis
               dataKey="date"
               axisLine={false}
               tickLine={false}
-              className="text-xs font-sans"
+              className="text-xs font-sans mt-5"
               stroke="hsl(var(--muted-foreground))"
-              dy={10}
+              dy={12}
             />
-          </BarChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
-
-      {props.data && (
-        <div className="absolute top-0 right-0">
-          <IntervalSelector
-            intervalType={props.intervalType}
-            setIntervalType={props.setIntervalType}
-          />
-        </div>
-      )}
     </div>
   );
 }

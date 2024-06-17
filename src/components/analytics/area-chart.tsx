@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { CustomToolTip } from "./custom-tooltip";
 import { useEffect, useId, useState } from "react";
 import {
@@ -36,6 +37,7 @@ export interface AreaChartProps<
   showYAxis?: boolean;
   startEndOnly?: boolean;
   className?: string;
+  isAnimationActive?: boolean;
 }
 
 const AreaChart = <
@@ -49,6 +51,7 @@ const AreaChart = <
   showYAxis,
   startEndOnly,
   className,
+  isAnimationActive,
 }: AreaChartProps<TData, TIndexKey>) => {
   const id = useId();
 
@@ -101,6 +104,7 @@ const AreaChart = <
                 strokeWidth: 0,
               }}
               strokeWidth={1.5}
+              isAnimationActive={isAnimationActive}
             />
           ))}
           <Tooltip
@@ -200,7 +204,7 @@ function generateFakeData() {
   return data;
 }
 
-export const AreaChartLoadingState: React.FC = () => {
+export const AreaChartLoadingState = (props: { height?: string }) => {
   const [loadingData, setLoadingData] = useState(() => generateFakeData());
 
   // legitimate use case
@@ -212,7 +216,12 @@ export const AreaChartLoadingState: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="relative">
+    <div
+      className="relative w-full"
+      style={{
+        height: props.height,
+      }}
+    >
       <div className="flex items-center justify-center filter backdrop-blur-sm z-10 absolute inset-0">
         <p className="text-secondary-foreground">Loading Chart</p>
       </div>
@@ -220,7 +229,8 @@ export const AreaChartLoadingState: React.FC = () => {
         className="pointer-events-none"
         data={loadingData}
         index={{ id: "key" }}
-        categories={[{ id: "value", color: "hsl(var(--muted))" }]}
+        categories={[{ id: "value", color: "hsl(var(--muted-foreground))" }]}
+        isAnimationActive={false}
       />
     </div>
   );

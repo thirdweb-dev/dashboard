@@ -2,20 +2,20 @@ import { useState } from "react";
 import {
   usePayPurchases,
   type PayPurchasesData,
-} from "./hooks/usePayPurchases";
+} from "../hooks/usePayPurchases";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
-import { CopyAddressButton } from "../../../@/components/ui/CopyAddressButton";
+import { CopyAddressButton } from "../../../../@/components/ui/CopyAddressButton";
 import { Button } from "@/components/ui/button";
-import { Badge } from "../../../@/components/ui/badge";
-import { cn } from "../../../@/lib/utils";
+import { Badge } from "../../../../@/components/ui/badge";
+import { cn } from "../../../../@/lib/utils";
 import { format } from "date-fns";
-import { ScrollShadow } from "../../../@/components/ui/ScrollShadow/ScrollShadow";
-import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
-import { ExportToCSVButton } from "./exportToCSV";
-import { useTokenInfo } from "./hooks/useTokenInfo";
-import { Skeleton } from "../../../@/components/ui/skeleton";
+import { ScrollShadow } from "../../../../@/components/ui/ScrollShadow/ScrollShadow";
+import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
+import { ExportToCSVButton } from "./ExportToCSVButton";
+import { useTokenInfo } from "../hooks/useTokenInfo";
+import { Skeleton } from "../../../../@/components/ui/skeleton";
 
-export function TransactionHistoryCard(props: {
+export function PaymentHistory(props: {
   clientId: string;
   from: Date;
   to: Date;

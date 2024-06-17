@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
-import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
+import { usePayVolume, type PayVolumeData } from "../hooks/usePayVolume";
 import {
   Select,
   SelectTrigger,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 
 /* eslint-disable react/forbid-dom-props */
-export function SuccessRateCard(props: {
+export function PaymentsSuccessRate(props: {
   clientId: string;
   from: Date;
   to: Date;

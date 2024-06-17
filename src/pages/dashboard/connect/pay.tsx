@@ -32,7 +32,7 @@ import { EnabledContracts } from "components/payments/contracts/enabled-contract
 import { PaymentContracts } from "components/payments/contracts/payment-contracts";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
-import { PayAnalytics } from "../../../components/pay/PayAnalytics";
+import { PayAnalytics } from "../../../components/pay/PayAnalytics/PayAnalytics";
 import { TabButtons } from "../../../@/components/ui/tabs";
 
 const TRACKING_CATEGORY = "pay";

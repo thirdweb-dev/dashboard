@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { CopyAddressButton } from "../../../@/components/ui/CopyAddressButton";
+import { CopyAddressButton } from "../../../../@/components/ui/CopyAddressButton";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
 import {
   usePayTopCustomers,
   type PayTopCustomersData,
-} from "./hooks/usePayTopCustomers";
-import { Button } from "../../../@/components/ui/button";
-import { ScrollShadow } from "../../../@/components/ui/ScrollShadow/ScrollShadow";
-import { ExportToCSVButton } from "./exportToCSV";
+} from "../hooks/usePayTopCustomers";
+import { Button } from "../../../../@/components/ui/button";
+import { ScrollShadow } from "../../../../@/components/ui/ScrollShadow/ScrollShadow";
+import { ExportToCSVButton } from "./ExportToCSVButton";
 
-export function TopCustomersCard(props: {
+export function TopPayCustomers(props: {
   clientId: string;
   from: Date;
   to: Date;

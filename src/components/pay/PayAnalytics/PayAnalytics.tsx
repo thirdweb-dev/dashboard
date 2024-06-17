@@ -1,22 +1,22 @@
 /* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
-import { DatePickerWithRange } from "../../@/components/ui/DatePickerWithRange";
+import { DatePickerWithRange } from "../../../@/components/ui/DatePickerWithRange";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "../../@/components/ui/select";
-import { NewCustomersCard } from "./PayAnalytics/NewCustomersCard";
-import { PayoutsCard } from "./PayAnalytics/PayoutsCard";
-import { SuccessRateCard } from "./PayAnalytics/SuccessRateCard";
-import { TotalVolumeAreaChartCard } from "./PayAnalytics/TotalVolumeAreaChart";
-import { TotalVolumePieChartCard } from "./PayAnalytics/TotalVolumePieChartCard";
+} from "../../../@/components/ui/select";
+import { PayNewCustomers } from "./components/PayNewCustomers";
+import { Payouts } from "./components/Payouts";
+import { PaymentsSuccessRate } from "./components/PaymentsSuccessRate";
+import { TotalPayVolume } from "./components/TotalPayVolume";
+import { TotalVolumePieChart } from "./components/TotalVolumePieChart";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { format } from "date-fns";
-import { TopCustomersCard } from "./PayAnalytics/TopCustomersCard";
-import { TransactionHistoryCard } from "./PayAnalytics/TransactionHistoryCard";
+import { TopPayCustomers } from "./components/TopPayCustomers";
+import { PaymentHistory } from "./components/PaymentHistory";
 
 type LastX = "last-7" | "last-30" | "last-60" | "last-120";
 
@@ -43,27 +43,23 @@ export function PayAnalytics(props: { apiKey: ApiKey }) {
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none flex items-center">
-          <TotalVolumePieChartCard
+          <TotalVolumePieChart
             clientId={clientId}
             from={range.from}
             to={range.to}
           />
         </div>
-        <TotalVolumeAreaChartCard
-          clientId={clientId}
-          from={range.from}
-          to={range.to}
-        />
+        <TotalPayVolume clientId={clientId} from={range.from} to={range.to} />
       </GridWithSeparator>
 
       <div className="h-4" />
 
       <div className="grid gap-4 grid-cols-1 xl:grid-cols-2 ">
         <div className="border border-border rounded-xl p-4 xl:p-6">
-          <PayoutsCard clientId={clientId} from={range.from} to={range.to} />
+          <Payouts clientId={clientId} from={range.from} to={range.to} />
         </div>
         <div className="border border-border rounded-xl p-4 xl:p-6 flex ">
-          <SuccessRateCard
+          <PaymentsSuccessRate
             clientId={clientId}
             from={range.from}
             to={range.to}
@@ -75,23 +71,19 @@ export function PayAnalytics(props: { apiKey: ApiKey }) {
 
       <GridWithSeparator>
         <div className="border-b border-border pb-6 xl:pb-0 xl:border-none">
-          <NewCustomersCard
+          <PayNewCustomers
             clientId={clientId}
             from={range.from}
             to={range.to}
           />
         </div>
-        <TopCustomersCard clientId={clientId} from={range.from} to={range.to} />
+        <TopPayCustomers clientId={clientId} from={range.from} to={range.to} />
       </GridWithSeparator>
 
       <div className="h-4" />
 
       <div className="border border-border rounded-xl p-4 xl:p-6">
-        <TransactionHistoryCard
-          clientId={clientId}
-          from={range.from}
-          to={range.to}
-        />
+        <PaymentHistory clientId={clientId} from={range.from} to={range.to} />
       </div>
     </div>
   );

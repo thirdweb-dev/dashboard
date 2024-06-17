@@ -1,13 +1,8 @@
 /* eslint-disable react/forbid-dom-props */
 import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
-import {
-  CardHeading,
-  LoadingGraph,
-  NoDataAvailable,
-  chartHeight,
-} from "./common";
+import { usePayVolume, type PayVolumeData } from "../hooks/usePayVolume";
+import { CardHeading, NoDataAvailable, chartHeight } from "./common";
 import { IntervalSelector } from "./IntervalSelector";
 import { format } from "date-fns";
 import {
@@ -17,13 +12,14 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { AreaChartLoadingState } from "../../../analytics/area-chart";
 
 type GraphData = {
   date: string;
   value: number;
 };
 
-export function TotalVolumeAreaChartCard(props: {
+export function TotalPayVolume(props: {
   clientId: string;
   from: Date;
   to: Date;
@@ -39,9 +35,7 @@ export function TotalVolumeAreaChartCard(props: {
 
   return (
     <section className="relative flex flex-col justify-center">
-      {volumeQuery.isLoading ? (
-        <LoadingGraph className="min-h-[300px]" />
-      ) : volumeQuery.data && volumeQuery.data.intervalResults.length > 0 ? (
+      {!volumeQuery.isError ? (
         <RenderData
           data={volumeQuery.data}
           intervalType={intervalType}
@@ -55,7 +49,7 @@ export function TotalVolumeAreaChartCard(props: {
 }
 
 function RenderData(props: {
-  data: PayVolumeData;
+  data?: PayVolumeData;
   intervalType: "day" | "week";
   setIntervalType: (intervalType: "day" | "week") => void;
 }) {
@@ -63,34 +57,36 @@ function RenderData(props: {
   const [successType, setSuccessType] = useState<"success" | "fail">("success");
   const [type, setType] = useState<"all" | "crypto" | "fiat">("all");
 
-  const data: GraphData[] = props.data.intervalResults.map((x) => {
-    const date = format(new Date(x.interval), "LLL dd");
+  const graphData: GraphData[] | undefined = props.data?.intervalResults.map(
+    (x) => {
+      const date = format(new Date(x.interval), "LLL dd");
 
-    if (type === "crypto") {
+      if (type === "crypto") {
+        return {
+          date,
+          value:
+            x.buyWithCrypto[successType === "success" ? "succeeded" : "failed"]
+              .amountUSDCents / 100,
+        };
+      }
+
+      if (type === "fiat") {
+        return {
+          date,
+          value:
+            x.buyWithFiat[successType === "success" ? "succeeded" : "failed"]
+              .amountUSDCents / 100,
+        };
+      }
+
       return {
         date,
         value:
-          x.buyWithCrypto[successType === "success" ? "succeeded" : "failed"]
+          x.sum[successType === "success" ? "succeeded" : "failed"]
             .amountUSDCents / 100,
       };
-    }
-
-    if (type === "fiat") {
-      return {
-        date,
-        value:
-          x.buyWithFiat[successType === "success" ? "succeeded" : "failed"]
-            .amountUSDCents / 100,
-      };
-    }
-
-    return {
-      date,
-      value:
-        x.sum[successType === "success" ? "succeeded" : "failed"]
-          .amountUSDCents / 100,
-    };
-  });
+    },
+  );
 
   const chartColor =
     successType === "success"
@@ -142,56 +138,60 @@ function RenderData(props: {
 
       <div className="h-10" />
 
-      <div className="flex justify-center w-full  flex-1">
-        <ResponsiveContainer width="100%" height={chartHeight}>
-          <AreaChart data={data}>
-            <defs>
-              <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={chartColor} stopOpacity={0.4} />
-                <stop offset="95%" stopColor={chartColor} stopOpacity={0.0} />
-              </linearGradient>
-            </defs>
+      <div className="flex justify-center w-full flex-1">
+        {graphData ? (
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <AreaChart data={graphData}>
+              <defs>
+                <linearGradient id={uniqueId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={chartColor} stopOpacity={0.4} />
+                  <stop offset="95%" stopColor={chartColor} stopOpacity={0.0} />
+                </linearGradient>
+              </defs>
 
-            <Tooltip
-              content={(x) => {
-                const payload = x.payload?.[0]?.payload as
-                  | GraphData
-                  | undefined;
-                return (
-                  <div className="bg-popover px-4 py-2 rounded border border-border">
-                    <p className="text-muted-foreground mb-1 text-sm">
-                      {payload?.date}
-                    </p>
-                    <p className="text-medium text-base">
-                      {payload?.value.toLocaleString("en-US", {
-                        currency: "USD",
-                        style: "currency",
-                      })}
-                    </p>
-                  </div>
-                );
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke={chartColor}
-              fillOpacity={1}
-              fill={`url(#${uniqueId})`}
-              strokeWidth={2}
-              strokeLinecap="round"
-            />
+              <Tooltip
+                content={(x) => {
+                  const payload = x.payload?.[0]?.payload as
+                    | GraphData
+                    | undefined;
+                  return (
+                    <div className="bg-popover px-4 py-2 rounded border border-border">
+                      <p className="text-muted-foreground mb-1 text-sm">
+                        {payload?.date}
+                      </p>
+                      <p className="text-medium text-base">
+                        {payload?.value.toLocaleString("en-US", {
+                          currency: "USD",
+                          style: "currency",
+                        })}
+                      </p>
+                    </div>
+                  );
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke={chartColor}
+                fillOpacity={1}
+                fill={`url(#${uniqueId})`}
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
 
-            <XAxis
-              dataKey="date"
-              axisLine={false}
-              tickLine={false}
-              className="text-xs font-sans"
-              stroke="hsl(var(--muted-foreground))"
-              dy={10}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              <XAxis
+                dataKey="date"
+                axisLine={false}
+                tickLine={false}
+                className="text-xs font-sans"
+                stroke="hsl(var(--muted-foreground))"
+                dy={10}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        ) : (
+          <AreaChartLoadingState height={`${chartHeight}px`} />
+        )}
       </div>
     </div>
   );
