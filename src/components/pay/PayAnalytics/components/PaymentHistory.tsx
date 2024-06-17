@@ -12,7 +12,6 @@ import { format } from "date-fns";
 import { ScrollShadow } from "../../../../@/components/ui/ScrollShadow/ScrollShadow";
 import { Spinner } from "../../../../@/components/ui/Spinner/Spinner";
 import { ExportToCSVButton } from "./ExportToCSVButton";
-import { useTokenInfo } from "../hooks/useTokenInfo";
 import { Skeleton } from "../../../../@/components/ui/skeleton";
 
 type UIData = {
@@ -160,19 +159,19 @@ function RenderData(props: {
 function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
   const { purchase } = props;
 
-  const fromToken = useTokenInfo(
-    purchase.purchaseType === "SWAP"
-      ? {
-          chainId: purchase.fromToken.chainId,
-          tokenAddress: purchase.fromToken.tokenAddress,
-        }
-      : undefined,
-  );
+  // const fromToken = useTokenInfo(
+  //   purchase.purchaseType === "SWAP"
+  //     ? {
+  //         chainId: purchase.fromToken.chainId,
+  //         tokenAddress: purchase.fromToken.tokenAddress,
+  //       }
+  //     : undefined,
+  // );
 
-  const toToken = useTokenInfo({
-    chainId: purchase.toToken.chainId,
-    tokenAddress: purchase.toToken.tokenAddress,
-  });
+  // const toToken = useTokenInfo({
+  //   chainId: purchase.toToken.chainId,
+  //   tokenAddress: purchase.toToken.tokenAddress,
+  // });
 
   return (
     <tr
@@ -192,39 +191,25 @@ function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
         <Badge
           variant={"secondary"}
           className={cn(
-            "capitalize",
+            "uppercase",
             purchase.purchaseType === "ONRAMP"
               ? "bg-lime-200/50 dark:bg-lime-800/50 text-lime-800 dark:text-lime-200"
               : "bg-sky-200/50 dark:bg-sky-900/50 text-sky-800 dark:text-sky-200",
           )}
         >
-          {purchase.purchaseType}
+          {purchase.purchaseType === "ONRAMP" ? "Fiat" : "Crypto"}
         </Badge>
       </TableData>
 
-      {/* From */}
+      {/* Paid */}
       <TableData>
-        {purchase.purchaseType === "SWAP" ? (
-          <>
-            {fromToken.isLoading ? (
-              <Skeleton className="h-4 w-14" />
-            ) : (
-              fromToken.data?.symbol || "Failed to Load"
-            )}
-          </>
-        ) : (
-          purchase.fromCurrencySymbol
-        )}
+        {purchase.purchaseType === "SWAP"
+          ? purchase.fromToken.symbol
+          : purchase.fromCurrencySymbol}
       </TableData>
 
-      {/* To */}
-      <TableData>
-        {toToken.isLoading ? (
-          <Skeleton className="h-4 w-14" />
-        ) : (
-          toToken.data?.symbol || "Failed to Load"
-        )}
-      </TableData>
+      {/* Bought */}
+      <TableData>{purchase.toToken.symbol}</TableData>
 
       {/* Status */}
       <TableData>
@@ -307,9 +292,11 @@ function getCSVData(data: PayPurchasesData["purchases"]) {
     // to
     "Buy Token address",
     "Buy Token chain",
+    "Buy Token Symbol",
     // from
     "From Token address",
     "From Token chain",
+    "From Token Symbol",
     "From currency",
     // status
     "Recipient",
@@ -324,16 +311,19 @@ function getCSVData(data: PayPurchasesData["purchases"]) {
       style: "currency",
     }),
     // type
-    purchase.purchaseType,
+    purchase.purchaseType === "ONRAMP" ? "Fiat" : "Crypto",
     // status
     purchase.status,
     // to
     purchase.toToken.tokenAddress,
     `${purchase.toToken.chainId}`,
+    purchase.toToken.symbol,
     // from
     purchase.purchaseType === "SWAP" ? purchase.fromToken.tokenAddress : "",
     purchase.purchaseType === "SWAP" ? `${purchase.fromToken.chainId}` : "",
+    purchase.purchaseType === "SWAP" ? purchase.fromToken.symbol : "",
     purchase.purchaseType === "ONRAMP" ? purchase.fromCurrencySymbol : "",
+
     // recipient
     purchase.toAddress,
     format(new Date(purchase.updatedAt), "LLL dd y h:mm a"),
