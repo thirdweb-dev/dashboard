@@ -1,36 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { useLoggedInUser } from "../../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
-export type PayPurchasesData = {
+export type PayTopCustomersData = {
   count: number;
-  purchases: Array<{
-    createdAt: string;
-    estimatedFeesUSDCents: number;
-    fromAmountUSDCents: number;
-    fromAmountWei: string;
-    fromChainId: number;
-    fromCurrencyDecimals: number;
-    fromCurrencySymbol: string;
-    fromTokenAddress: string;
-    purchaseId: string;
-    purchaseType: "ONRAMP" | "SWAP";
-    status: "COMPLETED" | "FAILED" | "PENDING";
-    toAddress: string;
-    toAmountUSDCents: number;
-    toAmountWei: string;
-    toChainId: number;
-    toTokenAddress: string;
-    updatedAt: string;
+  customers: Array<{
+    walletAddress: string;
+    totalSpendUSDCents: number;
   }>;
 };
 
 type Response = {
   result: {
-    data: PayPurchasesData;
+    data: PayTopCustomersData;
   };
 };
 
-export function usePayPurchases(options: {
+export function usePayTopCustomers(options: {
   clientId: string;
   from: Date;
   to: Date;
@@ -39,11 +24,11 @@ export function usePayPurchases(options: {
 }) {
   const { user, isLoggedIn } = useLoggedInUser();
 
-  return useQuery({
-    queryKey: ["usePayPurchases", user?.address, options],
-    queryFn: async () => {
+  return useQuery(
+    ["usePayTopCustomers", user?.address, options],
+    async () => {
       const endpoint = new URL(
-        "https://pay.thirdweb-dev.com/stats/purchases/v1",
+        "https://pay.thirdweb-dev.com/stats/customers/v1",
       );
       endpoint.searchParams.append("skip", `${options.skip}`);
       endpoint.searchParams.append("take", `${options.take}`);
@@ -67,7 +52,6 @@ export function usePayPurchases(options: {
       const resJSON = (await res.json()) as Response;
       return resJSON.result.data;
     },
-    enabled: !!user?.address && isLoggedIn,
-    keepPreviousData: true,
-  });
+    { enabled: !!user?.address && isLoggedIn },
+  );
 }

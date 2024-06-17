@@ -3,7 +3,7 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import {
   usePayNewCustomers,
   type PayNewCustomersData,
-} from "./usePayNewCustomers";
+} from "./hooks/usePayNewCustomers";
 import { IntervalSelector } from "./IntervalSelector";
 import {
   CardHeading,

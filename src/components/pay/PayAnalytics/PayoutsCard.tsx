@@ -1,5 +1,5 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { usePayVolume, type PayVolumeData } from "./usePayVolume";
+import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
 import { useState } from "react";
 import { IntervalSelector } from "./IntervalSelector";
 import {

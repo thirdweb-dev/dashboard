@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { useLoggedInUser } from "../../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 type AggregatedData = {
   succeeded: {
@@ -89,6 +89,6 @@ export function usePayVolume(options: {
 
       return resJSON.result.data;
     },
-    { enabled: !!user?.address && isLoggedIn },
+    { enabled: !!user?.address && isLoggedIn, retry: false },
   );
 }

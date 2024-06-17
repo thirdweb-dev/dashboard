@@ -1,38 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLoggedInUser } from "../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
+import { useLoggedInUser } from "../../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
-export type PayTopCustomersData = {
-  count: number;
-  customers: Array<{
-    walletAddress: string;
-    totalSpendUSDCents: number;
+export type PayNewCustomersData = {
+  intervalType: "day" | "week";
+  intervalResults: Array<{
+    /**
+     * Date formatted in ISO 8601 format
+     */
+    interval: string;
+    distinctCustomers: number;
   }>;
+  aggregate: {
+    // totals in the [fromDate, toDate] range
+    distinctCustomers: number;
+    bpsIncreaseFromPriorRange: number;
+  };
 };
 
 type Response = {
   result: {
-    data: PayTopCustomersData;
+    data: PayNewCustomersData;
   };
 };
 
-export function usePayTopCustomers(options: {
+export function usePayNewCustomers(options: {
   clientId: string;
   from: Date;
   to: Date;
-  skip: number;
-  take: number;
+  intervalType: "day" | "week";
 }) {
   const { user, isLoggedIn } = useLoggedInUser();
 
   return useQuery(
-    ["usePayTopCustomers", user?.address, options],
+    ["usePayNewCustomers", user?.address, options],
     async () => {
       const endpoint = new URL(
-        "https://pay.thirdweb-dev.com/stats/customers/v1",
+        "https://pay.thirdweb-dev.com/stats/aggregate/customers/v1",
       );
-      endpoint.searchParams.append("skip", `${options.skip}`);
-      endpoint.searchParams.append("take", `${options.take}`);
-
+      endpoint.searchParams.append("intervalType", options.intervalType);
       endpoint.searchParams.append("clientId", options.clientId);
       endpoint.searchParams.append("fromDate", `${options.from.getTime()}`);
       endpoint.searchParams.append("toDate", `${options.to.getTime()}`);
@@ -46,10 +51,11 @@ export function usePayTopCustomers(options: {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to fetch pay volume");
+        throw new Error("Failed to fetch new customers");
       }
 
       const resJSON = (await res.json()) as Response;
+
       return resJSON.result.data;
     },
     { enabled: !!user?.address && isLoggedIn },

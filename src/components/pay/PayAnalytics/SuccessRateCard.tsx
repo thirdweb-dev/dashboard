@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
-import { usePayVolume, type PayVolumeData } from "./usePayVolume";
+import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
 import {
   Select,
   SelectTrigger,

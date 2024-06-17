@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { usePayPurchases, type PayPurchasesData } from "./usePayPurchases";
+import {
+  usePayPurchases,
+  type PayPurchasesData,
+} from "./hooks/usePayPurchases";
 import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
 import { CopyAddressButton } from "../../../@/components/ui/CopyAddressButton";
 import { Button } from "@/components/ui/button";

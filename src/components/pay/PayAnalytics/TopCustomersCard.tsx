@@ -4,7 +4,7 @@ import { CardHeading, LoadingGraph, NoDataAvailable } from "./common";
 import {
   usePayTopCustomers,
   type PayTopCustomersData,
-} from "./usePayTopCustomers";
+} from "./hooks/usePayTopCustomers";
 import { Button } from "../../../@/components/ui/button";
 import { ScrollShadow } from "../../../@/components/ui/ScrollShadow/ScrollShadow";
 import { ExportToCSVButton } from "./exportToCSV";

@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-dom-props */
 import { useId, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { usePayVolume, type PayVolumeData } from "./usePayVolume";
+import { usePayVolume, type PayVolumeData } from "./hooks/usePayVolume";
 import {
   CardHeading,
   LoadingGraph,
