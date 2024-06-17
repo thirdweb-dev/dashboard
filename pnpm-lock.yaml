@@ -107,8 +107,8 @@ dependencies:
     specifier: ^0.6.2
     version: 0.6.2
   abitype:
-    specifier: 1.0.0
-    version: 1.0.0(typescript@5.4.5)(zod@3.23.4)
+    specifier: 1.0.2
+    version: 1.0.2(typescript@5.4.5)(zod@3.23.4)
   airtable:
     specifier: ^0.12.2
     version: 0.12.2
@@ -9063,6 +9063,21 @@ packages:
       zod: 3.23.4
     dev: false
 
+  /abitype@1.0.2(typescript@5.4.5)(zod@3.23.4):
+    resolution: {integrity: sha512-aFt4k2H+eiAKy/zxtnORa9iIb10BMBeWL18l8v4+QuwYEBXPxxjSB1bFZCzQmKPoj8m7j68K705l3uY+E2gAjg==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3.19.1
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+    dependencies:
+      typescript: 5.4.5
+      zod: 3.23.4
+    dev: false
+
   /abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
@@ -12110,7 +12125,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
-    bundledDependencies: false
 
   /event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
