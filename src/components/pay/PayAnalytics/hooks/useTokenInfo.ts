@@ -18,13 +18,19 @@ type GetTokenInfoResult = {
 /**
  * @internal
  */
-export function useTokenInfo(options: GetTokenInfoOptions) {
-  const { chainId, tokenAddress } = options;
+export function useTokenInfo(options?: GetTokenInfoOptions) {
   const client = thirdwebClient;
 
   return useQuery({
-    queryKey: ["tokenInfo", chainId || -1, { tokenAddress }] as const,
+    queryKey: ["tokenInfo", options] as const,
+    enabled: !!options,
     queryFn: async () => {
+      if (!options) {
+        throw new Error("options are required");
+      }
+
+      const { chainId, tokenAddress } = options;
+
       const chain = defineChain(chainId);
 
       // erc20 case

@@ -3,25 +3,45 @@ import { useLoggedInUser } from "../../../../@3rdweb-sdk/react/hooks/useLoggedIn
 
 export type PayPurchasesData = {
   count: number;
-  purchases: Array<{
-    createdAt: string;
-    estimatedFeesUSDCents: number;
-    fromAmountUSDCents: number;
-    fromAmountWei: string;
-    fromChainId: number;
-    fromCurrencyDecimals: number;
-    fromCurrencySymbol: string;
-    fromTokenAddress: string;
-    purchaseId: string;
-    purchaseType: "ONRAMP" | "SWAP";
-    status: "COMPLETED" | "FAILED" | "PENDING";
-    toAddress: string;
-    toAmountUSDCents: number;
-    toAmountWei: string;
-    toChainId: number;
-    toTokenAddress: string;
-    updatedAt: string;
-  }>;
+  purchases: Array<
+    {
+      createdAt: string;
+      estimatedFeesUSDCents: number;
+      fromAmountUSDCents: number;
+      fromAmountWei: string;
+
+      purchaseId: string;
+
+      status: "COMPLETED" | "FAILED" | "PENDING";
+      toAddress: string;
+      toAmountUSDCents: number;
+      toAmountWei: string;
+      updatedAt: string;
+      toToken: {
+        chainId: number;
+        decimals: number;
+        symbol: string;
+        name: string;
+        tokenAddress: string;
+      };
+    } & (
+      | {
+          purchaseType: "ONRAMP";
+          fromCurrencyDecimals: number;
+          fromCurrencySymbol: string;
+        }
+      | {
+          purchaseType: "SWAP";
+          fromToken: {
+            chainId: number;
+            decimals: number;
+            symbol: string;
+            name: string;
+            tokenAddress: string;
+          };
+        }
+    )
+  >;
 };
 
 type Response = {

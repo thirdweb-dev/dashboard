@@ -160,14 +160,18 @@ function RenderData(props: {
 function TableRow(props: { purchase: PayPurchasesData["purchases"][0] }) {
   const { purchase } = props;
 
-  const fromToken = useTokenInfo({
-    chainId: purchase.fromChainId,
-    tokenAddress: purchase.fromTokenAddress,
-  });
+  const fromToken = useTokenInfo(
+    purchase.purchaseType === "SWAP"
+      ? {
+          chainId: purchase.fromToken.chainId,
+          tokenAddress: purchase.fromToken.tokenAddress,
+        }
+      : undefined,
+  );
 
   const toToken = useTokenInfo({
-    chainId: purchase.toChainId,
-    tokenAddress: purchase.toTokenAddress,
+    chainId: purchase.toToken.chainId,
+    tokenAddress: purchase.toToken.tokenAddress,
   });
 
   return (
@@ -324,11 +328,11 @@ function getCSVData(data: PayPurchasesData["purchases"]) {
     // status
     purchase.status,
     // to
-    purchase.toTokenAddress,
-    `${purchase.toChainId}`,
+    purchase.toToken.tokenAddress,
+    `${purchase.toToken.chainId}`,
     // from
-    purchase.purchaseType === "SWAP" ? purchase.fromTokenAddress : "",
-    purchase.purchaseType === "SWAP" ? `${purchase.fromChainId}` : "",
+    purchase.purchaseType === "SWAP" ? purchase.fromToken.tokenAddress : "",
+    purchase.purchaseType === "SWAP" ? `${purchase.fromToken.chainId}` : "",
     purchase.purchaseType === "ONRAMP" ? purchase.fromCurrencySymbol : "",
     // recipient
     purchase.toAddress,
