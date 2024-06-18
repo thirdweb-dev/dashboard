@@ -34,6 +34,7 @@ import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { useRouter } from "next/router";
 import { PayAnalytics } from "../../../components/pay/PayAnalytics/PayAnalytics";
 import { TabButtons } from "../../../@/components/ui/tabs";
+import { Spinner } from "../../../@/components/ui/Spinner/Spinner";
 
 const TRACKING_CATEGORY = "pay";
 
@@ -171,7 +172,7 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
     onChange: (value: "pay" | "checkouts") => setTabOption(value),
   });
 
-  const { isLoggedIn } = useLoggedInUser();
+  const { isLoggedIn, isLoading } = useLoggedInUser();
   const {
     hasApiKeys,
     hasPayApiKeys,
@@ -180,6 +181,14 @@ const DashboardConnectPay: ThirdwebNextPage = () => {
     apiKeysData,
   } = usePayConfig();
   // Pay setting api key configuration
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[500px] flex items-center justify-center">
+        <Spinner className="size-14" />
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return <ConnectWalletPrompt description="manage your Pay configuration" />;

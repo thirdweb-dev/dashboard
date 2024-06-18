@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLoggedInUser } from "../../../../@3rdweb-sdk/react/hooks/useLoggedInUser";
 
 export type PayPurchasesData = {
@@ -54,19 +54,21 @@ export function usePayPurchases(options: {
   clientId: string;
   from: Date;
   to: Date;
-  skip: number;
-  take: number;
+  pageSize: number;
 }) {
   const { user, isLoggedIn } = useLoggedInUser();
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["usePayPurchases", user?.address, options],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 0 }) => {
       const endpoint = new URL(
         "https://pay.thirdweb-dev.com/stats/purchases/v1",
       );
-      endpoint.searchParams.append("skip", `${options.skip}`);
-      endpoint.searchParams.append("take", `${options.take}`);
+
+      const start = options.pageSize * pageParam;
+
+      endpoint.searchParams.append("skip", `${start}`);
+      endpoint.searchParams.append("take", `${options.pageSize}`);
 
       endpoint.searchParams.append("clientId", options.clientId);
       endpoint.searchParams.append("fromDate", `${options.from.getTime()}`);
@@ -85,9 +87,25 @@ export function usePayPurchases(options: {
       }
 
       const resJSON = (await res.json()) as Response;
-      return resJSON.result.data;
+
+      const pageData = resJSON.result.data;
+
+      const itemsRequested = options.pageSize * (pageParam + 1);
+      const totalItems = pageData.count;
+
+      let nextPageIndex: number | null = null;
+      if (itemsRequested < totalItems) {
+        nextPageIndex = pageParam + 1;
+      }
+
+      return {
+        pageData: resJSON.result.data,
+        nextPageIndex,
+      };
     },
     enabled: !!user?.address && isLoggedIn,
-    keepPreviousData: true,
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextPageIndex;
+    },
   });
 }

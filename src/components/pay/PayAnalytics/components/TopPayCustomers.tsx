@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CopyAddressButton } from "../../../../@/components/ui/CopyAddressButton";
 import { CardHeading, NoDataAvailable } from "./common";
 import {
@@ -15,7 +14,7 @@ type UIData = {
     walletAddress: string;
     totalSpendUSDCents: number;
   }>;
-  showViewMore: boolean;
+  showLoadMore: boolean;
 };
 
 export function TopPayCustomers(props: {
@@ -23,14 +22,11 @@ export function TopPayCustomers(props: {
   from: Date;
   to: Date;
 }) {
-  const [itemsToLoad, setItemsToLoad] = useState(100);
-
   const topCustomersQuery = usePayTopCustomers({
     clientId: props.clientId,
     from: props.from,
     to: props.to,
-    take: itemsToLoad,
-    skip: 0,
+    pageSize: 100,
   });
 
   function getUIData(): {
@@ -46,22 +42,20 @@ export function TopPayCustomers(props: {
       return { isError: true };
     }
 
-    if (topCustomersQuery.data.customers.length === 0) {
+    let customers = topCustomersQuery.data.pages.flatMap(
+      (x) => x.pageData.customers,
+    );
+
+    customers = customers.filter((x) => x.totalSpendUSDCents > 0);
+
+    if (customers.length === 0) {
       return { isError: true };
     }
 
-    const filteredCustomers = topCustomersQuery.data?.customers.filter(
-      (x) => x.totalSpendUSDCents > 0,
-    );
-
-    const totalCount = topCustomersQuery.data.count;
-    const currentLoadedCount = topCustomersQuery.data.customers.length;
-    const showViewMore = currentLoadedCount < totalCount;
-
     return {
       data: {
-        customers: filteredCustomers,
-        showViewMore,
+        customers,
+        showLoadMore: !!topCustomersQuery.hasNextPage,
       },
     };
   }
@@ -90,7 +84,7 @@ export function TopPayCustomers(props: {
         <RenderData
           data={uiData.data}
           loadMore={() => {
-            setItemsToLoad(itemsToLoad + 50);
+            topCustomersQuery.fetchNextPage();
           }}
         />
       ) : (
@@ -131,7 +125,7 @@ function RenderData(props: { data?: UIData; loadMore: () => void }) {
         </tbody>
       </table>
 
-      {props.data?.showViewMore && (
+      {props.data?.showLoadMore && (
         <div className="flex justify-center py-3">
           <Button
             className="text-sm text-link-foreground p-2 h-auto"

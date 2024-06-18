@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   usePayPurchases,
   type PayPurchasesData,
@@ -24,13 +23,11 @@ export function PaymentHistory(props: {
   from: Date;
   to: Date;
 }) {
-  const [itemsToLoad, setItemsToLoad] = useState(100);
   const purchasesQuery = usePayPurchases({
     clientId: props.clientId,
     from: props.from,
     to: props.to,
-    take: itemsToLoad,
-    skip: 0,
+    pageSize: 100,
   });
 
   function getUIData(): {
@@ -45,18 +42,18 @@ export function PaymentHistory(props: {
       return { isError: true };
     }
 
-    if (purchasesQuery.data.purchases.length === 0) {
+    const purchases = purchasesQuery.data.pages.flatMap(
+      (page) => page.pageData.purchases,
+    );
+
+    if (purchases.length === 0) {
       return { isError: true };
     }
 
-    const totalItems = purchasesQuery.data.count;
-    const itemsLoaded = purchasesQuery.data.purchases.length;
-    const showLoadMore = totalItems > itemsLoaded;
-
     return {
       data: {
-        purchases: purchasesQuery.data.purchases,
-        showLoadMore,
+        purchases,
+        showLoadMore: !!purchasesQuery.hasNextPage,
       },
     };
   }
@@ -83,7 +80,7 @@ export function PaymentHistory(props: {
       {!uiData.isError ? (
         <RenderData
           data={uiData.data}
-          loadMore={() => setItemsToLoad(itemsToLoad + 100)}
+          loadMore={() => purchasesQuery.fetchNextPage()}
           isLoadingMore={purchasesQuery.isFetching}
         />
       ) : (
