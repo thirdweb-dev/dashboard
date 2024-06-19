@@ -107,20 +107,44 @@ export function useCreateTicket() {
       return json.data;
     },
     {
-      onError: (err) => {
+      onError: () => {
         /**
          * In case an unexpected incident happens, we fallback to use `mailto:`
          * as an alternative solution
          */
+        if (!data) {
+          return toast({
+            position: "bottom",
+            variant: "solid",
+            title: "Oops, something went wrong",
+            description: (
+              <>
+                If the problem persists, please reach out to us directly via{" "}
+                {
+                  <a
+                    href={`mailto:${SUPPORT_EMAIL}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {SUPPORT_EMAIL}
+                  </a>
+                }
+              </>
+            ),
+            status: "error",
+            duration: 15000,
+            isClosable: true,
+          });
+        }
         const emailSubject = prepareEmailTitle(
-          data!,
+          data,
           account.data?.email ?? "",
           account.data?.name ?? "",
         );
 
         const emailBody = encodeURIComponent(
           prepareEmailBody(
-            data!,
+            data,
             account.data?.email ?? "",
             user?.address ?? "",
           ),
@@ -137,7 +161,7 @@ export function useCreateTicket() {
                 <a
                   href={`mailto:${SUPPORT_EMAIL}?subject=${emailSubject}&body=${emailBody}`}
                   target="_blank"
-                  style={{ textDecoration: "underline" }}
+                  rel="noreferrer"
                 >
                   {SUPPORT_EMAIL}
                 </a>
@@ -145,7 +169,7 @@ export function useCreateTicket() {
             </>
           ),
           status: "error",
-          duration: 15000, // make sure they have time to read & click the link
+          duration: 15000,
           isClosable: true,
         });
       },
