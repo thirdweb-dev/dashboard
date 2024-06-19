@@ -33,6 +33,12 @@ import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
+import { CodeSegment } from "../contract-tabs/code/CodeSegment";
+import {
+  COMMANDS,
+  formatSnippet,
+} from "../../contract-ui/tabs/code/components/code-overview";
+import { CodeEnvironment } from "../contract-tabs/code/types";
 
 interface ContractFunctionProps {
   fn?: AbiFunction | AbiEvent;
@@ -43,11 +49,32 @@ const ContractFunction: React.FC<ContractFunctionProps> = ({
   fn,
   contract,
 }) => {
+  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
+
+  const enabledExtensions = useContractEnabledExtensions(contract?.abi);
+
+  const extensionNamespace = useMemo(() => {
+    if (enabledExtensions.some((e) => e.name === "ERC20")) {
+      return "erc20";
+    }
+    if (enabledExtensions.some((e) => e.name === "ERC721")) {
+      return "erc721";
+    }
+    if (enabledExtensions.some((e) => e.name === "ERC1155")) {
+      return "erc1155";
+    }
+    return undefined;
+  }, [enabledExtensions]);
+
   if (!fn) {
     return null;
   }
 
   const isFunction = "stateMutability" in fn;
+
+  const isRead =
+    isFunction &&
+    (fn.stateMutability === "view" || fn.stateMutability === "pure");
 
   return (
     <Flex direction="column" gap={1.5}>
@@ -144,6 +171,25 @@ const ContractFunction: React.FC<ContractFunctionProps> = ({
           abiFunction={fn}
         />
       )}
+
+      <Heading size="subtitle.md" mt={6}>
+        Use this function in your app
+      </Heading>
+      <Divider mb={2} />
+      <CodeSegment
+        environment={environment}
+        setEnvironment={setEnvironment}
+        snippet={formatSnippet(
+          COMMANDS[isFunction ? (isRead ? "read" : "write") : "events"] as any,
+          {
+            contractAddress: contract?.getAddress(),
+            fn,
+            args: fn.inputs?.map((i) => i.name),
+            chainId: contract?.chainId,
+            extensionNamespace,
+          },
+        )}
+      />
     </Flex>
   );
 };
