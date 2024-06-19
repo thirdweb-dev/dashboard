@@ -1,22 +1,13 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Box,
-  Divider,
   Flex,
   GridItem,
-  Image,
   List,
   ListItem,
-  Select,
   SimpleGrid,
   Tab,
   TabList,
@@ -26,26 +17,17 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import {
-  Abi,
-  AbiEvent,
-  AbiFunction,
-  FeatureWithEnabled,
-} from "@thirdweb-dev/sdk";
+import type { Abi, AbiEvent, AbiFunction } from "@thirdweb-dev/sdk";
+import { formatAbiItem } from "abitype";
 import {
   useContractEnabledExtensions,
   useContractEvents,
   useContractFunctions,
-  useFeatureContractCodeSnippetQuery,
 } from "components/contract-components/hooks";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
-import {
-  CodeEnvironment,
-  SnippetApiResponse,
-} from "components/contract-tabs/code/types";
+import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
@@ -56,8 +38,6 @@ interface CodeOverviewProps {
   chainId?: number;
   noSidebar?: boolean;
 }
-
-// TODO replace `resolveMethod` with the fn actual signatures
 
 export const COMMANDS = {
   install: {
@@ -139,20 +119,19 @@ var sdk = ThirdwebManager.Instance.SDK;
 var contract = sdk.GetContract("{{contract_address}}");`,
   },
   read: {
-    javascript: `import { readContract, resolveMethod } from "thirdweb";
+    javascript: `import { readContract } from "thirdweb";
 
 const data = await readContract({ 
   contract, 
-  method: resolveMethod("{{function}}"), 
+  method: "{{function}}", 
   params: [{{args}}] 
 })`,
-    react: `import { resolveMethod } from "thirdweb";
-    import { useReadContract } from "thirdweb/react";
+    react: `import { useReadContract } from "thirdweb/react";
 
 export default function Component() {
   const { data, isLoading } = useReadContract({ 
     contract, 
-    method: resolveMethod("{{function}}"), 
+    method: "{{function}}", 
     params: [{{args}}] 
   });
 }`,
@@ -161,68 +140,53 @@ export default function Component() {
 export default function Component() {
   const { data, isLoading } = useReadContract({ 
     contract, 
-    method: resolveMethod("{{function}}"), 
+    method: "{{function}}", 
     params: [{{args}}] 
   });
 }`,
   },
   write: {
-    javascript: `import { prepareContractCall, sendTransaction, resolveMethod } from "thirdweb";
+    javascript: `import { prepareContractCall, sendTransaction } from "thirdweb";
 
 const transaction = await prepareContractCall({ 
   contract, 
-  method: resolveMethod("{{function}}"), 
+  method: "{{function}}", 
   params: [{{args}}] 
 });
 const { transactionHash } = await sendTransaction({ 
   transaction, 
   account 
-})`,
-    react: `import { prepareContractCall, resolveMethod } from "thirdweb"
+});`,
+    react: `import { prepareContractCall } from "thirdweb"
 import { useSendTransaction } from "thirdweb/react";
 
 export default function Component() {
-  const { mutate: sendTransaction, isLoading, isError } = useSendTransaction();
+  const { mutate: sendTransaction } = useSendTransaction();
 
-  const call = async () => {
-    const transaction = await prepareContractCall({ 
+  const onClick = () => {
+    const transaction = prepareContractCall({ 
       contract, 
-      method: resolveMethod("{{function}}"), 
+      method: "{{function}}", 
       params: [{{args}}] 
     });
-    const { transactionHash } = await sendTransaction(transaction);
+    sendTransaction(transaction);
   }
 }`,
     "react-native": `import { prepareContractCall } from "thirdweb"
 import { useSendTransaction } from "thirdweb/react";
     
 export default function Component() {
-  const { mutate: sendTransaction, isLoading, isError } = useSendTransaction();
+  const { mutate: sendTransaction } = useSendTransaction();
     
-  const call = async () => {
-    const transaction = await prepareContractCall({ 
+  const onClick = () => {
+    const transaction = prepareContractCall({ 
       contract, 
-      method: resolveMethod("{{function}}"), 
+      method: "{{function}}", 
       params: [{{args}}] 
     });
-    const { transactionHash } = await sendTransaction(transaction);
+    sendTransaction(transaction);
   }
 }`,
-    //     web3button: `import { TransactionButton } from "thirdweb/react";
-
-    // export default function Component() {
-    //   return (
-    //     <TransactionButton
-    //       transaction={() => prepareContractCall({
-    //         contract,
-    //         method: resolveMethod("{{function}}"),
-    //         params: [{{args}}]
-    //       })}
-    //     >
-    //       {{function}}
-    //     </TransactionButton>
-    //   )
-    // }`,
   },
   events: {
     javascript: `import { prepareEvent, getContractEvents } from "thirdweb";
@@ -250,19 +214,19 @@ export default function Component() {
   });
 }`,
     "react-native": `import { prepareEvent } from "thirdweb";
-    import { useContractEvents } from "thirdweb/react";
+import { useContractEvents } from "thirdweb/react";
     
-    const preparedEvent = prepareEvent({ 
-      contract, 
-      signature: "{{function}}" 
-    });
+const preparedEvent = prepareEvent({ 
+  contract, 
+  signature: "{{function}}" 
+});
     
-    export default function Component() {
-      const { data: event } = useContractEvents({ 
-        contract, 
-        events: [preparedEvent] 
-      });
-    }`,
+export default function Component() {
+  const { data: event } = useContractEvents({ 
+    contract, 
+    events: [preparedEvent] 
+  });
+}`,
   },
 };
 
@@ -338,31 +302,211 @@ public async void ConnectWallet()
   },
 ];
 
+function buildJavascriptSnippet(args: {
+  extensionName: string;
+  extensionNamespace: string;
+  type: "read" | "write" | "event";
+  fnArgs: string[];
+}) {
+  const importStatement = `import { ${args.type === "read" ? "readContract" : args.type === "write" ? "sendTransaction" : "getContractEvents"} } from "thirdweb";
+import { ${args.extensionName} } from "thirdweb/extensions/${args.extensionNamespace}";`;
+
+  switch (args.type) {
+    case "read": {
+      return `${importStatement}
+
+const data = await readContract(${args.extensionName}, {
+  contract,${args.fnArgs.map((arg) => `\n  ${arg}`).join(",")}
+});`;
+    }
+    case "write": {
+      return `${importStatement}
+
+const transaction = ${args.extensionName}({
+  contract,${args.fnArgs.map((arg) => `\n  ${arg}`).join(",")}
+});
+
+const { transactionHash } = await sendTransaction({
+  transaction,
+  account
+});`;
+    }
+    case "event": {
+      return `${importStatement}
+
+const preparedEvent = ${args.extensionName}({
+  contract
+});
+
+const events = await getContractEvents({
+  contract,
+  events: [preparedEvent]
+});`;
+    }
+  }
+}
+
+function buildReactSnippet(args: {
+  extensionName: string;
+  extensionNamespace: string;
+  type: "read" | "write" | "event";
+  fnArgs: string[];
+}) {
+  const importStatement = `import { use${args.type === "read" ? "ReadContract" : args.type === "write" ? "SendTransaction" : "ContractEvents"} } from "thirdweb/react";
+import { ${args.extensionName} } from "thirdweb/extensions/${args.extensionNamespace}";`;
+
+  switch (args.type) {
+    case "read": {
+      return `${importStatement}
+
+const { data, isLoading } = useReadContract(${args.extensionName}, {
+  contract,${args.fnArgs.map((arg) => `\n  ${arg}`).join(",")}
+});`;
+    }
+    case "write": {
+      return `${importStatement}
+
+const { mutate: sendTransaction } = useSendTransaction();
+
+const onClick = () => {
+  const transaction = ${args.extensionName}({
+    contract,${args.fnArgs.map((arg) => `\n    ${arg}`).join(",")}
+  });
+  sendTransaction(transaction);
+};`;
+    }
+    case "event": {
+      return `${importStatement}
+
+const preparedEvent = ${args.extensionName}({
+  contract
+});
+
+const { data: event } = useContractEvents({
+  contract,
+  events: [preparedEvent]
+});`;
+    }
+  }
+}
+
+/**
+ * This is a temporary solution to provide code snippets for the different extensions.
+ */
+const EXTENSION_NAMESPACE_FUNCTION_MAPPING = {
+  erc20: {
+    claim: {
+      name: "claimTo",
+      args: ["to", "amount"],
+    },
+  },
+  erc721: {
+    claim: {
+      name: "claimTo",
+      args: ["to", "amount"],
+    },
+  },
+  erc1155: {
+    claim: {
+      name: "claimTo",
+      args: ["to", "amount", "tokenId"],
+    },
+  },
+} as Record<
+  string,
+  Record<
+    string,
+    {
+      name: string;
+      args: string[];
+    }
+  >
+>;
+
 interface SnippetOptions {
   contractAddress?: string;
-  fn?: string;
+  fn?: AbiFunction | AbiEvent;
   args?: string[];
   address?: string;
   clientId?: string;
   chainId?: number;
+  extensionNamespace?: string;
 }
 
 export function formatSnippet(
   snippet: Record<CodeEnvironment, any>,
-  { contractAddress, fn, args, chainId, address, clientId }: SnippetOptions,
+  {
+    contractAddress,
+    fn,
+    args,
+    chainId,
+    address,
+    clientId,
+    extensionNamespace,
+  }: SnippetOptions,
 ) {
   const code = { ...snippet };
+
+  const formattedAbi = fn
+    ? formatAbiItem({
+        ...fn,
+        type: "stateMutability" in fn ? "function" : "event",
+      } as any)
+    : "";
 
   for (const key of Object.keys(code)) {
     const env = key as CodeEnvironment;
 
-    code[env] = code[env]
+    let codeForEnv = code[env];
+
+    // hacks on hacks on hacks
+    if (
+      fn?.name &&
+      extensionNamespace &&
+      extensionNamespace in EXTENSION_NAMESPACE_FUNCTION_MAPPING &&
+      fn.name in EXTENSION_NAMESPACE_FUNCTION_MAPPING[extensionNamespace]
+    ) {
+      const extensionConfig =
+        EXTENSION_NAMESPACE_FUNCTION_MAPPING[extensionNamespace][fn.name];
+      switch (env) {
+        case "javascript":
+          codeForEnv = buildJavascriptSnippet({
+            extensionName: extensionConfig.name,
+            extensionNamespace,
+            type:
+              "stateMutability" in fn
+                ? fn.stateMutability === "view" || fn.stateMutability === "pure"
+                  ? "read"
+                  : "write"
+                : "event",
+            fnArgs: extensionConfig.args,
+          });
+          break;
+        case "react":
+        case "react-native":
+          codeForEnv = buildReactSnippet({
+            extensionName: extensionConfig.name,
+            extensionNamespace,
+            type:
+              "stateMutability" in fn
+                ? fn.stateMutability === "view" || fn.stateMutability === "pure"
+                  ? "read"
+                  : "write"
+                : "event",
+            fnArgs: extensionConfig.args,
+          });
+          break;
+      }
+    }
+    // end hacks on hacks on hacks -- now just hacks on hacks from here on out
+
+    code[env] = codeForEnv
       ?.replace(/{{contract_address}}/gm, contractAddress || "0x...")
       ?.replace(/{{factory_address}}/gm, contractAddress || "0x...")
-      ?.replace(/{{wallet_address}}/gm, address)
+      ?.replace(/{{wallet_address}}/gm, address || "walletAddress")
       ?.replace("YOUR_CLIENT_ID", clientId || "YOUR_CLIENT_ID")
-      ?.replace(/{{function}}/gm, fn || "")
-      ?.replace(/{{chainId}}/gm, chainId || 1);
+      ?.replace(/{{function}}/gm, formattedAbi || "")
+      ?.replace(/{{chainId}}/gm, chainId?.toString() || "1");
 
     if (args && args?.some((arg) => arg)) {
       code[env] = code[env]?.replace(/{{args}}/gm, args?.join(", ") || "");
@@ -387,10 +531,9 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const [environment, setEnvironment] = useState<CodeEnvironment>(
     defaultEnvironment || "javascript",
   );
-  const router = useRouter();
 
   const [tab, setTab] = useState("write");
-  const { data } = useFeatureContractCodeSnippetQuery(environment);
+
   const enabledExtensions = useContractEnabledExtensions(abi);
   const address = useAddress();
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -399,16 +542,18 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
     (extension) => extension.name === "AccountFactory",
   );
 
-  const filteredData = useMemo(() => {
-    if (!data) {
-      return {};
+  const extensionNamespace = useMemo(() => {
+    if (enabledExtensions.some((e) => e.name === "ERC20")) {
+      return "erc20";
     }
-    return filterData(data, enabledExtensions);
-  }, [data, enabledExtensions]);
-
-  const foundExtensions = useMemo(() => {
-    return Object.keys(filteredData || {}).sort();
-  }, [filteredData]);
+    if (enabledExtensions.some((e) => e.name === "ERC721")) {
+      return "erc721";
+    }
+    if (enabledExtensions.some((e) => e.name === "ERC1155")) {
+      return "erc1155";
+    }
+    return undefined;
+  }, [enabledExtensions]);
 
   const chainId = useDashboardEVMChainId() || chainIdProp || 1;
   const chainInfo = useSupportedChain(chainId || -1);
@@ -445,12 +590,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
       overflowX={{ base: "scroll", md: "hidden" }}
       display={{ base: "block", md: "grid" }}
     >
-      <GridItem
-        as={Flex}
-        colSpan={{ base: 12, md: noSidebar ? 12 : 9 }}
-        flexDir="column"
-        gap={12}
-      >
+      <GridItem as={Flex} colSpan={12} flexDir="column" gap={12}>
         {isAccountFactory && (
           <Flex flexDirection="column" gap={4}>
             <Flex flexDir="column" gap={6} id="integrate-smart-wallet">
@@ -576,360 +716,208 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
             </Text>
           </Flex>
         </Flex>
-        {!onlyInstall ? (
-          <>
-            {foundExtensions.length > 0 ? (
-              <SimpleGrid columns={1} gap={12}>
-                {foundExtensions.map((extension) => {
-                  const extensionData: any[] = filteredData[
-                    extension
-                  ] as unknown as any[];
-                  return (
-                    <Flex
-                      key={extension}
-                      flexDirection="column"
-                      gap={3}
-                      id={extension}
+        {!onlyInstall && (
+          <Flex flexDirection="column" gap={6} id="functions-and-events">
+            <Heading size="title.md">All Functions & Events</Heading>
+            <SimpleGrid height="100%" columns={12} gap={3}>
+              <GridItem
+                as={Card}
+                px={0}
+                pt={0}
+                height="100%"
+                overflow="auto"
+                colSpan={{ base: 12, md: 4 }}
+                overflowY="auto"
+              >
+                <List height="100%" overflowX="hidden">
+                  {((writeFunctions || []).length > 0 ||
+                    (readFunctions || []).length > 0) && (
+                    <Tabs
+                      colorScheme="gray"
+                      h="100%"
+                      position="relative"
+                      display="flex"
+                      flexDir="column"
                     >
-                      <Flex flexDir="column" gap={2}>
-                        <Flex gap={1} alignItems="center">
-                          <Image
-                            src="/assets/dashboard/extension-check.svg"
-                            alt="Extension detected"
-                            objectFit="contain"
-                            mb="2px"
-                          />
-                          <Text
-                            textTransform="uppercase"
-                            size="label.sm"
-                            letterSpacing={0.1}
-                          >
-                            Extension
-                          </Text>
-                        </Flex>
-                        <Heading size="title.md">{extension}</Heading>
-                      </Flex>
-
-                      <Accordion allowMultiple>
-                        {extensionData?.map((ext) => {
-                          return (
-                            <Box key={ext.name}>
-                              <AccordionItem
-                                borderColor="gray.900"
-                                borderBottom="none"
+                      <TabList as={Flex}>
+                        {(writeFunctions || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Write
+                            </Heading>
+                          </Tab>
+                        )}
+                        {(readFunctions || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Read
+                            </Heading>
+                          </Tab>
+                        )}
+                        {(events || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Events
+                            </Heading>
+                          </Tab>
+                        )}
+                      </TabList>
+                      <TabPanels h="auto" overflow="auto">
+                        <TabPanel>
+                          {writeFunctions?.map((fn) => (
+                            <ListItem my={0.5} key={fn.signature}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "write" &&
+                                  (write as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "write" &&
+                                  (write as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("write");
+                                  setWrite(fn);
+                                }}
+                                color="heading"
+                                _hover={{
+                                  opacity: 1,
+                                  textDecor: "underline",
+                                }}
+                                variant="link"
+                                fontFamily="mono"
                               >
-                                <AccordionButton
-                                  justifyContent="space-between"
-                                  py={2}
-                                  px={0}
-                                >
-                                  <Text size="label.md" opacity="0.9">
-                                    {ext.summary}
-                                  </Text>
-                                  <AccordionIcon />
-                                </AccordionButton>
-                                <AccordionPanel px={0}>
-                                  <Flex flexDir="column" gap={4}>
-                                    <CodeSegment
-                                      hideTabs
-                                      environment={environment}
-                                      setEnvironment={setEnvironment}
-                                      snippet={formatSnippet(ext.examples, {
-                                        contractAddress,
-                                        address,
-                                        chainId,
-                                      })}
-                                    />
-                                  </Flex>
-                                </AccordionPanel>
-                              </AccordionItem>
-                            </Box>
-                          );
-                        })}
-                      </Accordion>
-                    </Flex>
-                  );
-                })}
-              </SimpleGrid>
-            ) : null}
-            <Flex flexDirection="column" gap={6} id="functions-and-events">
-              <Heading size="title.md">All Functions & Events</Heading>
-              <SimpleGrid height="100%" columns={12} gap={3}>
-                <GridItem
-                  as={Card}
-                  px={0}
-                  pt={0}
-                  height="100%"
-                  overflow="auto"
-                  colSpan={{ base: 12, md: 4 }}
-                  overflowY="auto"
-                >
-                  <List height="100%" overflowX="hidden">
-                    {((writeFunctions || []).length > 0 ||
-                      (readFunctions || []).length > 0) && (
-                      <Tabs
-                        colorScheme="gray"
-                        h="100%"
-                        position="relative"
-                        display="flex"
-                        flexDir="column"
-                      >
-                        <TabList as={Flex}>
-                          {(writeFunctions || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Write
-                              </Heading>
-                            </Tab>
-                          )}
-                          {(readFunctions || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Read
-                              </Heading>
-                            </Tab>
-                          )}
-                          {(events || []).length > 0 && (
-                            <Tab gap={2} flex={"1 1 0"}>
-                              <Heading color="inherit" my={1} size="label.md">
-                                Events
-                              </Heading>
-                            </Tab>
-                          )}
-                        </TabList>
-                        <TabPanels h="auto" overflow="auto">
-                          <TabPanel>
-                            {writeFunctions?.map((fn) => (
-                              <ListItem my={0.5} key={fn.signature}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "write" &&
-                                    (write as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "write" &&
-                                    (write as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("write");
-                                    setWrite(fn);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {fn.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                          <TabPanel>
-                            {readFunctions?.map((fn) => (
-                              <ListItem my={0.5} key={fn.signature}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "read" &&
-                                    (read as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "read" &&
-                                    (read as AbiFunction).signature ===
-                                      (fn as AbiFunction).signature
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("read");
-                                    setRead(fn);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {fn.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                          <TabPanel>
-                            {events?.map((ev) => (
-                              <ListItem my={0.5} key={ev.name}>
-                                <Button
-                                  size="sm"
-                                  fontWeight={
-                                    tab === "events" &&
-                                    (event as AbiEvent).name ===
-                                      (ev as AbiEvent).name
-                                      ? 600
-                                      : 400
-                                  }
-                                  opacity={
-                                    tab === "events" &&
-                                    (event as AbiEvent).name ===
-                                      (ev as AbiEvent).name
-                                      ? 1
-                                      : 0.65
-                                  }
-                                  onClick={() => {
-                                    setTab("events");
-                                    setEvent(ev);
-                                  }}
-                                  color="heading"
-                                  _hover={{
-                                    opacity: 1,
-                                    textDecor: "underline",
-                                  }}
-                                  variant="link"
-                                  fontFamily="mono"
-                                >
-                                  {ev.name}
-                                </Button>
-                              </ListItem>
-                            ))}
-                          </TabPanel>
-                        </TabPanels>
-                      </Tabs>
-                    )}
-                  </List>
-                </GridItem>
-                <GridItem
-                  as={Card}
-                  height="100%"
-                  overflow="auto"
-                  colSpan={{ base: 12, md: 8 }}
-                >
-                  <CodeSegment
-                    environment={environment}
-                    setEnvironment={setEnvironment}
-                    snippet={formatSnippet(
-                      COMMANDS[tab as keyof typeof COMMANDS] as any,
-                      {
-                        contractAddress,
-                        fn:
-                          tab === "read"
-                            ? read?.name
-                            : tab === "write"
-                              ? write?.name
-                              : event?.name,
-                        args: (tab === "read"
-                          ? readFunctions
-                          : tab === "write"
-                            ? writeFunctions
-                            : events
+                                {fn.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                        <TabPanel>
+                          {readFunctions?.map((fn) => (
+                            <ListItem my={0.5} key={fn.signature}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "read" &&
+                                  (read as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "read" &&
+                                  (read as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("read");
+                                  setRead(fn);
+                                }}
+                                color="heading"
+                                _hover={{
+                                  opacity: 1,
+                                  textDecor: "underline",
+                                }}
+                                variant="link"
+                                fontFamily="mono"
+                              >
+                                {fn.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                        <TabPanel>
+                          {events?.map((ev) => (
+                            <ListItem my={0.5} key={ev.name}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "events" &&
+                                  (event as AbiEvent).name ===
+                                    (ev as AbiEvent).name
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "events" &&
+                                  (event as AbiEvent).name ===
+                                    (ev as AbiEvent).name
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("events");
+                                  setEvent(ev);
+                                }}
+                                color="heading"
+                                _hover={{
+                                  opacity: 1,
+                                  textDecor: "underline",
+                                }}
+                                variant="link"
+                                fontFamily="mono"
+                              >
+                                {ev.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  )}
+                </List>
+              </GridItem>
+              <GridItem
+                as={Card}
+                height="100%"
+                overflow="auto"
+                colSpan={{ base: 12, md: 8 }}
+              >
+                <CodeSegment
+                  environment={environment}
+                  setEnvironment={setEnvironment}
+                  snippet={formatSnippet(
+                    COMMANDS[tab as keyof typeof COMMANDS] as any,
+                    {
+                      contractAddress,
+                      fn:
+                        tab === "read" ? read : tab === "write" ? write : event,
+                      args: (tab === "read"
+                        ? readFunctions
+                        : tab === "write"
+                          ? writeFunctions
+                          : events
+                      )
+                        ?.find(
+                          (f) =>
+                            f.name ===
+                            (tab === "read"
+                              ? read?.name
+                              : tab === "write"
+                                ? write?.name
+                                : event?.name),
                         )
-                          ?.find(
-                            (f) =>
-                              f.name ===
-                              (tab === "read"
-                                ? read?.name
-                                : tab === "write"
-                                  ? write?.name
-                                  : event?.name),
-                          )
-                          ?.inputs?.map((i) => i.name),
+                        ?.inputs?.map((i) => i.name),
 
-                        chainId,
-                      },
-                    )}
-                  />
-                </GridItem>
-              </SimpleGrid>
-            </Flex>
-          </>
-        ) : null}
-      </GridItem>
-      {noSidebar || isMobile ? null : (
-        <GridItem
-          as={Flex}
-          colSpan={{ base: 12, md: 3 }}
-          flexDir="column"
-          gap={3}
-        >
-          <Flex flexDir="column" gap={2}>
-            <Text>Choose a language:</Text>
-            <Select
-              onChange={(e) => {
-                const val = e.target.value;
-                if (isValidEnvironment(val)) {
-                  router.push(
-                    `/${chainInfo?.slug || chainId}/${contractAddress}/code?environment=${val}`,
-                  );
-                  setEnvironment(val);
-                }
-              }}
-              value={environment}
-            >
-              <option value="javascript">JavaScript</option>
-              <option value="react">React</option>
-              <option value="react-native">React Native</option>
-              <option value="unity">Unity</option>
-            </Select>
-          </Flex>
-          <Divider my={2} />
-          <Link href="#getting-started">
-            <Text size="body.md">Getting Started</Text>
-          </Link>
-
-          {foundExtensions.map((ext) => (
-            <Link key={ext} href={`#${ext}`}>
-              <Flex gap={2}>
-                <Image
-                  src="/assets/dashboard/extension-check.svg"
-                  alt="Extension detected"
-                  objectFit="contain"
-                  mb="1px"
+                      chainId,
+                      extensionNamespace,
+                    },
+                  )}
                 />
-                <Text size="body.md">{ext}</Text>
-              </Flex>
-            </Link>
-          ))}
-
-          <Link href="#functions-and-events">
-            <Text size="body.md">All Functions & Events</Text>
-          </Link>
-        </GridItem>
-      )}
+              </GridItem>
+            </SimpleGrid>
+          </Flex>
+        )}
+      </GridItem>
     </SimpleGrid>
   );
 };
-
-function isValidEnvironment(env: string): env is CodeEnvironment {
-  return ["javascript", "react", "react-native", "unity"].includes(env);
-}
-
-function filterData(
-  data: SnippetApiResponse,
-  enabledExtensions: FeatureWithEnabled[],
-) {
-  const allowedKeys = enabledExtensions
-    .filter((extension) => extension.enabled)
-    .map((extension) => extension.name as keyof SnippetApiResponse);
-  const filteredData: Partial<SnippetApiResponse> = {};
-
-  for (const key in data) {
-    if (allowedKeys.includes(key as keyof SnippetApiResponse)) {
-      filteredData[key as keyof SnippetApiResponse] = data[key];
-    }
-  }
-
-  return filteredData;
-}
