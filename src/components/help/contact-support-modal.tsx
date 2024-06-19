@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button, Heading } from "tw-components";
-import { useTxNotifications } from "hooks/useTxNotifications";
 import {
   type CreateTicketInput,
   useCreateTicket,
@@ -64,7 +63,6 @@ const productOptions: { label: string; component: ReactElement }[] = [
 ];
 
 export const ContactSupportModal = () => {
-  console.log("render");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const form = useForm<CreateTicketInput>();
   const productLabel = form.watch("product");
