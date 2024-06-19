@@ -1,3 +1,6 @@
+> [!NOTE]  
+> This code base has moved and is now read only. You can find the active version [here](https://github.com/thirdweb-dev/js/tree/main/apps/dashboard).
+
 # thirdweb.com
 
 This repo contains the full source for all of thirdweb.com and the thirdweb dashboard.
